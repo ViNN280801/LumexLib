@@ -1,0 +1,25 @@
+<map id="lumex::core::fmt::basic_format_context::arg" name="lumex::core::fmt::basic_format_context::arg">
+<area shape="rect" id="Node000001" title=" " alt="" coords="864,139,1036,179"/>
+<area shape="rect" id="Node000002" href="$a01541.html#ad5678c6626a8595ede9b1b001237c32b" title=" " alt="" coords="639,139,816,179"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="851,161,816,161,816,156,851,156"/>
+<area shape="rect" id="Node000003" href="$a03147.html#a3659cd760675b620523a9a6893ce8293" title="Precision (resolved) or &#45;1." alt="" coords="361,107,572,147"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="624,149,572,142,573,137,625,143"/>
+<area shape="rect" id="Node000005" href="$a03099.html#a05bee6cb61fca2aa33989d163a1412dd" title="The specification with dynamic width / precision resolved." alt="" coords="343,24,591,64"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="672,135,590,97,517,67,519,62,592,92,675,130"/>
+<area shape="rect" id="Node000007" href="$a03147.html#a409105bb4970d96c8a5a3295eb29efd5" title=" " alt="" coords="375,171,559,211"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="625,174,559,182,558,177,625,169"/>
+<area shape="rect" id="Node000009" href="$a01541.html#a8b79a1789ab9e1a4f978bdf8cb91c6c1" title="Writes with write_body (context) directly, or into a temporary text padded to the resolved width when..." alt="" coords="378,367,555,407"/>
+<area shape="poly" id="edge9_Node000002_Node000009" title=" " alt="" coords="696,190,492,368,488,364,692,186"/>
+<area shape="rect" id="Node000004" href="$a03151.html#aee2bdadbbcbe1460c2260749a0c1f8ed" title=" " alt="" coords="31,70,269,183"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="348,129,269,129,269,124,348,124"/>
+<area shape="rect" id="Node000006" href="$a03099.html#a16ef79c73db159e87e2fa860cdb76b82" title=" " alt="" coords="40,5,260,45"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="329,39,260,34,260,29,329,33"/>
+<area shape="poly" id="edge7_Node000007_Node000004" title=" " alt="" coords="361,172,268,153,269,148,362,167"/>
+<area shape="rect" id="Node000008" href="$a03155.html#ae34894440a19509a856974897f26ec07" title=" " alt="" coords="5,207,295,321"/>
+<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="368,216,295,233,294,228,366,211"/>
+<area shape="rect" id="Node000010" href="$a03199.html#a4f8059f3994ef544167a8c963effd113" title=" " alt="" coords="58,477,242,517"/>
+<area shape="poly" id="edge10_Node000009_Node000010" title=" " alt="" coords="397,414,208,480,207,475,396,409"/>
+<area shape="rect" id="Node000011" href="$a03211.html#a9855da9aeeff8e79ede9b8c3c49bfe93" title=" " alt="" coords="33,345,267,429"/>
+<area shape="poly" id="edge12_Node000009_Node000011" title=" " alt="" coords="364,389,267,389,267,384,364,384"/>
+<area shape="poly" id="edge11_Node000010_Node000010" title=" " alt="" coords="204,466,185,459,150,456,119,458,101,463,94,469,97,476,92,478,89,468,98,458,118,453,150,451,186,453,206,461"/>
+</map>

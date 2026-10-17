@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexResourceMonitor File Reference</title>
+<title>LumexLib: LumexSerialPort.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,35 +103,95 @@ $(function(){initNavTree('a01166.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">LumexResourceMonitor File Reference</div></div>
+  <div class="summary">
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#define-members">Macros</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">LumexSerialPort.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
+<div class="textblock"><code>#include &lt;cctype&gt;</code><br />
+<code>#include &quot;<a class="el" href="a01088_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01127_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01169_source.html">LumexSerialPort.hpp</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for LumexSerialPort.cpp:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01167.png" border="0" usemap="#aLumexSerialPort_8cpp" alt=""/></div>
+<map name="aLumexSerialPort_8cpp" id="aLumexSerialPort_8cpp">
+<area shape="rect" title=" " alt="" coords="320,5,476,31"/>
+<area shape="rect" title=" " alt="" coords="148,86,213,111"/>
+<area shape="poly" title=" " alt="" coords="360,33,227,81,222,83,220,78,225,76,358,28"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="238,79,427,119"/>
+<area shape="poly" title=" " alt="" coords="390,33,360,69,356,66,385,29"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="383,255,597,295"/>
+<area shape="poly" title=" " alt="" coords="411,29,427,51,442,78,458,120,471,165,488,240,482,242,466,166,453,122,437,80,422,54,406,32"/>
+<area shape="rect" href="a01169.html" title="Resolves short, configuration&#45;style serial&#45;port names into the platform&#45;specific path or identifier a..." alt="" coords="713,86,870,111"/>
+<area shape="poly" title=" " alt="" coords="460,28,716,81,715,86,459,33"/>
+<area shape="rect" title=" " alt="" coords="5,174,97,199"/>
+<area shape="poly" title=" " alt="" coords="265,121,109,169,101,172,99,167,108,164,263,116"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="121,167,376,207"/>
+<area shape="poly" title=" " alt="" coords="315,121,279,158,276,155,311,117"/>
+<area shape="poly" title=" " alt="" coords="353,117,464,242,460,246,349,121"/>
+<area shape="poly" title=" " alt="" coords="719,114,617,138,572,153,542,169,528,185,516,203,500,242,495,240,511,201,523,181,539,165,570,148,615,133,718,109"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="553,174,734,199"/>
+<area shape="poly" title=" " alt="" coords="771,114,678,169,675,165,768,109"/>
+<area shape="rect" title=" " alt="" coords="758,174,825,199"/>
+<area shape="poly" title=" " alt="" coords="794,112,794,160,789,160,789,112"/>
+<area shape="rect" title=" " alt="" coords="849,174,936,199"/>
+<area shape="poly" title=" " alt="" coords="808,110,869,163,866,167,805,114"/>
+<area shape="rect" title=" " alt="" coords="961,174,1019,199"/>
+<area shape="poly" title=" " alt="" coords="823,109,950,164,953,166,950,170,948,169,821,114"/>
+<area shape="rect" href="a01124.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="1044,167,1299,207"/>
+<area shape="poly" title=" " alt="" coords="847,109,1072,161,1071,166,846,114"/>
+<area shape="poly" title=" " alt="" coords="1044,208,1032,209,611,263,610,257,1031,204,1044,202"/>
+</map>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01425.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01426.html">lumex::applied</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01464.html">lumex::applied::serial</a></td></tr>
+<tr class="memdesc:a01464"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cross-platform helpers for naming/resolving serial (and serial-adjacent) communication ports. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01467.html">lumex::applied::serial::port</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a07486181f1990291c2a348de8eb4c480" id="r_a07486181f1990291c2a348de8eb4c480"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07486181f1990291c2a348de8eb4c480">LUMEX_IMPLEMENTATION</a></td></tr>
+<tr class="separator:a07486181f1990291c2a348de8eb4c480"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a523de1146ace21810686af24cd7edd8f" id="r_a523de1146ace21810686af24cd7edd8f"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01467.html#a523de1146ace21810686af24cd7edd8f">lumex::applied::serial::port::resolve_serial_port_path</a> (std::string const &amp;portName, std::uint32_t channelType, std::function&lt; std::string()&gt; const &amp;getIpAddressCallback=nullptr, std::function&lt; void(std::string const &amp;)&gt; const &amp;logWarningCallback=nullptr) noexcept</td></tr>
+<tr class="memdesc:a523de1146ace21810686af24cd7edd8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a short serial-port name into the full, platform-specific path a channel needs in order to actually open it.  <br /></td></tr>
+<tr class="separator:a523de1146ace21810686af24cd7edd8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a07486181f1990291c2a348de8eb4c480" name="a07486181f1990291c2a348de8eb4c480"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07486181f1990291c2a348de8eb4c480">&#9670;&#160;</a></span>LUMEX_IMPLEMENTATION</h2>
 
-<p>Resource monitor module: a background thread that samples the CPU and RAM usage of the system (and of watched processes) and appends one line per sample to a dated log file, and the CPU and RAM of single processes on request.  
-<a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00155_source.html">monitor/LumexResourceMonitor.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00167_source.html">process/LumexProcessMonitor.hpp</a>&quot;</code><br />
-</div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexResourceMonitor:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01167.png" border="0" usemap="#a_lumex_resource_monitor" alt=""/></div>
-</div>
-</div><div class="textblock"><div class="dynheader">
-This graph shows which files directly or indirectly include this file:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01168.png" border="0" usemap="#a_lumex_resource_monitordep" alt=""/></div>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_IMPLEMENTATION</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
 </div>
 </div>
-<p><a href="a01166_source.html">Go to the source code of this file.</a></p>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Resource monitor module: a background thread that samples the CPU and RAM usage of the system (and of watched processes) and appends one line per sample to a dated log file, and the CPU and RAM of single processes on request. </p>
-<p>Link <code>lumex::resource_monitor</code> (compiled library). The library compiles from C++11 and uses the library's own <code>optional</code>, <code><a class="el" href="a00548.html#a9eb9aacb4cfd8a21f48c3eb714bda726" title="Global alias of lumex::core::string_view::view::lumex_string_view.">lumex_string_view</a></code> and <code>filesystem</code>. The umbrella includes <code><a class="el" href="a00155.html" title="Background CPU/RAM usage sampler that appends one line per sample to a dated log file,...">monitor/LumexResourceMonitor.hpp</a></code> and <code><a class="el" href="a00167.html" title="CPU and RAM of single processes, by process ID or by executable name, with the processes they started...">process/LumexProcessMonitor.hpp</a></code>. </p>
-</div></div><!-- contents -->
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_f9152e2f803c7072c4cc804ced04476e.html">resource_monitor</a></li><li class="navelem"><a class="el" href="a01166.html">LumexResourceMonitor</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_9f3553d7e4d4ebb0490c2c83481c4624.html">serial</a></li><li class="navelem"><a class="el" href="dir_a48277b9c470a0b6e44a7755747215d9.html">port</a></li><li class="navelem"><a class="el" href="a01166.html">LumexSerialPort.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

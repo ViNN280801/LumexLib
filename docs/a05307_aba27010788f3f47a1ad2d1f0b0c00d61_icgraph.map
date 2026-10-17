@@ -1,0 +1,5 @@
+<map id="lumex::xml::xpath::parser::XPathParser::parse" name="lumex::xml::xpath::parser::XPathParser::parse">
+<area shape="rect" id="Node000001" title="Parses the XPath query." alt="" coords="279,5,428,60"/>
+<area shape="rect" id="Node000002" href="$a05315.html#a2a56412faeaeb1eebca754f5e970c9e4" title="Constructs an XPathQuery by parsing the given query string." alt="" coords="5,13,231,53"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="265,35,231,35,231,30,265,30"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="lumex::core::filesystem::fs::filesystem_result::err" name="lumex::core::filesystem::fs::filesystem_result::err">
+<area shape="rect" id="Node000001" title="Factory method for creating an unsuccessful filesystem_result." alt="" coords="5,13,193,53"/>
+<area shape="rect" id="Node000002" href="$a02939.html#af6c94c3f8a9c0f511aeaa1ea5674a08d" title="Retrieves the error code if the operation was unsuccessful." alt="" coords="241,5,416,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="194,30,228,30,228,35,194,35"/>
+</map>

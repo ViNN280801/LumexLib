@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: XmlWriterStream.hpp Source File</title>
+<title>LumexLib: LumexSmartPtrCtlBase.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,7 +103,7 @@ $(function(){initNavTree('a00758_source.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">XmlWriterStream.hpp</div></div>
+  <div class="headertitle"><div class="title">LumexSmartPtrCtlBase.hpp</div></div>
 </div><!--header-->
 <div class="contents">
 <a href="a00758.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/*</span></div>
@@ -145,55 +145,342 @@ $(function(){initNavTree('a00758_source.html',''); initResizable(true); });
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="comment"> * SOFTWARE.</span></div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="comment"> */</span></div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span></div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="preprocessor">#ifndef LUMEX_XML_WRITER_XML_WRITER_STREAM_HPP</span></div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="preprocessor">#define LUMEX_XML_WRITER_XML_WRITER_STREAM_HPP</span></div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="preprocessor">#include &quot;<a class="code" href="a00641.html">lumex/LumexExport.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="preprocessor">#include &lt;iostream&gt;</span></div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="preprocessor">#include &quot;<a class="code" href="a00740.html">IXmlWriter.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a00948.html">lumex</a> <span class="comment">// NOLINT(modernize-concat-nested-namespaces)</span></div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>{</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01126.html">xml</a></div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>{</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01144.html">writer</a></div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>{</div>
-<div class="foldopen" id="foldopen00077" data-start="{" data-end="};">
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno"><a class="line" href="a03073.html">   77</a></span><span class="keyword">class </span><a class="code hl_define" href="a00641.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <a class="code hl_function" href="a03073.html#a1bf8ccbbd33a483bded1223b48158c9a">XmlWriterStream</a> : <span class="keyword">public</span> <a class="code hl_class" href="a03057.html">IXmlWriter</a></div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>{</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>  <a class="code hl_function" href="a03073.html#a1bf8ccbbd33a483bded1223b48158c9a">XmlWriterStream</a> (std::basic_ostream&lt;char&gt; &amp;stream);</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>  <a class="code hl_function" href="a03073.html#a1bf8ccbbd33a483bded1223b48158c9a">XmlWriterStream</a> (std::basic_ostream&lt;wchar_t&gt; &amp;stream);</div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span></div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="a03073.html#a6c57dcde95729d25b0c1cde06169dac6">write</a> (<span class="keywordtype">void</span> <span class="keyword">const</span> *data, std::size_t size) <span class="keyword">override</span>;</div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span> </div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>  std::basic_ostream&lt;char&gt; *narrow_stream;</div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>  std::basic_ostream&lt;wchar_t&gt; *wide_stream;</div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>};</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span><span class="preprocessor">#ifndef LUMEX_CORE_SMART_PTR_CTL_SMART_PTR_CTL_BASE_HPP</span></div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span><span class="preprocessor">#define LUMEX_CORE_SMART_PTR_CTL_SMART_PTR_CTL_BASE_HPP</span></div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span><span class="preprocessor">#include &lt;cstdint&gt;</span></div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span><span class="preprocessor">#include &quot;<a class="code" href="a00764.html">lumex/core/smart_ptr/ctl/LumexSmartPtrCounter.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span><span class="preprocessor">#include &quot;<a class="code" href="a01127.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01425.html">lumex</a></div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>{</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01488.html">core</a></div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>{</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01562.html">smart_ptr</a></div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>{</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01563.html">detail</a></div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>{</div>
+<div class="foldopen" id="foldopen00097" data-start="{" data-end="};">
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno"><a class="line" href="a03839.html">   97</a></span><span class="keyword">class </span><a class="code hl_function" href="a03839.html#a7cebd184f7f976d929bd5961a5a5c4b6">ctl_base</a></div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>{</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno"><a class="line" href="a03839.html#a7cebd184f7f976d929bd5961a5a5c4b6">  100</a></span>  <a class="code hl_function" href="a03839.html#a7cebd184f7f976d929bd5961a5a5c4b6">ctl_base</a> (<a class="code hl_function" href="a03839.html#a7cebd184f7f976d929bd5961a5a5c4b6">ctl_base</a> <span class="keyword">const</span> &amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno"><a class="line" href="a03839.html#ae66713986a53ab495284bd2fded877ee">  101</a></span>  <a class="code hl_function" href="a03839.html#a7cebd184f7f976d929bd5961a5a5c4b6">ctl_base</a> &amp;<a class="code hl_function" href="a03839.html#ae66713986a53ab495284bd2fded877ee">operator= </a>(<a class="code hl_function" href="a03839.html#a7cebd184f7f976d929bd5961a5a5c4b6">ctl_base</a> <span class="keyword">const</span> &amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span> </div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>  <span class="comment">// -- Strong group --</span></div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span></div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>  <span class="keywordtype">void</span></div>
+<div class="foldopen" id="foldopen00107" data-start="{" data-end="}">
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno"><a class="line" href="a03839.html#ae9baf460b17021302831e03ac8a7b1e9">  107</a></span>  <a class="code hl_function" href="a03839.html#ae9baf460b17021302831e03ac8a7b1e9">add_strong</a> () <a class="code hl_define" href="a01127.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>  {</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    strong_.add ();</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>  }</div>
 </div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>} <span class="comment">// namespace writer</span></div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>} <span class="comment">// namespace xml</span></div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>} <span class="comment">// namespace lumex</span></div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span><span class="preprocessor">#endif </span><span class="comment">// !LUMEX_XML_WRITER_XML_WRITER_STREAM_HPP</span></div>
-<div class="ttc" id="aa00641_html"><div class="ttname"><a href="a00641.html">LumexExport.hpp</a></div><div class="ttdoc">Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,...</div></div>
-<div class="ttc" id="aa00641_html_aa948a1b1a43f6a954fd4c15b01ae4207"><div class="ttname"><a href="a00641.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a></div><div class="ttdeci">#define LUMEX_API</div><div class="ttdef"><b>Definition</b> LumexExport.hpp:90</div></div>
-<div class="ttc" id="aa00740_html"><div class="ttname"><a href="a00740.html">IXmlWriter.hpp</a></div><div class="ttdoc">IXmlWriter, the output interface that XML serialization writes bytes to.</div></div>
-<div class="ttc" id="aa00948_html"><div class="ttname"><a href="a00948.html">lumex</a></div><div class="ttdef"><b>Definition</b> LumexCPUVectorizationCapabilities.cpp:65</div></div>
-<div class="ttc" id="aa01126_html"><div class="ttname"><a href="a01126.html">lumex::xml</a></div><div class="ttdef"><b>Definition</b> XmlAttribute.hpp:105</div></div>
-<div class="ttc" id="aa01144_html"><div class="ttname"><a href="a01144.html">lumex::xml::writer</a></div><div class="ttdef"><b>Definition</b> IXmlWriter.hpp:87</div></div>
-<div class="ttc" id="aa03057_html"><div class="ttname"><a href="a03057.html">lumex::xml::writer::IXmlWriter</a></div><div class="ttdoc">Abstract base interface for writing XML data to various destinations.</div><div class="ttdef"><b>Definition</b> IXmlWriter.hpp:101</div></div>
-<div class="ttc" id="aa03073_html_a1bf8ccbbd33a483bded1223b48158c9a"><div class="ttname"><a href="a03073.html#a1bf8ccbbd33a483bded1223b48158c9a">lumex::xml::writer::XmlWriterStream::XmlWriterStream</a></div><div class="ttdeci">XmlWriterStream(std::basic_ostream&lt; char &gt; &amp;stream)</div><div class="ttdoc">Constructs an XmlWriterStream for a narrow character stream (std::ostream).</div><div class="ttdef"><b>Definition</b> XmlWriterStream.cpp:49</div></div>
-<div class="ttc" id="aa03073_html_a6c57dcde95729d25b0c1cde06169dac6"><div class="ttname"><a href="a03073.html#a6c57dcde95729d25b0c1cde06169dac6">lumex::xml::writer::XmlWriterStream::write</a></div><div class="ttdeci">void write(void const *data, std::size_t size) override</div><div class="ttdoc">Writes a block of raw data to the associated stream.</div><div class="ttdef"><b>Definition</b> XmlWriterStream.cpp:62</div></div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span></div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>  <span class="keywordtype">bool</span></div>
+<div class="foldopen" id="foldopen00115" data-start="{" data-end="}">
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno"><a class="line" href="a03839.html#a07c2067b108f2f824a1dfc76e382ca1b">  115</a></span>  <a class="code hl_function" href="a03839.html#a07c2067b108f2f824a1dfc76e382ca1b">try_add_strong</a> () <a class="code hl_define" href="a01127.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>  {</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>    <span class="keywordflow">return</span> strong_.try_add ();</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>  }</div>
+</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span></div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>  <span class="keywordtype">void</span></div>
+<div class="foldopen" id="foldopen00123" data-start="{" data-end="}">
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno"><a class="line" href="a03839.html#a8d7b8cba92542f7d27577dcf367ed983">  123</a></span>  <a class="code hl_function" href="a03839.html#a8d7b8cba92542f7d27577dcf367ed983">release_strong</a> () <a class="code hl_define" href="a01127.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>  {</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>    <span class="keywordflow">if</span> (strong_.release ())</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>      finish_strong ();</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>  }</div>
+</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span></div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>  <span class="keywordtype">void</span></div>
+<div class="foldopen" id="foldopen00132" data-start="{" data-end="}">
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno"><a class="line" href="a03839.html#a7e4246f4a92d07a75d34754bf4691545">  132</a></span>  <a class="code hl_function" href="a03839.html#a7e4246f4a92d07a75d34754bf4691545">transfer_strong_ext</a> (std::uint32_t n) <a class="code hl_define" href="a01127.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>  {</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>    strong_.transfer_ext (n);</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>  }</div>
+</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span></div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>  <span class="keywordtype">void</span></div>
+<div class="foldopen" id="foldopen00140" data-start="{" data-end="}">
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno"><a class="line" href="a03839.html#a83a9f5de98b093368c9ec24e36c33a18">  140</a></span>  <a class="code hl_function" href="a03839.html#a83a9f5de98b093368c9ec24e36c33a18">release_strong_with_ext</a> (std::uint32_t n) <a class="code hl_define" href="a01127.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>  {</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>    <span class="keywordflow">if</span> (strong_.release_with_ext (n))</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>      finish_strong ();</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>  }</div>
+</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span></div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>  <span class="keywordtype">void</span></div>
+<div class="foldopen" id="foldopen00149" data-start="{" data-end="}">
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno"><a class="line" href="a03839.html#af0607472a347fb5172acd5b6fabaa621">  149</a></span>  <a class="code hl_function" href="a03839.html#af0607472a347fb5172acd5b6fabaa621">release_weak_with_ext</a> (std::uint32_t n) <a class="code hl_define" href="a01127.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>  {</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>    <span class="keywordflow">if</span> (weak_.release_with_ext (n))</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>      destroy ();</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>  }</div>
+</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span></div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>  <span class="keywordtype">void</span></div>
+<div class="foldopen" id="foldopen00158" data-start="{" data-end="}">
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno"><a class="line" href="a03839.html#ab8e4dc32257f7c1a83c754d6e3f9c92a">  158</a></span>  <a class="code hl_function" href="a03839.html#ab8e4dc32257f7c1a83c754d6e3f9c92a">take_and_settle_strong</a> () <a class="code hl_define" href="a01127.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>  {</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>    strong_.take_and_settle ();</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>  }</div>
+</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span></div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>  <span class="keywordtype">void</span></div>
+<div class="foldopen" id="foldopen00166" data-start="{" data-end="}">
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno"><a class="line" href="a03839.html#acb4919aebdba75cdcf00baee2fc3c745">  166</a></span>  <a class="code hl_function" href="a03839.html#acb4919aebdba75cdcf00baee2fc3c745">take_and_settle_weak</a> () <a class="code hl_define" href="a01127.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>  {</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>    weak_.take_and_settle ();</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>  }</div>
+</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span></div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>  <span class="keywordtype">void</span></div>
+<div class="foldopen" id="foldopen00175" data-start="{" data-end="}">
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno"><a class="line" href="a03839.html#ae740b4f13b7c48768eae32fd3d027f3c">  175</a></span>  <a class="code hl_function" href="a03839.html#ae740b4f13b7c48768eae32fd3d027f3c">untransfer_strong_ext</a> (std::uint32_t n) <a class="code hl_define" href="a01127.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>  {</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>    strong_.untransfer_ext (n);</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>  }</div>
+</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span></div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>  <span class="keywordtype">void</span></div>
+<div class="foldopen" id="foldopen00183" data-start="{" data-end="}">
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno"><a class="line" href="a03839.html#a930927587e9bd322e87e2780175208a5">  183</a></span>  <a class="code hl_function" href="a03839.html#a930927587e9bd322e87e2780175208a5">settle_strong</a> () <a class="code hl_define" href="a01127.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>  {</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>    <span class="keywordflow">if</span> (strong_.settle ())</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>      finish_strong ();</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>  }</div>
+</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span></div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>  <span class="keywordtype">void</span></div>
+<div class="foldopen" id="foldopen00192" data-start="{" data-end="}">
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno"><a class="line" href="a03839.html#a60524bffd28acf9588db462d0fdef73b">  192</a></span>  <a class="code hl_function" href="a03839.html#a60524bffd28acf9588db462d0fdef73b">settle_strong_n</a> (std::uint32_t n) <a class="code hl_define" href="a01127.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>  {</div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>    <span class="keywordflow">if</span> (strong_.settle_n (n))</div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>      finish_strong ();</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>  }</div>
+</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span></div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>  <span class="keywordtype">long</span></div>
+<div class="foldopen" id="foldopen00200" data-start="{" data-end="}">
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno"><a class="line" href="a03839.html#a080e363804f0bbfe05662f72f7da04f4">  200</a></span>  <a class="code hl_function" href="a03839.html#a080e363804f0bbfe05662f72f7da04f4">use_count</a> () const <a class="code hl_define" href="a01127.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>  {</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>    <span class="keywordflow">return</span> strong_.use_count ();</div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>  }</div>
+</div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span></div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>  <span class="keywordtype">long</span></div>
+<div class="foldopen" id="foldopen00208" data-start="{" data-end="}">
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno"><a class="line" href="a03839.html#ae6680f60361723299ab443d69fc1bc58">  208</a></span>  <a class="code hl_function" href="a03839.html#ae6680f60361723299ab443d69fc1bc58">use_count_settled</a> () const <a class="code hl_define" href="a01127.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>  {</div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>    <span class="keywordflow">return</span> strong_.use_count_settled ();</div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>  }</div>
+</div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span> </div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>  <span class="comment">// -- Weak ledger --</span></div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span></div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>  <span class="keywordtype">void</span></div>
+<div class="foldopen" id="foldopen00217" data-start="{" data-end="}">
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno"><a class="line" href="a03839.html#abdfa1a90f15802ecbe744e057883a184">  217</a></span>  <a class="code hl_function" href="a03839.html#abdfa1a90f15802ecbe744e057883a184">add_weak</a> () <a class="code hl_define" href="a01127.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>  {</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>    weak_.add ();</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>  }</div>
+</div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span></div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>  <span class="keywordtype">void</span></div>
+<div class="foldopen" id="foldopen00225" data-start="{" data-end="}">
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno"><a class="line" href="a03839.html#a6e63a998e6c2ac003df5dd390f644280">  225</a></span>  <a class="code hl_function" href="a03839.html#a6e63a998e6c2ac003df5dd390f644280">release_weak</a> () <a class="code hl_define" href="a01127.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>  {</div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>    <span class="keywordflow">if</span> (weak_.release ())</div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>      destroy ();</div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>  }</div>
+</div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span></div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>  <span class="keywordtype">void</span></div>
+<div class="foldopen" id="foldopen00233" data-start="{" data-end="}">
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno"><a class="line" href="a03839.html#af0de5bea80c990a7f8c7e664001b0ad7">  233</a></span>  <a class="code hl_function" href="a03839.html#af0de5bea80c990a7f8c7e664001b0ad7">transfer_weak_ext</a> (std::uint32_t n) <a class="code hl_define" href="a01127.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>  {</div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>    weak_.transfer_ext (n);</div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>  }</div>
+</div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span></div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>  <span class="keywordtype">void</span></div>
+<div class="foldopen" id="foldopen00241" data-start="{" data-end="}">
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno"><a class="line" href="a03839.html#a75e9f26656e246cdaa4292cdafde9b4f">  241</a></span>  <a class="code hl_function" href="a03839.html#a75e9f26656e246cdaa4292cdafde9b4f">untransfer_weak_ext</a> (std::uint32_t n) <a class="code hl_define" href="a01127.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>  {</div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>    weak_.untransfer_ext (n);</div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>  }</div>
+</div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span></div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>  <span class="keywordtype">void</span></div>
+<div class="foldopen" id="foldopen00249" data-start="{" data-end="}">
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno"><a class="line" href="a03839.html#a8ce496f59cb741b41853e64988ff72ea">  249</a></span>  <a class="code hl_function" href="a03839.html#a8ce496f59cb741b41853e64988ff72ea">settle_weak</a> () <a class="code hl_define" href="a01127.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>  {</div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>    <span class="keywordflow">if</span> (weak_.settle ())</div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>      destroy ();</div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>  }</div>
+</div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span></div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>  <span class="keywordtype">void</span></div>
+<div class="foldopen" id="foldopen00258" data-start="{" data-end="}">
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno"><a class="line" href="a03839.html#a7a527f2a6edda1cf4ab65948152c9e88">  258</a></span>  <a class="code hl_function" href="a03839.html#a7a527f2a6edda1cf4ab65948152c9e88">settle_weak_n</a> (std::uint32_t n) <a class="code hl_define" href="a01127.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>  {</div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>    <span class="keywordflow">if</span> (weak_.settle_n (n))</div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>      destroy ();</div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>  }</div>
+</div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span></div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>  <span class="keywordtype">long</span></div>
+<div class="foldopen" id="foldopen00270" data-start="{" data-end="}">
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno"><a class="line" href="a03839.html#a8786b467e724eed9aed2f9d294168e12">  270</a></span>  <a class="code hl_function" href="a03839.html#a8786b467e724eed9aed2f9d294168e12">weak_count</a> () const <a class="code hl_define" href="a01127.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>  {</div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>    <span class="keywordtype">long</span> <span class="keyword">const</span> count = <a class="code hl_function" href="a03835.html#abe8eb0b9df57bdce0ea7416f5fe86047">split_counter::count_of</a> (weak_.load ());</div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>    <span class="keywordflow">return</span> strong_.load () != 0 ? count - 1 : count;</div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>  }</div>
+</div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span> </div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>  <span class="comment">// -- Access to the words (the engine and the tests) --</span></div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span></div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>  <a class="code hl_class" href="a03835.html">split_counter</a> &amp;</div>
+<div class="foldopen" id="foldopen00280" data-start="{" data-end="}">
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno"><a class="line" href="a03839.html#a3ed07bb4d3bb973fb1171810fd6f5242">  280</a></span>  <a class="code hl_function" href="a03839.html#a3ed07bb4d3bb973fb1171810fd6f5242">strong_counter</a> () <a class="code hl_define" href="a01127.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>  {</div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>    <span class="keywordflow">return</span> strong_;</div>
+<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>  }</div>
+</div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span></div>
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>  <a class="code hl_class" href="a03835.html">split_counter</a> <span class="keyword">const</span> &amp;</div>
+<div class="foldopen" id="foldopen00287" data-start="{" data-end="}">
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno"><a class="line" href="a03839.html#a582156c8e54b78c5a88ecd7f0c95455d">  287</a></span>  <a class="code hl_function" href="a03839.html#a582156c8e54b78c5a88ecd7f0c95455d">strong_counter</a> () const <a class="code hl_define" href="a01127.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>  {</div>
+<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span>    <span class="keywordflow">return</span> strong_;</div>
+<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span>  }</div>
+</div>
+<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span></div>
+<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>  <a class="code hl_class" href="a03835.html">split_counter</a> &amp;</div>
+<div class="foldopen" id="foldopen00294" data-start="{" data-end="}">
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno"><a class="line" href="a03839.html#afbaacda2e2f5e913afc85637a7b5c8ed">  294</a></span>  <a class="code hl_function" href="a03839.html#afbaacda2e2f5e913afc85637a7b5c8ed">weak_counter</a> () <a class="code hl_define" href="a01127.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>  {</div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>    <span class="keywordflow">return</span> weak_;</div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>  }</div>
+</div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span></div>
+<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>  <a class="code hl_class" href="a03835.html">split_counter</a> <span class="keyword">const</span> &amp;</div>
+<div class="foldopen" id="foldopen00301" data-start="{" data-end="}">
+<div class="line"><a id="l00301" name="l00301"></a><span class="lineno"><a class="line" href="a03839.html#ae1435ff37256112cc022e718239f70db">  301</a></span>  <a class="code hl_function" href="a03839.html#ae1435ff37256112cc022e718239f70db">weak_counter</a> () const <a class="code hl_define" href="a01127.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>  {</div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>    <span class="keywordflow">return</span> weak_;</div>
+<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>  }</div>
+</div>
+<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span> </div>
+<div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span>  <span class="comment">// -- Anchor --</span></div>
+<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span></div>
+<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span>  std::uintptr_t</div>
+<div class="foldopen" id="foldopen00310" data-start="{" data-end="}">
+<div class="line"><a id="l00310" name="l00310"></a><span class="lineno"><a class="line" href="a03839.html#a19a943415e0f7116840371a867fd8691">  310</a></span>  <a class="code hl_function" href="a03839.html#a19a943415e0f7116840371a867fd8691">anchor</a> () const <a class="code hl_define" href="a01127.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span>  {</div>
+<div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span>    <span class="keywordflow">return</span> anchor_;</div>
+<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span>  }</div>
+</div>
+<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span></div>
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>  <span class="keywordtype">void</span></div>
+<div class="foldopen" id="foldopen00318" data-start="{" data-end="}">
+<div class="line"><a id="l00318" name="l00318"></a><span class="lineno"><a class="line" href="a03839.html#a4d85191fc3aca95a22a2a2445210537f">  318</a></span>  <a class="code hl_function" href="a03839.html#a4d85191fc3aca95a22a2a2445210537f">set_anchor</a> (std::uintptr_t <a class="code hl_variable" href="a01563.html#a2160fb6c20228d4d5420ff46776554f0">value</a>) <a class="code hl_define" href="a01127.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span>  {</div>
+<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span>    anchor_ = <a class="code hl_variable" href="a01563.html#a2160fb6c20228d4d5420ff46776554f0">value</a>;</div>
+<div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span>  }</div>
+</div>
+<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span> </div>
+<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span>  <span class="comment">// -- Type-erased lookup --</span></div>
+<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span></div>
+<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>  <span class="keyword">virtual</span> <span class="keywordtype">void</span> *</div>
+<div class="foldopen" id="foldopen00328" data-start="{" data-end="}">
+<div class="line"><a id="l00328" name="l00328"></a><span class="lineno"><a class="line" href="a03839.html#a6ae7bb8bd469a1f96fb4660454fcc763">  328</a></span>  <a class="code hl_function" href="a03839.html#a6ae7bb8bd469a1f96fb4660454fcc763">query</a> (<span class="keywordtype">void</span> <span class="keyword">const</span> *key) <a class="code hl_define" href="a01127.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span>  {</div>
+<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span>    <span class="keyword">static_cast&lt;</span><span class="keywordtype">void</span><span class="keyword">&gt;</span> (key);</div>
+<div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span>  }</div>
+</div>
+<div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span> </div>
+<div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span><span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00335" name="l00335"></a><span class="lineno"><a class="line" href="a03839.html#aabe88f60912f3b98033549c65d8724b9">  335</a></span>  <a class="code hl_function" href="a03839.html#aabe88f60912f3b98033549c65d8724b9">ctl_base</a> () <a class="code hl_define" href="a01127.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a> : strong_ (1), weak_ (1), anchor_ (0) {}</div>
+<div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span> </div>
+<div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span>  <span class="comment">// Blocks are finished by dispose () and destroy (); nobody deletes</span></div>
+<div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span>  <span class="comment">// through the base.</span></div>
+<div class="line"><a id="l00339" name="l00339"></a><span class="lineno"><a class="line" href="a03839.html#a7c1a06ac60ee7eb9c9f776bb936e8c2d">  339</a></span>  <a class="code hl_function" href="a03839.html#a7c1a06ac60ee7eb9c9f776bb936e8c2d">~ctl_base</a> () = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span> </div>
+<div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00343" name="l00343"></a><span class="lineno">  343</span>  <span class="keyword">virtual</span> <span class="keywordtype">void</span> dispose () <a class="code hl_define" href="a01127.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a> = 0;</div>
+<div class="line"><a id="l00344" name="l00344"></a><span class="lineno">  344</span></div>
+<div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span>  virtual <span class="keywordtype">void</span> destroy () <a class="code hl_define" href="a01127.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a> = 0;</div>
+<div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span> </div>
+<div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span>  <span class="keywordtype">void</span></div>
+<div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span>  finish_strong () <a class="code hl_define" href="a01127.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span>  {</div>
+<div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span>    dispose ();</div>
+<div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span>    <a class="code hl_function" href="a03839.html#a6e63a998e6c2ac003df5dd390f644280">release_weak</a> ();</div>
+<div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span>  }</div>
+<div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span> </div>
+<div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span>  <a class="code hl_class" href="a03835.html">split_counter</a> strong_;</div>
+<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span>  <a class="code hl_class" href="a03835.html">split_counter</a> weak_;</div>
+<div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span>  std::uintptr_t anchor_;</div>
+<div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span>};</div>
+</div>
+<div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span>} <span class="comment">// namespace detail</span></div>
+<div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span>} <span class="comment">// namespace smart_ptr</span></div>
+<div class="line"><a id="l00361" name="l00361"></a><span class="lineno">  361</span>} <span class="comment">// namespace core</span></div>
+<div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span>} <span class="comment">// namespace lumex</span></div>
+<div class="line"><a id="l00363" name="l00363"></a><span class="lineno">  363</span> </div>
+<div class="line"><a id="l00364" name="l00364"></a><span class="lineno">  364</span><span class="preprocessor">#endif </span><span class="comment">// !LUMEX_CORE_SMART_PTR_CTL_SMART_PTR_CTL_BASE_HPP</span></div>
+<div class="ttc" id="aa00764_html"><div class="ttname"><a href="a00764.html">LumexSmartPtrCounter.hpp</a></div><div class="ttdoc">split_counter: the packed reference counter of the control block, one 64-bit atomic word {count:32,...</div></div>
+<div class="ttc" id="aa01127_html"><div class="ttname"><a href="a01127.html">LumexKeywords.hpp</a></div><div class="ttdoc">Macros that spell C++ keywords and specifiers only where the compiled standard supports them,...</div></div>
+<div class="ttc" id="aa01127_html_a8932f306494e2abfe9045da20a41e47c"><div class="ttname"><a href="a01127.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div><div class="ttdeci">#define LUMEX_NOEXCEPT</div><div class="ttdef"><b>Definition</b> LumexKeywords.hpp:84</div></div>
+<div class="ttc" id="aa01425_html"><div class="ttname"><a href="a01425.html">lumex</a></div><div class="ttdef"><b>Definition</b> LumexCPUVectorizationCapabilities.cpp:68</div></div>
+<div class="ttc" id="aa01488_html"><div class="ttname"><a href="a01488.html">lumex::core</a></div><div class="ttdef"><b>Definition</b> LumexAtomicSharedPtr.hpp:116</div></div>
+<div class="ttc" id="aa01562_html"><div class="ttname"><a href="a01562.html">lumex::core::smart_ptr</a></div><div class="ttdef"><b>Definition</b> LumexSmartPtrCounter.hpp:115</div></div>
+<div class="ttc" id="aa01563_html"><div class="ttname"><a href="a01563.html">lumex::core::smart_ptr::detail</a></div><div class="ttdef"><b>Definition</b> LumexSmartPtrCounter.hpp:117</div></div>
+<div class="ttc" id="aa01563_html_a2160fb6c20228d4d5420ff46776554f0"><div class="ttname"><a href="a01563.html#a2160fb6c20228d4d5420ff46776554f0">lumex::core::smart_ptr::detail::value</a></div><div class="ttdeci">char type_id_storage&lt; T &gt;::value</div><div class="ttdef"><b>Definition</b> LumexSmartPtrTraits.hpp:106</div></div>
+<div class="ttc" id="aa03835_html"><div class="ttname"><a href="a03835.html">lumex::core::smart_ptr::detail::split_counter</a></div><div class="ttdoc">One packed counter word {count:32, ext:32} (see the file text).</div><div class="ttdef"><b>Definition</b> LumexSmartPtrCounter.hpp:123</div></div>
+<div class="ttc" id="aa03835_html_abe8eb0b9df57bdce0ea7416f5fe86047"><div class="ttname"><a href="a03835.html#abe8eb0b9df57bdce0ea7416f5fe86047">lumex::core::smart_ptr::detail::split_counter::count_of</a></div><div class="ttdeci">static constexpr long count_of(word_type word) noexcept</div><div class="ttdoc">The count half of word.</div><div class="ttdef"><b>Definition</b> LumexSmartPtrCounter.hpp:253</div></div>
+<div class="ttc" id="aa03839_html_a07c2067b108f2f824a1dfc76e382ca1b"><div class="ttname"><a href="a03839.html#a07c2067b108f2f824a1dfc76e382ca1b">lumex::core::smart_ptr::detail::ctl_base::try_add_strong</a></div><div class="ttdeci">bool try_add_strong() noexcept</div><div class="ttdef"><b>Definition</b> LumexSmartPtrCtlBase.hpp:115</div></div>
+<div class="ttc" id="aa03839_html_a080e363804f0bbfe05662f72f7da04f4"><div class="ttname"><a href="a03839.html#a080e363804f0bbfe05662f72f7da04f4">lumex::core::smart_ptr::detail::ctl_base::use_count</a></div><div class="ttdeci">long use_count() const noexcept</div><div class="ttdoc">The number of strong owners (see split_counter::use_count).</div><div class="ttdef"><b>Definition</b> LumexSmartPtrCtlBase.hpp:200</div></div>
+<div class="ttc" id="aa03839_html_a19a943415e0f7116840371a867fd8691"><div class="ttname"><a href="a03839.html#a19a943415e0f7116840371a867fd8691">lumex::core::smart_ptr::detail::ctl_base::anchor</a></div><div class="ttdeci">std::uintptr_t anchor() const noexcept</div><div class="ttdoc">The anchor (see the file text); 0 until a pointer sets it.</div><div class="ttdef"><b>Definition</b> LumexSmartPtrCtlBase.hpp:310</div></div>
+<div class="ttc" id="aa03839_html_a3ed07bb4d3bb973fb1171810fd6f5242"><div class="ttname"><a href="a03839.html#a3ed07bb4d3bb973fb1171810fd6f5242">lumex::core::smart_ptr::detail::ctl_base::strong_counter</a></div><div class="ttdeci">split_counter &amp; strong_counter() noexcept</div><div class="ttdoc">The strong counter word.</div><div class="ttdef"><b>Definition</b> LumexSmartPtrCtlBase.hpp:280</div></div>
+<div class="ttc" id="aa03839_html_a4d85191fc3aca95a22a2a2445210537f"><div class="ttname"><a href="a03839.html#a4d85191fc3aca95a22a2a2445210537f">lumex::core::smart_ptr::detail::ctl_base::set_anchor</a></div><div class="ttdeci">void set_anchor(std::uintptr_t value) noexcept</div><div class="ttdef"><b>Definition</b> LumexSmartPtrCtlBase.hpp:318</div></div>
+<div class="ttc" id="aa03839_html_a582156c8e54b78c5a88ecd7f0c95455d"><div class="ttname"><a href="a03839.html#a582156c8e54b78c5a88ecd7f0c95455d">lumex::core::smart_ptr::detail::ctl_base::strong_counter</a></div><div class="ttdeci">split_counter const &amp; strong_counter() const noexcept</div><div class="ttdoc">The strong counter word.</div><div class="ttdef"><b>Definition</b> LumexSmartPtrCtlBase.hpp:287</div></div>
+<div class="ttc" id="aa03839_html_a60524bffd28acf9588db462d0fdef73b"><div class="ttname"><a href="a03839.html#a60524bffd28acf9588db462d0fdef73b">lumex::core::smart_ptr::detail::ctl_base::settle_strong_n</a></div><div class="ttdeci">void settle_strong_n(std::uint32_t n) noexcept</div><div class="ttdef"><b>Definition</b> LumexSmartPtrCtlBase.hpp:192</div></div>
+<div class="ttc" id="aa03839_html_a6ae7bb8bd469a1f96fb4660454fcc763"><div class="ttname"><a href="a03839.html#a6ae7bb8bd469a1f96fb4660454fcc763">lumex::core::smart_ptr::detail::ctl_base::query</a></div><div class="ttdeci">virtual void * query(void const *key) noexcept</div><div class="ttdef"><b>Definition</b> LumexSmartPtrCtlBase.hpp:328</div></div>
+<div class="ttc" id="aa03839_html_a6e63a998e6c2ac003df5dd390f644280"><div class="ttname"><a href="a03839.html#a6e63a998e6c2ac003df5dd390f644280">lumex::core::smart_ptr::detail::ctl_base::release_weak</a></div><div class="ttdeci">void release_weak() noexcept</div><div class="ttdef"><b>Definition</b> LumexSmartPtrCtlBase.hpp:225</div></div>
+<div class="ttc" id="aa03839_html_a75e9f26656e246cdaa4292cdafde9b4f"><div class="ttname"><a href="a03839.html#a75e9f26656e246cdaa4292cdafde9b4f">lumex::core::smart_ptr::detail::ctl_base::untransfer_weak_ext</a></div><div class="ttdeci">void untransfer_weak_ext(std::uint32_t n) noexcept</div><div class="ttdef"><b>Definition</b> LumexSmartPtrCtlBase.hpp:241</div></div>
+<div class="ttc" id="aa03839_html_a7a527f2a6edda1cf4ab65948152c9e88"><div class="ttname"><a href="a03839.html#a7a527f2a6edda1cf4ab65948152c9e88">lumex::core::smart_ptr::detail::ctl_base::settle_weak_n</a></div><div class="ttdeci">void settle_weak_n(std::uint32_t n) noexcept</div><div class="ttdef"><b>Definition</b> LumexSmartPtrCtlBase.hpp:258</div></div>
+<div class="ttc" id="aa03839_html_a7c1a06ac60ee7eb9c9f776bb936e8c2d"><div class="ttname"><a href="a03839.html#a7c1a06ac60ee7eb9c9f776bb936e8c2d">lumex::core::smart_ptr::detail::ctl_base::~ctl_base</a></div><div class="ttdeci">~ctl_base()=default</div></div>
+<div class="ttc" id="aa03839_html_a7cebd184f7f976d929bd5961a5a5c4b6"><div class="ttname"><a href="a03839.html#a7cebd184f7f976d929bd5961a5a5c4b6">lumex::core::smart_ptr::detail::ctl_base::ctl_base</a></div><div class="ttdeci">ctl_base(ctl_base const &amp;)=delete</div></div>
+<div class="ttc" id="aa03839_html_a7e4246f4a92d07a75d34754bf4691545"><div class="ttname"><a href="a03839.html#a7e4246f4a92d07a75d34754bf4691545">lumex::core::smart_ptr::detail::ctl_base::transfer_strong_ext</a></div><div class="ttdeci">void transfer_strong_ext(std::uint32_t n) noexcept</div><div class="ttdef"><b>Definition</b> LumexSmartPtrCtlBase.hpp:132</div></div>
+<div class="ttc" id="aa03839_html_a83a9f5de98b093368c9ec24e36c33a18"><div class="ttname"><a href="a03839.html#a83a9f5de98b093368c9ec24e36c33a18">lumex::core::smart_ptr::detail::ctl_base::release_strong_with_ext</a></div><div class="ttdeci">void release_strong_with_ext(std::uint32_t n) noexcept</div><div class="ttdef"><b>Definition</b> LumexSmartPtrCtlBase.hpp:140</div></div>
+<div class="ttc" id="aa03839_html_a8786b467e724eed9aed2f9d294168e12"><div class="ttname"><a href="a03839.html#a8786b467e724eed9aed2f9d294168e12">lumex::core::smart_ptr::detail::ctl_base::weak_count</a></div><div class="ttdeci">long weak_count() const noexcept</div><div class="ttdoc">The number of weak pointers, without the implicit unit of the strong group.</div><div class="ttdef"><b>Definition</b> LumexSmartPtrCtlBase.hpp:270</div></div>
+<div class="ttc" id="aa03839_html_a8ce496f59cb741b41853e64988ff72ea"><div class="ttname"><a href="a03839.html#a8ce496f59cb741b41853e64988ff72ea">lumex::core::smart_ptr::detail::ctl_base::settle_weak</a></div><div class="ttdeci">void settle_weak() noexcept</div><div class="ttdef"><b>Definition</b> LumexSmartPtrCtlBase.hpp:249</div></div>
+<div class="ttc" id="aa03839_html_a8d7b8cba92542f7d27577dcf367ed983"><div class="ttname"><a href="a03839.html#a8d7b8cba92542f7d27577dcf367ed983">lumex::core::smart_ptr::detail::ctl_base::release_strong</a></div><div class="ttdeci">void release_strong() noexcept</div><div class="ttdef"><b>Definition</b> LumexSmartPtrCtlBase.hpp:123</div></div>
+<div class="ttc" id="aa03839_html_a930927587e9bd322e87e2780175208a5"><div class="ttname"><a href="a03839.html#a930927587e9bd322e87e2780175208a5">lumex::core::smart_ptr::detail::ctl_base::settle_strong</a></div><div class="ttdeci">void settle_strong() noexcept</div><div class="ttdef"><b>Definition</b> LumexSmartPtrCtlBase.hpp:183</div></div>
+<div class="ttc" id="aa03839_html_aabe88f60912f3b98033549c65d8724b9"><div class="ttname"><a href="a03839.html#aabe88f60912f3b98033549c65d8724b9">lumex::core::smart_ptr::detail::ctl_base::ctl_base</a></div><div class="ttdeci">ctl_base() noexcept</div><div class="ttdef"><b>Definition</b> LumexSmartPtrCtlBase.hpp:335</div></div>
+<div class="ttc" id="aa03839_html_ab8e4dc32257f7c1a83c754d6e3f9c92a"><div class="ttname"><a href="a03839.html#ab8e4dc32257f7c1a83c754d6e3f9c92a">lumex::core::smart_ptr::detail::ctl_base::take_and_settle_strong</a></div><div class="ttdeci">void take_and_settle_strong() noexcept</div><div class="ttdef"><b>Definition</b> LumexSmartPtrCtlBase.hpp:158</div></div>
+<div class="ttc" id="aa03839_html_abdfa1a90f15802ecbe744e057883a184"><div class="ttname"><a href="a03839.html#abdfa1a90f15802ecbe744e057883a184">lumex::core::smart_ptr::detail::ctl_base::add_weak</a></div><div class="ttdeci">void add_weak() noexcept</div><div class="ttdoc">Adds one weak pointer.</div><div class="ttdef"><b>Definition</b> LumexSmartPtrCtlBase.hpp:217</div></div>
+<div class="ttc" id="aa03839_html_acb4919aebdba75cdcf00baee2fc3c745"><div class="ttname"><a href="a03839.html#acb4919aebdba75cdcf00baee2fc3c745">lumex::core::smart_ptr::detail::ctl_base::take_and_settle_weak</a></div><div class="ttdeci">void take_and_settle_weak() noexcept</div><div class="ttdef"><b>Definition</b> LumexSmartPtrCtlBase.hpp:166</div></div>
+<div class="ttc" id="aa03839_html_ae1435ff37256112cc022e718239f70db"><div class="ttname"><a href="a03839.html#ae1435ff37256112cc022e718239f70db">lumex::core::smart_ptr::detail::ctl_base::weak_counter</a></div><div class="ttdeci">split_counter const &amp; weak_counter() const noexcept</div><div class="ttdoc">The weak ledger word.</div><div class="ttdef"><b>Definition</b> LumexSmartPtrCtlBase.hpp:301</div></div>
+<div class="ttc" id="aa03839_html_ae66713986a53ab495284bd2fded877ee"><div class="ttname"><a href="a03839.html#ae66713986a53ab495284bd2fded877ee">lumex::core::smart_ptr::detail::ctl_base::operator=</a></div><div class="ttdeci">ctl_base &amp; operator=(ctl_base const &amp;)=delete</div></div>
+<div class="ttc" id="aa03839_html_ae6680f60361723299ab443d69fc1bc58"><div class="ttname"><a href="a03839.html#ae6680f60361723299ab443d69fc1bc58">lumex::core::smart_ptr::detail::ctl_base::use_count_settled</a></div><div class="ttdeci">long use_count_settled() const noexcept</div><div class="ttdef"><b>Definition</b> LumexSmartPtrCtlBase.hpp:208</div></div>
+<div class="ttc" id="aa03839_html_ae740b4f13b7c48768eae32fd3d027f3c"><div class="ttname"><a href="a03839.html#ae740b4f13b7c48768eae32fd3d027f3c">lumex::core::smart_ptr::detail::ctl_base::untransfer_strong_ext</a></div><div class="ttdeci">void untransfer_strong_ext(std::uint32_t n) noexcept</div><div class="ttdef"><b>Definition</b> LumexSmartPtrCtlBase.hpp:175</div></div>
+<div class="ttc" id="aa03839_html_ae9baf460b17021302831e03ac8a7b1e9"><div class="ttname"><a href="a03839.html#ae9baf460b17021302831e03ac8a7b1e9">lumex::core::smart_ptr::detail::ctl_base::add_strong</a></div><div class="ttdeci">void add_strong() noexcept</div><div class="ttdoc">Adds one strong owner. The caller owns a count or the block is pinned.</div><div class="ttdef"><b>Definition</b> LumexSmartPtrCtlBase.hpp:107</div></div>
+<div class="ttc" id="aa03839_html_af0607472a347fb5172acd5b6fabaa621"><div class="ttname"><a href="a03839.html#af0607472a347fb5172acd5b6fabaa621">lumex::core::smart_ptr::detail::ctl_base::release_weak_with_ext</a></div><div class="ttdeci">void release_weak_with_ext(std::uint32_t n) noexcept</div><div class="ttdef"><b>Definition</b> LumexSmartPtrCtlBase.hpp:149</div></div>
+<div class="ttc" id="aa03839_html_af0de5bea80c990a7f8c7e664001b0ad7"><div class="ttname"><a href="a03839.html#af0de5bea80c990a7f8c7e664001b0ad7">lumex::core::smart_ptr::detail::ctl_base::transfer_weak_ext</a></div><div class="ttdeci">void transfer_weak_ext(std::uint32_t n) noexcept</div><div class="ttdoc">Adds n to the weak ext (the engine of the weak pointers).</div><div class="ttdef"><b>Definition</b> LumexSmartPtrCtlBase.hpp:233</div></div>
+<div class="ttc" id="aa03839_html_afbaacda2e2f5e913afc85637a7b5c8ed"><div class="ttname"><a href="a03839.html#afbaacda2e2f5e913afc85637a7b5c8ed">lumex::core::smart_ptr::detail::ctl_base::weak_counter</a></div><div class="ttdeci">split_counter &amp; weak_counter() noexcept</div><div class="ttdoc">The weak ledger word.</div><div class="ttdef"><b>Definition</b> LumexSmartPtrCtlBase.hpp:294</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_7b089e18b7c2a92c23a9cf3b22a6463e.html">writer</a></li><li class="navelem"><a class="el" href="a00758.html">XmlWriterStream.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_f49348c03cbbd10cc8855c06335ffde3.html">smart_ptr</a></li><li class="navelem"><a class="el" href="dir_971c198ac626f07d7f35b23acadbfbbd.html">ctl</a></li><li class="navelem"><a class="el" href="a00758.html">LumexSmartPtrCtlBase.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

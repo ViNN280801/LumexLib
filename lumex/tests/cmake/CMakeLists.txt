@@ -351,6 +351,15 @@ lumex_add_consumer_test(consumer_string_view_no_exceptions_cxx17
     string_view_no_exceptions -DSV_STD=17 -DSV_EXCEPTIONS=OFF)
 lumex_add_consumer_test(consumer_string_view_exceptions_cxx11
     string_view_no_exceptions -DSV_STD=11 -DSV_EXCEPTIONS=ON)
+lumex_add_consumer_test(consumer_string_view_no_exceptions_cxx20
+    string_view_no_exceptions -DSV_STD=20 -DSV_EXCEPTIONS=OFF)
+# One program with a -fno-exceptions unit and an exception enabled one: the
+# bodies that depend on the exception mode are inlined, so both link orders
+# keep the throwing at () and the badbit of operator<< in the second unit.
+lumex_add_consumer_test(consumer_string_view_mixed_exceptions_lib_first
+    string_view_mixed_exceptions -DMIX_ORDER=LIB_FIRST)
+lumex_add_consumer_test(consumer_string_view_mixed_exceptions_main_first
+    string_view_mixed_exceptions -DMIX_ORDER=MAIN_FIRST)
 # Before C++20 the lock-based atomic smart pointers sleep on a table in a
 # function-local static; two shared libraries built with hidden visibility
 # must share it (skipped on Windows, where DLLs cannot).
@@ -517,6 +526,31 @@ add_test(NAME ${_ctest_name}
         -DCASE=span_compile_checks
         -DLUMEX_SOURCE_DIR=${LumexLib_SOURCE_DIR}
         -DWORK_DIR=${CMAKE_CURRENT_BINARY_DIR}/consumer/span_compile_checks
+        -DGENERATOR=${CMAKE_GENERATOR}
+        -DCXX_COMPILER=${CMAKE_CXX_COMPILER}
+        "-DCXX_FLAGS=${CMAKE_CXX_FLAGS}"
+        -DCLANG_STDLIB=${LUMEX_CLANG_STDLIB}
+        -DBUILD_TYPE=Release
+        -DCONFIGURE_ONLY=ON
+        -P ${_LUMEX_CONSUMER_RUN}
+)
+set_tests_properties(${_ctest_name} PROPERTIES
+    LABELS "cmake;consumer"
+    TIMEOUT 900
+    SKIP_REGULAR_EXPRESSION "LUMEX_CONSUMER_SKIP"
+)
+
+# The compiled targets of the library define LUMEX_SPAN_NO_MISMATCH_GUARD, so
+# their translation units do not record LUMEX_SPAN_CHECKS for the MSVC linker
+# (a program built with another value still links against the prebuilt
+# modules); a consumer's translation unit keeps the record. Checked on the
+# target properties and with a probe compiled both ways, on every compiler.
+lumex_test_name(_ctest_name consumer_span_mismatch_guard)
+add_test(NAME ${_ctest_name}
+    COMMAND ${CMAKE_COMMAND}
+        -DCASE=span_mismatch_guard
+        -DLUMEX_SOURCE_DIR=${LumexLib_SOURCE_DIR}
+        -DWORK_DIR=${CMAKE_CURRENT_BINARY_DIR}/consumer/span_mismatch_guard
         -DGENERATOR=${CMAKE_GENERATOR}
         -DCXX_COMPILER=${CMAKE_CXX_COMPILER}
         "-DCXX_FLAGS=${CMAKE_CXX_FLAGS}"

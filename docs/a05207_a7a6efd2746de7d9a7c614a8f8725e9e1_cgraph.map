@@ -1,0 +1,15 @@
+<map id="lumex::xml::writer::XmlBufferedWriter::write_string" name="lumex::xml::writer::XmlBufferedWriter::write_string">
+<area shape="rect" id="Node000001" title="Writes a null&#45;terminated string to the buffer." alt="" coords="5,47,156,102"/>
+<area shape="rect" id="Node000002" href="$a01671.html#a9e3d87a48f7721dcf542959cd3fdcf35" title=" " alt="" coords="434,5,577,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="156,50,204,40,316,28,420,23,420,28,317,33,204,45,157,55"/>
+<area shape="rect" id="Node000003" href="$a01671.html#aef8fee41b36e9987a5b7ed339b83ce42" title=" " alt="" coords="208,55,351,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="156,72,194,72,194,77,156,77"/>
+<area shape="rect" id="Node000004" href="$a05207.html#a917aa0b956f485f4b87c0e77f5bc8563" title="Writes a block of characters directly to the buffer, bypassing encoding." alt="" coords="204,119,355,174"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="157,100,192,112,190,117,155,105"/>
+<area shape="poly" id="edge6_Node000004_Node000002" title=" " alt="" coords="332,117,353,104,401,71,444,49,447,54,404,76,356,109,334,122"/>
+<area shape="rect" id="Node000005" href="$a05207.html#aaf749c81251686e50d95927e92da078f" title="Flushes the current buffer content to the underlying writer." alt="" coords="430,110,581,165"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="355,141,416,138,416,144,355,146"/>
+<area shape="rect" id="Node000006" href="$a01671.html#a5bb3676df516811dcf8c223d24173a28" title=" " alt="" coords="403,189,608,229"/>
+<area shape="poly" id="edge7_Node000004_Node000006" title=" " alt="" coords="356,165,421,183,419,188,355,170"/>
+<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="461,110,462,100,470,91,484,85,505,83,531,86,545,94,543,99,529,92,505,89,485,91,473,95,467,102,467,110"/>
+</map>

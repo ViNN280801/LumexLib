@@ -1,0 +1,42 @@
+<map id="lumex::core::circular_buffer::circular_buffer::circular_buffer" name="lumex::core::circular_buffer::circular_buffer::circular_buffer">
+<area shape="rect" id="Node000001" title="Creates an empty buffer with capacity 0." alt="" coords="480,635,648,689"/>
+<area shape="poly" id="edge7_Node000001_Node000001" title=" " alt="" coords="604,624,589,616,564,613,543,615,529,620,523,626,523,635,518,635,518,624,526,616,542,610,564,608,591,611,606,619"/>
+<area shape="rect" id="Node000002" href="$a02055.html#aabe969dfecd161dc655fbfa6fef639b5" title="Replaces the content with a copy of a range; the capacity becomes the length of the range." alt="" coords="243,5,411,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="557,621,542,496,516,333,499,251,478,176,456,115,430,73,409,57,413,52,434,70,460,113,484,175,504,250,521,332,547,496,563,621"/>
+<area shape="rect" id="Node000003" href="$a02055.html#a26adb5c9a1eb1b1c56d41393eabde1b6" title="Replaces the content with a copy of a range in a buffer of the given capacity (the last capacity elem..." alt="" coords="243,84,411,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="556,621,538,512,511,372,493,302,474,239,453,187,430,152,409,135,413,131,434,148,457,185,479,237,498,301,516,371,544,511,561,621"/>
+<area shape="rect" id="Node000004" href="$a02055.html#afa5a69a3356b9c4038f4b249fed75107" title="Replaces the content with n copies of item in a buffer of the given capacity." alt="" coords="243,163,411,217"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="554,622,534,528,505,411,469,302,450,260,430,230,409,215,413,210,434,227,455,257,474,300,510,410,539,527,559,621"/>
+<area shape="rect" id="Node000005" href="$a02055.html#a9de976ca7b3826b1833506ea09431ab9" title="Replaces the content with n copies of item; the capacity becomes n." alt="" coords="243,241,411,296"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="557,622,545,555,523,472,506,428,485,386,460,346,430,311,409,295,412,291,434,307,464,343,490,383,511,426,528,470,551,553,562,621"/>
+<area shape="rect" id="Node000008" href="$a02055.html#a974381985e6a24b511d529573ae58bb8" title="Move constructor." alt="" coords="243,320,411,375"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="552,622,536,570,511,507,476,444,455,415,430,389,409,374,412,370,434,385,459,412,481,441,516,505,541,568,557,621"/>
+<area shape="rect" id="Node000009" href="$a02055.html#a5ef48644df540d5a9b03db5e5dd46967" title="Copy constructor." alt="" coords="243,399,411,453"/>
+<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="544,624,499,545,468,504,430,468,409,455,412,450,434,464,471,500,504,542,549,621"/>
+<area shape="rect" id="Node000010" href="$a02055.html#aab9f37edfe256c5dccf1da4fcecc7321" title="Creates a full buffer with a copy of a range (capacity = length of the range)." alt="" coords="243,477,411,532"/>
+<area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="528,627,483,586,431,547,407,534,409,530,433,542,487,582,531,623"/>
+<area shape="rect" id="Node000011" href="$a02055.html#a0c3d6619e09a1c82ca998e12bdd050fc" title="Creates an empty buffer with the given capacity." alt="" coords="243,556,411,611"/>
+<area shape="poly" id="edge11_Node000001_Node000011" title=" " alt="" coords="467,633,408,613,410,608,469,628"/>
+<area shape="rect" id="Node000012" href="$a02055.html#a34bfc0c5ce3a1392b73e7bb537be262c" title="Creates a buffer of the given capacity with a copy of a range." alt="" coords="243,635,411,689"/>
+<area shape="poly" id="edge12_Node000001_Node000012" title=" " alt="" coords="466,665,411,665,411,659,466,659"/>
+<area shape="rect" id="Node000013" href="$a02055.html#a40de5e0efc22926983946540ec814593" title="Creates a buffer of the given capacity filled with n copies of item." alt="" coords="243,713,411,768"/>
+<area shape="poly" id="edge13_Node000001_Node000013" title=" " alt="" coords="469,696,410,716,408,711,467,691"/>
+<area shape="rect" id="Node000014" href="$a02055.html#a8aa22408251f71bb42fa75dff4872ced" title="Creates a buffer of the given capacity with the elements of a list." alt="" coords="243,792,411,847"/>
+<area shape="poly" id="edge14_Node000001_Node000014" title=" " alt="" coords="532,702,487,743,433,783,412,794,410,789,431,778,484,739,528,698"/>
+<area shape="rect" id="Node000015" href="$a02055.html#a74b4e11725ec3cfd1850646e4961ed4c" title="Creates a full buffer of n copies of item (capacity n)." alt="" coords="243,871,411,925"/>
+<area shape="poly" id="edge15_Node000001_Node000015" title=" " alt="" coords="549,703,530,740,504,783,472,825,434,861,412,875,410,870,430,857,468,821,499,780,525,738,544,701"/>
+<area shape="rect" id="Node000016" href="$a02055.html#ad9fc69f20c654d7c5eec9d47ca01ba11" title="Creates a full buffer with the elements of a list (capacity = size of the list)." alt="" coords="243,949,411,1004"/>
+<area shape="poly" id="edge16_Node000001_Node000016" title=" " alt="" coords="557,703,542,756,517,820,481,884,459,913,434,940,412,955,409,951,430,936,455,910,477,881,512,817,537,755,552,702"/>
+<area shape="rect" id="Node000017" href="$a02055.html#a107704599d59f5627fa76adade11684d" title="Move assignment operator." alt="" coords="243,1028,411,1083"/>
+<area shape="poly" id="edge17_Node000001_Node000017" title=" " alt="" coords="562,704,551,771,528,855,511,899,490,942,465,983,434,1019,412,1035,409,1030,430,1015,460,979,486,940,506,897,523,853,546,770,557,703"/>
+<area shape="rect" id="Node000018" href="$a02055.html#a1b26c359b3fe8dfeb1a7d7b1921a938a" title="Copy assignment operator." alt="" coords="243,1107,411,1161"/>
+<area shape="poly" id="edge18_Node000001_Node000018" title=" " alt="" coords="559,703,539,797,510,914,474,1024,455,1067,434,1097,413,1114,409,1109,430,1094,450,1064,469,1022,505,913,534,796,554,702"/>
+<area shape="rect" id="Node000019" href="$a02055.html#a51bb85624c817d8181ec9e1e39400698" title="Exchanges the contents of two buffers." alt="" coords="221,1186,432,1226"/>
+<area shape="poly" id="edge19_Node000001_Node000019" title=" " alt="" coords="561,704,544,814,517,954,500,1024,480,1088,458,1140,434,1176,419,1188,416,1184,430,1172,453,1137,475,1086,494,1023,512,953,539,813,556,703"/>
+<area shape="rect" id="Node000020" href="$a02055.html#ae7f5280986e26a1796e1d0835fd58d6a" title="Non&#45;member swap that exchanges two buffers." alt="" coords="221,1250,432,1290"/>
+<area shape="poly" id="edge20_Node000001_Node000020" title=" " alt="" coords="563,703,548,826,521,986,504,1066,484,1139,460,1198,434,1240,419,1252,416,1248,430,1236,456,1196,479,1137,499,1065,516,985,542,825,557,703"/>
+<area shape="rect" id="Node000006" href="$a02055.html#a5390cf3be834188ab2a9ec727353303f" title="Replaces the content with the elements of a list in a buffer of the given capacity (the last capacity..." alt="" coords="5,203,173,257"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="229,255,173,246,174,241,230,250"/>
+<area shape="rect" id="Node000007" href="$a02055.html#ac962dfa3e2de657487e2472f7449e521" title="Replaces the content with the elements of a list; the capacity becomes the size of the list." alt="" coords="5,281,173,336"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="230,288,174,297,173,292,229,282"/>
+</map>

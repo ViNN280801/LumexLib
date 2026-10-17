@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexCast.hpp File Reference</title>
+<title>LumexLib: XPathLexerString.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -105,94 +105,124 @@ $(function(){initNavTree('a00593.html',''); initResizable(true); });
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a> &#124;
-<a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">LumexCast.hpp File Reference</div></div>
+<a href="#namespaces">Namespaces</a>  </div>
+  <div class="headertitle"><div class="title">XPathLexerString.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p><code>downcast()</code>, a checked <code>dynamic_cast</code> from a polymorphic base to a derived class that throws <code>bad_down_cast</code> on a type mismatch, and the non-throwing <code>downcast_noexcept()</code>.  
+<p><code>XPathLexerString</code>, the begin and end of a token inside the text of an XPath expression.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;string&gt;</code><br />
-<code>#include &lt;type_traits&gt;</code><br />
-<code>#include &lt;typeinfo&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00584_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00623_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00653_source.html">lumex/core/utility/traits/LumexTypeTraits.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a00746_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00656_source.html">lumex/xml/types/XmlTypes.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexCast.hpp:</div>
+Include dependency graph for XPathLexerString.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00594.png" border="0" usemap="#a_lumex_cast_8hpp" alt=""/></div>
+<div class="center"><img src="a00594.png" border="0" usemap="#aXPathLexerString_8hpp" alt=""/></div>
+<map name="aXPathLexerString_8hpp" id="aXPathLexerString_8hpp">
+<area shape="rect" title="XPathLexerString, the begin and end of a token inside the text of an XPath expression." alt="" coords="189,5,350,31"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="65,79,247,104"/>
+<area shape="poly" title=" " alt="" coords="251,33,189,73,186,69,248,29"/>
+<area shape="rect" href="a00656.html" title="The basic types and enumerations of the XML module: character and string types, node types,..." alt="" coords="271,79,497,104"/>
+<area shape="poly" title=" " alt="" coords="291,29,354,69,351,73,288,33"/>
+<area shape="rect" title=" " alt="" coords="5,335,72,361"/>
+<area shape="poly" title=" " alt="" coords="362,106,284,154,160,249,66,328,62,324,157,244,281,150,359,102"/>
+<area shape="rect" title=" " alt="" coords="96,335,155,361"/>
+<area shape="poly" title=" " alt="" coords="373,106,150,327,146,324,369,102"/>
+<area shape="rect" href="a00854.html" title="lumex_string_view: the view over char, the std::string_view of the library from C++11." alt="" coords="448,152,651,192"/>
+<area shape="poly" title=" " alt="" coords="411,102,497,143,494,148,409,107"/>
+<area shape="rect" href="a00710.html" title="Preprocessor macros of the XML module: the decoding of header words and the scanning macros of the pa..." alt="" coords="1131,247,1370,273"/>
+<area shape="poly" title=" " alt="" coords="450,101,1173,242,1172,247,449,107"/>
+<area shape="rect" href="a00857.html" title="Header&#45;only, C++11&#45;first basic_string_view: the class template behind lumex_string_view,..." alt="" coords="577,240,815,280"/>
+<area shape="poly" title=" " alt="" coords="584,190,652,231,649,235,582,194"/>
+<area shape="poly" title=" " alt="" coords="577,272,308,297,178,313,85,331,78,333,76,328,83,325,177,308,307,291,577,266"/>
+<area shape="poly" title=" " alt="" coords="577,267,487,274,383,286,274,304,167,331,162,332,160,327,166,325,273,299,382,281,486,269,577,262"/>
+<area shape="rect" title=" " alt="" coords="395,335,466,361"/>
+<area shape="poly" title=" " alt="" coords="626,283,478,331,473,333,471,328,476,325,624,278"/>
+<area shape="rect" title=" " alt="" coords="612,335,679,361"/>
+<area shape="poly" title=" " alt="" coords="687,282,662,325,657,322,682,279"/>
+<area shape="rect" title=" " alt="" coords="703,335,790,361"/>
+<area shape="poly" title=" " alt="" coords="710,279,735,322,730,325,705,282"/>
+<area shape="rect" title=" " alt="" coords="814,335,901,361"/>
+<area shape="poly" title=" " alt="" coords="734,278,824,327,821,331,732,283"/>
+<area shape="rect" title=" " alt="" coords="925,335,966,361"/>
+<area shape="poly" title=" " alt="" coords="778,278,846,298,914,326,916,326,914,331,912,330,844,303,777,283"/>
+<area shape="rect" title=" " alt="" coords="990,335,1061,361"/>
+<area shape="poly" title=" " alt="" coords="798,277,887,299,979,325,985,328,984,333,978,331,885,304,797,283"/>
+<area shape="rect" title=" " alt="" coords="1085,335,1163,361"/>
+<area shape="poly" title=" " alt="" coords="816,273,941,294,1074,325,1082,328,1080,333,1073,331,940,299,815,278"/>
+<area shape="rect" title=" " alt="" coords="1187,335,1263,361"/>
+<area shape="poly" title=" " alt="" coords="815,266,987,287,1082,304,1175,325,1184,328,1183,333,1174,331,1081,309,986,293,815,272"/>
+<area shape="rect" title=" " alt="" coords="1287,335,1374,361"/>
+<area shape="poly" title=" " alt="" coords="815,263,1031,283,1155,301,1277,325,1288,328,1286,334,1275,331,1154,306,1031,288,815,268"/>
+<area shape="rect" title=" " alt="" coords="179,335,269,361"/>
+<area shape="poly" title=" " alt="" coords="578,278,439,300,289,331,275,334,274,329,287,325,438,295,577,273"/>
+<area shape="rect" title=" " alt="" coords="509,423,601,449"/>
+<area shape="poly" title=" " alt="" coords="577,269,506,277,435,289,377,307,355,317,341,330,331,349,334,365,348,380,370,393,431,413,496,426,494,431,430,418,368,398,345,384,329,367,326,348,337,326,352,313,375,302,434,284,505,272,577,264"/>
+<area shape="rect" title=" " alt="" coords="490,335,587,361"/>
+<area shape="poly" title=" " alt="" coords="661,283,575,331,572,326,659,278"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="1399,328,1588,368"/>
+<area shape="poly" title=" " alt="" coords="815,266,1073,288,1385,325,1385,331,1072,294,815,271"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="990,416,1245,456"/>
+<area shape="poly" title=" " alt="" coords="578,273,518,282,461,294,414,310,396,319,385,330,377,349,379,357,384,366,412,380,464,393,619,412,804,424,976,430,976,436,804,429,618,417,463,398,410,385,381,370,374,359,371,348,381,326,393,315,411,305,459,289,517,277,577,268"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="1452,416,1665,456"/>
+<area shape="poly" title=" " alt="" coords="815,264,1294,295,1506,312,1573,319,1602,326,1611,345,1610,366,1601,387,1589,406,1584,403,1596,385,1605,365,1606,346,1598,330,1572,325,1506,317,1293,300,815,270"/>
+<area shape="poly" title=" " alt="" coords="1399,369,1387,371,1164,396,944,415,614,436,614,431,943,410,1163,391,1386,365,1398,364"/>
+<area shape="poly" title=" " alt="" coords="1408,371,1217,415,1216,410,1407,365"/>
+<area shape="poly" title=" " alt="" coords="1511,367,1538,403,1533,406,1506,370"/>
+<area shape="poly" title=" " alt="" coords="1287,270,1426,321,1424,326,1285,275"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00595.png" border="0" usemap="#a_lumex_cast_8hppdep" alt=""/></div>
+<div class="center"><img src="a00595.png" border="0" usemap="#aXPathLexerString_8hppdep" alt=""/></div>
+<map name="aXPathLexerString_8hppdep" id="aXPathLexerString_8hppdep">
+<area shape="rect" title="XPathLexerString, the begin and end of a token inside the text of an XPath expression." alt="" coords="141,5,303,31"/>
+<area shape="rect" href="a00596.html" title="XPathLexer, the tokenizer that splits an XPath expression into lexemes for XPathParser." alt="" coords="78,79,201,104"/>
+<area shape="poly" title=" " alt="" coords="199,42,156,80,152,76,196,38"/>
+<area shape="rect" href="a00602.html" title=" " alt="" coords="225,79,385,104"/>
+<area shape="poly" title=" " alt="" coords="248,38,292,76,288,80,245,42"/>
+<area shape="rect" href="a00599.html" title=" " alt="" coords="5,152,127,177"/>
+<area shape="poly" title=" " alt="" coords="119,116,81,153,77,150,115,112"/>
+<area shape="rect" href="a00608.html" title="XPathParser, the recursive descent parser that compiles an XPath 1.0 expression into a tree of XPathA..." alt="" coords="151,152,277,177"/>
+<area shape="poly" title=" " alt="" coords="164,112,203,150,199,153,160,116"/>
+<area shape="rect" href="a00605.html" title=" " alt="" coords="77,225,202,251"/>
+<area shape="poly" title=" " alt="" coords="193,189,155,227,151,223,189,185"/>
+<area shape="rect" href="a00554.html" title=" " alt="" coords="226,225,349,251"/>
+<area shape="poly" title=" " alt="" coords="238,185,276,223,272,227,235,189"/>
+</map>
 </div>
 </div>
 <p><a href="a00593_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04154.html">lumex::core::utility::cast::Detail::is_dyn_cast_form&lt; T &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>T</code> is a pointer or an lvalue reference to a class type.  <a href="a04154.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04158.html">lumex::core::utility::cast::Detail::have_matching_shape&lt; Base, Derived &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Both operands are dynamic_cast forms of the same shape (two pointers or two references).  <a href="a04158.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04162.html">lumex::core::utility::cast::Detail::have_complete_classes&lt; Base, Derived, bool &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The shapes match and both classes are complete. The classes are looked at only after the shapes matched, so no trait below sees a type it cannot be asked about (<code>std::is_polymorphic</code> needs a complete class).  <a href="a04162.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04166.html">lumex::core::utility::cast::Detail::have_complete_classes&lt; Base, Derived, true &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04170.html">lumex::core::utility::cast::Detail::is_valid_down_cast_impl&lt; Base, Derived, bool &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04174.html">lumex::core::utility::cast::Detail::is_valid_down_cast_impl&lt; Base, Derived, true &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04178.html">lumex::core::utility::cast::Detail::is_valid_down_cast&lt; Base, Derived &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>Base</code> can be cast to <code>Derived</code> by <code>downcast</code>: both are pointers to classes or both are lvalue references to classes, both classes are complete, the source class is polymorphic, the target class is derived from it (or is the same class) through a public and unambiguous base and the cast drops no <code>const</code> or <code>volatile</code>.  <a href="a04178.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04182.html">lumex::core::utility::cast::bad_down_cast</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exception thrown by <a class="el" href="a01413.html#ab9f728cdf7eaf13f7aaa62cda5a397c1" title="Safe downcast helper (pointer form): performs a dynamic_cast and throws bad_down_cast on failure.">downcast()</a> when the runtime type does not match the requested target type.  <a href="a04182.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a05299.html">lumex::xml::xpath::parser::lexer::XPathLexerString</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a string view used by the XPath lexer.  <a href="a05299.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01248.html">lumex</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01425.html">lumex</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01311.html">lumex::core</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01669.html">lumex::xml</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01409.html">lumex::core::utility</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01678.html">lumex::xml::xpath</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01413.html">lumex::core::utility::cast</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01695.html">lumex::xml::xpath::parser</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01414.html">lumex::core::utility::cast::Detail</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01696.html">lumex::xml::xpath::parser::lexer</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:ab9f728cdf7eaf13f7aaa62cda5a397c1" id="r_ab9f728cdf7eaf13f7aaa62cda5a397c1"><td class="memTemplParams" colspan="2">template&lt;typename Derived, typename Base, typename std::enable_if&lt; std::is_pointer&lt; Derived &gt;::value &amp;&amp;<a class="el" href="a04178.html">Detail::is_valid_down_cast</a>&lt; Base, Derived &gt;::value, int &gt;::type = 0&gt; </td></tr>
-<tr class="memitem:ab9f728cdf7eaf13f7aaa62cda5a397c1"><td class="memTemplItemLeft" align="right" valign="top">Derived&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01413.html#ab9f728cdf7eaf13f7aaa62cda5a397c1">lumex::core::utility::cast::downcast</a> (Base base)</td></tr>
-<tr class="memdesc:ab9f728cdf7eaf13f7aaa62cda5a397c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Safe downcast helper (pointer form): performs a <code>dynamic_cast</code> and throws <a class="el" href="a04182.html" title="Exception thrown by downcast() when the runtime type does not match the requested target type.">bad_down_cast</a> on failure.  <br /></td></tr>
-<tr class="separator:ab9f728cdf7eaf13f7aaa62cda5a397c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad9da890d899b1be97aaa09da1403dd7e" id="r_ad9da890d899b1be97aaa09da1403dd7e"><td class="memTemplParams" colspan="2">template&lt;typename Derived, typename Base, typename std::enable_if&lt; std::is_lvalue_reference&lt; Derived &gt;::value &amp;&amp;<a class="el" href="a04178.html">Detail::is_valid_down_cast</a>&lt; Base &amp;, Derived &gt;::value, int &gt;::type = 0&gt; </td></tr>
-<tr class="memitem:ad9da890d899b1be97aaa09da1403dd7e"><td class="memTemplItemLeft" align="right" valign="top">Derived&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01413.html#ad9da890d899b1be97aaa09da1403dd7e">lumex::core::utility::cast::downcast</a> (Base &amp;base)</td></tr>
-<tr class="memdesc:ad9da890d899b1be97aaa09da1403dd7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Safe downcast helper (reference form): performs a <code>dynamic_cast</code> and throws <a class="el" href="a04182.html" title="Exception thrown by downcast() when the runtime type does not match the requested target type.">bad_down_cast</a> on failure.  <br /></td></tr>
-<tr class="separator:ad9da890d899b1be97aaa09da1403dd7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8b04d7af2413bc76a194fb644cc4ccd8" id="r_a8b04d7af2413bc76a194fb644cc4ccd8"><td class="memTemplParams" colspan="2">template&lt;typename Derived, typename Base, typename std::enable_if&lt; std::is_pointer&lt; Derived &gt;::value &amp;&amp;<a class="el" href="a04178.html">Detail::is_valid_down_cast</a>&lt; Base, Derived &gt;::value, int &gt;::type = 0&gt; </td></tr>
-<tr class="memitem:a8b04d7af2413bc76a194fb644cc4ccd8"><td class="memTemplItemLeft" align="right" valign="top">Derived&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01413.html#a8b04d7af2413bc76a194fb644cc4ccd8">lumex::core::utility::cast::downcast_noexcept</a> (Base base) noexcept</td></tr>
-<tr class="memdesc:a8b04d7af2413bc76a194fb644cc4ccd8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Non-throwing variant of <a class="el" href="a01413.html#ab9f728cdf7eaf13f7aaa62cda5a397c1" title="Safe downcast helper (pointer form): performs a dynamic_cast and throws bad_down_cast on failure.">downcast()</a>: returns nullptr instead of throwing <a class="el" href="a04182.html" title="Exception thrown by downcast() when the runtime type does not match the requested target type.">bad_down_cast</a>.  <br /></td></tr>
-<tr class="separator:a8b04d7af2413bc76a194fb644cc4ccd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><code>downcast()</code>, a checked <code>dynamic_cast</code> from a polymorphic base to a derived class that throws <code>bad_down_cast</code> on a type mismatch, and the non-throwing <code>downcast_noexcept()</code>. </p>
-<p>Works from C++11. The constraints accept only a real downcast: pointer to pointer or lvalue reference to lvalue reference, complete class types, a polymorphic source, a target derived from the source through a public and unambiguous base (or the same class) and no loss of cv-qualifiers. Any other use finds no overload (SFINAE, the same <code>std::enable_if</code> form in every standard), so it can be detected and never fails inside the body. A null pointer converts to a null pointer without an error. <code>bad_down_cast</code> derives from <code>std::bad_cast</code> and names both types in its message. </p>
+<div class="textblock"><p><code>XPathLexerString</code>, the begin and end of a token inside the text of an XPath expression. </p>
+<p>The view does not own its characters and is not terminated. The parser compares it with null-terminated names (axes, node types, functions) through <code>operator==</code>, and copies it with <code>XPathParser::alloc_string</code> when the text must be kept. The file is internal to the XPath engine. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_aaa57aed14d71e316a67f95634c796d3.html">utility</a></li><li class="navelem"><a class="el" href="dir_e6b4bba9ebd116bfbd8882339ee27732.html">cast</a></li><li class="navelem"><a class="el" href="a00593.html">LumexCast.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_d38a0fae6a8e48d91b3b62673cf0c708.html">xpath</a></li><li class="navelem"><a class="el" href="dir_4c93ace1da67964a3ff55b959013373d.html">parser</a></li><li class="navelem"><a class="el" href="dir_2f8488fdbf169117866699aa1d08d080.html">lexer</a></li><li class="navelem"><a class="el" href="a00593.html">XPathLexerString.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

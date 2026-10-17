@@ -1,0 +1,26 @@
+<map id="lumex::core::filesystem::fs::lumex_filesystem::copy" name="lumex::core::filesystem::fs::lumex_filesystem::copy">
+<area shape="rect" id="Node000001" title="Recursively copies a file or a directory (and its contents) from one location to another." alt="" coords="5,237,211,277"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="64,237,61,227,68,218,84,212,108,210,136,213,151,220,148,225,134,218,108,215,85,217,71,222,66,228,69,236"/>
+<area shape="rect" id="Node000002" href="$a02967.html#af1eb03224499c0eed30f01e95f068623" title="Copies a single file from one location to another." alt="" coords="481,29,656,84"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="116,235,137,200,168,156,209,114,232,95,257,80,309,60,363,48,417,44,467,43,467,49,417,49,364,54,310,65,260,84,235,99,212,118,173,160,142,203,121,238"/>
+<area shape="rect" id="Node000004" href="$a02967.html#a8bf64b2481cf6ec7d8c099e4fc1d7034" title="Creates a new directory at the specified path." alt="" coords="259,119,433,173"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="150,234,274,177,276,181,152,239"/>
+<area shape="rect" id="Node000005" href="$a02967.html#a4be8bab7c98dca322220cdbbee740654" title="Checks if the specified path_arg refers to a directory." alt="" coords="481,184,656,239"/>
+<area shape="poly" id="edge14_Node000001_Node000005" title=" " alt="" coords="211,241,258,235,467,216,468,222,259,241,211,246"/>
+<area shape="rect" id="Node000006" href="$a02967.html#a672fc58bbf240752b3b116941aeb83e9" title="Retrieves a vector of all directory_entry objects within the specified directory." alt="" coords="259,273,433,328"/>
+<area shape="poly" id="edge11_Node000001_Node000006" title=" " alt="" coords="211,273,246,279,245,285,211,278"/>
+<area shape="rect" id="Node000007" href="$a02939.html#af6c94c3f8a9c0f511aeaa1ea5674a08d" title="Retrieves the error code if the operation was unsuccessful." alt="" coords="259,352,433,407"/>
+<area shape="poly" id="edge13_Node000001_Node000007" title=" " alt="" coords="144,275,260,338,271,344,269,349,257,343,141,279"/>
+<area shape="rect" id="Node000008" href="$a02947.html#a3b470303c0431f218eeebe77b8acd417" title="Default constructor. Constructs an empty path." alt="" coords="259,455,433,495"/>
+<area shape="poly" id="edge15_Node000001_Node000008" title=" " alt="" coords="126,275,182,341,220,380,260,417,300,446,297,450,257,421,216,384,178,345,122,278"/>
+<area shape="poly" id="edge4_Node000002_Node000002" title=" " alt="" coords="525,29,526,19,533,10,548,5,569,3,594,6,608,14,605,18,592,11,569,8,549,10,536,15,531,21,531,29"/>
+<area shape="rect" id="Node000003" href="$a02947.html#afbc4f64f22c9c5e9057842a5b81178ea" title="Returns a pointer to the null&#45;terminated C&#45;style string representation of the path." alt="" coords="704,102,879,142"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="657,80,711,96,709,101,655,85"/>
+<area shape="poly" id="edge6_Node000004_Node000003" title=" " alt="" coords="433,139,690,125,690,130,434,144"/>
+<area shape="poly" id="edge7_Node000004_Node000004" title=" " alt="" coords="303,119,303,108,311,100,325,94,346,92,371,95,385,103,383,108,369,100,346,97,326,99,314,104,308,110,308,119"/>
+<area shape="poly" id="edge8_Node000004_Node000005" title=" " alt="" coords="434,169,469,179,467,184,433,174"/>
+<area shape="poly" id="edge9_Node000005_Node000003" title=" " alt="" coords="636,181,728,145,730,150,638,186"/>
+<area shape="poly" id="edge10_Node000005_Node000005" title=" " alt="" coords="525,184,526,174,533,165,548,159,569,157,594,160,608,168,605,173,592,166,569,163,549,165,536,169,531,176,531,184"/>
+<area shape="poly" id="edge12_Node000006_Node000006" title=" " alt="" coords="303,273,303,263,311,254,325,249,346,247,371,250,385,258,383,262,369,255,346,252,326,254,314,259,308,265,308,273"/>
+<area shape="poly" id="edge16_Node000008_Node000008" title=" " alt="" coords="305,456,302,446,309,436,324,431,346,429,372,432,386,439,384,444,370,437,346,434,325,436,312,441,307,447,310,454"/>
+</map>

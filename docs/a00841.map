@@ -1,0 +1,20 @@
+<map id="LumexDwcasWord.hpp" name="LumexDwcasWord.hpp">
+<area shape="rect" id="Node000001" title="dwcas_word, a 16&#45;byte atomic word with a 128&#45;bit compare&#45;and&#45;swap (x86&#45;64 only), and the header that ..." alt="" coords="553,5,723,31"/>
+<area shape="rect" id="Node000002" href="$a01352.html" title="Atomic module: atomic_shared_ptr&lt;T&gt; and atomic_weak_ptr&lt;T&gt;, the interface of the C++20 std::atomic&lt;st..." alt="" coords="338,79,450,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="583,37,437,81,436,76,582,32"/>
+<area shape="rect" id="Node000006" href="$a00809.html" title="The split&#45;count engine behind atomic_shared_ptr_lock_free_split_count and atomic_weak_ptr_lock_free_s..." alt="" coords="655,240,842,265"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="633,45,626,76,623,114,627,154,640,191,653,206,668,219,704,238,702,242,665,224,649,210,636,193,621,155,618,114,621,75,628,43"/>
+<area shape="rect" id="Node000007" href="$a00812.html" title="The policy of the split&#45;count engine: the named steps of its protocol, the events a ledger counts,..." alt="" coords="649,159,848,185"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="653,41,691,102,738,157,734,161,687,106,649,44"/>
+<area shape="rect" id="Node000008" href="$a00815.html" title="The slot word of the split&#45;count engine: a control block, the ticks of the loads in flight and the st..." alt="" coords="701,79,895,104"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="679,34,771,76,769,81,677,39"/>
+<area shape="rect" id="Node000003" href="$a00275.html" title=" " alt="" coords="5,152,183,192"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="334,110,169,154,168,149,332,105"/>
+<area shape="rect" id="Node000004" href="$a00272.html" title=" " alt="" coords="207,152,383,192"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="369,115,322,154,318,150,366,111"/>
+<area shape="rect" id="Node000005" href="$a00278.html" title=" " alt="" coords="408,152,575,192"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="422,111,469,150,465,154,418,115"/>
+<area shape="poly" id="edge7_Node000007_Node000006" title=" " alt="" coords="751,199,751,239,746,239,746,199"/>
+<area shape="poly" id="edge9_Node000008_Node000006" title=" " alt="" coords="830,110,849,128,863,151,869,172,863,193,850,210,833,224,797,242,794,238,830,219,846,206,858,191,864,172,858,153,845,132,827,114"/>
+<area shape="poly" id="edge10_Node000008_Node000007" title=" " alt="" coords="785,117,759,160,754,157,781,114"/>
+</map>

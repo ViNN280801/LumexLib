@@ -1,0 +1,87 @@
+<map id="lumex::core::fmt::formatter&lt; std::chrono::time_point&lt; std::chrono::system_clock, Duration &gt;, Char, typename std::enable_if&lt;!std::chrono::treat_as_floating_point&lt; typename Duration::rep &gt;::value &gt;::type &gt;::format" name="lumex::core::fmt::formatter&lt; std::chrono::time_point&lt; std::chrono::system_clock, Duration &gt;, Char, typename std::enable_if&lt;!std::chrono::treat_as_floating_point&lt; typename Duration::rep &gt;::value &gt;::type &gt;::format">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,597,295,711"/>
+<area shape="rect" id="Node000002" href="$a03147.html#ab4b2a94512c3c575a5bd227ac5c89d73" title=" " alt="" coords="343,207,581,247"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="159,596,181,520,217,428,241,381,270,336,303,294,341,257,347,252,351,257,344,261,307,297,274,339,246,384,222,430,186,521,164,598"/>
+<area shape="rect" id="Node000003" href="$a01541.html#abf8a964b73ead1cec0f493a86c4b9fab" title="Fills the date part of time from days since 1970&#45;01&#45;01." alt="" coords="855,487,1032,527"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="231,595,284,566,342,543,407,527,474,514,609,500,735,495,841,498,840,503,735,501,610,505,475,520,408,532,343,548,286,571,233,599"/>
+<area shape="rect" id="Node000005" href="$a01541.html#a8a3611c453003762e23f73cdf331d06a" title="value / divisor rounded toward negative infinity." alt="" coords="1315,437,1492,477"/>
+<area shape="poly" id="edge8_Node000001_Node000005" title=" " alt="" coords="295,599,342,587,447,570,529,562,718,562,943,562,1033,559,1102,548,1257,507,1341,479,1343,484,1258,512,1103,554,1033,564,943,567,718,567,529,568,447,575,343,593,296,604"/>
+<area shape="rect" id="Node000007" href="$a01541.html#a6ba235f9fcada7ece959be451804b733" title="Fractional second digits of S for Period: the smallest n (at most 18) with Period * 10^n whole,..." alt="" coords="373,602,551,642"/>
+<area shape="poly" id="edge9_Node000001_Node000007" title=" " alt="" coords="295,636,359,630,360,635,295,642"/>
+<area shape="rect" id="Node000009" href="$a03147.html#a7d01feb13812d60facc9e60d237cdc2a" title=" " alt="" coords="373,731,551,785"/>
+<area shape="poly" id="edge11_Node000001_Node000009" title=" " alt="" coords="296,700,368,724,366,729,294,705"/>
+<area shape="rect" id="Node000010" href="$a02975.html#a2c34871a93aed0ee94f470a4a5465b06" title="The locale passed to format (loc, ...), else the global one." alt="" coords="374,810,550,850"/>
+<area shape="poly" id="edge12_Node000001_Node000010" title=" " alt="" coords="216,709,276,754,344,794,363,803,361,807,341,799,273,758,213,713"/>
+<area shape="rect" id="Node000011" href="$a02975.html#a04c7f3d5ffc13bc90ea29ab029bb88a2" title=" " alt="" coords="632,863,804,903"/>
+<area shape="poly" id="edge13_Node000001_Node000011" title=" " alt="" coords="187,709,216,749,252,791,295,829,344,860,412,883,484,895,555,898,619,895,619,900,555,903,483,900,411,888,342,864,292,834,248,795,212,752,182,712"/>
+<area shape="rect" id="Node000012" href="$a01541.html#a474c0fd7c9f1ace69805a5a6a099600a" title="Splits a non&#45;negative duration into whole seconds and the fraction in 10^&#45;digits units (truncated)." alt="" coords="373,666,551,706"/>
+<area shape="poly" id="edge14_Node000001_Node000012" title=" " alt="" coords="295,666,360,673,359,678,295,671"/>
+<area shape="rect" id="Node000013" href="$a03147.html#a409105bb4970d96c8a5a3295eb29efd5" title=" " alt="" coords="370,927,554,967"/>
+<area shape="poly" id="edge16_Node000001_Node000013" title=" " alt="" coords="182,709,212,757,249,809,293,860,344,904,372,920,369,924,341,908,290,863,245,812,207,759,178,712"/>
+<area shape="rect" id="Node000030" href="$a01541.html#a754034de35d8ea974e37818b711109a8" title="Writes time following the checked chrono&#45;specs [it, end)." alt="" coords="373,271,551,311"/>
+<area shape="poly" id="edge35_Node000001_Node000030" title=" " alt="" coords="197,595,434,320,438,324,201,599"/>
+<area shape="rect" id="Node000004" href="$a01541.html#a365347e3849bfaedcfb56627e1ee586e" title="Days since 1970&#45;01&#45;01 of a civil date." alt="" coords="1080,437,1257,477"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="1032,485,1066,477,1067,482,1033,490"/>
+<area shape="poly" id="edge5_Node000003_Node000005" title=" " alt="" coords="1032,503,1140,498,1257,486,1309,477,1310,482,1258,491,1140,503,1032,508"/>
+<area shape="rect" id="Node000006" href="$a01541.html#ae8c7658b63539d3879a215371302723c" title="value mod divisor in [0, divisor) for a positive divisor." alt="" coords="1080,373,1257,413"/>
+<area shape="poly" id="edge6_Node000003_Node000006" title=" " alt="" coords="971,485,1021,454,1079,422,1094,415,1097,420,1081,427,1023,458,974,489"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="1257,454,1301,454,1301,459,1257,459"/>
+<area shape="poly" id="edge7_Node000006_Node000005" title=" " alt="" coords="1243,410,1318,430,1316,436,1242,415"/>
+<area shape="rect" id="Node000008" href="$a01541.html#abf2d03bfeff88c2c87dc0258865374ca" title="10^exponent for exponent in 0..18." alt="" coords="629,634,807,674"/>
+<area shape="poly" id="edge10_Node000007_Node000008" title=" " alt="" coords="551,630,615,638,615,644,550,636"/>
+<area shape="poly" id="edge15_Node000012_Node000008" title=" " alt="" coords="550,672,615,664,615,669,551,677"/>
+<area shape="poly" id="edge18_Node000013_Node000011" title=" " alt="" coords="542,925,624,904,626,909,543,930"/>
+<area shape="rect" id="Node000014" href="$a03011.html#a31af630fad97a8533bdc5e768d3e76ce" title="The buffer this appender writes to." alt="" coords="632,927,804,967"/>
+<area shape="poly" id="edge17_Node000013_Node000014" title=" " alt="" coords="554,945,618,945,618,950,554,950"/>
+<area shape="rect" id="Node000015" href="$a01541.html#ad5678c6626a8595ede9b1b001237c32b" title=" " alt="" coords="629,991,807,1031"/>
+<area shape="poly" id="edge19_Node000013_Node000015" title=" " alt="" coords="543,965,626,985,624,991,542,970"/>
+<area shape="rect" id="Node000019" href="$a01541.html#a9c9a25218bf7a93eebf8242de6a1d169" title="Writes [first, stop) padded to specs.width." alt="" coords="629,1087,807,1127"/>
+<area shape="poly" id="edge23_Node000013_Node000019" title=" " alt="" coords="496,965,676,1078,673,1082,493,970"/>
+<area shape="rect" id="Node000016" href="$a01540.html#a71066b6ff2980b7f4a955111551f11e4" title="Names value for a {name} replacement field." alt="" coords="864,893,1023,919"/>
+<area shape="poly" id="edge20_Node000015_Node000016" title=" " alt="" coords="783,989,805,977,819,965,828,953,838,941,853,929,869,921,871,926,856,934,842,945,833,957,823,969,808,981,785,994"/>
+<area shape="rect" id="Node000017" href="$a02975.html#a65b345c63de1c27f72d3a00fcd77d668" title=" " alt="" coords="857,943,1029,983"/>
+<area shape="poly" id="edge21_Node000015_Node000017" title=" " alt="" coords="807,990,843,982,844,987,808,995"/>
+<area shape="rect" id="Node000018" href="$a02975.html#a0ff5deb7e42e1203c6dcbc429c8da02d" title=" " alt="" coords="855,1007,1032,1047"/>
+<area shape="poly" id="edge22_Node000015_Node000018" title=" " alt="" coords="807,1015,841,1017,841,1023,807,1020"/>
+<area shape="rect" id="Node000020" href="$a02991.html#af889c72b016fbc4382a83b4d44a4b9fe" title=" " alt="" coords="1080,1193,1257,1233"/>
+<area shape="poly" id="edge24_Node000019_Node000020" title=" " alt="" coords="745,1125,795,1157,856,1185,908,1198,963,1207,1066,1213,1066,1218,962,1212,907,1203,854,1190,792,1162,743,1130"/>
+<area shape="rect" id="Node000022" href="$a01541.html#a2ed0744f528e973133ba3815d7650826" title="Estimated display width, as std::format (C++23) defines it." alt="" coords="855,1071,1032,1111"/>
+<area shape="poly" id="edge26_Node000019_Node000022" title=" " alt="" coords="807,1098,841,1096,841,1101,807,1104"/>
+<area shape="rect" id="Node000029" href="$a01541.html#a3e45da52824f4287006ffe4514534657" title=" " alt="" coords="855,1135,1032,1175"/>
+<area shape="poly" id="edge33_Node000019_Node000029" title=" " alt="" coords="808,1124,842,1131,841,1136,807,1129"/>
+<area shape="rect" id="Node000021" href="$a02991.html#a6f4eb61317095976b06eebbf9d38c205" title=" " alt="" coords="1315,1195,1492,1235"/>
+<area shape="poly" id="edge25_Node000020_Node000021" title=" " alt="" coords="1257,1211,1301,1211,1301,1217,1257,1216"/>
+<area shape="rect" id="Node000023" href="$a01541.html#a9e0a7453f21fa61d5f221016d15cbe2e" title="Moves it past one extended grapheme cluster and returns its estimated width: the width of its first c..." alt="" coords="1080,1035,1257,1075"/>
+<area shape="poly" id="edge27_Node000022_Node000023" title=" " alt="" coords="1032,1074,1066,1069,1067,1074,1033,1080"/>
+<area shape="rect" id="Node000024" href="$a01541.html#aea68f84128932af81acea442416d4e71" title="Decodes one code point at it (UTF&#45;8 for char, UTF&#45;16 or UTF&#45;32 for wchar_t); an invalid sequence yiel..." alt="" coords="1315,939,1492,979"/>
+<area shape="poly" id="edge28_Node000023_Node000024" title=" " alt="" coords="1207,1033,1304,989,1324,981,1326,986,1306,994,1209,1038"/>
+<area shape="rect" id="Node000025" href="$a01541.html#ad7db5669bbcd6622f5c86c4fca26b2c3" title="Extended_Pictographic (approximated by the emoji blocks): a code point that a zero width joiner glues..." alt="" coords="1305,1003,1501,1043"/>
+<area shape="poly" id="edge29_Node000023_Node000025" title=" " alt="" coords="1257,1041,1291,1036,1292,1041,1258,1046"/>
+<area shape="rect" id="Node000026" href="$a01541.html#aff580c84b9a022c6cd09fff2dd4357ed" title="The code point joins the preceding one in the same extended grapheme cluster: Grapheme_Cluster_Break ..." alt="" coords="1315,1067,1492,1107"/>
+<area shape="poly" id="edge30_Node000023_Node000026" title=" " alt="" coords="1258,1065,1302,1071,1301,1076,1257,1070"/>
+<area shape="rect" id="Node000027" href="$a01541.html#a7ed054b3519f96e75e5f34a597d411ee" title="Regional indicator symbols (two of them form one flag)." alt="" coords="1315,1131,1492,1171"/>
+<area shape="poly" id="edge31_Node000023_Node000027" title=" " alt="" coords="1209,1073,1306,1117,1326,1124,1324,1129,1304,1122,1207,1078"/>
+<area shape="rect" id="Node000028" href="$a01541.html#a92eaf1c71d6bb3ecff60069c005917f8" title=" " alt="" coords="1315,875,1492,915"/>
+<area shape="poly" id="edge32_Node000023_Node000028" title=" " alt="" coords="1183,1033,1234,980,1267,950,1304,925,1316,919,1318,923,1307,930,1271,955,1237,984,1187,1037"/>
+<area shape="poly" id="edge34_Node000029_Node000020" title=" " alt="" coords="1023,1173,1078,1187,1076,1192,1021,1178"/>
+<area shape="poly" id="edge42_Node000030_Node000005" title=" " alt="" coords="550,277,566,269,579,257,598,230,605,201,604,172,599,143,595,113,595,84,605,57,628,31,650,15,671,6,692,3,713,4,756,15,807,30,947,72,1001,94,1050,119,1097,149,1146,184,1259,276,1297,312,1332,352,1385,423,1381,426,1328,355,1294,316,1256,280,1142,188,1094,153,1048,124,999,99,945,77,806,35,755,20,712,9,692,8,673,11,653,20,631,35,610,59,601,85,600,113,605,142,609,172,610,202,603,232,583,261,569,273,552,282"/>
+<area shape="poly" id="edge43_Node000030_Node000006" title=" " alt="" coords="523,309,630,337,746,355,863,369,1066,385,1066,391,863,375,745,361,629,342,521,314"/>
+<area shape="rect" id="Node000031" href="$a01541.html#a50d6c5e29743cab15e1594cf58b632a7" title=" " alt="" coords="1080,290,1257,330"/>
+<area shape="poly" id="edge36_Node000030_Node000031" title=" " alt="" coords="551,309,630,321,742,329,830,330,1032,321,1066,318,1066,324,1032,326,830,336,742,334,629,326,550,314"/>
+<area shape="rect" id="Node000032" href="$a01541.html#a3cfab9d85ccf991300e57dec088e9dac" title="One conversion through the locale&#39;s std::time_put (L)." alt="" coords="629,79,807,119"/>
+<area shape="poly" id="edge37_Node000030_Node000032" title=" " alt="" coords="550,275,580,257,592,242,599,227,603,196,607,163,614,146,627,129,632,125,636,129,631,133,619,149,613,164,609,196,604,229,597,245,583,261,552,280"/>
+<area shape="rect" id="Node000033" href="$a01541.html#a818162ff93668f48df1c55821b00846f" title="value with at least width digits, zero padded, with sign." alt="" coords="855,271,1032,311"/>
+<area shape="poly" id="edge38_Node000030_Node000033" title=" " alt="" coords="549,277,579,257,596,234,602,210,603,185,600,160,597,135,599,111,608,87,628,65,673,39,694,33,716,32,760,42,808,65,834,83,857,105,894,157,920,211,937,257,932,259,916,213,890,160,853,109,831,87,805,70,758,47,715,37,695,38,675,44,631,69,612,90,604,112,603,135,605,160,608,185,608,211,601,236,583,261,552,281"/>
+<area shape="rect" id="Node000034" href="$a01541.html#a40ff57adf446dd2e2b97a65f9e817121" title=" " alt="" coords="629,271,807,311"/>
+<area shape="poly" id="edge40_Node000030_Node000034" title=" " alt="" coords="551,289,615,289,615,294,551,294"/>
+<area shape="rect" id="Node000035" href="$a01541.html#a9bb3e619b249d54a8889159cb394a5bd" title="ISO 8601 week&#45;based year and week number." alt="" coords="629,437,807,477"/>
+<area shape="poly" id="edge44_Node000030_Node000035" title=" " alt="" coords="487,310,550,361,631,416,655,428,653,433,628,420,547,365,483,314"/>
+<area shape="rect" id="Node000036" href="$a01541.html#a8add933ba8511f86512df2449d2bd4f9" title=" " alt="" coords="629,143,807,183"/>
+<area shape="poly" id="edge47_Node000030_Node000036" title=" " alt="" coords="550,272,580,257,595,242,603,226,612,210,628,193,636,187,639,192,631,197,616,213,608,229,599,245,583,261,552,277"/>
+<area shape="rect" id="Node000037" href="$a01541.html#aeefcec729273930a28872e248746c365" title=" " alt="" coords="629,207,807,247"/>
+<area shape="poly" id="edge48_Node000030_Node000037" title=" " alt="" coords="542,269,624,248,626,253,543,274"/>
+<area shape="poly" id="edge39_Node000033_Node000031" title=" " alt="" coords="1033,296,1067,299,1066,304,1032,301"/>
+<area shape="poly" id="edge41_Node000034_Node000033" title=" " alt="" coords="807,289,841,289,841,294,807,294"/>
+<area shape="poly" id="edge45_Node000035_Node000003" title=" " alt="" coords="808,474,842,482,841,487,806,479"/>
+<area shape="poly" id="edge46_Node000035_Node000004" title=" " alt="" coords="807,454,1066,454,1066,459,807,459"/>
+</map>

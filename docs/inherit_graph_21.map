@@ -1,0 +1,5 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" href="$a01735.html" title="Checks raw JSON text against the schema of the implementation. Builds nothing: a conforming document ..." alt="" coords="5,5,236,60"/>
+<area shape="rect" id="Node000001" href="$a01739.html" title="Parses raw JSON text and walks it against one schema tree in validate_only mode. It never normalizes ..." alt="" coords="284,5,511,60"/>
+<area shape="poly" id="edge315_Node000000_Node000001" title=" " alt="" coords="250,30,284,30,284,35,250,35"/>
+</map>

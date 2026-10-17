@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['kind_5ftag_0',['kind_tag',['../a01364.html#acdb0f6bc94d9a0450f79dfdb50335e4a',1,'lumex::core::fmt::Detail']]]
+  ['kind_5ftag_0',['kind_tag',['../a01541.html#acdb0f6bc94d9a0450f79dfdb50335e4a',1,'lumex::core::fmt::Detail']]]
 ];

@@ -1,0 +1,36 @@
+<map id="ExpectedVoid.hpp" name="ExpectedVoid.hpp">
+<area shape="rect" id="Node000001" title="The specialization expected&lt;void, ErrorType&gt; for operations that succeed without a value; an implemen..." alt="" coords="677,5,816,31"/>
+<area shape="rect" id="Node000002" href="$a01373.html" title="Expected module: expected&lt;T, E&gt;, a value or an error after the C++23 std::expected,..." alt="" coords="705,152,788,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="733,44,721,73,719,88,720,103,729,129,741,151,736,153,724,131,715,105,713,88,716,71,728,42"/>
+<area shape="rect" id="Node000016" href="$a00905.html" title="The return markers success() and failure() for functions that return an expected." alt="" coords="730,79,875,104"/>
+<area shape="poly" id="edge17_Node000001_Node000016" title=" " alt="" coords="767,40,795,77,791,80,763,43"/>
+<area shape="rect" id="Node000003" href="$a01298.html" title="CPU and RAM of single processes, by process ID or by executable name, with the processes they started..." alt="" coords="211,225,403,251"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="692,176,383,228,382,223,692,171"/>
+<area shape="rect" id="Node000012" href="$a00335.html" title=" " alt="" coords="427,225,600,251"/>
+<area shape="poly" id="edge13_Node000002_Node000012" title=" " alt="" coords="694,184,555,228,553,223,692,179"/>
+<area shape="rect" id="Node000013" href="$a00338.html" title=" " alt="" coords="624,225,869,251"/>
+<area shape="poly" id="edge14_Node000002_Node000013" title=" " alt="" coords="749,191,749,225,744,225,744,191"/>
+<area shape="rect" id="Node000014" href="$a00344.html" title=" " alt="" coords="893,225,1093,251"/>
+<area shape="poly" id="edge15_Node000002_Node000014" title=" " alt="" coords="803,179,951,223,950,228,801,184"/>
+<area shape="rect" id="Node000015" href="$a00341.html" title=" " alt="" coords="1118,225,1357,251"/>
+<area shape="poly" id="edge16_Node000002_Node000015" title=" " alt="" coords="802,170,1153,223,1152,228,801,176"/>
+<area shape="rect" id="Node000004" href="$a01301.html" title=" " alt="" coords="9,299,199,324"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="259,258,140,301,138,296,258,253"/>
+<area shape="rect" id="Node000005" href="$a01343.html" title="Resource monitor module: a background thread that samples the CPU and RAM usage of the system (and of..." alt="" coords="150,372,325,397"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="289,263,265,300,250,339,242,373,237,371,245,337,260,297,284,260"/>
+<area shape="rect" id="Node000008" href="$a01292.html" title="Background CPU/RAM usage sampler that appends one line per sample to a dated log file,..." alt="" coords="275,299,477,324"/>
+<area shape="poly" id="edge7_Node000003_Node000008" title=" " alt="" coords="330,259,366,296,362,300,326,263"/>
+<area shape="rect" id="Node000010" href="$a01289.html" title="The text the background sampler logs for a watch list." alt="" coords="501,299,659,324"/>
+<area shape="poly" id="edge10_Node000003_Node000010" title=" " alt="" coords="368,252,533,296,532,301,367,257"/>
+<area shape="rect" id="Node000006" href="$a00449.html" title=" " alt="" coords="5,453,232,478"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="208,408,139,455,136,450,205,403"/>
+<area shape="rect" id="Node000007" href="$a00446.html" title=" " alt="" coords="256,445,456,485"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="269,403,328,443,325,447,266,407"/>
+<area shape="poly" id="edge8_Node000008_Node000005" title=" " alt="" coords="341,333,263,374,260,369,338,328"/>
+<area shape="rect" id="Node000009" href="$a01295.html" title=" " alt="" coords="349,372,549,397"/>
+<area shape="poly" id="edge9_Node000008_Node000009" title=" " alt="" coords="400,332,438,370,434,373,397,336"/>
+<area shape="poly" id="edge11_Node000010_Node000009" title=" " alt="" coords="546,333,474,374,471,369,544,329"/>
+<area shape="rect" id="Node000011" href="$a01283.html" title=" " alt="" coords="574,372,730,397"/>
+<area shape="poly" id="edge12_Node000010_Node000011" title=" " alt="" coords="604,332,641,370,637,373,600,336"/>
+<area shape="poly" id="edge18_Node000016_Node000002" title=" " alt="" coords="787,116,759,153,755,150,783,113"/>
+</map>

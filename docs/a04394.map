@@ -1,0 +1,5 @@
+<map id="lumex::core::utility::mem::Detail::is_data_source&lt; TSource, typename &gt;" name="lumex::core::utility::mem::Detail::is_data_source&lt; TSource, typename &gt;">
+<area shape="rect" id="Node000001" title="TSource has get_data () convertible to void const * and get_data_size () convertible to int,..." alt="" coords="5,79,233,133"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="60,5,179,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="122,45,122,78,117,78,117,45"/>
+</map>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: example_reflection_workflow.cpp File Reference</title>
+<title>LumexLib: LumexDwcasValue.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,224 +103,77 @@ $(function(){initNavTree('a00824.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="summary">
-<a href="#enum-members">Enumerations</a> &#124;
-<a href="#func-members">Functions</a> &#124;
-<a href="#var-members">Variables</a>  </div>
-  <div class="headertitle"><div class="title">example_reflection_workflow.cpp File Reference</div></div>
+  <div class="headertitle"><div class="title">LumexDwcasValue.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>dwcas_value_t</code>, the 16-byte value of a <code>dwcas_word</code>: two 64-bit halves.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;cstdint&gt;</code><br />
-<code>#include &lt;iostream&gt;</code><br />
-<code>#include &quot;<a class="el" href="a01217_source.html">lumex/core/reflection/LumexReflection</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00830_source.html">lumex/core/atomic/dwcas/LumexDwcasConfig.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01127_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for example_reflection_workflow.cpp:</div>
+Include dependency graph for LumexDwcasValue.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00825.png" border="0" usemap="#aexample__reflection__workflow_8cpp" alt=""/></div>
+<div class="center"><img src="a00825.png" border="0" usemap="#aLumexDwcasValue_8hpp" alt=""/></div>
+<map name="aLumexDwcasValue_8hpp" id="aLumexDwcasValue_8hpp">
+<area shape="rect" title="dwcas_value_t, the 16&#45;byte value of a dwcas_word: two 64&#45;bit halves." alt="" coords="104,5,277,31"/>
+<area shape="rect" title=" " alt="" coords="5,86,72,111"/>
+<area shape="poly" title=" " alt="" coords="168,33,76,82,73,77,165,28"/>
+<area shape="rect" href="a00830.html" title="Detection macros of the 128&#45;bit compare&#45;and&#45;swap layer: whether the layer exists on this target and w..." alt="" coords="96,79,285,119"/>
+<area shape="poly" title=" " alt="" coords="193,31,193,65,188,65,188,31"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="309,79,523,119"/>
+<area shape="poly" title=" " alt="" coords="227,28,348,72,346,77,225,33"/>
+</map>
 </div>
-</div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
-Enumerations</h2></td></tr>
-<tr class="memitem:a7014ea31388ba91f40697a3b984ae081" id="r_a7014ea31388ba91f40697a3b984ae081"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7014ea31388ba91f40697a3b984ae081">ExampleValve</a> : std::uint8_t { <a class="el" href="#a7014ea31388ba91f40697a3b984ae081af19dbf2edb3a0bd74b0524d960ff21eb">Load</a>
-, <a class="el" href="#a7014ea31388ba91f40697a3b984ae081a3ecd85d1d84f190330a72d7ff94695b1">Inject</a>
-, <a class="el" href="#a7014ea31388ba91f40697a3b984ae081a977fe39d1cc13e3e5e6abec301be214d">Waste</a>
- }</td></tr>
-<tr class="separator:a7014ea31388ba91f40697a3b984ae081"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:a19e1b8fcdab031528ec5d418345d427e" id="r_a19e1b8fcdab031528ec5d418345d427e"><td class="memItemLeft" align="right" valign="top">static constexpr char const *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a19e1b8fcdab031528ec5d418345d427e">to_string</a> (<a class="el" href="#a7014ea31388ba91f40697a3b984ae081">ExampleValve</a> value) noexcept</td></tr>
-<tr class="separator:a19e1b8fcdab031528ec5d418345d427e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
-<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:a1cf9a5ab96b777692089d92322f2ce21" id="r_a1cf9a5ab96b777692089d92322f2ce21"><td class="memItemLeft" align="right" valign="top">static constexprstd::array&lt; <a class="el" href="#a7014ea31388ba91f40697a3b984ae081">ExampleValve</a>, 3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1cf9a5ab96b777692089d92322f2ce21">ExampleValveValues</a> { <a class="el" href="#a7014ea31388ba91f40697a3b984ae081af19dbf2edb3a0bd74b0524d960ff21eb">ExampleValve::Load</a> , <a class="el" href="#a7014ea31388ba91f40697a3b984ae081a3ecd85d1d84f190330a72d7ff94695b1">ExampleValve::Inject</a> , <a class="el" href="#a7014ea31388ba91f40697a3b984ae081a977fe39d1cc13e3e5e6abec301be214d">ExampleValve::Waste</a> }</td></tr>
-<tr class="separator:a1cf9a5ab96b777692089d92322f2ce21"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a24fa11d261c922191c9737092074c3e9" id="r_a24fa11d261c922191c9737092074c3e9"><td class="memItemLeft" align="right" valign="top">static constexprExampleValve&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a24fa11d261c922191c9737092074c3e9">ExampleValveFirst</a> = <a class="el" href="a01382.html#a1402ab62e151b9fd9b6f014b91610bda">::lumex::core::reflection::reflected_enum::detail::first_of</a>( <a class="el" href="#a7014ea31388ba91f40697a3b984ae081af19dbf2edb3a0bd74b0524d960ff21eb">ExampleValve::Load</a> , <a class="el" href="#a7014ea31388ba91f40697a3b984ae081a3ecd85d1d84f190330a72d7ff94695b1">ExampleValve::Inject</a> , <a class="el" href="#a7014ea31388ba91f40697a3b984ae081a977fe39d1cc13e3e5e6abec301be214d">ExampleValve::Waste</a> )</td></tr>
-<tr class="separator:a24fa11d261c922191c9737092074c3e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2f92411e6b22fbee452ad4088e12a728" id="r_a2f92411e6b22fbee452ad4088e12a728"><td class="memItemLeft" align="right" valign="top">static constexprstd::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2f92411e6b22fbee452ad4088e12a728">ExampleValveSize</a> = <a class="el" href="#a1cf9a5ab96b777692089d92322f2ce21">ExampleValveValues</a> .size()</td></tr>
-<tr class="separator:a2f92411e6b22fbee452ad4088e12a728"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aad1be3aecd4621211ccd4a35c4dc49b0" id="r_aad1be3aecd4621211ccd4a35c4dc49b0"><td class="memItemLeft" align="right" valign="top">static constexprExampleValve&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aad1be3aecd4621211ccd4a35c4dc49b0">ExampleValveLast</a> = <a class="el" href="a01382.html#a479c8294a6863b2cbd9f422b77a46472">::lumex::core::reflection::reflected_enum::detail::last_of</a>( <a class="el" href="#a7014ea31388ba91f40697a3b984ae081af19dbf2edb3a0bd74b0524d960ff21eb">ExampleValve::Load</a> , <a class="el" href="#a7014ea31388ba91f40697a3b984ae081a3ecd85d1d84f190330a72d7ff94695b1">ExampleValve::Inject</a> , <a class="el" href="#a7014ea31388ba91f40697a3b984ae081a977fe39d1cc13e3e5e6abec301be214d">ExampleValve::Waste</a> )</td></tr>
-<tr class="separator:aad1be3aecd4621211ccd4a35c4dc49b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<h2 class="groupheader">Enumeration Type Documentation</h2>
-<a id="a7014ea31388ba91f40697a3b984ae081" name="a7014ea31388ba91f40697a3b984ae081"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7014ea31388ba91f40697a3b984ae081">&#9670;&#160;</a></span>ExampleValve</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum class <a class="el" href="#a7014ea31388ba91f40697a3b984ae081">ExampleValve</a> : std::uint8_t</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a7014ea31388ba91f40697a3b984ae081af19dbf2edb3a0bd74b0524d960ff21eb" name="a7014ea31388ba91f40697a3b984ae081af19dbf2edb3a0bd74b0524d960ff21eb"></a>Load&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a7014ea31388ba91f40697a3b984ae081a3ecd85d1d84f190330a72d7ff94695b1" name="a7014ea31388ba91f40697a3b984ae081a3ecd85d1d84f190330a72d7ff94695b1"></a>Inject&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a7014ea31388ba91f40697a3b984ae081a977fe39d1cc13e3e5e6abec301be214d" name="a7014ea31388ba91f40697a3b984ae081a977fe39d1cc13e3e5e6abec301be214d"></a>Waste&#160;</td><td class="fielddoc"></td></tr>
-</table>
-
-</div>
-</div>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int main </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00824_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00824_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a19e1b8fcdab031528ec5d418345d427e" name="a19e1b8fcdab031528ec5d418345d427e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a19e1b8fcdab031528ec5d418345d427e">&#9670;&#160;</a></span>to_string()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static constexpr char const  * to_string </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="#a7014ea31388ba91f40697a3b984ae081">ExampleValve</a></td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00824_a19e1b8fcdab031528ec5d418345d427e_icgraph.png" border="0" usemap="#aa00824_a19e1b8fcdab031528ec5d418345d427e_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<h2 class="groupheader">Variable Documentation</h2>
-<a id="a24fa11d261c922191c9737092074c3e9" name="a24fa11d261c922191c9737092074c3e9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a24fa11d261c922191c9737092074c3e9">&#9670;&#160;</a></span>ExampleValveFirst</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexprExampleValve ExampleValveFirst = <a class="el" href="a01382.html#a1402ab62e151b9fd9b6f014b91610bda">::lumex::core::reflection::reflected_enum::detail::first_of</a>( <a class="el" href="#a7014ea31388ba91f40697a3b984ae081af19dbf2edb3a0bd74b0524d960ff21eb">ExampleValve::Load</a> , <a class="el" href="#a7014ea31388ba91f40697a3b984ae081a3ecd85d1d84f190330a72d7ff94695b1">ExampleValve::Inject</a> , <a class="el" href="#a7014ea31388ba91f40697a3b984ae081a977fe39d1cc13e3e5e6abec301be214d">ExampleValve::Waste</a> )</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
+<div class="center"><img src="a00826.png" border="0" usemap="#aLumexDwcasValue_8hppdep" alt=""/></div>
+<map name="aLumexDwcasValue_8hppdep" id="aLumexDwcasValue_8hppdep">
+<area shape="rect" title="dwcas_value_t, the 16&#45;byte value of a dwcas_word: two 64&#45;bit halves." alt="" coords="351,5,525,31"/>
+<area shape="rect" href="a00833.html" title="The lock cmpxchg16b backend in GNU inline assembly (GCC, Clang, clang&#45;cl, MinGW)." alt="" coords="5,152,228,177"/>
+<area shape="poly" title=" " alt="" coords="338,31,172,52,105,66,83,74,72,81,67,88,66,97,73,116,86,134,102,150,99,154,82,138,68,118,61,98,62,87,68,77,81,69,104,61,171,47,337,25"/>
+<area shape="rect" href="a00827.html" title="The built&#45;in backend: __atomic_* operations on a 128&#45;bit integer." alt="" coords="82,79,317,104"/>
+<area shape="poly" title=" " alt="" coords="384,37,242,81,240,76,383,32"/>
+<area shape="rect" href="a00836.html" title="The MSVC backend: the _InterlockedCompareExchange128 intrinsic." alt="" coords="325,152,551,177"/>
+<area shape="poly" title=" " alt="" coords="493,33,519,46,541,62,552,82,553,94,548,105,535,122,519,136,483,154,481,150,516,131,532,118,544,103,547,93,547,84,537,66,516,51,491,38"/>
+<area shape="rect" href="a00845.html" title="cas_operations_t: load, store and exchange of a 128&#45;bit word built on a backend that only has a compa..." alt="" coords="341,79,535,104"/>
+<area shape="poly" title=" " alt="" coords="441,44,441,78,435,78,435,44"/>
+<area shape="rect" href="a00839.html" title="dwcas_word, a 16&#45;byte atomic word with a 128&#45;bit compare&#45;and&#45;swap (x86&#45;64 only), and the header that ..." alt="" coords="667,79,838,104"/>
+<area shape="poly" title=" " alt="" coords="506,31,698,76,697,81,505,36"/>
+<area shape="poly" title=" " alt="" coords="370,110,173,154,172,149,369,104"/>
+<area shape="poly" title=" " alt="" coords="441,118,441,152,435,152,435,118"/>
+<area shape="rect" href="a01352.html" title="Atomic module: atomic_shared_ptr&lt;T&gt; and atomic_weak_ptr&lt;T&gt;, the interface of the C++20 std::atomic&lt;st..." alt="" coords="575,152,687,177"/>
+<area shape="poly" title=" " alt="" coords="721,114,654,154,651,150,718,109"/>
+<area shape="rect" href="a00809.html" title="The split&#45;count engine behind atomic_shared_ptr_lock_free_split_count and atomic_weak_ptr_lock_free_s..." alt="" coords="795,313,982,339"/>
+<area shape="poly" title=" " alt="" coords="752,118,751,150,754,188,763,228,780,264,794,279,810,292,847,311,845,316,808,297,790,283,776,267,758,230,749,189,746,150,747,118"/>
+<area shape="rect" href="a00812.html" title="The policy of the split&#45;count engine: the named steps of its protocol, the events a ledger counts,..." alt="" coords="789,233,988,258"/>
+<area shape="poly" title=" " alt="" coords="775,113,879,230,875,234,771,116"/>
+<area shape="rect" href="a00815.html" title="The slot word of the split&#45;count engine: a control block, the ticks of the loads in flight and the st..." alt="" coords="841,152,1035,177"/>
+<area shape="poly" title=" " alt="" coords="799,107,906,149,904,154,797,112"/>
+<area shape="rect" href="a00275.html" title=" " alt="" coords="145,225,323,265"/>
+<area shape="poly" title=" " alt="" coords="563,181,323,230,322,225,561,176"/>
+<area shape="rect" href="a00272.html" title=" " alt="" coords="347,225,523,265"/>
+<area shape="poly" title=" " alt="" coords="589,185,485,228,483,223,587,180"/>
+<area shape="rect" href="a00278.html" title=" " alt="" coords="548,225,715,265"/>
+<area shape="poly" title=" " alt="" coords="634,191,634,225,629,225,629,191"/>
+<area shape="poly" title=" " alt="" coords="891,272,891,313,886,313,886,272"/>
+<area shape="poly" title=" " alt="" coords="970,184,989,202,1003,224,1009,246,1003,267,990,283,973,297,937,316,934,311,970,293,986,280,998,264,1004,246,998,226,985,205,967,187"/>
+<area shape="poly" title=" " alt="" coords="925,190,899,234,894,231,921,188"/>
+</map>
 </div>
 </div>
-<a id="aad1be3aecd4621211ccd4a35c4dc49b0" name="aad1be3aecd4621211ccd4a35c4dc49b0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aad1be3aecd4621211ccd4a35c4dc49b0">&#9670;&#160;</a></span>ExampleValveLast</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexprExampleValve ExampleValveLast = <a class="el" href="a01382.html#a479c8294a6863b2cbd9f422b77a46472">::lumex::core::reflection::reflected_enum::detail::last_of</a>( <a class="el" href="#a7014ea31388ba91f40697a3b984ae081af19dbf2edb3a0bd74b0524d960ff21eb">ExampleValve::Load</a> , <a class="el" href="#a7014ea31388ba91f40697a3b984ae081a3ecd85d1d84f190330a72d7ff94695b1">ExampleValve::Inject</a> , <a class="el" href="#a7014ea31388ba91f40697a3b984ae081a977fe39d1cc13e3e5e6abec301be214d">ExampleValve::Waste</a> )</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a2f92411e6b22fbee452ad4088e12a728" name="a2f92411e6b22fbee452ad4088e12a728"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2f92411e6b22fbee452ad4088e12a728">&#9670;&#160;</a></span>ExampleValveSize</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexprstd::size_t ExampleValveSize = <a class="el" href="#a1cf9a5ab96b777692089d92322f2ce21">ExampleValveValues</a> .size()</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a1cf9a5ab96b777692089d92322f2ce21" name="a1cf9a5ab96b777692089d92322f2ce21"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1cf9a5ab96b777692089d92322f2ce21">&#9670;&#160;</a></span>ExampleValveValues</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexprstd::array&lt;<a class="el" href="#a7014ea31388ba91f40697a3b984ae081">ExampleValve</a>, 3 &gt; ExampleValveValues { <a class="el" href="#a7014ea31388ba91f40697a3b984ae081af19dbf2edb3a0bd74b0524d960ff21eb">ExampleValve::Load</a> , <a class="el" href="#a7014ea31388ba91f40697a3b984ae081a3ecd85d1d84f190330a72d7ff94695b1">ExampleValve::Inject</a> , <a class="el" href="#a7014ea31388ba91f40697a3b984ae081a977fe39d1cc13e3e5e6abec301be214d">ExampleValve::Waste</a> }</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-</div><!-- contents -->
+<p><a href="a00824_source.html">Go to the source code of this file.</a></p>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p><code>dwcas_value_t</code>, the 16-byte value of a <code>dwcas_word</code>: two 64-bit halves. </p>
+<p>A plain aggregate that is passed and returned by value. <code>lo</code> is the half at the lower address (the one <code>rax</code> carries in <code>cmpxchg16b</code>), <code>hi</code> the half at the higher address (<code>rdx</code>). Equality compares both halves. Declared only where the layer exists (<code>LUMEX_ATOMIC_HAS_DWCAS</code>). </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_960426362f7813f6a0fb068c7ad54318.html">reflection</a></li><li class="navelem"><a class="el" href="a00824.html">example_reflection_workflow.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_46588a2def099f5c90ce8dff319725b2.html">atomic</a></li><li class="navelem"><a class="el" href="dir_0ef745ae619b7a2bc428b08d4c1ccc55.html">dwcas</a></li><li class="navelem"><a class="el" href="a00824.html">LumexDwcasValue.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::fmt::formatter&lt; stars_t, Char &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a05014.html',''); initResizable(true); });
+$(function(){initNavTree('a05011.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,29 +103,193 @@ $(function(){initNavTree('a05014.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::xml::tree::XmlTreeWalker Member List</div></div>
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="a05008.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::fmt::formatter&lt; stars_t, Char &gt; Class Template Reference</div></div>
 </div><!--header-->
 <div class="contents">
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:ab90259230dcb160a1da2b5890df5cdd8" id="r_ab90259230dcb160a1da2b5890df5cdd8"><td class="memItemLeft" align="right" valign="top">Char const *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab90259230dcb160a1da2b5890df5cdd8">parse</a> (<a class="el" href="a02979.html">basic_format_parse_context</a>&lt; Char &gt; &amp;ctx)</td></tr>
+<tr class="separator:ab90259230dcb160a1da2b5890df5cdd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a49a837989c8d173b9088593a5ece3c22" id="r_a49a837989c8d173b9088593a5ece3c22"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a03011.html">basic_appender</a>&lt; Char &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a49a837989c8d173b9088593a5ece3c22">format</a> (stars_t const &amp;stars, <a class="el" href="a02975.html">basic_format_context</a>&lt; Char &gt; &amp;ctx) const</td></tr>
+<tr class="separator:a49a837989c8d173b9088593a5ece3c22"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9112c94300e77a697d64cdb6cf167668" id="r_a9112c94300e77a697d64cdb6cf167668"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02983.html#a9112c94300e77a697d64cdb6cf167668">formatter</a> ()=delete</td></tr>
+<tr class="separator:a9112c94300e77a697d64cdb6cf167668"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a1dc1d68310efc31349a5a829b28417" id="r_a2a1dc1d68310efc31349a5a829b28417"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02983.html#a2a1dc1d68310efc31349a5a829b28417">formatter</a> (<a class="el" href="a02983.html">formatter</a> const &amp;)=delete</td></tr>
+<tr class="separator:a2a1dc1d68310efc31349a5a829b28417"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1bff704bc2e0aafc38754401598cb8c1" id="r_a1bff704bc2e0aafc38754401598cb8c1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a02983.html">formatter</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02983.html#a1bff704bc2e0aafc38754401598cb8c1">operator=</a> (<a class="el" href="a02983.html">formatter</a> const &amp;)=delete</td></tr>
+<tr class="separator:a1bff704bc2e0aafc38754401598cb8c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><div class="compoundTemplParams">template&lt;typename Char&gt;<br />
+class lumex::core::fmt::formatter&lt; stars_t, Char &gt;</div><p>One template for every character type: <a class="el" href="a02979.html" title="The format specification being parsed and the automatic / manual argument numbering state (as std::ba...">basic_format_parse_context&lt;Char&gt;</a> and <a class="el" href="a02975.html" title="The output and the arguments of one formatting call (as std::basic_format_context).">basic_format_context&lt;Char&gt;</a> are what <a class="el" href="a01540.html#a46a249aef8398cd8d368e196594d41fd">FormatParseContext</a> / <a class="el" href="a01540.html#a55e97ef4435c9e986d51da3fce39b173">FormatContext</a> (char) and <a class="el" href="a01540.html#a8b171f1e88bce3e164323957208f5694">WFormatParseContext</a> / <a class="el" href="a01540.html#a9cd553f6012213c7805e428eab041d3d">WFormatContext</a> (wchar_t) name. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a9112c94300e77a697d64cdb6cf167668" name="a9112c94300e77a697d64cdb6cf167668"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9112c94300e77a697d64cdb6cf167668">&#9670;&#160;</a></span>formatter() <span class="overload">[1/2]</span></h2>
 
-<p>This is the complete list of members for <a class="el" href="a05014.html">lumex::xml::tree::XmlTreeWalker</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a05014.html#aafae48b713bb5d61923cfbfa962d5cda">begin</a>(node::XmlNode &amp;node)</td><td class="entry"><a class="el" href="a05014.html">lumex::xml::tree::XmlTreeWalker</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a05014.html#a7fffc928b2799a2a030e9ca0b6fa210e">decrement_depth</a>()</td><td class="entry"><a class="el" href="a05014.html">lumex::xml::tree::XmlTreeWalker</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a05014.html#a2bf612470309d817bac7290e9b612c35">depth</a>() const</td><td class="entry"><a class="el" href="a05014.html">lumex::xml::tree::XmlTreeWalker</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a05014.html#a09a28240c3b185004f9712013ed22972">end</a>(node::XmlNode &amp;node)</td><td class="entry"><a class="el" href="a05014.html">lumex::xml::tree::XmlTreeWalker</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a05014.html#a819a68f952248ced15199bcba033edd3">for_each</a>(node::XmlNode &amp;node)=0</td><td class="entry"><a class="el" href="a05014.html">lumex::xml::tree::XmlTreeWalker</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a05014.html#aa14c41a2048e26f3a2a67cec7a3e0e58">increment_depth</a>()</td><td class="entry"><a class="el" href="a05014.html">lumex::xml::tree::XmlTreeWalker</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a05014.html#a93c80d4442ba4b50bfd4dd7985283928">node::XmlNode</a> class</td><td class="entry"><a class="el" href="a05014.html">lumex::xml::tree::XmlTreeWalker</a></td><td class="entry"><span class="mlabel">friend</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a05014.html#a45e0209bd4548a9024dddd04b2f92a65">operator=</a>(XmlTreeWalker const &amp;)=delete</td><td class="entry"><a class="el" href="a05014.html">lumex::xml::tree::XmlTreeWalker</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a05014.html#aad4866e5fb7a84317a83806d03766333">set_depth</a>(int depth)</td><td class="entry"><a class="el" href="a05014.html">lumex::xml::tree::XmlTreeWalker</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a05014.html#aadf87c35c9f2290404a64b2298bbecc4">XmlTreeWalker</a>()=default</td><td class="entry"><a class="el" href="a05014.html">lumex::xml::tree::XmlTreeWalker</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a05014.html#a264be2374d575c8714c2544659da345e">XmlTreeWalker</a>(XmlTreeWalker const &amp;)=delete</td><td class="entry"><a class="el" href="a05014.html">lumex::xml::tree::XmlTreeWalker</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a05014.html#a2bd74e746ff00500aba68e82592904b3">~XmlTreeWalker</a>()=default</td><td class="entry"><a class="el" href="a05014.html">lumex::xml::tree::XmlTreeWalker</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-</table></div><!-- contents -->
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02983.html">lumex::core::fmt::formatter</a>&lt; stars_t, Char, void &gt;::formatter </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel delete">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2a1dc1d68310efc31349a5a829b28417" name="a2a1dc1d68310efc31349a5a829b28417"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a1dc1d68310efc31349a5a829b28417">&#9670;&#160;</a></span>formatter() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02983.html">lumex::core::fmt::formatter</a>&lt; stars_t, Char, void &gt;::formatter </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02983.html">formatter</a>&lt; stars_t, Char &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel delete">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a49a837989c8d173b9088593a5ece3c22" name="a49a837989c8d173b9088593a5ece3c22"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a49a837989c8d173b9088593a5ece3c22">&#9670;&#160;</a></span>format()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Char&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a03011.html">basic_appender</a>&lt; Char &gt; <a class="el" href="a02983.html">lumex::core::fmt::formatter</a>&lt; stars_t, Char &gt;::format </td>
+          <td>(</td>
+          <td class="paramtype">stars_t const &amp;</td>          <td class="paramname"><span class="paramname"><em>stars</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02975.html">basic_format_context</a>&lt; Char &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>ctx</em></span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a05011_a49a837989c8d173b9088593a5ece3c22_cgraph.png" border="0" usemap="#aa05011_a49a837989c8d173b9088593a5ece3c22_cgraph" alt=""/></div>
+<map name="aa05011_a49a837989c8d173b9088593a5ece3c22_cgraph" id="aa05011_a49a837989c8d173b9088593a5ece3c22_cgraph">
+<area shape="rect" title=" " alt="" coords="5,5,205,45"/>
+<area shape="rect" href="a02975.html#a04c7f3d5ffc13bc90ea29ab029bb88a2" title=" " alt="" coords="253,5,425,45"/>
+<area shape="poly" title=" " alt="" coords="206,23,240,23,240,28,206,28"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a1bff704bc2e0aafc38754401598cb8c1" name="a1bff704bc2e0aafc38754401598cb8c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1bff704bc2e0aafc38754401598cb8c1">&#9670;&#160;</a></span>operator=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02983.html">formatter</a> &amp; <a class="el" href="a02983.html">lumex::core::fmt::formatter</a>&lt; stars_t, Char, void &gt;::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02983.html">formatter</a>&lt; stars_t, Char &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel delete">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab90259230dcb160a1da2b5890df5cdd8" name="ab90259230dcb160a1da2b5890df5cdd8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab90259230dcb160a1da2b5890df5cdd8">&#9670;&#160;</a></span>parse()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Char&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Char const  * <a class="el" href="a02983.html">lumex::core::fmt::formatter</a>&lt; stars_t, Char &gt;::parse </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02979.html">basic_format_parse_context</a>&lt; Char &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>ctx</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a05011_ab90259230dcb160a1da2b5890df5cdd8_cgraph.png" border="0" usemap="#aa05011_ab90259230dcb160a1da2b5890df5cdd8_cgraph" alt=""/></div>
+<map name="aa05011_ab90259230dcb160a1da2b5890df5cdd8_cgraph" id="aa05011_ab90259230dcb160a1da2b5890df5cdd8_cgraph">
+<area shape="rect" title=" " alt="" coords="5,13,205,53"/>
+<area shape="rect" href="a02979.html#aca48191286b3912fd9d1b0ffd796b441" title=" " alt="" coords="253,5,425,60"/>
+<area shape="poly" title=" " alt="" coords="206,30,240,30,240,35,206,35"/>
+</map>
+</div>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
+<li><a class="el" href="a00470.html">example_format_custom.cpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01540.html">fmt</a></li><li class="navelem"><a class="el" href="a05011.html">formatter&lt; stars_t, Char &gt;</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

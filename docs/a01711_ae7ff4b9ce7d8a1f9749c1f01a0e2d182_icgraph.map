@@ -1,0 +1,9 @@
+<map id="lumex::applied::hardware::caps::HardwareCapabilities::estimate_cpu_generation" name="lumex::applied::hardware::caps::HardwareCapabilities::estimate_cpu_generation">
+<area shape="rect" id="Node000001" title="Estimates CPU generation year based on processor model name analysis." alt="" coords="844,5,1052,60"/>
+<area shape="rect" id="Node000002" href="$a01711.html#af3c48849b42dbcc0651429190b4a86b9" title="Performs comprehensive system hardware detection and analysis." alt="" coords="588,5,796,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="830,35,796,35,796,30,830,30"/>
+<area shape="rect" id="Node000003" href="$a01711.html#abe50368bd4ba1088c99e329d0fc5deb4" title="Determines whether software rendering should be used instead of hardware acceleration." alt="" coords="304,5,540,60"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="574,35,540,35,540,30,574,30"/>
+<area shape="rect" id="Node000004" href="$a01711.html#a3eaf2f4c04de9dfd7a0692f22f8c0b41" title="Automatically configures optimal rendering settings based on detected hardware." alt="" coords="5,5,256,60"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="291,35,256,35,256,30,291,30"/>
+</map>

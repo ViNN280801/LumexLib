@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::fmt::basic_format_string&lt; Char, Args &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a03114.html',''); initResizable(true); });
+$(function(){initNavTree('a03111.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,19 +103,125 @@ $(function(){initNavTree('a03114.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::core::hazard_pointer::engine::node_t Member List</div></div>
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="a03108.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::fmt::basic_format_string&lt; Char, Args &gt; Class Template Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a03114.html">lumex::core::hazard_pointer::engine::node_t</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a03114.html#ad4578c02df6c4c51cc75121eac771a00">next</a></td><td class="entry"><a class="el" href="a03114.html">lumex::core::hazard_pointer::engine::node_t</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a03114.html#a20b42787657f93d9e970b6a750ec1a20">reclaim</a></td><td class="entry"><a class="el" href="a03114.html">lumex::core::hazard_pointer::engine::node_t</a></td><td class="entry"></td></tr>
-</table></div><!-- contents -->
+<p>Format string for arguments <code>Args...</code>: checked against them at compile time from C++20 on (<code>consteval</code> constructor), at run time before.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="a01013_source.html">LumexFormat.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a80ae8b9eeb4c7b0c0350148c047cf345" id="r_a80ae8b9eeb4c7b0c0350148c047cf345"><td class="memTemplParams" colspan="2">template&lt;typename Text, typename = typename std::enable_if&lt;std::is_convertible&lt;                Text const &amp;, Detail::basic_string_ref&lt;Char&gt;&gt;::value&gt;::type&gt; </td></tr>
+<tr class="memitem:a80ae8b9eeb4c7b0c0350148c047cf345"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a80ae8b9eeb4c7b0c0350148c047cf345">basic_format_string</a> (Text const &amp;text)</td></tr>
+<tr class="separator:a80ae8b9eeb4c7b0c0350148c047cf345"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab2cbb2f15eefb53e60b336d4e5ebb779" id="r_ab2cbb2f15eefb53e60b336d4e5ebb779"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab2cbb2f15eefb53e60b336d4e5ebb779">basic_format_string</a> (<a class="el" href="a03107.html">runtime_format_string_t</a>&lt; Char &gt; text) noexcept</td></tr>
+<tr class="separator:ab2cbb2f15eefb53e60b336d4e5ebb779"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa2015078315d37123ea9d2f663ce34d4" id="r_aa2015078315d37123ea9d2f663ce34d4"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="a02987.html">Detail::basic_string_ref</a>&lt; Char &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa2015078315d37123ea9d2f663ce34d4">get</a> () const noexcept</td></tr>
+<tr class="separator:aa2015078315d37123ea9d2f663ce34d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><div class="compoundTemplParams">template&lt;typename Char, typename... Args&gt;<br />
+class lumex::core::fmt::basic_format_string&lt; Char, Args &gt;</div><p>Format string for arguments <code>Args...</code>: checked against them at compile time from C++20 on (<code>consteval</code> constructor), at run time before. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a80ae8b9eeb4c7b0c0350148c047cf345" name="a80ae8b9eeb4c7b0c0350148c047cf345"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a80ae8b9eeb4c7b0c0350148c047cf345">&#9670;&#160;</a></span>basic_format_string() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Char, typename... Args&gt; </div>
+<div class="memtemplate">
+template&lt;typename Text, typename = typename std::enable_if&lt;std::is_convertible&lt;                Text const &amp;, Detail::basic_string_ref&lt;Char&gt;&gt;::value&gt;::type&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a03111.html">lumex::core::fmt::basic_format_string</a>&lt; Char, Args &gt;::basic_format_string </td>
+          <td>(</td>
+          <td class="paramtype">Text const &amp;</td>          <td class="paramname"><span class="paramname"><em>text</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab2cbb2f15eefb53e60b336d4e5ebb779" name="ab2cbb2f15eefb53e60b336d4e5ebb779"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab2cbb2f15eefb53e60b336d4e5ebb779">&#9670;&#160;</a></span>basic_format_string() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Char, typename... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a03111.html">lumex::core::fmt::basic_format_string</a>&lt; Char, Args &gt;::basic_format_string </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a03107.html">runtime_format_string_t</a>&lt; Char &gt;</td>          <td class="paramname"><span class="paramname"><em>text</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="aa2015078315d37123ea9d2f663ce34d4" name="aa2015078315d37123ea9d2f663ce34d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa2015078315d37123ea9d2f663ce34d4">&#9670;&#160;</a></span>get()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Char, typename... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02987.html">Detail::basic_string_ref</a>&lt; Char &gt; <a class="el" href="a03111.html">lumex::core::fmt::basic_format_string</a>&lt; Char, Args &gt;::get </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
+<li><a class="el" href="a01013_source.html">LumexFormat.hpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01540.html">fmt</a></li><li class="navelem"><a class="el" href="a03111.html">basic_format_string</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

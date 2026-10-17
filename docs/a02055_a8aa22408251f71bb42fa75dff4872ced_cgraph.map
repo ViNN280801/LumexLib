@@ -1,0 +1,12 @@
+<map id="lumex::core::circular_buffer::circular_buffer::circular_buffer" name="lumex::core::circular_buffer::circular_buffer::circular_buffer">
+<area shape="rect" id="Node000001" title="Creates a buffer of the given capacity with the elements of a list." alt="" coords="5,136,173,191"/>
+<area shape="rect" id="Node000002" href="$a02055.html#a783389fe18620fa39870a80f0a7ef984" title="Returns an iterator to the start of the logical sequence." alt="" coords="237,5,405,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="122,134,168,101,220,69,231,63,234,68,223,74,171,105,125,138"/>
+<area shape="rect" id="Node000003" href="$a02055.html#a1d423e4ad18a4329efe36c8ddef18c01" title="Returns the maximum number of elements the buffer can hold." alt="" coords="237,84,405,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="173,142,223,131,224,136,174,147"/>
+<area shape="rect" id="Node000004" href="$a02055.html#a583c3fee3eb06a9b927eae01eab586be" title="Creates an empty buffer with capacity 0." alt="" coords="237,187,405,241"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="174,179,224,190,223,195,173,184"/>
+<area shape="rect" id="Node000005" href="$a02055.html#a5aca85451470b8c973ad79a8be7897ce" title="Returns an iterator to the end of the logical sequence." alt="" coords="221,266,421,306"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="126,189,171,220,223,250,241,259,239,263,220,255,168,225,123,193"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="276,187,276,176,284,168,299,162,321,160,348,163,363,171,360,176,346,168,321,165,301,167,287,172,281,178,281,187"/>
+</map>

@@ -1,0 +1,30 @@
+<map id="lumex::core::fmt::basic_appender::buffer" name="lumex::core::fmt::basic_appender::buffer">
+<area shape="rect" id="Node000001" title="The buffer this appender writes to." alt="" coords="632,295,804,335"/>
+<area shape="rect" id="Node000002" href="$a03011.html#a49db1fc04f2660166aaa2de0f6e6e22e" title=" " alt="" coords="363,5,563,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="707,282,692,232,667,172,630,111,608,83,582,59,562,47,565,42,586,55,612,80,635,108,671,169,697,230,713,280"/>
+<area shape="rect" id="Node000003" href="$a03187.html#a089576a46e9bf89c99bc19ab21744d28" title=" " alt="" coords="375,93,552,133"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="699,284,652,214,620,178,583,148,551,132,554,128,585,143,624,174,657,211,703,281"/>
+<area shape="rect" id="Node000004" href="$a03199.html#a4f8059f3994ef544167a8c963effd113" title=" " alt="" coords="58,345,242,385"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="619,331,584,335,243,362,242,357,584,329,618,325"/>
+<area shape="rect" id="Node000005" href="$a03119.html#a63e555d41c58a3f16e9cdbc4a7b4be4c" title=" " alt="" coords="343,221,584,320"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="618,300,584,294,585,289,619,295"/>
+<area shape="rect" id="Node000006" href="$a03123.html#a4bc6a825a1ee2c996cde58b722f70579" title=" " alt="" coords="367,157,559,197"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="687,287,640,248,583,212,554,200,556,195,585,207,643,244,690,283"/>
+<area shape="rect" id="Node000008" href="$a03099.html#a16ef79c73db159e87e2fa860cdb76b82" title=" " alt="" coords="353,395,573,435"/>
+<area shape="poly" id="edge9_Node000001_Node000008" title=" " alt="" coords="666,343,585,378,532,397,530,392,583,374,664,338"/>
+<area shape="rect" id="Node000009" href="$a03147.html#a409105bb4970d96c8a5a3295eb29efd5" title=" " alt="" coords="371,572,555,612"/>
+<area shape="poly" id="edge10_Node000001_Node000009" title=" " alt="" coords="703,348,655,427,623,471,586,513,544,547,502,574,499,570,541,543,582,509,619,468,651,424,699,345"/>
+<area shape="rect" id="Node000012" href="$a01541.html#a8b79a1789ab9e1a4f978bdf8cb91c6c1" title="Writes with write_body (context) directly, or into a temporary text padded to the resolved width when..." alt="" coords="375,459,552,499"/>
+<area shape="poly" id="edge13_Node000001_Node000012" title=" " alt="" coords="697,348,649,400,619,426,585,449,554,463,551,458,583,444,615,422,645,396,693,344"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="507,82,491,75,463,72,439,74,424,79,419,85,421,92,416,94,413,84,421,74,438,69,463,67,493,70,509,77"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="204,334,185,327,150,324,120,326,101,331,94,337,98,344,93,346,89,336,98,326,119,321,150,319,186,321,206,329"/>
+<area shape="rect" id="Node000007" href="$a03131.html#a1f694ca6b4fcac1b2a8b2efd6bd2152b" title=" " alt="" coords="50,150,250,205"/>
+<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="354,180,250,180,250,175,354,175"/>
+<area shape="rect" id="Node000010" href="$a03151.html#aee2bdadbbcbe1460c2260749a0c1f8ed" title=" " alt="" coords="31,673,269,786"/>
+<area shape="poly" id="edge11_Node000009_Node000010" title=" " alt="" coords="406,620,270,680,268,675,404,615"/>
+<area shape="rect" id="Node000011" href="$a03155.html#ae34894440a19509a856974897f26ec07" title=" " alt="" coords="5,535,295,649"/>
+<area shape="poly" id="edge12_Node000009_Node000011" title=" " alt="" coords="357,595,295,595,295,589,357,589"/>
+<area shape="poly" id="edge14_Node000012_Node000004" title=" " alt="" coords="361,457,341,449,317,434,293,418,217,388,219,383,296,414,320,429,344,444,363,452"/>
+<area shape="rect" id="Node000013" href="$a03211.html#a9855da9aeeff8e79ede9b8c3c49bfe93" title=" " alt="" coords="33,427,267,511"/>
+<area shape="poly" id="edge15_Node000012_Node000013" title=" " alt="" coords="361,478,268,476,268,470,361,473"/>
+</map>

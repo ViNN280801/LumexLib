@@ -1,0 +1,29 @@
+<map id="lumex::xml::attribute::destroy_attribute" name="lumex::xml::attribute::destroy_attribute">
+<area shape="rect" id="Node000001" title="Destroys and deallocates an XmlAttributeBase object." alt="" coords="789,248,949,288"/>
+<area shape="rect" id="Node000002" href="$a01672.html#a4c2f2a89afe0c018d7c328d9bda84cb7" title="Destroys an XmlNodeBase object and recursively deallocates its children and attributes." alt="" coords="509,141,741,166"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="813,244,651,169,654,164,815,240"/>
+<area shape="rect" id="Node000009" href="$a05143.html#a6f070ed5f320f3b771a23e57e4565492" title="Removes a specified XmlAttribute from the current node." alt="" coords="523,248,727,288"/>
+<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="775,271,727,271,727,265,775,265"/>
+<area shape="rect" id="Node000013" href="$a05143.html#a65c439391e38b67b41e324daa3d3d390" title="Removes all attributes from the current node." alt="" coords="523,312,727,352"/>
+<area shape="poly" id="edge14_Node000001_Node000013" title=" " alt="" coords="780,294,702,315,701,309,779,289"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="669,131,666,127,658,123,625,119,599,121,585,126,583,132,590,139,586,142,577,132,582,122,598,116,625,114,660,118,669,123,673,128"/>
+<area shape="rect" id="Node000003" href="$a05143.html#ad1c60286d13be69a8220624272bbce51" title="Removes a specified child node from the current node." alt="" coords="257,69,461,109"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="558,140,442,112,443,107,560,135"/>
+<area shape="rect" id="Node000008" href="$a05143.html#a755de6a01e5af91f33b90f9ac4022e84" title="Removes all child nodes from the current node." alt="" coords="257,133,461,173"/>
+<area shape="poly" id="edge8_Node000002_Node000008" title=" " alt="" coords="496,156,462,156,462,151,496,151"/>
+<area shape="rect" id="Node000004" href="$a00392.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title="Main function demonstrating various LumexXml functionalities." alt="" coords="80,198,135,223"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="268,118,259,123,244,139,236,155,227,172,211,188,173,204,135,211,134,206,171,199,208,183,223,168,231,152,240,136,256,119,265,113"/>
+<area shape="rect" id="Node000005" href="$a05143.html#a398241c262e713edf78677ccced9b7dd" title="Removes the first child node with the specified name from the current node." alt="" coords="5,5,209,45"/>
+<area shape="poly" id="edge5_Node000003_Node000005" title=" " alt="" coords="266,68,185,48,187,43,268,63"/>
+<area shape="rect" id="Node000006" href="$a05143.html#aa5d1dd2641f178f3e5418d6d6c8ac01c" title="remove_child with a name of size characters at name, which need no terminating NUL (a range of a larg..." alt="" coords="5,69,209,109"/>
+<area shape="poly" id="edge6_Node000003_Node000006" title=" " alt="" coords="244,92,210,92,210,87,244,87"/>
+<area shape="rect" id="Node000007" href="$a05143.html#aeec38af035a8b9e7aab29479fb8d0f5e" title="Removes the first child node with the specified name (string_view_t) from the current node." alt="" coords="5,133,209,173"/>
+<area shape="poly" id="edge7_Node000003_Node000007" title=" " alt="" coords="268,115,187,136,185,131,266,110"/>
+<area shape="poly" id="edge10_Node000009_Node000004" title=" " alt="" coords="519,248,461,239,275,221,135,214,135,209,275,216,462,233,520,243"/>
+<area shape="rect" id="Node000010" href="$a05143.html#a91d04cb37686560b2d32e81d1403a7dd" title="Removes an attribute with the specified name from the current node." alt="" coords="257,248,461,288"/>
+<area shape="poly" id="edge11_Node000009_Node000010" title=" " alt="" coords="510,271,462,271,462,265,510,265"/>
+<area shape="rect" id="Node000011" href="$a05143.html#aebbf6ee277fe4c7e95171e8db55c1705" title="remove_attribute with a name of size characters at name, which need no terminating NUL (a range of a ..." alt="" coords="257,312,461,352"/>
+<area shape="poly" id="edge12_Node000009_Node000011" title=" " alt="" coords="529,294,443,315,442,309,528,289"/>
+<area shape="rect" id="Node000012" href="$a05143.html#a2da7fdb1ef394ec19945b7cdd906a8df" title="Removes an attribute with the specified name (string_view_t) from the current node." alt="" coords="257,376,461,416"/>
+<area shape="poly" id="edge13_Node000009_Node000012" title=" " alt="" coords="520,296,511,302,496,317,488,333,479,350,463,366,441,378,439,374,460,362,475,347,483,331,491,314,508,298,517,292"/>
+</map>

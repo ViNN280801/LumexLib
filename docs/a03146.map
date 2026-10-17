@@ -1,0 +1,7 @@
+<map id="lumex::core::fmt::Detail::chrono_formatter&lt; Char &gt;" name="lumex::core::fmt::Detail::chrono_formatter&lt; Char &gt;">
+<area shape="rect" id="Node000001" title="Parses [[fill]align][width][.precision][L][chrono&#45;specs] and pads the chrono text; base of the durati..." alt="" coords="5,100,208,140"/>
+<area shape="rect" id="Node000002" href="$a03151.html" title="std::chrono::duration: 42ms, or chrono&#45;specs such as T." alt="" coords="256,5,536,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="208,94,255,84,256,89,209,100"/>
+<area shape="rect" id="Node000003" href="$a03155.html" title="std::chrono::system_clock time points (UTC): F T by default, the date only for whole&#45;day time points." alt="" coords="266,129,526,242"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="209,140,266,153,265,159,208,146"/>
+</map>

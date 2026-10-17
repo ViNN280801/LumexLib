@@ -1,0 +1,9 @@
+<map id="lumex::core::fmt::Detail::uses_debug_by_default" name="lumex::core::fmt::Detail::uses_debug_by_default">
+<area shape="rect" id="Node000001" title="Strings and characters print quoted inside ranges and tuples." alt="" coords="5,37,188,77"/>
+<area shape="rect" id="Node000002" href="$a01541.html#a09714a12a6e0072636b67fef0440066e" title="Storage kind of a built&#45;in type T (decayed) for character type Char, or ArgKind::none when T is not b..." alt="" coords="236,37,413,77"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="188,55,222,55,222,60,188,60"/>
+<area shape="rect" id="Node000003" href="$a01541.html#a24e1689d8a19eee3efc71c48ef7c5efe" title=" " alt="" coords="466,5,643,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="413,42,452,37,453,42,414,48"/>
+<area shape="rect" id="Node000004" href="$a01541.html#aad5f22f79a0e3ad34115a809dd6d25d8" title=" " alt="" coords="461,69,648,109"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="414,67,448,72,447,77,413,72"/>
+</map>

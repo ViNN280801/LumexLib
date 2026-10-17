@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: example_span_basic.cpp File Reference</title>
+<title>LumexLib: LumexWStringView.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,46 +104,123 @@ $(function(){initNavTree('a00860.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">example_span_basic.cpp File Reference</div></div>
+<a href="#typedef-members">Typedefs</a>  </div>
+  <div class="headertitle"><div class="title">LumexWStringView.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;array&gt;</code><br />
-<code>#include &lt;cstdint&gt;</code><br />
-<code>#include &lt;iostream&gt;</code><br />
-<code>#include &lt;vector&gt;</code><br />
-<code>#include &quot;<a class="el" href="a01223_source.html">lumex/core/span/LumexSpan</a>&quot;</code><br />
+
+<p><code><a class="el" href="#a173552e384fc2d1f2339f480c26e13e3" title="Global alias of lumex::core::string_view::view::lumex_wstring_view.">lumex_wstring_view</a></code>: the view over <code>wchar_t</code>, the <code>std::wstring_view</code> of the library from C++11.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &quot;<a class="el" href="a00857_source.html">lumex/core/string_view/view/LumexBasicStringView.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for example_span_basic.cpp:</div>
+Include dependency graph for LumexWStringView.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00861.png" border="0" usemap="#aexample__span__basic_8cpp" alt=""/></div>
+<div class="center"><img src="a00861.png" border="0" usemap="#aLumexWStringView_8hpp" alt=""/></div>
+<map name="aLumexWStringView_8hpp" id="aLumexWStringView_8hpp">
+<area shape="rect" title="lumex_wstring_view: the view over wchar_t, the std::wstring_view of the library from C++11." alt="" coords="717,5,893,31"/>
+<area shape="rect" href="a00857.html" title="Header&#45;only, C++11&#45;first basic_string_view: the class template behind lumex_string_view,..." alt="" coords="686,79,923,119"/>
+<area shape="poly" title=" " alt="" coords="807,31,807,65,802,65,802,31"/>
+<area shape="rect" title=" " alt="" coords="5,174,76,199"/>
+<area shape="poly" title=" " alt="" coords="686,108,364,133,204,150,89,169,81,172,79,167,88,164,204,144,363,127,686,103"/>
+<area shape="rect" title=" " alt="" coords="101,174,167,199"/>
+<area shape="poly" title=" " alt="" coords="686,110,410,135,276,151,180,169,173,171,172,166,179,164,275,146,409,129,685,105"/>
+<area shape="rect" title=" " alt="" coords="191,174,258,199"/>
+<area shape="poly" title=" " alt="" coords="686,107,595,114,490,126,379,144,271,169,264,171,262,166,269,164,378,139,489,121,594,109,686,101"/>
+<area shape="rect" title=" " alt="" coords="283,174,369,199"/>
+<area shape="poly" title=" " alt="" coords="686,114,540,136,381,169,371,172,369,167,380,164,539,131,686,109"/>
+<area shape="rect" title=" " alt="" coords="393,174,480,199"/>
+<area shape="poly" title=" " alt="" coords="695,121,596,143,492,169,483,172,481,167,491,164,595,137,694,116"/>
+<area shape="rect" title=" " alt="" coords="504,174,545,199"/>
+<area shape="poly" title=" " alt="" coords="707,121,632,142,558,169,556,170,554,165,556,164,631,137,705,116"/>
+<area shape="rect" title=" " alt="" coords="569,174,640,199"/>
+<area shape="poly" title=" " alt="" coords="760,121,647,171,645,166,758,116"/>
+<area shape="rect" title=" " alt="" coords="665,174,742,199"/>
+<area shape="poly" title=" " alt="" coords="783,121,730,167,727,163,779,117"/>
+<area shape="rect" title=" " alt="" coords="767,174,843,199"/>
+<area shape="poly" title=" " alt="" coords="807,119,807,160,802,160,802,119"/>
+<area shape="rect" title=" " alt="" coords="867,174,953,199"/>
+<area shape="poly" title=" " alt="" coords="831,117,886,163,882,167,827,121"/>
+<area shape="rect" title=" " alt="" coords="977,174,1067,199"/>
+<area shape="poly" title=" " alt="" coords="856,116,979,166,977,171,854,121"/>
+<area shape="rect" title=" " alt="" coords="1091,174,1150,199"/>
+<area shape="poly" title=" " alt="" coords="906,116,991,137,1079,164,1084,166,1082,171,1077,169,990,142,905,121"/>
+<area shape="rect" title=" " alt="" coords="1063,262,1155,287"/>
+<area shape="poly" title=" " alt="" coords="924,103,996,111,1067,123,1126,140,1148,152,1164,165,1170,176,1173,188,1167,212,1153,234,1136,254,1132,251,1149,231,1162,210,1167,188,1165,178,1160,168,1145,156,1124,145,1065,128,995,116,923,108"/>
+<area shape="rect" title=" " alt="" coords="1540,174,1637,199"/>
+<area shape="poly" title=" " alt="" coords="924,100,1198,120,1360,138,1521,164,1537,168,1536,173,1520,169,1359,143,1197,125,923,106"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="1275,167,1465,207"/>
+<area shape="poly" title=" " alt="" coords="924,113,1257,164,1262,165,1261,170,1256,169,923,118"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="1179,255,1433,295"/>
+<area shape="poly" title=" " alt="" coords="924,110,1073,134,1139,148,1186,164,1214,181,1240,201,1282,242,1279,246,1237,205,1211,185,1184,169,1137,153,1072,139,923,115"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="1458,255,1671,295"/>
+<area shape="poly" title=" " alt="" coords="924,103,1250,128,1396,145,1447,155,1478,164,1501,180,1521,200,1550,242,1546,245,1517,204,1497,184,1475,169,1446,160,1395,151,1250,134,923,108"/>
+<area shape="poly" title=" " alt="" coords="1310,209,1167,257,1159,260,1157,255,1165,252,1308,204"/>
+<area shape="poly" title=" " alt="" coords="1357,209,1331,245,1327,242,1353,206"/>
+<area shape="poly" title=" " alt="" coords="1416,204,1509,247,1507,251,1414,209"/>
+</map>
 </div>
-</div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
-<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00862.png" border="0" usemap="#aLumexWStringView_8hppdep" alt=""/></div>
+<map name="aLumexWStringView_8hppdep" id="aLumexWStringView_8hppdep">
+<area shape="rect" title="lumex_wstring_view: the view over wchar_t, the std::wstring_view of the library from C++11." alt="" coords="985,5,1161,31"/>
+<area shape="rect" href="a01406.html" title="String view module: the C++11 implementation of std::string_view and its relatives,..." alt="" coords="1005,79,1141,104"/>
+<area shape="poly" title=" " alt="" coords="1075,44,1075,78,1070,78,1070,44"/>
+<area shape="rect" href="a01280.html" title="Text parsers for the Linux /proc/stat and /proc/meminfo files the resource monitor samples." alt="" coords="321,159,457,185"/>
+<area shape="poly" title=" " alt="" coords="991,98,756,117,612,133,469,155,435,162,434,157,468,149,612,128,755,112,991,93"/>
+<area shape="rect" href="a01307.html" title="Text parsers for Linux /proc/&lt;pid&gt; files, the executable name rules and the process tree rules of Lum..." alt="" coords="481,159,664,185"/>
+<area shape="poly" title=" " alt="" coords="992,106,677,155,637,162,636,157,676,149,991,100"/>
+<area shape="rect" href="a00290.html" title=" " alt="" coords="689,159,875,185"/>
+<area shape="poly" title=" " alt="" coords="1014,110,829,162,827,157,1013,105"/>
+<area shape="rect" href="a00287.html" title=" " alt="" coords="900,152,1061,192"/>
+<area shape="poly" title=" " alt="" coords="1049,115,1005,154,1002,150,1046,111"/>
+<area shape="rect" href="a00281.html" title=" " alt="" coords="1085,152,1247,192"/>
+<area shape="poly" title=" " alt="" coords="1100,111,1144,150,1141,154,1096,115"/>
+<area shape="rect" href="a00284.html" title=" " alt="" coords="1271,152,1432,192"/>
+<area shape="poly" title=" " alt="" coords="1131,105,1283,149,1281,154,1129,110"/>
+<area shape="rect" href="a00293.html" title=" " alt="" coords="1456,152,1617,192"/>
+<area shape="poly" title=" " alt="" coords="1155,101,1445,149,1456,152,1455,157,1444,155,1154,106"/>
+<area shape="rect" href="a00296.html" title=" " alt="" coords="1641,159,1840,185"/>
+<area shape="poly" title=" " alt="" coords="1155,96,1370,117,1630,149,1675,157,1674,162,1630,155,1370,122,1154,101"/>
+<area shape="rect" href="a01286.html" title=" " alt="" coords="5,240,140,265"/>
+<area shape="poly" title=" " alt="" coords="327,191,123,242,122,237,325,185"/>
+<area shape="rect" href="a01304.html" title=" " alt="" coords="389,240,572,265"/>
+<area shape="poly" title=" " alt="" coords="415,192,467,237,464,241,412,196"/>
+<area shape="rect" href="a01301.html" title=" " alt="" coords="596,240,787,265"/>
+<area shape="poly" title=" " alt="" coords="450,186,644,237,643,242,449,191"/>
+<area shape="rect" href="a01295.html" title=" " alt="" coords="165,240,365,265"/>
+<area shape="poly" title=" " alt="" coords="359,194,286,242,283,238,356,190"/>
+<area shape="poly" title=" " alt="" coords="550,196,497,241,494,237,546,192"/>
+<area shape="poly" title=" " alt="" coords="605,190,674,238,671,242,602,195"/>
+</map>
+</div>
+</div>
+<p><a href="a00860_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a173552e384fc2d1f2339f480c26e13e3" id="r_a173552e384fc2d1f2339f480c26e13e3"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a173552e384fc2d1f2339f480c26e13e3">lumex_wstring_view</a> = <a class="el" href="a01573.html#af7b214ae975ac5374970bd02dab72ab3">lumex::core::string_view::view::lumex_wstring_view</a></td></tr>
+<tr class="memdesc:a173552e384fc2d1f2339f480c26e13e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global alias of <code><a class="el" href="a01573.html#af7b214ae975ac5374970bd02dab72ab3" title="The view of wchar_t: the std::wstring_view of the library.">lumex::core::string_view::view::lumex_wstring_view</a></code>.  <br /></td></tr>
+<tr class="separator:a173552e384fc2d1f2339f480c26e13e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p><code><a class="el" href="#a173552e384fc2d1f2339f480c26e13e3" title="Global alias of lumex::core::string_view::view::lumex_wstring_view.">lumex_wstring_view</a></code>: the view over <code>wchar_t</code>, the <code>std::wstring_view</code> of the library from C++11. </p>
+<p>A header-only alias of <code>lumex_basic_string_view&lt;wchar_t&gt;</code> (see <code><a class="el" href="a00857.html" title="Header-only, C++11-first basic_string_view: the class template behind lumex_string_view,...">LumexBasicStringView.hpp</a></code> for the class). The global alias <code><a class="el" href="#a173552e384fc2d1f2339f480c26e13e3" title="Global alias of lumex::core::string_view::view::lumex_wstring_view.">lumex_wstring_view</a></code> is the wide view type of the whole library in every C++ standard. </p>
+</div><h2 class="groupheader">Typedef Documentation</h2>
+<a id="a173552e384fc2d1f2339f480c26e13e3" name="a173552e384fc2d1f2339f480c26e13e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a173552e384fc2d1f2339f480c26e13e3">&#9670;&#160;</a></span>lumex_wstring_view</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int main </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
+          <td class="memname">using <a class="el" href="#a173552e384fc2d1f2339f480c26e13e3">lumex_wstring_view</a> = <a class="el" href="a01573.html#af7b214ae975ac5374970bd02dab72ab3">lumex::core::string_view::view::lumex_wstring_view</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00860_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00860_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
-</div>
+
+<p>Global alias of <code><a class="el" href="a01573.html#af7b214ae975ac5374970bd02dab72ab3" title="The view of wchar_t: the std::wstring_view of the library.">lumex::core::string_view::view::lumex_wstring_view</a></code>. </p>
 
 </div>
 </div>
@@ -152,7 +229,7 @@ Here is the call graph for this function:</div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_105904fcb25bcfb5016e41ac15f378dd.html">span</a></li><li class="navelem"><a class="el" href="a00860.html">example_span_basic.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_bbd40a496777ba5881d1b96c9f04381d.html">string_view</a></li><li class="navelem"><a class="el" href="dir_95349814814eaf45a7cf2d6bae5f3802.html">view</a></li><li class="navelem"><a class="el" href="a00860.html">LumexWStringView.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

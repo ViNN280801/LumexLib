@@ -1,0 +1,5 @@
+<map id="lumex::core::atomic::smart_ptr::table_wait::Detail::lock_based_cell&lt; Pointer &gt;" name="lumex::core::atomic::smart_ptr::table_wait::Detail::lock_based_cell&lt; Pointer &gt;">
+<area shape="rect" id="Node000001" title="Lock&#45;based atomic cell over an ordinary smart pointer." alt="" coords="10,108,190,177"/>
+<area shape="rect" id="Node000002" href="$a01959.html" title="The wait generation shared by every engine: notify_* advances a 32&#45;bit counter and wakes the threads ..." alt="" coords="5,5,195,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="103,74,103,108,97,108,97,74"/>
+</map>

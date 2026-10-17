@@ -1,0 +1,31 @@
+<map id="lumex::core::filesystem::fs::path::empty" name="lumex::core::filesystem::fs::path::empty">
+<area shape="rect" id="Node000001" title="Checks if the path is empty." alt="" coords="737,289,912,329"/>
+<area shape="rect" id="Node000002" href="$a02967.html#ac6b98f64a82c62b08cd7b86bfac5c76e" title="Creates all directories in the specified path_arg, including any missing parent directories." alt="" coords="499,29,673,84"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="808,277,761,193,727,146,688,105,659,86,662,82,691,101,732,143,766,190,813,275"/>
+<area shape="rect" id="Node000004" href="$a02967.html#a5168b663198b53cd34ffad9098fea240" title="Replaces the content of a file without ever leaving it truncated." alt="" coords="258,95,433,149"/>
+<area shape="poly" id="edge12_Node000001_Node000004" title=" " alt="" coords="806,278,786,246,759,210,727,176,688,150,625,126,558,114,493,111,433,113,433,108,493,105,559,109,627,121,691,145,730,172,763,206,790,243,810,275"/>
+<area shape="rect" id="Node000005" href="$a02947.html#afc16e4bcfa55bcbb15ab002eba68115d" title="Appends another path object as a sub&#45;path using the path concatenation operator (/=)." alt="" coords="499,159,673,199"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="790,282,743,247,688,214,660,202,662,197,691,209,746,242,793,278"/>
+<area shape="rect" id="Node000006" href="$a02967.html#a6be78bfb24de6ecace6b252a2f5afa66" title="Constructs a proximate path_arg from path_arg to base." alt="" coords="499,248,673,303"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="723,297,673,290,674,285,724,292"/>
+<area shape="rect" id="Node000007" href="$a02947.html#ab9635284f85ad28adf68855173325516" title="Extracts the relative path component from the path (after the root path)." alt="" coords="258,349,433,389"/>
+<area shape="poly" id="edge9_Node000001_Node000007" title=" " alt="" coords="724,324,433,360,433,355,723,319"/>
+<area shape="rect" id="Node000009" href="$a02947.html#a4ee689f231f72946b52d2e8fd7476567" title="Replaces the extension of the path with a new path extension." alt="" coords="483,378,689,418"/>
+<area shape="poly" id="edge11_Node000001_Node000009" title=" " alt="" coords="759,336,641,380,639,375,757,331"/>
+<area shape="rect" id="Node000010" href="$a02947.html#aae9a45d5c5ad796f1b3a7104fec9b2b6" title="Extracts the root path component from the path (root name + root directory)." alt="" coords="499,442,673,482"/>
+<area shape="poly" id="edge13_Node000001_Node000010" title=" " alt="" coords="800,341,752,388,722,412,691,432,665,444,663,440,688,428,719,407,748,384,796,337"/>
+<area shape="rect" id="Node000012" href="$a02967.html#a0cb537a9a04b028a5f3c40d9b744ad44" title="Returns the weakly canonical form of a path_arg." alt="" coords="499,531,673,585"/>
+<area shape="poly" id="edge16_Node000001_Node000012" title=" " alt="" coords="809,342,760,416,728,458,691,496,641,533,638,528,688,492,723,454,756,413,804,339"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="626,18,611,11,586,8,565,10,551,15,545,21,545,29,540,29,540,19,548,10,564,5,586,3,613,6,628,14"/>
+<area shape="rect" id="Node000003" href="$a00260.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="318,21,373,47"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="484,50,373,39,373,34,485,44"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="486,87,434,101,432,96,485,81"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="385,84,371,76,345,73,324,75,311,80,304,86,304,95,299,95,299,84,308,76,323,70,345,68,372,71,387,79"/>
+<area shape="poly" id="edge8_Node000006_Node000006" title=" " alt="" coords="626,237,611,230,586,227,565,229,551,233,545,240,545,248,540,248,540,238,548,229,564,223,586,221,613,224,628,232"/>
+<area shape="rect" id="Node000008" href="$a02947.html#a3e95228da0c072868d9f9388ff607cd4" title="Checks if the path has a relative path component." alt="" coords="5,349,208,389"/>
+<area shape="poly" id="edge10_Node000007_Node000008" title=" " alt="" coords="244,371,208,371,208,366,244,366"/>
+<area shape="poly" id="edge15_Node000010_Node000007" title=" " alt="" coords="503,440,482,432,386,391,388,386,484,428,505,435"/>
+<area shape="rect" id="Node000011" href="$a02947.html#aae3018e2b6977322997db9152c894ee2" title="Checks if the path has a root path component." alt="" coords="256,442,435,482"/>
+<area shape="poly" id="edge14_Node000010_Node000011" title=" " alt="" coords="485,465,435,465,435,459,485,459"/>
+<area shape="poly" id="edge17_Node000012_Node000012" title=" " alt="" coords="626,520,611,512,586,509,565,511,551,516,545,522,545,531,540,531,540,520,548,512,564,506,586,504,613,507,628,515"/>
+</map>

@@ -1,0 +1,49 @@
+<map id="example_optional_literal.cpp" name="example_optional_literal.cpp">
+<area shape="rect" id="Node000001" title=" " alt="" coords="17,5,228,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,86,85,111"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="112,33,69,78,65,74,108,29"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="277,511,369,537"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="125,31,125,179,125,348,129,376,140,402,157,425,178,446,227,480,275,504,273,508,224,484,174,450,153,428,136,404,124,378,120,348,120,179,120,31"/>
+<area shape="rect" id="Node000004" href="$a01391.html" title="Optional module: a C++11 implementation of the C++17 std::optional with the C++23 monadic operations." alt="" coords="265,79,417,119"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="158,28,275,71,273,76,156,33"/>
+<area shape="rect" id="Node000005" href="$a00986.html" title="The global names of the optional module: optional, nullopt, make_optional and lumex_bad_optional_acce..." alt="" coords="334,167,557,192"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="369,117,420,156,417,160,366,121"/>
+<area shape="rect" id="Node000006" href="$a00989.html" title="C++11 implementation of std::optional (C++17) and of its C++23 monadic operations: a type&#45;safe nullab..." alt="" coords="532,240,711,280"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="474,190,566,232,564,237,472,195"/>
+<area shape="poly" id="edge8_Node000006_Node000003" title=" " alt="" coords="532,282,438,306,337,338,251,376,220,396,201,417,195,436,201,455,213,471,229,484,265,504,262,509,226,489,209,474,196,457,189,436,196,415,217,392,248,371,335,333,436,301,531,277"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="211,423,298,449"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="564,283,446,330,359,376,288,418,285,414,357,371,444,326,562,278"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="322,423,433,449"/>
+<area shape="poly" id="edge7_Node000006_Node000008" title=" " alt="" coords="583,282,503,330,447,374,402,415,398,412,444,370,500,326,580,278"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="949,423,1009,449"/>
+<area shape="poly" id="edge9_Node000006_Node000009" title=" " alt="" coords="663,278,942,415,939,420,661,282"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="1081,335,1156,361"/>
+<area shape="poly" id="edge10_Node000006_Node000010" title=" " alt="" coords="711,266,876,288,970,305,1063,325,1074,328,1073,334,1062,331,969,310,875,293,710,271"/>
+<area shape="rect" id="Node000011" href="$a00995.html" title="Internal machinery of optional: the storage union, the layers that give optional the special member f..." alt="" coords="513,328,730,368"/>
+<area shape="poly" id="edge11_Node000006_Node000011" title=" " alt="" coords="624,280,624,314,619,314,619,280"/>
+<area shape="rect" id="Node000014" href="$a00992.html" title="The tags and the exception of the optional module: nullopt_t, nullopt, in_place_t,..." alt="" coords="1089,416,1295,456"/>
+<area shape="poly" id="edge27_Node000006_Node000014" title=" " alt="" coords="711,263,982,286,1104,304,1146,315,1170,326,1183,343,1191,362,1197,402,1191,403,1186,364,1178,345,1166,330,1144,320,1103,310,981,292,710,268"/>
+<area shape="rect" id="Node000017" href="$a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="925,504,1139,544"/>
+<area shape="poly" id="edge28_Node000006_Node000017" title=" " alt="" coords="711,265,790,280,875,307,917,327,957,351,993,380,1024,414,1033,432,1038,452,1040,491,1034,491,1033,453,1028,434,1019,418,989,384,954,355,915,331,873,312,788,285,710,270"/>
+<area shape="poly" id="edge15_Node000011_Node000003" title=" " alt="" coords="582,371,499,418,447,458,362,507,359,503,444,454,496,414,579,366"/>
+<area shape="poly" id="edge12_Node000011_Node000007" title=" " alt="" coords="513,371,414,392,310,419,301,421,299,416,309,413,413,387,512,365"/>
+<area shape="poly" id="edge13_Node000011_Node000008" title=" " alt="" coords="566,371,427,421,425,416,564,366"/>
+<area shape="poly" id="edge16_Node000011_Node000009" title=" " alt="" coords="731,365,828,386,930,413,938,416,936,421,929,419,827,391,730,370"/>
+<area shape="rect" id="Node000012" title=" " alt="" coords="509,423,558,449"/>
+<area shape="poly" id="edge14_Node000011_Node000012" title=" " alt="" coords="603,370,558,415,554,411,599,367"/>
+<area shape="rect" id="Node000013" title=" " alt="" coords="583,423,660,449"/>
+<area shape="poly" id="edge17_Node000011_Node000013" title=" " alt="" coords="624,368,624,410,619,410,619,368"/>
+<area shape="poly" id="edge18_Node000011_Node000014" title=" " alt="" coords="730,362,1076,415,1075,421,730,367"/>
+<area shape="poly" id="edge26_Node000011_Node000017" title=" " alt="" coords="731,363,809,383,887,414,914,432,939,454,994,494,990,498,936,458,911,436,884,418,807,388,729,368"/>
+<area shape="rect" id="Node000018" href="$a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="684,416,873,456"/>
+<area shape="poly" id="edge22_Node000011_Node000018" title=" " alt="" coords="659,366,732,407,730,412,656,371"/>
+<area shape="rect" id="Node000015" title=" " alt="" coords="1246,511,1333,537"/>
+<area shape="poly" id="edge19_Node000014_Node000015" title=" " alt="" coords="1216,454,1266,500,1263,504,1213,458"/>
+<area shape="rect" id="Node000016" title=" " alt="" coords="1163,511,1221,537"/>
+<area shape="poly" id="edge20_Node000014_Node000016" title=" " alt="" coords="1195,456,1195,498,1189,498,1189,456"/>
+<area shape="poly" id="edge21_Node000014_Node000017" title=" " alt="" coords="1157,459,1082,500,1079,495,1154,454"/>
+<area shape="poly" id="edge23_Node000018_Node000003" title=" " alt="" coords="684,457,383,515,382,510,683,452"/>
+<area shape="poly" id="edge25_Node000018_Node000017" title=" " alt="" coords="838,454,962,497,960,502,836,459"/>
+<area shape="rect" id="Node000019" href="$a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="646,504,901,544"/>
+<area shape="poly" id="edge24_Node000018_Node000019" title=" " alt="" coords="780,457,778,490,773,490,775,456"/>
+</map>

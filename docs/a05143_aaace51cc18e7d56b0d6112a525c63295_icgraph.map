@@ -1,0 +1,8 @@
+<map id="lumex::xml::node::XmlNode::get" name="lumex::xml::node::XmlNode::get">
+<area shape="rect" id="Node000001" title="Retrieves the raw internal XmlNodeBase pointer wrapped by this XmlNode object." alt="" coords="549,42,783,67"/>
+<area shape="rect" id="Node000002" href="$a01692.html#a3fae07ce6115049a6980bd493832dbff" title="Retrieves a pointer to a buffer location for document order comparison optimization." alt="" coords="255,5,501,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="536,44,501,41,502,35,536,39"/>
+<area shape="rect" id="Node000003" href="$a05251.html#a3fde20e05ee26c7a8f5479ab92beaefd" title="Compares two XPathNode objects for their document order." alt="" coords="5,27,207,82"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="536,60,501,60,255,60,207,59,207,54,255,55,501,55,535,54"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="241,43,207,46,207,41,241,37"/>
+</map>

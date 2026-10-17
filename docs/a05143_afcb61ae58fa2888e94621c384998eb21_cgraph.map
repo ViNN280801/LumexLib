@@ -1,0 +1,12 @@
+<map id="lumex::xml::node::XmlNode::attribute" name="lumex::xml::node::XmlNode::attribute">
+<area shape="rect" id="Node000001" title="Finds the first attribute with the specified name using string_view_t." alt="" coords="5,81,209,121"/>
+<area shape="rect" id="Node000002" href="$a05143.html#a7f4d671f25c6951150f5c727dbc8261f" title="Finds the first attribute with the specified name." alt="" coords="257,37,461,77"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="209,81,243,75,244,80,210,86"/>
+<area shape="rect" id="Node000005" href="$a05143.html#a5df8244a361d9f9de429da1b1ab53629" title="Retrieves the name of the XML node." alt="" coords="257,125,461,165"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="210,117,244,123,243,128,209,122"/>
+<area shape="rect" id="Node000003" href="$a05143.html#a15674661156ec0a973ef0815fe299700" title=" " alt="" coords="509,5,713,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="461,42,495,37,496,43,462,47"/>
+<area shape="rect" id="Node000004" href="$a01671.html#a7d02305444b9427e8e8371818ab1c99c" title=" " alt="" coords="540,69,683,109"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="462,68,527,76,526,81,461,73"/>
+<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="313,126,310,116,317,106,334,101,359,99,388,102,404,109,402,114,387,107,359,104,335,106,320,111,315,117,318,124"/>
+</map>

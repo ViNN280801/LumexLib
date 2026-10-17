@@ -1,0 +1,16 @@
+<map id="main" name="main">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,60,60,85"/>
+<area shape="rect" id="Node000002" href="$a04247.html#a05e846e01473a6cd8575680c0e63acba" title="Creates a temporary directory with optional name prefix." alt="" coords="108,45,288,100"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="60,70,94,70,94,75,60,75"/>
+<area shape="rect" id="Node000003" href="$a04247.html#afdd27ac493a193a7ab78c526ff9bb769" title="Generate unique temporary name with prefix." alt="" coords="343,5,523,60"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="288,55,328,48,329,53,289,60"/>
+<area shape="rect" id="Node000004" href="$a04247.html#ac1e59cbc5ec1487afc15a8dad20acb61" title="Returns the path to the temporary directory." alt="" coords="336,84,529,139"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="288,85,323,91,322,96,288,90"/>
+<area shape="rect" id="Node000005" href="$a02599.html#a395ab3b27b542b7cb9092beed95f748d" title="Static convenience method to retrieve an environment variable." alt="" coords="577,91,799,131"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="530,109,564,109,564,114,530,114"/>
+<area shape="rect" id="Node000006" href="$a02599.html#a7fbb25c5cfa51fc3427bb29df4cb7e6e" title="Retrieves the value of a specified environment variable in a thread&#45;safe manner." alt="" coords="847,32,1048,87"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="787,89,833,80,834,85,788,94"/>
+<area shape="rect" id="Node000007" href="$a02599.html#a8773983c01d39e03732541958672fb84" title="Provides the single, globally accessible instance of lumex_environment." alt="" coords="851,135,1043,189"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="791,129,838,138,837,143,790,134"/>
+<area shape="poly" id="edge7_Node000007_Node000007" title=" " alt="" coords="897,135,897,124,906,116,923,110,947,108,976,111,993,119,991,124,975,116,947,113,924,115,909,120,902,126,902,135"/>
+</map>

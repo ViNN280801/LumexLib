@@ -1,0 +1,9 @@
+<map id="lumex::core::optional::opt::optional::value_or" name="lumex::core::optional::opt::optional::value_or">
+<area shape="rect" id="Node000001" title="The contained value (copied) or default_value converted to T." alt="" coords="700,13,876,53"/>
+<area shape="rect" id="Node000002" href="$a01460.html#a765661df16a1d68eca933c5943f17427" title="Adds samples up, for example every process of one name." alt="" coords="469,13,652,53"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="686,35,652,35,652,30,686,30"/>
+<area shape="rect" id="Node000003" href="$a01456.html#acc60498892da2040e6f92a70ac9255b4" title=" " alt="" coords="237,5,421,60"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="456,35,422,35,422,30,456,30"/>
+<area shape="rect" id="Node000004" href="$a01456.html#aa72ee67565346d6d368fbc370f2a98ac" title=" " alt="" coords="5,5,189,60"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="224,35,190,35,190,30,224,30"/>
+</map>

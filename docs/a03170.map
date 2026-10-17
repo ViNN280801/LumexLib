@@ -1,0 +1,7 @@
+<map id="lumex::core::fmt::Detail::is_formattable_range&lt; Range, Char, typename std::enable_if&lt; lumex::core::utility::traits::range::is_iterable&lt; Range &gt;::value &gt;::type &gt;" name="lumex::core::fmt::Detail::is_formattable_range&lt; Range, Char, typename std::enable_if&lt; lumex::core::utility::traits::range::is_iterable&lt; Range &gt;::value &gt;::type &gt;">
+<area shape="rect" id="Node000001" title=" " alt="" coords="387,34,648,133"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="113,5,231,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="245,25,339,41,387,50,386,56,338,46,245,31"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,55,339,242"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="352,112,386,106,387,111,353,117"/>
+</map>

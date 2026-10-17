@@ -1,0 +1,11 @@
+<map id="lumex::xml::writer::XmlBufferedWriter::write_string" name="lumex::xml::writer::XmlBufferedWriter::write_string">
+<area shape="rect" id="Node000001" title="Writes a null&#45;terminated string to the buffer." alt="" coords="440,41,591,96"/>
+<area shape="rect" id="Node000002" href="$a05207.html#a0344d1878971800f0d9a384eace1bfc7" title="Deleted copy assignment operator." alt="" coords="232,5,383,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="426,56,383,48,383,43,427,51"/>
+<area shape="rect" id="Node000003" href="$a05127.html#a40677f13bf1306858bdcc329c3812775" title="Saves the XML document to a custom writer interface." alt="" coords="223,85,392,125"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="427,87,393,93,392,87,426,81"/>
+<area shape="rect" id="Node000004" href="$a05127.html#aa6db85e0f29ddd002d752a2b587a17c8" title="Saves the XML document to a C&#45;style character output stream." alt="" coords="5,53,175,93"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="208,93,174,88,175,82,209,88"/>
+<area shape="rect" id="Node000005" href="$a05127.html#a5d454caaddafe49d675882e3928dbc3d" title="Saves the XML document to a wide character output stream." alt="" coords="5,117,175,157"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="209,122,175,127,174,122,208,117"/>
+</map>

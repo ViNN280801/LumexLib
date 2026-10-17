@@ -1,0 +1,5 @@
+<map id="lumex::core::utility::traits::numeric::is_safe_comparable&lt; T, U &gt;" name="lumex::core::utility::traits::numeric::is_safe_comparable&lt; T, U &gt;">
+<area shape="rect" id="Node000001" title="Both types (without cv / reference) are arithmetic with a specialized std::numeric_limits,..." alt="" coords="412,42,609,97"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,364,133"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="378,67,412,67,412,72,378,72"/>
+</map>

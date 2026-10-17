@@ -1,0 +1,9 @@
+<map id="LumexAtomic" name="LumexAtomic">
+<area shape="rect" id="Node000001" title="Atomic module: atomic_shared_ptr&lt;T&gt; and atomic_weak_ptr&lt;T&gt;, the interface of the C++20 std::atomic&lt;st..." alt="" coords="239,5,351,31"/>
+<area shape="rect" id="Node000002" href="$a00275.html" title=" " alt="" coords="5,79,183,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="252,38,145,81,143,76,250,33"/>
+<area shape="rect" id="Node000003" href="$a00272.html" title=" " alt="" coords="207,79,383,119"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="298,44,298,78,293,78,293,44"/>
+<area shape="rect" id="Node000004" href="$a00278.html" title=" " alt="" coords="408,79,575,119"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="340,33,443,76,441,81,338,38"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="lumex::core::smart_ptr::detail::ctl_inplace&lt; T, A &gt;" name="lumex::core::smart_ptr::detail::ctl_inplace&lt; T, A &gt;">
+<area shape="rect" id="Node000001" title="The control block of make_shared / allocate_shared: block and object in one allocation." alt="" coords="240,34,411,89"/>
+<area shape="rect" id="Node000002" href="$a03839.html" title="The polymorphic control block (see the file text)." alt="" coords="21,5,176,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="190,37,240,45,239,50,189,42"/>
+<area shape="rect" id="Node000003" href="$a03919.html" title=" " alt="" coords="5,70,192,125"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="205,78,239,72,240,78,206,83"/>
+</map>

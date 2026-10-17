@@ -1,0 +1,48 @@
+<map id="lumex::xml::document::XmlDocument::save" name="lumex::xml::document::XmlDocument::save">
+<area shape="rect" id="Node000001" title="Saves the XML document to a custom writer interface." alt="" coords="5,111,175,151"/>
+<area shape="rect" id="Node000002" href="$a05207.html#aaf749c81251686e50d95927e92da078f" title="Flushes the current buffer content to the underlying writer." alt="" coords="677,64,827,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="175,124,663,94,663,99,175,129"/>
+<area shape="rect" id="Node000003" href="$a01672.html#af34491b7156887c5b07e29420a4db813" title="Outputs the XML subtree rooted at root to a buffered writer." alt="" coords="223,370,399,410"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="109,150,287,358,283,361,105,153"/>
+<area shape="rect" id="Node000015" href="$a05207.html#aa79250cd92bec4267da08bb86ebe6216" title="Writes a single character to the buffer." alt="" coords="235,5,386,60"/>
+<area shape="poly" id="edge19_Node000001_Node000015" title=" " alt="" coords="134,109,236,63,238,68,136,114"/>
+<area shape="rect" id="Node000016" href="$a05207.html#a7a6efd2746de7d9a7c614a8f8725e9e1" title="Writes a null&#45;terminated string to the buffer." alt="" coords="235,169,386,224"/>
+<area shape="poly" id="edge21_Node000001_Node000016" title=" " alt="" coords="159,149,223,168,221,173,157,154"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="709,64,709,54,717,45,731,39,752,37,777,40,791,48,789,53,775,46,752,43,732,45,720,49,714,56,714,64"/>
+<area shape="rect" id="Node000004" href="$a00725.html#a08731803b31fe1bac86107d608100f94" title=" " alt="" coords="457,624,591,649"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="321,409,339,449,366,501,403,555,448,603,469,616,466,620,445,607,399,558,362,503,334,451,316,411"/>
+<area shape="rect" id="Node000005" href="$a00725.html#a9cf6a87493cf624f41e7e716ca14c5b5" title=" " alt="" coords="447,403,601,428"/>
+<area shape="poly" id="edge5_Node000003_Node000005" title=" " alt="" coords="399,398,433,402,433,407,398,403"/>
+<area shape="rect" id="Node000009" href="$a00725.html#a1c50f986d8e0bd24c89594197a5dc0e9" title=" " alt="" coords="903,472,1048,497"/>
+<area shape="poly" id="edge18_Node000003_Node000009" title=" " alt="" coords="341,408,395,444,470,486,558,528,604,545,650,558,707,570,752,575,798,572,854,558,881,548,906,534,949,504,952,509,909,539,883,553,855,563,799,577,752,581,706,576,649,563,602,550,555,533,468,491,393,448,338,413"/>
+<area shape="rect" id="Node000013" href="$a00725.html#a3781da2446a997aeab30b3a127de9a9d" title=" " alt="" coords="454,331,594,356"/>
+<area shape="poly" id="edge14_Node000003_Node000013" title=" " alt="" coords="398,368,452,356,453,362,399,373"/>
+<area shape="rect" id="Node000014" href="$a01671.html#aef8fee41b36e9987a5b7ed339b83ce42" title=" " alt="" coords="453,266,595,306"/>
+<area shape="poly" id="edge17_Node000003_Node000014" title=" " alt="" coords="345,367,446,316,460,309,462,314,448,320,348,372"/>
+<area shape="rect" id="Node000006" href="$a00725.html#a1aec0d3f33d23989698e84beb2403d60" title=" " alt="" coords="665,323,839,348"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="555,400,648,365,695,350,697,355,650,370,557,405"/>
+<area shape="rect" id="Node000007" href="$a00725.html#adf60e317ab315b5cb3eb74f99c1c7818" title=" " alt="" coords="927,323,1024,348"/>
+<area shape="poly" id="edge12_Node000005_Node000007" title=" " alt="" coords="601,400,854,357,913,345,914,351,855,362,602,405"/>
+<area shape="rect" id="Node000010" href="$a00725.html#afdf88c166fbef8feba73a11656d1a2a5" title=" " alt="" coords="666,424,838,449"/>
+<area shape="poly" id="edge10_Node000005_Node000010" title=" " alt="" coords="602,420,653,425,652,430,602,425"/>
+<area shape="rect" id="Node000011" href="$a00725.html#a759553362006542d7aa6079a39a24bf4" title=" " alt="" coords="669,473,835,499"/>
+<area shape="poly" id="edge11_Node000005_Node000011" title=" " alt="" coords="556,426,650,459,680,468,678,473,649,465,554,431"/>
+<area shape="rect" id="Node000012" href="$a00725.html#a9e97a025d5f0d5027445d44145586231" title=" " alt="" coords="682,523,822,548"/>
+<area shape="poly" id="edge13_Node000005_Node000012" title=" " alt="" coords="538,426,585,467,617,490,650,509,670,517,668,522,648,514,614,494,582,471,535,430"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="839,333,913,333,913,338,839,338"/>
+<area shape="poly" id="edge9_Node000006_Node000009" title=" " alt="" coords="773,346,946,462,943,466,770,350"/>
+<area shape="rect" id="Node000008" href="$a00725.html#a647665f2ca21227b6053327ad22ae43a" title=" " alt="" coords="1096,323,1255,348"/>
+<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="1024,333,1082,333,1082,338,1024,338"/>
+<area shape="poly" id="edge15_Node000013_Node000006" title=" " alt="" coords="594,338,651,336,651,342,594,344"/>
+<area shape="poly" id="edge16_Node000013_Node000007" title=" " alt="" coords="561,328,603,316,649,307,752,299,855,307,914,317,913,322,854,313,752,305,650,313,604,321,563,333"/>
+<area shape="poly" id="edge20_Node000015_Node000002" title=" " alt="" coords="386,40,663,77,663,82,386,45"/>
+<area shape="poly" id="edge23_Node000016_Node000014" title=" " alt="" coords="377,222,465,258,463,263,375,227"/>
+<area shape="rect" id="Node000017" href="$a01671.html#a9e3d87a48f7721dcf542959cd3fdcf35" title=" " alt="" coords="681,207,823,247"/>
+<area shape="poly" id="edge22_Node000016_Node000017" title=" " alt="" coords="386,199,667,219,667,224,386,205"/>
+<area shape="rect" id="Node000018" href="$a05207.html#a917aa0b956f485f4b87c0e77f5bc8563" title="Writes a block of characters directly to the buffer, bypassing encoding." alt="" coords="449,136,599,191"/>
+<area shape="poly" id="edge24_Node000016_Node000018" title=" " alt="" coords="386,182,435,175,435,180,387,187"/>
+<area shape="poly" id="edge25_Node000018_Node000002" title=" " alt="" coords="599,137,663,117,664,122,601,142"/>
+<area shape="poly" id="edge26_Node000018_Node000017" title=" " alt="" coords="601,182,668,201,667,206,599,187"/>
+<area shape="rect" id="Node000019" href="$a01671.html#a5bb3676df516811dcf8c223d24173a28" title=" " alt="" coords="649,143,855,183"/>
+<area shape="poly" id="edge27_Node000018_Node000019" title=" " alt="" coords="600,161,636,161,636,166,600,166"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="lumex::applied::json::helper::LumexJsonHelper::is_json_file_ok" name="lumex::applied::json::helper::LumexJsonHelper::is_json_file_ok">
+<area shape="rect" id="Node000001" title="Whether the file exists and parses as JSON." alt="" coords="5,5,199,60"/>
+<area shape="rect" id="Node000002" href="$a01715.html#a5a9c562e9a99ff1f339d2f345b05083f" title="The mutex that serializes the file operations of this helper." alt="" coords="247,5,440,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="199,30,233,30,233,35,199,35"/>
+</map>

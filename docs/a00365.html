@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexCrashHandler.hpp File Reference</title>
+<title>LumexLib: example_circular_buffer_queue.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,78 +104,126 @@ $(function(){initNavTree('a00365.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a> &#124;
-<a href="#typedef-members">Typedefs</a>  </div>
-  <div class="headertitle"><div class="title">LumexCrashHandler.hpp File Reference</div></div>
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">example_circular_buffer_queue.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p><code><a class="el" href="#a229b8ca6ad48bf3d63c3769b549d5817">lumex_crash_handler</a></code>, the singleton that writes a dump when the process crashes.  
-<a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00932_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
-<code>#include &lt;csignal&gt;</code><br />
-<code>#include &lt;cstdlib&gt;</code><br />
-<code>#include &lt;string&gt;</code><br />
-<code>#include &lt;fcntl.h&gt;</code><br />
-<code>#include &lt;sys/prctl.h&gt;</code><br />
-<code>#include &lt;sys/resource.h&gt;</code><br />
-<code>#include &lt;sys/types.h&gt;</code><br />
-<code>#include &lt;sys/wait.h&gt;</code><br />
-<code>#include &lt;unistd.h&gt;</code><br />
-<code>#include &quot;<a class="el" href="a01241_source.html">lumex/core/utility/LumexUtility</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00584_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;algorithm&gt;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;numeric&gt;</code><br />
+<code>#include &quot;<a class="el" href="a01358_source.html">lumex/core/circular_buffer/CircularBuffer</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexCrashHandler.hpp:</div>
+Include dependency graph for example_circular_buffer_queue.cpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00366.png" border="0" usemap="#a_lumex_crash_handler_8hpp" alt=""/></div>
+<div class="center"><img src="a00366.png" border="0" usemap="#aexample__circular__buffer__queue_8cpp" alt=""/></div>
+<map name="aexample__circular__buffer__queue_8cpp" id="aexample__circular__buffer__queue_8cpp">
+<area shape="rect" title=" " alt="" coords="516,5,695,45"/>
+<area shape="rect" title=" " alt="" coords="5,262,91,287"/>
+<area shape="poly" title=" " alt="" coords="557,48,442,96,88,259,86,254,440,91,555,43"/>
+<area shape="rect" title=" " alt="" coords="637,101,717,126"/>
+<area shape="poly" title=" " alt="" coords="624,44,660,88,656,92,620,47"/>
+<area shape="rect" title=" " alt="" coords="741,101,816,126"/>
+<area shape="poly" title=" " alt="" coords="646,43,743,92,740,97,644,48"/>
+<area shape="rect" href="a01358.html" title="Circular buffer module: a ring buffer with a run&#45;time capacity that overwrites its oldest element whe..." alt="" coords="453,93,613,133"/>
+<area shape="poly" title=" " alt="" coords="591,47,561,84,557,81,587,44"/>
+<area shape="rect" href="a00941.html" title="circular_buffer, a ring buffer with a run&#45;time capacity that overwrites its oldest element when full,..." alt="" coords="565,181,704,207"/>
+<area shape="poly" title=" " alt="" coords="561,132,610,171,606,175,557,136"/>
+<area shape="poly" title=" " alt="" coords="566,199,357,216,230,233,103,257,93,260,91,255,102,252,229,227,356,210,565,194"/>
+<area shape="rect" title=" " alt="" coords="1089,262,1159,287"/>
+<area shape="poly" title=" " alt="" coords="704,195,875,213,977,229,1077,252,1085,255,1083,260,1075,257,976,235,875,218,704,201"/>
+<area shape="rect" title=" " alt="" coords="1183,262,1270,287"/>
+<area shape="poly" title=" " alt="" coords="704,194,915,211,1043,228,1171,252,1183,255,1181,260,1170,257,1042,233,914,216,704,199"/>
+<area shape="rect" title=" " alt="" coords="1294,262,1405,287"/>
+<area shape="poly" title=" " alt="" coords="705,193,961,209,1122,226,1283,252,1299,256,1298,261,1282,257,1121,232,960,214,704,199"/>
+<area shape="rect" title=" " alt="" coords="115,262,186,287"/>
+<area shape="poly" title=" " alt="" coords="566,201,397,219,298,235,199,257,192,260,190,254,198,252,297,230,396,213,565,196"/>
+<area shape="rect" title=" " alt="" coords="211,262,269,287"/>
+<area shape="poly" title=" " alt="" coords="566,203,433,221,357,237,282,257,277,259,275,254,281,252,355,232,432,216,565,197"/>
+<area shape="rect" title=" " alt="" coords="293,262,371,287"/>
+<area shape="poly" title=" " alt="" coords="572,209,482,230,383,257,376,260,374,255,382,252,481,225,571,204"/>
+<area shape="rect" title=" " alt="" coords="395,262,482,287"/>
+<area shape="poly" title=" " alt="" coords="605,209,483,259,481,254,603,204"/>
+<area shape="rect" title=" " alt="" coords="561,438,653,463"/>
+<area shape="poly" title=" " alt="" coords="607,209,577,228,564,241,554,256,541,289,538,317,543,347,554,382,567,406,584,427,580,430,563,409,550,384,538,348,533,318,536,288,550,253,560,238,574,224,604,205"/>
+<area shape="rect" title=" " alt="" coords="918,262,978,287"/>
+<area shape="poly" title=" " alt="" coords="704,204,798,224,899,252,906,254,905,259,898,257,796,230,703,209"/>
+<area shape="rect" title=" " alt="" coords="1002,262,1065,287"/>
+<area shape="poly" title=" " alt="" coords="705,198,838,217,915,232,990,252,996,254,994,259,989,257,914,237,837,222,704,203"/>
+<area shape="rect" href="a01073.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="609,255,791,295"/>
+<area shape="poly" title=" " alt="" coords="647,205,677,242,673,245,643,209"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="709,431,963,471"/>
+<area shape="poly" title=" " alt="" coords="626,208,610,230,598,256,587,292,580,322,582,350,598,381,613,394,638,405,703,425,702,430,636,410,611,398,594,384,577,352,575,322,582,291,594,254,606,227,621,205"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="1004,431,1217,471"/>
+<area shape="poly" title=" " alt="" coords="704,204,777,223,852,252,868,263,879,274,890,284,906,292,948,301,1004,304,1135,302,1202,302,1262,307,1312,319,1332,328,1347,341,1359,359,1359,376,1351,390,1335,403,1289,423,1232,437,1230,432,1287,418,1332,398,1347,387,1354,374,1353,361,1343,344,1329,333,1310,324,1261,312,1201,307,1135,307,1003,310,948,307,904,297,887,288,876,277,865,267,849,257,775,228,703,209"/>
+<area shape="rect" href="a01124.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="1078,343,1333,383"/>
+<area shape="poly" title=" " alt="" coords="680,204,740,224,804,252,833,273,845,283,862,292,948,316,1065,338,1064,343,947,321,860,297,842,288,830,278,801,257,738,229,678,209"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="608,350,789,375"/>
+<area shape="poly" title=" " alt="" coords="702,295,702,336,696,336,697,295"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="813,343,1003,383"/>
+<area shape="poly" title=" " alt="" coords="749,292,849,335,847,340,747,297"/>
+<area shape="poly" title=" " alt="" coords="792,289,929,316,984,330,1016,340,1039,357,1060,377,1093,417,1089,421,1056,380,1036,361,1013,345,983,335,927,322,791,294"/>
+<area shape="poly" title=" " alt="" coords="840,385,665,437,663,431,838,380"/>
+<area shape="poly" title=" " alt="" coords="893,385,863,421,859,418,889,381"/>
+<area shape="poly" title=" " alt="" coords="956,380,1053,423,1051,428,953,385"/>
+<area shape="poly" title=" " alt="" coords="1185,385,1144,423,1141,419,1182,381"/>
+</map>
 </div>
-</div><div class="textblock"><div class="dynheader">
-This graph shows which files directly or indirectly include this file:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00367.png" border="0" usemap="#a_lumex_crash_handler_8hppdep" alt=""/></div>
-</div>
-</div>
-<p><a href="a00365_source.html">Go to the source code of this file.</a></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02438.html">lumex::core::exceptions::crash::lumex_crash_handler</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles application crashes by generating crash dumps (minidumps on Windows, core dumps on Unix).  <a href="a02438.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01248.html">lumex</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01311.html">lumex::core</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01342.html">lumex::core::exceptions</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01343.html">lumex::core::exceptions::crash</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
-Typedefs</h2></td></tr>
-<tr class="memitem:a229b8ca6ad48bf3d63c3769b549d5817" id="r_a229b8ca6ad48bf3d63c3769b549d5817"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a229b8ca6ad48bf3d63c3769b549d5817">lumex_crash_handler</a> = <a class="el" href="a02438.html">lumex::core::exceptions::crash::lumex_crash_handler</a></td></tr>
-<tr class="separator:a229b8ca6ad48bf3d63c3769b549d5817"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
+<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><code><a class="el" href="#a229b8ca6ad48bf3d63c3769b549d5817">lumex_crash_handler</a></code>, the singleton that writes a dump when the process crashes. </p>
-<p><code>initialize()</code> creates the crash directory and, on Unix-like systems, marks the process dumpable, lifts the core file size limit and installs handlers for SIGSEGV, SIGABRT, SIGFPE and SIGILL. Such a handler reports the signal on standard error, tries to point the kernel core pattern at the crash directory (it runs <code>sudo tee /proc/sys/kernel/core_pattern</code> and writes a <code>.info</code> file when that fails) and raises the signal again with the default action. On these systems the crash directory is <code>crashes</code> in the application's directory under <code>~/.local/share</code> or <code>XDG_DATA_HOME</code>; on Windows it is <code>crashes</code> next to the executable.</p>
-<p>On Windows the handler writes a minidump through DbgHelp and shows a message box, but <code>initialize()</code> installs no unhandled-exception filter: a thread reaches the handler through the translator that <code>SET_SEH_TRANSLATOR</code> of <code><a class="el" href="a00371.html" title="The Windows structured exception translator seh_translator() and the SET_SEH_TRANSLATOR macro that in...">WindowsSEHTranslator.hpp</a></code> installs. The class is compiled into <code>lumex::exceptions</code> and is also visible at global scope. </p>
-</div><h2 class="groupheader">Typedef Documentation</h2>
-<a id="a229b8ca6ad48bf3d63c3769b549d5817" name="a229b8ca6ad48bf3d63c3769b549d5817"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a229b8ca6ad48bf3d63c3769b549d5817">&#9670;&#160;</a></span>lumex_crash_handler</h2>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="#a229b8ca6ad48bf3d63c3769b549d5817">lumex_crash_handler</a> = <a class="el" href="a02438.html">lumex::core::exceptions::crash::lumex_crash_handler</a></td>
+          <td class="memname">int main </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00365_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00365_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
+<map name="aa00365_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" id="aa00365_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph">
+<area shape="rect" title=" " alt="" coords="5,336,60,361"/>
+<area shape="rect" href="a02055.html#afbc5c3841ea20a009a439ae264462ea9" title="Access the newest element (back)." alt="" coords="108,242,315,282"/>
+<area shape="poly" title=" " alt="" coords="49,333,107,298,138,285,140,289,109,303,52,338"/>
+<area shape="rect" href="a02055.html#a8d484612f38792175e6101ef13cb1513" title="Checks whether the buffer is empty." alt="" coords="382,264,550,319"/>
+<area shape="poly" title=" " alt="" coords="60,342,368,302,368,307,61,348"/>
+<area shape="rect" href="a02055.html#a783389fe18620fa39870a80f0a7ef984" title="Returns an iterator to the start of the logical sequence." alt="" coords="127,163,295,217"/>
+<area shape="poly" title=" " alt="" coords="35,335,61,284,81,254,106,228,114,222,117,227,110,232,85,257,65,286,40,337"/>
+<area shape="rect" href="a02055.html#ac6571834de536bfc578babd7cf320444" title="Returns a const reverse iterator to the start of the reverse sequence." alt="" coords="127,5,295,60"/>
+<area shape="poly" title=" " alt="" coords="32,335,58,200,80,122,92,91,106,70,114,62,118,66,110,73,97,94,85,124,63,201,37,336"/>
+<area shape="rect" href="a02055.html#aa356191f89a1849e4e0cb9819aa8eb90" title="Returns a const reverse iterator to the end of the reverse sequence." alt="" coords="127,500,295,555"/>
+<area shape="poly" title=" " alt="" coords="39,360,62,421,83,456,110,487,117,492,114,497,106,491,78,459,57,423,34,362"/>
+<area shape="rect" href="a02055.html#a5aca85451470b8c973ad79a8be7897ce" title="Returns an iterator to the end of the logical sequence." alt="" coords="111,357,311,397"/>
+<area shape="poly" title=" " alt="" coords="61,350,98,356,97,361,60,356"/>
+<area shape="rect" href="a02055.html#a3d9d4aeb03998d6bd83b53ccf46d9905" title="Access the oldest element (front)." alt="" coords="127,84,295,139"/>
+<area shape="poly" title=" " alt="" coords="31,335,37,299,50,249,72,196,87,170,106,148,114,141,118,145,110,152,92,174,77,198,55,251,42,300,37,336"/>
+<area shape="rect" href="a02055.html#ac1d61b48a49f08470df6ec9b677b0dc0" title="Removes the oldest element." alt="" coords="127,421,295,476"/>
+<area shape="poly" title=" " alt="" coords="48,360,75,383,109,406,122,413,119,418,107,411,72,387,44,364"/>
+<area shape="rect" href="a02055.html#ab8b530317c0c039c0856ccc14b6e7575" title="Appends a copy of an element." alt="" coords="127,579,295,633"/>
+<area shape="poly" title=" " alt="" coords="36,361,41,400,52,455,74,514,90,541,110,565,118,572,114,576,106,569,86,544,70,516,47,456,35,401,31,362"/>
+<area shape="rect" href="a02055.html#a5ecc4cbf0af26e45311c542a7d3f7e41" title="Returns the current number of elements in the buffer." alt="" coords="110,658,313,698"/>
+<area shape="poly" title=" " alt="" coords="37,361,45,421,61,506,83,590,96,622,110,644,114,648,110,652,106,648,91,625,78,592,56,508,40,422,32,362"/>
+<area shape="poly" title=" " alt="" coords="315,271,369,277,368,283,315,277"/>
+<area shape="rect" href="a02055.html#ae114577451335df228130debe41ccea7" title="Returns a const iterator to the end of the logical sequence." alt="" coords="363,13,569,53"/>
+<area shape="poly" title=" " alt="" coords="295,30,349,30,349,35,295,35"/>
+<area shape="rect" href="a02055.html#aa71d4397829b2b302a8823726ddd893d" title="Returns a const iterator to the start of the logical sequence." alt="" coords="382,500,550,555"/>
+<area shape="poly" title=" " alt="" coords="295,525,368,525,368,530,295,530"/>
+<area shape="poly" title=" " alt="" coords="295,136,316,148,350,172,383,199,436,252,432,256,379,203,347,176,313,152,293,141"/>
+<area shape="poly" title=" " alt="" coords="289,419,313,406,373,367,424,326,427,330,376,371,316,411,291,423"/>
+</map>
+</div>
 
 </div>
 </div>
@@ -184,7 +232,7 @@ Typedefs</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_c5abfa2a5a0424f8cc91dab0edfcaee4.html">exceptions</a></li><li class="navelem"><a class="el" href="dir_5e607916477df1770f4b94662507e744.html">crash</a></li><li class="navelem"><a class="el" href="a00365.html">LumexCrashHandler.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_0355cb929a8769565a0594efea203022.html">circular_buffer</a></li><li class="navelem"><a class="el" href="a00365.html">example_circular_buffer_queue.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

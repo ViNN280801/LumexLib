@@ -1,0 +1,17 @@
+<map id="lumex::core::environment::env::is_env_truthy" name="lumex::core::environment::env::is_env_truthy">
+<area shape="rect" id="Node000001" title="Checks whether an environment variable is &quot;truthy&quot; (enabled)." alt="" coords="5,77,196,117"/>
+<area shape="rect" id="Node000002" href="$a02599.html#a912f81b65b63e21ed82800b08faf7968" title="Static convenience method to check whether an environment variable is truthy (enabled)." alt="" coords="244,69,436,124"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="196,94,230,94,230,99,196,99"/>
+<area shape="rect" id="Node000003" href="$a02599.html#a8773983c01d39e03732541958672fb84" title="Provides the single, globally accessible instance of lumex_environment." alt="" coords="507,29,699,84"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="436,79,492,71,493,76,437,85"/>
+<area shape="rect" id="Node000004" href="$a02599.html#ae2d2cea9826e834a647332598a7cc024" title="Checks whether an environment variable is &quot;truthy&quot; (enabled)." alt="" coords="484,108,721,163"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="437,108,471,113,470,118,436,113"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="552,29,552,19,561,10,578,5,603,3,632,6,649,14,646,18,631,11,603,8,579,10,564,15,557,21,557,29"/>
+<area shape="rect" id="Node000005" href="$a02599.html#a96d15dad7b6ca2fa7c910cd5fed9497d" title="Retrieves the value of an environment variable, providing a default fallback." alt="" coords="769,108,991,163"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="721,133,756,133,756,138,721,138"/>
+<area shape="rect" id="Node000006" href="$a02599.html#a7fbb25c5cfa51fc3427bb29df4cb7e6e" title="Retrieves the value of a specified environment variable in a thread&#45;safe manner." alt="" coords="1039,56,1240,111"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="990,111,1025,104,1026,109,991,116"/>
+<area shape="rect" id="Node000007" href="$a02603.html#a425467e8560cb446b98a4e8b50a14427" title="Retrieves the variable&#39;s value or a specified fallback value if the operation failed." alt="" coords="1043,159,1235,213"/>
+<area shape="poly" id="edge7_Node000005_Node000007" title=" " alt="" coords="991,154,1030,162,1029,167,990,160"/>
+<area shape="poly" id="edge8_Node000007_Node000007" title=" " alt="" coords="1089,159,1089,148,1098,140,1115,134,1139,132,1168,135,1185,143,1183,148,1167,140,1139,137,1116,139,1101,144,1094,150,1094,159"/>
+</map>

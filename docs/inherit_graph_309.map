@@ -1,0 +1,15 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" href="$a03231.html" title=" " alt="" coords="17,77,192,132"/>
+<area shape="rect" id="Node000001" href="$a03219.html" title=" " alt="" coords="259,5,475,89"/>
+<area shape="poly" id="edge337_Node000000_Node000001" title=" " alt="" coords="205,80,258,68,259,74,206,85"/>
+<area shape="rect" id="Node000003" href="$a03219.html" title=" " alt="" coords="252,113,481,168"/>
+<area shape="poly" id="edge338_Node000000_Node000003" title=" " alt="" coords="206,116,252,122,251,128,206,121"/>
+<area shape="rect" id="Node000005" href="$a03219.html" title="Base class of objects that hazard pointers protect ([saferecl.hp.base])." alt="" coords="277,192,457,247"/>
+<area shape="poly" id="edge340_Node000000_Node000005" title=" " alt="" coords="192,136,205,142,229,160,253,177,280,189,278,194,251,182,226,164,203,147,190,140"/>
+<area shape="rect" id="Node000004" href="$a01939.html" title="One published value of the lock&#45;free engine: a retire node and an immutable smart pointer." alt="" coords="529,113,719,168"/>
+<area shape="poly" id="edge339_Node000003_Node000004" title=" " alt="" coords="495,138,529,138,529,143,495,143"/>
+<area shape="rect" id="Node000002" href="$a03223.html" title=" " alt="" coords="5,157,204,197"/>
+<area shape="poly" id="edge341_Node000002_Node000001" title=" " alt="" coords="187,149,203,141,227,121,250,99,269,87,272,92,254,103,230,125,205,146,190,154"/>
+<area shape="poly" id="edge342_Node000002_Node000003" title=" " alt="" coords="217,159,252,154,252,159,218,164"/>
+<area shape="poly" id="edge343_Node000002_Node000005" title=" " alt="" coords="218,192,277,202,276,207,217,198"/>
+</map>

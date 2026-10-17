@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::expected::error::detail::swap_adl Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a01534.html',''); initResizable(true); });
+$(function(){initNavTree('a01531.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,22 +103,32 @@ $(function(){initNavTree('a01534.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::applied::hardware::caps::HardwareCapabilities Member List</div></div>
+  <div class="summary">
+<a href="#nested-classes">Classes</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::expected::error::detail::swap_adl Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>This is the complete list of members for <a class="el" href="a01534.html">lumex::applied::hardware::caps::HardwareCapabilities</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a01534.html#a3eaf2f4c04de9dfd7a0692f22f8c0b41">apply_optimal_rendering_settings</a>()</td><td class="entry"><a class="el" href="a01534.html">lumex::applied::hardware::caps::HardwareCapabilities</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01534.html#af3c48849b42dbcc0651429190b4a86b9">detect_hardware</a>()</td><td class="entry"><a class="el" href="a01534.html">lumex::applied::hardware::caps::HardwareCapabilities</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01534.html#ae7ff4b9ce7d8a1f9749c1f01a0e2d182">estimate_cpu_generation</a>(std::string const &amp;cpu_name)</td><td class="entry"><a class="el" href="a01534.html">lumex::applied::hardware::caps::HardwareCapabilities</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01534.html#a2947a856c7b322f8ed0f3135d34b389f">is_old_cpu</a>(std::string const &amp;cpu_name)</td><td class="entry"><a class="el" href="a01534.html">lumex::applied::hardware::caps::HardwareCapabilities</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01534.html#abe50368bd4ba1088c99e329d0fc5deb4">should_use_software_rendering</a>()</td><td class="entry"><a class="el" href="a01534.html">lumex::applied::hardware::caps::HardwareCapabilities</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-</table></div><!-- contents -->
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02671.html">adl_nothrow_impl</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02675.html">adl_nothrow_impl&lt; T, true &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02663.html">adl_swappable_impl</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02667.html">adl_swappable_impl&lt; T, lumex::core::utility::traits::meta::void_t&lt; decltype(swap(std::declval&lt; T &amp; &gt;(), std::declval&lt; T &amp; &gt;()))&gt; &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02679.html">std_swap_fallback</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <code>std::swap</code> fallback and its Constraints: the type is MoveConstructible and MoveAssignable (the C++17 signature of <code>std::swap</code>). Spelled out because below C++17 MSVC's <code>std::swap</code> carries no constraints, so the swap expression alone would report a <code>const</code> type, or one with a deleted assignment, as swappable.  <a href="a02679.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01528.html">expected</a></li><li class="navelem"><a class="el" href="a01529.html">error</a></li><li class="navelem"><a class="el" href="a01530.html">detail</a></li><li class="navelem"><a class="el" href="a01531.html">swap_adl</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

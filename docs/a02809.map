@@ -1,0 +1,5 @@
+<map id="lumex::core::expected::result::detail::invoke_detail::is_pointer_object&lt; Class, Object &gt;" name="lumex::core::expected::result::detail::invoke_detail::is_pointer_object&lt; Class, Object &gt;">
+<area shape="rect" id="Node000001" title="The object operand is neither: it is dereferenced (a pointer)." alt="" coords="283,13,468,82"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,235,89"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="248,45,282,45,282,50,248,50"/>
+</map>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: example_optional_literal.cpp File Reference</title>
+<title>LumexLib: LumexAtomicSharedPtr.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,48 +104,160 @@ $(function(){initNavTree('a00806.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">example_optional_literal.cpp File Reference</div></div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#typedef-members">Typedefs</a>  </div>
+  <div class="headertitle"><div class="title">LumexAtomicSharedPtr.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;iostream&gt;</code><br />
-<code>#include &lt;type_traits&gt;</code><br />
-<code>#include &quot;<a class="el" href="a01214_source.html">lumex/core/optional/LumexOptional</a>&quot;</code><br />
+
+<p><code><a class="el" href="a00275.html#a95edeffb6728b143aa58a91608d059ac" title="The common name: std::atomic&lt;std::shared_ptr&lt;T&gt;&gt; from C++11 on.">atomic_shared_ptr</a>&lt;T&gt;</code> and its engines (<code>atomic_shared_ptr_lock_free</code>, <code>atomic_shared_ptr_lock_based</code>, <code>atomic_shared_ptr_std_backed</code>, and <code>atomic_shared_ptr_lock_free_split_count</code> over <code><a class="el" href="a03863.html" title="Shared ownership of an object ([util.smartptr.shared]).">lumex::core::smart_ptr::shared_ptr</a></code>): the interface of the C++20 <code>std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;</code> for C++11 and later.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &lt;atomic&gt;</code><br />
+<code>#include &lt;cstddef&gt;</code><br />
+<code>#include &lt;memory&gt;</code><br />
+<code>#include &lt;utility&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00794_source.html">lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrCell.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00791_source.html">lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrConfig.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01088_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01127_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for example_optional_literal.cpp:</div>
+Include dependency graph for LumexAtomicSharedPtr.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00807.png" border="0" usemap="#aexample__optional__literal_8cpp" alt=""/></div>
+<div class="center"><img src="a00807.png" border="0" usemap="#aLumexAtomicSharedPtr_8hpp" alt=""/></div>
+<map name="aLumexAtomicSharedPtr_8hpp" id="aLumexAtomicSharedPtr_8hpp">
+<area shape="rect" title="atomic_shared_ptr&lt;T&gt; and its engines (atomic_shared_ptr_lock_free, atomic_shared_ptr_lock_based,..." alt="" coords="113,5,315,31"/>
+<area shape="rect" title=" " alt="" coords="175,350,242,375"/>
+<area shape="poly" title=" " alt="" coords="190,33,147,57,116,81,102,102,94,120,86,167,75,234,79,262,95,293,109,310,126,324,164,345,161,350,123,329,105,314,90,296,74,263,70,234,81,166,89,119,97,99,112,77,144,53,187,29"/>
+<area shape="rect" title=" " alt="" coords="5,350,76,375"/>
+<area shape="poly" title=" " alt="" coords="163,33,123,52,105,64,89,80,70,111,56,145,47,181,41,217,37,284,40,336,35,337,32,284,35,216,41,180,51,143,65,109,85,77,101,60,120,47,161,28"/>
+<area shape="rect" title=" " alt="" coords="115,262,193,287"/>
+<area shape="poly" title=" " alt="" coords="200,33,145,87,116,125,95,168,91,187,95,206,109,230,128,251,124,254,105,233,90,208,85,187,90,166,112,122,141,84,196,29"/>
+<area shape="rect" title=" " alt="" coords="105,174,165,199"/>
+<area shape="poly" title=" " alt="" coords="211,32,150,163,145,160,206,30"/>
+<area shape="rect" href="a00794.html" title="Storage and operations behind atomic_shared_ptr_lock_based, atomic_weak_ptr_lock_based and the *_std_..." alt="" coords="299,79,550,119"/>
+<area shape="poly" title=" " alt="" coords="248,28,360,71,358,76,246,33"/>
+<area shape="rect" href="a00791.html" title="The one place that decides which engines exist and which one the common names atomic_shared_ptr and a..." alt="" coords="291,167,558,207"/>
+<area shape="poly" title=" " alt="" coords="223,30,249,72,268,95,289,117,322,140,358,159,356,163,320,144,286,121,264,99,245,75,219,33"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="1251,343,1465,383"/>
+<area shape="poly" title=" " alt="" coords="316,20,498,37,612,53,736,75,864,105,994,144,1121,193,1241,252,1292,290,1334,330,1330,334,1289,294,1238,257,1119,198,992,149,863,110,735,80,611,58,498,42,315,25"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="937,255,1126,295"/>
+<area shape="poly" title=" " alt="" coords="316,27,429,45,565,73,710,112,782,136,851,164,927,204,992,245,990,249,925,209,849,169,780,141,708,117,563,78,428,50,315,32"/>
+<area shape="poly" title=" " alt="" coords="341,121,282,141,223,169,200,188,178,209,156,222,136,229,120,238,106,256,100,275,106,293,117,309,131,322,164,343,161,347,128,327,113,313,101,296,94,275,101,253,117,234,134,224,154,217,175,205,197,184,221,164,280,136,340,116"/>
+<area shape="poly" title=" " alt="" coords="374,121,328,142,281,169,224,212,178,254,175,250,220,208,278,164,325,138,372,116"/>
+<area shape="poly" title=" " alt="" coords="346,121,185,169,179,172,177,166,184,164,345,116"/>
+<area shape="rect" title=" " alt="" coords="765,350,831,375"/>
+<area shape="poly" title=" " alt="" coords="551,109,722,134,789,149,812,156,825,165,838,185,844,208,846,231,843,256,831,301,814,339,809,337,826,300,838,255,841,231,839,209,833,187,821,169,810,161,788,154,721,139,550,115"/>
+<area shape="poly" title=" " alt="" coords="427,119,427,153,422,153,422,119"/>
+<area shape="rect" href="a00851.html" title="Blocking wait for a change of a 32&#45;bit atomic word, and the wake&#45;up that ends it, from C++11 on." alt="" coords="582,255,761,295"/>
+<area shape="poly" title=" " alt="" coords="481,116,527,137,572,165,615,203,650,242,646,246,611,207,568,169,524,142,479,121"/>
+<area shape="poly" title=" " alt="" coords="550,106,685,123,847,151,1019,193,1104,220,1186,252,1260,291,1321,332,1319,337,1257,296,1184,257,1102,225,1017,198,845,156,684,128,550,111"/>
+<area shape="rect" href="a00848.html" title="A lock held in one 32&#45;bit word: one bit marks it as taken, a second bit records that a thread sleeps ..." alt="" coords="633,167,811,207"/>
+<area shape="poly" title=" " alt="" coords="493,116,642,160,640,165,492,121"/>
+<area shape="poly" title=" " alt="" coords="340,209,296,229,257,257,242,275,231,296,216,338,211,336,226,294,238,272,253,253,293,224,338,204"/>
+<area shape="poly" title=" " alt="" coords="361,209,212,257,204,260,203,255,210,252,359,204"/>
+<area shape="rect" href="a00830.html" title="Detection macros of the 128&#45;bit compare&#45;and&#45;swap layer: whether the layer exists on this target and w..." alt="" coords="267,255,457,295"/>
+<area shape="poly" title=" " alt="" coords="412,209,386,245,382,242,408,206"/>
+<area shape="poly" title=" " alt="" coords="482,204,603,248,602,253,480,209"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="856,343,1111,383"/>
+<area shape="poly" title=" " alt="" coords="559,201,665,222,774,252,864,291,941,333,938,338,862,296,772,257,664,227,558,206"/>
+<area shape="poly" title=" " alt="" coords="582,289,402,316,316,331,255,345,248,347,246,342,253,340,315,326,401,311,582,284"/>
+<area shape="poly" title=" " alt="" coords="582,289,164,345,90,357,89,352,163,340,581,283"/>
+<area shape="poly" title=" " alt="" coords="702,293,770,340,767,344,699,297"/>
+<area shape="rect" title=" " alt="" coords="517,350,573,375"/>
+<area shape="poly" title=" " alt="" coords="643,297,576,344,573,340,640,293"/>
+<area shape="rect" title=" " alt="" coords="597,350,740,375"/>
+<area shape="poly" title=" " alt="" coords="673,295,672,336,667,336,668,295"/>
+<area shape="rect" title=" " alt="" coords="354,350,418,375"/>
+<area shape="poly" title=" " alt="" coords="591,297,513,319,432,345,427,347,425,342,430,340,512,314,589,292"/>
+<area shape="rect" title=" " alt="" coords="443,350,492,375"/>
+<area shape="poly" title=" " alt="" coords="619,297,506,345,504,346,501,341,504,340,617,292"/>
+<area shape="rect" title=" " alt="" coords="266,350,330,375"/>
+<area shape="poly" title=" " alt="" coords="582,295,343,345,337,347,335,342,341,340,581,289"/>
+<area shape="poly" title=" " alt="" coords="743,292,899,336,898,341,742,297"/>
+<area shape="poly" title=" " alt="" coords="761,281,975,306,1238,340,1238,345,974,311,761,287"/>
+<area shape="poly" title=" " alt="" coords="633,209,573,229,514,257,501,267,493,277,484,287,470,297,412,319,364,327,315,331,255,345,249,347,247,342,253,340,314,326,363,321,411,314,467,292,480,283,489,273,498,263,511,252,571,224,632,204"/>
+<area shape="poly" title=" " alt="" coords="742,205,760,227,775,254,790,296,797,335,792,336,784,297,770,256,755,230,738,208"/>
+<area shape="poly" title=" " alt="" coords="713,208,692,244,687,241,708,206"/>
+<area shape="poly" title=" " alt="" coords="672,209,571,257,543,278,514,297,467,315,429,324,391,331,343,345,338,347,336,342,341,340,389,326,428,319,466,310,511,292,540,273,569,252,670,204"/>
+<area shape="poly" title=" " alt="" coords="812,194,993,219,1078,235,1139,252,1157,262,1169,271,1197,292,1290,335,1288,340,1194,297,1166,276,1154,266,1137,257,1077,240,992,224,811,199"/>
+<area shape="poly" title=" " alt="" coords="793,204,948,248,946,253,792,209"/>
+<area shape="poly" title=" " alt="" coords="1023,296,1003,332,998,329,1018,294"/>
+<area shape="poly" title=" " alt="" coords="1107,292,1270,336,1269,341,1105,297"/>
+<area shape="rect" title=" " alt="" coords="1135,350,1227,375"/>
+<area shape="poly" title=" " alt="" coords="1067,293,1149,341,1146,345,1064,297"/>
+</map>
 </div>
-</div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
-<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00808.png" border="0" usemap="#aLumexAtomicSharedPtr_8hppdep" alt=""/></div>
+<map name="aLumexAtomicSharedPtr_8hppdep" id="aLumexAtomicSharedPtr_8hppdep">
+<area shape="rect" title="atomic_shared_ptr&lt;T&gt; and its engines (atomic_shared_ptr_lock_free, atomic_shared_ptr_lock_based,..." alt="" coords="194,5,397,31"/>
+<area shape="rect" href="a01352.html" title="Atomic module: atomic_shared_ptr&lt;T&gt; and atomic_weak_ptr&lt;T&gt;, the interface of the C++20 std::atomic&lt;st..." alt="" coords="239,79,351,104"/>
+<area shape="poly" title=" " alt="" coords="298,44,298,78,293,78,293,44"/>
+<area shape="rect" href="a00275.html" title=" " alt="" coords="5,152,183,192"/>
+<area shape="poly" title=" " alt="" coords="252,112,145,154,143,149,250,107"/>
+<area shape="rect" href="a00272.html" title=" " alt="" coords="207,152,383,192"/>
+<area shape="poly" title=" " alt="" coords="298,118,298,152,293,152,293,118"/>
+<area shape="rect" href="a00278.html" title=" " alt="" coords="408,152,575,192"/>
+<area shape="poly" title=" " alt="" coords="340,107,443,149,441,154,338,112"/>
+</map>
+</div>
+</div>
+<p><a href="a00806_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01923.html">lumex::core::atomic::smart_ptr::table_wait::Detail::basic_atomic_shared_ptr&lt; T, Cell &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Atomic <code>std::shared_ptr&lt;T&gt;</code>, as <code>std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;</code>.  <a href="a01923.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01927.html">lumex::core::atomic::smart_ptr::table_wait::atomic_shared_ptr_lock_based&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Atomic <code>std::shared_ptr&lt;T&gt;</code> over a lock (the lock-based engine).  <a href="a01927.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01425.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01488.html">lumex::core</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01489.html">lumex::core::atomic</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01490.html">lumex::core::atomic::smart_ptr</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01491.html">lumex::core::atomic::smart_ptr::table_wait</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01492.html">lumex::core::atomic::smart_ptr::table_wait::Detail</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a95edeffb6728b143aa58a91608d059ac" id="r_a95edeffb6728b143aa58a91608d059ac"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:a95edeffb6728b143aa58a91608d059ac"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01491.html#a95edeffb6728b143aa58a91608d059ac">lumex::core::atomic::smart_ptr::table_wait::atomic_shared_ptr</a> = <a class="el" href="a01927.html">atomic_shared_ptr_lock_based</a>&lt;T&gt;</td></tr>
+<tr class="memdesc:a95edeffb6728b143aa58a91608d059ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">The common name: <code>std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;</code> from C++11 on.  <br /></td></tr>
+<tr class="separator:a95edeffb6728b143aa58a91608d059ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int main </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-</div><!-- contents -->
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p><code><a class="el" href="a00275.html#a95edeffb6728b143aa58a91608d059ac" title="The common name: std::atomic&lt;std::shared_ptr&lt;T&gt;&gt; from C++11 on.">atomic_shared_ptr</a>&lt;T&gt;</code> and its engines (<code>atomic_shared_ptr_lock_free</code>, <code>atomic_shared_ptr_lock_based</code>, <code>atomic_shared_ptr_std_backed</code>, and <code>atomic_shared_ptr_lock_free_split_count</code> over <code><a class="el" href="a03863.html" title="Shared ownership of an object ([util.smartptr.shared]).">lumex::core::smart_ptr::shared_ptr</a></code>): the interface of the C++20 <code>std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;</code> for C++11 and later. </p>
+<p>Every engine is a class template of its own over the same interface; <code><a class="el" href="a00275.html#a95edeffb6728b143aa58a91608d059ac" title="The common name: std::atomic&lt;std::shared_ptr&lt;T&gt;&gt; from C++11 on.">atomic_shared_ptr</a>&lt;T&gt;</code> is an alias template of one of them (see <code><a class="el" href="a00791.html" title="The one place that decides which engines exist and which one the common names atomic_shared_ptr and a...">lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrConfig.hpp</a></code>): the lock-free engine where it exists, the lock-based one otherwise, never the wrapper of the standard library's type. The member functions, their default memory orders, <code>noexcept</code> and return types follow [util.smartptr.atomic.shared], including LWG 3661 (<code>constexpr</code> construction from <code>nullptr</code>, so the object can be <code>constinit</code>) and LWG 3893 (<code>operator= (nullptr_t)</code>).</p>
+<p><code>wait (old)</code> returns once the stored value is not equivalent to <code>old</code> (a different stored pointer, or a different owner) and a <code>notify_one</code> or <code>notify_all</code> has been called after the change. As in the standard, <code>store</code>, <code>exchange</code> and <code>compare_exchange_*</code> do not wake waiting threads by themselves.</p>
+<p>The lock-based engine is not lock-free (<code>is_always_lock_free</code> and <code>is_lock_free ()</code> are false) and treats every memory order as <code>seq_cst</code>; the lock-free engine reports true for both.</p>
+<p>The templates are declared only in <code><a class="el" href="a01490.html">lumex::core::atomic::smart_ptr</a></code>; nothing is added to the global namespace.</p>
+<div class="fragment"><div class="line"><span class="keyword">using </span><a class="code hl_typedef" href="a01491.html#a95edeffb6728b143aa58a91608d059ac">lumex::core::atomic::smart_ptr::atomic_shared_ptr</a>;</div>
+<div class="line"> </div>
+<div class="line"><a class="code hl_typedef" href="a00275.html#a95edeffb6728b143aa58a91608d059ac">atomic_shared_ptr&lt;Config&gt;</a> current (std::make_shared&lt;Config&gt; ());</div>
+<div class="line">std::shared_ptr&lt;Config&gt; snapshot = current.load ();   <span class="comment">// reader</span></div>
+<div class="line">current.store (std::make_shared&lt;Config&gt; (next));      <span class="comment">// writer</span></div>
+<div class="line">current.notify_all ();</div>
+<div class="ttc" id="aa00275_html_a95edeffb6728b143aa58a91608d059ac"><div class="ttname"><a href="a00275.html#a95edeffb6728b143aa58a91608d059ac">atomic_shared_ptr</a></div><div class="ttdeci">atomic_shared_ptr_lock_based&lt; T &gt; atomic_shared_ptr</div><div class="ttdoc">The common name: std::atomic&lt;std::shared_ptr&lt;T&gt;&gt; from C++11 on.</div><div class="ttdef"><b>Definition</b> LumexAtomicSharedPtr.hpp:609</div></div>
+<div class="ttc" id="aa01491_html_a95edeffb6728b143aa58a91608d059ac"><div class="ttname"><a href="a01491.html#a95edeffb6728b143aa58a91608d059ac">lumex::core::atomic::smart_ptr::table_wait::atomic_shared_ptr</a></div><div class="ttdeci">atomic_shared_ptr_lock_based&lt; T &gt; atomic_shared_ptr</div><div class="ttdoc">The common name: std::atomic&lt;std::shared_ptr&lt;T&gt;&gt; from C++11 on.</div><div class="ttdef"><b>Definition</b> LumexAtomicSharedPtr.hpp:609</div></div>
+</div><!-- fragment --> </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_240a0f5524b67bc4e0e47160544eecb7.html">optional</a></li><li class="navelem"><a class="el" href="a00806.html">example_optional_literal.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_46588a2def099f5c90ce8dff319725b2.html">atomic</a></li><li class="navelem"><a class="el" href="dir_554c46647e80ff154b2b91be60b0bc34.html">smart_ptr</a></li><li class="navelem"><a class="el" href="a00806.html">LumexAtomicSharedPtr.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

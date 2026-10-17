@@ -1,9 +1,0 @@
-digraph "Graphical Class Hierarchy"
-{
- // LATEX_PDF_SIZE
-  bgcolor="transparent";
-  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
-  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
-  rankdir="LR";
-  Node0 [id="Node000000",label="lumex::core::expected\l::result::detail::storage\l::expected_union\< V, E,\l TrivialDestructor \>",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a02654.html",tooltip="The anonymous union of [expected.object.general] (union { remove_cv_t<T> val; E unex; }..."];
-}

@@ -1,0 +1,29 @@
+<map id="lumex::xml::utility::integer_to_string" name="lumex::xml::utility::integer_to_string">
+<area shape="rect" id="Node000001" title=" " alt="" coords="467,274,609,314"/>
+<area shape="rect" id="Node000002" href="$a01671.html#a3b52cfdd683b3e968962bc2d11a111e9" title=" " alt="" coords="272,274,419,314"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="453,297,419,297,419,291,453,291"/>
+<area shape="rect" id="Node000003" href="$a05187.html#a4a46464d906be58c903b12338afc3524" title="Sets the text content from an integer, converting it to a string." alt="" coords="5,5,224,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="336,261,323,212,301,153,268,94,247,67,222,44,204,33,207,29,226,40,251,63,272,91,306,151,328,211,342,260"/>
+<area shape="rect" id="Node000004" href="$a05187.html#a7a17e838991eeb6f210af248983ff64e" title="Sets the text content from a long long integer, converting it to a string." alt="" coords="5,55,224,80"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="332,262,317,222,293,176,262,131,222,93,202,82,205,78,226,89,266,128,298,173,321,220,337,260"/>
+<area shape="rect" id="Node000005" href="$a05187.html#aa7d46e1943e76f380c67df8c490ac56f" title="Sets the text content from a long integer, converting it to a string." alt="" coords="5,104,224,129"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="327,263,285,201,256,169,223,143,199,132,202,127,225,138,260,165,289,198,331,260"/>
+<area shape="rect" id="Node000006" href="$a05187.html#a38fe0f8000f84b589be4ef7b12c92922" title="Sets the text content from an unsigned integer, converting it to a string." alt="" coords="5,153,224,179"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="316,266,275,227,223,192,194,181,195,176,225,188,278,223,320,262"/>
+<area shape="rect" id="Node000007" href="$a05187.html#afcf1b736b71d34c4f842e818e69c26bc" title="Sets the text content from an unsigned long long integer, converting it to a string." alt="" coords="5,203,224,228"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="293,271,223,242,182,231,184,225,225,237,295,266"/>
+<area shape="rect" id="Node000008" href="$a05187.html#a9208f3d5535dd8fca6386d0a61900ba3" title="Sets the text content from an unsigned long integer, converting it to a string." alt="" coords="5,252,224,277"/>
+<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="258,286,214,280,215,275,259,280"/>
+<area shape="rect" id="Node000009" href="$a05115.html#aad555329398ae610ee23350565f200a1" title="Sets the attribute&#39;s value after converting an int to its string representation." alt="" coords="23,302,207,342"/>
+<area shape="poly" id="edge8_Node000002_Node000009" title=" " alt="" coords="259,307,207,313,207,308,258,302"/>
+<area shape="rect" id="Node000010" href="$a05115.html#a4b67bd8b4cbae360fe84ff68dec8ab65" title="Sets the attribute&#39;s value after converting a long long to its string representation." alt="" coords="23,366,207,406"/>
+<area shape="poly" id="edge9_Node000002_Node000010" title=" " alt="" coords="298,323,225,356,191,368,189,363,223,352,296,318"/>
+<area shape="rect" id="Node000011" href="$a05115.html#a53899f006138cd6d4411676c5e41e459" title="Sets the attribute&#39;s value after converting a long to its string representation." alt="" coords="23,430,207,470"/>
+<area shape="poly" id="edge10_Node000002_Node000011" title=" " alt="" coords="325,327,282,375,255,399,225,420,201,432,198,428,223,416,252,395,278,371,321,323"/>
+<area shape="rect" id="Node000012" href="$a05115.html#a06d50fc8a8030db9165babb92f957b4f" title="Sets the attribute&#39;s value after converting an unsigned int to its string representation." alt="" coords="23,494,207,534"/>
+<area shape="poly" id="edge11_Node000002_Node000012" title=" " alt="" coords="335,328,318,365,294,407,263,448,226,484,205,496,202,492,222,480,259,445,290,404,313,362,330,326"/>
+<area shape="rect" id="Node000013" href="$a05115.html#a7fdcade807a5dafa365f56bdc1f95901" title="Sets the attribute&#39;s value after converting an unsigned long long to its string representation." alt="" coords="23,558,207,598"/>
+<area shape="poly" id="edge12_Node000002_Node000013" title=" " alt="" coords="341,328,327,377,305,436,271,496,250,524,226,548,208,560,205,556,222,544,246,520,267,493,300,434,322,375,336,326"/>
+<area shape="rect" id="Node000014" href="$a05115.html#aadf024a8f77fbb6565f2199163c2a6bc" title="Sets the attribute&#39;s value after converting an unsigned long to its string representation." alt="" coords="23,622,207,662"/>
+<area shape="poly" id="edge13_Node000002_Node000014" title=" " alt="" coords="345,328,335,389,314,465,298,505,279,544,255,580,226,612,209,624,205,620,222,608,251,577,274,541,294,503,309,463,329,387,339,327"/>
+</map>

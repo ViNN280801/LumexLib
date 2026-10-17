@@ -1,0 +1,5 @@
+<map id="lumex::core::atomic::smart_ptr::table_wait::Detail::smart_ptr_traits_t&lt;::lumex::core::smart_ptr::shared_ptr&lt; T &gt; &gt;::is_plain_empty" name="lumex::core::atomic::smart_ptr::table_wait::Detail::smart_ptr_traits_t&lt;::lumex::core::smart_ptr::shared_ptr&lt; T &gt; &gt;::is_plain_empty">
+<area shape="rect" id="Node000001" title="True for a pointer that owns nothing and stores a null pointer." alt="" coords="5,5,264,89"/>
+<area shape="rect" id="Node000002" href="$a03899.html#ab5a9909429775aef7fd4ae60255e2b1e" title="The control block of a shared pointer (null when it has none)." alt="" coords="312,20,457,75"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="264,45,299,45,299,50,264,50"/>
+</map>

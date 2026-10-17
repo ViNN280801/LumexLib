@@ -1,0 +1,9 @@
+<map id="lumex::core::string::utility::stringify" name="lumex::core::string::utility::stringify">
+<area shape="rect" id="Node000001" title="No arguments: an empty string, without creating a stream." alt="" coords="263,85,407,125"/>
+<area shape="rect" id="Node000002" href="$a01592.html#a02a37787ed4cea8acf82cb81aced1f04" title="Lightweight alternative: captures only the immediate caller." alt="" coords="25,5,195,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="258,83,195,63,196,57,260,78"/>
+<area shape="rect" id="Node000003" href="$a01592.html#a0071950e460324a9a1045bd73bfe1759" title="Capture current call stack in a formatted string." alt="" coords="5,85,215,125"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="249,107,215,107,215,102,249,102"/>
+<area shape="rect" id="Node000004" href="$a01570.html#affeacca04aee3e02bb2cbc36fac533db" title="Same as stringify, kept under its name: it was the variant of stringify that could be detected with S..." alt="" coords="34,149,186,189"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="251,131,181,151,179,146,250,126"/>
+</map>

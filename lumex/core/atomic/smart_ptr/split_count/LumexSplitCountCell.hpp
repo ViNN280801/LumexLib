@@ -90,9 +90,17 @@
  *   the word's unit (`store`: one read-modify-write) or before the hand-over
  *   (`exchange`).
  * A compare-exchange does not pin: `expected` owns the block. It deposits the
- * ticks it sees (no reserve), swaps, and withdraws the deposit if the swap
- * fails. A compare-exchange whose `expected` does not fit the word compares a
- * holder word, which it first pins like a loader.
+ * `L` ticks it sees and the reserve `k` of `Policy::cas_reserve ()` (nothing
+ * for a word without ticks), BEFORE the swap, and swaps. On success the
+ * surplus (`deposited - L`) goes back with the drop of the old word's unit in
+ * one read-modify-write. On a failed swap the strong form that finds an
+ * equivalent value (the same block and offset with other ticks) keeps the
+ * deposit, tops it up to `L + k` when the ticks outgrew it, and swaps again;
+ * any other failure, and every failure of the weak form, withdraws the whole
+ * deposit. With `cas_reserve () == 0` it deposits exactly `L` and withdraws on
+ * every failure. A compare-exchange whose `expected` does not fit the word
+ * compares a holder word, which it first pins like a loader and then deposits
+ * for like a store (`L - 1 + k` when the pinned word had ticks).
  *
  * **Holders (HG).** A pointer whose offset from the anchor does not fit in 40
  * bits is stored through a holder: a block (`ctl_holder`, `ctl_weak_holder`)
@@ -140,10 +148,13 @@
  * compare-and-swap is `relaxed`, except the swap of a writer, whose failure
  * value is the decision value of the rule above (`acquire`; a plain
  * `relaxed` failure order would be a data race in the Relacy models). The
- * counters of the block bring their own orders (`LumexSmartPtrCounter.hpp`).
- * The hardware backends of the word ignore the orders (every locked
- * instruction is a full barrier); they matter for the built-in backend that
- * ThreadSanitizer checks.
+ * compare-exchange of a block word keeps its `relaxed` failure order even
+ * where the strong form swaps again on the failure value with the deposit it
+ * kept: it takes no payment decision on that value, and the next swap compares
+ * the whole word again. The counters of the block bring their own orders
+ * (`LumexSmartPtrCounter.hpp`). The hardware backends of the word ignore the
+ * orders (every locked instruction is a full barrier); they matter for the
+ * built-in backend that ThreadSanitizer checks.
  *
  * **use_count and the linearization rule.** The linearization point of a
  * store, an exchange and a successful compare-exchange is its successful
@@ -157,11 +168,15 @@
  *   that is an owner and reads 1 is the sole owner;
  * - G2, bounded above: `use_count () == owners` except for (i) a store or a
  *   successful compare-exchange between its swap and its drop (+1, the
- *   lagging decrement; `exchange` has no such window), (ii) a writer between
- *   its deposit and the end of its call (+ other ticks + `k`), (iii) a unit
- *   deposited for a loader that has already counted itself, until it pays
- *   (+1). This holds for the owner of an alias stored through a holder as
- *   well;
+ *   lagging decrement; `exchange` has no such window), (ii) a writer, a
+ *   compare-exchange included, between its deposit and the end of its call
+ *   (+ other ticks + `k`; a weak compare-exchange that fails, and a strong
+ *   one that fails on another value, show the whole deposit, the ticks they
+ *   saw plus `k`, until the withdraw; a strong one that keeps its deposit
+ *   across an equivalent failure shows the most ticks it saw plus `k`),
+ *   (iii) a unit deposited for a loader that has already
+ *   counted itself, until it pays (+1). This holds for the owner of an alias
+ *   stored through a holder as well;
  * - exact when nothing is in flight. It never waits;
  * - `ext` is bounded by `W * (P + k)` for `W` writers that have deposited and
  *   not yet returned or paid and `P` pins: the outstanding deposit of one
@@ -861,10 +876,37 @@ private:
       }
   }
 
+  /// The ticks of a block word, 0 for an empty one.
+  static std::uint32_t
+  cas_ticks (split_value_t w) LUMEX_NOEXCEPT
+  {
+    return word::is_empty (w) ? 0u : word::ticks_of (w);
+  }
+
+  /// Whether a successful compare-exchange deposits a reserve at all. It is a
+  /// constant of the policy (`Policy::cas_reserve ()` is a constant
+  /// expression) and selects one of the two overloads of `compare_exchange`
+  /// below: the one without a reserve is the code of the engine as it was, and
+  /// the other one is not instantiated for a policy that switches the reserve
+  /// off.
+  typedef std::integral_constant<bool, (Policy::cas_reserve () != 0u)>
+      cas_reserve_tag;
+
   bool
   compare_exchange (Pointer &expected, Pointer &desired, bool weak,
                     std::memory_order success,
                     std::memory_order failure) LUMEX_NOEXCEPT
+  {
+    return compare_exchange (expected, desired, weak, success, failure,
+                             cas_reserve_tag ());
+  }
+
+  /// S8 to S11 without the reserve of the compare-exchange: `expected` owns
+  /// its block, so no pin; the swap deposits exactly the ticks it sees.
+  bool
+  compare_exchange (Pointer &expected, Pointer &desired, bool weak,
+                    std::memory_order success, std::memory_order failure,
+                    std::false_type) LUMEX_NOEXCEPT
   {
     ::lumex::core::atomic::dwcas::require_dwcas ();
     block_type *const expected_block = traits_type::control (expected);
@@ -907,6 +949,96 @@ private:
               }
             withdraw (seen, ticks);
             seen = found;
+            if (!weak)
+              continue;
+          }
+        // Not equivalent, or the one attempt of the weak form failed: the
+        // failure is this load, and a strong form whose value came back
+        // tries again.
+        Pointer current = load (failure);
+        if (!weak && equivalent (current, expected))
+          {
+            Policy::at (split_point_t::cas_read);
+            seen = Policy::guess (word_);
+            continue;
+          }
+        if (built)
+          drop_word (image);
+        expected = std::move (current);
+        return false;
+      }
+  }
+
+  /// S8 to S11 with the reserve of the compare-exchange (the same steps; see
+  /// the file text).
+  bool
+  compare_exchange (Pointer &expected, Pointer &desired, bool weak,
+                    std::memory_order success, std::memory_order failure,
+                    std::true_type) LUMEX_NOEXCEPT
+  {
+    ::lumex::core::atomic::dwcas::require_dwcas ();
+    block_type *const expected_block = traits_type::control (expected);
+    element_type *const expected_stored = traits_type::stored (expected);
+    split_value_t want = word::empty_word (word::address_of (expected_stored));
+    if (expected_block != nullptr)
+      {
+        std::uint64_t const offset
+            = word::address_of (expected_stored)
+              - static_cast<std::uint64_t> (expected_block->anchor ());
+        if (!word::fits (offset))
+          return compare_exchange_holder (expected, desired, weak, success,
+                                          failure);
+        want = word::block_word (expected_block, offset);
+      }
+    bool built = false;
+    split_value_t image = word::empty_word (0u);
+    Policy::at (split_point_t::cas_read);
+    split_value_t seen = Policy::guess (word_);
+    for (;;)
+      {
+        if (word::same_value (seen, want))
+          {
+            if (!built)
+              {
+                image = take_image (desired);
+                built = true;
+              }
+            // S9: no pin, `expected` keeps the block alive. A word with ticks
+            // gets the reserve `k` on top of them; on success the surplus
+            // returns with the drop of the old word's unit; the strong form
+            // that finds the same value with other ticks keeps the deposit,
+            // tops it up to the ticks it now sees plus `k` and swaps again.
+            std::uint32_t const k = Policy::cas_reserve ();
+            std::uint32_t moved = cas_ticks (seen);
+            if (moved != 0u)
+              moved += k;
+            deposit (seen, moved);
+            for (;;)
+              {
+                Policy::at (split_point_t::cas);
+                split_value_t const found = word_.compare_exchange_strong (
+                    seen, image, rmw_order (success),
+                    std::memory_order_relaxed);
+                if (found == seen)
+                  {
+                    drop_word_with_ext (seen, moved - cas_ticks (seen));
+                    return true;
+                  }
+                if (!weak && word::same_value (found, want))
+                  {
+                    std::uint32_t const need = cas_ticks (found);
+                    if (need > moved)
+                      {
+                        deposit (found, need + k - moved);
+                        moved = need + k;
+                      }
+                    seen = found;
+                    continue;
+                  }
+                withdraw (seen, moved);
+                seen = found;
+                break;
+              }
             if (!weak)
               continue;
           }
@@ -980,8 +1112,11 @@ private:
                     image = take_image (desired);
                     built = true;
                   }
+                std::uint32_t const k = Policy::cas_reserve ();
                 split_value_t current = word::with_tick (pinned);
                 std::uint32_t moved = word::ticks_of (pinned);
+                if (k != 0u && moved != 0u)
+                  moved += k;
                 deposit (current, moved);
                 for (;;)
                   {
@@ -1010,8 +1145,8 @@ private:
                     std::uint32_t const need = word::ticks_of (swapped) - 1u;
                     if (need > moved)
                       {
-                        deposit (swapped, need - moved);
-                        moved = need;
+                        deposit (swapped, need + k - moved);
+                        moved = need + k;
                       }
                     current = swapped;
                   }

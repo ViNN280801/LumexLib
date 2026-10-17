@@ -1,0 +1,30 @@
+<map id="main" name="main">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,336,60,361"/>
+<area shape="rect" id="Node000002" href="$a02055.html#afbc5c3841ea20a009a439ae264462ea9" title="Access the newest element (back)." alt="" coords="108,242,315,282"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="49,333,107,298,138,285,140,289,109,303,52,338"/>
+<area shape="rect" id="Node000003" href="$a02055.html#a8d484612f38792175e6101ef13cb1513" title="Checks whether the buffer is empty." alt="" coords="382,264,550,319"/>
+<area shape="poly" id="edge8_Node000001_Node000003" title=" " alt="" coords="60,342,368,302,368,307,61,348"/>
+<area shape="rect" id="Node000004" href="$a02055.html#a783389fe18620fa39870a80f0a7ef984" title="Returns an iterator to the start of the logical sequence." alt="" coords="127,163,295,217"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="35,335,61,284,81,254,106,228,114,222,117,227,110,232,85,257,65,286,40,337"/>
+<area shape="rect" id="Node000005" href="$a02055.html#ac6571834de536bfc578babd7cf320444" title="Returns a const reverse iterator to the start of the reverse sequence." alt="" coords="127,5,295,60"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="32,335,58,200,80,122,92,91,106,70,114,62,118,66,110,73,97,94,85,124,63,201,37,336"/>
+<area shape="rect" id="Node000007" href="$a02055.html#aa356191f89a1849e4e0cb9819aa8eb90" title="Returns a const reverse iterator to the end of the reverse sequence." alt="" coords="127,500,295,555"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="39,360,62,421,83,456,110,487,117,492,114,497,106,491,78,459,57,423,34,362"/>
+<area shape="rect" id="Node000009" href="$a02055.html#a5aca85451470b8c973ad79a8be7897ce" title="Returns an iterator to the end of the logical sequence." alt="" coords="111,357,311,397"/>
+<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="61,350,98,356,97,361,60,356"/>
+<area shape="rect" id="Node000010" href="$a02055.html#a3d9d4aeb03998d6bd83b53ccf46d9905" title="Access the oldest element (front)." alt="" coords="127,84,295,139"/>
+<area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="31,335,37,299,50,249,72,196,87,170,106,148,114,141,118,145,110,152,92,174,77,198,55,251,42,300,37,336"/>
+<area shape="rect" id="Node000011" href="$a02055.html#ac1d61b48a49f08470df6ec9b677b0dc0" title="Removes the oldest element." alt="" coords="127,421,295,476"/>
+<area shape="poly" id="edge12_Node000001_Node000011" title=" " alt="" coords="48,360,75,383,109,406,122,413,119,418,107,411,72,387,44,364"/>
+<area shape="rect" id="Node000012" href="$a02055.html#ab8b530317c0c039c0856ccc14b6e7575" title="Appends a copy of an element." alt="" coords="127,579,295,633"/>
+<area shape="poly" id="edge14_Node000001_Node000012" title=" " alt="" coords="36,361,41,400,52,455,74,514,90,541,110,565,118,572,114,576,106,569,86,544,70,516,47,456,35,401,31,362"/>
+<area shape="rect" id="Node000013" href="$a02055.html#a5ecc4cbf0af26e45311c542a7d3f7e41" title="Returns the current number of elements in the buffer." alt="" coords="110,658,313,698"/>
+<area shape="poly" id="edge15_Node000001_Node000013" title=" " alt="" coords="37,361,45,421,61,506,83,590,96,622,110,644,114,648,110,652,106,648,91,625,78,592,56,508,40,422,32,362"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="315,271,369,277,368,283,315,277"/>
+<area shape="rect" id="Node000006" href="$a02055.html#ae114577451335df228130debe41ccea7" title="Returns a const iterator to the end of the logical sequence." alt="" coords="363,13,569,53"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="295,30,349,30,349,35,295,35"/>
+<area shape="rect" id="Node000008" href="$a02055.html#aa71d4397829b2b302a8823726ddd893d" title="Returns a const iterator to the start of the logical sequence." alt="" coords="382,500,550,555"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="295,525,368,525,368,530,295,530"/>
+<area shape="poly" id="edge11_Node000010_Node000003" title=" " alt="" coords="295,136,316,148,350,172,383,199,436,252,432,256,379,203,347,176,313,152,293,141"/>
+<area shape="poly" id="edge13_Node000011_Node000003" title=" " alt="" coords="289,419,313,406,373,367,424,326,427,330,376,371,316,411,291,423"/>
+</map>

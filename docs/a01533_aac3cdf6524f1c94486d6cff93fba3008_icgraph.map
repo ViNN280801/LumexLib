@@ -1,0 +1,31 @@
+<map id="lumex::core::expected::result::detail::destroy_at" name="lumex::core::expected::result::detail::destroy_at">
+<area shape="rect" id="Node000001" title="Ends the lifetime of the T at where: std::destroy_at for an object that is not an array." alt="" coords="752,282,941,322"/>
+<area shape="rect" id="Node000002" href="$a02919.html#a6461c297e055db27bf0d22f48b6289e6" title="Puts the object in the success state." alt="" coords="515,5,698,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="832,270,812,226,784,174,747,120,702,73,687,62,690,58,706,69,751,117,788,171,817,224,837,268"/>
+<area shape="rect" id="Node000003" href="$a01533.html#aadb2c52eaf3adcbeb3b512eee66452eb" title="reinit&#45;expected: neither can be done without throwing: save the old object and put it back if the con..." alt="" coords="523,84,690,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="822,272,771,212,738,180,702,152,683,141,686,136,706,148,742,176,775,208,826,269"/>
+<area shape="rect" id="Node000004" href="$a01533.html#a4036e7dfa15bb0b3ad160825ec7559a1" title="reinit&#45;expected: the construction may throw, but N can be moved without throwing: build a temporary f..." alt="" coords="523,163,690,217"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="796,278,703,231,677,220,679,215,705,226,799,273"/>
+<area shape="rect" id="Node000005" href="$a01533.html#a6b2e60741d402ef37ccb3959f558e0bc" title="The reinit&#45;expected of [expected.object.assign]/1 for the case that the construction of the new objec..." alt="" coords="523,241,690,296"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="738,290,690,283,691,278,739,284"/>
+<area shape="rect" id="Node000007" href="$a02847.html#a5fde6d3bf968ff3d670b32ac2f58db43" title="this is a success and rhs holds an error, for expected&lt;void, / E&gt;: [expected.void...." alt="" coords="513,395,701,465"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="798,331,673,398,671,393,796,326"/>
+<area shape="rect" id="Node000011" href="$a02847.html#a72a1de0013e47660e134becd66c6d942" title="this holds a value, rhs an error, and E is nothrow move constructible: park the error,..." alt="" coords="273,289,461,358"/>
+<area shape="poly" id="edge14_Node000001_Node000011" title=" " alt="" coords="738,309,462,322,461,316,738,304"/>
+<area shape="rect" id="Node000012" href="$a02847.html#aaf5a4bd0f1572b0a5e2b5bd8c35f8adf" title="As above, but E may throw when moved: park the value instead." alt="" coords="273,499,461,569"/>
+<area shape="poly" id="edge15_Node000001_Node000012" title=" " alt="" coords="832,336,811,370,782,409,747,448,705,479,662,495,600,509,462,528,461,523,599,504,660,490,703,474,743,444,778,406,807,367,828,333"/>
+<area shape="rect" id="Node000013" href="$a02855.html#a37952c8375adb06f55772cf25779bc4c" title="Destroys val if has_value (), otherwise unex." alt="" coords="509,540,704,624"/>
+<area shape="poly" id="edge16_Node000001_Node000013" title=" " alt="" coords="833,336,783,425,747,476,706,523,683,542,680,538,702,519,743,472,778,422,829,333"/>
+<area shape="rect" id="Node000006" href="$a01533.html#aebb2cc5369b2ff0554cb8d8fbda8dca2" title="reinit&#45;expected for an old object that holds something." alt="" coords="284,209,451,264"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="510,258,450,250,451,245,510,253"/>
+<area shape="poly" id="edge11_Node000007_Node000007" title=" " alt="" coords="645,385,631,377,607,374,587,376,574,381,567,387,565,396,560,395,562,385,571,376,586,371,607,369,632,372,648,380"/>
+<area shape="rect" id="Node000008" href="$a02847.html#adbaff536eceb3a3476f0a5ac8ad0a39c" title="Exchanges the contents with another storage: Table 72 of [expected.object.swap] and Table 73 of [expe..." alt="" coords="273,406,461,475"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="499,437,462,439,461,434,499,432"/>
+<area shape="poly" id="edge12_Node000007_Node000011" title=" " alt="" coords="515,392,444,361,447,356,517,387"/>
+<area shape="poly" id="edge13_Node000007_Node000012" title=" " alt="" coords="515,473,449,502,446,497,513,468"/>
+<area shape="poly" id="edge10_Node000008_Node000008" title=" " alt="" coords="406,395,391,388,367,385,348,386,334,391,327,398,326,406,320,405,323,395,332,387,347,381,367,379,393,382,408,391"/>
+<area shape="rect" id="Node000009" href="$a02699.html#a86eadcd8e2cd6155467872091154caad" title=" " alt="" coords="5,362,225,431"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="259,425,225,419,226,413,260,419"/>
+<area shape="rect" id="Node000010" href="$a02919.html#ac9dba62643741c913b1bf147871ac44d" title="Exchanges contents with another expected&lt;void, ErrorType&gt;." alt="" coords="24,456,207,511"/>
+<area shape="poly" id="edge9_Node000008_Node000010" title=" " alt="" coords="260,462,207,470,206,465,259,456"/>
+</map>

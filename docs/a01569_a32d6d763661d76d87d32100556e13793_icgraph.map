@@ -1,0 +1,9 @@
+<map id="lumex::core::string::text::Detail::quote_each" name="lumex::core::string::text::Detail::quote_each">
+<area shape="rect" id="Node000001" title="Joins range, wrapping each element (converted to std::string const &amp;) in mark." alt="" coords="400,37,587,77"/>
+<area shape="rect" id="Node000002" href="$a01568.html#aae6445322407323613ef63ab3d415d0e" title="join with every element wrapped in double quotes (&quot;element&quot;), C++11 to C++17." alt="" coords="207,5,351,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="386,44,351,39,352,34,387,39"/>
+<area shape="rect" id="Node000004" href="$a01568.html#a9bf415e00fbac5e4e52b81fe02659546" title="join with every element wrapped in single quotes (‘&#39;element’`), C++11 to C++17." alt="" coords="205,69,352,109"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="387,76,353,81,352,76,386,71"/>
+<area shape="rect" id="Node000003" href="$a01568.html#a151d3e147d42afb9d3c34da8b1386821" title="Same as quote; named for symmetry with quote_single." alt="" coords="5,5,157,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="193,28,158,28,158,23,193,23"/>
+</map>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: example_atomic_split_count.cpp File Reference</title>
+<title>LumexLib: XmlWriterStream.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,49 +104,85 @@ $(function(){initNavTree('a00665.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">example_atomic_split_count.cpp File Reference</div></div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a>  </div>
+  <div class="headertitle"><div class="title">XmlWriterStream.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;iostream&gt;</code><br />
-<code>#include &lt;string&gt;</code><br />
-<code>#include &quot;<a class="el" href="a01175_source.html">lumex/core/atomic/LumexAtomic</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a01220_source.html">lumex/core/smart_ptr/LumexSmartPtr</a>&quot;</code><br />
+
+<p><code>XmlWriterStream</code>, an <code>IXmlWriter</code> that writes to a narrow or a wide standard output stream.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &quot;<a class="el" href="a00746_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00674_source.html">IXmlWriter.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for example_atomic_split_count.cpp:</div>
+Include dependency graph for XmlWriterStream.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00666.png" border="0" usemap="#aexample__atomic__split__count_8cpp" alt=""/></div>
+<div class="center"><img src="a00666.png" border="0" usemap="#aXmlWriterStream_8hpp" alt=""/></div>
+<map name="aXmlWriterStream_8hpp" id="aXmlWriterStream_8hpp">
+<area shape="rect" title="XmlWriterStream, an IXmlWriter that writes to a narrow or a wide standard output stream." alt="" coords="67,5,229,31"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="5,152,187,177"/>
+<area shape="poly" title=" " alt="" coords="134,33,114,53,98,80,93,109,94,138,89,138,88,109,94,78,110,50,130,29"/>
+<area shape="rect" title=" " alt="" coords="108,79,188,104"/>
+<area shape="poly" title=" " alt="" coords="151,31,151,65,145,65,145,31"/>
+<area shape="rect" href="a00674.html" title="IXmlWriter, the output interface that XML serialization writes bytes to." alt="" coords="213,79,331,104"/>
+<area shape="poly" title=" " alt="" coords="171,28,240,69,237,74,168,33"/>
+<area shape="poly" title=" " alt="" coords="242,107,140,149,138,144,240,102"/>
+<area shape="rect" title=" " alt="" coords="237,152,307,177"/>
+<area shape="poly" title=" " alt="" coords="275,104,275,138,269,138,269,104"/>
+</map>
 </div>
-</div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
-<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00667.png" border="0" usemap="#aXmlWriterStream_8hppdep" alt=""/></div>
+<map name="aXmlWriterStream_8hppdep" id="aXmlWriterStream_8hppdep">
+<area shape="rect" title="XmlWriterStream, an IXmlWriter that writes to a narrow or a wide standard output stream." alt="" coords="418,5,581,31"/>
+<area shape="rect" href="a01421.html" title="XML module: a DOM tree of nodes, attributes and text, loading and saving with writers for files and s..." alt="" coords="237,79,329,104"/>
+<area shape="poly" title=" " alt="" coords="450,38,322,81,320,76,448,33"/>
+<area shape="rect" href="a00734.html" title=" " alt="" coords="353,79,496,104"/>
+<area shape="poly" title=" " alt="" coords="478,42,440,80,436,76,475,39"/>
+<area shape="rect" href="a00725.html" title=" " alt="" coords="521,79,630,104"/>
+<area shape="poly" title=" " alt="" coords="524,38,564,76,560,80,520,42"/>
+<area shape="rect" href="a00662.html" title=" " alt="" coords="655,79,816,104"/>
+<area shape="poly" title=" " alt="" coords="554,32,695,76,694,81,552,37"/>
+<area shape="rect" href="a00389.html" title=" " alt="" coords="5,152,127,177"/>
+<area shape="poly" title=" " alt="" coords="234,111,105,154,103,149,232,106"/>
+<area shape="rect" href="a00395.html" title=" " alt="" coords="151,152,272,177"/>
+<area shape="poly" title=" " alt="" coords="263,116,226,153,222,150,259,112"/>
+<area shape="rect" href="a00392.html" title=" " alt="" coords="296,152,417,177"/>
+<area shape="poly" title=" " alt="" coords="308,112,345,150,342,153,304,116"/>
+<area shape="rect" href="a00398.html" title=" " alt="" coords="441,152,563,177"/>
+<area shape="poly" title=" " alt="" coords="335,106,465,149,463,154,333,111"/>
+</map>
+</div>
+</div>
+<p><a href="a00665_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a05219.html">lumex::xml::writer::XmlWriterStream</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An <code><a class="el" href="a05203.html" title="Abstract base interface for writing XML data to various destinations.">IXmlWriter</a></code> implementation that writes XML data to a C++ standard output stream.  <a href="a05219.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01425.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01669.html">lumex::xml</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01686.html">lumex::xml::writer</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int main </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-</div><!-- contents -->
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p><code>XmlWriterStream</code>, an <code>IXmlWriter</code> that writes to a narrow or a wide standard output stream. </p>
+<p>A narrow stream receives the bytes as they are. A wide stream receives them as <code>wchar_t</code> units, so the output must be in the <code>wchar_t</code> encoding; <code>XmlDocument::save</code> and <code>XmlNode::print</code> use <code>encoding_wchar</code> for wide streams. The writer does not own the stream. Consumers include the file through <code>lumex/xml/LumexXml</code>. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_8e1b1d8f60798091c382b5897377990d.html">atomic</a></li><li class="navelem"><a class="el" href="a00665.html">example_atomic_split_count.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_7b089e18b7c2a92c23a9cf3b22a6463e.html">writer</a></li><li class="navelem"><a class="el" href="a00665.html">XmlWriterStream.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

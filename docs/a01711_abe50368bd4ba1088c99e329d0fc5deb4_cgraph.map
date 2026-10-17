@@ -1,0 +1,21 @@
+<map id="lumex::applied::hardware::caps::HardwareCapabilities::should_use_software_rendering" name="lumex::applied::hardware::caps::HardwareCapabilities::should_use_software_rendering">
+<area shape="rect" id="Node000001" title="Determines whether software rendering should be used instead of hardware acceleration." alt="" coords="5,175,241,229"/>
+<area shape="rect" id="Node000002" href="$a01711.html#af3c48849b42dbcc0651429190b4a86b9" title="Performs comprehensive system hardware detection and analysis." alt="" coords="292,76,500,131"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="198,172,307,133,308,138,200,177"/>
+<area shape="rect" id="Node000004" href="$a01759.html#aafb110cd6feeb2ab91305f27352b9118" title="Log an INFO&#45;level message." alt="" coords="561,149,748,189"/>
+<area shape="poly" id="edge7_Node000001_Node000004" title=" " alt="" coords="242,192,548,173,548,178,242,197"/>
+<area shape="rect" id="Node000008" href="$a01711.html#a2947a856c7b322f8ed0f3135d34b389f" title="Determines if CPU belongs to legacy/outdated processor family." alt="" coords="292,207,500,261"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="242,213,279,218,278,223,241,218"/>
+<area shape="rect" id="Node000009" href="$a01759.html#af4fec23e76323ffee4eaf2aaf716eb15" title="Log a WARNING&#45;level message." alt="" coords="289,286,503,326"/>
+<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="183,227,290,272,313,279,311,284,288,276,181,232"/>
+<area shape="rect" id="Node000003" href="$a01711.html#ae7ff4b9ce7d8a1f9749c1f01a0e2d182" title="Estimates CPU generation year based on processor model name analysis." alt="" coords="551,5,759,60"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="496,73,541,61,542,66,497,78"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="501,127,563,143,562,148,499,132"/>
+<area shape="rect" id="Node000006" href="$a01584.html#ac45f6767d3472ac2a5e6a2f83408b678" title="Converts length characters of a wchar_t string to UTF&#45;8." alt="" coords="575,85,734,125"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="500,101,561,102,561,107,500,107"/>
+<area shape="rect" id="Node000005" href="$a01570.html#a5c0b80a6f74a32424bed62d7597a6759" title="Concatenates the streamed text of args." alt="" coords="814,181,958,221"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="748,179,801,186,800,191,748,184"/>
+<area shape="rect" id="Node000007" href="$a04315.html#ad5dbca37fafcc821a3b5fb7e4d438979" title=" " alt="" coords="807,77,965,132"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="734,102,793,102,793,107,734,107"/>
+<area shape="poly" id="edge10_Node000009_Node000005" title=" " alt="" coords="489,283,800,217,801,222,490,289"/>
+</map>

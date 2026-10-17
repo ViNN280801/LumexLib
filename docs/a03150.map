@@ -1,0 +1,5 @@
+<map id="lumex::core::fmt::formatter&lt; std::chrono::duration&lt; Rep, Period &gt;, Char, typename std::enable_if&lt; Detail::has_formatter&lt; Char, Rep &gt;() &amp;&amp;std::is_arithmetic&lt; Rep &gt;::value &gt;::type &gt;" name="lumex::core::fmt::formatter&lt; std::chrono::duration&lt; Rep, Period &gt;, Char, typename std::enable_if&lt; Detail::has_formatter&lt; Char, Rep &gt;() &amp;&amp;std::is_arithmetic&lt; Rep &gt;::value &gt;::type &gt;">
+<area shape="rect" id="Node000001" title="std::chrono::duration: 42ms, or chrono&#45;specs such as T." alt="" coords="5,93,285,192"/>
+<area shape="rect" id="Node000002" href="$a03147.html" title="Parses [[fill]align][width][.precision][L][chrono&#45;specs] and pads the chrono text; base of the durati..." alt="" coords="44,5,247,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,59,148,93,143,93,143,59"/>
+</map>

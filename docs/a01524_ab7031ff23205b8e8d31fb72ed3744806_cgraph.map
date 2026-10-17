@@ -1,0 +1,9 @@
+<map id="lumex::core::exceptions::Wrapper::detail::report_line" name="lumex::core::exceptions::Wrapper::detail::report_line">
+<area shape="rect" id="Node000001" title="Sends line to the installed sink. On a null sink or a throw from the sink, writes line to std::cerr." alt="" coords="5,65,212,105"/>
+<area shape="poly" id="edge2_Node000001_Node000001" title=" " alt="" coords="64,65,61,55,68,46,84,40,109,38,137,41,152,48,150,53,135,46,109,43,85,45,72,50,66,56,69,64"/>
+<area shape="rect" id="Node000002" href="$a01522.html#a0e00681207c6fe8355e6416db22d6ee8" title="Returns the installed sink, or nullptr when reports go to std::cerr." alt="" coords="260,5,439,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="201,62,246,52,247,57,202,67"/>
+<area shape="rect" id="Node000003" href="$a01524.html#a730010fd0f524d97727a82bb42f2ddd3" title="Writes &quot;prefix. Reason: &lt;whatMsg&gt;\n&quot; to std::cerr using only noexcept operations." alt="" coords="260,108,439,163"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="204,102,247,111,246,116,203,107"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="303,108,303,98,311,89,327,83,349,81,376,84,392,92,389,97,375,90,349,87,328,89,314,93,308,100,308,108"/>
+</map>

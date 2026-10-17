@@ -1,0 +1,12 @@
+<map id="lumex::core::span::view::span::first" name="lumex::core::span::view::span::first">
+<area shape="rect" id="Node000001" title="The first Count elements as a span of static extent." alt="" coords="200,92,347,132"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="306,80,295,73,273,71,255,73,244,77,240,83,242,91,237,92,234,82,240,73,253,67,273,65,296,68,309,76"/>
+<area shape="rect" id="Node000002" href="$a04027.html#a519fb6bdd570183c039547be2ea18b6b" title="The first count elements." alt="" coords="5,5,152,45"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="216,89,151,60,124,48,126,43,153,55,218,84"/>
+<area shape="rect" id="Node000003" href="$a00383.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="51,70,106,95"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="186,102,106,89,107,84,187,96"/>
+<area shape="rect" id="Node000004" href="$a04027.html#a46fb58083be5feae8d267eb313db196e" title="Constructs a span of the range [first, last)." alt="" coords="5,120,152,160"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="187,127,153,132,152,127,186,122"/>
+<area shape="rect" id="Node000005" href="$a04027.html#a7036a71b9b1d63512b727049faeda0d6" title="Constructs a span of count elements starting at first." alt="" coords="5,184,152,224"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="223,141,153,174,127,186,125,181,151,170,220,136"/>
+</map>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::span::view::detail::is_compatible_range&lt; Range, T, Extent, typename std::enable_if&lt; !is_span&lt; typename remove_cvref&lt; Range &gt;::type &gt;::value &amp;&amp;!is_std_array&lt; typename remove_cvref&lt; Range &gt;::type &gt;::value &amp;&amp;!std::is_array&lt; typename remove_cvref&lt; Range &gt;::type &gt;::value &amp;&amp;(std::is_const&lt; T &gt;::value||is_borrowed_range&lt; Range &gt;::value) &amp;&amp;is_extent_compatible&lt; Extent, range_declared_extent&lt; Range &gt;::value &gt;::value &amp;&amp;range_has_size&lt; Range &gt;::value &amp;&amp;is_array_convertible&lt; typename range_element&lt; Range &gt;::type, T &gt;::value &gt;::type &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a04146.html',''); initResizable(true); });
+$(function(){initNavTree('a04143.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,25 +103,44 @@ $(function(){initNavTree('a04146.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::core::utility::callback::lumex_callback_slot&lt; Tag, Result(Args...)&gt; Member List</div></div>
+  <div class="headertitle"><div class="title">lumex::core::span::view::detail::is_compatible_range&lt; Range, T, Extent, typename std::enable_if&lt; !is_span&lt; typename remove_cvref&lt; Range &gt;::type &gt;::value &amp;&amp;!is_std_array&lt; typename remove_cvref&lt; Range &gt;::type &gt;::value &amp;&amp;!std::is_array&lt; typename remove_cvref&lt; Range &gt;::type &gt;::value &amp;&amp;(std::is_const&lt; T &gt;::value||is_borrowed_range&lt; Range &gt;::value) &amp;&amp;is_extent_compatible&lt; Extent, range_declared_extent&lt; Range &gt;::value &gt;::value &amp;&amp;range_has_size&lt; Range &gt;::value &amp;&amp;is_array_convertible&lt; typename range_element&lt; Range &gt;::type, T &gt;::value &gt;::type &gt; Struct Template Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a04146.html">lumex::core::utility::callback::lumex_callback_slot&lt; Tag, Result(Args...)&gt;</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a04146.html#a2d636d79aaa7017bd38d2e67a36fb213">exchange</a>(function_type function) noexcept</td><td class="entry"><a class="el" href="a04146.html">lumex::core::utility::callback::lumex_callback_slot&lt; Tag, Result(Args...)&gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a04146.html#af926a95aa91246463c13006a434f51fb">function_type</a> typedef</td><td class="entry"><a class="el" href="a04146.html">lumex::core::utility::callback::lumex_callback_slot&lt; Tag, Result(Args...)&gt;</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a04146.html#a4fe571dfe8b9893c1f54175740708a38">get</a>() noexcept</td><td class="entry"><a class="el" href="a04146.html">lumex::core::utility::callback::lumex_callback_slot&lt; Tag, Result(Args...)&gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a04146.html#a5c554816b6896a20ef3879c7695ba29f">invoke_or</a>(Fallback &amp;&amp;fallback, Args... args)</td><td class="entry"><a class="el" href="a04146.html">lumex::core::utility::callback::lumex_callback_slot&lt; Tag, Result(Args...)&gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a04146.html#aca86dc17265de99a5bad56fe8f8c3034">is_set</a>() noexcept</td><td class="entry"><a class="el" href="a04146.html">lumex::core::utility::callback::lumex_callback_slot&lt; Tag, Result(Args...)&gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a04146.html#a837e49df5d88e054fa18e2ff6ef0812e">lumex_callback_slot</a>()=delete</td><td class="entry"><a class="el" href="a04146.html">lumex::core::utility::callback::lumex_callback_slot&lt; Tag, Result(Args...)&gt;</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a04146.html#ab80877fdd145b26aa736e867f3316856">reset</a>() noexcept</td><td class="entry"><a class="el" href="a04146.html">lumex::core::utility::callback::lumex_callback_slot&lt; Tag, Result(Args...)&gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a04146.html#a8f6afca711736217830490f446f44f97">set</a>(function_type function) noexcept</td><td class="entry"><a class="el" href="a04146.html">lumex::core::utility::callback::lumex_callback_slot&lt; Tag, Result(Args...)&gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-</table></div><!-- contents -->
+<p><code>#include &lt;<a class="el" href="a01040_source.html">LumexSpanTraits.hpp</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for lumex::core::span::view::detail::is_compatible_range&lt; Range, T, Extent, typename std::enable_if&lt; !is_span&lt; typename remove_cvref&lt; Range &gt;::type &gt;::value &amp;&amp;!is_std_array&lt; typename remove_cvref&lt; Range &gt;::type &gt;::value &amp;&amp;!std::is_array&lt; typename remove_cvref&lt; Range &gt;::type &gt;::value &amp;&amp;(std::is_const&lt; T &gt;::value||is_borrowed_range&lt; Range &gt;::value) &amp;&amp;is_extent_compatible&lt; Extent, range_declared_extent&lt; Range &gt;::value &gt;::value &amp;&amp;range_has_size&lt; Range &gt;::value &amp;&amp;is_array_convertible&lt; typename range_element&lt; Range &gt;::type, T &gt;::value &gt;::type &gt;:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04142.png" border="0" usemap="#alumex_1_1core_1_1span_1_1view_1_1detail_1_1is__compatible__range_3_01Range_00_01T_00_01Extent_00_01typename_01std_1_1enable__if_3_01_9is__span_3_01typename_01remove__cvref_3_01Range_01_4_1_1type_01_4_1_1value_01_6_6_9is__std__array_3_01typename_01remove__cvref_3_01Range_01_4_1_1type_01_4_1_1value_01_6_6_9std_1_1is__array_3_01typename_01remove__cvref_3_01Range_01_4_1_1type_01_4_1_1value_01_6_6_07std_1_1is__const_3_01T_01_4_1_1value_7_7is__borrowed__range_3_01Range_01_4_1_1value_08_01_6_6is__extent__compatible_3_01Extent_00_01range__declared__extent_3_01Range_01_4_1_1value_01_4_1_1value_01_6_6range__has__size_3_01Range_01_4_1_1value_01_6_6is__array__convertible_3_01typename_01range__element_3_01Range_01_4_1_1type_00_01T_01_4_1_1value_01_4_1_1type_01_4_inherit__map" alt="Inheritance graph"/></div>
+<map name="alumex_1_1core_1_1span_1_1view_1_1detail_1_1is__compatible__range_3_01Range_00_01T_00_01Extent_00_01typename_01std_1_1enable__if_3_01_9is__span_3_01typename_01remove__cvref_3_01Range_01_4_1_1type_01_4_1_1value_01_6_6_9is__std__array_3_01typename_01remove__cvref_3_01Range_01_4_1_1type_01_4_1_1value_01_6_6_9std_1_1is__array_3_01typename_01remove__cvref_3_01Range_01_4_1_1type_01_4_1_1value_01_6_6_07std_1_1is__const_3_01T_01_4_1_1value_7_7is__borrowed__range_3_01Range_01_4_1_1value_08_01_6_6is__extent__compatible_3_01Extent_00_01range__declared__extent_3_01Range_01_4_1_1value_01_4_1_1value_01_6_6range__has__size_3_01Range_01_4_1_1value_01_6_6is__array__convertible_3_01typename_01range__element_3_01Range_01_4_1_1type_00_01T_01_4_1_1value_01_4_1_1type_01_4_inherit__map" id="alumex_1_1core_1_1span_1_1view_1_1detail_1_1is__compatible__range_3_01Range_00_01T_00_01Extent_00_01typename_01std_1_1enable__if_3_01_9is__span_3_01typename_01remove__cvref_3_01Range_01_4_1_1type_01_4_1_1value_01_6_6_9is__std__array_3_01typename_01remove__cvref_3_01Range_01_4_1_1type_01_4_1_1value_01_6_6_9std_1_1is__array_3_01typename_01remove__cvref_3_01Range_01_4_1_1type_01_4_1_1value_01_6_6_07std_1_1is__const_3_01T_01_4_1_1value_7_7is__borrowed__range_3_01Range_01_4_1_1value_08_01_6_6is__extent__compatible_3_01Extent_00_01range__declared__extent_3_01Range_01_4_1_1value_01_4_1_1value_01_6_6range__has__size_3_01Range_01_4_1_1value_01_6_6is__array__convertible_3_01typename_01range__element_3_01Range_01_4_1_1type_00_01T_01_4_1_1value_01_4_1_1type_01_4_inherit__map">
+<area shape="rect" title=" " alt="" coords="5,79,380,309"/>
+<area shape="rect" title=" " alt="" coords="64,5,183,31"/>
+<area shape="poly" title=" " alt="" coords="136,43,150,77,145,79,131,45"/>
+<area shape="rect" title=" " alt="" coords="206,5,318,31"/>
+<area shape="poly" title=" " alt="" coords="254,45,241,79,236,77,249,43"/>
+</map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<div class="dynheader">
+Collaboration diagram for lumex::core::span::view::detail::is_compatible_range&lt; Range, T, Extent, typename std::enable_if&lt; !is_span&lt; typename remove_cvref&lt; Range &gt;::type &gt;::value &amp;&amp;!is_std_array&lt; typename remove_cvref&lt; Range &gt;::type &gt;::value &amp;&amp;!std::is_array&lt; typename remove_cvref&lt; Range &gt;::type &gt;::value &amp;&amp;(std::is_const&lt; T &gt;::value||is_borrowed_range&lt; Range &gt;::value) &amp;&amp;is_extent_compatible&lt; Extent, range_declared_extent&lt; Range &gt;::value &gt;::value &amp;&amp;range_has_size&lt; Range &gt;::value &amp;&amp;is_array_convertible&lt; typename range_element&lt; Range &gt;::type, T &gt;::value &gt;::type &gt;:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04141.png" border="0" usemap="#alumex_1_1core_1_1span_1_1view_1_1detail_1_1is__compatible__range_3_01Range_00_01T_00_01Extent_00_01typename_01std_1_1enable__if_3_01_9is__span_3_01typename_01remove__cvref_3_01Range_01_4_1_1type_01_4_1_1value_01_6_6_9is__std__array_3_01typename_01remove__cvref_3_01Range_01_4_1_1type_01_4_1_1value_01_6_6_9std_1_1is__array_3_01typename_01remove__cvref_3_01Range_01_4_1_1type_01_4_1_1value_01_6_6_07std_1_1is__const_3_01T_01_4_1_1value_7_7is__borrowed__range_3_01Range_01_4_1_1value_08_01_6_6is__extent__compatible_3_01Extent_00_01range__declared__extent_3_01Range_01_4_1_1value_01_4_1_1value_01_6_6range__has__size_3_01Range_01_4_1_1value_01_6_6is__array__convertible_3_01typename_01range__element_3_01Range_01_4_1_1type_00_01T_01_4_1_1value_01_4_1_1type_01_4_coll__map" alt="Collaboration graph"/></div>
+<map name="alumex_1_1core_1_1span_1_1view_1_1detail_1_1is__compatible__range_3_01Range_00_01T_00_01Extent_00_01typename_01std_1_1enable__if_3_01_9is__span_3_01typename_01remove__cvref_3_01Range_01_4_1_1type_01_4_1_1value_01_6_6_9is__std__array_3_01typename_01remove__cvref_3_01Range_01_4_1_1type_01_4_1_1value_01_6_6_9std_1_1is__array_3_01typename_01remove__cvref_3_01Range_01_4_1_1type_01_4_1_1value_01_6_6_07std_1_1is__const_3_01T_01_4_1_1value_7_7is__borrowed__range_3_01Range_01_4_1_1value_08_01_6_6is__extent__compatible_3_01Extent_00_01range__declared__extent_3_01Range_01_4_1_1value_01_4_1_1value_01_6_6range__has__size_3_01Range_01_4_1_1value_01_6_6is__array__convertible_3_01typename_01range__element_3_01Range_01_4_1_1type_00_01T_01_4_1_1value_01_4_1_1type_01_4_coll__map" id="alumex_1_1core_1_1span_1_1view_1_1detail_1_1is__compatible__range_3_01Range_00_01T_00_01Extent_00_01typename_01std_1_1enable__if_3_01_9is__span_3_01typename_01remove__cvref_3_01Range_01_4_1_1type_01_4_1_1value_01_6_6_9is__std__array_3_01typename_01remove__cvref_3_01Range_01_4_1_1type_01_4_1_1value_01_6_6_9std_1_1is__array_3_01typename_01remove__cvref_3_01Range_01_4_1_1type_01_4_1_1value_01_6_6_07std_1_1is__const_3_01T_01_4_1_1value_7_7is__borrowed__range_3_01Range_01_4_1_1value_08_01_6_6is__extent__compatible_3_01Extent_00_01range__declared__extent_3_01Range_01_4_1_1value_01_4_1_1value_01_6_6range__has__size_3_01Range_01_4_1_1value_01_6_6is__array__convertible_3_01typename_01range__element_3_01Range_01_4_1_1type_00_01T_01_4_1_1value_01_4_1_1type_01_4_coll__map">
+<area shape="rect" title=" " alt="" coords="5,79,380,309"/>
+<area shape="rect" title=" " alt="" coords="64,5,183,31"/>
+<area shape="poly" title=" " alt="" coords="136,43,150,77,145,79,131,45"/>
+<area shape="rect" title=" " alt="" coords="206,5,318,31"/>
+<area shape="poly" title=" " alt="" coords="254,45,241,79,236,77,249,43"/>
+</map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
+<li><a class="el" href="a01040_source.html">LumexSpanTraits.hpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01564.html">span</a></li><li class="navelem"><a class="el" href="a01565.html">view</a></li><li class="navelem"><a class="el" href="a01566.html">detail</a></li><li class="navelem"><a class="el" href="a04143.html">is_compatible_range&lt; Range, T, Extent, typename std::enable_if&lt; !is_span&lt; typename remove_cvref&lt; Range &gt;::type &gt;::value &amp;&amp;!is_std_array&lt; typename remove_cvref&lt; Range &gt;::type &gt;::value &amp;&amp;!std::is_array&lt; typename remove_cvref&lt; Range &gt;::type &gt;::value &amp;&amp;(std::is_const&lt; T &gt;::value||is_borrowed_range&lt; Range &gt;::value) &amp;&amp;is_extent_compatible&lt; Extent, range_declared_extent&lt; Range &gt;::value &gt;::value &amp;&amp;range_has_size&lt; Range &gt;::value &amp;&amp;is_array_convertible&lt; typename range_element&lt; Range &gt;::type, T &gt;::value &gt;::type &gt;</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

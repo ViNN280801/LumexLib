@@ -1,0 +1,28 @@
+<map id="lumex::core::environment::env::lumex_environment::get" name="lumex::core::environment::env::lumex_environment::get">
+<area shape="rect" id="Node000001" title="Static convenience method to retrieve an environment variable." alt="" coords="628,242,849,282"/>
+<area shape="rect" id="Node000002" href="$a01759.html#ad00cb0a154e2546162cb226d3b494de5" title="Get the path to the logs directory." alt="" coords="383,19,565,73"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="701,235,506,76,509,71,705,231"/>
+<area shape="rect" id="Node000005" href="$a04247.html#ac1e59cbc5ec1487afc15a8dad20acb61" title="Returns the path to the temporary directory." alt="" coords="377,156,571,211"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="657,241,566,213,567,208,659,236"/>
+<area shape="rect" id="Node000009" href="$a02615.html#a67ac36ce2a535462e3b31cf1693fc356" title="Initializes the crash handler." alt="" coords="368,235,580,289"/>
+<area shape="poly" id="edge11_Node000001_Node000009" title=" " alt="" coords="614,265,580,265,580,259,614,259"/>
+<area shape="rect" id="Node000011" href="$a00530.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="447,313,501,339"/>
+<area shape="poly" id="edge13_Node000001_Node000011" title=" " alt="" coords="648,288,581,305,502,323,501,317,579,299,647,283"/>
+<area shape="rect" id="Node000012" href="$a02599.html#ac02c7b9738c63ae45eb982591086e9fc" title="Deleted move assignment operator." alt="" coords="378,363,570,417"/>
+<area shape="poly" id="edge14_Node000001_Node000012" title=" " alt="" coords="696,292,642,323,581,354,555,365,553,360,579,349,639,318,694,287"/>
+<area shape="rect" id="Node000003" href="$a00440.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,5,60,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="369,24,320,17,260,12,214,12,108,17,60,19,60,14,108,11,214,7,261,7,320,11,369,19"/>
+<area shape="rect" id="Node000004" href="$a01759.html#aba1b51f61fc63faeb93387a3e0b9a04b" title="Write a log to a file in the logs/ directory." alt="" coords="113,26,315,66"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="369,49,315,49,315,43,369,43"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="99,31,60,25,61,20,100,26"/>
+<area shape="rect" id="Node000006" href="$a04247.html#a05e846e01473a6cd8575680c0e63acba" title="Creates a temporary directory with optional name prefix." alt="" coords="124,91,304,145"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="363,158,303,143,305,138,365,153"/>
+<area shape="rect" id="Node000007" href="$a00347.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,171,60,196"/>
+<area shape="poly" id="edge10_Node000005_Node000007" title=" " alt="" coords="364,186,60,186,60,181,364,181"/>
+<area shape="rect" id="Node000008" href="$a04247.html#a6beead52e81ac026ad6b6d1f4c46fde1" title="Creates a temporary file with optional name prefix." alt="" coords="124,221,304,276"/>
+<area shape="poly" id="edge8_Node000005_Node000008" title=" " alt="" coords="365,214,305,229,303,223,363,208"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="126,153,61,176,59,171,124,148"/>
+<area shape="poly" id="edge9_Node000008_Node000007" title=" " alt="" coords="124,219,59,196,61,191,126,214"/>
+<area shape="rect" id="Node000010" href="$a02615.html#ae46b8f0f909ce1314b11998f9b23091a" title=" " alt="" coords="108,300,320,355"/>
+<area shape="poly" id="edge12_Node000009_Node000010" title=" " alt="" coords="356,295,321,303,320,298,354,289"/>
+</map>

@@ -1,0 +1,26 @@
+<map id="XPathException.hpp" name="XPathException.hpp">
+<area shape="rect" id="Node000001" title="XPathException, thrown when an XPath expression cannot be compiled, or is evaluated as a node set alt..." alt="" coords="277,5,428,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="25,86,112,111"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="300,33,125,81,116,84,115,79,124,76,299,28"/>
+<area shape="rect" id="Node000003" href="$a01073.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="391,79,573,119"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="375,29,439,69,437,73,372,33"/>
+<area shape="rect" id="Node000005" href="$a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="155,167,345,207"/>
+<area shape="poly" id="edge9_Node000001_Node000005" title=" " alt="" coords="355,31,348,72,341,97,330,120,313,142,294,160,290,156,309,138,325,117,336,95,343,71,349,30"/>
+<area shape="rect" id="Node000008" href="$a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="481,255,694,295"/>
+<area shape="poly" id="edge10_Node000001_Node000008" title=" " alt="" coords="429,25,522,45,561,60,587,77,599,96,607,117,613,161,609,204,601,241,596,240,604,203,607,161,602,118,594,98,583,81,559,64,521,50,428,31"/>
+<area shape="rect" id="Node000009" href="$a00611.html" title="xpath_parse_result_t, the outcome of compiling an XPath expression." alt="" coords="137,79,315,119"/>
+<area shape="poly" id="edge11_Node000001_Node000009" title=" " alt="" coords="334,33,271,73,268,69,331,29"/>
+<area shape="rect" id="Node000004" href="$a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="369,174,550,199"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="479,120,469,161,463,160,474,118"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="430,121,317,164,315,159,428,116"/>
+<area shape="poly" id="edge8_Node000003_Node000008" title=" " alt="" coords="516,117,542,138,564,165,580,203,588,240,582,241,575,205,560,168,538,142,513,121"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="284,262,376,287"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="271,205,311,250,307,253,267,209"/>
+<area shape="rect" id="Node000007" href="$a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="5,255,260,295"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="224,209,172,248,169,244,221,205"/>
+<area shape="poly" id="edge7_Node000005_Node000008" title=" " alt="" coords="328,204,498,249,496,254,326,209"/>
+<area shape="poly" id="edge12_Node000009_Node000004" title=" " alt="" coords="280,116,414,167,412,172,279,121"/>
+<area shape="poly" id="edge14_Node000009_Node000005" title=" " alt="" coords="234,118,244,153,238,154,229,120"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="60,174,131,199"/>
+<area shape="poly" id="edge13_Node000009_Node000010" title=" " alt="" coords="197,121,127,168,124,164,194,117"/>
+</map>

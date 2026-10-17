@@ -1,0 +1,5 @@
+<map id="lumex::core::utility::cast::Detail::have_matching_shape&lt; Base, Derived &gt;" name="lumex::core::utility::cast::Detail::have_matching_shape&lt; Base, Derived &gt;">
+<area shape="rect" id="Node000001" title="Both operands are dynamic_cast forms of the same shape (two pointers or two references)." alt="" coords="292,27,479,97"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,244,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="258,59,292,59,292,65,258,65"/>
+</map>

@@ -1,0 +1,47 @@
+<map id="lumex::core::filesystem::fs::lumex_filesystem::replace_file_content" name="lumex::core::filesystem::fs::lumex_filesystem::replace_file_content">
+<area shape="rect" id="Node000001" title="Replaces the content of a file without ever leaving it truncated." alt="" coords="5,409,180,464"/>
+<area shape="poly" id="edge30_Node000001_Node000001" title=" " alt="" coords="49,409,50,399,57,390,72,385,93,383,118,386,132,394,129,398,116,391,93,388,73,390,60,395,55,401,55,409"/>
+<area shape="rect" id="Node000002" href="$a02967.html#ac6b98f64a82c62b08cd7b86bfac5c76e" title="Creates all directories in the specified path_arg, including any missing parent directories." alt="" coords="228,409,403,464"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,434,214,434,214,439,180,439"/>
+<area shape="rect" id="Node000006" href="$a02947.html#a6f923676a1ec7e8440b21eca9b6d9312" title="Checks if the path is empty." alt="" coords="451,495,625,535"/>
+<area shape="poly" id="edge19_Node000001_Node000006" title=" " alt="" coords="181,461,229,473,336,491,437,504,437,509,335,496,227,478,180,466"/>
+<area shape="rect" id="Node000008" href="$a02967.html#a00f75a949bda6f52adc1e19318d74e68" title="Checks if a file or directory exists at the specified path." alt="" coords="451,235,625,289"/>
+<area shape="poly" id="edge20_Node000001_Node000008" title=" " alt="" coords="146,407,227,370,337,328,441,291,442,296,339,333,229,375,149,412"/>
+<area shape="rect" id="Node000009" href="$a02947.html#a73045c0556f64739ae07add68e64de85" title="Extracts the parent path component from the path." alt="" coords="451,559,625,599"/>
+<area shape="poly" id="edge21_Node000001_Node000009" title=" " alt="" coords="140,462,182,484,229,505,336,537,438,560,437,565,334,543,227,510,180,489,137,467"/>
+<area shape="rect" id="Node000012" href="$a02967.html#afb94e7dfbf964cf9c4b01876fc2a2eb6" title="Removes a file or an empty directory at the specified path_arg." alt="" coords="228,196,403,251"/>
+<area shape="poly" id="edge22_Node000001_Node000012" title=" " alt="" coords="112,407,162,347,226,281,258,257,261,261,230,285,166,351,116,410"/>
+<area shape="rect" id="Node000013" href="$a02967.html#a3a630787724b2bff2b7e4684510cd80f" title="Renames or moves a file or directory." alt="" coords="673,29,848,84"/>
+<area shape="poly" id="edge27_Node000001_Node000013" title=" " alt="" coords="95,408,109,354,133,286,151,250,172,216,197,184,226,157,277,125,331,99,389,80,447,66,561,51,660,48,660,53,561,56,448,71,390,85,333,104,279,129,230,161,201,188,176,219,155,253,138,288,114,356,100,410"/>
+<area shape="rect" id="Node000014" href="$a02939.html#aaae1487eda085cf06bd332015e4969d7" title="Checks if the operation was successful." alt="" coords="228,591,403,645"/>
+<area shape="poly" id="edge31_Node000001_Node000014" title=" " alt="" coords="118,463,167,515,230,569,248,581,245,586,226,573,163,519,114,466"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="272,409,272,399,280,390,294,385,315,383,340,386,355,394,352,398,339,391,315,388,296,390,283,395,277,401,277,409"/>
+<area shape="rect" id="Node000003" href="$a02967.html#a8bf64b2481cf6ec7d8c099e4fc1d7034" title="Creates a new directory at the specified path." alt="" coords="451,337,625,392"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="399,407,440,394,441,399,401,412"/>
+<area shape="poly" id="edge9_Node000002_Node000006" title=" " alt="" coords="394,462,469,488,467,493,392,467"/>
+<area shape="rect" id="Node000007" href="$a02939.html#af6c94c3f8a9c0f511aeaa1ea5674a08d" title="Retrieves the error code if the operation was unsuccessful." alt="" coords="451,416,625,471"/>
+<area shape="poly" id="edge10_Node000002_Node000007" title=" " alt="" coords="403,437,437,438,437,443,403,442"/>
+<area shape="poly" id="edge11_Node000002_Node000008" title=" " alt="" coords="335,407,384,354,416,325,449,298,456,294,459,298,452,303,419,329,388,357,339,411"/>
+<area shape="poly" id="edge14_Node000002_Node000009" title=" " alt="" coords="345,462,393,504,452,545,464,551,462,556,449,550,390,508,342,466"/>
+<area shape="poly" id="edge5_Node000003_Node000003" title=" " alt="" coords="495,337,495,327,503,318,517,313,538,311,563,314,577,322,575,326,561,319,538,316,518,318,506,323,500,329,500,337"/>
+<area shape="rect" id="Node000004" href="$a02947.html#afbc4f64f22c9c5e9057842a5b81178ea" title="Returns a pointer to the null&#45;terminated C&#45;style string representation of the path." alt="" coords="896,162,1071,202"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="625,360,677,355,734,345,792,330,847,308,880,287,910,262,958,211,962,215,914,266,883,291,849,312,794,335,735,350,678,360,626,365"/>
+<area shape="rect" id="Node000005" href="$a02967.html#a4be8bab7c98dca322220cdbbee740654" title="Checks if the specified path_arg refers to a directory." alt="" coords="673,244,848,299"/>
+<area shape="poly" id="edge6_Node000003_Node000005" title=" " alt="" coords="603,335,682,302,684,306,605,340"/>
+<area shape="poly" id="edge7_Node000005_Node000004" title=" " alt="" coords="828,241,920,205,922,210,830,246"/>
+<area shape="poly" id="edge8_Node000005_Node000005" title=" " alt="" coords="717,244,718,234,725,225,740,219,761,217,786,220,800,228,797,233,784,226,761,223,741,225,728,229,723,236,723,244"/>
+<area shape="poly" id="edge12_Node000008_Node000004" title=" " alt="" coords="594,232,632,217,673,205,780,187,882,180,882,185,781,192,674,210,634,222,596,237"/>
+<area shape="poly" id="edge13_Node000008_Node000008" title=" " alt="" coords="495,235,495,224,503,216,517,210,538,208,563,211,577,219,575,224,561,216,538,213,518,215,506,220,500,226,500,235"/>
+<area shape="rect" id="Node000010" href="$a02947.html#a64215fe6be8d35c058ca8e3df2ca90a6" title=" " alt="" coords="673,587,848,627"/>
+<area shape="poly" id="edge15_Node000009_Node000010" title=" " alt="" coords="626,588,660,592,659,597,625,593"/>
+<area shape="rect" id="Node000011" href="$a02947.html#a3b470303c0431f218eeebe77b8acd417" title="Default constructor. Constructs an empty path." alt="" coords="896,558,1071,598"/>
+<area shape="poly" id="edge18_Node000009_Node000011" title=" " alt="" coords="625,574,673,573,848,573,882,573,882,578,848,578,673,578,625,579"/>
+<area shape="poly" id="edge16_Node000010_Node000011" title=" " alt="" coords="848,593,882,589,883,594,848,598"/>
+<area shape="poly" id="edge17_Node000011_Node000011" title=" " alt="" coords="942,558,939,548,946,539,961,533,983,531,1009,534,1023,542,1021,546,1008,539,983,537,962,539,949,543,945,549,947,557"/>
+<area shape="poly" id="edge23_Node000012_Node000004" title=" " alt="" coords="378,193,450,173,565,160,682,156,791,160,883,167,882,173,790,165,682,162,566,165,451,178,379,198"/>
+<area shape="poly" id="edge25_Node000012_Node000005" title=" " alt="" coords="402,198,453,190,510,185,569,186,626,195,671,212,712,234,710,239,669,217,625,201,568,192,510,191,454,195,403,204"/>
+<area shape="poly" id="edge24_Node000012_Node000008" title=" " alt="" coords="403,236,438,242,437,247,402,241"/>
+<area shape="poly" id="edge26_Node000012_Node000012" title=" " alt="" coords="272,196,272,186,280,177,294,171,315,169,340,172,355,180,352,185,339,178,315,175,296,177,283,181,277,188,277,196"/>
+<area shape="poly" id="edge28_Node000013_Node000004" title=" " alt="" coords="814,82,849,101,939,153,936,157,847,106,812,87"/>
+<area shape="poly" id="edge29_Node000013_Node000013" title=" " alt="" coords="717,29,718,19,725,10,740,5,761,3,786,6,800,14,797,18,784,11,761,8,741,10,728,15,723,21,723,29"/>
+</map>

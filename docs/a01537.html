@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::core::crc::parametric::crc8_bluetooth_spec_t Struct Reference</title>
+<title>LumexLib: lumex::core::filesystem::fs Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,61 +104,245 @@ $(function(){initNavTree('a01537.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#pub-types">Public Types</a> &#124;
-<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
-<a href="a01534.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">lumex::core::crc::parametric::crc8_bluetooth_spec_t Struct Reference</div></div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::filesystem::fs Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>CRC-8/BLUETOOTH: width=8 poly=0xa7 init=0x00 refin=true refout=true xorout=0x00.  
- <a href="#details">More...</a></p>
-
-<p><code>#include &lt;<a class="el" href="a00236_source.html">LumexCrcParametric.hpp</a>&gt;</code></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
-Public Types</h2></td></tr>
-<tr class="memitem:a6f0819a28b58dd2931c8e6c613000e63" id="r_a6f0819a28b58dd2931c8e6c613000e63"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6f0819a28b58dd2931c8e6c613000e63">ValueType</a> = std::uint8_t</td></tr>
-<tr class="separator:a6f0819a28b58dd2931c8e6c613000e63"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01538.html">Detail</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01539.html">detail</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
-Static Public Attributes</h2></td></tr>
-<tr class="memitem:ac5e8c1ebf75fe5467c2ae938d0e319e3" id="r_ac5e8c1ebf75fe5467c2ae938d0e319e3"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac5e8c1ebf75fe5467c2ae938d0e319e3">kWidth</a> = 8</td></tr>
-<tr class="separator:ac5e8c1ebf75fe5467c2ae938d0e319e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6d79fd3bb37542137e53cfa38a18fda7" id="r_a6d79fd3bb37542137e53cfa38a18fda7"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6d79fd3bb37542137e53cfa38a18fda7">kPoly</a> = 0xA7U</td></tr>
-<tr class="separator:a6d79fd3bb37542137e53cfa38a18fda7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a19e48672697a2fa16bea539a01196483" id="r_a19e48672697a2fa16bea539a01196483"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a19e48672697a2fa16bea539a01196483">kInit</a> = 0x00U</td></tr>
-<tr class="separator:a19e48672697a2fa16bea539a01196483"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a00aacc82ca62f072ca5133837178b152" id="r_a00aacc82ca62f072ca5133837178b152"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITbool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a00aacc82ca62f072ca5133837178b152">kRefIn</a> = true</td></tr>
-<tr class="separator:a00aacc82ca62f072ca5133837178b152"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6f590d843e685b42c3e30eaa9bb621f6" id="r_a6f590d843e685b42c3e30eaa9bb621f6"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITbool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6f590d843e685b42c3e30eaa9bb621f6">kRefOut</a> = true</td></tr>
-<tr class="separator:a6f590d843e685b42c3e30eaa9bb621f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1dbf733adfc87b00dae3d11d6c0d9aac" id="r_a1dbf733adfc87b00dae3d11d6c0d9aac"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1dbf733adfc87b00dae3d11d6c0d9aac">kXorOut</a> = 0x00U</td></tr>
-<tr class="separator:a1dbf733adfc87b00dae3d11d6c0d9aac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a197f22c1b142e685ebe750d947cc4a36" id="r_a197f22c1b142e685ebe750d947cc4a36"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a197f22c1b142e685ebe750d947cc4a36">kCatalogCheck</a> = 0x26U</td></tr>
-<tr class="separator:a197f22c1b142e685ebe750d947cc4a36"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02959.html">directory_entry</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Directory entry representation.  <a href="a02959.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02963.html">directory_iterator</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Directory iterator for traversing directory contents.  <a href="a02963.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02951.html">file_status</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">File status information.  <a href="a02951.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02939.html">filesystem_result</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A generic result type for filesystem operations that encapsulates a value or an error.  <a href="a02939.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02943.html">filesystem_result&lt; void &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specialization of <code><a class="el" href="a02939.html" title="A generic result type for filesystem operations that encapsulates a value or an error.">filesystem_result</a></code> for <code>void</code> return types.  <a href="a02943.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02967.html">lumex_filesystem</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main filesystem operations class.  <a href="a02967.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02947.html">path</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cross-platform path representation and manipulation.  <a href="a02947.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02955.html">space_info</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Space information for a filesystem.  <a href="a02955.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:ab64d400fe6c2cab49e4cf4c63a82cc19" id="r_ab64d400fe6c2cab49e4cf4c63a82cc19"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab64d400fe6c2cab49e4cf4c63a82cc19">file_type</a> : std::int8_t { <br />
+&#160;&#160;<a class="el" href="#ab64d400fe6c2cab49e4cf4c63a82cc19a7500611bf7030bc99d25c354e7b64714">not_found</a> = -1
+, <a class="el" href="#ab64d400fe6c2cab49e4cf4c63a82cc19a334c4a4c42fdb79d7ebc3e73b517e6f8">none</a> = 0
+, <a class="el" href="#ab64d400fe6c2cab49e4cf4c63a82cc19aaf37d08ae228a87dc6b265fd1019c97d">regular</a> = 1
+, <a class="el" href="#ab64d400fe6c2cab49e4cf4c63a82cc19a5f8f22b8cdbaeee8cf857673a9b6ba20">directory</a> = 2
+, <br />
+&#160;&#160;<a class="el" href="#ab64d400fe6c2cab49e4cf4c63a82cc19aa978acc8a7ae15f49f58f3495f0d85ba">symlink</a> = 3
+, <a class="el" href="#ab64d400fe6c2cab49e4cf4c63a82cc19a14511f2f5564650d129ca7cabc333278">block</a> = 4
+, <a class="el" href="#ab64d400fe6c2cab49e4cf4c63a82cc19aa956161a69928cd130a889b88082fb6e">character</a> = 5
+, <a class="el" href="#ab64d400fe6c2cab49e4cf4c63a82cc19acf54937a2330ac17aa523bf7130911a3">fifo</a> = 6
+, <br />
+&#160;&#160;<a class="el" href="#ab64d400fe6c2cab49e4cf4c63a82cc19a61f2529360aec54f5dc9804b842cf3fa">socket</a> = 7
+, <a class="el" href="#ab64d400fe6c2cab49e4cf4c63a82cc19aad921d60486366258809553a3db49a4a">unknown</a> = 8
+<br />
+ }</td></tr>
+<tr class="memdesc:ab64d400fe6c2cab49e4cf4c63a82cc19"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumeration of common file types, compatible with <code>std::filesystem</code>.  <a href="#ab64d400fe6c2cab49e4cf4c63a82cc19">More...</a><br /></td></tr>
+<tr class="separator:ab64d400fe6c2cab49e4cf4c63a82cc19"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff3ca2c04a9619a71b70141134fff438" id="r_aff3ca2c04a9619a71b70141134fff438"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aff3ca2c04a9619a71b70141134fff438">write_mode</a> : std::uint8_t { <a class="el" href="#aff3ca2c04a9619a71b70141134fff438a1cb251ec0d568de6a929b520c4aed8d1">text</a>
+, <a class="el" href="#aff3ca2c04a9619a71b70141134fff438a9d7183f16acce70658f686ae7f1a4d20">binary</a>
+ }</td></tr>
+<tr class="memdesc:aff3ca2c04a9619a71b70141134fff438"><td class="mdescLeft">&#160;</td><td class="mdescRight">How <code>lumex_filesystem::replace_file_content</code> opens the file it writes.  <a href="#aff3ca2c04a9619a71b70141134fff438">More...</a><br /></td></tr>
+<tr class="separator:aff3ca2c04a9619a71b70141134fff438"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab64132a6feae0925f48c883dd04ce26f" id="r_ab64132a6feae0925f48c883dd04ce26f"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab64132a6feae0925f48c883dd04ce26f">perms</a> : std::uint16_t { <br />
+&#160;&#160;<a class="el" href="#ab64132a6feae0925f48c883dd04ce26fa334c4a4c42fdb79d7ebc3e73b517e6f8">none</a> = 0
+, <a class="el" href="#ab64132a6feae0925f48c883dd04ce26fa13804bd89bd86850b7c1b3cf17148c8b">owner_read</a> = 0400
+, <a class="el" href="#ab64132a6feae0925f48c883dd04ce26fa0d521a25ebf962a812b43c32fe36500e">owner_write</a> = 0200
+, <a class="el" href="#ab64132a6feae0925f48c883dd04ce26fa189e890869453de458a9c5c26af8359b">owner_exec</a> = 0100
+, <br />
+&#160;&#160;<a class="el" href="#ab64132a6feae0925f48c883dd04ce26fa3e6083e076d1f7125c0bbf7070df5440">owner_all</a> = 0700
+, <a class="el" href="#ab64132a6feae0925f48c883dd04ce26fa25103dc0b7bf4bb70a12fdc9ae83b5dc">group_read</a> = 040
+, <a class="el" href="#ab64132a6feae0925f48c883dd04ce26facf5f2e0341d3d21a4bc073c8eb8a25fa">group_write</a> = 020
+, <a class="el" href="#ab64132a6feae0925f48c883dd04ce26fa314d3c6602524dddf70432b0ece937a8">group_exec</a> = 010
+, <br />
+&#160;&#160;<a class="el" href="#ab64132a6feae0925f48c883dd04ce26fae177de190fd9bcd01e4f8934f58dfa5c">group_all</a> = 070
+, <a class="el" href="#ab64132a6feae0925f48c883dd04ce26fae1ea303787306dda3e50a432832c998a">others_read</a> = 04
+, <a class="el" href="#ab64132a6feae0925f48c883dd04ce26faf9d2b2426ee261e7ab294f317c5115bf">others_write</a> = 02
+, <a class="el" href="#ab64132a6feae0925f48c883dd04ce26fa5a2e0fba544a04c9e3f47dc370c28bf2">others_exec</a> = 01
+, <br />
+&#160;&#160;<a class="el" href="#ab64132a6feae0925f48c883dd04ce26fa5bea7ea33126a22add82c5809bfa6366">others_all</a> = 07
+, <a class="el" href="#ab64132a6feae0925f48c883dd04ce26faa181a603769c1f98ad927e7367c7aa51">all</a> = 0777
+, <a class="el" href="#ab64132a6feae0925f48c883dd04ce26fa2154ad8380cc7d3b920b3563078a50a8">set_uid</a> = 04000
+, <a class="el" href="#ab64132a6feae0925f48c883dd04ce26faea8f56585bae5bd29a5cb0d29767cccb">set_gid</a> = 02000
+, <br />
+&#160;&#160;<a class="el" href="#ab64132a6feae0925f48c883dd04ce26fa3a3b94501085ac7f29f89b8335e886d7">sticky_bit</a> = 01000
+, <a class="el" href="#ab64132a6feae0925f48c883dd04ce26faf2ce11ebf110993621bedd8e747d7b1b">mask</a> = 07777
+, <a class="el" href="#ab64132a6feae0925f48c883dd04ce26faad921d60486366258809553a3db49a4a">unknown</a> = 0xFFFF
+<br />
+ }</td></tr>
+<tr class="memdesc:ab64132a6feae0925f48c883dd04ce26f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumeration of file permissions, compatible with POSIX <code>chmod</code> masks.  <a href="#ab64132a6feae0925f48c883dd04ce26f">More...</a><br /></td></tr>
+<tr class="separator:ab64132a6feae0925f48c883dd04ce26f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:adf5d03ba35df46391f109e9844c0e75a" id="r_adf5d03ba35df46391f109e9844c0e75a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adf5d03ba35df46391f109e9844c0e75a">is_file_exists</a> (std::string const &amp;path_arg)</td></tr>
+<tr class="memdesc:adf5d03ba35df46391f109e9844c0e75a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if a file exists at the specified path.  <br /></td></tr>
+<tr class="separator:adf5d03ba35df46391f109e9844c0e75a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72b0ecb08a98bd86964e3ef4f84af743" id="r_a72b0ecb08a98bd86964e3ef4f84af743"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a72b0ecb08a98bd86964e3ef4f84af743">check_name</a> (std::string const &amp;name)</td></tr>
+<tr class="memdesc:a72b0ecb08a98bd86964e3ef4f84af743"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if a file or directory name is valid.  <br /></td></tr>
+<tr class="separator:a72b0ecb08a98bd86964e3ef4f84af743"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a08e7ddc9003e41440fe5c682267340" id="r_a0a08e7ddc9003e41440fe5c682267340"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0a08e7ddc9003e41440fe5c682267340">sanitize_name</a> (std::string const &amp;name, std::string const &amp;defaultValue=&quot;unnamed&quot;) noexcept</td></tr>
+<tr class="memdesc:a0a08e7ddc9003e41440fe5c682267340"><td class="mdescLeft">&#160;</td><td class="mdescRight">Filters name, replacing invalid characters with '_' (noexcept wrapper)  <br /></td></tr>
+<tr class="separator:a0a08e7ddc9003e41440fe5c682267340"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afda7ab23913a8aaebab0ee9ff7bc25ee" id="r_afda7ab23913a8aaebab0ee9ff7bc25ee"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#ab64132a6feae0925f48c883dd04ce26f">perms</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afda7ab23913a8aaebab0ee9ff7bc25ee">operator|</a> (<a class="el" href="#ab64132a6feae0925f48c883dd04ce26f">perms</a> lhs, <a class="el" href="#ab64132a6feae0925f48c883dd04ce26f">perms</a> rhs)</td></tr>
+<tr class="memdesc:afda7ab23913a8aaebab0ee9ff7bc25ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bitwise OR operator for <code>perms</code> enum.  <br /></td></tr>
+<tr class="separator:afda7ab23913a8aaebab0ee9ff7bc25ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e46d1815221263fa06e28eeff5819ad" id="r_a3e46d1815221263fa06e28eeff5819ad"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#ab64132a6feae0925f48c883dd04ce26f">perms</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3e46d1815221263fa06e28eeff5819ad">operator&amp;</a> (<a class="el" href="#ab64132a6feae0925f48c883dd04ce26f">perms</a> lhs, <a class="el" href="#ab64132a6feae0925f48c883dd04ce26f">perms</a> rhs)</td></tr>
+<tr class="memdesc:a3e46d1815221263fa06e28eeff5819ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bitwise AND operator for <code>perms</code> enum.  <br /></td></tr>
+<tr class="separator:a3e46d1815221263fa06e28eeff5819ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf3761a38972cade40cae2dd7dfc9205" id="r_adf3761a38972cade40cae2dd7dfc9205"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#ab64132a6feae0925f48c883dd04ce26f">perms</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adf3761a38972cade40cae2dd7dfc9205">operator^</a> (<a class="el" href="#ab64132a6feae0925f48c883dd04ce26f">perms</a> lhs, <a class="el" href="#ab64132a6feae0925f48c883dd04ce26f">perms</a> rhs)</td></tr>
+<tr class="memdesc:adf3761a38972cade40cae2dd7dfc9205"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bitwise XOR operator for <code>perms</code> enum.  <br /></td></tr>
+<tr class="separator:adf3761a38972cade40cae2dd7dfc9205"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abbc1fed953cec690ccc6158ea34ef4aa" id="r_abbc1fed953cec690ccc6158ea34ef4aa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#ab64132a6feae0925f48c883dd04ce26f">perms</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abbc1fed953cec690ccc6158ea34ef4aa">operator~</a> (<a class="el" href="#ab64132a6feae0925f48c883dd04ce26f">perms</a> rhs)</td></tr>
+<tr class="memdesc:abbc1fed953cec690ccc6158ea34ef4aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bitwise NOT operator for <code>perms</code> enum.  <br /></td></tr>
+<tr class="separator:abbc1fed953cec690ccc6158ea34ef4aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6dc0d190b5c4353edc7a196794061c5f" id="r_a6dc0d190b5c4353edc7a196794061c5f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#ab64132a6feae0925f48c883dd04ce26f">perms</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6dc0d190b5c4353edc7a196794061c5f">operator|=</a> (<a class="el" href="#ab64132a6feae0925f48c883dd04ce26f">perms</a> &amp;lhs, <a class="el" href="#ab64132a6feae0925f48c883dd04ce26f">perms</a> rhs)</td></tr>
+<tr class="memdesc:a6dc0d190b5c4353edc7a196794061c5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bitwise OR assignment operator for <code>perms</code> enum.  <br /></td></tr>
+<tr class="separator:a6dc0d190b5c4353edc7a196794061c5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae98e5fe083cf25bc561d7a34573c4db1" id="r_ae98e5fe083cf25bc561d7a34573c4db1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#ab64132a6feae0925f48c883dd04ce26f">perms</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae98e5fe083cf25bc561d7a34573c4db1">operator&amp;=</a> (<a class="el" href="#ab64132a6feae0925f48c883dd04ce26f">perms</a> &amp;lhs, <a class="el" href="#ab64132a6feae0925f48c883dd04ce26f">perms</a> rhs)</td></tr>
+<tr class="memdesc:ae98e5fe083cf25bc561d7a34573c4db1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bitwise AND assignment operator for <code>perms</code> enum.  <br /></td></tr>
+<tr class="separator:ae98e5fe083cf25bc561d7a34573c4db1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a489198ffbc2f3cfdd38261b519fabb7a" id="r_a489198ffbc2f3cfdd38261b519fabb7a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#ab64132a6feae0925f48c883dd04ce26f">perms</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a489198ffbc2f3cfdd38261b519fabb7a">operator^=</a> (<a class="el" href="#ab64132a6feae0925f48c883dd04ce26f">perms</a> &amp;lhs, <a class="el" href="#ab64132a6feae0925f48c883dd04ce26f">perms</a> rhs)</td></tr>
+<tr class="memdesc:a489198ffbc2f3cfdd38261b519fabb7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bitwise XOR assignment operator for <code>perms</code> enum.  <br /></td></tr>
+<tr class="separator:a489198ffbc2f3cfdd38261b519fabb7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f7db6087eb42d57322c23d856b59707" id="r_a5f7db6087eb42d57322c23d856b59707"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5f7db6087eb42d57322c23d856b59707">operator==</a> (<a class="el" href="a02947.html">path</a> const &amp;lhs, <a class="el" href="a02947.html">path</a> const &amp;rhs)</td></tr>
+<tr class="memdesc:a5f7db6087eb42d57322c23d856b59707"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equality comparison operator for <code>path_arg</code>.  <br /></td></tr>
+<tr class="separator:a5f7db6087eb42d57322c23d856b59707"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1111320e1e6c9eb5d0f18ec9f8f6a5df" id="r_a1111320e1e6c9eb5d0f18ec9f8f6a5df"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1111320e1e6c9eb5d0f18ec9f8f6a5df">operator!=</a> (<a class="el" href="a02947.html">path</a> const &amp;lhs, <a class="el" href="a02947.html">path</a> const &amp;rhs)</td></tr>
+<tr class="memdesc:a1111320e1e6c9eb5d0f18ec9f8f6a5df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inequality comparison operator for <code>path</code>.  <br /></td></tr>
+<tr class="separator:a1111320e1e6c9eb5d0f18ec9f8f6a5df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7107e51cd1d0ae71482dc0bc62e84cc2" id="r_a7107e51cd1d0ae71482dc0bc62e84cc2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7107e51cd1d0ae71482dc0bc62e84cc2">operator&lt;</a> (<a class="el" href="a02947.html">path</a> const &amp;lhs, <a class="el" href="a02947.html">path</a> const &amp;rhs)</td></tr>
+<tr class="memdesc:a7107e51cd1d0ae71482dc0bc62e84cc2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Less-than comparison operator for <code>path</code>.  <br /></td></tr>
+<tr class="separator:a7107e51cd1d0ae71482dc0bc62e84cc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba8ca56942ab5acbd75cf7fb36cbee22" id="r_aba8ca56942ab5acbd75cf7fb36cbee22"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aba8ca56942ab5acbd75cf7fb36cbee22">operator&lt;=</a> (<a class="el" href="a02947.html">path</a> const &amp;lhs, <a class="el" href="a02947.html">path</a> const &amp;rhs)</td></tr>
+<tr class="memdesc:aba8ca56942ab5acbd75cf7fb36cbee22"><td class="mdescLeft">&#160;</td><td class="mdescRight">Less-than-or-equal comparison operator for <code>path</code>.  <br /></td></tr>
+<tr class="separator:aba8ca56942ab5acbd75cf7fb36cbee22"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80bbe48ca85064803bc063a7a8e77d8f" id="r_a80bbe48ca85064803bc063a7a8e77d8f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a80bbe48ca85064803bc063a7a8e77d8f">operator&gt;</a> (<a class="el" href="a02947.html">path</a> const &amp;lhs, <a class="el" href="a02947.html">path</a> const &amp;rhs)</td></tr>
+<tr class="memdesc:a80bbe48ca85064803bc063a7a8e77d8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Greater-than comparison operator for <code>path</code>.  <br /></td></tr>
+<tr class="separator:a80bbe48ca85064803bc063a7a8e77d8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d6ccb26c1e674f9a86b2a2ae87fdee4" id="r_a5d6ccb26c1e674f9a86b2a2ae87fdee4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5d6ccb26c1e674f9a86b2a2ae87fdee4">operator&gt;=</a> (<a class="el" href="a02947.html">path</a> const &amp;lhs, <a class="el" href="a02947.html">path</a> const &amp;rhs)</td></tr>
+<tr class="memdesc:a5d6ccb26c1e674f9a86b2a2ae87fdee4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Greater-than-or-equal comparison operator for <code>path</code>.  <br /></td></tr>
+<tr class="separator:a5d6ccb26c1e674f9a86b2a2ae87fdee4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7c6d79acf35b6f382323cd933320b9a" id="r_af7c6d79acf35b6f382323cd933320b9a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a02947.html">path</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af7c6d79acf35b6f382323cd933320b9a">operator/</a> (<a class="el" href="a02947.html">path</a> const &amp;lhs, <a class="el" href="a02947.html">path</a> const &amp;rhs)</td></tr>
+<tr class="memdesc:af7c6d79acf35b6f382323cd933320b9a"><td class="mdescLeft">&#160;</td><td class="mdescRight">path concatenation operator.  <br /></td></tr>
+<tr class="separator:af7c6d79acf35b6f382323cd933320b9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ff3a6d92d49abe1b8a1e9bd03c8ee2b" id="r_a4ff3a6d92d49abe1b8a1e9bd03c8ee2b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a02947.html">path</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4ff3a6d92d49abe1b8a1e9bd03c8ee2b">operator/</a> (<a class="el" href="a02947.html">path</a> const &amp;lhs, std::string const &amp;rhs)</td></tr>
+<tr class="memdesc:a4ff3a6d92d49abe1b8a1e9bd03c8ee2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">path concatenation operator with a <code>std::string</code>.  <br /></td></tr>
+<tr class="separator:a4ff3a6d92d49abe1b8a1e9bd03c8ee2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9971f335b87eb887d5bf815348d46419" id="r_a9971f335b87eb887d5bf815348d46419"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a02947.html">path</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9971f335b87eb887d5bf815348d46419">operator/</a> (<a class="el" href="a02947.html">path</a> const &amp;lhs, char const *rhs)</td></tr>
+<tr class="memdesc:a9971f335b87eb887d5bf815348d46419"><td class="mdescLeft">&#160;</td><td class="mdescRight">path concatenation operator with a C-style string.  <br /></td></tr>
+<tr class="separator:a9971f335b87eb887d5bf815348d46419"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa59791a69de40a74ebd89d38d27889f3" id="r_aa59791a69de40a74ebd89d38d27889f3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a02947.html">path</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa59791a69de40a74ebd89d38d27889f3">operator/</a> (std::string const &amp;lhs, <a class="el" href="a02947.html">path</a> const &amp;rhs)</td></tr>
+<tr class="memdesc:aa59791a69de40a74ebd89d38d27889f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">path concatenation operator with <code>std::string</code> as left operand.  <br /></td></tr>
+<tr class="separator:aa59791a69de40a74ebd89d38d27889f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af1dc5d618b983f79c3118286a2282f90" id="r_af1dc5d618b983f79c3118286a2282f90"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a02947.html">path</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af1dc5d618b983f79c3118286a2282f90">operator/</a> (char const *lhs, <a class="el" href="a02947.html">path</a> const &amp;rhs)</td></tr>
+<tr class="memdesc:af1dc5d618b983f79c3118286a2282f90"><td class="mdescLeft">&#160;</td><td class="mdescRight">path concatenation operator with C-style string as left operand.  <br /></td></tr>
+<tr class="separator:af1dc5d618b983f79c3118286a2282f90"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5968ac8e2c750ed8ecbfbeaf523eac43" id="r_a5968ac8e2c750ed8ecbfbeaf523eac43"><td class="memTemplParams" colspan="2">template&lt;class StdPath, typename std::enable_if&lt; std::is_same&lt; StdPath, std::filesystem::path &gt;::value, int &gt;::type = 0&gt; </td></tr>
+<tr class="memitem:a5968ac8e2c750ed8ecbfbeaf523eac43"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a5968ac8e2c750ed8ecbfbeaf523eac43">operator==</a> (<a class="el" href="a02947.html">path</a> const &amp;lhs, StdPath const &amp;rhs)</td></tr>
+<tr class="memdesc:a5968ac8e2c750ed8ecbfbeaf523eac43"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compares a <code>path</code> with a <code>std::filesystem::path</code>: <code>lhs == rhs</code>.  <br /></td></tr>
+<tr class="separator:a5968ac8e2c750ed8ecbfbeaf523eac43"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54ffdc12d51e048056b3e743959ed3d0" id="r_a54ffdc12d51e048056b3e743959ed3d0"><td class="memTemplParams" colspan="2">template&lt;class StdPath, typename std::enable_if&lt; std::is_same&lt; StdPath, std::filesystem::path &gt;::value, int &gt;::type = 0&gt; </td></tr>
+<tr class="memitem:a54ffdc12d51e048056b3e743959ed3d0"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a54ffdc12d51e048056b3e743959ed3d0">operator==</a> (StdPath const &amp;lhs, <a class="el" href="a02947.html">path</a> const &amp;rhs)</td></tr>
+<tr class="memdesc:a54ffdc12d51e048056b3e743959ed3d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compares a <code>std::filesystem::path</code> with a <code>path</code>: <code>lhs == rhs</code>.  <br /></td></tr>
+<tr class="separator:a54ffdc12d51e048056b3e743959ed3d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2442ef15dcc9b3f19f612eb336fb2d55" id="r_a2442ef15dcc9b3f19f612eb336fb2d55"><td class="memTemplParams" colspan="2">template&lt;class StdPath, typename std::enable_if&lt; std::is_same&lt; StdPath, std::filesystem::path &gt;::value, int &gt;::type = 0&gt; </td></tr>
+<tr class="memitem:a2442ef15dcc9b3f19f612eb336fb2d55"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a2442ef15dcc9b3f19f612eb336fb2d55">operator!=</a> (<a class="el" href="a02947.html">path</a> const &amp;lhs, StdPath const &amp;rhs)</td></tr>
+<tr class="memdesc:a2442ef15dcc9b3f19f612eb336fb2d55"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compares a <code>path</code> with a <code>std::filesystem::path</code>: <code>lhs != rhs</code>.  <br /></td></tr>
+<tr class="separator:a2442ef15dcc9b3f19f612eb336fb2d55"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab84c97a4c7979696850748cedab9b674" id="r_ab84c97a4c7979696850748cedab9b674"><td class="memTemplParams" colspan="2">template&lt;class StdPath, typename std::enable_if&lt; std::is_same&lt; StdPath, std::filesystem::path &gt;::value, int &gt;::type = 0&gt; </td></tr>
+<tr class="memitem:ab84c97a4c7979696850748cedab9b674"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ab84c97a4c7979696850748cedab9b674">operator!=</a> (StdPath const &amp;lhs, <a class="el" href="a02947.html">path</a> const &amp;rhs)</td></tr>
+<tr class="memdesc:ab84c97a4c7979696850748cedab9b674"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compares a <code>std::filesystem::path</code> with a <code>path</code>: <code>lhs != rhs</code>.  <br /></td></tr>
+<tr class="separator:ab84c97a4c7979696850748cedab9b674"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7e8a01106286eb6666a9d3a037024b9" id="r_ae7e8a01106286eb6666a9d3a037024b9"><td class="memTemplParams" colspan="2">template&lt;class StdPath, typename std::enable_if&lt; std::is_same&lt; StdPath, std::filesystem::path &gt;::value, int &gt;::type = 0&gt; </td></tr>
+<tr class="memitem:ae7e8a01106286eb6666a9d3a037024b9"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ae7e8a01106286eb6666a9d3a037024b9">operator&lt;</a> (<a class="el" href="a02947.html">path</a> const &amp;lhs, StdPath const &amp;rhs)</td></tr>
+<tr class="memdesc:ae7e8a01106286eb6666a9d3a037024b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compares a <code>path</code> with a <code>std::filesystem::path</code>: <code>lhs &lt; rhs</code>.  <br /></td></tr>
+<tr class="separator:ae7e8a01106286eb6666a9d3a037024b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a448b9a16bcf2c7c9316cb288bc7f91a0" id="r_a448b9a16bcf2c7c9316cb288bc7f91a0"><td class="memTemplParams" colspan="2">template&lt;class StdPath, typename std::enable_if&lt; std::is_same&lt; StdPath, std::filesystem::path &gt;::value, int &gt;::type = 0&gt; </td></tr>
+<tr class="memitem:a448b9a16bcf2c7c9316cb288bc7f91a0"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a448b9a16bcf2c7c9316cb288bc7f91a0">operator&lt;</a> (StdPath const &amp;lhs, <a class="el" href="a02947.html">path</a> const &amp;rhs)</td></tr>
+<tr class="memdesc:a448b9a16bcf2c7c9316cb288bc7f91a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compares a <code>std::filesystem::path</code> with a <code>path</code>: <code>lhs &lt; rhs</code>.  <br /></td></tr>
+<tr class="separator:a448b9a16bcf2c7c9316cb288bc7f91a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1b18cbc7b284153ba1f17515070bb31" id="r_aa1b18cbc7b284153ba1f17515070bb31"><td class="memTemplParams" colspan="2">template&lt;class StdPath, typename std::enable_if&lt; std::is_same&lt; StdPath, std::filesystem::path &gt;::value, int &gt;::type = 0&gt; </td></tr>
+<tr class="memitem:aa1b18cbc7b284153ba1f17515070bb31"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#aa1b18cbc7b284153ba1f17515070bb31">operator&lt;=</a> (<a class="el" href="a02947.html">path</a> const &amp;lhs, StdPath const &amp;rhs)</td></tr>
+<tr class="memdesc:aa1b18cbc7b284153ba1f17515070bb31"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compares a <code>path</code> with a <code>std::filesystem::path</code>: <code>lhs &lt;= rhs</code>.  <br /></td></tr>
+<tr class="separator:aa1b18cbc7b284153ba1f17515070bb31"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a135728a1174fb0c0bd203ce7bbd3ba02" id="r_a135728a1174fb0c0bd203ce7bbd3ba02"><td class="memTemplParams" colspan="2">template&lt;class StdPath, typename std::enable_if&lt; std::is_same&lt; StdPath, std::filesystem::path &gt;::value, int &gt;::type = 0&gt; </td></tr>
+<tr class="memitem:a135728a1174fb0c0bd203ce7bbd3ba02"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a135728a1174fb0c0bd203ce7bbd3ba02">operator&lt;=</a> (StdPath const &amp;lhs, <a class="el" href="a02947.html">path</a> const &amp;rhs)</td></tr>
+<tr class="memdesc:a135728a1174fb0c0bd203ce7bbd3ba02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compares a <code>std::filesystem::path</code> with a <code>path</code>: <code>lhs &lt;= rhs</code>.  <br /></td></tr>
+<tr class="separator:a135728a1174fb0c0bd203ce7bbd3ba02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39bbdd5eb669da377ce38ada68ee352b" id="r_a39bbdd5eb669da377ce38ada68ee352b"><td class="memTemplParams" colspan="2">template&lt;class StdPath, typename std::enable_if&lt; std::is_same&lt; StdPath, std::filesystem::path &gt;::value, int &gt;::type = 0&gt; </td></tr>
+<tr class="memitem:a39bbdd5eb669da377ce38ada68ee352b"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a39bbdd5eb669da377ce38ada68ee352b">operator&gt;</a> (<a class="el" href="a02947.html">path</a> const &amp;lhs, StdPath const &amp;rhs)</td></tr>
+<tr class="memdesc:a39bbdd5eb669da377ce38ada68ee352b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compares a <code>path</code> with a <code>std::filesystem::path</code>: <code>lhs &gt; rhs</code>.  <br /></td></tr>
+<tr class="separator:a39bbdd5eb669da377ce38ada68ee352b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d7c95fbad9fe54c8dd5e03872f5376b" id="r_a9d7c95fbad9fe54c8dd5e03872f5376b"><td class="memTemplParams" colspan="2">template&lt;class StdPath, typename std::enable_if&lt; std::is_same&lt; StdPath, std::filesystem::path &gt;::value, int &gt;::type = 0&gt; </td></tr>
+<tr class="memitem:a9d7c95fbad9fe54c8dd5e03872f5376b"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a9d7c95fbad9fe54c8dd5e03872f5376b">operator&gt;</a> (StdPath const &amp;lhs, <a class="el" href="a02947.html">path</a> const &amp;rhs)</td></tr>
+<tr class="memdesc:a9d7c95fbad9fe54c8dd5e03872f5376b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compares a <code>std::filesystem::path</code> with a <code>path</code>: <code>lhs &gt; rhs</code>.  <br /></td></tr>
+<tr class="separator:a9d7c95fbad9fe54c8dd5e03872f5376b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70f6aaae7ce2ad53f83a63a7089bdf04" id="r_a70f6aaae7ce2ad53f83a63a7089bdf04"><td class="memTemplParams" colspan="2">template&lt;class StdPath, typename std::enable_if&lt; std::is_same&lt; StdPath, std::filesystem::path &gt;::value, int &gt;::type = 0&gt; </td></tr>
+<tr class="memitem:a70f6aaae7ce2ad53f83a63a7089bdf04"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a70f6aaae7ce2ad53f83a63a7089bdf04">operator&gt;=</a> (<a class="el" href="a02947.html">path</a> const &amp;lhs, StdPath const &amp;rhs)</td></tr>
+<tr class="memdesc:a70f6aaae7ce2ad53f83a63a7089bdf04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compares a <code>path</code> with a <code>std::filesystem::path</code>: <code>lhs &gt;= rhs</code>.  <br /></td></tr>
+<tr class="separator:a70f6aaae7ce2ad53f83a63a7089bdf04"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04053dec86fe319a7831a5a5ec31651d" id="r_a04053dec86fe319a7831a5a5ec31651d"><td class="memTemplParams" colspan="2">template&lt;class StdPath, typename std::enable_if&lt; std::is_same&lt; StdPath, std::filesystem::path &gt;::value, int &gt;::type = 0&gt; </td></tr>
+<tr class="memitem:a04053dec86fe319a7831a5a5ec31651d"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a04053dec86fe319a7831a5a5ec31651d">operator&gt;=</a> (StdPath const &amp;lhs, <a class="el" href="a02947.html">path</a> const &amp;rhs)</td></tr>
+<tr class="memdesc:a04053dec86fe319a7831a5a5ec31651d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compares a <code>std::filesystem::path</code> with a <code>path</code>: <code>lhs &gt;= rhs</code>.  <br /></td></tr>
+<tr class="separator:a04053dec86fe319a7831a5a5ec31651d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0e0d9077953b7ceb38faad8bd7503f3" id="r_ab0e0d9077953b7ceb38faad8bd7503f3"><td class="memTemplParams" colspan="2">template&lt;class StdPath, typename std::enable_if&lt; std::is_same&lt; StdPath, std::filesystem::path &gt;::value, int &gt;::type = 0&gt; </td></tr>
+<tr class="memitem:ab0e0d9077953b7ceb38faad8bd7503f3"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a02947.html">path</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ab0e0d9077953b7ceb38faad8bd7503f3">operator/</a> (<a class="el" href="a02947.html">path</a> const &amp;lhs, StdPath const &amp;rhs)</td></tr>
+<tr class="memdesc:ab0e0d9077953b7ceb38faad8bd7503f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Concatenation of a <code>path</code> and a <code>std::filesystem::path</code>: <code>lhs / rhs</code>.  <br /></td></tr>
+<tr class="separator:ab0e0d9077953b7ceb38faad8bd7503f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a471fcd39c7f23869126a88a50df95b93" id="r_a471fcd39c7f23869126a88a50df95b93"><td class="memTemplParams" colspan="2">template&lt;class StdPath, typename std::enable_if&lt; std::is_same&lt; StdPath, std::filesystem::path &gt;::value, int &gt;::type = 0&gt; </td></tr>
+<tr class="memitem:a471fcd39c7f23869126a88a50df95b93"><td class="memTemplItemLeft" align="right" valign="top">StdPath&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a471fcd39c7f23869126a88a50df95b93">operator/</a> (StdPath const &amp;lhs, <a class="el" href="a02947.html">path</a> const &amp;rhs)</td></tr>
+<tr class="memdesc:a471fcd39c7f23869126a88a50df95b93"><td class="mdescLeft">&#160;</td><td class="mdescRight">Concatenation of a <code>std::filesystem::path</code> and a <code>path</code>: <code>lhs / rhs</code>.  <br /></td></tr>
+<tr class="separator:a471fcd39c7f23869126a88a50df95b93"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac1726045894b2825de9aa258773a339c" id="r_ac1726045894b2825de9aa258773a339c"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac1726045894b2825de9aa258773a339c">operator&lt;&lt;</a> (std::ostream &amp;out, <a class="el" href="a02947.html">path</a> const &amp;path_arg)</td></tr>
+<tr class="memdesc:ac1726045894b2825de9aa258773a339c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stream insertion operator for <code><a class="el" href="a01425.html#a45ac34be96c8025d67f85eb38698bf0e" title="Global alias for lumex::core::filesystem::fs::lumex_filesystem::path.">lumex::path</a></code>.  <br /></td></tr>
+<tr class="separator:ac1726045894b2825de9aa258773a339c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c40841e839e408f5499c2c29152a0e9" id="r_a5c40841e839e408f5499c2c29152a0e9"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5c40841e839e408f5499c2c29152a0e9">operator&lt;&lt;</a> (std::ostream &amp;out, <a class="el" href="a02959.html">directory_entry</a> const &amp;entry)</td></tr>
+<tr class="memdesc:a5c40841e839e408f5499c2c29152a0e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stream insertion operator for <code><a class="el" href="a01425.html#a03817bfe3dc516c68cf412bdd64eae24" title="Global alias for lumex::core::filesystem::fs::lumex_filesystem::directory_entry.">lumex::directory_entry</a></code>.  <br /></td></tr>
+<tr class="separator:a5c40841e839e408f5499c2c29152a0e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a2b2acf798928484250effe218827d8bf" id="r_a2b2acf798928484250effe218827d8bf"><td class="memItemLeft" align="right" valign="top">constexpr unsigned long long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2b2acf798928484250effe218827d8bf">KDEFAULT_WINDOWS_FILETIME_TO_UNIX_EPOCH_INTERVALS</a> = 116444736000000000ULL</td></tr>
+<tr class="memdesc:a2b2acf798928484250effe218827d8bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constant representing the number of 100-nanosecond intervals between January 1, 1601 (Windows FILETIME epoch) and January 1, 1970 (Unix epoch).  <br /></td></tr>
+<tr class="separator:a2b2acf798928484250effe218827d8bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:accc2a42364c03e157dc46ce5d69885bd" id="r_accc2a42364c03e157dc46ce5d69885bd"><td class="memItemLeft" align="right" valign="top">constexpr unsigned long long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#accc2a42364c03e157dc46ce5d69885bd">KDEFAULT_HUNDRED_NANOSECONDS_PER_SECOND</a> = 10000000ULL</td></tr>
+<tr class="memdesc:accc2a42364c03e157dc46ce5d69885bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constant representing the number of 100-nanosecond intervals in one second.  <br /></td></tr>
+<tr class="separator:accc2a42364c03e157dc46ce5d69885bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4342cfa74b504bece8d53ff5e4583b61" id="r_a4342cfa74b504bece8d53ff5e4583b61"><td class="memItemLeft" align="right" valign="top">static constchar *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4342cfa74b504bece8d53ff5e4583b61">constKTEMPORARY_FILE_SUFFIX</a> = &quot;.tmp&quot;</td></tr>
+<tr class="memdesc:a4342cfa74b504bece8d53ff5e4583b61"><td class="mdescLeft">&#160;</td><td class="mdescRight">Suffix appended to the target path to name the temporary file that <code>lumex_filesystem::replace_file_content</code> writes first.  <br /></td></tr>
+<tr class="separator:a4342cfa74b504bece8d53ff5e4583b61"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>CRC-8/BLUETOOTH: width=8 poly=0xa7 init=0x00 refin=true refout=true xorout=0x00. </p>
-<dl class="section see"><dt>See also</dt><dd><a href="https://reveng.sourceforge.io/crc-catalogue/all.htm">https://reveng.sourceforge.io/crc-catalogue/all.htm</a> - CRC-8/BLUETOOTH </dd></dl>
-</div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="a6f0819a28b58dd2931c8e6c613000e63" name="a6f0819a28b58dd2931c8e6c613000e63"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6f0819a28b58dd2931c8e6c613000e63">&#9670;&#160;</a></span>ValueType</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#a6f0819a28b58dd2931c8e6c613000e63">lumex::core::crc::parametric::crc8_bluetooth_spec_t::ValueType</a> = std::uint8_t</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="a197f22c1b142e685ebe750d947cc4a36" name="a197f22c1b142e685ebe750d947cc4a36"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a197f22c1b142e685ebe750d947cc4a36">&#9670;&#160;</a></span>kCatalogCheck</h2>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="ab64d400fe6c2cab49e4cf4c63a82cc19" name="ab64d400fe6c2cab49e4cf4c63a82cc19"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab64d400fe6c2cab49e4cf4c63a82cc19">&#9670;&#160;</a></span>file_type</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -167,7 +351,1721 @@ Static Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::uint8_t lumex::core::crc::parametric::crc8_bluetooth_spec_t::kCatalogCheck = 0x26U</td>
+          <td class="memname">enum class lumex::core::filesystem::fs::file_type : std::int8_t</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Enumeration of common file types, compatible with <code>std::filesystem</code>. </p>
+<p>This enum provides a portable way to categorize file system entities, including regular files, directories, symbolic links, and various device or special files. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ab64d400fe6c2cab49e4cf4c63a82cc19a7500611bf7030bc99d25c354e7b64714" name="ab64d400fe6c2cab49e4cf4c63a82cc19a7500611bf7030bc99d25c354e7b64714"></a>not_found&#160;</td><td class="fielddoc"><p>The file system entry does not exist. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ab64d400fe6c2cab49e4cf4c63a82cc19a334c4a4c42fdb79d7ebc3e73b517e6f8" name="ab64d400fe6c2cab49e4cf4c63a82cc19a334c4a4c42fdb79d7ebc3e73b517e6f8"></a>none&#160;</td><td class="fielddoc"><p>No file type is specified (default constructed state). </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ab64d400fe6c2cab49e4cf4c63a82cc19aaf37d08ae228a87dc6b265fd1019c97d" name="ab64d400fe6c2cab49e4cf4c63a82cc19aaf37d08ae228a87dc6b265fd1019c97d"></a>regular&#160;</td><td class="fielddoc"><p>A regular file. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ab64d400fe6c2cab49e4cf4c63a82cc19a5f8f22b8cdbaeee8cf857673a9b6ba20" name="ab64d400fe6c2cab49e4cf4c63a82cc19a5f8f22b8cdbaeee8cf857673a9b6ba20"></a>directory&#160;</td><td class="fielddoc"><p>A directory. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ab64d400fe6c2cab49e4cf4c63a82cc19aa978acc8a7ae15f49f58f3495f0d85ba" name="ab64d400fe6c2cab49e4cf4c63a82cc19aa978acc8a7ae15f49f58f3495f0d85ba"></a>symlink&#160;</td><td class="fielddoc"><p>A symbolic link. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ab64d400fe6c2cab49e4cf4c63a82cc19a14511f2f5564650d129ca7cabc333278" name="ab64d400fe6c2cab49e4cf4c63a82cc19a14511f2f5564650d129ca7cabc333278"></a>block&#160;</td><td class="fielddoc"><p>A block device file. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ab64d400fe6c2cab49e4cf4c63a82cc19aa956161a69928cd130a889b88082fb6e" name="ab64d400fe6c2cab49e4cf4c63a82cc19aa956161a69928cd130a889b88082fb6e"></a>character&#160;</td><td class="fielddoc"><p>A character device file. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ab64d400fe6c2cab49e4cf4c63a82cc19acf54937a2330ac17aa523bf7130911a3" name="ab64d400fe6c2cab49e4cf4c63a82cc19acf54937a2330ac17aa523bf7130911a3"></a>fifo&#160;</td><td class="fielddoc"><p>A FIFO (named pipe) file. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ab64d400fe6c2cab49e4cf4c63a82cc19a61f2529360aec54f5dc9804b842cf3fa" name="ab64d400fe6c2cab49e4cf4c63a82cc19a61f2529360aec54f5dc9804b842cf3fa"></a>socket&#160;</td><td class="fielddoc"><p>A socket file. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ab64d400fe6c2cab49e4cf4c63a82cc19aad921d60486366258809553a3db49a4a" name="ab64d400fe6c2cab49e4cf4c63a82cc19aad921d60486366258809553a3db49a4a"></a>unknown&#160;</td><td class="fielddoc"><p>The file type is unknown or could not be determined. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="ab64132a6feae0925f48c883dd04ce26f" name="ab64132a6feae0925f48c883dd04ce26f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab64132a6feae0925f48c883dd04ce26f">&#9670;&#160;</a></span>perms</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class lumex::core::filesystem::fs::perms : std::uint16_t</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Enumeration of file permissions, compatible with POSIX <code>chmod</code> masks. </p>
+<p>These flags can be combined using bitwise operators to represent various access rights for the owner, group, and others. Special bits like Set-UID, Set-GID, and Sticky are also included. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ab64132a6feae0925f48c883dd04ce26fa334c4a4c42fdb79d7ebc3e73b517e6f8" name="ab64132a6feae0925f48c883dd04ce26fa334c4a4c42fdb79d7ebc3e73b517e6f8"></a>none&#160;</td><td class="fielddoc"><p>No permissions. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ab64132a6feae0925f48c883dd04ce26fa13804bd89bd86850b7c1b3cf17148c8b" name="ab64132a6feae0925f48c883dd04ce26fa13804bd89bd86850b7c1b3cf17148c8b"></a>owner_read&#160;</td><td class="fielddoc"><p>Read permission for the file owner. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ab64132a6feae0925f48c883dd04ce26fa0d521a25ebf962a812b43c32fe36500e" name="ab64132a6feae0925f48c883dd04ce26fa0d521a25ebf962a812b43c32fe36500e"></a>owner_write&#160;</td><td class="fielddoc"><p>Write permission for the file owner. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ab64132a6feae0925f48c883dd04ce26fa189e890869453de458a9c5c26af8359b" name="ab64132a6feae0925f48c883dd04ce26fa189e890869453de458a9c5c26af8359b"></a>owner_exec&#160;</td><td class="fielddoc"><p>Execute permission for the file owner. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ab64132a6feae0925f48c883dd04ce26fa3e6083e076d1f7125c0bbf7070df5440" name="ab64132a6feae0925f48c883dd04ce26fa3e6083e076d1f7125c0bbf7070df5440"></a>owner_all&#160;</td><td class="fielddoc"><p>All permissions for the file owner (read, write, execute). </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ab64132a6feae0925f48c883dd04ce26fa25103dc0b7bf4bb70a12fdc9ae83b5dc" name="ab64132a6feae0925f48c883dd04ce26fa25103dc0b7bf4bb70a12fdc9ae83b5dc"></a>group_read&#160;</td><td class="fielddoc"><p>Read permission for the file's group. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ab64132a6feae0925f48c883dd04ce26facf5f2e0341d3d21a4bc073c8eb8a25fa" name="ab64132a6feae0925f48c883dd04ce26facf5f2e0341d3d21a4bc073c8eb8a25fa"></a>group_write&#160;</td><td class="fielddoc"><p>Write permission for the file's group. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ab64132a6feae0925f48c883dd04ce26fa314d3c6602524dddf70432b0ece937a8" name="ab64132a6feae0925f48c883dd04ce26fa314d3c6602524dddf70432b0ece937a8"></a>group_exec&#160;</td><td class="fielddoc"><p>Execute permission for the file's group. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ab64132a6feae0925f48c883dd04ce26fae177de190fd9bcd01e4f8934f58dfa5c" name="ab64132a6feae0925f48c883dd04ce26fae177de190fd9bcd01e4f8934f58dfa5c"></a>group_all&#160;</td><td class="fielddoc"><p>All permissions for the file's group. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ab64132a6feae0925f48c883dd04ce26fae1ea303787306dda3e50a432832c998a" name="ab64132a6feae0925f48c883dd04ce26fae1ea303787306dda3e50a432832c998a"></a>others_read&#160;</td><td class="fielddoc"><p>Read permission for others. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ab64132a6feae0925f48c883dd04ce26faf9d2b2426ee261e7ab294f317c5115bf" name="ab64132a6feae0925f48c883dd04ce26faf9d2b2426ee261e7ab294f317c5115bf"></a>others_write&#160;</td><td class="fielddoc"><p>Write permission for others. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ab64132a6feae0925f48c883dd04ce26fa5a2e0fba544a04c9e3f47dc370c28bf2" name="ab64132a6feae0925f48c883dd04ce26fa5a2e0fba544a04c9e3f47dc370c28bf2"></a>others_exec&#160;</td><td class="fielddoc"><p>Execute permission for others. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ab64132a6feae0925f48c883dd04ce26fa5bea7ea33126a22add82c5809bfa6366" name="ab64132a6feae0925f48c883dd04ce26fa5bea7ea33126a22add82c5809bfa6366"></a>others_all&#160;</td><td class="fielddoc"><p>All permissions for others. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ab64132a6feae0925f48c883dd04ce26faa181a603769c1f98ad927e7367c7aa51" name="ab64132a6feae0925f48c883dd04ce26faa181a603769c1f98ad927e7367c7aa51"></a>all&#160;</td><td class="fielddoc"><p>All standard permissions (owner, group, others). </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ab64132a6feae0925f48c883dd04ce26fa2154ad8380cc7d3b920b3563078a50a8" name="ab64132a6feae0925f48c883dd04ce26fa2154ad8380cc7d3b920b3563078a50a8"></a>set_uid&#160;</td><td class="fielddoc"><p>Set-User-ID bit. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ab64132a6feae0925f48c883dd04ce26faea8f56585bae5bd29a5cb0d29767cccb" name="ab64132a6feae0925f48c883dd04ce26faea8f56585bae5bd29a5cb0d29767cccb"></a>set_gid&#160;</td><td class="fielddoc"><p>Set-Group-ID bit. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ab64132a6feae0925f48c883dd04ce26fa3a3b94501085ac7f29f89b8335e886d7" name="ab64132a6feae0925f48c883dd04ce26fa3a3b94501085ac7f29f89b8335e886d7"></a>sticky_bit&#160;</td><td class="fielddoc"><p>Sticky bit. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ab64132a6feae0925f48c883dd04ce26faf2ce11ebf110993621bedd8e747d7b1b" name="ab64132a6feae0925f48c883dd04ce26faf2ce11ebf110993621bedd8e747d7b1b"></a>mask&#160;</td><td class="fielddoc"><p>Mask for all standard permission bits. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ab64132a6feae0925f48c883dd04ce26faad921d60486366258809553a3db49a4a" name="ab64132a6feae0925f48c883dd04ce26faad921d60486366258809553a3db49a4a"></a>unknown&#160;</td><td class="fielddoc"><p>Permissions are unknown or could not be determined. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="aff3ca2c04a9619a71b70141134fff438" name="aff3ca2c04a9619a71b70141134fff438"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff3ca2c04a9619a71b70141134fff438">&#9670;&#160;</a></span>write_mode</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class lumex::core::filesystem::fs::write_mode : std::uint8_t</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>How <code>lumex_filesystem::replace_file_content</code> opens the file it writes. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="aff3ca2c04a9619a71b70141134fff438a1cb251ec0d568de6a929b520c4aed8d1" name="aff3ca2c04a9619a71b70141134fff438a1cb251ec0d568de6a929b520c4aed8d1"></a>text&#160;</td><td class="fielddoc"><p>Text mode: on Windows every <code>\n</code> becomes <code>\r\n</code>. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="aff3ca2c04a9619a71b70141134fff438a9d7183f16acce70658f686ae7f1a4d20" name="aff3ca2c04a9619a71b70141134fff438a9d7183f16acce70658f686ae7f1a4d20"></a>binary&#160;</td><td class="fielddoc"><p>Binary mode: the bytes are written unchanged. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a72b0ecb08a98bd86964e3ef4f84af743" name="a72b0ecb08a98bd86964e3ef4f84af743"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a72b0ecb08a98bd86964e3ef4f84af743">&#9670;&#160;</a></span>check_name()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::core::filesystem::fs::check_name </td>
+          <td>(</td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>name</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Checks if a file or directory name is valid. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>Name to check </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::invalid_argument</td><td>if the name contains invalid characters or is reserved </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01537_a72b0ecb08a98bd86964e3ef4f84af743_cgraph.png" border="0" usemap="#aa01537_a72b0ecb08a98bd86964e3ef4f84af743_cgraph" alt=""/></div>
+<map name="aa01537_a72b0ecb08a98bd86964e3ef4f84af743_cgraph" id="aa01537_a72b0ecb08a98bd86964e3ef4f84af743_cgraph">
+<area shape="rect" title="Checks if a file or directory name is valid." alt="" coords="5,133,180,173"/>
+<area shape="poly" title=" " alt="" coords="47,133,45,123,52,114,68,108,93,106,121,109,136,116,134,121,119,114,93,111,69,113,55,118,50,124,53,132"/>
+<area shape="rect" href="a01538.html#a75f931473dff95752bbf968f5fe0fac7" title=" " alt="" coords="249,29,423,84"/>
+<area shape="poly" title=" " alt="" coords="139,130,227,94,247,86,249,91,229,99,141,135"/>
+<area shape="rect" href="a01538.html#a91cd3a30484a7ae2ca526d8809579acb" title=" " alt="" coords="247,133,425,173"/>
+<area shape="poly" title=" " alt="" coords="180,150,234,150,234,155,180,155"/>
+<area shape="rect" href="a01538.html#a3244ed9dd864a653698dc515f12beed2" title=" " alt="" coords="228,221,444,261"/>
+<area shape="poly" title=" " alt="" coords="149,170,268,213,267,218,148,175"/>
+<area shape="poly" title=" " alt="" coords="289,29,289,19,297,10,313,5,336,3,363,6,379,14,377,18,362,11,336,8,314,10,300,15,294,21,294,29"/>
+<area shape="poly" title=" " alt="" coords="291,133,288,123,295,114,311,108,336,106,364,109,380,116,377,121,363,114,336,111,313,113,298,118,293,124,296,132"/>
+<area shape="poly" title=" " alt="" coords="291,221,288,211,295,202,311,196,336,194,364,197,380,204,377,209,363,202,336,199,313,201,298,206,293,212,296,220"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01537_a72b0ecb08a98bd86964e3ef4f84af743_icgraph.png" border="0" usemap="#aa01537_a72b0ecb08a98bd86964e3ef4f84af743_icgraph" alt=""/></div>
+<map name="aa01537_a72b0ecb08a98bd86964e3ef4f84af743_icgraph" id="aa01537_a72b0ecb08a98bd86964e3ef4f84af743_icgraph">
+<area shape="rect" title="Checks if a file or directory name is valid." alt="" coords="228,29,403,69"/>
+<area shape="poly" title=" " alt="" coords="353,18,340,11,315,8,294,10,281,15,277,21,279,28,274,30,271,20,278,10,293,5,315,3,341,6,355,13"/>
+<area shape="rect" href="a01537.html#a0a08e7ddc9003e41440fe5c682267340" title="Filters name, replacing invalid characters with &#39;_&#39; (noexcept wrapper)" alt="" coords="5,29,180,69"/>
+<area shape="poly" title=" " alt="" coords="215,52,180,52,180,47,215,47"/>
+<area shape="poly" title=" " alt="" coords="130,18,117,11,93,8,71,10,59,15,54,21,56,28,51,30,49,20,55,10,70,5,93,3,119,6,133,13"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="adf5d03ba35df46391f109e9844c0e75a" name="adf5d03ba35df46391f109e9844c0e75a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adf5d03ba35df46391f109e9844c0e75a">&#9670;&#160;</a></span>is_file_exists()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::filesystem::fs::is_file_exists </td>
+          <td>(</td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>path_arg</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Checks if a file exists at the specified path. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path_arg</td><td>Path to the file </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the file exists, false otherwise </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01537_adf5d03ba35df46391f109e9844c0e75a_cgraph.png" border="0" usemap="#aa01537_adf5d03ba35df46391f109e9844c0e75a_cgraph" alt=""/></div>
+<map name="aa01537_adf5d03ba35df46391f109e9844c0e75a_cgraph" id="aa01537_adf5d03ba35df46391f109e9844c0e75a_cgraph">
+<area shape="rect" title="Checks if a file exists at the specified path." alt="" coords="5,29,180,69"/>
+<area shape="poly" title=" " alt="" coords="60,30,58,20,63,11,75,5,93,3,113,6,124,13,122,17,111,11,93,8,76,10,67,15,63,21,65,28"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01537_adf5d03ba35df46391f109e9844c0e75a_icgraph.png" border="0" usemap="#aa01537_adf5d03ba35df46391f109e9844c0e75a_icgraph" alt=""/></div>
+<map name="aa01537_adf5d03ba35df46391f109e9844c0e75a_icgraph" id="aa01537_adf5d03ba35df46391f109e9844c0e75a_icgraph">
+<area shape="rect" title="Checks if a file exists at the specified path." alt="" coords="5,29,180,69"/>
+<area shape="poly" title=" " alt="" coords="122,17,111,11,93,8,76,10,67,15,63,21,65,28,60,30,58,20,63,11,75,5,93,3,113,6,124,13"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a1111320e1e6c9eb5d0f18ec9f8f6a5df" name="a1111320e1e6c9eb5d0f18ec9f8f6a5df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1111320e1e6c9eb5d0f18ec9f8f6a5df">&#9670;&#160;</a></span>operator!=() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::filesystem::fs::operator!= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02947.html">path</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02947.html">path</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Inequality comparison operator for <code>path</code>. </p>
+<p>Inequality comparison.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lhs</td><td>The left-hand side <code>path</code> object. </td></tr>
+    <tr><td class="paramname">rhs</td><td>The right-hand side <code>path</code> object. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the paths are not equal, false otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="a2442ef15dcc9b3f19f612eb336fb2d55" name="a2442ef15dcc9b3f19f612eb336fb2d55"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2442ef15dcc9b3f19f612eb336fb2d55">&#9670;&#160;</a></span>operator!=() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class StdPath, typename std::enable_if&lt; std::is_same&lt; StdPath, std::filesystem::path &gt;::value, int &gt;::type = 0&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::filesystem::fs::operator!= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02947.html">path</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">StdPath const &amp;</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Compares a <code>path</code> with a <code>std::filesystem::path</code>: <code>lhs != rhs</code>. </p>
+<p>The standard path is converted to a <code>path</code> and the comparison is the one of this library, in both orders of the operands. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">StdPath</td><td>Only <code>std::filesystem::path</code> is accepted. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the left path is not equal to the right one. </dd></dl>
+
+</div>
+</div>
+<a id="ab84c97a4c7979696850748cedab9b674" name="ab84c97a4c7979696850748cedab9b674"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab84c97a4c7979696850748cedab9b674">&#9670;&#160;</a></span>operator!=() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class StdPath, typename std::enable_if&lt; std::is_same&lt; StdPath, std::filesystem::path &gt;::value, int &gt;::type = 0&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::filesystem::fs::operator!= </td>
+          <td>(</td>
+          <td class="paramtype">StdPath const &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02947.html">path</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Compares a <code>std::filesystem::path</code> with a <code>path</code>: <code>lhs != rhs</code>. </p>
+<p>The standard path is converted to a <code>path</code> and the comparison is the one of this library, in both orders of the operands. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">StdPath</td><td>Only <code>std::filesystem::path</code> is accepted. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the left path is not equal to the right one. </dd></dl>
+
+</div>
+</div>
+<a id="a3e46d1815221263fa06e28eeff5819ad" name="a3e46d1815221263fa06e28eeff5819ad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3e46d1815221263fa06e28eeff5819ad">&#9670;&#160;</a></span>operator&amp;()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#ab64132a6feae0925f48c883dd04ce26f">perms</a> lumex::core::filesystem::fs::operator&amp; </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#ab64132a6feae0925f48c883dd04ce26f">perms</a></td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#ab64132a6feae0925f48c883dd04ce26f">perms</a></td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Bitwise AND operator for <code>perms</code> enum. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lhs</td><td>The left-hand side <code>perms</code> operand. </td></tr>
+    <tr><td class="paramname">rhs</td><td>The right-hand side <code>perms</code> operand. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A <code>perms</code> value with only common bits set from both operands. </dd></dl>
+
+</div>
+</div>
+<a id="ae98e5fe083cf25bc561d7a34573c4db1" name="ae98e5fe083cf25bc561d7a34573c4db1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae98e5fe083cf25bc561d7a34573c4db1">&#9670;&#160;</a></span>operator&amp;=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#ab64132a6feae0925f48c883dd04ce26f">perms</a> &amp; lumex::core::filesystem::fs::operator&amp;= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#ab64132a6feae0925f48c883dd04ce26f">perms</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#ab64132a6feae0925f48c883dd04ce26f">perms</a></td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Bitwise AND assignment operator for <code>perms</code> enum. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lhs</td><td>The left-hand side <code>perms</code> operand (modified in place). </td></tr>
+    <tr><td class="paramname">rhs</td><td>The right-hand side <code>perms</code> operand. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A reference to <code>lhs</code> after the operation. </dd></dl>
+
+</div>
+</div>
+<a id="af1dc5d618b983f79c3118286a2282f90" name="af1dc5d618b983f79c3118286a2282f90"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af1dc5d618b983f79c3118286a2282f90">&#9670;&#160;</a></span>operator/() <span class="overload">[1/7]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02947.html">path</a> lumex::core::filesystem::fs::operator/ </td>
+          <td>(</td>
+          <td class="paramtype">char const *</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02947.html">path</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>path concatenation operator with C-style string as left operand. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lhs</td><td>The null-terminated C-string left-hand side. </td></tr>
+    <tr><td class="paramname">rhs</td><td>The right-hand side <code>path</code> object. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A new <code>path</code> object representing the concatenation. </dd></dl>
+
+</div>
+</div>
+<a id="a9971f335b87eb887d5bf815348d46419" name="a9971f335b87eb887d5bf815348d46419"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9971f335b87eb887d5bf815348d46419">&#9670;&#160;</a></span>operator/() <span class="overload">[2/7]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02947.html">path</a> lumex::core::filesystem::fs::operator/ </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02947.html">path</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char const *</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>path concatenation operator with a C-style string. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lhs</td><td>The left-hand side <code>path</code> object. </td></tr>
+    <tr><td class="paramname">rhs</td><td>The null-terminated C-string to append. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A new <code>path</code> object representing the concatenation. </dd></dl>
+
+</div>
+</div>
+<a id="af7c6d79acf35b6f382323cd933320b9a" name="af7c6d79acf35b6f382323cd933320b9a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af7c6d79acf35b6f382323cd933320b9a">&#9670;&#160;</a></span>operator/() <span class="overload">[3/7]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02947.html">path</a> lumex::core::filesystem::fs::operator/ </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02947.html">path</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02947.html">path</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>path concatenation operator. </p>
+<p>path concatenation.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lhs</td><td>The left-hand side <code>path</code> object. </td></tr>
+    <tr><td class="paramname">rhs</td><td>The right-hand side <code>path</code> object. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A new <code>path</code> object representing the concatenation of <code>lhs</code> and <code>rhs</code>. </dd></dl>
+
+</div>
+</div>
+<a id="a4ff3a6d92d49abe1b8a1e9bd03c8ee2b" name="a4ff3a6d92d49abe1b8a1e9bd03c8ee2b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ff3a6d92d49abe1b8a1e9bd03c8ee2b">&#9670;&#160;</a></span>operator/() <span class="overload">[4/7]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02947.html">path</a> lumex::core::filesystem::fs::operator/ </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02947.html">path</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>path concatenation operator with a <code>std::string</code>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lhs</td><td>The left-hand side <code>path</code> object. </td></tr>
+    <tr><td class="paramname">rhs</td><td>The <code>std::string</code> to append. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A new <code>path</code> object representing the concatenation. </dd></dl>
+
+</div>
+</div>
+<a id="ab0e0d9077953b7ceb38faad8bd7503f3" name="ab0e0d9077953b7ceb38faad8bd7503f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab0e0d9077953b7ceb38faad8bd7503f3">&#9670;&#160;</a></span>operator/() <span class="overload">[5/7]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class StdPath, typename std::enable_if&lt; std::is_same&lt; StdPath, std::filesystem::path &gt;::value, int &gt;::type = 0&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02947.html">path</a> lumex::core::filesystem::fs::operator/ </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02947.html">path</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">StdPath const &amp;</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Concatenation of a <code>path</code> and a <code>std::filesystem::path</code>: <code>lhs / rhs</code>. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">StdPath</td><td>Only <code>std::filesystem::path</code> is accepted. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A <code>path</code>: the result has the type of the left operand. </dd></dl>
+
+</div>
+</div>
+<a id="aa59791a69de40a74ebd89d38d27889f3" name="aa59791a69de40a74ebd89d38d27889f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa59791a69de40a74ebd89d38d27889f3">&#9670;&#160;</a></span>operator/() <span class="overload">[6/7]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02947.html">path</a> lumex::core::filesystem::fs::operator/ </td>
+          <td>(</td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02947.html">path</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>path concatenation operator with <code>std::string</code> as left operand. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lhs</td><td>The <code>std::string</code> left-hand side. </td></tr>
+    <tr><td class="paramname">rhs</td><td>The right-hand side <code>path</code> object. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A new <code>path</code> object representing the concatenation. </dd></dl>
+
+</div>
+</div>
+<a id="a471fcd39c7f23869126a88a50df95b93" name="a471fcd39c7f23869126a88a50df95b93"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a471fcd39c7f23869126a88a50df95b93">&#9670;&#160;</a></span>operator/() <span class="overload">[7/7]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class StdPath, typename std::enable_if&lt; std::is_same&lt; StdPath, std::filesystem::path &gt;::value, int &gt;::type = 0&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">StdPath lumex::core::filesystem::fs::operator/ </td>
+          <td>(</td>
+          <td class="paramtype">StdPath const &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02947.html">path</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Concatenation of a <code>std::filesystem::path</code> and a <code>path</code>: <code>lhs / rhs</code>. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">StdPath</td><td>Only <code>std::filesystem::path</code> is accepted. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A <code>std::filesystem::path</code>: the result has the type of the left operand, and the standard <code>/</code> does the concatenation. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01537_a471fcd39c7f23869126a88a50df95b93_cgraph.png" border="0" usemap="#aa01537_a471fcd39c7f23869126a88a50df95b93_cgraph" alt=""/></div>
+<map name="aa01537_a471fcd39c7f23869126a88a50df95b93_cgraph" id="aa01537_a471fcd39c7f23869126a88a50df95b93_cgraph">
+<area shape="rect" title="Concatenation of a std::filesystem::path and a path: lhs / rhs." alt="" coords="5,37,180,77"/>
+<area shape="rect" href="a01539.html#a50771a5ef3d8c96a8122faf5e6590a93" title="Builds a std::filesystem::path from a path (see path)." alt="" coords="228,30,403,85"/>
+<area shape="poly" title=" " alt="" coords="180,55,214,55,214,60,180,60"/>
+<area shape="poly" title=" " alt="" coords="272,30,272,20,280,11,294,5,315,3,340,6,355,14,352,19,339,12,315,9,296,11,283,15,277,22,277,30"/>
+<area shape="rect" href="a02947.html#a54758ce9dd25cab6d714efd2ac1e8ace" title="Returns a copy of the path as a std::string." alt="" coords="451,5,625,45"/>
+<area shape="poly" title=" " alt="" coords="402,42,437,37,438,42,403,47"/>
+<area shape="rect" href="a02947.html#a411cd428bcee18a7e01558506ba9a543" title="Converts and returns the path as a std::wstring." alt="" coords="451,69,625,109"/>
+<area shape="poly" title=" " alt="" coords="403,67,438,72,437,77,402,73"/>
+<area shape="rect" href="a02967.html#a8a23d2af01acf0e74e1432449f7268c0" title="Converts a std::string (UTF&#45;8 encoded) to a std::wstring." alt="" coords="673,62,848,117"/>
+<area shape="poly" title=" " alt="" coords="625,87,660,87,660,92,625,92"/>
+<area shape="poly" title=" " alt="" coords="719,62,719,52,727,43,740,37,761,35,785,38,799,46,796,51,783,43,761,41,742,43,730,47,724,54,724,62"/>
+<area shape="rect" href="a01584.html#a13d59f937ade78876e613ede4929011e" title="Converts length bytes of UTF&#45;8 text to a wchar_t string." alt="" coords="896,69,1055,109"/>
+<area shape="poly" title=" " alt="" coords="849,87,882,87,882,92,849,92"/>
+<area shape="rect" href="a04287.html#a0ea14e7a0dd342f28237c0e7ff007335" title=" " alt="" coords="1103,62,1261,117"/>
+<area shape="poly" title=" " alt="" coords="1055,87,1089,87,1089,92,1055,92"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a7107e51cd1d0ae71482dc0bc62e84cc2" name="a7107e51cd1d0ae71482dc0bc62e84cc2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7107e51cd1d0ae71482dc0bc62e84cc2">&#9670;&#160;</a></span>operator&lt;() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::filesystem::fs::operator&lt; </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02947.html">path</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02947.html">path</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Less-than comparison operator for <code>path</code>. </p>
+<p>Less-than comparison (lexicographical).</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lhs</td><td>The left-hand side <code>path</code> object. </td></tr>
+    <tr><td class="paramname">rhs</td><td>The right-hand side <code>path</code> object. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the left-hand side path is lexicographically less than the right-hand side path, false otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="ae7e8a01106286eb6666a9d3a037024b9" name="ae7e8a01106286eb6666a9d3a037024b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae7e8a01106286eb6666a9d3a037024b9">&#9670;&#160;</a></span>operator&lt;() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class StdPath, typename std::enable_if&lt; std::is_same&lt; StdPath, std::filesystem::path &gt;::value, int &gt;::type = 0&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::filesystem::fs::operator&lt; </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02947.html">path</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">StdPath const &amp;</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Compares a <code>path</code> with a <code>std::filesystem::path</code>: <code>lhs &lt; rhs</code>. </p>
+<p>The standard path is converted to a <code>path</code> and the comparison is the one of this library, in both orders of the operands. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">StdPath</td><td>Only <code>std::filesystem::path</code> is accepted. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the left path is less than the right one. </dd></dl>
+
+</div>
+</div>
+<a id="a448b9a16bcf2c7c9316cb288bc7f91a0" name="a448b9a16bcf2c7c9316cb288bc7f91a0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a448b9a16bcf2c7c9316cb288bc7f91a0">&#9670;&#160;</a></span>operator&lt;() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class StdPath, typename std::enable_if&lt; std::is_same&lt; StdPath, std::filesystem::path &gt;::value, int &gt;::type = 0&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::filesystem::fs::operator&lt; </td>
+          <td>(</td>
+          <td class="paramtype">StdPath const &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02947.html">path</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Compares a <code>std::filesystem::path</code> with a <code>path</code>: <code>lhs &lt; rhs</code>. </p>
+<p>The standard path is converted to a <code>path</code> and the comparison is the one of this library, in both orders of the operands. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">StdPath</td><td>Only <code>std::filesystem::path</code> is accepted. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the left path is less than the right one. </dd></dl>
+
+</div>
+</div>
+<a id="a5c40841e839e408f5499c2c29152a0e9" name="a5c40841e839e408f5499c2c29152a0e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5c40841e839e408f5499c2c29152a0e9">&#9670;&#160;</a></span>operator&lt;&lt;() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::ostream &amp; lumex::core::filesystem::fs::operator&lt;&lt; </td>
+          <td>(</td>
+          <td class="paramtype">std::ostream &amp;</td>          <td class="paramname"><span class="paramname"><em>out</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02959.html">directory_entry</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>entry</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Stream insertion operator for <code><a class="el" href="a01425.html#a03817bfe3dc516c68cf412bdd64eae24" title="Global alias for lumex::core::filesystem::fs::lumex_filesystem::directory_entry.">lumex::directory_entry</a></code>. </p>
+<p>Allows printing <code><a class="el" href="a02959.html" title="Directory entry representation.">directory_entry</a></code> objects directly to <code>std::ostream</code> (e.g., <code>std::cout</code>). It prints the path_arg string of the entry. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">out</td><td>The output stream. </td></tr>
+    <tr><td class="paramname">entry</td><td>The <code><a class="el" href="a01425.html#a03817bfe3dc516c68cf412bdd64eae24" title="Global alias for lumex::core::filesystem::fs::lumex_filesystem::directory_entry.">lumex::directory_entry</a></code> object to print. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A reference to the output stream. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01537_a5c40841e839e408f5499c2c29152a0e9_cgraph.png" border="0" usemap="#aa01537_a5c40841e839e408f5499c2c29152a0e9_cgraph" alt=""/></div>
+<map name="aa01537_a5c40841e839e408f5499c2c29152a0e9_cgraph" id="aa01537_a5c40841e839e408f5499c2c29152a0e9_cgraph">
+<area shape="rect" title="Stream insertion operator for lumex::directory_entry." alt="" coords="5,37,180,77"/>
+<area shape="rect" href="a02959.html#aeff37da9230a2406b8630c8e239c9496" title="Retrieves the path of this directory entry." alt="" coords="228,5,413,45"/>
+<area shape="poly" title=" " alt="" coords="180,42,214,38,215,43,181,48"/>
+<area shape="rect" href="a02947.html#a54758ce9dd25cab6d714efd2ac1e8ace" title="Returns a copy of the path as a std::string." alt="" coords="233,69,408,109"/>
+<area shape="poly" title=" " alt="" coords="181,67,220,72,219,78,180,72"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ac1726045894b2825de9aa258773a339c" name="ac1726045894b2825de9aa258773a339c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac1726045894b2825de9aa258773a339c">&#9670;&#160;</a></span>operator&lt;&lt;() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::ostream &amp; lumex::core::filesystem::fs::operator&lt;&lt; </td>
+          <td>(</td>
+          <td class="paramtype">std::ostream &amp;</td>          <td class="paramname"><span class="paramname"><em>out</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02947.html">path</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>path_arg</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Stream insertion operator for <code><a class="el" href="a01425.html#a45ac34be96c8025d67f85eb38698bf0e" title="Global alias for lumex::core::filesystem::fs::lumex_filesystem::path.">lumex::path</a></code>. </p>
+<p>Allows printing <code>path</code> objects directly to <code>std::ostream</code> (e.g., <code>std::cout</code>). Declared in the namespace of the class, so that argument-dependent lookup finds it from any namespace. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">out</td><td>The output stream. </td></tr>
+    <tr><td class="paramname">path_arg</td><td>The <code><a class="el" href="a01425.html#a45ac34be96c8025d67f85eb38698bf0e" title="Global alias for lumex::core::filesystem::fs::lumex_filesystem::path.">lumex::path</a></code> object to print. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A reference to the output stream. </dd></dl>
+
+</div>
+</div>
+<a id="aba8ca56942ab5acbd75cf7fb36cbee22" name="aba8ca56942ab5acbd75cf7fb36cbee22"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba8ca56942ab5acbd75cf7fb36cbee22">&#9670;&#160;</a></span>operator&lt;=() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::filesystem::fs::operator&lt;= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02947.html">path</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02947.html">path</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Less-than-or-equal comparison operator for <code>path</code>. </p>
+<p>Less-than-or-equal comparison.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lhs</td><td>The left-hand side <code>path</code> object. </td></tr>
+    <tr><td class="paramname">rhs</td><td>The right-hand side <code>path</code> object. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the left-hand side path is lexicographically less than or equal to the right-hand side path, false otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="aa1b18cbc7b284153ba1f17515070bb31" name="aa1b18cbc7b284153ba1f17515070bb31"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa1b18cbc7b284153ba1f17515070bb31">&#9670;&#160;</a></span>operator&lt;=() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class StdPath, typename std::enable_if&lt; std::is_same&lt; StdPath, std::filesystem::path &gt;::value, int &gt;::type = 0&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::filesystem::fs::operator&lt;= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02947.html">path</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">StdPath const &amp;</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Compares a <code>path</code> with a <code>std::filesystem::path</code>: <code>lhs &lt;= rhs</code>. </p>
+<p>The standard path is converted to a <code>path</code> and the comparison is the one of this library, in both orders of the operands. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">StdPath</td><td>Only <code>std::filesystem::path</code> is accepted. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the left path is less than or equal to the right one. </dd></dl>
+
+</div>
+</div>
+<a id="a135728a1174fb0c0bd203ce7bbd3ba02" name="a135728a1174fb0c0bd203ce7bbd3ba02"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a135728a1174fb0c0bd203ce7bbd3ba02">&#9670;&#160;</a></span>operator&lt;=() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class StdPath, typename std::enable_if&lt; std::is_same&lt; StdPath, std::filesystem::path &gt;::value, int &gt;::type = 0&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::filesystem::fs::operator&lt;= </td>
+          <td>(</td>
+          <td class="paramtype">StdPath const &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02947.html">path</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Compares a <code>std::filesystem::path</code> with a <code>path</code>: <code>lhs &lt;= rhs</code>. </p>
+<p>The standard path is converted to a <code>path</code> and the comparison is the one of this library, in both orders of the operands. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">StdPath</td><td>Only <code>std::filesystem::path</code> is accepted. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the left path is less than or equal to the right one. </dd></dl>
+
+</div>
+</div>
+<a id="a5f7db6087eb42d57322c23d856b59707" name="a5f7db6087eb42d57322c23d856b59707"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f7db6087eb42d57322c23d856b59707">&#9670;&#160;</a></span>operator==() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::filesystem::fs::operator== </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02947.html">path</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02947.html">path</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Equality comparison operator for <code>path_arg</code>. </p>
+<p>Equality comparison.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lhs</td><td>The left-hand side <code>path_arg</code> object. </td></tr>
+    <tr><td class="paramname">rhs</td><td>The right-hand side <code>path_arg</code> object. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the paths are equal, false otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="a5968ac8e2c750ed8ecbfbeaf523eac43" name="a5968ac8e2c750ed8ecbfbeaf523eac43"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5968ac8e2c750ed8ecbfbeaf523eac43">&#9670;&#160;</a></span>operator==() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class StdPath, typename std::enable_if&lt; std::is_same&lt; StdPath, std::filesystem::path &gt;::value, int &gt;::type = 0&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::filesystem::fs::operator== </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02947.html">path</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">StdPath const &amp;</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Compares a <code>path</code> with a <code>std::filesystem::path</code>: <code>lhs == rhs</code>. </p>
+<p>The standard path is converted to a <code>path</code> and the comparison is the one of this library, in both orders of the operands. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">StdPath</td><td>Only <code>std::filesystem::path</code> is accepted. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the left path is equal to the right one. </dd></dl>
+
+</div>
+</div>
+<a id="a54ffdc12d51e048056b3e743959ed3d0" name="a54ffdc12d51e048056b3e743959ed3d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a54ffdc12d51e048056b3e743959ed3d0">&#9670;&#160;</a></span>operator==() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class StdPath, typename std::enable_if&lt; std::is_same&lt; StdPath, std::filesystem::path &gt;::value, int &gt;::type = 0&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::filesystem::fs::operator== </td>
+          <td>(</td>
+          <td class="paramtype">StdPath const &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02947.html">path</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Compares a <code>std::filesystem::path</code> with a <code>path</code>: <code>lhs == rhs</code>. </p>
+<p>The standard path is converted to a <code>path</code> and the comparison is the one of this library, in both orders of the operands. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">StdPath</td><td>Only <code>std::filesystem::path</code> is accepted. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the left path is equal to the right one. </dd></dl>
+
+</div>
+</div>
+<a id="a80bbe48ca85064803bc063a7a8e77d8f" name="a80bbe48ca85064803bc063a7a8e77d8f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a80bbe48ca85064803bc063a7a8e77d8f">&#9670;&#160;</a></span>operator&gt;() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::filesystem::fs::operator&gt; </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02947.html">path</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02947.html">path</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Greater-than comparison operator for <code>path</code>. </p>
+<p>Greater-than comparison.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lhs</td><td>The left-hand side <code>path</code> object. </td></tr>
+    <tr><td class="paramname">rhs</td><td>The right-hand side <code>path</code> object. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the left-hand side path is lexicographically greater than the right-hand side path, false otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="a39bbdd5eb669da377ce38ada68ee352b" name="a39bbdd5eb669da377ce38ada68ee352b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a39bbdd5eb669da377ce38ada68ee352b">&#9670;&#160;</a></span>operator&gt;() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class StdPath, typename std::enable_if&lt; std::is_same&lt; StdPath, std::filesystem::path &gt;::value, int &gt;::type = 0&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::filesystem::fs::operator&gt; </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02947.html">path</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">StdPath const &amp;</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Compares a <code>path</code> with a <code>std::filesystem::path</code>: <code>lhs &gt; rhs</code>. </p>
+<p>The standard path is converted to a <code>path</code> and the comparison is the one of this library, in both orders of the operands. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">StdPath</td><td>Only <code>std::filesystem::path</code> is accepted. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the left path is greater than the right one. </dd></dl>
+
+</div>
+</div>
+<a id="a9d7c95fbad9fe54c8dd5e03872f5376b" name="a9d7c95fbad9fe54c8dd5e03872f5376b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d7c95fbad9fe54c8dd5e03872f5376b">&#9670;&#160;</a></span>operator&gt;() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class StdPath, typename std::enable_if&lt; std::is_same&lt; StdPath, std::filesystem::path &gt;::value, int &gt;::type = 0&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::filesystem::fs::operator&gt; </td>
+          <td>(</td>
+          <td class="paramtype">StdPath const &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02947.html">path</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Compares a <code>std::filesystem::path</code> with a <code>path</code>: <code>lhs &gt; rhs</code>. </p>
+<p>The standard path is converted to a <code>path</code> and the comparison is the one of this library, in both orders of the operands. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">StdPath</td><td>Only <code>std::filesystem::path</code> is accepted. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the left path is greater than the right one. </dd></dl>
+
+</div>
+</div>
+<a id="a5d6ccb26c1e674f9a86b2a2ae87fdee4" name="a5d6ccb26c1e674f9a86b2a2ae87fdee4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5d6ccb26c1e674f9a86b2a2ae87fdee4">&#9670;&#160;</a></span>operator&gt;=() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::filesystem::fs::operator&gt;= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02947.html">path</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02947.html">path</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Greater-than-or-equal comparison operator for <code>path</code>. </p>
+<p>Greater-than-or-equal comparison.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lhs</td><td>The left-hand side <code>path</code> object. </td></tr>
+    <tr><td class="paramname">rhs</td><td>The right-hand side <code>path</code> object. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the left-hand side path is lexicographically greater than or equal to the right-hand side path, false otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="a70f6aaae7ce2ad53f83a63a7089bdf04" name="a70f6aaae7ce2ad53f83a63a7089bdf04"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a70f6aaae7ce2ad53f83a63a7089bdf04">&#9670;&#160;</a></span>operator&gt;=() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class StdPath, typename std::enable_if&lt; std::is_same&lt; StdPath, std::filesystem::path &gt;::value, int &gt;::type = 0&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::filesystem::fs::operator&gt;= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02947.html">path</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">StdPath const &amp;</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Compares a <code>path</code> with a <code>std::filesystem::path</code>: <code>lhs &gt;= rhs</code>. </p>
+<p>The standard path is converted to a <code>path</code> and the comparison is the one of this library, in both orders of the operands. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">StdPath</td><td>Only <code>std::filesystem::path</code> is accepted. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the left path is greater than or equal to the right one. </dd></dl>
+
+</div>
+</div>
+<a id="a04053dec86fe319a7831a5a5ec31651d" name="a04053dec86fe319a7831a5a5ec31651d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a04053dec86fe319a7831a5a5ec31651d">&#9670;&#160;</a></span>operator&gt;=() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class StdPath, typename std::enable_if&lt; std::is_same&lt; StdPath, std::filesystem::path &gt;::value, int &gt;::type = 0&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::filesystem::fs::operator&gt;= </td>
+          <td>(</td>
+          <td class="paramtype">StdPath const &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02947.html">path</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Compares a <code>std::filesystem::path</code> with a <code>path</code>: <code>lhs &gt;= rhs</code>. </p>
+<p>The standard path is converted to a <code>path</code> and the comparison is the one of this library, in both orders of the operands. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">StdPath</td><td>Only <code>std::filesystem::path</code> is accepted. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the left path is greater than or equal to the right one. </dd></dl>
+
+</div>
+</div>
+<a id="adf3761a38972cade40cae2dd7dfc9205" name="adf3761a38972cade40cae2dd7dfc9205"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adf3761a38972cade40cae2dd7dfc9205">&#9670;&#160;</a></span>operator^()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#ab64132a6feae0925f48c883dd04ce26f">perms</a> lumex::core::filesystem::fs::operator^ </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#ab64132a6feae0925f48c883dd04ce26f">perms</a></td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#ab64132a6feae0925f48c883dd04ce26f">perms</a></td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Bitwise XOR operator for <code>perms</code> enum. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lhs</td><td>The left-hand side <code>perms</code> operand. </td></tr>
+    <tr><td class="paramname">rhs</td><td>The right-hand side <code>perms</code> operand. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A <code>perms</code> value with bits set if they are set in one, but not both, operands. </dd></dl>
+
+</div>
+</div>
+<a id="a489198ffbc2f3cfdd38261b519fabb7a" name="a489198ffbc2f3cfdd38261b519fabb7a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a489198ffbc2f3cfdd38261b519fabb7a">&#9670;&#160;</a></span>operator^=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#ab64132a6feae0925f48c883dd04ce26f">perms</a> &amp; lumex::core::filesystem::fs::operator^= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#ab64132a6feae0925f48c883dd04ce26f">perms</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#ab64132a6feae0925f48c883dd04ce26f">perms</a></td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Bitwise XOR assignment operator for <code>perms</code> enum. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lhs</td><td>The left-hand side <code>perms</code> operand (modified in place). </td></tr>
+    <tr><td class="paramname">rhs</td><td>The right-hand side <code>perms</code> operand. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A reference to <code>lhs</code> after the operation. </dd></dl>
+
+</div>
+</div>
+<a id="afda7ab23913a8aaebab0ee9ff7bc25ee" name="afda7ab23913a8aaebab0ee9ff7bc25ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afda7ab23913a8aaebab0ee9ff7bc25ee">&#9670;&#160;</a></span>operator|()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#ab64132a6feae0925f48c883dd04ce26f">perms</a> lumex::core::filesystem::fs::operator| </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#ab64132a6feae0925f48c883dd04ce26f">perms</a></td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#ab64132a6feae0925f48c883dd04ce26f">perms</a></td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Bitwise OR operator for <code>perms</code> enum. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lhs</td><td>The left-hand side <code>perms</code> operand. </td></tr>
+    <tr><td class="paramname">rhs</td><td>The right-hand side <code>perms</code> operand. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A <code>perms</code> value with bits set from both operands. </dd></dl>
+
+</div>
+</div>
+<a id="a6dc0d190b5c4353edc7a196794061c5f" name="a6dc0d190b5c4353edc7a196794061c5f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6dc0d190b5c4353edc7a196794061c5f">&#9670;&#160;</a></span>operator|=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#ab64132a6feae0925f48c883dd04ce26f">perms</a> &amp; lumex::core::filesystem::fs::operator|= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#ab64132a6feae0925f48c883dd04ce26f">perms</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#ab64132a6feae0925f48c883dd04ce26f">perms</a></td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Bitwise OR assignment operator for <code>perms</code> enum. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lhs</td><td>The left-hand side <code>perms</code> operand (modified in place). </td></tr>
+    <tr><td class="paramname">rhs</td><td>The right-hand side <code>perms</code> operand. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A reference to <code>lhs</code> after the operation. </dd></dl>
+
+</div>
+</div>
+<a id="abbc1fed953cec690ccc6158ea34ef4aa" name="abbc1fed953cec690ccc6158ea34ef4aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abbc1fed953cec690ccc6158ea34ef4aa">&#9670;&#160;</a></span>operator~()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#ab64132a6feae0925f48c883dd04ce26f">perms</a> lumex::core::filesystem::fs::operator~ </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#ab64132a6feae0925f48c883dd04ce26f">perms</a></td>          <td class="paramname"><span class="paramname"><em>rhs</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Bitwise NOT operator for <code>perms</code> enum. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">rhs</td><td>The <code>perms</code> operand. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A <code>perms</code> value with all bits inverted. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01537_abbc1fed953cec690ccc6158ea34ef4aa_cgraph.png" border="0" usemap="#aa01537_abbc1fed953cec690ccc6158ea34ef4aa_cgraph" alt=""/></div>
+<map name="aa01537_abbc1fed953cec690ccc6158ea34ef4aa_cgraph" id="aa01537_abbc1fed953cec690ccc6158ea34ef4aa_cgraph">
+<area shape="rect" title="Bitwise NOT operator for perms enum." alt="" coords="5,29,180,69"/>
+<area shape="poly" title=" " alt="" coords="60,30,58,20,63,11,75,5,93,3,113,6,124,13,122,17,111,11,93,8,76,10,67,15,63,21,65,28"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01537_abbc1fed953cec690ccc6158ea34ef4aa_icgraph.png" border="0" usemap="#aa01537_abbc1fed953cec690ccc6158ea34ef4aa_icgraph" alt=""/></div>
+<map name="aa01537_abbc1fed953cec690ccc6158ea34ef4aa_icgraph" id="aa01537_abbc1fed953cec690ccc6158ea34ef4aa_icgraph">
+<area shape="rect" title="Bitwise NOT operator for perms enum." alt="" coords="5,29,180,69"/>
+<area shape="poly" title=" " alt="" coords="122,17,111,11,93,8,76,10,67,15,63,21,65,28,60,30,58,20,63,11,75,5,93,3,113,6,124,13"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a0a08e7ddc9003e41440fe5c682267340" name="a0a08e7ddc9003e41440fe5c682267340"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a08e7ddc9003e41440fe5c682267340">&#9670;&#160;</a></span>sanitize_name()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string lumex::core::filesystem::fs::sanitize_name </td>
+          <td>(</td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>name</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>defaultValue</em></span><span class="paramdefsep"> = </span><span class="paramdefval">&quot;unnamed&quot;</span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Filters name, replacing invalid characters with '_' (noexcept wrapper) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>Original name </td></tr>
+    <tr><td class="paramname">defaultValue</td><td>Returned if name is empty or completely invalid </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Sanitized name or defaultValue </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01537_a0a08e7ddc9003e41440fe5c682267340_cgraph.png" border="0" usemap="#aa01537_a0a08e7ddc9003e41440fe5c682267340_cgraph" alt=""/></div>
+<map name="aa01537_a0a08e7ddc9003e41440fe5c682267340_cgraph" id="aa01537_a0a08e7ddc9003e41440fe5c682267340_cgraph">
+<area shape="rect" title="Filters name, replacing invalid characters with &#39;_&#39; (noexcept wrapper)" alt="" coords="5,125,180,165"/>
+<area shape="poly" title=" " alt="" coords="51,126,49,116,55,106,70,101,93,99,119,102,133,109,130,114,117,107,93,104,71,106,59,111,54,117,56,124"/>
+<area shape="rect" href="a01537.html#a72b0ecb08a98bd86964e3ef4f84af743" title="Checks if a file or directory name is valid." alt="" coords="228,125,403,165"/>
+<area shape="poly" title=" " alt="" coords="180,143,214,143,214,148,180,148"/>
+<area shape="rect" href="a01538.html#a91cd3a30484a7ae2ca526d8809579acb" title=" " alt="" coords="470,29,647,69"/>
+<area shape="poly" title=" " alt="" coords="132,123,177,103,227,87,345,64,456,52,457,57,346,69,229,92,179,108,134,128"/>
+<area shape="rect" href="a01538.html#a3244ed9dd864a653698dc515f12beed2" title=" " alt="" coords="451,221,667,261"/>
+<area shape="poly" title=" " alt="" coords="175,163,229,175,438,216,437,222,227,180,174,168"/>
+<area shape="poly" title=" " alt="" coords="274,126,271,116,278,106,293,101,315,99,341,102,355,109,353,114,340,107,315,104,294,106,281,111,277,117,279,124"/>
+<area shape="rect" href="a01538.html#a75f931473dff95752bbf968f5fe0fac7" title=" " alt="" coords="471,118,646,173"/>
+<area shape="poly" title=" " alt="" coords="403,143,457,143,457,148,403,148"/>
+<area shape="poly" title=" " alt="" coords="353,123,450,79,472,71,474,76,452,84,355,128"/>
+<area shape="poly" title=" " alt="" coords="367,163,496,214,494,219,365,168"/>
+<area shape="poly" title=" " alt="" coords="511,118,512,108,520,99,536,93,559,91,586,94,602,102,599,107,585,100,559,97,537,99,523,103,517,110,517,118"/>
+<area shape="poly" title=" " alt="" coords="513,30,511,20,518,10,534,5,559,3,587,6,602,13,600,18,585,11,559,8,535,10,521,15,516,21,519,28"/>
+<area shape="poly" title=" " alt="" coords="513,222,511,212,518,202,534,197,559,195,587,198,602,205,600,210,585,203,559,200,535,202,521,207,516,213,519,220"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01537_a0a08e7ddc9003e41440fe5c682267340_icgraph.png" border="0" usemap="#aa01537_a0a08e7ddc9003e41440fe5c682267340_icgraph" alt=""/></div>
+<map name="aa01537_a0a08e7ddc9003e41440fe5c682267340_icgraph" id="aa01537_a0a08e7ddc9003e41440fe5c682267340_icgraph">
+<area shape="rect" title="Filters name, replacing invalid characters with &#39;_&#39; (noexcept wrapper)" alt="" coords="5,29,180,69"/>
+<area shape="poly" title=" " alt="" coords="122,17,111,11,93,8,76,10,67,15,63,21,65,28,60,30,58,20,63,11,75,5,93,3,113,6,124,13"/>
+</map>
+</div>
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="a4342cfa74b504bece8d53ff5e4583b61" name="a4342cfa74b504bece8d53ff5e4583b61"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4342cfa74b504bece8d53ff5e4583b61">&#9670;&#160;</a></span>constKTEMPORARY_FILE_SUFFIX</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constchar* lumex::core::filesystem::fs::constKTEMPORARY_FILE_SUFFIX = &quot;.tmp&quot;</td>
         </tr>
       </table>
   </td>
@@ -177,10 +2075,12 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Suffix appended to the target path to name the temporary file that <code>lumex_filesystem::replace_file_content</code> writes first. </p>
+
 </div>
 </div>
-<a id="a19e48672697a2fa16bea539a01196483" name="a19e48672697a2fa16bea539a01196483"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a19e48672697a2fa16bea539a01196483">&#9670;&#160;</a></span>kInit</h2>
+<a id="accc2a42364c03e157dc46ce5d69885bd" name="accc2a42364c03e157dc46ce5d69885bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#accc2a42364c03e157dc46ce5d69885bd">&#9670;&#160;</a></span>KDEFAULT_HUNDRED_NANOSECONDS_PER_SECOND</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -189,20 +2089,22 @@ Static Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::uint64_t lumex::core::crc::parametric::crc8_bluetooth_spec_t::kInit = 0x00U</td>
+          <td class="memname">unsigned long long lumex::core::filesystem::fs::KDEFAULT_HUNDRED_NANOSECONDS_PER_SECOND = 10000000ULL</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
+<p>Constant representing the number of 100-nanosecond intervals in one second. </p>
+
 </div>
 </div>
-<a id="a6d79fd3bb37542137e53cfa38a18fda7" name="a6d79fd3bb37542137e53cfa38a18fda7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6d79fd3bb37542137e53cfa38a18fda7">&#9670;&#160;</a></span>kPoly</h2>
+<a id="a2b2acf798928484250effe218827d8bf" name="a2b2acf798928484250effe218827d8bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2b2acf798928484250effe218827d8bf">&#9670;&#160;</a></span>KDEFAULT_WINDOWS_FILETIME_TO_UNIX_EPOCH_INTERVALS</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -211,115 +2113,26 @@ Static Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::uint64_t lumex::core::crc::parametric::crc8_bluetooth_spec_t::kPoly = 0xA7U</td>
+          <td class="memname">unsigned long long lumex::core::filesystem::fs::KDEFAULT_WINDOWS_FILETIME_TO_UNIX_EPOCH_INTERVALS = 116444736000000000ULL</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-</div>
-</div>
-<a id="a00aacc82ca62f072ca5133837178b152" name="a00aacc82ca62f072ca5133837178b152"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a00aacc82ca62f072ca5133837178b152">&#9670;&#160;</a></span>kRefIn</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITbool lumex::core::crc::parametric::crc8_bluetooth_spec_t::kRefIn = true</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
+<p>Constant representing the number of 100-nanosecond intervals between January 1, 1601 (Windows FILETIME epoch) and January 1, 1970 (Unix epoch). </p>
 
 </div>
 </div>
-<a id="a6f590d843e685b42c3e30eaa9bb621f6" name="a6f590d843e685b42c3e30eaa9bb621f6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6f590d843e685b42c3e30eaa9bb621f6">&#9670;&#160;</a></span>kRefOut</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITbool lumex::core::crc::parametric::crc8_bluetooth_spec_t::kRefOut = true</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ac5e8c1ebf75fe5467c2ae938d0e319e3" name="ac5e8c1ebf75fe5467c2ae938d0e319e3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac5e8c1ebf75fe5467c2ae938d0e319e3">&#9670;&#160;</a></span>kWidth</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITint lumex::core::crc::parametric::crc8_bluetooth_spec_t::kWidth = 8</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a1dbf733adfc87b00dae3d11d6c0d9aac" name="a1dbf733adfc87b00dae3d11d6c0d9aac"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1dbf733adfc87b00dae3d11d6c0d9aac">&#9670;&#160;</a></span>kXorOut</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::uint64_t lumex::core::crc::parametric::crc8_bluetooth_spec_t::kXorOut = 0x00U</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<hr/>The documentation for this struct was generated from the following file:<ul>
-<li><a class="el" href="a00236_source.html">LumexCrcParametric.hpp</a></li>
-</ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a01005.html">core</a></li><li class="navelem"><a class="el" href="a01025.html">crc</a></li><li class="navelem"><a class="el" href="a01028.html">parametric</a></li><li class="navelem"><a class="el" href="a01537.html">crc8_bluetooth_spec_t</a></li>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01536.html">filesystem</a></li><li class="navelem"><a class="el" href="a01537.html">fs</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

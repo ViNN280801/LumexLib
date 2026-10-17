@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexSplitCountPolicy.hpp File Reference</title>
+<title>LumexLib: example_string_view.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,49 +103,128 @@ $(function(){initNavTree('a00290.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">LumexSplitCountPolicy.hpp File Reference</div></div>
+  <div class="summary">
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">example_string_view.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
+<div class="textblock"><code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &quot;<a class="el" href="a01406_source.html">lumex/core/string_view/LumexStringView</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for example_string_view.cpp:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00291.png" border="0" usemap="#aexample__string__view_8cpp" alt=""/></div>
+<map name="aexample__string__view_8cpp" id="aexample__string__view_8cpp">
+<area shape="rect" title=" " alt="" coords="341,5,528,31"/>
+<area shape="rect" title=" " alt="" coords="317,86,397,111"/>
+<area shape="poly" title=" " alt="" coords="424,33,381,78,377,74,420,29"/>
+<area shape="rect" title=" " alt="" coords="5,321,64,346"/>
+<area shape="poly" title=" " alt="" coords="437,31,432,73,424,98,411,120,394,136,361,158,267,213,73,316,71,312,264,208,358,153,390,132,407,117,419,96,427,72,432,31"/>
+<area shape="rect" href="a01406.html" title="String view module: the C++11 implementation of std::string_view and its relatives,..." alt="" coords="522,79,697,119"/>
+<area shape="poly" title=" " alt="" coords="463,28,555,71,552,75,461,33"/>
+<area shape="rect" href="a00857.html" title="Header&#45;only, C++11&#45;first basic_string_view: the class template behind lumex_string_view,..." alt="" coords="655,240,889,265"/>
+<area shape="poly" title=" " alt="" coords="582,121,564,137,550,155,543,173,549,190,566,204,595,216,670,235,668,240,593,221,564,209,544,194,538,173,545,152,560,133,578,117"/>
+<area shape="rect" href="a00854.html" title="lumex_string_view: the view over char, the std::string_view of the library from C++11." alt="" coords="559,167,758,192"/>
+<area shape="poly" title=" " alt="" coords="624,118,646,154,642,156,620,120"/>
+<area shape="rect" href="a00860.html" title="lumex_wstring_view: the view over wchar_t, the std::wstring_view of the library from C++11." alt="" coords="781,167,992,192"/>
+<area shape="poly" title=" " alt="" coords="679,116,830,160,829,165,677,121"/>
+<area shape="poly" title=" " alt="" coords="655,260,342,280,188,296,77,316,71,318,69,313,75,311,187,291,342,275,655,255"/>
+<area shape="rect" title=" " alt="" coords="1385,321,1455,346"/>
+<area shape="poly" title=" " alt="" coords="889,258,1154,279,1282,294,1374,311,1382,313,1380,318,1373,316,1281,299,1153,285,889,263"/>
+<area shape="rect" title=" " alt="" coords="1480,321,1547,346"/>
+<area shape="poly" title=" " alt="" coords="889,256,1202,276,1357,292,1469,311,1477,313,1475,318,1467,316,1356,297,1202,281,889,261"/>
+<area shape="rect" title=" " alt="" coords="1571,321,1637,346"/>
+<area shape="poly" title=" " alt="" coords="889,254,1248,274,1429,290,1503,300,1559,311,1567,313,1566,318,1558,316,1502,305,1428,295,1248,279,889,260"/>
+<area shape="rect" title=" " alt="" coords="89,321,175,346"/>
+<area shape="poly" title=" " alt="" coords="655,259,436,276,311,292,187,316,176,319,175,314,186,311,310,287,436,270,655,254"/>
+<area shape="rect" title=" " alt="" coords="199,321,286,346"/>
+<area shape="poly" title=" " alt="" coords="655,263,485,282,391,296,298,316,287,319,286,314,297,311,390,291,485,276,655,258"/>
+<area shape="rect" title=" " alt="" coords="310,321,351,346"/>
+<area shape="poly" title=" " alt="" coords="655,267,491,289,417,302,363,316,361,317,359,312,362,311,416,297,490,283,655,262"/>
+<area shape="rect" title=" " alt="" coords="375,321,446,346"/>
+<area shape="poly" title=" " alt="" coords="681,268,574,287,459,316,453,318,451,313,458,311,573,282,680,263"/>
+<area shape="rect" title=" " alt="" coords="471,321,548,346"/>
+<area shape="poly" title=" " alt="" coords="723,268,561,316,554,318,552,313,559,311,722,263"/>
+<area shape="rect" title=" " alt="" coords="573,321,649,346"/>
+<area shape="poly" title=" " alt="" coords="748,268,649,317,647,312,745,263"/>
+<area shape="rect" title=" " alt="" coords="673,321,759,346"/>
+<area shape="poly" title=" " alt="" coords="765,267,735,311,731,308,761,264"/>
+<area shape="rect" title=" " alt="" coords="783,321,873,346"/>
+<area shape="poly" title=" " alt="" coords="783,264,813,308,809,311,779,267"/>
+<area shape="rect" title=" " alt="" coords="786,409,878,434"/>
+<area shape="poly" title=" " alt="" coords="821,263,858,282,874,295,888,312,894,335,888,359,875,381,859,400,855,397,870,378,883,357,888,335,883,315,871,299,855,286,819,268"/>
+<area shape="rect" title=" " alt="" coords="1263,321,1361,346"/>
+<area shape="poly" title=" " alt="" coords="889,260,1058,279,1245,311,1260,314,1259,320,1243,316,1057,285,888,265"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="999,313,1188,353"/>
+<area shape="poly" title=" " alt="" coords="823,263,1000,307,999,312,822,268"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="902,401,1157,441"/>
+<area shape="poly" title=" " alt="" coords="809,263,857,283,908,311,959,350,1002,389,998,393,956,354,905,316,855,288,807,268"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="1181,401,1395,441"/>
+<area shape="poly" title=" " alt="" coords="889,257,1066,276,1145,291,1201,311,1224,327,1243,347,1273,388,1269,391,1239,350,1220,331,1199,316,1144,296,1065,281,889,262"/>
+<area shape="poly" title=" " alt="" coords="1034,356,892,404,883,407,881,402,890,399,1033,351"/>
+<area shape="poly" title=" " alt="" coords="1081,355,1054,392,1050,388,1076,352"/>
+<area shape="poly" title=" " alt="" coords="1139,351,1232,393,1230,398,1137,356"/>
+<area shape="poly" title=" " alt="" coords="680,190,742,230,739,235,677,194"/>
+<area shape="poly" title=" " alt="" coords="868,194,805,235,802,230,865,190"/>
+</map>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
+<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
 
-<p>The policy of the split-count engine: the named steps of its protocol, the events a ledger counts, the guess of the word, the tick limit, the reserve and the back-off.  
-<a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;cstdint&gt;</code><br />
-<code>#include &lt;thread&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00263_source.html">lumex/core/atomic/dwcas/LumexDwcasWord.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00275_source.html">lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrConfig.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00296_source.html">lumex/core/atomic/smart_ptr/split_count/LumexSplitCountWord.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00623_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
-</div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexSplitCountPolicy.hpp:</div>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int main </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00291.png" border="0" usemap="#a_lumex_split_count_policy_8hpp" alt=""/></div>
+<div class="center"><img src="a00290_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00290_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
+<map name="aa00290_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" id="aa00290_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph">
+<area shape="rect" title=" " alt="" coords="5,335,60,360"/>
+<area shape="rect" href="a04167.html#aed3dc0a97328de954474f41db2f02a3c" title="Lexicographic comparison: negative, zero or positive." alt="" coords="108,5,295,60"/>
+<area shape="poly" title=" " alt="" coords="32,334,58,199,80,122,92,91,106,70,108,68,112,71,110,73,97,94,85,124,63,201,37,335"/>
+<area shape="rect" href="a04167.html#aff8d326ef9c6866116899f0eac72cfea" title="The pointer to the first character; null for a default view." alt="" coords="108,84,295,139"/>
+<area shape="poly" title=" " alt="" coords="31,334,37,298,50,249,72,196,88,171,106,148,109,145,113,149,110,152,92,174,77,198,55,251,43,299,37,335"/>
+<area shape="rect" href="a04167.html#a5b3f9ab09fbd99db936fad5d8ae43cc5" title="true when the view has no characters." alt="" coords="108,163,295,217"/>
+<area shape="poly" title=" " alt="" coords="35,333,61,283,81,253,106,227,111,223,114,227,110,231,85,256,65,285,40,336"/>
+<area shape="rect" href="a04167.html#af4f4f902216e25b31d01b19e904e7118" title="The view ends with suffix." alt="" coords="108,241,295,296"/>
+<area shape="poly" title=" " alt="" coords="54,332,107,305,120,299,122,304,109,310,57,337"/>
+<area shape="rect" href="a04167.html#add66982ae60be5e4553a6d7b349ad6b0" title="The first occurrence of needle at an index &gt;= pos." alt="" coords="108,320,295,375"/>
+<area shape="poly" title=" " alt="" coords="60,345,94,345,94,350,60,350"/>
+<area shape="rect" href="a04167.html#a86410bb27673095af0bd68d87a6bce96" title="The last occurrence of needle that starts at an index &lt;= pos." alt="" coords="108,399,295,453"/>
+<area shape="poly" title=" " alt="" coords="58,358,109,384,125,391,122,396,107,388,55,363"/>
+<area shape="rect" href="a04167.html#aef7453e757e48a1e7b0158b75f958b43" title="The number of characters." alt="" coords="108,477,295,532"/>
+<area shape="poly" title=" " alt="" coords="40,359,66,409,86,437,110,463,116,468,113,472,106,467,81,441,61,411,35,361"/>
+<area shape="rect" href="a04167.html#a48c68146715ba5db73170f8ad46cb641" title="The view begins with prefix." alt="" coords="108,556,295,611"/>
+<area shape="poly" title=" " alt="" coords="37,360,43,395,56,443,77,495,92,520,110,542,114,546,111,550,106,545,88,523,73,498,51,445,38,396,32,361"/>
+<area shape="rect" href="a04167.html#a8d676f0effc9e9215bc48dc8b4895d25" title="The view of min(n, size() &#45; pos) characters from pos." alt="" coords="108,635,295,689"/>
+<area shape="poly" title=" " alt="" coords="37,360,64,494,85,570,97,600,110,620,114,624,110,628,106,624,93,602,80,572,58,495,32,361"/>
+</map>
 </div>
-</div><div class="textblock"><div class="dynheader">
-This graph shows which files directly or indirectly include this file:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00292.png" border="0" usemap="#a_lumex_split_count_policy_8hppdep" alt=""/></div>
+
 </div>
 </div>
-<p><a href="a00290_source.html">Go to the source code of this file.</a></p>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The policy of the split-count engine: the named steps of its protocol, the events a ledger counts, the guess of the word, the tick limit, the reserve and the back-off. </p>
-<p>The engine is a template on a policy so that the tests can run the real engine code under a cooperative scheduler, count its events and tear its speculative reads; the production policy <code>split_native_policy_t</code> makes every hook an empty (or trivial) inline function, so it costs nothing. A policy is a type with these static functions, all <code>noexcept</code>:</p>
-<ul>
-<li><code>at (split_point_t)</code>: called immediately before every step of the protocol that reads or writes shared memory (the word or a counter of a block). A test scheduler or gate blocks a thread there.</li>
-<li><code>note (split_event_t, std::uint32_t)</code>: called after a step that changed the tick accounting, with its amount. A test ledger sums them; at quiescence <code>tick == untick + settle_ext + consumed</code> and <code>transfer - untransfer == settle_ext</code>.</li>
-<li><code>guess (word)</code>: the speculative read of the slot word (two relaxed 64-bit reads, not atomic as a pair). EVERY read of the word that is not an atomic operation goes through it, and every use of its result is validated by a whole-word compare-and-swap or by an acquire re-read. A test policy may return a torn value here.</li>
-<li><code>ticked (std::uint32_t)</code>: called after every successful tick (a load, a writer pin, a compare-exchange pin) with the <code>L</code> the word holds now.</li>
-<li><code>tick_limit ()</code>: a pin does not tick a word whose <code>L</code> has reached it (2^24 - 1 in production; a test lowers it to reach the back-off).</li>
-<li><code>reserve ()</code>: the number of units a writer deposits in <code>ext</code> beyond the ticks it saw, so that ticks that arrive before its swap need no further access to the counter (8 in production; a test sets 0 to take the top-up path every time).</li>
-<li><code>back_off ()</code>: what a pin does while <code>L</code> is at the limit (yield).</li>
-</ul>
-<p>Everything here is an implementation detail of <code>lumex/core/atomic</code>. </p>
-</div></div><!-- contents -->
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_46588a2def099f5c90ce8dff319725b2.html">atomic</a></li><li class="navelem"><a class="el" href="dir_554c46647e80ff154b2b91be60b0bc34.html">smart_ptr</a></li><li class="navelem"><a class="el" href="dir_95030709502da905a080530bb25e5eb1.html">split_count</a></li><li class="navelem"><a class="el" href="a00290.html">LumexSplitCountPolicy.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_bc782a393a6b988e43baa711f0e6ca41.html">string_view</a></li><li class="navelem"><a class="el" href="a00290.html">example_string_view.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

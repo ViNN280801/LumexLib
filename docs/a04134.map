@@ -1,0 +1,7 @@
+<map id="lumex::core::span::view::detail::range_declared_extent&lt; Range, typename std::enable_if&lt; std::is_convertible&lt; decltype(remove_cvref&lt; Range &gt;::type::extent), std::size_t &gt;::value &gt;::type &gt;" name="lumex::core::span::view::detail::range_declared_extent&lt; Range, typename std::enable_if&lt; std::is_convertible&lt; decltype(remove_cvref&lt; Range &gt;::type::extent), std::size_t &gt;::value &gt;::type &gt;">
+<area shape="rect" id="Node000001" title=" " alt="" coords="232,13,459,141"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="11,5,178,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="192,47,232,54,231,59,191,52"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,85,184,154"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="197,99,231,93,232,99,198,104"/>
+</map>

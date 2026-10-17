@@ -1,0 +1,23 @@
+<map id="lumex::core::expected::result::detail::storage::expected_storage::expected_storage" name="lumex::core::expected::result::detail::storage::expected_storage::expected_storage">
+<area shape="rect" id="Node000001" title="Converts the alternative of an expected&lt;U, G&gt;: the converting constructors of [expected...." alt="" coords="5,131,220,200"/>
+<area shape="rect" id="Node000002" href="$a01533.html#a07d94bee6da20f2047136d97431d8d45" title="The address of object also when T overloads operator&amp;, usable in a constant expression from C++11 (st..." alt="" coords="1012,247,1203,287"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="174,128,284,78,352,53,427,30,506,13,588,4,670,6,750,20,802,39,853,63,901,91,946,122,1024,183,1080,235,1077,239,1021,188,943,126,898,96,850,68,800,44,749,25,670,11,588,9,507,18,428,35,354,58,286,83,177,133"/>
+<area shape="rect" id="Node000003" href="$a01533.html#a76c301e6299206edbae26117dde3bedc" title="Starts the lifetime of a T at where, direct&#45;non&#45;list&#45;initialized with args...: std::construct_at." alt="" coords="542,304,742,344"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="144,198,198,250,232,275,269,294,333,314,401,326,467,331,528,331,528,336,467,336,400,331,332,319,267,299,229,279,195,254,140,202"/>
+<area shape="rect" id="Node000004" href="$a01533.html#a8a84107209623635f4270b7b6c0d6339" title="static_cast&lt;T &amp;&amp;&gt; (t), the body of std::forward for a constexpr function of C++11,..." alt="" coords="797,167,964,207"/>
+<area shape="poly" id="edge9_Node000001_Node000004" title=" " alt="" coords="220,166,783,182,783,187,220,171"/>
+<area shape="rect" id="Node000006" href="$a02847.html#a73885ecff15c51b575ae662aa8190c9e" title="Starts val with args...; has_value () is true." alt="" coords="535,59,749,128"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="220,148,520,107,521,113,221,154"/>
+<area shape="rect" id="Node000007" href="$a02847.html#aa22251b92c968a4dc3f08cb88fe846c1" title="The conversion of a value from a source (the class val_type is built from *rhs)." alt="" coords="268,229,487,284"/>
+<area shape="poly" id="edge10_Node000001_Node000007" title=" " alt="" coords="215,198,285,222,283,227,213,203"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="676,302,833,211,835,216,679,306"/>
+<area shape="rect" id="Node000005" href="$a01533.html#a530b8cd2ab418fa6df0c17235386995a" title="The address of object as a void *, also for a const or volatile object." alt="" coords="797,304,964,344"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="742,322,784,322,784,327,742,327"/>
+<area shape="poly" id="edge5_Node000005_Node000002" title=" " alt="" coords="959,302,1014,288,1016,293,961,307"/>
+<area shape="poly" id="edge8_Node000006_Node000004" title=" " alt="" coords="732,126,818,160,816,164,730,131"/>
+<area shape="poly" id="edge7_Node000006_Node000006" title=" " alt="" coords="595,58,597,48,606,40,621,34,642,32,668,35,683,44,680,48,666,40,642,38,622,39,609,44,602,51,600,59"/>
+<area shape="poly" id="edge11_Node000007_Node000002" title=" " alt="" coords="487,255,999,263,999,268,487,261"/>
+<area shape="poly" id="edge12_Node000007_Node000003" title=" " alt="" coords="485,281,551,298,550,303,483,286"/>
+<area shape="poly" id="edge13_Node000007_Node000004" title=" " alt="" coords="487,238,784,198,784,203,488,244"/>
+<area shape="poly" id="edge14_Node000007_Node000007" title=" " alt="" coords="326,229,326,219,336,210,353,204,377,202,407,205,424,213,422,218,406,210,377,208,354,209,338,214,331,221,331,229"/>
+</map>

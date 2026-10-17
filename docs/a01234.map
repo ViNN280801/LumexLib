@@ -1,0 +1,17 @@
+<map id="LumexSettingsINI.hpp" name="LumexSettingsINI.hpp">
+<area shape="rect" id="Node000001" title="ILumexSettings over INI files, parsed and written by the library itself." alt="" coords="509,5,675,31"/>
+<area shape="rect" id="Node000002" href="$a01349.html" title="Settings module: section, key and value configuration files in INI, JSON or XML behind one interface,..." alt="" coords="354,79,473,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="549,38,446,81,444,76,547,33"/>
+<area shape="rect" id="Node000007" href="$a01220.html" title=" " alt="" coords="497,79,687,104"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="595,44,595,78,589,78,589,44"/>
+<area shape="rect" id="Node000008" href="$a01235.html" title=" " alt="" coords="711,79,875,104"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="641,33,759,76,757,81,639,38"/>
+<area shape="rect" id="Node000003" href="$a00320.html" title=" " alt="" coords="5,152,171,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="345,110,145,154,144,149,343,104"/>
+<area shape="rect" id="Node000004" href="$a00314.html" title=" " alt="" coords="195,152,394,177"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="383,114,317,154,314,150,380,109"/>
+<area shape="rect" id="Node000005" href="$a00311.html" title=" " alt="" coords="418,152,649,177"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="447,109,514,150,511,154,445,114"/>
+<area shape="rect" id="Node000006" href="$a00317.html" title=" " alt="" coords="673,152,871,177"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="487,104,710,149,709,155,486,109"/>
+</map>

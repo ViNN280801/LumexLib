@@ -1,0 +1,7 @@
+<map id="lumex::xml::writer::XmlWriterFile::operator=" name="lumex::xml::writer::XmlWriterFile::operator=">
+<area shape="rect" id="Node000001" title="Deleted move assignment operator." alt="" coords="5,37,196,77"/>
+<area shape="rect" id="Node000002" href="$a05215.html#a359209a5efaf88fc3e4ceed5ff0b7021" title="Writes a block of raw data to the associated file." alt="" coords="271,5,429,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="196,42,257,35,257,40,197,48"/>
+<area shape="rect" id="Node000003" href="$a05215.html#ac001ef549adb5996d4d7adc4a1d3b860" title="Constructs an XmlWriterFile with a given file handle." alt="" coords="244,69,456,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="197,67,231,71,230,77,196,72"/>
+</map>

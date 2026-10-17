@@ -1,0 +1,5 @@
+<map id="lumex::core::span::view::detail::is_extent_compatible&lt; Extent, Other &gt;" name="lumex::core::span::view::detail::is_extent_compatible&lt; Extent, Other &gt;">
+<area shape="rect" id="Node000001" title="True when a view of Extent elements may be made from Other elements: at least one of the two is dynam..." alt="" coords="248,13,467,67"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,200,75"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="214,37,248,37,248,43,214,43"/>
+</map>

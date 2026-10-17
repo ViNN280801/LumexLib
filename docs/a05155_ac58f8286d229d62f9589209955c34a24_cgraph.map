@@ -1,0 +1,8 @@
+<map id="lumex::xml::attribute::XmlAttributeIterator::operator++" name="lumex::xml::attribute::XmlAttributeIterator::operator++">
+<area shape="rect" id="Node000001" title="Post&#45;increments the iterator to move to the next attribute in the list." alt="" coords="5,29,167,84"/>
+<area shape="rect" id="Node000002" href="$a05155.html#a0d320ac5a52d1d4ff16ad608119f328a" title="Default constructor. Constructs a singular (invalid) attribute iterator." alt="" coords="215,29,376,84"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="167,54,201,54,201,59,167,59"/>
+<area shape="poly" id="edge3_Node000002_Node000002" title=" " alt="" coords="254,29,255,19,262,10,276,5,295,3,319,6,332,14,330,18,317,11,295,8,277,10,265,15,260,21,260,29"/>
+<area shape="rect" id="Node000003" href="$a05155.html#adbdfaa8b96751a452e542612e11270a5" title="Dereferences the iterator to provide pointer&#45;like access to the current XmlAttribute object." alt="" coords="424,29,585,84"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="376,54,411,54,411,59,376,59"/>
+</map>

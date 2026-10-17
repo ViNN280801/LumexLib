@@ -1,0 +1,13 @@
+<map id="lumex::xml::node::node_copy_tree" name="lumex::xml::node::node_copy_tree">
+<area shape="rect" id="Node000001" title="Performs a deep copy of an XML node&#39;s entire subtree (including itself, children, and attributes)." alt="" coords="257,133,433,173"/>
+<area shape="rect" id="Node000002" href="$a05143.html#affd983d76ecc8d527bff7cb6f9c13018" title="Appends a deep copy of an existing XmlNode (proto) as a child of the current node." alt="" coords="5,5,209,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="310,127,263,92,208,60,180,48,182,43,211,55,266,88,313,123"/>
+<area shape="rect" id="Node000003" href="$a05143.html#ade75f490c8aafb015483a5444c1af76c" title="Inserts a deep copy of an existing XmlNode (proto) after a given existing child node." alt="" coords="5,69,209,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="257,132,181,112,182,107,258,127"/>
+<area shape="rect" id="Node000004" href="$a05143.html#a35ef839927e8d9eaef5c22122c802fb1" title="Inserts a deep copy of an existing XmlNode (proto) before a given existing child node." alt="" coords="5,133,209,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="243,156,210,156,210,151,243,151"/>
+<area shape="rect" id="Node000005" href="$a05143.html#acf48c85813bfecc4b524bfc0e2cb9344" title="Prepends a deep copy of an existing XmlNode (proto) as a child of the current node." alt="" coords="5,197,209,237"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="258,180,182,200,181,195,257,174"/>
+<area shape="rect" id="Node000006" href="$a05127.html#a3be8c5ddd0fac3d0f74c85f9ce393341" title="Removes all nodes from the document, then copies the entire contents of a specified document." alt="" coords="23,261,192,301"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="313,184,266,219,211,252,182,264,180,259,208,247,263,214,310,180"/>
+</map>

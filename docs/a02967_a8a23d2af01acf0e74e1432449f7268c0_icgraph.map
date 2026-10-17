@@ -1,0 +1,16 @@
+<map id="lumex::core::filesystem::fs::lumex_filesystem::to_wide_string" name="lumex::core::filesystem::fs::lumex_filesystem::to_wide_string">
+<area shape="rect" id="Node000001" title="Converts a std::string (UTF&#45;8 encoded) to a std::wstring." alt="" coords="693,81,868,136"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="817,70,804,63,781,60,761,62,748,67,743,73,743,81,737,81,738,71,745,62,760,57,781,55,806,58,820,66"/>
+<area shape="rect" id="Node000002" href="$a02947.html#a411cd428bcee18a7e01558506ba9a543" title="Converts and returns the path as a std::wstring." alt="" coords="471,89,645,129"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="680,111,645,111,645,106,680,106"/>
+<area shape="rect" id="Node000003" href="$a02967.html#a5377883d2efc6f9b38d28879c4c91116" title="Acquire an exclusive lock on a directory to prevent its deletion." alt="" coords="248,29,423,84"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="458,88,422,80,424,75,459,83"/>
+<area shape="rect" id="Node000004" href="$a01539.html#a50771a5ef3d8c96a8122faf5e6590a93" title="Builds a std::filesystem::path from a path (see path)." alt="" coords="248,132,423,187"/>
+<area shape="poly" id="edge5_Node000002_Node000004" title=" " alt="" coords="458,134,423,142,422,137,457,129"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="372,18,359,11,335,8,316,10,303,15,297,21,297,29,292,29,292,19,300,10,314,5,335,3,360,6,375,14"/>
+<area shape="poly" id="edge8_Node000004_Node000004" title=" " alt="" coords="372,121,359,114,335,111,316,113,303,117,297,124,297,132,292,132,292,122,300,113,314,107,335,105,360,108,375,116"/>
+<area shape="rect" id="Node000005" href="$a02947.html#a8338c1c7b83d5bde1a943af87b5407c5" title="Implicit conversion to std::filesystem::path (C++17)." alt="" coords="5,107,200,147"/>
+<area shape="poly" id="edge6_Node000004_Node000005" title=" " alt="" coords="233,148,200,143,200,138,234,143"/>
+<area shape="rect" id="Node000006" href="$a01537.html#a471fcd39c7f23869126a88a50df95b93" title="Concatenation of a std::filesystem::path and a path: lhs / rhs." alt="" coords="15,171,190,211"/>
+<area shape="poly" id="edge7_Node000004_Node000006" title=" " alt="" coords="234,176,191,182,190,177,234,171"/>
+</map>

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['система_20логирования_0',['Универсальная Система Логирования',['../a06437.html',1,'']]]
+  ['of_20the_20split_20count_20engine_0',['Verification of the split-count engine',['../a06614.html',1,'']]]
 ];

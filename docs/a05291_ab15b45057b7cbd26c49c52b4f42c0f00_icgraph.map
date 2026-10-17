@@ -1,0 +1,18 @@
+<map id="lumex::xml::xpath::node::XPathNodeSetRaw::empty" name="lumex::xml::xpath::node::XPathNodeSetRaw::empty">
+<area shape="rect" id="Node000001" title="Checks if the raw node set is empty." alt="" coords="944,145,1127,200"/>
+<area shape="rect" id="Node000002" href="$a05239.html#a22fd4b0b8128783c9615823bebff036c" title="Evaluates the XPath expression represented by this AST node to a boolean value." alt="" coords="715,80,894,135"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="930,146,894,135,895,130,931,140"/>
+<area shape="rect" id="Node000004" href="$a05239.html#a65b0bbe9cb7bb56b63909808fd092948" title="Evaluates the XPath expression represented by this AST node to a string value." alt="" coords="260,83,439,137"/>
+<area shape="poly" id="edge9_Node000001_Node000004" title=" " alt="" coords="930,168,713,150,439,122,439,117,714,145,930,162"/>
+<area shape="rect" id="Node000006" href="$a05291.html#a08db6b95af1bb02f7420c3b74c78e81e" title="Default constructor. Constructs an empty raw node set." alt="" coords="713,211,896,265"/>
+<area shape="poly" id="edge10_Node000001_Node000006" title=" " alt="" coords="931,205,897,215,895,210,930,200"/>
+<area shape="rect" id="Node000003" href="$a05239.html#aefd15ccbea8cfa84dcf96d758e336650" title="Evaluates the XPath expression represented by this AST node to a numeric value." alt="" coords="487,5,665,60"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="701,85,635,63,636,58,703,80"/>
+<area shape="poly" id="edge8_Node000002_Node000004" title=" " alt="" coords="702,118,439,119,439,114,702,113"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="680,55,746,77,744,82,678,60"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="507,67,440,91,438,86,505,62"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="452,99,715,98,715,103,452,104"/>
+<area shape="poly" id="edge6_Node000004_Node000003" title=" " alt="" coords="418,75,486,52,487,57,420,80"/>
+<area shape="rect" id="Node000005" href="$a05315.html#a246d7958d05f4d033bc4cbdd45f652d1" title="Evaluates the XPath query to a string value, writing to a provided buffer." alt="" coords="5,83,212,137"/>
+<area shape="poly" id="edge7_Node000004_Node000005" title=" " alt="" coords="246,113,212,113,212,107,246,107"/>
+</map>

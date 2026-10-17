@@ -1,6 +1,4 @@
 var a00659 =
 [
-    [ "atomic_shared_ptr", "a00659.html#a95edeffb6728b143aa58a91608d059ac", null ],
-    [ "atomic_weak_ptr", "a00659.html#a3e01c91b16f07375bef18e0fab333a38", null ],
-    [ "main", "a00659.html#ae66f6b31b5ad750f1fe042a706a4e3d4", null ]
+    [ "lumex::xml::writer::XmlBufferedWriter", "a05207.html", "a05207" ]
 ];

@@ -1,0 +1,5 @@
+<map id="lumex::xml::node::XmlNode" name="lumex::xml::node::XmlNode">
+<area shape="rect" id="Node000001" title="Represents a single XML node in the DOM tree, providing a high&#45;level interface for accessing and mani..." alt="" coords="5,5,209,31"/>
+<area shape="rect" id="Node000002" href="$a05127.html" title="Represents an XML document, providing methods for loading, saving, and manipulating XML data." alt="" coords="23,79,192,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="110,44,110,78,105,78,105,44"/>
+</map>

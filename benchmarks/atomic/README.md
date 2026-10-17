@@ -101,14 +101,15 @@ The charts of the reduced run, in the same form as the charts of the full sweep 
 
 `atomic_shared_ptr_lock_free_split_count<T>` and `atomic_weak_ptr_lock_free_split_count<T>` (x86-64, a 16-byte word updated by a 128-bit compare-and-swap; see `lumex/core/atomic/README.md`, "The split-count engine") had never been measured. This section says where they are faster and where they are slower than the other engines. It states measurements only: whether the engine is wanted, whether the family alias `lumex::core::smart_ptr::atomic_shared_ptr` should become it, and which `reserve` is the production value are decisions that are not made here.
 
-Files: `results/split_count/split_count_benchmark.{csv,md}` (the four operations, the read-heavy run, the load plus store pair, cycles; 11 series), `split_count_weak_benchmark.*` (weak pointers), `split_count_oversubscribed.*` (20, 40 and 60 threads), `split_count_destroy.*` (destruction latency), `split_count_alignment_{default,aligned64}.csv` (the code placement check) and the charts `split_count_*.svg`, all in [results/split_count/](results/split_count/split_count_benchmark.md).
+Files: `results/split_count/store_wait_benchmark.*` and `store_wait_pinned.*` (the time of every single store under a read load), `results/split_count/split_count_benchmark.{csv,md}` (the four operations, the read-heavy run, the load plus store pair, cycles; 11 series), `split_count_weak_benchmark.*` (weak pointers), `split_count_oversubscribed.*` (20, 40 and 60 threads), `split_count_destroy.*` (destruction latency), `split_count_alignment_{default,aligned64}.csv` (the code placement check) and the charts `split_count_*.svg`, all in [results/split_count/](results/split_count/split_count_benchmark.md).
 
 ### What is compared
 
 | Series | What it is | Pointer type |
 | --- | --- | --- |
-| split-count r8, C++11 / C++20 | `atomic_shared_ptr_lock_free_split_count<int>` as shipped (reserve 8; the unit refuses to build the series if `split_native_policy_t::reserve ()` is not 8) | own `lumex::core::smart_ptr::shared_ptr` |
-| split-count r4, C++20 | the same cell with a policy that differs from the production one in `reserve ()` alone (4); no engine header is changed | own |
+| split-count r8, C++11 / C++20 | `atomic_shared_ptr_lock_free_split_count<int>` as shipped (reserve 8, and the same reserve 8 for a successful `compare_exchange`; the unit refuses to build the series if `split_native_policy_t::reserve ()` is not 8). **The tables of this section were measured before `compare_exchange` got its reserve**, see "Reserve in compare_exchange" | own `lumex::core::smart_ptr::shared_ptr` |
+| split-count r4, C++20 | the same cell with a policy that differs from the production one in `reserve ()` and `cas_reserve ()` (both 4); no engine header is changed | own |
+| split-count r8, no cas reserve, C++20 (`lumex_split_count_nocasres`) | the production policy with `cas_reserve () == 0`: the engine as it was before the reserve of the compare-exchange; not part of the sweep above, it is the control of the section "Reserve in compare_exchange" | own |
 | lock-based own ptr, C++11 / C++20 | `atomic_shared_ptr_lock_based_lumex<int>`: the like-for-like competitor, the same pointer under the lock-based engine (this is what the family alias is today) | own |
 | box lock-free immediate / deferred, C++20 | `atomic_shared_ptr_lock_free<int>` (hazard-pointer box engine), the replaced value destroyed in the call, or later | `std::shared_ptr` |
 | lock-based std ptr, C++20 | `atomic_shared_ptr_lock_based<int>` | `std::shared_ptr` |
@@ -128,13 +129,18 @@ The method of the sections above (baseline loop per block, interleaving, 100 ms 
 - **Cycles.** For one thread the user-mode cycles and instructions of the timed loop are read with `perf_event_open` (`PERF_COUNT_HW_CPU_CYCLES`, `_INSTRUCTIONS`, the calling thread, user mode) and divided by the operations. The core clock is not fixed (governor `powersave`), so cycles and nanoseconds do not convert by a constant.
 - **Sizes.** Shared pointers: 100 repetitions, 30 s pauses, 1 and every even count up to 20 threads (the project method; 191.5 minutes). The new scenarios use fewer repetitions: weak pointers 50 repetitions with 10 s pauses (26.8 minutes), oversubscription (20, 40 and 60 threads, the 20 logical CPUs of the machine) 30 repetitions with 10 s pauses (22.3 minutes), destruction latency 100 repetitions with 5 s pauses (9.8 minutes, 20000 objects each, at 1 and 4 threads). The code placement check is a reduced run (12 repetitions, 2 s pauses, 1, 8, 16 and 20 threads, five series).
 - **No pinning.** The benchmark threads are not pinned to CPUs (the project method never pinned them; only the compile-time measurement uses `--cpu`).
-- **Not evaluated.** Whether `compare_exchange_*` should also take a reserve needs an engine change and was not implemented, so it is not evaluated. The writer in the read-heavy run only stores (no `exchange` writer). The worst latency of a single `store` under read load was not measured, only the rate of stores.
+- **`compare_exchange_*` reserve.** The sweep tables were measured before `compare_exchange_*` got its reserve; the effect of the reserve is measured in the section "Reserve in compare_exchange" below (contended `compare_exchange_strong` 2 to 10 % cheaper, nothing else changes). The writer in the read-heavy run only stores (no `exchange` writer). The time of a single `store` under read load is measured by its own scenario (`store_wait`, below).
+
+- **Store wait.** One writer thread times every `store ()` call on its own (`std::chrono::steady_clock`, two reads per store; no `rdtsc`) while the other threads `load ()`; the result is the distribution of the time of one store in nanoseconds, not a rate and not normalized (a latency has no baseline ratio). 40 repetitions of 100000 timed stores per series and thread count (4 million per cell), after 2000 untimed stores, 10 s pauses, threads 2, 4, 8, 12, 20 (the 20 logical CPUs) and 40, 60 (oversubscribed), 43.2 minutes with the lock held exclusively. Six series: split-count r8 and lock-based over the own pointer, the box lock-free engine (immediate destruction), lock-based over `std::shared_ptr`, `std::atomic<std::shared_ptr>`, Boost. The writer's involuntary context switches (`getrusage (RUSAGE_THREAD)`, `ru_nivcsw`) are counted over the timed loop and read after every store over 1 ms, never in the loop of the ordinary stores. A reduced run with every thread pinned to its own CPU (10 repetitions, threads 4, 12, 20, 60, 5 s pauses) is in `store_wait_pinned.*`; raising the writer's priority was not possible on this machine (no real-time priority for the user), so it was not done.
 
 The commands of the sweeps (`SERIES` is the eleven keys `lumex_split_count_cxx11,lumex_split_count,lumex_split_count_r4,lumex_lock_based_lumex_cxx11,lumex_lock_based_lumex,lumex_lock_free,lumex_lock_free_deferred,lumex_lock_based,lumex_std_backed,std,boost`; the runs were made in this order):
 
 ```sh
 EXE=build-bench/bin/LumexAtomicBenchmark
 OUT=benchmarks/atomic/results/split_count
+STORE_WAIT_SERIES=lumex_split_count,lumex_lock_based_lumex,lumex_lock_free,lumex_lock_based,std,boost
+python benchmarks/atomic/run_benchmark.py --exe $EXE --scenario store_wait --series $STORE_WAIT_SERIES --name store_wait_benchmark --repetitions 40 --settle-seconds 10 --stores 100000 --out-dir $OUT
+python benchmarks/atomic/run_benchmark.py --exe $EXE --scenario store_wait --series $STORE_WAIT_SERIES --name store_wait_pinned --pin --threads 4,12,20,60 --repetitions 10 --settle-seconds 5 --stores 100000 --out-dir $OUT
 python benchmarks/atomic/run_benchmark.py --exe $EXE --scenario destroy --name split_count_destroy --repetitions 100 --settle-seconds 5 --out-dir $OUT
 python benchmarks/atomic/run_benchmark.py --exe $EXE --scenario weak --name split_count_weak_benchmark --repetitions 50 --settle-seconds 10 --out-dir $OUT
 python benchmarks/atomic/run_benchmark.py --exe $EXE --series $SERIES --name split_count_oversubscribed --threads 20,40,60 --repetitions 30 --settle-seconds 10 --out-dir $OUT
@@ -383,6 +389,47 @@ Time from the start of the replacing store to the deleter of the replaced object
 | boost::atomic_shared_ptr 1.92 | 143 | 62670 | 253716 | 100.0 % | 0 | 0.0 % |
 
 
+#### Time of a single store under a read load
+
+![Median time of one store](results/split_count/store_wait_benchmark_median.svg)
+
+![99.99th percentile of the time of one store](results/split_count/store_wait_benchmark_p9999.svg)
+
+![Longest store of all repetitions](results/split_count/store_wait_benchmark_max.svg)
+
+One writer, the other threads load; every store timed. The full tables (median, 90th, 99th, 99.9th and 99.99th percentile, the longest store, the count of stores over 1 ms, the writer's preemptions, the cost of the timer) are in [results/split_count/store_wait_benchmark.md](results/split_count/store_wait_benchmark.md); the pinned run is [store_wait_pinned.md](results/split_count/store_wait_pinned.md). Values are nanoseconds of one call, the median over the 40 repetitions, except where "all repetitions" is said.
+
+| Series | median at 2 / 8 / 20 / 60 threads | 99.99th percentile at 2 / 8 / 20 / 60 | longest store of all repetitions at 2 / 8 / 20 / 60, ms |
+| --- | --- | --- | --- |
+| split-count r8, own ptr | 134 / 639 / 1614 / 1626 | 2450 / 11082 / 27109 / 24003700 | 1.3 / 54.3 / 28.0 / 48.0 |
+| lock-based, own ptr | 270 / 988 / 2020 / 2756 | 2830 / 20436 / 105094 / 837469 | 2.2 / 23.9 / 14.9 / 29.5 |
+| box lock-free, immediate | 245 / 392 / 532 / 536 | 2616 / 229412 / 639685 / 11657273 | 0.7 / 13.4 / 24.7 / 44.7 |
+| lock-based, std ptr | 216 / 940 / 1702 / 2530 | 2842 / 18200 / 97988 / 487150 | 0.2 / 17.7 / 31.7 / 51.8 |
+| `std::atomic<std::shared_ptr>` | 60 / 2954 / 7314 / 7848 | 2392 / 796870 / 514868 / 128793107 | 0.2 / 33.6 / 153.5 / 392.0 |
+| Boost | 144 / 758 / 488 / 316 | 377086 / 571739 / 649150 / 522981 | 9.3 / 15.3 / 10.0 / 8.4 |
+
+Stores over 1 ms (of 4 million per cell) and how many of them were followed by an involuntary context switch of the writer since the previous reading (an upper bound of the slow stores a preemption explains, see the note in the table file), at 8 / 20 / 60 threads:
+
+| Series | over 1 ms | with a switch |
+| --- | --- | --- |
+| split-count r8, own ptr | 4 / 99 / 1362 | 4 / 99 / 1362 |
+| lock-based, own ptr | 29 / 78 / 422 | 28 / 78 / 422 |
+| box lock-free, immediate | 5 / 265 / 906 | 4 / 61 / 719 |
+| lock-based, std ptr | 23 / 72 / 317 | 23 / 71 / 317 |
+| `std::atomic<std::shared_ptr>` | 32421 / 420 / 9135 | 336 / 370 / 8772 |
+| Boost | 100 / 126 / 37 | 57 / 72 / 33 |
+
+What the numbers show:
+
+- Every one of the 4 million timed stores of every series and thread count finished (no point reached the 60 s safety stop of the harness, no reference was left behind). The longest store seen anywhere was 392 ms (`std::atomic`, 60 threads); for the split-count engine it was 54.3 ms (8 threads), at 2 threads 1.3 ms.
+- For the split-count engine and for both lock-based series every store over 1 ms at 8 threads and more was followed by an involuntary context switch of the writer, with at most one exception per cell (lock-based own ptr 1 of 29 at 8 threads, 1 of 48 at 12 and 1 of 138 at 40; lock-based std ptr 1 of 72 at 20): the scheduler took the writer off its CPU. With the writer and every reader pinned to its own CPU the same holds at 20 and 60 threads (pinned run: split-count 9 of 9 and 208 of 208, lock-based own ptr 13 of 13 and 26 of 26, lock-based std ptr 5 of 5 and 23 of 23), and there is no store over 1 ms at 4 and 12 threads for split-count and lock-based std ptr (one for lock-based own ptr at 12 threads, with a switch). Pinning does not prevent the preemption (the machine has other threads), so the pinned run does not remove the long stores; it shows that they come with a switch.
+- Not every long store of the other series comes with a switch. `std::atomic` had 32421 stores over 1 ms at 8 threads and 27252 at 12 (0.81 % and 0.68 % of its stores), of which 336 and 768 were followed by a switch; the box engine had 1353 at 12 threads (0.034 %) of which 153; Boost about half. The long waits of these cells are therefore in the engine or in the way the threads wait, not (only) in the scheduler; the cause was not investigated (no counter or assembly listing was taken).
+- The distribution is far from its median: the 99.99th percentile is at least 10 times the median of every series at 2 to 20 threads (10 to 18 times for the split-count and lock-based series at 2 threads, 585 times for the box engine at 8, 1330 times for Boost at 20), and the longest store is 4 to 5 orders of magnitude above the median at 8 threads and more (split-count: median 639 ns, longest 54 ms at 8 threads). The 99th percentile at 20 threads is 6.9 us for split-count, 2.1 us for the box engine, 33 us for the lock-based series.
+- Non-monotonic cells exist and are not explained: at 12 threads the split-count median is 4532 ns (639 at 8, 1614 at 20), and that of `std::atomic` 27834 ns (2954 at 8, 7314 at 20); the cost of the timer of the split-count series was 21 to 62 ns at 4 to 20 threads against 11 to 18 ns for the others. The cause was not investigated.
+- The timer: an empty pair of `steady_clock::now ()` reads costs 11 to 18 ns on the writer thread with the readers running (up to 62 ns in the split-count series at 8 threads); it is part of every time above and matters only for the medians at 2 threads.
+
+Is starvation observed? A writer that does not complete a store was not observed: every store completed, and the longest store of the library's engines was 54.3 ms (split-count), 29.5 ms (lock-based own ptr), 51.8 ms (lock-based std ptr), 44.7 ms (box engine); the waits of the split-count and lock-based engines above 1 ms coincide, with at most one exception per cell, with the scheduler descheduling the writer, so those runs do not show the engine making the writer wait; the box engine and `std::atomic` show waits above 1 ms that do not coincide with a preemption. A bound observed on one machine, with 4 million stores per cell and 40 repetitions, is not a proof of starvation freedom: the engine is lock-free, not starvation-free (see `lumex/core/atomic/VERIFICATION.md`), and a longer or differently loaded run can show a longer wait.
+
 #### Code placement check: the numbers
 
 Same source, built twice: as the other series (`default`) and with `-falign-functions=64 -falign-loops=64` (`aligned`). 12 repetitions, 2 s pauses, five series. Uncontended: ns; contended: ratio to the uint64 compare-exchange (median). Each cell: default / aligned.
@@ -430,7 +477,7 @@ Against the lock-based engine over the same pointer (C++20 build, ratios; "x" is
 - **Against the box engine**, split-count is cheaper for `store ()` and `exchange ()` at every thread count shown (3.1 against 6.5 at 2 threads, 3.5 against 4.4 at 20; `exchange` 3.6 against 6.6 at 20).
 - **Destruction latency with readers.** At 4 threads the last owner of a replaced object is often a reader: split-count destroyed 10.5 % of the objects inside the replacing store, the rest by readers, with median 412 ns, 99th percentile 776 ns, maximum 6.4 us and a peak of 1 object not yet destroyed. The box engine with the immediate policy has a 99th percentile of 892 us, a maximum of 1.1 ms and a peak backlog of 998 objects, 2.7 % of the objects still alive when the loop ended (the cause of the box engine's backlog was not investigated). The lock-based engines have 99th percentiles of 3.6 to 3.7 us (C++20; 7.4 us for the C++11 build over the own pointer), `std::atomic` 4.4 us (maximum 123 us), Boost 63 us (maximum 254 us). The deferred box engine destroys 0.1 % in the call, with a median of 116 us and 146 us (1 and 4 threads) and a backlog of 998 objects by construction.
 - **`lock ()` on a weak atomic with many threads.** `weak_load_lock` at 20 threads: 10.7 against 17.2 (lock-based own weak), 17.9 (lock-based weak over `std::weak_ptr`) and 33.7 (`std::atomic<std::weak_ptr>`); `weak_load` alone: 9.3 against 14.2, 14.2 and 22.8.
-- **Writer under a read load.** One writer and 19 readers: the writer stores 0.5 million values per second with split-count, 0.3 with the lock-based engine, 0.1 with `std::atomic`, 0.9 with the box engine, 0.2 with Boost. From 2 to 20 threads the writer's rate falls 14 times for split-count (7.0 to 0.5), 15 times for lock-based own ptr (4.4 to 0.3), 63 times for `std::atomic` (6.3 to 0.1), 16 times for Boost (3.1 to 0.2) and 6 times for the box engine (5.2 to 0.9). The writer is not starved: it keeps storing, at 60 threads on 20 CPUs too (`one_writer_stores` ratio 7.1 at 60 threads against 6.6 at 20). What is not measured is the longest wait of one store (risk R3 in terms of rate only).
+- **Writer under a read load.** One writer and 19 readers: the writer stores 0.5 million values per second with split-count, 0.3 with the lock-based engine, 0.1 with `std::atomic`, 0.9 with the box engine, 0.2 with Boost. From 2 to 20 threads the writer's rate falls 14 times for split-count (7.0 to 0.5), 15 times for lock-based own ptr (4.4 to 0.3), 63 times for `std::atomic` (6.3 to 0.1), 16 times for Boost (3.1 to 0.2) and 6 times for the box engine (5.2 to 0.9). The writer is not starved: it keeps storing, at 60 threads on 20 CPUs too (`one_writer_stores` ratio 7.1 at 60 threads against 6.6 at 20). The longest wait of one store is measured by the `store_wait` scenario ([below](#time-of-a-single-store-under-a-read-load)).
 
 ### Where it is slower
 
@@ -447,12 +494,42 @@ Against the lock-based engine over the same pointer (C++20 build, ratios; "x" is
 
 The two series agree. Of 73 pairs (every operation except the baseline, every thread count of the main sweep) the median of `reserve` 4 lies inside the quartiles of `reserve` 8 in all 73. The largest differences are `one_writer_stores` at 14 threads (6.8 against 4.3) and at 12 threads (3.9 against 3.4); the neighbouring thread counts do not show them (18 threads: 6.7 against 6.9), so they are noise; all the other 71 pairs differ by at most 4 %. Uncontended the two are the same (`load` 29.4 and 29.4 ns, `store` 18.3 and 18.4, `compare_exchange_strong` 60.9 and 60.8), and so is the destruction latency (median 44 and 44 ns, 99th percentile 66 and 64 ns). Contended `store ()`, the case in which a writer finds ticks on the word and the reserve is used, is 3.5 and 3.4 times the baseline at 8 threads and 3.5 and 3.5 at 20. In these scenarios the sweep gives no reason to prefer 4 or 8; it also cannot show a difference that needs more ticks on the word at once than 20 threads produce.
 
+### Reserve in compare_exchange
+
+A successful `compare_exchange` of the split-count engine deposits, like `store` and `exchange`, the reserve `k` (`Policy::cas_reserve ()`, which is `reserve ()` by default, 8 in production) on top of the ticks it sees, and gets the surplus back with the drop of the old word; the strong form keeps its deposit across a retry on an equivalent value (`lumex/core/atomic/README.md`, "The split-count engine"). **The other split-count tables of this README were measured before that change.** The contended `compare_exchange_strong ()` of the split-count engine is now 2 to 10 % cheaper than the tables show; the other operations are unchanged (the measurements below), and the tables were not re-run. A policy that returns 0 from `cas_reserve ()` is the engine as it was; the series `lumex_split_count_nocasres` is built that way, so the comparison can be repeated: `python3 run_benchmark.py --series lumex_split_count,lumex_split_count_nocasres ...`.
+
+The data were measured with the experiment that preceded the change, in which the reserve was a switch of the build. In the files below the series `lumex_split_count` (label "split-count r8") is the engine WITHOUT the reserve of the compare-exchange (today `lumex_split_count_nocasres`) and `lumex_split_count_cas8` (label "split-count r8 + cas reserve 8") is the engine WITH it (today `lumex_split_count`); the machine code of every other operation is the same in the two.
+
+Files: `results/split_count/cas_reserve_ab.{csv,md}` (the 40-repetition run), `cas_reserve_ab_default.{csv,md}` and `cas_reserve_ab_aligned.{csv,md}` (the code placement A/B: the executable built plainly and with `-falign-functions=64 -falign-loops=64`, 24 repetitions, 3 s pauses).
+
+Method of the 40-repetition run: `--series lumex_split_count,lumex_split_count_cas8 --threads 1,2,4,6,8,10,12,14,16,18,20 --repetitions 40 --settle-seconds 30`, GCC 13.2, libstdc++ 13, release, i7-12700K, governor `powersave`, 30 minutes. Ratio to the uint64 compare-exchange of the same block, median with the 25th-75th percentiles of the repetitions (lower is better). Without the reserve / with it:
+
+| Threads | 1 | 2 | 4 | 6 | 8 | 10 | 12 | 14 | 16 | 18 | 20 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| without | 7.9 (7.8-8.0) | 14.2 (13.1-15.4) | 16.2 (14.8-16.8) | 16.8 (16.1-18.1) | 17.4 (16.1-18.9) | 17.7 (17.0-18.6) | 18.7 (18.1-19.4) | 19.7 (18.8-20.8) | 20.3 (19.6-22.4) | 21.6 (20.8-23.9) | 22.1 (20.8-23.8) |
+| with | 7.8 (7.8-8.0) | 13.4 (12.5-14.5) | 15.2 (14.6-15.8) | 15.2 (14.0-16.0) | 15.6 (14.8-16.7) | 16.9 (16.0-17.5) | 17.2 (16.4-18.0) | 18.6 (17.1-19.8) | 19.9 (18.5-21.3) | 20.8 (19.5-23.0) | 21.1 (19.8-23.9) |
+| change of the median | -1 % | -6 % | -6 % | -10 % | -10 % | -5 % | -8 % | -6 % | -2 % | -4 % | -5 % |
+
+The quartiles of the two series overlap at every thread count except 6 and 12, where they nearly touch (the 75th percentile with the reserve, 16.05 and 18.05, is below the 25th percentile without it, 16.10 and 18.08: a gap of 0.3 % and 0.2 %), so the claim is about the median: 2 to 10 % lower, and lower at each of the ten thread counts from 2 to 20 (at 1 thread the two are the same code path, 7.9 against 7.8). The share of successful compare-exchanges in the benchmark's loop is higher with the reserve (0.15 against 0.23 at 20 threads, 0.20 against 0.28 at 8); that is measured, and its cause was not investigated.
+
+Code placement A/B (24 repetitions; the files hold three series, the r4 series of the sweep too, which is not part of this comparison; the two series of the table; ratio, median):
+
+| Build | Series | 2 | 4 | 8 | 12 | 16 | 20 |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| default | without | 13.1 | 15.4 | 16.1 | 17.2 | 19.6 | 21.2 |
+| default | with | 12.5 | 14.1 | 14.7 | 17.0 | 19.1 | 20.2 |
+| aligned to 64 | without | 13.2 | 15.8 | 16.7 | 18.0 | 21.6 | 23.2 |
+| aligned to 64 | with | 12.5 | 14.2 | 15.2 | 16.8 | 20.8 | 22.5 |
+
+The reserve is lower at every thread count in both builds (1 to 10 %), so the gain does not come from placement. The load average of the machine was not constant: the plain-build run started at 4.7 and ended at 10.0 (header of `cas_reserve_ab_default.md`), the aligned run started at 10.0 and ended at 8.0, while the 40-repetition run stayed between 5.5 and 7.4. Other work on the machine therefore touched the two A/B runs more than the main run, and their sizes (1 to 10 %) are less reliable than its 2 to 10 %; what the three runs share is the direction. Other operations in the 40-repetition run: `load`, `store`, `exchange`, `load_one_writer` and `one_writer_stores` agree between the two series within their quartiles at every thread count (the `one_writer_stores` quartiles are wide in both series at 12 and 14 threads, 3.1-9.1 and 3.3-15.9 without the reserve and 3.2-9.5 and 3.0-9.0 with it, and with it also at 10 threads, 3.5-8.2; no claim is made). Uncontended: `compare_exchange_strong` 54.3 ns in both (260.7 against 259.7 cycles, 261.5 against 270.5 instructions per operation: the reserve costs nine instructions on the uncontended path and no measurable time), `store` 16.6 against 17.0 ns, `exchange` 17.1 against 17.7 ns, `load` 26.4 against 26.3 ns, which are within the quartiles. The A/B was made on one machine with one compiler.
+
 ### What the numbers do not show
 
 - The C++11 build of the engine against the C++20 build is equal in nanoseconds; the ratio differences of the two series are the baseline remark above.
 - Lock-based differences below about 15 % depend on code placement.
 - Which numbers are noise: the cells whose quartiles overlap (the tables give them), the `one_writer_stores` at 12 and 14 threads, the Boost `store ()` at 20 threads (5.2-9.1), and every number of the C++11 split-count series in ratios.
 - The cause of any difference above is named only where an assembly listing or a counter backs it (the three locked operations on the load path; the instruction counts of the box engine's replacing operations); every other cause was not investigated.
+- The longest store of the `store_wait` run is a bound observed on this machine (4 million stores per cell, 40 repetitions), not a proof that a store is bounded; a store over 1 ms that comes with a preemption of the writer is a property of the scheduler load of the run, and the stores that do not come with one were not explained.
 - One machine, one compiler, one standard library. The engine exists on x86-64 only.
 
 ## Machine and build of these results

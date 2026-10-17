@@ -1,11 +1,18 @@
 var a01549 =
 [
-    [ "ValueType", "a01549.html#a64007686371ad46f9ede53f424e621e1", null ],
-    [ "kCatalogCheck", "a01549.html#a7aacdcbd44666556877fce869c318823", null ],
-    [ "kInit", "a01549.html#a86ddf0c1e4fc23552ac77d2cf287cda6", null ],
-    [ "kPoly", "a01549.html#af4717027e25d460d792ee8c6dcd1a424", null ],
-    [ "kRefIn", "a01549.html#a95507b04d83f18d4304376f9d511128e", null ],
-    [ "kRefOut", "a01549.html#a68a98fae04d72eb4be31514213037cf3", null ],
-    [ "kWidth", "a01549.html#a696cfe18cc065fa6e90ee3b6d7ac386d", null ],
-    [ "kXorOut", "a01549.html#a1c38b3df5a3dc0287654a7851c5e0437", null ]
+    [ "Detail", "a01551.html", "a01551" ],
+    [ "traits", "a01550.html", "a01550" ],
+    [ "lumex_math_size_mismatch_exception", "a03315.html", "a03315" ],
+    [ "avg", "a01549.html#a795166387deab30bf98b02619bca5c5b", null ],
+    [ "avg", "a01549.html#aedd730aefea1cc3eb2e1d00c1c758bfd", null ],
+    [ "checked_narrow_cast", "a01549.html#aa1b6ddc9ee41c9002fed87698f0b5bea", null ],
+    [ "distance", "a01549.html#a0fd1a5acf2f1fed8edeee1309059b06f", null ],
+    [ "distance", "a01549.html#ac4e65329fd62e20e0a438c07981e46a3", null ],
+    [ "exactly_equal", "a01549.html#acc3f9e7edb6242ba2bd741e6ab597124", null ],
+    [ "is_nan_inf", "a01549.html#acab500b6094965f38491c932461b6f03", null ],
+    [ "rms", "a01549.html#ab00c52837c8e1c0898a38c85a2cce753", null ],
+    [ "rms", "a01549.html#aa5e20059c5304cd10fbb9e5d64d126fb", null ],
+    [ "rmse", "a01549.html#aeb97b3e1f4e91081b5a15bc768abe7ea", null ],
+    [ "rmse", "a01549.html#ad106a6fe4eee4867f98352f46de4259c", null ],
+    [ "squared_difference", "a01549.html#a8c77830600ff2261070b9e599fdfe916", null ]
 ];

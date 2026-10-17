@@ -1,0 +1,11 @@
+<map id="lumex::core::hazard_pointer::engine::retire_node" name="lumex::core::hazard_pointer::engine::retire_node">
+<area shape="rect" id="Node000001" title="Hands a retired object to the domain." alt="" coords="552,83,761,123"/>
+<area shape="poly" id="edge5_Node000001_Node000001" title=" " alt="" coords="703,72,687,65,657,62,631,64,615,69,609,75,612,82,607,84,604,74,612,64,630,59,657,57,688,59,705,67"/>
+<area shape="rect" id="Node000002" href="$a01546.html#aa34d79801d811e8ea1a75ae4fd3376dd" title="Reclaims an object now when no slot names it, otherwise retires it." alt="" coords="295,29,479,84"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="538,85,479,75,480,70,539,80"/>
+<area shape="rect" id="Node000004" href="$a03219.html#a01a483099cff9e1e30e7e2b105bf9bef" title=" " alt="" coords="269,108,504,192"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="539,126,505,132,504,127,538,121"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="432,18,416,11,387,8,362,10,347,15,340,21,340,29,334,29,335,19,344,10,361,5,387,3,417,6,434,14"/>
+<area shape="rect" id="Node000003" href="$a03219.html#ae679dcd412ee0d0837c4431f69d7a588" title=" " alt="" coords="5,7,221,106"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="281,59,222,59,222,54,281,54"/>
+</map>

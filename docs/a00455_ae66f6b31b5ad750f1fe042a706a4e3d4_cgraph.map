@@ -1,0 +1,7 @@
+<map id="main" name="main">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,60,60,85"/>
+<area shape="rect" id="Node000002" href="$a01703.html#a0c41e02b6d1e0710680d86766b4732a1" title="Performs comprehensive CPU vectorization capabilities detection." alt="" coords="108,5,344,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="60,64,94,57,95,62,61,70"/>
+<area shape="rect" id="Node000003" href="$a01703.html#a3714f0eda41c0d71a8a52e5c2a1c6e43" title="Gets a human&#45;readable summary of supported vectorization technologies." alt="" coords="108,84,344,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="61,76,95,82,94,88,60,81"/>
+</map>

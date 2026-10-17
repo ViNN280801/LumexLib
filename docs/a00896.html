@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: example_temporary.cpp File Reference</title>
+<title>LumexLib: DefaultPaths.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,44 +104,123 @@ $(function(){initNavTree('a00896.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">example_temporary.cpp File Reference</div></div>
+<a href="#var-members">Variables</a>  </div>
+  <div class="headertitle"><div class="title">DefaultPaths.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;fstream&gt;</code><br />
-<code>#include &lt;iostream&gt;</code><br />
-<code>#include &quot;<a class="el" href="a01232_source.html">lumex/core/temporary/LumexTemporary</a>&quot;</code><br />
+
+<p>Default names used by the crash handling of <code>lumex::exceptions</code>: the crash directory and the file name prefixes.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &quot;<a class="el" href="a01124_source.html">lumex/core/utility/macros/LumexConstantMacros.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for example_temporary.cpp:</div>
+Include dependency graph for DefaultPaths.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00897.png" border="0" usemap="#aexample__temporary_8cpp" alt=""/></div>
+<div class="center"><img src="a00897.png" border="0" usemap="#aDefaultPaths_8hpp" alt=""/></div>
+<map name="aDefaultPaths_8hpp" id="aDefaultPaths_8hpp">
+<area shape="rect" title="Default names used by the crash handling of lumex::exceptions: the crash directory and the file name ..." alt="" coords="66,5,199,31"/>
+<area shape="rect" href="a01124.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="5,79,260,119"/>
+<area shape="poly" title=" " alt="" coords="135,31,135,65,130,65,130,31"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="26,167,239,207"/>
+<area shape="poly" title=" " alt="" coords="135,119,135,153,130,153,130,119"/>
+</map>
 </div>
-</div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
-<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00898.png" border="0" usemap="#aDefaultPaths_8hppdep" alt=""/></div>
+<map name="aDefaultPaths_8hppdep" id="aDefaultPaths_8hppdep">
+<area shape="rect" title="Default names used by the crash handling of lumex::exceptions: the crash directory and the file name ..." alt="" coords="209,5,342,31"/>
+<area shape="rect" href="a00893.html" title=" " alt="" coords="5,79,185,104"/>
+<area shape="poly" title=" " alt="" coords="232,38,128,81,126,76,230,33"/>
+<area shape="rect" href="a01370.html" title="Exceptions module: the lumex_base_exception hierarchy, stack traces, a crash handler that writes mini..." alt="" coords="210,79,341,104"/>
+<area shape="poly" title=" " alt="" coords="278,44,278,78,273,78,273,44"/>
+<area shape="rect" href="a00872.html" title=" " alt="" coords="365,79,522,104"/>
+<area shape="poly" title=" " alt="" coords="318,34,415,76,413,81,316,39"/>
+<area shape="rect" href="a00299.html" title=" " alt="" coords="86,159,270,185"/>
+<area shape="poly" title=" " alt="" coords="251,115,196,161,192,157,247,111"/>
+<area shape="rect" href="a00302.html" title=" " alt="" coords="294,152,451,192"/>
+<area shape="poly" title=" " alt="" coords="303,111,350,150,347,154,300,115"/>
+</map>
+</div>
+</div>
+<p><a href="a00896_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a76d3fe340fdd65a675c1306a96c4cb1b" id="r_a76d3fe340fdd65a675c1306a96c4cb1b"><td class="memItemLeft" align="right" valign="top">static constchar *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a76d3fe340fdd65a675c1306a96c4cb1b">constKDEFAULT_CRASHES_DIR_PATH</a> = &quot;crashes&quot;</td></tr>
+<tr class="separator:a76d3fe340fdd65a675c1306a96c4cb1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7065c3bba0af16ad9cec4753ab8f827d" id="r_a7065c3bba0af16ad9cec4753ab8f827d"><td class="memItemLeft" align="right" valign="top">static constchar *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7065c3bba0af16ad9cec4753ab8f827d">constKDEFAULT_MINIDUMP_PREFIX</a> = &quot;dump_&quot;</td></tr>
+<tr class="separator:a7065c3bba0af16ad9cec4753ab8f827d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4bd42b32bfac3faf47e88519393fb1a" id="r_ac4bd42b32bfac3faf47e88519393fb1a"><td class="memItemLeft" align="right" valign="top">static constchar *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac4bd42b32bfac3faf47e88519393fb1a">constKDEFAULT_CRASH_REPORT_PREFIX</a> = &quot;crash_report_&quot;</td></tr>
+<tr class="separator:ac4bd42b32bfac3faf47e88519393fb1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Default names used by the crash handling of <code>lumex::exceptions</code>: the crash directory and the file name prefixes. </p>
+<p><code>KDEFAULT_CRASHES_DIR_PATH</code> ("crashes") is the directory next to the executable that <code><a class="el" href="a02619.html#adcab5bbf331d2e2c3e98acb0d656e2e4" title="Write a crash report to a file by pattern: &quot;crash_report_{timestamp}.txt&quot;.">lumex_base_exception::to_crash_report()</a></code> writes to on every platform and that <code><a class="el" href="a00890.html#a229b8ca6ad48bf3d63c3769b549d5817">lumex_crash_handler</a></code> writes dumps to on Windows. <code>KDEFAULT_MINIDUMP_PREFIX</code> ("dump_") starts the name of a dump file, and <code>KDEFAULT_CRASH_REPORT_PREFIX</code> ("crash_report_") the name of a crash report. The constants are declared at global scope. </p>
+</div><h2 class="groupheader">Variable Documentation</h2>
+<a id="ac4bd42b32bfac3faf47e88519393fb1a" name="ac4bd42b32bfac3faf47e88519393fb1a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac4bd42b32bfac3faf47e88519393fb1a">&#9670;&#160;</a></span>constKDEFAULT_CRASH_REPORT_PREFIX</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int main </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
+          <td class="memname">constchar* constKDEFAULT_CRASH_REPORT_PREFIX = &quot;crash_report_&quot;</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00896_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00896_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
+
 </div>
+</div>
+<a id="a76d3fe340fdd65a675c1306a96c4cb1b" name="a76d3fe340fdd65a675c1306a96c4cb1b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a76d3fe340fdd65a675c1306a96c4cb1b">&#9670;&#160;</a></span>constKDEFAULT_CRASHES_DIR_PATH</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constchar* constKDEFAULT_CRASHES_DIR_PATH = &quot;crashes&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7065c3bba0af16ad9cec4753ab8f827d" name="a7065c3bba0af16ad9cec4753ab8f827d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7065c3bba0af16ad9cec4753ab8f827d">&#9670;&#160;</a></span>constKDEFAULT_MINIDUMP_PREFIX</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constchar* constKDEFAULT_MINIDUMP_PREFIX = &quot;dump_&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -150,7 +229,7 @@ Here is the call graph for this function:</div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_b9112c5bd2e6810c05cd2a2fe9b7e0f4.html">temporary</a></li><li class="navelem"><a class="el" href="a00896.html">example_temporary.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_c5abfa2a5a0424f8cc91dab0edfcaee4.html">exceptions</a></li><li class="navelem"><a class="el" href="dir_5e607916477df1770f4b94662507e744.html">crash</a></li><li class="navelem"><a class="el" href="a00896.html">DefaultPaths.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

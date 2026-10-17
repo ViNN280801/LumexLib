@@ -1,0 +1,9 @@
+<map id="lumex::applied::resource_monitor::process::LumexProcessMonitor::sample_by_name" name="lumex::applied::resource_monitor::process::LumexProcessMonitor::sample_by_name">
+<area shape="rect" id="Node000001" title="Samples the processes with this executable name, with the processes below them." alt="" coords="5,34,245,89"/>
+<area shape="rect" id="Node000002" href="$a02699.html#a436473d493da1141580a37e3fc38f118" title="Checks whether this expected holds a success value." alt="" coords="293,5,503,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="245,43,280,38,280,44,246,48"/>
+<area shape="rect" id="Node000003" href="$a01461.html#ab09c4e1b3214362a5927245f139cad05" title="Groups processes into trees, so that every process is counted once." alt="" coords="307,70,489,125"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="246,75,293,81,293,86,245,80"/>
+<area shape="rect" id="Node000004" href="$a01461.html#aa17a3f0aaa3c95a1ed09133d4d7e7a02" title="Every process below one process: its children, their children, and so on." alt="" coords="551,70,733,125"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="490,95,537,95,537,100,490,100"/>
+</map>

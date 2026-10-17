@@ -1,0 +1,8 @@
+<map id="lumex::core::circular_buffer::circular_buffer::resize" name="lumex::core::circular_buffer::circular_buffer::resize">
+<area shape="rect" id="Node000001" title="Changes the size; a growth appends value&#45;initialized elements." alt="" coords="5,29,173,84"/>
+<area shape="rect" id="Node000002" href="$a02055.html#a7684d6eb977eb2832e3a1d57b6d05cb4" title="Changes the size; a growth appends copies of item, a shrink removes the newest elements." alt="" coords="221,29,389,84"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,54,207,54,207,59,173,59"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="263,29,263,19,271,10,285,5,305,3,330,6,344,14,341,18,328,11,305,8,286,10,274,15,268,21,268,29"/>
+<area shape="rect" id="Node000003" href="$a02055.html#aaf6b619af8c0397d33704e031cfd6453" title="Changes the capacity; a shrink removes the newest elements." alt="" coords="437,29,605,84"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="389,54,423,54,423,59,389,59"/>
+</map>

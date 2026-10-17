@@ -1,0 +1,11 @@
+<map id="lumex::xml::node::XmlNodeIterator::operator&#45;&#45;" name="lumex::xml::node::XmlNodeIterator::operator&#45;&#45;">
+<area shape="rect" id="Node000001" title="Post&#45;decrements the iterator to move to the previous child node." alt="" coords="5,49,209,89"/>
+<area shape="rect" id="Node000002" href="$a05147.html#a9baadc55eaf90ceb5de4326e4a3aa773" title="Default constructor. Constructs a singular (invalid) iterator." alt="" coords="257,49,461,89"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="209,67,244,67,244,72,209,72"/>
+<area shape="poly" id="edge5_Node000002_Node000002" title=" " alt="" coords="313,50,310,40,317,30,334,25,359,23,388,26,404,33,402,38,387,31,359,28,335,30,320,35,315,41,318,48"/>
+<area shape="rect" id="Node000003" href="$a05147.html#a6dd841d3f8a4c5b348c3dec84c0d1b38" title="Dereferences the iterator to provide pointer&#45;like access to the current XmlNode object." alt="" coords="509,5,713,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="461,49,495,43,496,48,462,54"/>
+<area shape="rect" id="Node000004" href="$a05147.html#a88b009b38305b720f82e3bfc4695b70f" title=" " alt="" coords="509,93,713,133"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="462,85,496,91,495,96,461,90"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="565,94,562,84,569,74,586,69,611,67,640,70,656,77,654,82,639,75,611,72,587,74,572,79,567,85,570,92"/>
+</map>

@@ -1,6 +1,7 @@
 var a01004 =
 [
-    [ "lumex::xml::text::xml_parse_result_t", "a05006.html", "a05006" ],
-    [ "lumex::xml::text::load_buffer_impl", "a01505.html#a7355b4c5a34fafe87b02c6fd5d116775", null ],
-    [ "lumex::xml::text::make_parse_result", "a01505.html#ae0bf18f6f9e0ed3936938a14c541af0c", null ]
+    [ "lumex::core::contracts::get_violation_handler", "a01509.html#ade50b99b2cb4adeb1040fe00fc4b3036", null ],
+    [ "lumex::core::contracts::invoke_default_violation_handler", "a01509.html#a9b050992206d89033462d7c9b7eb8c78", null ],
+    [ "lumex::core::contracts::invoke_violation_handler", "a01509.html#aff0af939d63bcfe05648c2bb8d1b9c87", null ],
+    [ "lumex::core::contracts::set_violation_handler", "a01509.html#a01aa812e0ede22650e6bdd49096491c0", null ]
 ];

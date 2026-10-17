@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::expected::result::detail::can_transform&lt; Fn, ErrorType, ErrorArg, Args &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a02762.html',''); initResizable(true); });
+$(function(){initNavTree('a02759.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,26 +103,46 @@ $(function(){initNavTree('a02762.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::core::filesystem::fs::filesystem_result&lt; T &gt; Member List</div></div>
+  <div class="headertitle"><div class="title">lumex::core::expected::result::detail::can_transform&lt; Fn, ErrorType, ErrorArg, Args &gt; Struct Template Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a02762.html">lumex::core::filesystem::fs::filesystem_result&lt; T &gt;</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a02762.html#a8e62863dbaf8db594824d75a69292275">err</a>(int error_code, T default_value=T{})</td><td class="entry"><a class="el" href="a02762.html">lumex::core::filesystem::fs::filesystem_result&lt; T &gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a02762.html#af6c94c3f8a9c0f511aeaa1ea5674a08d">error_code</a>() const</td><td class="entry"><a class="el" href="a02762.html">lumex::core::filesystem::fs::filesystem_result&lt; T &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a02762.html#ae4093d69a6810df1fdd9ccbea6dc03d8">filesystem_result</a>()</td><td class="entry"><a class="el" href="a02762.html">lumex::core::filesystem::fs::filesystem_result&lt; T &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a02762.html#ac69660c0ee13cd2f476412ad5fbbf480">ok</a>(T value)</td><td class="entry"><a class="el" href="a02762.html">lumex::core::filesystem::fs::filesystem_result&lt; T &gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a02762.html#a5bee45657ca553ccbe26b668ffdb6bff">operator bool</a>() const</td><td class="entry"><a class="el" href="a02762.html">lumex::core::filesystem::fs::filesystem_result&lt; T &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a02762.html#aaae1487eda085cf06bd332015e4969d7">success</a>() const</td><td class="entry"><a class="el" href="a02762.html">lumex::core::filesystem::fs::filesystem_result&lt; T &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a02762.html#a804f0603877d3f4b1c02d3aab7a14150">value</a>() const</td><td class="entry"><a class="el" href="a02762.html">lumex::core::filesystem::fs::filesystem_result&lt; T &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a02762.html#ab73a8f8ee2dc718b92ade3bc7f3bad6c">value</a>()</td><td class="entry"><a class="el" href="a02762.html">lumex::core::filesystem::fs::filesystem_result&lt; T &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a02762.html#af5d33c3c44ac4779caadbaad8cef56c3">value_or</a>(T default_value) const</td><td class="entry"><a class="el" href="a02762.html">lumex::core::filesystem::fs::filesystem_result&lt; T &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-</table></div><!-- contents -->
+<p><code>transform</code>: <code>Fn (Args...)</code> may be called (its result may be any type, <code>void</code> included), and the error can be copied.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="a00917_source.html">ExpectedDetail.hpp</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for lumex::core::expected::result::detail::can_transform&lt; Fn, ErrorType, ErrorArg, Args &gt;:</div>
+<div class="dyncontent">
+<div class="center"><img src="a02758.png" border="0" usemap="#alumex_1_1core_1_1expected_1_1result_1_1detail_1_1can__transform_3_01Fn_00_01ErrorType_00_01ErrorArg_00_01Args_01_4_inherit__map" alt="Inheritance graph"/></div>
+<map name="alumex_1_1core_1_1expected_1_1result_1_1detail_1_1can__transform_3_01Fn_00_01ErrorType_00_01ErrorArg_00_01Args_01_4_inherit__map" id="alumex_1_1core_1_1expected_1_1result_1_1detail_1_1can__transform_3_01Fn_00_01ErrorType_00_01ErrorArg_00_01Args_01_4_inherit__map">
+<area shape="rect" title="transform: Fn (Args...) may be called (its result may be any type, void included),..." alt="" coords="265,13,461,82"/>
+<area shape="rect" title=" " alt="" coords="5,5,217,89"/>
+<area shape="poly" title=" " alt="" coords="231,45,265,45,265,50,231,50"/>
+</map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<div class="dynheader">
+Collaboration diagram for lumex::core::expected::result::detail::can_transform&lt; Fn, ErrorType, ErrorArg, Args &gt;:</div>
+<div class="dyncontent">
+<div class="center"><img src="a02757.png" border="0" usemap="#alumex_1_1core_1_1expected_1_1result_1_1detail_1_1can__transform_3_01Fn_00_01ErrorType_00_01ErrorArg_00_01Args_01_4_coll__map" alt="Collaboration graph"/></div>
+<map name="alumex_1_1core_1_1expected_1_1result_1_1detail_1_1can__transform_3_01Fn_00_01ErrorType_00_01ErrorArg_00_01Args_01_4_coll__map" id="alumex_1_1core_1_1expected_1_1result_1_1detail_1_1can__transform_3_01Fn_00_01ErrorType_00_01ErrorArg_00_01Args_01_4_coll__map">
+<area shape="rect" title="transform: Fn (Args...) may be called (its result may be any type, void included),..." alt="" coords="265,13,461,82"/>
+<area shape="rect" title=" " alt="" coords="5,5,217,89"/>
+<area shape="poly" title=" " alt="" coords="231,45,265,45,265,50,231,50"/>
+</map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><div class="compoundTemplParams">template&lt;typename Fn, typename ErrorType, typename ErrorArg, typename... Args&gt;<br />
+struct lumex::core::expected::result::detail::can_transform&lt; Fn, ErrorType, ErrorArg, Args &gt;</div><p><code>transform</code>: <code>Fn (Args...)</code> may be called (its result may be any type, <code>void</code> included), and the error can be copied. </p>
+</div><hr/>The documentation for this struct was generated from the following file:<ul>
+<li><a class="el" href="a00917_source.html">ExpectedDetail.hpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01528.html">expected</a></li><li class="navelem"><a class="el" href="a01532.html">result</a></li><li class="navelem"><a class="el" href="a01533.html">detail</a></li><li class="navelem"><a class="el" href="a02759.html">can_transform</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

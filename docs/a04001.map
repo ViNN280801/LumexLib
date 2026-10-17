@@ -1,0 +1,5 @@
+<map id="lumex::core::smart_ptr::bad_weak_ptr" name="lumex::core::smart_ptr::bad_weak_ptr">
+<area shape="rect" id="Node000001" title="Thrown by shared_ptr&lt;T&gt; (weak_ptr&lt;Y&gt; const &amp;) and by enable_shared_from_this::shared_from_this () whe..." alt="" coords="5,79,152,119"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="8,5,149,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="81,44,81,78,76,78,76,44"/>
+</map>

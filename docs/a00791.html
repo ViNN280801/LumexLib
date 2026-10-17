@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: example_logging.cpp File Reference</title>
+<title>LumexLib: LumexAtomicSmartPtrConfig.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,43 +104,313 @@ $(function(){initNavTree('a00791.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">example_logging.cpp File Reference</div></div>
+<a href="#define-members">Macros</a>  </div>
+  <div class="headertitle"><div class="title">LumexAtomicSmartPtrConfig.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;iostream&gt;</code><br />
-<code>#include &quot;<a class="el" href="a01163_source.html">lumex/applied/logging/LumexLogging</a>&quot;</code><br />
+
+<p>The one place that decides which engines exist and which one the common names <code><a class="el" href="a00275.html#a95edeffb6728b143aa58a91608d059ac" title="The common name: std::atomic&lt;std::shared_ptr&lt;T&gt;&gt; from C++11 on.">atomic_shared_ptr</a></code> and <code><a class="el" href="a00275.html#a3e01c91b16f07375bef18e0fab333a38" title="The common name: std::atomic&lt;std::weak_ptr&lt;T&gt;&gt; from C++11 on.">atomic_weak_ptr</a></code> stand for, and the memory order checks of the atomic smart pointers.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &lt;atomic&gt;</code><br />
+<code>#include &lt;memory&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00830_source.html">lumex/core/atomic/dwcas/LumexDwcasConfig.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00851_source.html">lumex/core/atomic/sync/LumexAtomicWait.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01106_source.html">lumex/core/utility/compiler/LumexCheckFeatures.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for example_logging.cpp:</div>
+Include dependency graph for LumexAtomicSmartPtrConfig.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00792.png" border="0" usemap="#aexample__logging_8cpp" alt=""/></div>
+<div class="center"><img src="a00792.png" border="0" usemap="#aLumexAtomicSmartPtrConfig_8hpp" alt=""/></div>
+<map name="aLumexAtomicSmartPtrConfig_8hpp" id="aLumexAtomicSmartPtrConfig_8hpp">
+<area shape="rect" title="The one place that decides which engines exist and which one the common names atomic_shared_ptr and a..." alt="" coords="213,5,451,31"/>
+<area shape="rect" title=" " alt="" coords="5,174,72,199"/>
+<area shape="poly" title=" " alt="" coords="247,33,185,51,154,65,126,81,103,99,84,121,54,164,50,160,79,118,99,95,122,76,152,60,183,46,245,28"/>
+<area shape="rect" title=" " alt="" coords="136,86,213,111"/>
+<area shape="poly" title=" " alt="" coords="308,33,213,82,211,77,306,28"/>
+<area shape="rect" href="a00830.html" title="Detection macros of the 128&#45;bit compare&#45;and&#45;swap layer: whether the layer exists on this target and w..." alt="" coords="237,79,427,119"/>
+<area shape="poly" title=" " alt="" coords="335,31,335,65,329,65,329,31"/>
+<area shape="rect" href="a00851.html" title="Blocking wait for a change of a 32&#45;bit atomic word, and the wake&#45;up that ends it, from C++11 on." alt="" coords="451,79,629,119"/>
+<area shape="poly" title=" " alt="" coords="366,28,477,71,475,76,364,33"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="1018,167,1273,207"/>
+<area shape="poly" title=" " alt="" coords="399,28,642,76,1041,161,1040,166,641,81,398,33"/>
+<area shape="poly" title=" " alt="" coords="451,119,439,121,339,134,260,139,182,147,85,169,78,171,76,166,83,164,181,142,260,134,338,128,438,116,450,114"/>
+<area shape="rect" title=" " alt="" coords="96,174,152,199"/>
+<area shape="poly" title=" " alt="" coords="451,119,439,121,361,133,300,139,240,149,165,169,160,171,158,166,163,164,239,143,299,134,361,128,438,116,450,114"/>
+<area shape="rect" title=" " alt="" coords="177,174,319,199"/>
+<area shape="poly" title=" " alt="" coords="474,121,304,173,303,167,473,116"/>
+<area shape="rect" title=" " alt="" coords="343,174,414,199"/>
+<area shape="poly" title=" " alt="" coords="504,121,415,170,412,165,502,117"/>
+<area shape="rect" title=" " alt="" coords="439,174,505,199"/>
+<area shape="poly" title=" " alt="" coords="526,121,492,165,488,162,522,117"/>
+<area shape="rect" title=" " alt="" coords="529,174,593,199"/>
+<area shape="poly" title=" " alt="" coords="548,118,558,160,552,161,542,120"/>
+<area shape="rect" title=" " alt="" coords="618,174,667,199"/>
+<area shape="poly" title=" " alt="" coords="566,117,619,163,615,167,562,121"/>
+<area shape="rect" title=" " alt="" coords="692,174,756,199"/>
+<area shape="poly" title=" " alt="" coords="583,116,686,166,684,171,581,121"/>
+<area shape="poly" title=" " alt="" coords="630,109,1005,164,1004,169,630,114"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="780,167,993,207"/>
+<area shape="poly" title=" " alt="" coords="620,116,795,161,793,166,618,121"/>
+</map>
 </div>
-</div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
-<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00793.png" border="0" usemap="#aLumexAtomicSmartPtrConfig_8hppdep" alt=""/></div>
+<map name="aLumexAtomicSmartPtrConfig_8hppdep" id="aLumexAtomicSmartPtrConfig_8hppdep">
+<area shape="rect" title="The one place that decides which engines exist and which one the common names atomic_shared_ptr and a..." alt="" coords="799,5,1037,31"/>
+<area shape="rect" href="a00806.html" title="atomic_shared_ptr&lt;T&gt; and its engines (atomic_shared_ptr_lock_free, atomic_shared_ptr_lock_based,..." alt="" coords="82,159,285,185"/>
+<area shape="poly" title=" " alt="" coords="785,26,604,44,504,60,407,81,350,99,295,121,209,161,207,157,293,116,348,94,405,76,503,54,603,39,784,21"/>
+<area shape="rect" href="a00800.html" title="The immutable heap box of the lock&#45;free engine, and the policies that say when a replaced box is dest..." alt="" coords="733,79,956,104"/>
+<area shape="poly" title=" " alt="" coords="897,42,860,80,856,76,894,39"/>
+<area shape="rect" href="a00821.html" title="The lock&#45;free engine behind atomic_shared_ptr_lock_free and atomic_weak_ptr_lock_free: an immutable h..." alt="" coords="578,152,805,192"/>
+<area shape="poly" title=" " alt="" coords="843,36,772,57,743,68,724,81,712,97,703,115,695,152,690,151,698,114,707,94,720,77,740,64,770,52,842,31"/>
+<area shape="rect" href="a00794.html" title="Storage and operations behind atomic_shared_ptr_lock_based, atomic_weak_ptr_lock_based and the *_std_..." alt="" coords="437,79,660,104"/>
+<area shape="poly" title=" " alt="" coords="842,36,614,81,613,76,840,31"/>
+<area shape="rect" href="a00803.html" title="The equivalence traits of the module&#39;s own pointer family (lumex::core::smart_ptr::shared_ptr / weak_..." alt="" coords="829,152,1042,192"/>
+<area shape="poly" title=" " alt="" coords="945,39,960,57,971,78,974,98,970,119,953,153,948,151,965,117,969,98,966,79,956,60,941,42"/>
+<area shape="rect" href="a00797.html" title="atomic_weak_ptr&lt;T&gt; and its engines (atomic_weak_ptr_lock_free, atomic_weak_ptr_lock_based,..." alt="" coords="309,159,503,185"/>
+<area shape="poly" title=" " alt="" coords="785,29,564,50,474,64,444,72,428,81,415,98,409,119,407,159,402,159,404,118,411,96,424,77,442,67,473,59,564,45,785,24"/>
+<area shape="rect" href="a00809.html" title="The split&#45;count engine behind atomic_shared_ptr_lock_free_split_count and atomic_weak_ptr_lock_free_s..." alt="" coords="1122,240,1309,265"/>
+<area shape="poly" title=" " alt="" coords="946,38,991,77,1047,136,1071,161,1106,190,1148,217,1188,238,1186,242,1146,221,1103,194,1068,165,1043,139,987,81,942,42"/>
+<area shape="rect" href="a00812.html" title="The policy of the split&#45;count engine: the named steps of its protocol, the events a ledger counts,..." alt="" coords="1116,159,1315,185"/>
+<area shape="poly" title=" " alt="" coords="975,32,1028,52,1083,76,1150,118,1201,157,1198,161,1147,123,1081,81,1026,56,973,37"/>
+<area shape="rect" href="a00818.html" title="What the split&#45;count engine needs to know about the pointer it stores: the counter group its referenc..." alt="" coords="1371,79,1567,104"/>
+<area shape="poly" title=" " alt="" coords="1027,30,1374,76,1373,81,1026,35"/>
+<area shape="rect" href="a00815.html" title="The slot word of the split&#45;count engine: a control block, the ticks of the loads in flight and the st..." alt="" coords="1151,79,1346,104"/>
+<area shape="poly" title=" " alt="" coords="989,31,1192,76,1190,81,988,36"/>
+<area shape="rect" href="a01352.html" title="Atomic module: atomic_shared_ptr&lt;T&gt; and atomic_weak_ptr&lt;T&gt;, the interface of the C++20 std::atomic&lt;st..." alt="" coords="239,240,351,265"/>
+<area shape="poly" title=" " alt="" coords="214,191,279,238,276,242,211,195"/>
+<area shape="rect" href="a00275.html" title=" " alt="" coords="5,313,183,353"/>
+<area shape="poly" title=" " alt="" coords="252,273,145,316,143,311,250,268"/>
+<area shape="rect" href="a00272.html" title=" " alt="" coords="207,313,383,353"/>
+<area shape="poly" title=" " alt="" coords="298,279,298,313,293,313,293,279"/>
+<area shape="rect" href="a00278.html" title=" " alt="" coords="408,313,575,353"/>
+<area shape="poly" title=" " alt="" coords="340,268,443,311,441,316,338,273"/>
+<area shape="poly" title=" " alt="" coords="809,113,731,154,729,149,807,108"/>
+<area shape="poly" title=" " alt="" coords="478,110,242,162,241,157,477,104"/>
+<area shape="poly" title=" " alt="" coords="585,109,657,150,654,154,582,113"/>
+<area shape="poly" title=" " alt="" coords="623,104,840,149,839,155,622,109"/>
+<area shape="poly" title=" " alt="" coords="515,113,430,161,428,157,513,109"/>
+<area shape="poly" title=" " alt="" coords="548,117,550,156,556,175,568,190,595,202,646,213,795,230,969,241,1121,247,1121,253,968,247,795,235,645,219,593,207,564,194,552,177,545,157,543,118"/>
+<area shape="poly" title=" " alt="" coords="379,195,315,242,311,238,376,191"/>
+<area shape="poly" title=" " alt="" coords="1218,199,1218,239,1213,239,1213,199"/>
+<area shape="poly" title=" " alt="" coords="1447,116,1404,155,1350,194,1299,222,1251,242,1249,237,1297,217,1347,190,1400,151,1444,112"/>
+<area shape="poly" title=" " alt="" coords="1289,109,1312,127,1330,151,1336,172,1330,193,1316,210,1300,224,1263,242,1261,238,1297,219,1313,206,1325,191,1331,172,1325,153,1308,131,1286,113"/>
+<area shape="poly" title=" " alt="" coords="1241,118,1223,160,1218,158,1236,116"/>
+</map>
+</div>
+</div>
+<p><a href="a00791_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:af7ba76c6b4d776ce3c3b7308618a0de8" id="r_af7ba76c6b4d776ce3c3b7308618a0de8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af7ba76c6b4d776ce3c3b7308618a0de8">LUMEX_ATOMIC_SMART_PTR_HAS_STD_BACKED</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memdesc:af7ba76c6b4d776ce3c3b7308618a0de8"><td class="mdescLeft">&#160;</td><td class="mdescRight">1 when the <code>*_std_backed</code> class templates exist, 0 otherwise.  <br /></td></tr>
+<tr class="separator:af7ba76c6b4d776ce3c3b7308618a0de8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf379c93bbd1d974851bd17c2f857eee" id="r_abf379c93bbd1d974851bd17c2f857eee"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abf379c93bbd1d974851bd17c2f857eee">LUMEX_ATOMIC_SMART_PTR_HAS_LOCK_FREE</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memdesc:abf379c93bbd1d974851bd17c2f857eee"><td class="mdescLeft">&#160;</td><td class="mdescRight">1 when the <code>*_lock_free</code> class templates exist, 0 otherwise.  <br /></td></tr>
+<tr class="separator:abf379c93bbd1d974851bd17c2f857eee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a77e7d7e23279bb05aba2be47af04f1e4" id="r_a77e7d7e23279bb05aba2be47af04f1e4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a77e7d7e23279bb05aba2be47af04f1e4">LUMEX_ATOMIC_SMART_PTR_COMMON_IS_LOCK_FREE</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memdesc:a77e7d7e23279bb05aba2be47af04f1e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">1 when <code><a class="el" href="a00275.html#a95edeffb6728b143aa58a91608d059ac" title="The common name: std::atomic&lt;std::shared_ptr&lt;T&gt;&gt; from C++11 on.">atomic_shared_ptr</a></code> and <code><a class="el" href="a00275.html#a3e01c91b16f07375bef18e0fab333a38" title="The common name: std::atomic&lt;std::weak_ptr&lt;T&gt;&gt; from C++11 on.">atomic_weak_ptr</a></code> resolve to the lock-free engine, 0 when they resolve to the lock-based one.  <br /></td></tr>
+<tr class="separator:a77e7d7e23279bb05aba2be47af04f1e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d93dfde12907c15ea2b3e0b8df9ef6b" id="r_a0d93dfde12907c15ea2b3e0b8df9ef6b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0d93dfde12907c15ea2b3e0b8df9ef6b">LUMEX_ATOMIC_SMART_PTR_HAS_LUMEX_FAMILY</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memdesc:a0d93dfde12907c15ea2b3e0b8df9ef6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">1 when the atomic smart pointers over the module's own pointer family (<code><a class="el" href="a03863.html" title="Shared ownership of an object ([util.smartptr.shared]).">lumex::core::smart_ptr::shared_ptr</a></code> / <code>weak_ptr</code>) exist, 0 otherwise.  <br /></td></tr>
+<tr class="separator:a0d93dfde12907c15ea2b3e0b8df9ef6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8cf819fe253278d0c19ccf9b5aecb00" id="r_af8cf819fe253278d0c19ccf9b5aecb00"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af8cf819fe253278d0c19ccf9b5aecb00">LUMEX_ATOMIC_SMART_PTR_HAS_SPLIT_COUNT</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memdesc:af8cf819fe253278d0c19ccf9b5aecb00"><td class="mdescLeft">&#160;</td><td class="mdescRight">1 when <code>atomic_shared_ptr_lock_free_split_count</code> and <code>atomic_weak_ptr_lock_free_split_count</code> exist, 0 otherwise.  <br /></td></tr>
+<tr class="separator:af8cf819fe253278d0c19ccf9b5aecb00"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b1ce2752eb2ae436e09f7eb66717a44" id="r_a5b1ce2752eb2ae436e09f7eb66717a44"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5b1ce2752eb2ae436e09f7eb66717a44">LUMEX_ATOMIC_SMART_PTR_FAMILY_IS_SPLIT_COUNT</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memdesc:a5b1ce2752eb2ae436e09f7eb66717a44"><td class="mdescLeft">&#160;</td><td class="mdescRight">1 when <code>lumex::core::smart_ptr::atomic_shared_ptr</code> and <code><a class="el" href="a00275.html#a3e01c91b16f07375bef18e0fab333a38" title="The common name: std::atomic&lt;std::weak_ptr&lt;T&gt;&gt; from C++11 on.">atomic_weak_ptr</a></code> resolve to the split-count engine, 0 when they resolve to the lock-based engine over the module's own pointers (or do not exist).  <br /></td></tr>
+<tr class="separator:a5b1ce2752eb2ae436e09f7eb66717a44"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9be53a42a0b6b53bcfd084ff60e871bc" id="r_a9be53a42a0b6b53bcfd084ff60e871bc"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9be53a42a0b6b53bcfd084ff60e871bc">LUMEX_ATOMIC_SMART_PTR_ABI_NAMESPACE</a>&#160;&#160;&#160;<a class="el" href="a00851.html#a0508297ef17d771c69e6f945dd092220">LUMEX_ATOMIC_WAIT_ABI_NAMESPACE</a></td></tr>
+<tr class="memdesc:a9be53a42a0b6b53bcfd084ff60e871bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Name of the inline namespace that holds the smart pointers.  <br /></td></tr>
+<tr class="separator:a9be53a42a0b6b53bcfd084ff60e871bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6210e9365ae142be6a0511f324aee02d" id="r_a6210e9365ae142be6a0511f324aee02d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6210e9365ae142be6a0511f324aee02d">LUMEX_ATOMIC_SMART_PTR_CHECK_LOAD_ORDER</a>(order)</td></tr>
+<tr class="memdesc:a6210e9365ae142be6a0511f324aee02d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compile-time checks of constant memory order arguments.  <br /></td></tr>
+<tr class="separator:a6210e9365ae142be6a0511f324aee02d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4df38d759b3b75a0c2eb43df1680cb61" id="r_a4df38d759b3b75a0c2eb43df1680cb61"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4df38d759b3b75a0c2eb43df1680cb61">LUMEX_ATOMIC_SMART_PTR_CHECK_STORE_ORDER</a>(order)</td></tr>
+<tr class="separator:a4df38d759b3b75a0c2eb43df1680cb61"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab3ae82014165ed18f66e176029cfa054" id="r_ab3ae82014165ed18f66e176029cfa054"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab3ae82014165ed18f66e176029cfa054">LUMEX_ATOMIC_SMART_PTR_CHECK_FAILURE_ORDER</a>(order)</td></tr>
+<tr class="separator:ab3ae82014165ed18f66e176029cfa054"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>The one place that decides which engines exist and which one the common names <code><a class="el" href="a00275.html#a95edeffb6728b143aa58a91608d059ac" title="The common name: std::atomic&lt;std::shared_ptr&lt;T&gt;&gt; from C++11 on.">atomic_shared_ptr</a></code> and <code><a class="el" href="a00275.html#a3e01c91b16f07375bef18e0fab333a38" title="The common name: std::atomic&lt;std::weak_ptr&lt;T&gt;&gt; from C++11 on.">atomic_weak_ptr</a></code> stand for, and the memory order checks of the atomic smart pointers. </p>
+<p>Three engines implement the interface of the C++20 <code>std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;</code> and <code>std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;</code>, each under an explicit class template name in <code><a class="el" href="a01490.html">lumex::core::atomic::smart_ptr</a></code>:</p>
+<p>| Class templates | Engine | Exists | | &mdash; | &mdash; | &mdash; | | <code>atomic_shared_ptr_lock_free</code>, <code>atomic_weak_ptr_lock_free</code> | an immutable heap box behind one <code>std::atomic</code> pointer, protected by <code>core/hazard_pointer</code> | <code>LUMEX_ATOMIC_SMART_PTR_HAS_LOCK_FREE</code> is 1 | | <code>atomic_shared_ptr_lock_based</code>, <code>atomic_weak_ptr_lock_based</code> | an ordinary smart pointer behind a two-bit lock | always | | <code>atomic_shared_ptr_std_backed</code>, <code>atomic_weak_ptr_std_backed</code> | the standard library's <code>std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;</code> and <code>std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;</code> | <code>LUMEX_ATOMIC_SMART_PTR_HAS_STD_BACKED</code> is 1 (C++20, libstdc++ 12 and later or the MSVC STL) | <code>atomic_shared_ptr_lock_free_split_count</code>, <code>atomic_weak_ptr_lock_free_split_count</code> | a 16-byte word per slot (a control block address, the loads in flight and an offset) updated by a 128-bit compare-and-swap, over <code><a class="el" href="a01562.html">lumex::core::smart_ptr</a></code> | <code>LUMEX_ATOMIC_SMART_PTR_HAS_SPLIT_COUNT</code> is 1 |</p>
+<p>The common names are alias templates: the lock-free engine where it exists, the lock-based one otherwise. The standard-backed wrapper is an explicit opt-in name and is never what a common name resolves to. A name of an engine that does not exist is not declared, so naming it is a compile error; the macros above let code branch instead.</p>
+<p>Origin: the lock-based engine is a port of the own implementation by Vladislav Semykin, the author of this library, of <code>std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;</code> and <code>std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;</code> for LLVM libc++ (P0718R2, llvm-project pull request 194215). That implementation has two methods, a lock-based one and a lock-free one (a double-width compare-and-swap over the pointer and a control block word that also carries a split reference count); it is not derived from libstdc++, the MSVC STL or Folly. Only the lock-based method is ported, with the lock and sleeper bits in a separate word, because a library cannot take two bits of the control block pointer of another standard library's <code>std::shared_ptr</code>. The lock-free engine is a different algorithm (see <code><a class="el" href="a00821.html" title="The lock-free engine behind atomic_shared_ptr_lock_free and atomic_weak_ptr_lock_free: an immutable h...">LumexAtomicSmartPtrLockFreeCell.hpp</a></code>).</p>
+<p>Switches, for tests and comparisons, defined before the first include: <code>LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED</code> makes the common names lock-based even where the lock-free engine exists; <code>LUMEX_ATOMIC_SMART_PTR_DISABLE_LOCK_FREE</code> makes the lock-free engine not exist (the build as it is without <code>core/hazard_pointer</code>); <code>LUMEX_ATOMIC_SMART_PTR_DISABLE_SPLIT_COUNT</code> makes the split-count engine not exist, and the family alias then resolves to the lock-based engine; <code>LUMEX_ATOMIC_WAIT_FORCE_TABLE</code> (see <code><a class="el" href="a00851.html" title="Blocking wait for a change of a 32-bit atomic word, and the wake-up that ends it, from C++11 on.">lumex/core/atomic/sync/LumexAtomicWait.hpp</a></code>) selects the way <code>wait ()</code> sleeps. Every translation unit of a program that shares an atomic smart pointer object must make the same choices: the engine is part of the class template name and the way of sleeping is an inline namespace, so a mismatch in a function signature fails to link, but a mismatch inside a user type that holds the object is not detected. </p>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a9be53a42a0b6b53bcfd084ff60e871bc" name="a9be53a42a0b6b53bcfd084ff60e871bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9be53a42a0b6b53bcfd084ff60e871bc">&#9670;&#160;</a></span>LUMEX_ATOMIC_SMART_PTR_ABI_NAMESPACE</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int main </td>
+          <td class="memname">#define LUMEX_ATOMIC_SMART_PTR_ABI_NAMESPACE&#160;&#160;&#160;<a class="el" href="a00851.html#a0508297ef17d771c69e6f945dd092220">LUMEX_ATOMIC_WAIT_ABI_NAMESPACE</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Name of the inline namespace that holds the smart pointers. </p>
+<p>Only the way of sleeping selects it: the ways are not interchangeable (see <code>LUMEX_ATOMIC_WAIT_ABI_NAMESPACE</code>), and every engine uses one for <code>wait ()</code>. The engine is in the class template name, so the engines of one translation unit coexist and a mismatch between translation units still fails to link. </p>
+
+</div>
+</div>
+<a id="ab3ae82014165ed18f66e176029cfa054" name="ab3ae82014165ed18f66e176029cfa054"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab3ae82014165ed18f66e176029cfa054">&#9670;&#160;</a></span>LUMEX_ATOMIC_SMART_PTR_CHECK_FAILURE_ORDER</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_ATOMIC_SMART_PTR_CHECK_FAILURE_ORDER</td>
           <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>order</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00791_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00791_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
+
 </div>
+</div>
+<a id="a6210e9365ae142be6a0511f324aee02d" name="a6210e9365ae142be6a0511f324aee02d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6210e9365ae142be6a0511f324aee02d">&#9670;&#160;</a></span>LUMEX_ATOMIC_SMART_PTR_CHECK_LOAD_ORDER</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_ATOMIC_SMART_PTR_CHECK_LOAD_ORDER</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>order</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Compile-time checks of constant memory order arguments. </p>
+<p>The standard makes some orders a precondition violation: <code>store</code> with <code>consume</code>, <code>acquire</code> or <code>acq_rel</code>; <code>load</code> and <code>wait</code> with <code>release</code> or <code>acq_rel</code>; the failure order of <code>compare_exchange_*</code> with <code>release</code> or <code>acq_rel</code>. Where the compiler supports the <code>diagnose_if</code> attribute (Clang), a constant argument of that kind is reported as a warning, as libc++ does for <code>std::atomic</code>. Other compilers accept the call; the lock-based implementation then behaves as with <code>seq_cst</code>, and the standard types do whatever their library does. </p>
+
+</div>
+</div>
+<a id="a4df38d759b3b75a0c2eb43df1680cb61" name="a4df38d759b3b75a0c2eb43df1680cb61"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4df38d759b3b75a0c2eb43df1680cb61">&#9670;&#160;</a></span>LUMEX_ATOMIC_SMART_PTR_CHECK_STORE_ORDER</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_ATOMIC_SMART_PTR_CHECK_STORE_ORDER</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>order</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a77e7d7e23279bb05aba2be47af04f1e4" name="a77e7d7e23279bb05aba2be47af04f1e4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a77e7d7e23279bb05aba2be47af04f1e4">&#9670;&#160;</a></span>LUMEX_ATOMIC_SMART_PTR_COMMON_IS_LOCK_FREE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_ATOMIC_SMART_PTR_COMMON_IS_LOCK_FREE&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>1 when <code><a class="el" href="a00275.html#a95edeffb6728b143aa58a91608d059ac" title="The common name: std::atomic&lt;std::shared_ptr&lt;T&gt;&gt; from C++11 on.">atomic_shared_ptr</a></code> and <code><a class="el" href="a00275.html#a3e01c91b16f07375bef18e0fab333a38" title="The common name: std::atomic&lt;std::weak_ptr&lt;T&gt;&gt; from C++11 on.">atomic_weak_ptr</a></code> resolve to the lock-free engine, 0 when they resolve to the lock-based one. </p>
+<p>The lock-free engine when it exists, unless <code>LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED</code> is defined. The standard-backed wrapper is never chosen. </p>
+
+</div>
+</div>
+<a id="a5b1ce2752eb2ae436e09f7eb66717a44" name="a5b1ce2752eb2ae436e09f7eb66717a44"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b1ce2752eb2ae436e09f7eb66717a44">&#9670;&#160;</a></span>LUMEX_ATOMIC_SMART_PTR_FAMILY_IS_SPLIT_COUNT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_ATOMIC_SMART_PTR_FAMILY_IS_SPLIT_COUNT&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>1 when <code>lumex::core::smart_ptr::atomic_shared_ptr</code> and <code><a class="el" href="a00275.html#a3e01c91b16f07375bef18e0fab333a38" title="The common name: std::atomic&lt;std::weak_ptr&lt;T&gt;&gt; from C++11 on.">atomic_weak_ptr</a></code> resolve to the split-count engine, 0 when they resolve to the lock-based engine over the module's own pointers (or do not exist). </p>
+<p>The lock-based engine is the default. Measured (see the atomic benchmark README), the split-count engine is cheaper under contention for <code>store</code>, <code>exchange</code> and, from 8 threads, <code>compare_exchange</code>, but dearer without contention and for <code>load</code> on few threads, and it exists only on x86-64, so the unqualified family names do not switch to it silently. Define <code>LUMEX_ATOMIC_SMART_PTR_FAMILY_PREFER_SPLIT_COUNT</code> to make the pair the split-count engine where it exists; the explicit names <code>atomic_shared_ptr_lock_free_split_count</code> and <code>atomic_weak_ptr_lock_free_split_count</code> are always available there. <code>LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED</code> wins over the preference (the switch forces both alias pairs). </p>
+
+</div>
+</div>
+<a id="abf379c93bbd1d974851bd17c2f857eee" name="abf379c93bbd1d974851bd17c2f857eee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abf379c93bbd1d974851bd17c2f857eee">&#9670;&#160;</a></span>LUMEX_ATOMIC_SMART_PTR_HAS_LOCK_FREE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_ATOMIC_SMART_PTR_HAS_LOCK_FREE&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>1 when the <code>*_lock_free</code> class templates exist, 0 otherwise. </p>
+<p>The lock-free engine needs <code>core/hazard_pointer</code> (the compiled library, linked by the CMake target <code>lumex::atomic</code> when it is built, which also defines <code>LUMEX_ATOMIC_HAS_HAZARD_POINTER</code>; a build without CMake defines the macro itself and links the library), pointer atomics that are always lock-free (<code>ATOMIC_POINTER_LOCK_FREE == 2</code>), and no definition of <code>LUMEX_ATOMIC_SMART_PTR_DISABLE_LOCK_FREE</code>. The macro is not derived from <code>__has_include</code>: the header can be present while the library is not linked. </p>
+
+</div>
+</div>
+<a id="a0d93dfde12907c15ea2b3e0b8df9ef6b" name="a0d93dfde12907c15ea2b3e0b8df9ef6b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0d93dfde12907c15ea2b3e0b8df9ef6b">&#9670;&#160;</a></span>LUMEX_ATOMIC_SMART_PTR_HAS_LUMEX_FAMILY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_ATOMIC_SMART_PTR_HAS_LUMEX_FAMILY&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>1 when the atomic smart pointers over the module's own pointer family (<code><a class="el" href="a03863.html" title="Shared ownership of an object ([util.smartptr.shared]).">lumex::core::smart_ptr::shared_ptr</a></code> / <code>weak_ptr</code>) exist, 0 otherwise. </p>
+<p>The family is the header-only module <code>core/smart_ptr</code>. The CMake target <code>lumex::atomic</code> links <code>lumex::smart_ptr</code> when that target exists and then defines <code>LUMEX_ATOMIC_HAS_SMART_PTR</code> (a soft edge, like the one to <code>core/hazard_pointer</code>); a build without CMake defines the macro itself. Where it is 1, <code>atomic_shared_ptr_lock_based_lumex</code>, <code>atomic_weak_ptr_lock_based_lumex</code> and the alias pair <code>lumex::core::smart_ptr::atomic_shared_ptr</code> / <code><a class="el" href="a00275.html#a3e01c91b16f07375bef18e0fab333a38" title="The common name: std::atomic&lt;std::weak_ptr&lt;T&gt;&gt; from C++11 on.">atomic_weak_ptr</a></code> are declared. </p>
+
+</div>
+</div>
+<a id="af8cf819fe253278d0c19ccf9b5aecb00" name="af8cf819fe253278d0c19ccf9b5aecb00"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af8cf819fe253278d0c19ccf9b5aecb00">&#9670;&#160;</a></span>LUMEX_ATOMIC_SMART_PTR_HAS_SPLIT_COUNT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_ATOMIC_SMART_PTR_HAS_SPLIT_COUNT&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>1 when <code>atomic_shared_ptr_lock_free_split_count</code> and <code>atomic_weak_ptr_lock_free_split_count</code> exist, 0 otherwise. </p>
+<p>The split-count engine needs the pointer family (<code>LUMEX_ATOMIC_SMART_PTR_HAS_LUMEX_FAMILY</code>), the 128-bit compare-and-swap layer (<code>LUMEX_ATOMIC_HAS_DWCAS</code>: x86-64 with GCC, Clang or MSVC) and no definition of <code>LUMEX_ATOMIC_SMART_PTR_DISABLE_SPLIT_COUNT</code>. Elsewhere the two class templates are not declared, so naming one is a compile error. </p>
+
+</div>
+</div>
+<a id="af7ba76c6b4d776ce3c3b7308618a0de8" name="af7ba76c6b4d776ce3c3b7308618a0de8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af7ba76c6b4d776ce3c3b7308618a0de8">&#9670;&#160;</a></span>LUMEX_ATOMIC_SMART_PTR_HAS_STD_BACKED</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_ATOMIC_SMART_PTR_HAS_STD_BACKED&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>1 when the <code>*_std_backed</code> class templates exist, 0 otherwise. </p>
+<p>They wrap the standard library's atomic smart pointers, which exist when the library has them (<code>LUMEX_HAS_STD_ATOMIC_SHARED_PTR</code>). Their <code>wait ()</code> is not used (see <code><a class="el" href="a00794.html" title="Storage and operations behind atomic_shared_ptr_lock_based, atomic_weak_ptr_lock_based and the *_std_...">LumexAtomicSmartPtrCell.hpp</a></code>), so <code>std::atomic::wait</code> is not a precondition. No common name resolves to them. </p>
 
 </div>
 </div>
@@ -149,7 +419,7 @@ Here is the call graph for this function:</div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_79837a4a68bc196c1f09e14adaf166fb.html">logging</a></li><li class="navelem"><a class="el" href="a00791.html">example_logging.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_46588a2def099f5c90ce8dff319725b2.html">atomic</a></li><li class="navelem"><a class="el" href="dir_554c46647e80ff154b2b91be60b0bc34.html">smart_ptr</a></li><li class="navelem"><a class="el" href="a00791.html">LumexAtomicSmartPtrConfig.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

@@ -1,6 +1,5 @@
 var a00566 =
 [
-    [ "LUMEX_IMPLEMENTATION", "a00566.html#a07486181f1990291c2a348de8eb4c480", null ],
-    [ "lumex::core::time::timer::extract_function_name", "a01405.html#a92a181555350dcc075d22a432da22d8a", null ],
-    [ "lumex::core::time::timer::write_measure_time_report", "a01405.html#aa04009deb3c2f28294b819490ed44b27", null ]
+    [ "lumex::xml::xpath::variable::XPathVariableSet", "a05347.html", "a05347" ],
+    [ "lumex::xml::xpath::variable::get_variable_scratch", "a01680.html#a2e440c9a87ed869364c0351b332f26e4", null ]
 ];

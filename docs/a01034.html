@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: XmlWriterFile.cpp File Reference</title>
+<title>LumexLib: LumexUtf.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,44 +104,212 @@ $(function(){initNavTree('a01034.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#define-members">Macros</a>  </div>
-  <div class="headertitle"><div class="title">XmlWriterFile.cpp File Reference</div></div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#typedef-members">Typedefs</a>  </div>
+  <div class="headertitle"><div class="title">LumexUtf.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;cstdio&gt;</code><br />
-<code>#include &quot;<a class="el" href="a01037_source.html">XmlWriterFile.hpp</a>&quot;</code><br />
+
+<p>Transcoding policies for UTF-8, UTF-16, UTF-32, Latin-1 and <code>wchar_t</code>: counters, writers and decoders that combine into a conversion.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &lt;cstddef&gt;</code><br />
+<code>#include &lt;cstdint&gt;</code><br />
+<code>#include &quot;<a class="el" href="a01082_source.html">lumex/core/utility/bit/LumexBit.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for XmlWriterFile.cpp:</div>
+Include dependency graph for LumexUtf.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01035.png" border="0" usemap="#a_xml_writer_file_8cpp" alt=""/></div>
+<div class="center"><img src="a01035.png" border="0" usemap="#aLumexUtf_8hpp" alt=""/></div>
+<map name="aLumexUtf_8hpp" id="aLumexUtf_8hpp">
+<area shape="rect" title="Transcoding policies for UTF&#45;8, UTF&#45;16, UTF&#45;32, Latin&#45;1 and wchar_t: counters, writers and decoders t..." alt="" coords="77,5,191,31"/>
+<area shape="rect" title=" " alt="" coords="5,174,76,199"/>
+<area shape="poly" title=" " alt="" coords="129,32,57,163,52,161,125,29"/>
+<area shape="rect" title=" " alt="" coords="101,174,167,199"/>
+<area shape="poly" title=" " alt="" coords="137,31,137,160,131,160,131,31"/>
+<area shape="rect" href="a01082.html" title="Bit helpers. count_leading_zeros (C++11) counts the leading zeros of an unsigned integer of 1,..." alt="" coords="449,79,587,119"/>
+<area shape="poly" title=" " alt="" coords="192,27,436,79,435,84,191,33"/>
+<area shape="poly" title=" " alt="" coords="450,107,284,128,186,146,89,169,82,172,80,167,88,164,185,141,283,123,449,102"/>
+<area shape="poly" title=" " alt="" coords="449,111,323,133,251,149,180,169,174,171,173,166,179,164,250,144,322,128,448,105"/>
+<area shape="rect" title=" " alt="" coords="429,174,514,199"/>
+<area shape="poly" title=" " alt="" coords="510,120,487,163,482,161,505,118"/>
+<area shape="rect" title=" " alt="" coords="538,174,594,199"/>
+<area shape="poly" title=" " alt="" coords="531,118,555,161,550,163,527,120"/>
+<area shape="rect" title=" " alt="" coords="618,174,685,199"/>
+<area shape="poly" title=" " alt="" coords="550,117,622,164,620,169,547,121"/>
+<area shape="rect" title=" " alt="" coords="709,174,786,199"/>
+<area shape="poly" title=" " alt="" coords="572,116,698,164,703,166,701,171,696,169,570,121"/>
+<area shape="rect" title=" " alt="" coords="811,174,903,199"/>
+<area shape="poly" title=" " alt="" coords="588,111,688,135,799,164,809,167,807,172,797,169,686,140,586,116"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="927,167,1181,207"/>
+<area shape="poly" title=" " alt="" coords="587,107,919,162,918,167,587,113"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="191,167,405,207"/>
+<area shape="poly" title=" " alt="" coords="469,121,362,164,360,159,467,116"/>
+</map>
 </div>
-</div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:a07486181f1990291c2a348de8eb4c480" id="r_a07486181f1990291c2a348de8eb4c480"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07486181f1990291c2a348de8eb4c480">LUMEX_IMPLEMENTATION</a></td></tr>
-<tr class="separator:a07486181f1990291c2a348de8eb4c480"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01036.png" border="0" usemap="#aLumexUtf_8hppdep" alt=""/></div>
+<map name="aLumexUtf_8hppdep" id="aLumexUtf_8hppdep">
+<area shape="rect" title="Transcoding policies for UTF&#45;8, UTF&#45;16, UTF&#45;32, Latin&#45;1 and wchar_t: counters, writers and decoders t..." alt="" coords="587,5,701,31"/>
+<area shape="rect" href="a01415.html" title="Unicode module: transcoding policies for UTF&#45;8, UTF&#45;16, UTF&#45;32, Latin&#45;1 and wchar_t,..." alt="" coords="171,152,290,177"/>
+<area shape="poly" title=" " alt="" coords="574,29,475,48,420,63,368,81,300,118,248,154,245,150,297,113,366,76,419,57,473,43,573,24"/>
+<area shape="rect" href="a01037.html" title="to_utf8 and to_wide: conversion of a wchar_t string to UTF&#45;8 and of a UTF&#45;8 string to wchar_t,..." alt="" coords="379,79,578,104"/>
+<area shape="poly" title=" " alt="" coords="604,39,509,81,507,76,602,34"/>
+<area shape="rect" href="a00686.html" title=" " alt="" coords="669,152,784,177"/>
+<area shape="poly" title=" " alt="" coords="660,41,722,151,717,153,656,44"/>
+<area shape="rect" href="a00713.html" title="Header&#45;only helpers of the XML implementation: encoding detection and buffer conversion,..." alt="" coords="1679,79,1785,104"/>
+<area shape="poly" title=" " alt="" coords="714,20,1678,85,1678,90,714,25"/>
+<area shape="rect" href="a00491.html" title=" " alt="" coords="259,225,423,251"/>
+<area shape="poly" title=" " alt="" coords="263,183,323,223,320,227,260,187"/>
+<area shape="rect" href="a00488.html" title=" " alt="" coords="5,225,235,251"/>
+<area shape="poly" title=" " alt="" coords="202,187,141,227,138,223,199,183"/>
+<area shape="poly" title=" " alt="" coords="423,110,275,154,273,149,422,105"/>
+<area shape="rect" href="a00752.html" title=" " alt="" coords="315,152,477,177"/>
+<area shape="poly" title=" " alt="" coords="456,115,413,154,409,150,452,111"/>
+<area shape="rect" href="a00734.html" title=" " alt="" coords="502,152,645,177"/>
+<area shape="poly" title=" " alt="" coords="508,111,558,149,555,154,505,115"/>
+<area shape="poly" title=" " alt="" coords="1665,96,1240,112,951,130,658,155,645,156,644,151,657,149,951,124,1240,107,1664,90"/>
+<area shape="poly" title=" " alt="" coords="1665,96,1294,112,1047,129,796,155,784,156,784,151,796,149,1047,124,1294,107,1665,90"/>
+<area shape="rect" href="a01421.html" title="XML module: a DOM tree of nodes, attributes and text, loading and saving with writers for files and s..." alt="" coords="1005,299,1097,324"/>
+<area shape="poly" title=" " alt="" coords="1673,110,1542,154,1517,168,1490,180,1449,187,1396,190,1273,191,1211,193,1155,198,1107,209,1074,227,1062,243,1055,262,1052,299,1047,298,1050,261,1057,241,1070,223,1105,204,1154,193,1211,187,1273,185,1396,185,1448,182,1489,175,1514,163,1540,150,1672,105"/>
+<area shape="rect" href="a00602.html" title=" " alt="" coords="1921,152,2081,177"/>
+<area shape="poly" title=" " alt="" coords="1793,105,1955,149,1954,154,1791,110"/>
+<area shape="rect" href="a00644.html" title=" " alt="" coords="2105,152,2247,177"/>
+<area shape="poly" title=" " alt="" coords="1799,100,2105,150,2105,156,1798,105"/>
+<area shape="rect" href="a00605.html" title=" " alt="" coords="1453,372,1579,397"/>
+<area shape="poly" title=" " alt="" coords="1775,108,1802,126,1825,150,1857,196,1879,239,1884,260,1883,281,1876,303,1861,326,1842,341,1813,353,1739,370,1655,380,1579,386,1579,380,1655,375,1738,365,1812,348,1839,336,1857,322,1871,301,1878,280,1878,260,1874,240,1852,199,1821,154,1798,130,1772,113"/>
+<area shape="rect" href="a00581.html" title=" " alt="" coords="2271,152,2395,177"/>
+<area shape="poly" title=" " alt="" coords="1799,95,2005,117,2259,149,2271,151,2271,156,2258,155,2004,123,1799,101"/>
+<area shape="rect" href="a00560.html" title=" " alt="" coords="1607,225,1745,251"/>
+<area shape="poly" title=" " alt="" coords="1728,118,1708,178,1685,226,1680,224,1703,176,1723,116"/>
+<area shape="rect" href="a00563.html" title="XPathVariable, a named and typed XPath variable, its four concrete kinds, and the functions that crea..." alt="" coords="1554,152,1694,177"/>
+<area shape="poly" title=" " alt="" coords="1703,114,1644,154,1641,150,1700,110"/>
+<area shape="rect" href="a00569.html" title=" " alt="" coords="1553,299,1713,324"/>
+<area shape="poly" title=" " alt="" coords="1748,115,1760,144,1770,180,1771,217,1768,235,1760,252,1746,269,1728,283,1690,301,1688,296,1726,278,1742,265,1755,249,1762,233,1766,216,1765,181,1755,146,1743,117"/>
+<area shape="rect" href="a00725.html" title=" " alt="" coords="1737,299,1847,324"/>
+<area shape="poly" title=" " alt="" coords="1768,110,1788,128,1804,151,1814,192,1814,234,1807,272,1799,299,1794,298,1802,270,1808,233,1809,192,1799,153,1784,131,1764,114"/>
+<area shape="rect" href="a00548.html" title=" " alt="" coords="2419,152,2551,177"/>
+<area shape="poly" title=" " alt="" coords="1799,93,2066,114,2408,149,2420,151,2419,156,2408,155,2066,119,1799,98"/>
+<area shape="rect" href="a00539.html" title=" " alt="" coords="2575,152,2739,177"/>
+<area shape="poly" title=" " alt="" coords="1799,92,2128,113,2345,129,2564,149,2575,151,2575,156,2564,155,2344,134,2128,118,1799,97"/>
+<area shape="rect" href="a00677.html" title=" " alt="" coords="2764,152,2932,177"/>
+<area shape="poly" title=" " alt="" coords="1799,91,2203,110,2475,127,2752,149,2764,151,2763,156,2752,155,2475,132,2203,115,1799,96"/>
+<area shape="rect" href="a00728.html" title=" " alt="" coords="808,152,1011,177"/>
+<area shape="poly" title=" " alt="" coords="1665,99,1385,122,1023,155,1012,156,1011,150,1022,149,1385,117,1665,94"/>
+<area shape="rect" href="a00722.html" title=" " alt="" coords="1035,152,1176,177"/>
+<area shape="poly" title=" " alt="" coords="1665,101,1452,123,1188,155,1176,156,1176,151,1188,149,1452,118,1665,95"/>
+<area shape="rect" href="a00683.html" title=" " alt="" coords="1201,152,1351,177"/>
+<area shape="poly" title=" " alt="" coords="1665,105,1352,155,1351,150,1665,99"/>
+<area shape="rect" href="a00680.html" title=" " alt="" coords="1375,152,1478,177"/>
+<area shape="poly" title=" " alt="" coords="1667,110,1479,155,1478,150,1665,105"/>
+<area shape="rect" href="a00389.html" title=" " alt="" coords="998,372,1119,397"/>
+<area shape="poly" title=" " alt="" coords="1056,337,1060,371,1055,372,1051,338"/>
+<area shape="rect" href="a00395.html" title=" " alt="" coords="1143,372,1265,397"/>
+<area shape="poly" title=" " alt="" coords="1091,328,1178,369,1176,374,1088,332"/>
+<area shape="rect" href="a00392.html" title=" " alt="" coords="707,372,829,397"/>
+<area shape="poly" title=" " alt="" coords="992,329,818,375,816,369,991,324"/>
+<area shape="rect" href="a00398.html" title=" " alt="" coords="853,372,974,397"/>
+<area shape="poly" title=" " alt="" coords="1016,333,939,374,936,369,1013,328"/>
+<area shape="poly" title=" " alt="" coords="1541,179,1535,180,1438,185,1313,189,1190,200,1140,211,1103,228,1086,243,1073,262,1057,299,1052,297,1068,260,1082,239,1100,223,1139,206,1189,195,1312,183,1438,180,1534,175,1540,174"/>
+<area shape="poly" title=" " alt="" coords="1643,187,1669,223,1665,226,1639,190"/>
+<area shape="rect" href="a00572.html" title="XPathAstNode, the node of a compiled XPath expression tree, which evaluates itself against a context." alt="" coords="1114,225,1257,251"/>
+<area shape="poly" title=" " alt="" coords="1541,181,1257,229,1256,223,1540,176"/>
+<area shape="rect" href="a00629.html" title=" " alt="" coords="1281,225,1397,251"/>
+<area shape="poly" title=" " alt="" coords="1562,183,1389,228,1388,223,1560,178"/>
+<area shape="rect" href="a00566.html" title="XPathVariableSet, the named variables an XPath expression can refer to, and the lookup helper the par..." alt="" coords="1421,225,1582,251"/>
+<area shape="poly" title=" " alt="" coords="1592,187,1524,227,1521,223,1589,182"/>
+<area shape="rect" href="a00575.html" title=" " alt="" coords="1121,299,1263,324"/>
+<area shape="poly" title=" " alt="" coords="1190,264,1193,298,1188,298,1185,264"/>
+<area shape="rect" href="a00608.html" title="XPathParser, the recursive descent parser that compiles an XPath 1.0 expression into a tree of XPathA..." alt="" coords="1301,299,1427,324"/>
+<area shape="poly" title=" " alt="" coords="1230,253,1334,296,1332,301,1228,258"/>
+<area shape="poly" title=" " alt="" coords="1404,328,1490,369,1488,374,1401,332"/>
+<area shape="rect" href="a00554.html" title=" " alt="" coords="1305,372,1428,397"/>
+<area shape="poly" title=" " alt="" coords="1368,337,1369,371,1364,372,1362,338"/>
+<area shape="poly" title=" " alt="" coords="1407,254,1110,301,1097,304,1096,299,1109,296,1407,248"/>
+<area shape="poly" title=" " alt="" coords="1507,264,1517,372,1512,372,1501,265"/>
+<area shape="poly" title=" " alt="" coords="1467,260,1389,301,1387,296,1464,255"/>
+<area shape="poly" title=" " alt="" coords="1488,264,1441,326,1386,374,1383,370,1437,322,1484,261"/>
+<area shape="poly" title=" " alt="" coords="1538,255,1611,296,1609,301,1535,260"/>
+<area shape="poly" title=" " alt="" coords="1566,251,1742,296,1741,301,1564,257"/>
+</map>
+</div>
+</div>
+<p><a href="a01034_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04259.html">lumex::core::unicode::utf::utf8_counter</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Counting policy: the size in bytes of the UTF-8 form of what a decoder yields.  <a href="a04259.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04263.html">lumex::core::unicode::utf::utf16_counter</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Counting policy: the number of 16-bit units in the UTF-16 form (1 for a code point below U+10000, 2 for a surrogate pair).  <a href="a04263.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04267.html">lumex::core::unicode::utf::utf32_counter</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Counting policy: the number of 32-bit units in the UTF-32 form, one per code point.  <a href="a04267.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04271.html">lumex::core::unicode::utf::utf8_writer</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writing policy: stores the UTF-8 bytes of each code point.  <a href="a04271.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04275.html">lumex::core::unicode::utf::utf16_writer</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writing policy: stores the UTF-16 units of each code point, with a surrogate pair from U+10000 on, in the byte order of the machine.  <a href="a04275.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04279.html">lumex::core::unicode::utf::utf32_writer</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writing policy: stores each code point as one 32-bit unit, in the byte order of the machine.  <a href="a04279.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04283.html">lumex::core::unicode::utf::latin1_writer</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writing policy: stores a code point as one Latin-1 byte, and <code>?</code> for a code point above U+00FF.  <a href="a04283.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04287.html">lumex::core::unicode::utf::utf8_decoder</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decoder of a UTF-8 buffer.  <a href="a04287.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04291.html">lumex::core::unicode::utf::utf16_decoder&lt; SwapBytes &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decoder of a UTF-16 buffer.  <a href="a04291.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04295.html">lumex::core::unicode::utf::utf32_decoder&lt; SwapBytes &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decoder of a UTF-32 buffer: <code>Traits::low</code> for a code point below U+10000 and <code>Traits::high</code> from U+10000 on. With <code>SwapBytes</code> set, every unit is byte swapped first. It does not validate the values.  <a href="a04295.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04299.html">lumex::core::unicode::utf::latin1_decoder</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decoder of a Latin-1 (ISO 8859-1) buffer: every byte is a code point, passed to <code>Traits::low</code>.  <a href="a04299.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04307.html">lumex::core::unicode::utf::wchar_selector&lt; 2 &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04311.html">lumex::core::unicode::utf::wchar_selector&lt; 4 &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04315.html">lumex::core::unicode::utf::wchar_decoder</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decoder of a <code>wchar_t</code> buffer: <code><a class="el" href="a04291.html" title="Decoder of a UTF-16 buffer.">utf16_decoder</a>&lt;false&gt;</code> where <code>wchar_t</code> has 2 bytes (Windows) and <code><a class="el" href="a04295.html" title="Decoder of a UTF-32 buffer: Traits::low for a code point below U+10000 and Traits::high from U+10000 ...">utf32_decoder</a>&lt;false&gt;</code> where it has 4.  <a href="a04315.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01425.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01488.html">lumex::core</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01583.html">lumex::core::unicode</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01585.html">lumex::core::unicode::utf</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a67b24d308b9e5a21966d2132eabc433d" id="r_a67b24d308b9e5a21966d2132eabc433d"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01585.html#a67b24d308b9e5a21966d2132eabc433d">lumex::core::unicode::utf::wchar_counter</a> = <a class="el" href="a04303.html">wchar_selector</a>&lt;sizeof (wchar_t)&gt;::counter</td></tr>
+<tr class="memdesc:a67b24d308b9e5a21966d2132eabc433d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Counting policy for the <code>wchar_t</code> of this platform.  <br /></td></tr>
+<tr class="separator:a67b24d308b9e5a21966d2132eabc433d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae8470246579d2e5c29ed54f50a8a1216" id="r_ae8470246579d2e5c29ed54f50a8a1216"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01585.html#ae8470246579d2e5c29ed54f50a8a1216">lumex::core::unicode::utf::wchar_writer</a> = <a class="el" href="a04303.html">wchar_selector</a>&lt;sizeof (wchar_t)&gt;::writer</td></tr>
+<tr class="memdesc:ae8470246579d2e5c29ed54f50a8a1216"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writing policy for the <code>wchar_t</code> of this platform.  <br /></td></tr>
+<tr class="separator:ae8470246579d2e5c29ed54f50a8a1216"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a07486181f1990291c2a348de8eb4c480" name="a07486181f1990291c2a348de8eb4c480"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a07486181f1990291c2a348de8eb4c480">&#9670;&#160;</a></span>LUMEX_IMPLEMENTATION</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_IMPLEMENTATION</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-</div><!-- contents -->
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Transcoding policies for UTF-8, UTF-16, UTF-32, Latin-1 and <code>wchar_t</code>: counters, writers and decoders that combine into a conversion. </p>
+<p>A conversion is a decoder run with a policy. A decoder (<code>utf8_decoder</code>, <code>utf16_decoder&lt;SwapBytes&gt;</code>, <code>utf32_decoder&lt;SwapBytes&gt;</code>, <code>latin1_decoder</code>, <code>wchar_decoder</code>) reads a buffer of its unit type and calls <code>Traits::low (result, code_point)</code> for a code point below U+10000 and <code>Traits::high (result, code_point)</code> from U+10000 on, threading <code>result</code> through the calls. With a counter (<code>utf8_counter</code>, <code>utf16_counter</code>, <code>utf32_counter</code>) <code>result</code> is the size of the output; with a writer (<code>utf8_writer</code>, <code>utf16_writer</code>, <code>utf32_writer</code>, <code>latin1_writer</code>) it is the output pointer. So a conversion runs twice: once with the counter to size the buffer, once with the writer to fill it. <code>wchar_selector&lt;Size&gt;</code> picks the UTF-16 or UTF-32 set for the <code>wchar_t</code> of the platform.</p>
+<p>Invalid input is not an error: a decoder skips what it cannot decode. Header-only, works from C++11, no allocation. <code>to_utf8</code> and <code>to_wide</code> in <code><a class="el" href="a01037.html" title="to_utf8 and to_wide: conversion of a wchar_t string to UTF-8 and of a UTF-8 string to wchar_t,...">convert/LumexUnicodeConvert.hpp</a></code> are the ready-made string conversions. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_7b089e18b7c2a92c23a9cf3b22a6463e.html">writer</a></li><li class="navelem"><a class="el" href="a01034.html">XmlWriterFile.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_99253d4096ffea06e09286d5da0452b9.html">unicode</a></li><li class="navelem"><a class="el" href="dir_90185779035eec3d08ad8d146096f380.html">utf</a></li><li class="navelem"><a class="el" href="a01034.html">LumexUtf.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

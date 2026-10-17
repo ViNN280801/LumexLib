@@ -1,0 +1,9 @@
+<map id="lumex::applied::resource_monitor::process::detail::executable_name" name="lumex::applied::resource_monitor::process::detail::executable_name">
+<area shape="rect" id="Node000001" title="The file name of a /proc/&lt;pid&gt;/exe link target." alt="" coords="5,84,188,139"/>
+<area shape="rect" id="Node000002" href="$a04167.html#af4f4f902216e25b31d01b19e904e7118" title="The view ends with suffix." alt="" coords="245,5,431,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,81,240,62,242,67,182,86"/>
+<area shape="rect" id="Node000003" href="$a04167.html#a9f1e8d50a3b9e51a05fd9d0c0fdd0332" title="Drops the last n characters (all of them when n &gt; size())." alt="" coords="236,84,440,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="188,109,223,109,223,114,188,114"/>
+<area shape="rect" id="Node000004" href="$a04167.html#aef7453e757e48a1e7b0158b75f958b43" title="The number of characters." alt="" coords="245,163,431,217"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="182,136,242,156,240,161,180,141"/>
+</map>

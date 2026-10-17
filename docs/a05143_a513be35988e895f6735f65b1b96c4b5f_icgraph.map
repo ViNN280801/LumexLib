@@ -1,0 +1,9 @@
+<map id="lumex::xml::node::XmlNode::print" name="lumex::xml::node::XmlNode::print">
+<area shape="rect" id="Node000001" title="Prints the XML subtree rooted at the current node to a custom writer interface." alt="" coords="257,55,461,95"/>
+<area shape="rect" id="Node000002" href="$a00392.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title="Main function demonstrating various LumexXml functionalities." alt="" coords="80,5,135,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="258,55,135,27,136,22,259,50"/>
+<area shape="rect" id="Node000003" href="$a05143.html#abc0e3ec301cddb026501f215723743b2" title="Prints the XML subtree rooted at the current node to a C&#45;style character output stream." alt="" coords="5,55,209,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="244,78,210,78,210,73,244,73"/>
+<area shape="rect" id="Node000004" href="$a05143.html#af65a61ef6f7962ffb99fc701f2deb1e4" title="Prints the XML subtree rooted at the current node to a wide character output stream." alt="" coords="5,119,209,159"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="268,101,187,122,185,117,266,96"/>
+</map>

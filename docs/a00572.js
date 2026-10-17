@@ -1,9 +1,6 @@
 var a00572 =
 [
-    [ "lumex::core::unicode::convert::to_utf8", "a01407.html#ab9c07f4265c583c32fe9a1d1f0dd7474", null ],
-    [ "lumex::core::unicode::convert::to_utf8", "a01407.html#ac5aaa2fe07e8b9f5ec681c9ab83da0af", null ],
-    [ "lumex::core::unicode::convert::to_utf8", "a01407.html#ac45f6767d3472ac2a5e6a2f83408b678", null ],
-    [ "lumex::core::unicode::convert::to_wide", "a01407.html#accc6ad210dff648d63b556fde4939095", null ],
-    [ "lumex::core::unicode::convert::to_wide", "a01407.html#a13d59f937ade78876e613ede4929011e", null ],
-    [ "lumex::core::unicode::convert::to_wide", "a01407.html#a874bec1a2ffaccc4e295ea7c95f8691c", null ]
+    [ "lumex::xml::xpath::ast::axis_to_type< N >", "a05235.html", "a05235" ],
+    [ "lumex::xml::xpath::ast::XPathAstNode", "a05239.html", "a05239" ],
+    [ "lumex::xml::xpath::ast::axis", "a01688.html#a75029b40fc2dd4a2e988fc203b960cb2", null ]
 ];

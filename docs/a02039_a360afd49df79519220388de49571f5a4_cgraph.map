@@ -1,0 +1,13 @@
+<map id="lumex::core::base64::decode::decoder::decode" name="lumex::core::base64::decode::decoder::decode">
+<area shape="rect" id="Node000001" title="Decodes a Base64 string into out (see the pointer and size overload)." alt="" coords="5,121,197,161"/>
+<area shape="rect" id="Node000002" href="$a04167.html#aff8d326ef9c6866116899f0eac72cfea" title="The pointer to the first character; null for a default view." alt="" coords="248,5,435,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="142,118,244,70,261,63,263,68,246,75,144,123"/>
+<area shape="rect" id="Node000003" href="$a02039.html#ac8bf414de7a978ca3fd9ea7121916435" title="Decodes size Base64 characters starting at encoded into out." alt="" coords="245,85,437,125"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="197,124,231,118,232,124,198,129"/>
+<area shape="rect" id="Node000005" href="$a04167.html#a5b3f9ab09fbd99db936fad5d8ae43cc5" title="true when the view has no characters." alt="" coords="248,149,435,204"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="198,152,235,158,234,163,197,158"/>
+<area shape="rect" id="Node000006" href="$a04167.html#aef7453e757e48a1e7b0158b75f958b43" title="The number of characters." alt="" coords="248,228,435,283"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="139,158,246,213,262,220,260,225,244,218,137,163"/>
+<area shape="rect" id="Node000004" href="$a02051.html#a8b23b25f82a0b98ed3f35601e0d5604b" title="Checks whether size characters starting at str are valid Base64." alt="" coords="485,77,640,132"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="438,102,472,102,472,107,438,107"/>
+</map>

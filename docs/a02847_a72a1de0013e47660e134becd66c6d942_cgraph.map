@@ -1,0 +1,28 @@
+<map id="lumex::core::expected::result::detail::storage::expected_storage::swap_value_with_error" name="lumex::core::expected::result::detail::storage::expected_storage::swap_value_with_error">
+<area shape="rect" id="Node000001" title="this holds a value, rhs an error, and E is nothrow move constructible: park the error,..." alt="" coords="5,137,193,206"/>
+<area shape="rect" id="Node000002" href="$a01533.html#a07d94bee6da20f2047136d97431d8d45" title="The address of object also when T overloads operator&amp;, usable in a constant expression from C++11 (st..." alt="" coords="955,35,1145,75"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="152,134,194,110,240,88,304,61,356,44,409,31,477,21,597,7,692,3,786,8,907,21,962,30,961,35,906,26,786,13,692,8,598,12,478,26,410,37,357,49,306,66,242,92,197,114,154,139"/>
+<area shape="rect" id="Node000003" href="$a01533.html#a76c301e6299206edbae26117dde3bedc" title="Starts the lifetime of a T at where, direct&#45;non&#45;list&#45;initialized with args...: std::construct_at." alt="" coords="485,35,685,75"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="193,139,241,126,471,74,472,80,242,131,194,144"/>
+<area shape="rect" id="Node000006" href="$a01533.html#aac3cdf6524f1c94486d6cff93fba3008" title="Ends the lifetime of the T at where: std::destroy_at for an object that is not an array." alt="" coords="490,267,679,307"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="141,204,187,237,242,263,301,279,362,288,477,292,476,297,361,293,300,284,240,268,185,242,138,208"/>
+<area shape="rect" id="Node000007" href="$a02847.html#a73885ecff15c51b575ae662aa8190c9e" title="Starts val with args...; has_value () is true." alt="" coords="477,123,692,193"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="193,152,241,146,355,142,464,146,464,151,355,148,242,151,194,157"/>
+<area shape="rect" id="Node000008" href="$a01533.html#a23933cdbbf11abf83fa4ce762534ecbf" title="static_cast&lt;remove_reference_t&lt;T&gt; &amp;&amp;&gt; (t), the body of std::move for a constexpr function of C++11,..." alt="" coords="501,331,668,371"/>
+<area shape="poly" id="edge10_Node000001_Node000008" title=" " alt="" coords="129,204,179,254,209,278,242,297,303,320,367,335,430,344,488,349,487,354,430,350,366,340,302,325,240,302,206,282,175,258,126,208"/>
+<area shape="rect" id="Node000009" href="$a02847.html#a5fde6d3bf968ff3d670b32ac2f58db43" title="this is a success and rhs holds an error, for expected&lt;void, / E&gt;: [expected.void...." alt="" coords="241,185,429,254"/>
+<area shape="poly" id="edge11_Node000001_Node000009" title=" " alt="" coords="194,188,228,195,227,200,193,193"/>
+<area shape="rect" id="Node000004" href="$a01533.html#a8a84107209623635f4270b7b6c0d6339" title="static_cast&lt;T &amp;&amp;&gt; (t), the body of std::forward for a constexpr function of C++11,..." alt="" coords="740,118,907,158"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="656,73,693,85,762,110,760,115,691,90,654,78"/>
+<area shape="rect" id="Node000005" href="$a01533.html#a530b8cd2ab418fa6df0c17235386995a" title="The address of object as a void *, also for a const or volatile object." alt="" coords="740,35,907,75"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="685,53,726,53,726,58,685,58"/>
+<area shape="poly" id="edge5_Node000005_Node000002" title=" " alt="" coords="907,53,941,53,941,58,907,58"/>
+<area shape="poly" id="edge9_Node000007_Node000004" title=" " alt="" coords="692,146,726,143,726,149,692,152"/>
+<area shape="poly" id="edge8_Node000007_Node000007" title=" " alt="" coords="538,123,540,113,549,104,564,99,585,97,610,100,626,108,623,113,609,105,585,102,565,104,552,109,545,115,543,124"/>
+<area shape="poly" id="edge12_Node000009_Node000002" title=" " alt="" coords="430,227,531,231,653,226,717,219,782,207,845,190,906,168,939,150,969,128,1020,83,1024,87,973,132,941,154,908,172,847,195,783,212,718,224,654,232,531,236,429,232"/>
+<area shape="poly" id="edge13_Node000009_Node000003" title=" " alt="" coords="363,182,412,132,443,107,476,85,489,78,491,83,479,90,446,111,416,136,367,186"/>
+<area shape="poly" id="edge14_Node000009_Node000006" title=" " alt="" coords="430,242,498,261,497,266,429,248"/>
+<area shape="poly" id="edge15_Node000009_Node000007" title=" " alt="" coords="429,194,464,185,465,190,430,199"/>
+<area shape="poly" id="edge16_Node000009_Node000008" title=" " alt="" coords="379,252,425,286,479,317,494,324,492,329,476,322,422,290,376,256"/>
+<area shape="poly" id="edge17_Node000009_Node000009" title=" " alt="" coords="289,184,291,174,300,165,315,160,335,158,361,161,376,169,373,174,359,166,335,163,316,165,303,170,296,176,294,185"/>
+</map>

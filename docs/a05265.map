@@ -1,0 +1,4 @@
+<map id="lumex::xml::xpath::memory::XPathMemoryBlock" name="lumex::xml::xpath::memory::XPathMemoryBlock">
+<area shape="rect" id="Node000001" title="Represents a block of memory used by XPathAllocator." alt="" coords="5,5,216,45"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="231,18,243,25,234,32,217,34,216,29,233,27,237,25,228,23"/>
+</map>

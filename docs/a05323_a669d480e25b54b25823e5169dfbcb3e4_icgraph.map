@@ -1,0 +1,22 @@
+<map id="lumex::xml::xpath::string::XPathString::from_const" name="lumex::xml::xpath::string::XPathString::from_const">
+<area shape="rect" id="Node000001" title="Creates an XPathString from a constant C&#45;style string." alt="" coords="935,116,1084,171"/>
+<area shape="rect" id="Node000002" href="$a01698.html#a09b352423a07394eefab94c87fa06b09" title="Converts a double&#45;precision floating&#45;point number to an XPath string representation." alt="" coords="713,51,887,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="921,118,886,108,888,103,922,113"/>
+<area shape="rect" id="Node000003" href="$a05239.html#a65b0bbe9cb7bb56b63909808fd092948" title="Evaluates the XPath expression represented by this AST node to a string value." alt="" coords="487,83,665,137"/>
+<area shape="poly" id="edge10_Node000001_Node000003" title=" " alt="" coords="921,139,665,120,666,114,921,134"/>
+<area shape="rect" id="Node000007" href="$a01698.html#acecf345205af2a10267ea4715f789fc1" title="Retrieves the string value of an XPath node." alt="" coords="725,181,875,221"/>
+<area shape="poly" id="edge11_Node000001_Node000007" title=" " alt="" coords="922,170,874,183,872,178,920,165"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="700,95,666,100,665,95,699,90"/>
+<area shape="rect" id="Node000004" href="$a05239.html#a22fd4b0b8128783c9615823bebff036c" title="Evaluates the XPath expression represented by this AST node to a boolean value." alt="" coords="246,5,425,60"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="473,89,395,63,397,57,474,83"/>
+<area shape="rect" id="Node000005" href="$a05239.html#aefd15ccbea8cfa84dcf96d758e336650" title="Evaluates the XPath expression represented by this AST node to a numeric value." alt="" coords="5,83,184,137"/>
+<area shape="poly" id="edge8_Node000003_Node000005" title=" " alt="" coords="473,120,184,120,184,115,473,115"/>
+<area shape="rect" id="Node000006" href="$a05315.html#a246d7958d05f4d033bc4cbdd45f652d1" title="Evaluates the XPath query to a string value, writing to a provided buffer." alt="" coords="232,160,439,215"/>
+<area shape="poly" id="edge9_Node000003_Node000006" title=" " alt="" coords="479,144,421,163,420,157,477,139"/>
+<area shape="poly" id="edge7_Node000004_Node000003" title=" " alt="" coords="438,54,516,80,514,85,437,59"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="263,67,185,93,183,87,261,62"/>
+<area shape="poly" id="edge6_Node000005_Node000003" title=" " alt="" coords="197,100,487,100,487,105,197,105"/>
+<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="167,76,245,50,247,55,169,81"/>
+<area shape="poly" id="edge13_Node000007_Node000003" title=" " alt="" coords="737,178,643,140,645,135,739,173"/>
+<area shape="poly" id="edge12_Node000007_Node000005" title=" " alt="" coords="718,227,618,247,494,261,428,263,361,259,295,248,231,230,196,212,164,189,115,140,118,136,167,185,198,208,233,225,296,243,361,254,428,258,494,256,617,242,717,221"/>
+</map>

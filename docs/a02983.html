@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::fmt::formatter&lt; T, Char, Enable &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a02986.html',''); initResizable(true); });
+$(function(){initNavTree('a02983.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,19 +103,155 @@ $(function(){initNavTree('a02986.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::core::fmt::Detail::range_element&lt; Range, Char, typename std::enable_if&lt; !has_formatter&lt; Char, typename std::decay&lt; typename lumex::core::utility::traits::range::range_reference&lt; Range &gt;::type &gt;::type &gt;() &amp;&amp;has_formatter&lt; Char, typename Range::value_type &gt;() &amp;&amp;std::is_convertible&lt; typename lumex::core::utility::traits::range::range_reference&lt; Range &gt;::type, typename Range::value_type &gt;::value &gt;::type &gt; Member List</div></div>
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="a02980.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::fmt::formatter&lt; T, Char, Enable &gt; Class Template Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a02986.html">lumex::core::fmt::Detail::range_element&lt; Range, Char, typename std::enable_if&lt; !has_formatter&lt; Char, typename std::decay&lt; typename lumex::core::utility::traits::range::range_reference&lt; Range &gt;::type &gt;::type &gt;() &amp;&amp;has_formatter&lt; Char, typename Range::value_type &gt;() &amp;&amp;std::is_convertible&lt; typename lumex::core::utility::traits::range::range_reference&lt; Range &gt;::type, typename Range::value_type &gt;::value &gt;::type &gt;</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a02986.html#a1ecc1427b3edcb87764b5f9bb5041da1">type</a> typedef</td><td class="entry"><a class="el" href="a02986.html">lumex::core::fmt::Detail::range_element&lt; Range, Char, typename std::enable_if&lt; !has_formatter&lt; Char, typename std::decay&lt; typename lumex::core::utility::traits::range::range_reference&lt; Range &gt;::type &gt;::type &gt;() &amp;&amp;has_formatter&lt; Char, typename Range::value_type &gt;() &amp;&amp;std::is_convertible&lt; typename lumex::core::utility::traits::range::range_reference&lt; Range &gt;::type, typename Range::value_type &gt;::value &gt;::type &gt;</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a02982.html#acc9253f54b12fb28af1b9cc4c30ac169">type</a> typedef</td><td class="entry"><a class="el" href="a02986.html">lumex::core::fmt::Detail::range_element&lt; Range, Char, typename std::enable_if&lt; !has_formatter&lt; Char, typename std::decay&lt; typename lumex::core::utility::traits::range::range_reference&lt; Range &gt;::type &gt;::type &gt;() &amp;&amp;has_formatter&lt; Char, typename Range::value_type &gt;() &amp;&amp;std::is_convertible&lt; typename lumex::core::utility::traits::range::range_reference&lt; Range &gt;::type, typename Range::value_type &gt;::value &gt;::type &gt;</a></td><td class="entry"></td></tr>
-</table></div><!-- contents -->
+<p>Customization point: specialize <code>formatter&lt;T, Char&gt;</code> with <code>Char const *parse (<a class="el" href="a02979.html" title="The format specification being parsed and the automatic / manual argument numbering state (as std::ba...">basic_format_parse_context</a>&lt;Char&gt; &amp;)</code> and <code><a class="el" href="a03011.html" title="Output iterator of basic_format_context: every assignment appends one character to the formatting buf...">basic_appender</a>&lt;Char&gt; format (T const &amp;, <a class="el" href="a02975.html" title="The output and the arguments of one formatting call (as std::basic_format_context).">basic_format_context</a>&lt;Char&gt; &amp;) const</code>.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="a01013_source.html">LumexFormat.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a9112c94300e77a697d64cdb6cf167668" id="r_a9112c94300e77a697d64cdb6cf167668"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9112c94300e77a697d64cdb6cf167668">formatter</a> ()=delete</td></tr>
+<tr class="separator:a9112c94300e77a697d64cdb6cf167668"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a1dc1d68310efc31349a5a829b28417" id="r_a2a1dc1d68310efc31349a5a829b28417"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2a1dc1d68310efc31349a5a829b28417">formatter</a> (<a class="el" href="a02983.html">formatter</a> const &amp;)=delete</td></tr>
+<tr class="separator:a2a1dc1d68310efc31349a5a829b28417"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1bff704bc2e0aafc38754401598cb8c1" id="r_a1bff704bc2e0aafc38754401598cb8c1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a02983.html">formatter</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1bff704bc2e0aafc38754401598cb8c1">operator=</a> (<a class="el" href="a02983.html">formatter</a> const &amp;)=delete</td></tr>
+<tr class="separator:a1bff704bc2e0aafc38754401598cb8c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><div class="compoundTemplParams">template&lt;typename T, typename Char = char, typename Enable = void&gt;<br />
+class lumex::core::fmt::formatter&lt; T, Char, Enable &gt;</div><p>Customization point: specialize <code>formatter&lt;T, Char&gt;</code> with <code>Char const *parse (<a class="el" href="a02979.html" title="The format specification being parsed and the automatic / manual argument numbering state (as std::ba...">basic_format_parse_context</a>&lt;Char&gt; &amp;)</code> and <code><a class="el" href="a03011.html" title="Output iterator of basic_format_context: every assignment appends one character to the formatting buf...">basic_appender</a>&lt;Char&gt; format (T const &amp;, <a class="el" href="a02975.html" title="The output and the arguments of one formatting call (as std::basic_format_context).">basic_format_context</a>&lt;Char&gt; &amp;) const</code>. </p>
+<p>The primary template is disabled (deleted constructor), so <code>std::is_default_constructible&lt;formatter&lt;T, Char&gt;&gt;</code> tells whether <code>T</code> is formattable. Built-in types have specializations a user formatter can inherit from to reuse the standard specification. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a9112c94300e77a697d64cdb6cf167668" name="a9112c94300e77a697d64cdb6cf167668"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9112c94300e77a697d64cdb6cf167668">&#9670;&#160;</a></span>formatter() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename Char = char, typename Enable = void&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02983.html">lumex::core::fmt::formatter</a>&lt; T, Char, Enable &gt;::formatter </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel delete">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a02983_a9112c94300e77a697d64cdb6cf167668_icgraph.png" border="0" usemap="#aa02983_a9112c94300e77a697d64cdb6cf167668_icgraph" alt=""/></div>
+<map name="aa02983_a9112c94300e77a697d64cdb6cf167668_icgraph" id="aa02983_a9112c94300e77a697d64cdb6cf167668_icgraph">
+<area shape="rect" title=" " alt="" coords="276,41,476,96"/>
+<area shape="rect" href="a04999.html#a436f0455d88b9e8f27e4d39ab977a2b0" title=" " alt="" coords="17,5,217,60"/>
+<area shape="poly" title=" " alt="" coords="262,55,217,49,217,44,262,50"/>
+<area shape="rect" href="a04999.html#acf36619bde87619e046c330dfdcca5f7" title=" " alt="" coords="5,85,228,125"/>
+<area shape="poly" title=" " alt="" coords="263,87,229,92,228,87,262,82"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a2a1dc1d68310efc31349a5a829b28417" name="a2a1dc1d68310efc31349a5a829b28417"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a1dc1d68310efc31349a5a829b28417">&#9670;&#160;</a></span>formatter() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename Char = char, typename Enable = void&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02983.html">lumex::core::fmt::formatter</a>&lt; T, Char, Enable &gt;::formatter </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02983.html">formatter</a>&lt; T, Char, Enable &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel delete">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a02983_a2a1dc1d68310efc31349a5a829b28417_cgraph.png" border="0" usemap="#aa02983_a2a1dc1d68310efc31349a5a829b28417_cgraph" alt=""/></div>
+<map name="aa02983_a2a1dc1d68310efc31349a5a829b28417_cgraph" id="aa02983_a2a1dc1d68310efc31349a5a829b28417_cgraph">
+<area shape="rect" title=" " alt="" coords="5,5,205,45"/>
+<area shape="rect" href="a02983.html#a9112c94300e77a697d64cdb6cf167668" title=" " alt="" coords="253,5,453,45"/>
+<area shape="poly" title=" " alt="" coords="205,23,240,23,240,28,205,28"/>
+</map>
+</div>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a1bff704bc2e0aafc38754401598cb8c1" name="a1bff704bc2e0aafc38754401598cb8c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1bff704bc2e0aafc38754401598cb8c1">&#9670;&#160;</a></span>operator=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename Char = char, typename Enable = void&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02983.html">formatter</a> &amp; <a class="el" href="a02983.html">lumex::core::fmt::formatter</a>&lt; T, Char, Enable &gt;::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02983.html">formatter</a>&lt; T, Char, Enable &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel delete">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a02983_a1bff704bc2e0aafc38754401598cb8c1_cgraph.png" border="0" usemap="#aa02983_a1bff704bc2e0aafc38754401598cb8c1_cgraph" alt=""/></div>
+<map name="aa02983_a1bff704bc2e0aafc38754401598cb8c1_cgraph" id="aa02983_a1bff704bc2e0aafc38754401598cb8c1_cgraph">
+<area shape="rect" title=" " alt="" coords="5,5,205,45"/>
+<area shape="rect" href="a02983.html#a9112c94300e77a697d64cdb6cf167668" title=" " alt="" coords="253,5,453,45"/>
+<area shape="poly" title=" " alt="" coords="205,23,240,23,240,28,205,28"/>
+</map>
+</div>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
+<li><a class="el" href="a01013_source.html">LumexFormat.hpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01540.html">fmt</a></li><li class="navelem"><a class="el" href="a02983.html">formatter</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

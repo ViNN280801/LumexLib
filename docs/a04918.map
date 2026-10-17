@@ -1,0 +1,7 @@
+<map id="lumex::core::utility::traits::enums::is_reflected_enum&lt; T, meta::void_t&lt; decltype(to_string(std::declval&lt; T &gt;()))&gt; &gt;" name="lumex::core::utility::traits::enums::is_reflected_enum&lt; T, meta::void_t&lt; decltype(to_string(std::declval&lt; T &gt;()))&gt; &gt;">
+<area shape="rect" id="Node000001" title=" " alt="" coords="293,23,544,93"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="66,5,185,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="199,25,293,38,292,43,198,31"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,55,245,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="258,76,293,72,293,77,259,82"/>
+</map>

@@ -1,0 +1,12 @@
+<map id="lumex::core::fmt::Detail::civil_from_days" name="lumex::core::fmt::Detail::civil_from_days">
+<area shape="rect" id="Node000001" title="Fills the date part of time from days since 1970&#45;01&#45;01." alt="" coords="793,71,971,111"/>
+<area shape="rect" id="Node000002" href="$a03155.html#ae34894440a19509a856974897f26ec07" title=" " alt="" coords="5,5,295,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="779,90,295,70,295,65,780,85"/>
+<area shape="rect" id="Node000003" href="$a01541.html#a9bb3e619b249d54a8889159cb394a5bd" title="ISO 8601 week&#45;based year and week number." alt="" coords="568,99,745,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="780,107,746,111,745,106,779,101"/>
+<area shape="rect" id="Node000004" href="$a01541.html#a754034de35d8ea974e37818b711109a8" title="Writes time following the checked chrono&#45;specs [it, end)." alt="" coords="343,99,520,139"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="554,122,520,122,520,117,554,117"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="328,101,294,94,296,89,330,96"/>
+<area shape="rect" id="Node000005" href="$a03151.html#aee2bdadbbcbe1460c2260749a0c1f8ed" title=" " alt="" coords="31,143,269,256"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="348,146,270,168,268,163,347,141"/>
+</map>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: example_atomic_smart_ptr.cpp File Reference</title>
+<title>LumexLib: XmlWriterStream.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,89 +104,58 @@ $(function(){initNavTree('a00662.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#typedef-members">Typedefs</a> &#124;
-<a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">example_atomic_smart_ptr.cpp File Reference</div></div>
+<a href="#define-members">Macros</a>  </div>
+  <div class="headertitle"><div class="title">XmlWriterStream.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;iostream&gt;</code><br />
-<code>#include &lt;memory&gt;</code><br />
-<code>#include &lt;string&gt;</code><br />
-<code>#include &lt;thread&gt;</code><br />
-<code>#include &quot;<a class="el" href="a01175_source.html">lumex/core/atomic/LumexAtomic</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a01073_source.html">lumex/core/utility/assert/LumexAssert.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00665_source.html">XmlWriterStream.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for example_atomic_smart_ptr.cpp:</div>
+Include dependency graph for XmlWriterStream.cpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00663.png" border="0" usemap="#aexample__atomic__smart__ptr_8cpp" alt=""/></div>
+<div class="center"><img src="a00663.png" border="0" usemap="#aXmlWriterStream_8cpp" alt=""/></div>
+<map name="aXmlWriterStream_8cpp" id="aXmlWriterStream_8cpp">
+<area shape="rect" title=" " alt="" coords="557,5,719,31"/>
+<area shape="rect" href="a01073.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="448,79,631,119"/>
+<area shape="poly" title=" " alt="" coords="624,33,576,72,573,68,620,29"/>
+<area shape="rect" href="a00665.html" title="XmlWriterStream, an IXmlWriter that writes to a narrow or a wide standard output stream." alt="" coords="667,86,830,111"/>
+<area shape="poly" title=" " alt="" coords="657,29,721,75,718,80,654,33"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="638,262,819,287"/>
+<area shape="poly" title=" " alt="" coords="563,117,707,250,703,254,559,121"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="225,167,414,207"/>
+<area shape="poly" title=" " alt="" coords="490,121,383,164,381,159,488,116"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="401,255,614,295"/>
+<area shape="poly" title=" " alt="" coords="538,119,516,241,511,240,533,118"/>
+<area shape="rect" title=" " alt="" coords="5,262,97,287"/>
+<area shape="poly" title=" " alt="" coords="256,209,110,257,102,260,100,255,108,252,255,204"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="121,255,376,295"/>
+<area shape="poly" title=" " alt="" coords="305,209,276,245,271,242,301,205"/>
+<area shape="poly" title=" " alt="" coords="364,204,453,246,451,251,361,209"/>
+<area shape="poly" title=" " alt="" coords="737,113,718,137,702,167,699,188,701,210,716,249,711,251,696,211,693,188,697,166,713,134,733,110"/>
+<area shape="rect" title=" " alt="" coords="711,174,791,199"/>
+<area shape="poly" title=" " alt="" coords="752,112,753,160,748,160,746,112"/>
+<area shape="rect" href="a00674.html" title="IXmlWriter, the output interface that XML serialization writes bytes to." alt="" coords="816,174,935,199"/>
+<area shape="poly" title=" " alt="" coords="769,109,847,164,844,168,766,114"/>
+<area shape="poly" title=" " alt="" coords="855,202,763,257,760,253,852,197"/>
+<area shape="rect" title=" " alt="" coords="844,262,915,287"/>
+<area shape="poly" title=" " alt="" coords="879,200,881,248,875,248,873,200"/>
+</map>
 </div>
 </div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
-Typedefs</h2></td></tr>
-<tr class="memitem:a95edeffb6728b143aa58a91608d059ac" id="r_a95edeffb6728b143aa58a91608d059ac"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
-<tr class="memitem:a95edeffb6728b143aa58a91608d059ac"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a95edeffb6728b143aa58a91608d059ac">atomic_shared_ptr</a></td></tr>
-<tr class="memdesc:a95edeffb6728b143aa58a91608d059ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">The common name: <code>std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;</code> from C++11 on.  <br /></td></tr>
-<tr class="separator:a95edeffb6728b143aa58a91608d059ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3e01c91b16f07375bef18e0fab333a38" id="r_a3e01c91b16f07375bef18e0fab333a38"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
-<tr class="memitem:a3e01c91b16f07375bef18e0fab333a38"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a3e01c91b16f07375bef18e0fab333a38">atomic_weak_ptr</a></td></tr>
-<tr class="memdesc:a3e01c91b16f07375bef18e0fab333a38"><td class="mdescLeft">&#160;</td><td class="mdescRight">The common name: <code>std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;</code> from C++11 on.  <br /></td></tr>
-<tr class="separator:a3e01c91b16f07375bef18e0fab333a38"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
-<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a07486181f1990291c2a348de8eb4c480" id="r_a07486181f1990291c2a348de8eb4c480"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07486181f1990291c2a348de8eb4c480">LUMEX_IMPLEMENTATION</a></td></tr>
+<tr class="separator:a07486181f1990291c2a348de8eb4c480"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Typedef Documentation</h2>
-<a id="a95edeffb6728b143aa58a91608d059ac" name="a95edeffb6728b143aa58a91608d059ac"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a95edeffb6728b143aa58a91608d059ac">&#9670;&#160;</a></span>atomic_shared_ptr</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="a01314.html#a95edeffb6728b143aa58a91608d059ac">lumex::core::atomic::smart_ptr::table_wait::atomic_shared_ptr</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>The common name: <code>std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;</code> from C++11 on. </p>
-<p>An alias template of <code>atomic_shared_ptr_lock_free&lt;T&gt;</code> where the lock-free engine exists (and <code>LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED</code> is not defined), of <code>atomic_shared_ptr_lock_based&lt;T&gt;</code> otherwise; never of the <code>_std_backed</code> wrapper. Being an alias template it cannot be forward declared, partially specialized or befriended: name the engine to do that. </p>
-
-</div>
-</div>
-<a id="a3e01c91b16f07375bef18e0fab333a38" name="a3e01c91b16f07375bef18e0fab333a38"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3e01c91b16f07375bef18e0fab333a38">&#9670;&#160;</a></span>atomic_weak_ptr</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="a01314.html#a3e01c91b16f07375bef18e0fab333a38">lumex::core::atomic::smart_ptr::table_wait::atomic_weak_ptr</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>The common name: <code>std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;</code> from C++11 on. </p>
-<p>An alias template of <code>atomic_weak_ptr_lock_free&lt;T&gt;</code> where the lock-free engine exists (and <code>LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED</code> is not defined), of <code>atomic_weak_ptr_lock_based&lt;T&gt;</code> otherwise; never of the <code>_std_backed</code> wrapper. Being an alias template it cannot be forward declared, partially specialized or befriended: name the engine to do that. </p>
-
-</div>
-</div>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a07486181f1990291c2a348de8eb4c480" name="a07486181f1990291c2a348de8eb4c480"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07486181f1990291c2a348de8eb4c480">&#9670;&#160;</a></span>LUMEX_IMPLEMENTATION</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int main </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
+          <td class="memname">#define LUMEX_IMPLEMENTATION</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -198,7 +167,7 @@ template&lt;typename T&gt; </div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_8e1b1d8f60798091c382b5897377990d.html">atomic</a></li><li class="navelem"><a class="el" href="a00662.html">example_atomic_smart_ptr.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_7b089e18b7c2a92c23a9cf3b22a6463e.html">writer</a></li><li class="navelem"><a class="el" href="a00662.html">XmlWriterStream.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

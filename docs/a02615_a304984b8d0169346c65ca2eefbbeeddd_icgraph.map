@@ -1,0 +1,14 @@
+<map id="lumex::core::exceptions::crash::lumex_crash_handler::lumex_crash_handler" name="lumex::core::exceptions::crash::lumex_crash_handler::lumex_crash_handler">
+<area shape="rect" id="Node000001" title=" " alt="" coords="525,128,737,183"/>
+<area shape="poly" id="edge5_Node000001_Node000001" title=" " alt="" coords="675,117,659,110,631,107,608,109,593,113,586,120,586,128,581,128,581,118,590,109,607,103,631,101,660,104,677,112"/>
+<area shape="rect" id="Node000002" href="$a02615.html#abbf721ddd957b81ca671fdd159b0c878" title="Returns the singleton instance of the crash handler." alt="" coords="265,29,477,84"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="546,126,443,87,444,82,548,121"/>
+<area shape="rect" id="Node000003" href="$a02615.html#ae46b8f0f909ce1314b11998f9b23091a" title=" " alt="" coords="5,63,217,117"/>
+<area shape="poly" id="edge6_Node000001_Node000003" title=" " alt="" coords="511,143,217,106,218,101,512,138"/>
+<area shape="rect" id="Node000004" href="$a02615.html#a237be710f2d5007bd4b1387dbf00712f" title=" " alt="" coords="265,160,477,215"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="512,173,478,177,477,172,512,167"/>
+<area shape="rect" id="Node000005" href="$a02615.html#a61da91546bcaa44bd87bdb00ea0e8a7a" title=" " alt="" coords="265,239,477,293"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="563,191,478,228,447,241,445,236,476,224,561,186"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="415,18,399,11,371,8,348,10,333,15,326,21,326,29,321,29,321,19,330,10,347,5,371,3,400,6,417,14"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="252,75,218,79,217,74,252,69"/>
+</map>

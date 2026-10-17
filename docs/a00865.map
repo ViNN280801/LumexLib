@@ -1,0 +1,11 @@
+<map id="LumexExceptionWrapper.hpp" name="LumexExceptionWrapper.hpp">
+<area shape="rect" id="Node000001" title="Exception&#45;safe call wrapper: invokes a callable, catches anything it throws, reports it to std::cerr,..." alt="" coords="187,5,397,31"/>
+<area shape="rect" id="Node000002" href="$a01370.html" title="Exceptions module: the lumex_base_exception hierarchy, stack traces, a crash handler that writes mini..." alt="" coords="129,79,260,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="266,41,214,80,210,76,263,37"/>
+<area shape="rect" id="Node000005" href="$a00866.html" title=" " alt="" coords="284,79,495,104"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="321,37,374,76,370,80,318,41"/>
+<area shape="rect" id="Node000003" href="$a00299.html" title=" " alt="" coords="5,159,189,185"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="170,115,115,161,112,157,167,111"/>
+<area shape="rect" id="Node000004" href="$a00302.html" title=" " alt="" coords="213,152,371,192"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="222,111,269,150,266,154,219,115"/>
+</map>

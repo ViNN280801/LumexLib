@@ -1,0 +1,13 @@
+<map id="lumex::xml::xpath::XPathQueryImpl" name="lumex::xml::xpath::XPathQueryImpl">
+<area shape="rect" id="Node000001" title="Internal implementation structure for XPathQuery." alt="" coords="584,64,733,104"/>
+<area shape="rect" id="Node000002" href="$a05239.html" title="Represents a node in the XPath Abstract Syntax Tree (AST)." alt="" coords="336,5,485,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="499,43,584,64,583,69,498,49"/>
+<area shape="rect" id="Node000003" href="$a05327.html" title="Base class for all XPath variables." alt="" coords="24,5,197,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="211,23,336,23,336,28,211,28"/>
+<area shape="rect" id="Node000004" href="$a05259.html" title="Allocator for XPath&#45;related data structures." alt="" coords="321,132,500,172"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="513,127,559,115,601,102,603,107,561,120,514,132"/>
+<area shape="rect" id="Node000005" href="$a05267.html" title="Represents a block of memory used by XPathAllocator." alt="" coords="5,113,216,153"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="229,120,240,119,584,88,584,93,240,124,230,125"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="230,138,321,144,321,149,229,143"/>
+<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="82,97,92,90,111,87,127,89,138,95,143,104,141,113,136,112,137,105,134,98,125,94,111,92,94,95,85,101"/>
+</map>

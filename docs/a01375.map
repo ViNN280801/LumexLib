@@ -1,0 +1,31 @@
+<map id="Expected" name="Expected">
+<area shape="rect" id="Node000001" title="Expected module: expected&lt;T, E&gt;, a value or an error after the C++23 std::expected,..." alt="" coords="705,5,788,31"/>
+<area shape="rect" id="Node000002" href="$a01298.html" title="CPU and RAM of single processes, by process ID or by executable name, with the processes they started..." alt="" coords="211,79,403,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="692,30,383,81,382,76,692,24"/>
+<area shape="rect" id="Node000011" href="$a00335.html" title=" " alt="" coords="427,79,600,104"/>
+<area shape="poly" id="edge12_Node000001_Node000011" title=" " alt="" coords="694,37,555,81,553,76,692,32"/>
+<area shape="rect" id="Node000012" href="$a00338.html" title=" " alt="" coords="624,79,869,104"/>
+<area shape="poly" id="edge13_Node000001_Node000012" title=" " alt="" coords="749,44,749,78,744,78,744,44"/>
+<area shape="rect" id="Node000013" href="$a00344.html" title=" " alt="" coords="893,79,1093,104"/>
+<area shape="poly" id="edge14_Node000001_Node000013" title=" " alt="" coords="803,32,951,76,950,81,801,37"/>
+<area shape="rect" id="Node000014" href="$a00341.html" title=" " alt="" coords="1118,79,1357,104"/>
+<area shape="poly" id="edge15_Node000001_Node000014" title=" " alt="" coords="802,24,1153,76,1152,81,801,29"/>
+<area shape="rect" id="Node000003" href="$a01301.html" title=" " alt="" coords="9,152,199,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="259,111,140,154,138,149,258,106"/>
+<area shape="rect" id="Node000004" href="$a01343.html" title="Resource monitor module: a background thread that samples the CPU and RAM usage of the system (and of..." alt="" coords="150,225,325,251"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="289,116,265,153,250,192,242,226,237,225,245,191,260,151,284,114"/>
+<area shape="rect" id="Node000007" href="$a01292.html" title="Background CPU/RAM usage sampler that appends one line per sample to a dated log file,..." alt="" coords="275,152,477,177"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="330,112,366,150,362,153,326,116"/>
+<area shape="rect" id="Node000009" href="$a01289.html" title="The text the background sampler logs for a watch list." alt="" coords="501,152,659,177"/>
+<area shape="poly" id="edge9_Node000002_Node000009" title=" " alt="" coords="368,105,533,149,532,154,367,110"/>
+<area shape="rect" id="Node000005" href="$a00449.html" title=" " alt="" coords="5,306,232,331"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="208,261,139,308,136,304,205,256"/>
+<area shape="rect" id="Node000006" href="$a00446.html" title=" " alt="" coords="256,299,456,339"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="269,256,328,296,325,301,266,261"/>
+<area shape="poly" id="edge7_Node000007_Node000004" title=" " alt="" coords="341,186,263,227,260,223,338,181"/>
+<area shape="rect" id="Node000008" href="$a01295.html" title=" " alt="" coords="349,225,549,251"/>
+<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="400,185,438,223,434,227,397,189"/>
+<area shape="poly" id="edge10_Node000009_Node000008" title=" " alt="" coords="546,187,474,227,471,223,544,182"/>
+<area shape="rect" id="Node000010" href="$a01283.html" title=" " alt="" coords="574,225,730,251"/>
+<area shape="poly" id="edge11_Node000009_Node000010" title=" " alt="" coords="604,185,641,223,637,227,600,189"/>
+</map>

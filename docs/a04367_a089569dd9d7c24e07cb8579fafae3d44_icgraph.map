@@ -1,0 +1,23 @@
+<map id="lumex::core::utility::dump::dump_factory::get_description" name="lumex::core::utility::dump::dump_factory::get_description">
+<area shape="rect" id="Node000001" title="Get a human&#45;readable description of the dump type." alt="" coords="801,124,967,179"/>
+<area shape="poly" id="edge10_Node000001_Node000001" title=" " alt="" coords="924,113,909,106,884,103,863,105,849,109,843,116,843,124,838,124,838,114,846,105,862,99,884,97,911,100,926,108"/>
+<area shape="rect" id="Node000002" href="$a04371.html#ad21479974cb521eece954afdfa15b188" title="Generate a dump file with custom configuration." alt="" coords="536,5,753,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="831,119,752,74,726,62,728,58,755,69,834,114"/>
+<area shape="rect" id="Node000003" href="$a04371.html#a29d377fa1c099a68b1b6613b1b8174a4" title="Manually trigger a dump generation with error code." alt="" coords="536,84,753,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="788,138,753,132,754,127,789,133"/>
+<area shape="rect" id="Node000004" href="$a04371.html#a0b3cc8ffb6d1d5bc1ec3c088a9ea7318" title="Manually trigger a dump generation." alt="" coords="536,163,753,217"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="789,169,754,175,753,170,788,164"/>
+<area shape="rect" id="Node000010" href="$a04371.html#aabb88f2c74b4af7cc52d91cf982ab9db" title="Initialize the crash dump handler with full configuration." alt="" coords="536,241,753,296"/>
+<area shape="poly" id="edge11_Node000001_Node000010" title=" " alt="" coords="832,188,755,231,725,244,723,239,752,226,829,184"/>
+<area shape="rect" id="Node000005" href="$a04371.html#a4f262ee10a4816b6048ce1257e3b819d" title="Generate a dump with error handling." alt="" coords="271,124,488,179"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="522,175,488,170,489,165,523,170"/>
+<area shape="rect" id="Node000006" href="$a04371.html#abc108236fa4d3ffc16b070da17d3f948" title="Generate a dump using this instance&#39;s configuration." alt="" coords="271,203,488,257"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="523,211,489,216,488,211,522,206"/>
+<area shape="rect" id="Node000007" href="$a04371.html#abe18d9733796464413fa91c6762636be" title=" " alt="" coords="5,124,223,179"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="273,201,206,181,207,176,275,196"/>
+<area shape="rect" id="Node000008" href="$a04371.html#a6fb8865d3d80a47a721ef871f6952e36" title=" " alt="" coords="5,203,223,257"/>
+<area shape="poly" id="edge7_Node000006_Node000008" title=" " alt="" coords="257,233,223,233,223,227,257,227"/>
+<area shape="rect" id="Node000009" href="$a04371.html#a652159ef556e7276645ba5972cc95d3e" title="Rename any core files that were created." alt="" coords="5,305,223,360"/>
+<area shape="poly" id="edge8_Node000006_Node000009" title=" " alt="" coords="297,265,186,308,184,303,295,260"/>
+<area shape="poly" id="edge9_Node000009_Node000009" title=" " alt="" coords="158,294,142,287,114,284,90,286,75,291,68,297,68,305,63,305,63,295,72,286,89,281,114,279,144,282,161,290"/>
+</map>

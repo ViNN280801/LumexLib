@@ -1,0 +1,12 @@
+<map id="lumex::core::utility::ranges::Algorithm::get_nearest_to" name="lumex::core::utility::ranges::Algorithm::get_nearest_to">
+<area shape="rect" id="Node000001" title="Finds the iterator whose (projected) value is numerically nearest to value." alt="" coords="5,124,160,179"/>
+<area shape="poly" id="edge2_Node000001_Node000001" title=" " alt="" coords="40,124,41,114,48,105,62,99,83,97,107,100,121,108,118,113,106,105,83,103,63,105,51,109,46,116,46,124"/>
+<area shape="rect" id="Node000002" href="$a01610.html#a0fd1a5acf2f1fed8edeee1309059b06f" title="Absolute difference |a &#45; b| of two integers, computed without an intermediate signed underflow for un..." alt="" coords="223,5,378,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="120,122,207,69,218,63,220,68,209,74,123,126"/>
+<area shape="rect" id="Node000003" href="$a01610.html#a1b56a450e15cc28e53421e2f7d8fd7b4" title="projection (argument) with the INVOKE rules: a callable, or a pointer to a data member or a member fu..." alt="" coords="208,84,393,139"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="160,134,194,128,195,133,161,140"/>
+<area shape="rect" id="Node000004" href="$a01610.html#a355239355da779ff320602768f793190" title="The iterator that last stands for: last itself when it is an iterator of the same type,..." alt="" coords="223,163,378,217"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="161,162,210,171,209,176,160,168"/>
+<area shape="rect" id="Node000005" href="$a01610.html#a6f1b3a468e3bc9e2ca02b75c1f0829aa" title=" " alt="" coords="215,241,387,296"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="125,177,209,226,223,233,220,238,207,231,123,181"/>
+</map>

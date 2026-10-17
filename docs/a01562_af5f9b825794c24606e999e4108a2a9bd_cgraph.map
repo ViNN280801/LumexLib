@@ -1,0 +1,11 @@
+<map id="lumex::core::smart_ptr::make_shared" name="lumex::core::smart_ptr::make_shared">
+<area shape="rect" id="Node000001" title="Creates a T constructed from args in one allocation." alt="" coords="5,91,151,131"/>
+<area shape="rect" id="Node000002" href="$a01562.html#ac243d4e88836c3a0895003c2c3fb6e9f" title="Creates a T constructed from args in one allocation made with a copy of alloc." alt="" coords="199,91,357,131"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="151,109,185,109,185,114,151,114"/>
+<area shape="rect" id="Node000003" href="$a03899.html#a0273cd4b435d7c8c421e980b917d825c" title=" " alt="" coords="443,5,588,60"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="338,89,429,59,430,64,339,94"/>
+<area shape="rect" id="Node000004" href="$a03891.html#aa794cb650f97219949bfd448413dbefb" title=" " alt="" coords="422,84,609,139"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="358,109,408,109,408,114,358,114"/>
+<area shape="rect" id="Node000005" href="$a01563.html#abecc8c6fa95e845e1c541c78b2bbb129" title="Rejects, with a static_assert, a class that derives from std::enable_shared_from_this and not from th..." alt="" coords="405,163,625,217"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="339,129,421,156,419,161,338,134"/>
+</map>

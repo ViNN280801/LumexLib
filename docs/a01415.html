@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::core::utility::debug Namespace Reference</title>
+<title>LumexLib: LumexUnicode File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,165 +103,89 @@ $(function(){initNavTree('a01415.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="summary">
-<a href="#namespaces">Namespaces</a> &#124;
-<a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">lumex::core::utility::debug Namespace Reference</div></div>
+  <div class="headertitle"><div class="title">LumexUnicode File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01416.html">Detail</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:a0071950e460324a9a1045bd73bfe1759" id="r_a0071950e460324a9a1045bd73bfe1759"><td class="memItemLeft" align="right" valign="top">static std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0071950e460324a9a1045bd73bfe1759">capture_stack_trace</a> (int skip_frames=1, int max_frames=16) noexcept</td></tr>
-<tr class="memdesc:a0071950e460324a9a1045bd73bfe1759"><td class="mdescLeft">&#160;</td><td class="mdescRight">Capture current call stack in a formatted string.  <br /></td></tr>
-<tr class="separator:a0071950e460324a9a1045bd73bfe1759"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a02a37787ed4cea8acf82cb81aced1f04" id="r_a02a37787ed4cea8acf82cb81aced1f04"><td class="memItemLeft" align="right" valign="top">static std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a02a37787ed4cea8acf82cb81aced1f04">capture_caller_info_impl</a> (char const *caller_function, char const *caller_file, int caller_line) noexcept</td></tr>
-<tr class="memdesc:a02a37787ed4cea8acf82cb81aced1f04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lightweight alternative: captures only the immediate caller.  <br /></td></tr>
-<tr class="separator:a02a37787ed4cea8acf82cb81aced1f04"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="a02a37787ed4cea8acf82cb81aced1f04" name="a02a37787ed4cea8acf82cb81aced1f04"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a02a37787ed4cea8acf82cb81aced1f04">&#9670;&#160;</a></span>capture_caller_info_impl()</h2>
 
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static std::string lumex::core::utility::debug::capture_caller_info_impl </td>
-          <td>(</td>
-          <td class="paramtype">char const *</td>          <td class="paramname"><span class="paramname"><em>caller_function</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char const *</td>          <td class="paramname"><span class="paramname"><em>caller_file</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>caller_line</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Lightweight alternative: captures only the immediate caller. </p>
-<p>Calling through the <a class="el" href="a00602.html#aa7bdb631319f316c64f5538fa6173709">LUMEX_CAPTURE_CALLER_INFO()</a> macro ensures correctness on all compilers, since the values are substituted at the call site (inside the calling function). </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
+<p>Unicode module: transcoding policies for UTF-8, UTF-16, UTF-32, Latin-1 and <code>wchar_t</code>, and the string conversions <code>to_utf8</code> and <code>to_wide</code>.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &quot;<a class="el" href="a01037_source.html">convert/LumexUnicodeConvert.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01034_source.html">utf/LumexUtf.hpp</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for LumexUnicode:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01415_a02a37787ed4cea8acf82cb81aced1f04_cgraph.png" border="0" usemap="#aa01415_a02a37787ed4cea8acf82cb81aced1f04_cgraph" alt=""/></div>
+<div class="center"><img src="a01416.png" border="0" usemap="#aLumexUnicode" alt=""/></div>
+<map name="aLumexUnicode" id="aLumexUnicode">
+<area shape="rect" title="Unicode module: transcoding policies for UTF&#45;8, UTF&#45;16, UTF&#45;32, Latin&#45;1 and wchar_t,..." alt="" coords="179,5,297,31"/>
+<area shape="rect" href="a01037.html" title="to_utf8 and to_wide: conversion of a wchar_t string to UTF&#45;8 and of a UTF&#45;8 string to wchar_t,..." alt="" coords="199,79,450,104"/>
+<area shape="poly" title=" " alt="" coords="255,29,300,67,297,71,251,33"/>
+<area shape="rect" href="a01034.html" title="Transcoding policies for UTF&#45;8, UTF&#45;16, UTF&#45;32, Latin&#45;1 and wchar_t: counters, writers and decoders t..." alt="" coords="71,152,221,192"/>
+<area shape="poly" title=" " alt="" coords="228,32,190,80,160,141,155,138,185,77,224,29"/>
+<area shape="rect" title=" " alt="" coords="5,335,76,361"/>
+<area shape="poly" title=" " alt="" coords="210,107,119,125,83,138,60,154,47,172,38,193,30,239,31,284,37,321,32,322,26,285,25,239,33,192,42,170,56,150,80,134,117,120,209,101"/>
+<area shape="rect" title=" " alt="" coords="101,335,167,361"/>
+<area shape="poly" title=" " alt="" coords="317,106,154,326,150,323,313,102"/>
+<area shape="rect" title=" " alt="" coords="482,335,549,361"/>
+<area shape="poly" title=" " alt="" coords="381,102,424,120,445,134,463,150,489,192,505,239,514,284,518,321,512,322,509,285,500,241,484,195,459,154,442,138,422,125,379,107"/>
+<area shape="rect" title=" " alt="" coords="297,159,365,185"/>
+<area shape="poly" title=" " alt="" coords="328,104,332,145,326,145,323,105"/>
+<area shape="rect" title=" " alt="" coords="390,159,449,185"/>
+<area shape="poly" title=" " alt="" coords="342,102,395,148,392,152,338,106"/>
+<area shape="poly" title=" " alt="" coords="297,107,204,149,202,144,295,102"/>
+<area shape="rect" href="a01073.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="628,152,811,192"/>
+<area shape="poly" title=" " alt="" coords="387,101,615,148,614,153,386,107"/>
+<area shape="poly" title=" " alt="" coords="136,194,58,325,53,322,132,191"/>
+<area shape="poly" title=" " alt="" coords="147,192,138,322,133,321,142,192"/>
+<area shape="rect" href="a01082.html" title="Bit helpers. count_leading_zeros (C++11) counts the leading zeros of an unsigned integer of 1,..." alt="" coords="304,240,441,280"/>
+<area shape="poly" title=" " alt="" coords="199,190,309,233,307,238,197,195"/>
+<area shape="poly" title=" " alt="" coords="304,276,202,299,89,331,83,333,81,328,88,325,201,294,303,271"/>
+<area shape="poly" title=" " alt="" coords="313,283,180,330,176,332,174,327,178,326,311,278"/>
+<area shape="poly" title=" " alt="" coords="407,278,484,326,481,330,404,282"/>
+<area shape="rect" title=" " alt="" coords="373,335,458,361"/>
+<area shape="poly" title=" " alt="" coords="385,279,406,322,401,324,380,282"/>
+<area shape="rect" title=" " alt="" coords="191,335,247,361"/>
+<area shape="poly" title=" " alt="" coords="339,283,255,331,252,326,336,278"/>
+<area shape="rect" title=" " alt="" coords="271,335,349,361"/>
+<area shape="poly" title=" " alt="" coords="360,282,329,326,325,323,356,279"/>
+<area shape="rect" title=" " alt="" coords="573,335,665,361"/>
+<area shape="poly" title=" " alt="" coords="430,278,571,328,570,333,428,283"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="689,328,944,368"/>
+<area shape="poly" title=" " alt="" coords="442,271,702,323,701,328,441,276"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="969,328,1182,368"/>
+<area shape="poly" title=" " alt="" coords="442,268,512,277,732,300,956,325,955,331,731,306,511,283,441,273"/>
+<area shape="poly" title=" " alt="" coords="803,189,867,210,931,238,993,276,1044,317,1041,321,990,281,929,242,865,215,802,195"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="523,247,705,273"/>
+<area shape="poly" title=" " alt="" coords="697,194,642,240,638,236,693,190"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="729,240,918,280"/>
+<area shape="poly" title=" " alt="" coords="745,190,791,229,787,233,742,194"/>
+<area shape="poly" title=" " alt="" coords="778,283,663,332,660,327,775,278"/>
+<area shape="poly" title=" " alt="" coords="824,281,822,314,817,314,819,280"/>
+<area shape="poly" title=" " alt="" coords="882,278,1006,321,1004,326,880,283"/>
+</map>
 </div>
-
-</div>
-</div>
-<a id="a0071950e460324a9a1045bd73bfe1759" name="a0071950e460324a9a1045bd73bfe1759"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0071950e460324a9a1045bd73bfe1759">&#9670;&#160;</a></span>capture_stack_trace()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static std::string lumex::core::utility::debug::capture_stack_trace </td>
-          <td>(</td>
-          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>skip_frames</em></span><span class="paramdefsep"> = </span><span class="paramdefval">1</span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>max_frames</em></span><span class="paramdefsep"> = </span><span class="paramdefval">16</span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Capture current call stack in a formatted string. </p>
-<p>Windows (MSVC):</p><ul>
-<li>Uses DbgHelp API (CaptureStackBackTrace + SymFromAddr)</li>
-<li>Requires PDB files for function names</li>
-<li>Thread-safe through internal mutex</li>
-<li>Lazy initialization to minimize overhead</li>
-</ul>
-<p>Linux/POSIX (GCC/Clang):</p><ul>
-<li>Uses GNU backtrace() (not POSIX, but widely available) for the addresses</li>
-<li>Names a frame by its exported symbol (dladdr, demangled through __cxa_demangle); a function the module does not export (most of an executable not linked with -rdynamic) has no name here</li>
-<li>Every frame also carries its module and the address inside it ("libfoo.so.1+0x1A2B", "app+0x401234"), found through dl_iterate_phdr on Linux: the address addr2line, gdb or eu-addr2line take with that module or its separate debug file, so the stack is symbolized offline, with source lines</li>
-<li>Starts no process and reads no debug information</li>
-</ul>
-<p>Performance:</p><ul>
-<li>Windows: DbgHelp resolves symbols and lines in-process</li>
-<li>POSIX: a few microseconds per frame, whatever debug information the modules have (the frame needs only dladdr and the loaded module list)</li>
-</ul>
-<p>Graceful Degradation:</p><ul>
-<li>Without a module for an address: returns the address in hex format</li>
-<li>On errors: returns "Stack trace unavailable: &lt;reason&gt;"</li>
-<li>Thread-safe in all modes</li>
-</ul>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">skip_frames</td><td>Number of frames to skip (default 1 - itself capture_stack_trace) </td></tr>
-    <tr><td class="paramname">max_frames</td><td>Maximum number of frames to capture (default 16)</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>std::string Formatted stack trace, each frame on a new line. Windows: "  #N: function_name (file:line) [0xADDRESS]". POSIX: "  #N: symbol +offset (module+0xOFFSET) [0xADDRESS]" for an exported symbol, "  #N: module+0xOFFSET [0xADDRESS]" otherwise.</dd></dl>
-<dl class="section note"><dt>Note</dt><dd><ul>
-<li>Function noexcept - never throws exceptions</li>
-<li>Can allocate memory inside (NOT async-signal-safe!)</li>
-<li>Optimized for rare calls (logging errors)</li>
-<li>DO NOT use in signal handlers or hot paths</li>
-</ul>
-</dd></dl>
-<dl class="section warning"><dt>Warning</dt><dd><ul>
-<li>Windows: Requires DbgHelp.lib in linking</li>
-<li>POSIX: names only exported symbols; link with -rdynamic to export more, or symbolize the module offsets offline</li>
-<li>Inline functions may be missing in trace at aggressive optimization</li>
-</ul>
-</dd></dl>
-<dl class="section user"><dt>Example</dt><dd>The snippet below shows the intended use.</dd></dl>
-<div class="fragment"><div class="line"><span class="keywordtype">void</span> resetConfig() {</div>
-<div class="line">  std::string trace = <a class="code hl_function" href="#a0071950e460324a9a1045bd73bfe1759">lumex::core::utility::debug::capture_stack_trace</a>(1,</div>
-<div class="line">5); std::cerr &lt;&lt; <span class="stringliteral">&quot;Config reset. Call stack:\n&quot;</span> &lt;&lt; trace;</div>
-<div class="line">  <span class="comment">// Windows:</span></div>
-<div class="line">  <span class="comment">//   #0: loadConfig (config.cpp:140) [0x7FF6A2B41234]</span></div>
-<div class="line">  <span class="comment">// Linux (offsets for addr2line or gdb with app and libc.so.6):</span></div>
-<div class="line">  <span class="comment">//   #0: app+0x4F7250 [0x8F7250]</span></div>
-<div class="line">  <span class="comment">//   #1: __libc_start_main +235 (libc.so.6+0x2409B) [0x7F3E1E8E009B]</span></div>
-<div class="line">}</div>
-<div class="ttc" id="aa01415_html_a0071950e460324a9a1045bd73bfe1759"><div class="ttname"><a href="#a0071950e460324a9a1045bd73bfe1759">lumex::core::utility::debug::capture_stack_trace</a></div><div class="ttdeci">static std::string capture_stack_trace(int skip_frames=1, int max_frames=16) noexcept</div><div class="ttdoc">Capture current call stack in a formatted string.</div><div class="ttdef"><b>Definition</b> LumexDebug.hpp:511</div></div>
-</div><!-- fragment --> <div class="dynheader">
-Here is the call graph for this function:</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01415_a0071950e460324a9a1045bd73bfe1759_cgraph.png" border="0" usemap="#aa01415_a0071950e460324a9a1045bd73bfe1759_cgraph" alt=""/></div>
+<div class="center"><img src="a01417.png" border="0" usemap="#aLumexUnicodedep" alt=""/></div>
+<map name="aLumexUnicodedep" id="aLumexUnicodedep">
+<area shape="rect" title="Unicode module: transcoding policies for UTF&#45;8, UTF&#45;16, UTF&#45;32, Latin&#45;1 and wchar_t,..." alt="" coords="139,5,257,31"/>
+<area shape="rect" href="a00491.html" title=" " alt="" coords="5,79,169,104"/>
+<area shape="poly" title=" " alt="" coords="169,40,108,81,105,76,166,36"/>
+<area shape="rect" href="a00488.html" title=" " alt="" coords="194,79,423,104"/>
+<area shape="poly" title=" " alt="" coords="230,36,291,76,288,81,227,40"/>
+</map>
 </div>
-
 </div>
-</div>
-</div><!-- contents -->
+<p><a href="a01415_source.html">Go to the source code of this file.</a></p>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Unicode module: transcoding policies for UTF-8, UTF-16, UTF-32, Latin-1 and <code>wchar_t</code>, and the string conversions <code>to_utf8</code> and <code>to_wide</code>. </p>
+<p>Link <code>lumex::unicode</code> (header-only). Works from C++11. The umbrella includes <code><a class="el" href="a01034.html" title="Transcoding policies for UTF-8, UTF-16, UTF-32, Latin-1 and wchar_t: counters, writers and decoders t...">utf/LumexUtf.hpp</a></code> (counters, writers and decoders in <code><a class="el" href="a01585.html">lumex::core::unicode::utf</a></code>) and <code><a class="el" href="a01037.html" title="to_utf8 and to_wide: conversion of a wchar_t string to UTF-8 and of a UTF-8 string to wchar_t,...">convert/LumexUnicodeConvert.hpp</a></code> (<code><a class="el" href="a01584.html">lumex::core::unicode::convert</a></code>). The conversions do not depend on the C locale or the operating system. The code comes from the XML module: the functions are Lumex's own, the structure of the policy classes is taken from pugixml; see <code>THIRD-PARTY-NOTICES.md</code>. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01311.html">core</a></li><li class="navelem"><a class="el" href="a01409.html">utility</a></li><li class="navelem"><a class="el" href="a01415.html">debug</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_99253d4096ffea06e09286d5da0452b9.html">unicode</a></li><li class="navelem"><a class="el" href="a01415.html">LumexUnicode</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

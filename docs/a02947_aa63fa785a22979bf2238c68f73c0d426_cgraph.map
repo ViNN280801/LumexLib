@@ -1,0 +1,8 @@
+<map id="lumex::core::filesystem::fs::path::has_root_name" name="lumex::core::filesystem::fs::path::has_root_name">
+<area shape="rect" id="Node000001" title="Checks if the path has a root name component." alt="" coords="5,29,192,69"/>
+<area shape="rect" id="Node000002" href="$a02947.html#aef30bd7f207328b1373169bdd34a9863" title="Extracts the root name component from the path." alt="" coords="240,29,415,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="192,47,226,47,226,52,192,52"/>
+<area shape="rect" id="Node000003" href="$a02947.html#a3b470303c0431f218eeebe77b8acd417" title="Default constructor. Constructs an empty path." alt="" coords="463,29,637,69"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="415,47,449,47,449,52,415,52"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="509,30,506,20,513,10,528,5,550,3,576,6,590,13,588,18,574,11,550,8,529,10,516,15,511,21,514,28"/>
+</map>

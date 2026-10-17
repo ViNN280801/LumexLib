@@ -1,0 +1,24 @@
+<map id="lumex::core::fmt::vformat" name="lumex::core::fmt::vformat">
+<area shape="rect" id="Node000001" title=" " alt="" coords="336,195,527,220"/>
+<area shape="rect" id="Node000002" href="$a00464.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,171,60,196"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="417,184,398,148,369,107,332,67,310,50,287,37,238,17,196,8,155,14,109,37,93,50,78,66,57,104,44,142,37,171,32,170,39,140,52,102,74,63,89,46,107,32,154,9,196,3,240,12,289,32,313,46,335,63,373,103,402,146,422,181"/>
+<area shape="rect" id="Node000003" href="$a01540.html#a6f5d036f82841e8744c1df0fa4714e7b" title="Writes the formatted text to std::cout." alt="" coords="114,47,282,72"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="409,186,357,136,323,109,287,86,259,75,261,70,289,81,326,104,360,132,413,183"/>
+<area shape="rect" id="Node000004" href="$a01540.html#aa1112fa46a171649d6dad36091a64230" title="Writes the formatted text to stream." alt="" coords="114,96,282,122"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="397,190,346,162,287,135,253,124,254,119,289,131,349,158,400,186"/>
+<area shape="rect" id="Node000005" href="$a01540.html#a8497ca7713b4fc3e602a3768b06749e7" title=" " alt="" coords="114,146,282,171"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="357,195,258,174,259,168,358,190"/>
+<area shape="rect" id="Node000006" href="$a01540.html#a2755f2f4f2eebdc587644f5d473a6883" title=" " alt="" coords="108,195,288,220"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="322,210,288,210,288,205,322,205"/>
+<area shape="rect" id="Node000007" href="$a01540.html#af4ebc4ca0f60751e0508fe67d4505e70" title="print followed by a new line." alt="" coords="108,244,288,270"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="358,226,259,247,258,242,357,221"/>
+<area shape="rect" id="Node000008" href="$a01540.html#a2e4df4e3d732a135bcfe4c5252baa4e2" title=" " alt="" coords="108,294,288,319"/>
+<area shape="poly" id="edge9_Node000001_Node000008" title=" " alt="" coords="399,230,348,257,289,283,251,296,249,291,287,279,346,252,397,225"/>
+<area shape="rect" id="Node000009" href="$a01540.html#af18b181b489ca7b9b343f99cc1d70e42" title="Like format, but never throws: a failure (bad specification at run time, missing argument,..." alt="" coords="120,344,276,384"/>
+<area shape="poly" id="edge10_Node000001_Node000009" title=" " alt="" coords="412,232,359,282,325,309,289,333,262,346,260,341,287,328,322,304,355,278,408,228"/>
+<area shape="rect" id="Node000010" href="$a01540.html#aba924c190d0b6cd078e2a0bbcabf1ddc" title=" " alt="" coords="120,408,276,448"/>
+<area shape="poly" id="edge12_Node000001_Node000010" title=" " alt="" coords="421,234,400,270,370,314,333,359,290,398,269,410,267,405,286,394,329,355,366,311,395,267,416,231"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="127,128,109,135,77,154,50,173,47,169,74,149,107,131,125,123"/>
+<area shape="poly" id="edge8_Node000007_Node000002" title=" " alt="" coords="129,243,107,234,75,217,48,199,51,194,78,212,109,229,131,238"/>
+<area shape="poly" id="edge11_Node000009_Node000002" title=" " alt="" coords="114,338,106,332,78,299,56,261,33,198,38,196,61,259,82,296,110,328,117,334"/>
+</map>

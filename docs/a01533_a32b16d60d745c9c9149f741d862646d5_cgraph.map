@@ -1,0 +1,5 @@
+<map id="lumex::core::expected::result::detail::throw_bad_expected_access" name="lumex::core::expected::result::detail::throw_bad_expected_access">
+<area shape="rect" id="Node000001" title="Throws bad_expected_access&lt;E&gt; that holds error; with exceptions off (LUMEX_EXPECTED_HAS_EXCEPTIONS is..." alt="" coords="5,5,176,60"/>
+<area shape="rect" id="Node000002" href="$a01533.html#a8a84107209623635f4270b7b6c0d6339" title="static_cast&lt;T &amp;&amp;&gt; (t), the body of std::forward for a constexpr function of C++11,..." alt="" coords="224,13,391,53"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="176,30,210,30,210,35,176,35"/>
+</map>

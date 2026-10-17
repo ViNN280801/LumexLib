@@ -1,0 +1,7 @@
+<map id="lumex::core::expected::result::detail::storage::expected_destruct_base&lt; T, E, false &gt;::~expected_destruct_base" name="lumex::core::expected::result::detail::storage::expected_destruct_base&lt; T, E, false &gt;::~expected_destruct_base">
+<area shape="rect" id="Node000001" title="Destroys val if has_value (), otherwise unex." alt="" coords="5,15,200,99"/>
+<area shape="rect" id="Node000002" href="$a01533.html#a07d94bee6da20f2047136d97431d8d45" title="The address of object also when T overloads operator&amp;, usable in a constant expression from C++11 (st..." alt="" coords="248,5,439,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="200,42,234,37,235,42,201,47"/>
+<area shape="rect" id="Node000003" href="$a01533.html#aac3cdf6524f1c94486d6cff93fba3008" title="Ends the lifetime of the T at where: std::destroy_at for an object that is not an array." alt="" coords="249,69,438,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="201,68,235,72,235,78,200,73"/>
+</map>

@@ -1,0 +1,15 @@
+<map id="lumex::core::contracts::invoke_violation_handler" name="lumex::core::contracts::invoke_violation_handler">
+<area shape="rect" id="Node000001" title="Reports violation to the installed handler, or to the default handler when none is installed (or when..." alt="" coords="5,133,200,173"/>
+<area shape="rect" id="Node000002" href="$a01509.html#a9b050992206d89033462d7c9b7eb8c78" title="The default handler: writes one line about violation to standard error and returns." alt="" coords="248,126,439,181"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="200,151,235,151,235,156,200,156"/>
+<area shape="rect" id="Node000003" href="$a02111.html#afded073cef13c26cf4770505404f7fa3" title="The column; 0 when unknown." alt="" coords="511,5,699,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="376,124,426,88,486,55,504,47,506,52,488,60,429,93,379,128"/>
+<area shape="rect" id="Node000004" href="$a02111.html#a94bb11107320de43ffd8218ee84f5a0e" title="The file name; never null." alt="" coords="503,69,707,109"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="438,127,509,110,511,115,440,133"/>
+<area shape="rect" id="Node000005" href="$a02111.html#a67099ea89fd04d8b6533ab6232b310c5" title="The function name; never null." alt="" coords="487,133,724,173"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="439,151,473,151,473,156,439,156"/>
+<area shape="rect" id="Node000006" href="$a02111.html#a32a7de5a3c08143dc13c818fcba2bfae" title="The line; 0 when unknown." alt="" coords="522,197,689,237"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="440,174,511,191,509,197,438,179"/>
+<area shape="rect" id="Node000007" href="$a01509.html#a247400ce4aad3c5074547001c49e3c86" title="The enumerator name of kind; &quot;unknown&quot; for a stray value." alt="" coords="522,261,689,301"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="379,179,429,214,488,247,510,256,508,261,486,252,426,219,376,183"/>
+</map>

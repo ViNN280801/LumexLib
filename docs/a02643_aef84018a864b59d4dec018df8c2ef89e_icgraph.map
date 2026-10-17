@@ -1,0 +1,11 @@
+<map id="lumex::core::expected::error::bad_expected_access::error" name="lumex::core::expected::error::bad_expected_access::error">
+<area shape="rect" id="Node000001" title="Returns a mutable lvalue reference to the stored error." alt="" coords="225,139,392,194"/>
+<area shape="rect" id="Node000002" href="$a02643.html#ac0f6dee900788b0b38e232d715a8564e" title="Constructs the exception, moving error into the object." alt="" coords="5,5,177,75"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="252,134,176,89,155,77,158,72,179,84,254,130"/>
+<area shape="rect" id="Node000003" href="$a02643.html#a86919ab362d1af9ea9dc585bb0f08850" title="Returns an rvalue reference to the stored error." alt="" coords="8,99,175,154"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="211,151,174,145,175,139,212,146"/>
+<area shape="rect" id="Node000004" href="$a02643.html#a6155d8ba13393cd69825eb829fab5a68" title="Returns a const rvalue reference to the stored error." alt="" coords="8,178,175,233"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="212,186,175,193,174,188,211,181"/>
+<area shape="rect" id="Node000005" href="$a02643.html#a61eb4deb7af7709c09c3d3afc55b2759" title="Returns a const lvalue reference to the stored error." alt="" coords="8,257,175,311"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="254,204,179,246,153,259,151,254,176,242,251,199"/>
+</map>

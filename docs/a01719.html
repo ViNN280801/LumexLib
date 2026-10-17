@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::applied::json::normalization::ILumexJsonNormalizer Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a01722.html',''); initResizable(true); });
+$(function(){initNavTree('a01719.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,21 +103,179 @@ $(function(){initNavTree('a01722.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::applied::settings::guard::lumex_settings_key_spec_t Member List</div></div>
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="a01716.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">lumex::applied::json::normalization::ILumexJsonNormalizer Class Reference<span class="mlabels"><span class="mlabel abstract">abstract</span></span></div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a01722.html">lumex::applied::settings::guard::lumex_settings_key_spec_t</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a01722.html#ae4d8c105ce3463d71321a0bf12382519">default_value</a></td><td class="entry"><a class="el" href="a01722.html">lumex::applied::settings::guard::lumex_settings_key_spec_t</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01722.html#a65ba2700f954c1c98291a14fa43d0821">key</a></td><td class="entry"><a class="el" href="a01722.html">lumex::applied::settings::guard::lumex_settings_key_spec_t</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01722.html#ae1c1a5cca9eadac719ad791cd3e83929">section</a></td><td class="entry"><a class="el" href="a01722.html">lumex::applied::settings::guard::lumex_settings_key_spec_t</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01722.html#aabdcfebce52cca8d3f2ca2dd484eee2f">validate</a></td><td class="entry"><a class="el" href="a01722.html">lumex::applied::settings::guard::lumex_settings_key_spec_t</a></td><td class="entry"></td></tr>
-</table></div><!-- contents -->
+<p>Parses raw JSON text, checks it and returns the canonical document.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="a01265_source.html">ILumexJsonNormalizer.hpp</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for lumex::applied::json::normalization::ILumexJsonNormalizer:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01718.png" border="0" usemap="#alumex_1_1applied_1_1json_1_1normalization_1_1ILumexJsonNormalizer_inherit__map" alt="Inheritance graph"/></div>
+<map name="alumex_1_1applied_1_1json_1_1normalization_1_1ILumexJsonNormalizer_inherit__map" id="alumex_1_1applied_1_1json_1_1normalization_1_1ILumexJsonNormalizer_inherit__map">
+<area shape="rect" title="Parses raw JSON text, checks it and returns the canonical document." alt="" coords="29,5,232,60"/>
+<area shape="rect" href="a01723.html" title="Shares the schema walker and the strict/non&#45;strict error policy between concrete normalizers." alt="" coords="5,108,256,163"/>
+<area shape="poly" title=" " alt="" coords="133,74,133,108,128,108,128,74"/>
+</map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a67d2467937fd7eed290938a31b2b7733" id="r_a67d2467937fd7eed290938a31b2b7733"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a67d2467937fd7eed290938a31b2b7733">~ILumexJsonNormalizer</a> ()=default</td></tr>
+<tr class="separator:a67d2467937fd7eed290938a31b2b7733"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8fc95fc1dbef49903b7111d12c2af87e" id="r_a8fc95fc1dbef49903b7111d12c2af87e"><td class="memItemLeft" align="right" valign="top">virtual nlohmann::json&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8fc95fc1dbef49903b7111d12c2af87e">normalize</a> (<a class="el" href="a01573.html#a210b248fe3338b4d5161ae03caad7942">lumex::core::string_view::view::lumex_string_view</a> raw) const =0</td></tr>
+<tr class="memdesc:a8fc95fc1dbef49903b7111d12c2af87e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the canonical document. A strict implementation throws on the first violation (including unparsable text); a non-strict one returns a <code>null</code> document instead of throwing.  <br /></td></tr>
+<tr class="separator:a8fc95fc1dbef49903b7111d12c2af87e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af69794a9aaa4d4cd58e5d1893b062971" id="r_af69794a9aaa4d4cd58e5d1893b062971"><td class="memItemLeft" align="right" valign="top">virtual nlohmann::json&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af69794a9aaa4d4cd58e5d1893b062971">normalize</a> (<a class="el" href="a01573.html#a210b248fe3338b4d5161ae03caad7942">lumex::core::string_view::view::lumex_string_view</a> raw, std::exception_ptr &amp;error) const =0</td></tr>
+<tr class="memdesc:af69794a9aaa4d4cd58e5d1893b062971"><td class="mdescLeft">&#160;</td><td class="mdescRight">Same as <code>normalize(raw)</code> with a non-throwing option.  <br /></td></tr>
+<tr class="separator:af69794a9aaa4d4cd58e5d1893b062971"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Parses raw JSON text, checks it and returns the canonical document. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a67d2467937fd7eed290938a31b2b7733" name="a67d2467937fd7eed290938a31b2b7733"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67d2467937fd7eed290938a31b2b7733">&#9670;&#160;</a></span>~ILumexJsonNormalizer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual lumex::applied::json::normalization::ILumexJsonNormalizer::~ILumexJsonNormalizer </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel virtual">virtual</span><span class="mlabel default">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a8fc95fc1dbef49903b7111d12c2af87e" name="a8fc95fc1dbef49903b7111d12c2af87e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8fc95fc1dbef49903b7111d12c2af87e">&#9670;&#160;</a></span>normalize() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual nlohmann::json lumex::applied::json::normalization::ILumexJsonNormalizer::normalize </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01573.html#a210b248fe3338b4d5161ae03caad7942">lumex::core::string_view::view::lumex_string_view</a></td>          <td class="paramname"><span class="paramname"><em>raw</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel pure-virtual">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the canonical document. A strict implementation throws on the first violation (including unparsable text); a non-strict one returns a <code>null</code> document instead of throwing. </p>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="a01727.html" title="Carries the failure reason, the JSON path of the offending value ($.items[2].name) and a human-readab...">lumex::applied::json::schema::LumexJsonSchemaException</a></td><td>Strict implementations only. </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01719_a8fc95fc1dbef49903b7111d12c2af87e_cgraph.png" border="0" usemap="#aa01719_a8fc95fc1dbef49903b7111d12c2af87e_cgraph" alt=""/></div>
+<map name="aa01719_a8fc95fc1dbef49903b7111d12c2af87e_cgraph" id="aa01719_a8fc95fc1dbef49903b7111d12c2af87e_cgraph">
+<area shape="rect" title="Returns the canonical document. A strict implementation throws on the first violation (including unpa..." alt="" coords="5,29,208,84"/>
+<area shape="poly" title=" " alt="" coords="67,29,67,19,74,10,87,5,107,3,130,6,143,14,140,18,128,11,107,8,89,10,77,15,72,21,72,29"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01719_a8fc95fc1dbef49903b7111d12c2af87e_icgraph.png" border="0" usemap="#aa01719_a8fc95fc1dbef49903b7111d12c2af87e_icgraph" alt=""/></div>
+<map name="aa01719_a8fc95fc1dbef49903b7111d12c2af87e_icgraph" id="aa01719_a8fc95fc1dbef49903b7111d12c2af87e_icgraph">
+<area shape="rect" title="Returns the canonical document. A strict implementation throws on the first violation (including unpa..." alt="" coords="256,29,459,84"/>
+<area shape="poly" title=" " alt="" coords="399,18,384,11,357,8,335,10,320,15,314,21,314,29,309,29,309,19,318,10,334,5,357,3,386,6,402,14"/>
+<area shape="rect" href="a01719.html#af69794a9aaa4d4cd58e5d1893b062971" title="Same as normalize(raw) with a non&#45;throwing option." alt="" coords="5,29,208,84"/>
+<area shape="poly" title=" " alt="" coords="242,59,208,59,208,54,242,54"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="af69794a9aaa4d4cd58e5d1893b062971" name="af69794a9aaa4d4cd58e5d1893b062971"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af69794a9aaa4d4cd58e5d1893b062971">&#9670;&#160;</a></span>normalize() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual nlohmann::json lumex::applied::json::normalization::ILumexJsonNormalizer::normalize </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01573.html#a210b248fe3338b4d5161ae03caad7942">lumex::core::string_view::view::lumex_string_view</a></td>          <td class="paramname"><span class="paramname"><em>raw</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::exception_ptr &amp;</td>          <td class="paramname"><span class="paramname"><em>error</em></span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel pure-virtual">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Same as <code>normalize(raw)</code> with a non-throwing option. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">raw</td><td>The JSON text. </td></tr>
+    <tr><td class="paramname">error</td><td>Reset to <code>nullptr</code> first. A non-strict implementation stores the violation here and returns a default-constructed (<code>null</code>) document that must not be used. A strict implementation ignores it and throws. </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01719_af69794a9aaa4d4cd58e5d1893b062971_cgraph.png" border="0" usemap="#aa01719_af69794a9aaa4d4cd58e5d1893b062971_cgraph" alt=""/></div>
+<map name="aa01719_af69794a9aaa4d4cd58e5d1893b062971_cgraph" id="aa01719_af69794a9aaa4d4cd58e5d1893b062971_cgraph">
+<area shape="rect" title="Same as normalize(raw) with a non&#45;throwing option." alt="" coords="5,29,208,84"/>
+<area shape="rect" href="a01719.html#a8fc95fc1dbef49903b7111d12c2af87e" title="Returns the canonical document. A strict implementation throws on the first violation (including unpa..." alt="" coords="256,29,459,84"/>
+<area shape="poly" title=" " alt="" coords="208,54,242,54,242,59,208,59"/>
+<area shape="poly" title=" " alt="" coords="309,29,309,19,318,10,334,5,357,3,386,6,402,14,399,18,384,11,357,8,335,10,320,15,314,21,314,29"/>
+</map>
+</div>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
+<li><a class="el" href="a01265_source.html">ILumexJsonNormalizer.hpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01426.html">applied</a></li><li class="navelem"><a class="el" href="a01440.html">json</a></li><li class="navelem"><a class="el" href="a01445.html">normalization</a></li><li class="navelem"><a class="el" href="a01719.html">ILumexJsonNormalizer</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

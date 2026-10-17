@@ -1,0 +1,35 @@
+<map id="main" name="main">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,389,60,414"/>
+<area shape="rect" id="Node000002" href="$a06592.html#ab9633f12783206ba2d296bf247fb69f4" title="The ID of the calling process." alt="" coords="151,5,316,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="31,388,38,320,52,220,74,121,89,82,106,55,136,35,139,40,110,59,94,85,80,123,57,221,43,320,36,389"/>
+<area shape="rect" id="Node000003" href="$a02699.html#aa8baf2b75fb05662494deaca1bcdfac5" title="Returns a mutable lvalue reference to the stored error." alt="" coords="146,69,321,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="32,388,56,250,78,172,91,141,106,119,131,102,134,107,110,123,96,143,83,173,62,252,37,389"/>
+<area shape="rect" id="Node000004" href="$a06592.html#a2aca09f74456f2478ead77b7c695381b" title="Finds the processes with this executable name, without sampling them." alt="" coords="151,133,316,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="30,388,34,348,46,293,68,234,85,207,106,183,137,165,139,169,110,187,89,210,73,237,51,295,40,349,36,389"/>
+<area shape="rect" id="Node000005" href="$a06592.html#a536e5b8a5303fd999c96f3d257046351" title="Finds every process below one process: its children, their children, and so on." alt="" coords="151,197,316,237"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="33,388,40,359,54,321,76,281,106,247,136,230,139,235,110,251,80,284,59,323,45,360,38,389"/>
+<area shape="rect" id="Node000006" href="$a01823.html#a3e90eb4c8fb86a381840ae7c4345acaa" title="Drops what the monitor remembers about processes that no longer exist." alt="" coords="113,262,353,317"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="41,387,68,356,107,326,116,320,119,325,109,330,72,360,44,390"/>
+<area shape="rect" id="Node000007" href="$a02699.html#a436473d493da1141580a37e3fc38f118" title="Checks whether this expected holds a success value." alt="" coords="422,417,631,457"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="60,401,409,426,408,431,60,406"/>
+<area shape="rect" id="Node000008" href="$a01823.html#af7f3caf609e5155aa7f5245fc231101f" title="Samples one process, with the processes below it." alt="" coords="113,341,353,395"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="60,394,99,388,100,393,61,399"/>
+<area shape="rect" id="Node000011" href="$a01823.html#a223f546f37ce831bc11c81cdfb10e29f" title="Samples the processes with this executable name, with the processes below them." alt="" coords="113,471,353,526"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="51,412,109,450,140,464,138,469,107,454,48,416"/>
+<area shape="rect" id="Node000013" href="$a01775.html#a769d1d215b5c153b67abc9ac6dcd04f1" title="Starts the background CPU/RAM sampler, unless it is already running." alt="" coords="108,550,359,605"/>
+<area shape="poly" id="edge14_Node000001_Node000013" title=" " alt="" coords="39,413,62,473,82,507,110,537,115,540,111,545,106,541,78,510,57,475,34,415"/>
+<area shape="rect" id="Node000014" href="$a01775.html#a810e0e1a171909b09e37869e232a34a6" title="Starts the background sampler like start_if_enabled, and adds the CPU and RAM of watched processes to..." alt="" coords="108,629,359,683"/>
+<area shape="poly" id="edge15_Node000001_Node000014" title=" " alt="" coords="36,414,40,453,52,507,74,565,90,592,110,615,113,618,109,622,106,619,85,595,69,568,46,509,35,454,31,414"/>
+<area shape="rect" id="Node000015" href="$a01775.html#aa64dfaead93c3d4c6ceec66922405170" title="Stops the background sampler and joins its thread." alt="" coords="108,707,359,762"/>
+<area shape="poly" id="edge16_Node000001_Node000015" title=" " alt="" coords="37,414,61,558,83,641,96,673,110,694,113,697,109,701,106,698,91,675,78,642,56,559,32,415"/>
+<area shape="rect" id="Node000016" href="$a00449.html#a765661df16a1d68eca933c5943f17427" title="Adds samples up, for example every process of one name." alt="" coords="207,786,259,811"/>
+<area shape="poly" id="edge17_Node000001_Node000016" title=" " alt="" coords="36,414,42,488,55,597,77,704,92,745,110,773,128,786,149,794,194,799,193,804,148,799,126,790,106,777,87,748,72,705,50,598,36,488,31,414"/>
+<area shape="rect" id="Node000009" href="$a01823.html#a536e5b8a5303fd999c96f3d257046351" title="Finds every process below one process: its children, their children, and so on." alt="" coords="407,338,647,393"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="353,364,393,364,393,369,354,370"/>
+<area shape="rect" id="Node000010" href="$a01461.html#aa17a3f0aaa3c95a1ed09133d4d7e7a02" title="Every process below one process: its children, their children, and so on." alt="" coords="695,410,877,465"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="626,390,682,406,680,411,625,395"/>
+<area shape="poly" id="edge11_Node000011_Node000007" title=" " alt="" coords="353,471,417,458,418,463,354,476"/>
+<area shape="rect" id="Node000012" href="$a01461.html#ab09c4e1b3214362a5927245f139cad05" title="Groups processes into trees, so that every process is counted once." alt="" coords="435,482,618,537"/>
+<area shape="poly" id="edge12_Node000011_Node000012" title=" " alt="" coords="354,500,422,503,421,508,353,506"/>
+<area shape="poly" id="edge13_Node000012_Node000010" title=" " alt="" coords="617,481,681,464,682,469,619,487"/>
+</map>

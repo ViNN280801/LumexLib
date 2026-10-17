@@ -1,4 +1,5 @@
 var a00890 =
 [
-    [ "main", "a00890.html#ae66f6b31b5ad750f1fe042a706a4e3d4", null ]
+    [ "lumex::core::exceptions::crash::lumex_crash_handler", "a02615.html", "a02615" ],
+    [ "lumex_crash_handler", "a00890.html#a229b8ca6ad48bf3d63c3769b549d5817", null ]
 ];

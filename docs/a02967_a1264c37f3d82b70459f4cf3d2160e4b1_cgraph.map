@@ -1,0 +1,15 @@
+<map id="lumex::core::filesystem::fs::lumex_filesystem::is_readable" name="lumex::core::filesystem::fs::lumex_filesystem::is_readable">
+<area shape="rect" id="Node000001" title="Check if a file is readable by the current process." alt="" coords="5,111,180,166"/>
+<area shape="poly" id="edge5_Node000001_Node000001" title=" " alt="" coords="49,111,50,101,57,92,72,87,93,85,118,88,132,96,129,100,116,93,93,90,73,92,60,97,55,103,55,111"/>
+<area shape="rect" id="Node000002" href="$a02947.html#afbc4f64f22c9c5e9057842a5b81178ea" title="Returns a pointer to the null&#45;terminated C&#45;style string representation of the path." alt="" coords="451,23,625,63"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="112,110,161,61,192,38,227,20,285,6,346,3,404,8,456,17,455,22,403,13,346,8,286,11,229,25,195,42,164,65,116,113"/>
+<area shape="rect" id="Node000003" href="$a02967.html#a00f75a949bda6f52adc1e19318d74e68" title="Checks if a file or directory exists at the specified path." alt="" coords="228,59,403,114"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="179,116,214,108,215,113,181,121"/>
+<area shape="rect" id="Node000004" href="$a02967.html#a861a96cb2ff50243832db3b15d3d41ac" title="Returns the status of the file or directory at the specified path_arg, following symbolic links." alt="" coords="228,162,403,217"/>
+<area shape="poly" id="edge6_Node000001_Node000004" title=" " alt="" coords="181,156,215,164,214,169,179,161"/>
+<area shape="rect" id="Node000005" href="$a02939.html#a804f0603877d3f4b1c02d3aab7a14150" title="Retrieves the encapsulated value (const version)." alt="" coords="228,241,403,295"/>
+<area shape="poly" id="edge8_Node000001_Node000005" title=" " alt="" coords="132,164,229,226,242,232,239,237,227,230,129,168"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="402,67,437,60,438,65,403,72"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="272,59,272,49,280,40,294,35,315,33,340,36,355,44,352,48,339,41,315,38,296,40,283,45,277,51,277,59"/>
+<area shape="poly" id="edge7_Node000004_Node000004" title=" " alt="" coords="272,162,272,152,280,143,294,137,315,135,340,139,355,147,352,151,339,144,315,141,296,143,283,147,277,154,277,162"/>
+</map>

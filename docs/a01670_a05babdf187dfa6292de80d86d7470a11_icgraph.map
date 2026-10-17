@@ -1,0 +1,11 @@
+<map id="lumex::xml::attribute::node_copy_attribute" name="lumex::xml::attribute::node_copy_attribute">
+<area shape="rect" id="Node000001" title="Copies the name and value strings from a source XmlAttributeBase to a destination XmlAttributeBase." alt="" coords="257,101,420,141"/>
+<area shape="rect" id="Node000002" href="$a05143.html#ace7d9948e6fb922f91d513b2e7cc6655" title="Appends a copy of an existing attribute (proto) to the current node." alt="" coords="5,5,209,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="289,97,208,60,176,48,177,43,210,55,291,93"/>
+<area shape="rect" id="Node000003" href="$a05143.html#a102eaa077981305070e0649d8286c196" title="Inserts a copy of an existing attribute (proto) after a given existing attribute (attr)." alt="" coords="5,69,209,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="243,111,209,106,210,101,244,106"/>
+<area shape="rect" id="Node000004" href="$a05143.html#a59a0d19e40b7937c796ec7995d3b3390" title="Inserts a copy of an existing attribute (proto) before a given existing attribute (attr)." alt="" coords="5,133,209,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="244,137,210,142,209,137,243,132"/>
+<area shape="rect" id="Node000005" href="$a05143.html#a0519abe0f6488556f8a8fd22d242df12" title="Prepends a copy of an existing attribute (proto) to the current node." alt="" coords="5,197,209,237"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="291,150,210,188,177,200,176,195,208,183,289,145"/>
+</map>

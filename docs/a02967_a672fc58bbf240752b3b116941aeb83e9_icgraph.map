@@ -1,0 +1,16 @@
+<map id="lumex::core::filesystem::fs::lumex_filesystem::directory_contents" name="lumex::core::filesystem::fs::lumex_filesystem::directory_contents">
+<area shape="rect" id="Node000001" title="Retrieves a vector of all directory_entry objects within the specified directory." alt="" coords="481,70,656,125"/>
+<area shape="poly" id="edge5_Node000001_Node000001" title=" " alt="" coords="608,59,594,52,569,49,547,51,534,55,528,62,528,70,522,70,523,60,531,51,546,45,569,43,596,46,611,54"/>
+<area shape="rect" id="Node000002" href="$a02967.html#a52e549d1699eefae69e6a33e2b8822a4" title="Recursively copies a file or a directory (and its contents) from one location to another." alt="" coords="228,29,433,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="467,80,430,72,431,67,468,74"/>
+<area shape="rect" id="Node000004" href="$a02967.html#ab88255f0532696ecffda0491931b6dfd" title="Recursively removes a file or a directory and all its contents." alt="" coords="243,118,418,173"/>
+<area shape="poly" id="edge6_Node000001_Node000004" title=" " alt="" coords="468,120,419,130,418,125,467,115"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="371,18,357,11,331,8,308,10,294,15,289,21,292,28,286,30,284,20,291,10,307,5,331,3,358,6,373,13"/>
+<area shape="rect" id="Node000003" href="$a02967.html#ac1050fc7fb4e882f6b23a9ad965f9e6c" title="Moves a directory and its contents from one location to another." alt="" coords="5,38,180,93"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="214,60,180,62,180,57,214,54"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="132,27,118,20,93,17,71,19,58,23,52,30,52,38,46,38,47,28,55,19,70,13,93,11,120,14,135,22"/>
+<area shape="poly" id="edge8_Node000004_Node000003" title=" " alt="" coords="235,116,173,95,175,90,236,111"/>
+<area shape="poly" id="edge9_Node000004_Node000004" title=" " alt="" coords="370,107,356,100,331,97,309,99,296,103,290,110,290,118,284,118,285,108,293,99,308,93,331,91,358,94,373,102"/>
+<area shape="rect" id="Node000005" href="$a00260.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="65,133,120,158"/>
+<area shape="poly" id="edge7_Node000004_Node000005" title=" " alt="" coords="230,148,120,148,120,143,230,143"/>
+</map>

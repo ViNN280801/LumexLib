@@ -1,0 +1,7 @@
+<map id="lumex::core::utility::traits::stream::is_ostreamable&lt; T &gt;" name="lumex::core::utility::traits::stream::is_ostreamable&lt; T &gt;">
+<area shape="rect" id="Node000001" title="std::declval&lt;std::ostream &amp;&gt;() &lt;&lt; std::declval&lt;T&gt;() is well&#45;formed: exactly what the standard library..." alt="" coords="420,13,569,67"/>
+<area shape="rect" id="Node000002" href="$a04727.html" title="std::declval&lt;std::ostream &amp;&gt;() &lt;&lt; std::declval&lt;T&gt;() compiles." alt="" coords="172,5,372,75"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="386,37,420,37,420,43,386,43"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,27,124,53"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="138,37,172,37,172,43,138,43"/>
+</map>

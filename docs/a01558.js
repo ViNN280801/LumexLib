@@ -1,6 +1,8 @@
 var a01558 =
 [
-    [ "~ILumexJsonSchemaValidator", "a01558.html#af5e555256f2bf34f46eae48d6f0740cb", null ],
-    [ "validate", "a01558.html#a451291d8f89f6a9fc5c13011fe290387", null ],
-    [ "validate", "a01558.html#aa545ee675a87c817e39b23fd1f5de971", null ]
+    [ "detail", "a01559.html", [
+      [ "first_of", "a01559.html#a1402ab62e151b9fd9b6f014b91610bda", null ],
+      [ "last_of", "a01559.html#a479c8294a6863b2cbd9f422b77a46472", null ],
+      [ "last_of", "a01559.html#a0c69d630c21209d53656e94a55cadd7e", null ]
+    ] ]
 ];

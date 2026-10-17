@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: example_settings.cpp File Reference</title>
+<title>LumexLib: LumexDwcasWord.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,57 +103,110 @@ $(function(){initNavTree('a00839.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="summary">
-<a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">example_settings.cpp File Reference</div></div>
+  <div class="headertitle"><div class="title">LumexDwcasWord.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;iostream&gt;</code><br />
-<code>#include &lt;memory&gt;</code><br />
-<code>#include &lt;string&gt;</code><br />
-<code>#include &lt;vector&gt;</code><br />
-<code>#include &lt;cstdio&gt;</code><br />
-<code>#include &quot;<a class="el" href="a01172_source.html">lumex/applied/settings/LumexSettings</a>&quot;</code><br />
+
+<p><code>dwcas_word</code>, a 16-byte atomic word with a 128-bit compare-and-swap (x86-64 only), and the header that brings the whole layer.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &lt;atomic&gt;</code><br />
+<code>#include &lt;cstddef&gt;</code><br />
+<code>#include &lt;cstdint&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00830_source.html">lumex/core/atomic/dwcas/LumexDwcasConfig.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00842_source.html">lumex/core/atomic/dwcas/LumexDwcasCpu.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00824_source.html">lumex/core/atomic/dwcas/LumexDwcasValue.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01088_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01127_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for example_settings.cpp:</div>
+Include dependency graph for LumexDwcasWord.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00840.png" border="0" usemap="#aexample__settings_8cpp" alt=""/></div>
+<div class="center"><img src="a00840.png" border="0" usemap="#aLumexDwcasWord_8hpp" alt=""/></div>
+<map name="aLumexDwcasWord_8hpp" id="aLumexDwcasWord_8hpp">
+<area shape="rect" title="dwcas_word, a 16&#45;byte atomic word with a 128&#45;bit compare&#45;and&#45;swap (x86&#45;64 only), and the header that ..." alt="" coords="249,5,419,31"/>
+<area shape="rect" title=" " alt="" coords="369,174,435,199"/>
+<area shape="poly" title=" " alt="" coords="342,30,394,160,389,162,337,32"/>
+<area shape="rect" title=" " alt="" coords="663,86,733,111"/>
+<area shape="poly" title=" " alt="" coords="418,28,526,48,644,76,654,79,652,84,643,81,525,53,417,33"/>
+<area shape="rect" title=" " alt="" coords="65,174,131,199"/>
+<area shape="poly" title=" " alt="" coords="324,33,282,74,226,121,182,148,140,170,137,166,180,144,223,117,279,70,320,29"/>
+<area shape="rect" href="a00830.html" title="Detection macros of the 128&#45;bit compare&#45;and&#45;swap layer: whether the layer exists on this target and w..." alt="" coords="155,167,345,207"/>
+<area shape="poly" title=" " alt="" coords="330,32,269,155,264,153,325,29"/>
+<area shape="rect" href="a00842.html" title="Run&#45;time check that the CPU has the CMPXCHG16B instruction: dwcas_supported () and require_dwcas ()." alt="" coords="398,79,587,119"/>
+<area shape="poly" title=" " alt="" coords="360,28,442,70,439,75,358,33"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="779,167,969,207"/>
+<area shape="poly" title=" " alt="" coords="420,25,509,44,556,58,600,76,616,86,627,96,638,106,653,116,710,141,770,160,768,165,709,146,650,121,634,111,624,100,613,90,598,81,554,63,507,49,419,31"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="255,255,469,295"/>
+<area shape="poly" title=" " alt="" coords="249,25,180,31,110,42,50,58,28,68,13,80,9,89,9,97,14,118,19,167,25,186,41,205,73,223,123,238,242,259,241,265,121,243,71,228,38,209,21,188,14,168,9,119,3,98,3,88,9,77,25,64,48,53,108,37,179,26,248,19"/>
+<area shape="rect" href="a00824.html" title="dwcas_value_t, the 16&#45;byte value of a dwcas_word: two 64&#45;bit halves." alt="" coords="23,79,213,119"/>
+<area shape="poly" title=" " alt="" coords="301,33,185,76,183,71,299,28"/>
+<area shape="poly" title=" " alt="" coords="473,121,427,166,423,162,470,117"/>
+<area shape="poly" title=" " alt="" coords="398,114,276,136,144,169,138,171,136,166,142,164,275,131,397,109"/>
+<area shape="poly" title=" " alt="" coords="438,121,319,164,317,159,436,116"/>
+<area shape="rect" title=" " alt="" coords="553,174,614,199"/>
+<area shape="poly" title=" " alt="" coords="515,117,562,162,558,166,512,121"/>
+<area shape="rect" title=" " alt="" coords="689,174,755,199"/>
+<area shape="poly" title=" " alt="" coords="546,116,671,164,677,167,675,172,669,169,544,121"/>
+<area shape="rect" title=" " alt="" coords="459,174,529,199"/>
+<area shape="poly" title=" " alt="" coords="496,119,496,160,491,160,490,119"/>
+<area shape="poly" title=" " alt="" coords="580,116,774,161,773,166,579,121"/>
+<area shape="poly" title=" " alt="" coords="553,116,589,133,619,154,630,167,636,180,635,194,628,208,606,225,571,240,483,261,482,256,569,235,603,221,624,205,630,193,630,181,625,169,616,158,586,138,551,121"/>
+<area shape="rect" title=" " alt="" coords="729,262,821,287"/>
+<area shape="poly" title=" " alt="" coords="853,209,802,255,798,251,849,205"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="845,255,1100,295"/>
+<area shape="poly" title=" " alt="" coords="899,205,941,243,938,247,895,209"/>
+<area shape="poly" title=" " alt="" coords="780,207,768,209,482,258,481,253,767,204,779,202"/>
+<area shape="poly" title=" " alt="" coords="116,120,106,161,101,160,111,118"/>
+<area shape="poly" title=" " alt="" coords="150,117,209,156,206,161,147,121"/>
+<area shape="poly" title=" " alt="" coords="93,121,72,140,55,162,48,184,49,195,55,205,66,215,83,224,128,240,184,252,242,261,241,266,183,257,127,245,80,229,63,219,50,208,44,196,43,184,51,159,68,136,89,117"/>
+</map>
 </div>
-</div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
-<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int main </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00839_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00839_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
+<div class="center"><img src="a00841.png" border="0" usemap="#aLumexDwcasWord_8hppdep" alt=""/></div>
+<map name="aLumexDwcasWord_8hppdep" id="aLumexDwcasWord_8hppdep">
+<area shape="rect" title="dwcas_word, a 16&#45;byte atomic word with a 128&#45;bit compare&#45;and&#45;swap (x86&#45;64 only), and the header that ..." alt="" coords="553,5,723,31"/>
+<area shape="rect" href="a01352.html" title="Atomic module: atomic_shared_ptr&lt;T&gt; and atomic_weak_ptr&lt;T&gt;, the interface of the C++20 std::atomic&lt;st..." alt="" coords="338,79,450,104"/>
+<area shape="poly" title=" " alt="" coords="583,37,437,81,436,76,582,32"/>
+<area shape="rect" href="a00809.html" title="The split&#45;count engine behind atomic_shared_ptr_lock_free_split_count and atomic_weak_ptr_lock_free_s..." alt="" coords="655,240,842,265"/>
+<area shape="poly" title=" " alt="" coords="633,45,626,76,623,114,627,154,640,191,653,206,668,219,704,238,702,242,665,224,649,210,636,193,621,155,618,114,621,75,628,43"/>
+<area shape="rect" href="a00812.html" title="The policy of the split&#45;count engine: the named steps of its protocol, the events a ledger counts,..." alt="" coords="649,159,848,185"/>
+<area shape="poly" title=" " alt="" coords="653,41,691,102,738,157,734,161,687,106,649,44"/>
+<area shape="rect" href="a00815.html" title="The slot word of the split&#45;count engine: a control block, the ticks of the loads in flight and the st..." alt="" coords="701,79,895,104"/>
+<area shape="poly" title=" " alt="" coords="679,34,771,76,769,81,677,39"/>
+<area shape="rect" href="a00275.html" title=" " alt="" coords="5,152,183,192"/>
+<area shape="poly" title=" " alt="" coords="334,110,169,154,168,149,332,105"/>
+<area shape="rect" href="a00272.html" title=" " alt="" coords="207,152,383,192"/>
+<area shape="poly" title=" " alt="" coords="369,115,322,154,318,150,366,111"/>
+<area shape="rect" href="a00278.html" title=" " alt="" coords="408,152,575,192"/>
+<area shape="poly" title=" " alt="" coords="422,111,469,150,465,154,418,115"/>
+<area shape="poly" title=" " alt="" coords="751,199,751,239,746,239,746,199"/>
+<area shape="poly" title=" " alt="" coords="830,110,849,128,863,151,869,172,863,193,850,210,833,224,797,242,794,238,830,219,846,206,858,191,864,172,858,153,845,132,827,114"/>
+<area shape="poly" title=" " alt="" coords="785,117,759,160,754,157,781,114"/>
+</map>
 </div>
-
 </div>
-</div>
-</div><!-- contents -->
+<p><a href="a00839_source.html">Go to the source code of this file.</a></p>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p><code>dwcas_word</code>, a 16-byte atomic word with a 128-bit compare-and-swap (x86-64 only), and the header that brings the whole layer. </p>
+<p>The word holds two 64-bit halves, <code>lo</code> and <code>hi</code>, in 16 aligned bytes and offers <code>load</code>, <code>store</code>, <code>exchange</code> and <code>compare_exchange_strong</code> and <code>_weak</code> on both halves at once. It is the hardware layer of the split-count engine of the atomic smart pointers and is usable on its own. It exists where <code>LUMEX_ATOMIC_HAS_DWCAS</code> is 1 (x86-64 with GCC, Clang or MSVC; see <code><a class="el" href="a00830.html" title="Detection macros of the 128-bit compare-and-swap layer: whether the layer exists on this target and w...">LumexDwcasConfig.hpp</a></code>); elsewhere nothing is declared. The header includes the configuration, the value type and the CPU check, so including it is enough.</p>
+<p><b>Operations return values.</b> <code>compare_exchange_strong (expected, desired)</code> returns the value it observed in the word: the swap happened exactly when the result equals <code>expected</code> (<code>operator==</code> of <code>dwcas_value_t</code>). That is what <code>cmpxchg16b</code> delivers, and a caller that retries uses the result as its next <code>expected</code>. <code>compare_exchange_weak</code> is the same operation: on x86-64 the instruction never fails spuriously.</p>
+<p><b>A load is a write.</b> The CPU has no atomic 16-byte load that is guaranteed on every x86-64 CPU (an SSE load is atomic only on some). The only instruction that reads 16 bytes atomically on all of them is the locked <code>cmpxchg16b</code>, a read-modify-write that needs write access to the destination whatever the comparison says (this wrapper compares with zero and stores zero, so the memory is not changed). Consequences, all by design:</p>
+<ul>
+<li>the members are <code>mutable</code> and <code>load</code> is a <code>const</code> function: a <code>const dwcas_word</code> is not placed in read-only memory by the compiler;</li>
+<li>the word must live in writable memory: a word in a page mapped read-only (for example through <code>mmap (PROT_READ)</code> or a <code>const_cast</code> of a constant in a read-only section) faults on <code>load</code>;</li>
+<li>a load takes the cache line exclusively, like a store, so readers do not scale among themselves; <code>speculative_load</code> avoids the write when a guess is enough;</li>
+<li>the built-in backend (ThreadSanitizer builds) may use a plain 16-byte read instead; a program must not depend on either.</li>
+</ul>
+<p><b>Memory orders.</b> The member functions take <code>std::memory_order</code> arguments with the meaning of <code>std::atomic</code>. The hardware backends (assembly and MSVC) ignore them: a locked instruction is a full barrier on x86-64, so each call behaves as a <code>seq_cst</code> read-modify-write whatever the argument, and the compiler may not move any memory access across it. In the C++ memory model that means: the call synchronizes with the other calls on the same word like a <code>seq_cst</code> operation would, and an operation that asks for less (for example <code>release</code>) gets more, never less. The model itself does not know the instruction (it is not an atomic operation in the standard's sense, only in the instruction set's), the compiler and ThreadSanitizer treat it as opaque, so this is a contract of the layer for the supported compilers and not a derived property; the built-in backend is the one the model and ThreadSanitizer understand, and the suites run on both. The failure order of a failed compare-and-swap is likewise at least as strong as asked.</p>
+<p><b>Alignment and aliasing.</b> The word is <code>alignas (16)</code>: <code>cmpxchg16b</code> raises a general-protection fault on a destination that is not 16-byte aligned, and a word placed through a packed layout, a misaligned placement <code>new</code> or a cast from a smaller aligned buffer is such a destination. Over-aligned <code>operator new</code> is needed for a heap word before C++17 (a plain <code>new</code> guarantees only <code>alignof (std::max_align_t)</code>, which is 16 on x86-64 glibc and the MSVC x64 runtime but is not required). The class <code>static_assert</code>s its size and alignment. The halves are plain <code>uint64_t</code> members that the assembly accesses through a memory operand with a <code>"memory"</code> clobber (and the built-in backend through a <code>may_alias</code> type), so the operations are correct under strict aliasing and under <code>-fno-strict-aliasing</code>. Do not read or write the halves of a live word by other means than the member functions.</p>
+<p><b>CPU support.</b> The constructors do not check that the CPU has <code>CMPXCHG16B</code> (they are <code>constexpr</code> so that a static word needs no dynamic initialization); <code>require_dwcas ()</code> does, and the objects built on the layer call it from their constructors. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_687203564ac037bfeaa905b155c4129c.html">settings</a></li><li class="navelem"><a class="el" href="a00839.html">example_settings.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_46588a2def099f5c90ce8dff319725b2.html">atomic</a></li><li class="navelem"><a class="el" href="dir_0ef745ae619b7a2bc428b08d4c1ccc55.html">dwcas</a></li><li class="navelem"><a class="el" href="a00839.html">LumexDwcasWord.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

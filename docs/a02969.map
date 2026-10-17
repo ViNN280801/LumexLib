@@ -1,0 +1,5 @@
+<map id="lumex::core::fmt::format_error" name="lumex::core::fmt::format_error">
+<area shape="rect" id="Node000001" title="Thrown for an invalid format string, a format specification that does not fit its argument,..." alt="" coords="5,79,188,119"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="27,5,166,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="99,44,99,78,94,78,94,44"/>
+</map>

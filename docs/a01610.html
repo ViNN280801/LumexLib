@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::applied::resource_monitor::process::detail::process_link_t Struct Reference</title>
+<title>LumexLib: lumex::core::utility::ranges::Algorithm::Detail Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,89 +104,392 @@ $(function(){initNavTree('a01610.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#pub-attribs">Public Attributes</a> &#124;
-<a href="a01607.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">lumex::applied::resource_monitor::process::detail::process_link_t Struct Reference</div></div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::utility::ranges::Algorithm::Detail Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>One process and its parent, as the process tree rules need them.  
- <a href="#details">More...</a></p>
-
-<p><code>#include &lt;<a class="el" href="a00161_source.html">LumexProcessDetail.hpp</a>&gt;</code></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:a57a625bf67db2917ae46a4c14370d4c8" id="r_a57a625bf67db2917ae46a4c14370d4c8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01284.html#a4732c0dcb60b25cb92c642d4545ea018">process_id_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a57a625bf67db2917ae46a4c14370d4c8">pid</a> {}</td></tr>
-<tr class="memdesc:a57a625bf67db2917ae46a4c14370d4c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">The process ID.  <br /></td></tr>
-<tr class="separator:a57a625bf67db2917ae46a4c14370d4c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a234e3497f2abbd4daabdb24f29b14dc6" id="r_a234e3497f2abbd4daabdb24f29b14dc6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01284.html#a4732c0dcb60b25cb92c642d4545ea018">process_id_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a234e3497f2abbd4daabdb24f29b14dc6">parent_pid</a> {}</td></tr>
-<tr class="memdesc:a234e3497f2abbd4daabdb24f29b14dc6"><td class="mdescLeft">&#160;</td><td class="mdescRight">The ID of its parent process.  <br /></td></tr>
-<tr class="separator:a234e3497f2abbd4daabdb24f29b14dc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad0dbdbc507714e4106e0cb1bce525da3" id="r_ad0dbdbc507714e4106e0cb1bce525da3"><td class="memItemLeft" align="right" valign="top">std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad0dbdbc507714e4106e0cb1bce525da3">start_time</a> {}</td></tr>
-<tr class="memdesc:ad0dbdbc507714e4106e0cb1bce525da3"><td class="mdescLeft">&#160;</td><td class="mdescRight">When the process started, in any unit that grows with time (Linux: clock ticks after boot, Windows: the creation <code>FILETIME</code>); 0 when it is not known.  <br /></td></tr>
-<tr class="separator:ad0dbdbc507714e4106e0cb1bce525da3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04487.html">category_of_iterator</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>std::iterator_traits&lt;Iterator&gt;::iterator_category</code>; no <code>type</code> for anything without one. A pointer to a function or to <code>void</code> is left out before the traits are asked: libstdc++ 8 forms <code>void &amp;</code> in <code>iterator_traits&lt;void *&gt;</code> and stops with an error instead of leaving the traits empty.  <a href="a04487.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04491.html">category_of_iterator&lt; Iterator, traits::meta::void_t&lt; typename std::iterator_traits&lt; Iterator &gt;::iterator_category &gt; &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04543.html">element_before_value</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">"The element is ordered before the value": <code>pred (projected element, value)</code>, the call <code>std::lower_bound</code> makes.  <a href="a04543.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04547.html">has_numeric_projection</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Third step: the projection is invocable with an element, gives a numeric type, and the comparison fits the value and that type.  <a href="a04547.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04551.html">has_numeric_projection&lt; Iterator, Value, Predicate, Projection, true &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04555.html">has_valid_iterators</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Second step: the iterator is bidirectional and the sentinel fits it; only then are the callables looked at.  <a href="a04555.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04559.html">has_valid_iterators&lt; Iterator, Sentinel, Value, Predicate, Projection, true &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04503.html">is_bidirectional_iterator</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04507.html">is_bidirectional_iterator&lt; Iterator, traits::meta::void_t&lt; typename iterator_category_of&lt; Iterator &gt;::type &gt; &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04563.html">is_nearest_call</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The iterator and sentinel overload of <code>get_nearest_to</code> exists for these types.  <a href="a04563.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04567.html">is_nearest_range_call</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The range overload of <code>get_nearest_to</code> exists for these types.  <a href="a04567.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04571.html">is_nearest_range_call&lt; Range, Value, Predicate, Projection, traits::meta::void_t&lt; typename range_types&lt; Range &gt;::iterator &gt; &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a06560.html">is_numeric</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A "real" numeric type: any integral type except <code>bool</code>, or any floating-point type (cv-qualifiers ignored).  <a href="a06560.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04519.html">is_order_between</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The comparison can be called as <code>pred (projected, value)</code> and <code>pred (value, projected)</code> and gives something convertible to <code>bool</code>.  <a href="a04519.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04523.html">is_order_between&lt; Predicate, Value, Projected, traits::meta::void_t&lt; decltype(std::declval&lt; Predicate &amp; &gt;()(std::declval&lt; Projected &gt;(), std::declval&lt; Value const &amp; &gt;())), decltype(std::declval&lt; Predicate &amp; &gt;()(std::declval&lt; Value const &amp; &gt;(), std::declval&lt; Projected &gt;()))&gt; &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04527.html">is_order_for</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04531.html">is_order_for&lt; Iterator, Value, Predicate, Projection, traits::meta::void_t&lt; typename projected_result&lt; Iterator, Projection &gt;::type &gt; &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04511.html">is_sentinel_for</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04515.html">is_sentinel_for&lt; Sentinel, Iterator, traits::meta::void_t&lt; decltype(std::declval&lt; Iterator const &amp; &gt;()==std::declval&lt; Sentinel const &amp; &gt;()), decltype(std::declval&lt; Iterator const &amp; &gt;() !=std::declval&lt; Sentinel const &amp; &gt;())&gt; &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04495.html">iterator_category_of</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04499.html">iterator_category_of&lt; Iterator, true &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04479.html">projected_result</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>invoke_projection (projection, *iterator)</code> is well-formed; <code>type</code> is its result.  <a href="a04479.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04483.html">projected_result&lt; Iterator, Projection, typename std::enable_if&lt; traits::invoke::is_invocable&lt; Projection &amp;, decltype(*std::declval&lt; Iterator &amp; &gt;())&gt;::value &gt;::type &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04535.html">range_types</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The iterator and sentinel types of an lvalue range (<code>Range</code> is a reference type); no members for anything else, so a temporary range finds no overload.  <a href="a04535.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04539.html">range_types&lt; Range, typename std::enable_if&lt; std::is_lvalue_reference&lt; Range &gt;::value, traits::meta::void_t&lt; decltype(begin(std::declval&lt; Range &gt;())), decltype(end(std::declval&lt; Range &gt;()))&gt; &gt;::type &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a1b56a450e15cc28e53421e2f7d8fd7b4" id="r_a1b56a450e15cc28e53421e2f7d8fd7b4"><td class="memTemplParams" colspan="2">template&lt;typename Projection, typename Argument&gt; </td></tr>
+<tr class="memitem:a1b56a450e15cc28e53421e2f7d8fd7b4"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a1b56a450e15cc28e53421e2f7d8fd7b4">invoke_projection</a> (Projection &amp;projection, Argument &amp;&amp;argument) -&gt; decltype(std::invoke(projection, std::forward&lt; Argument &gt;(argument)))</td></tr>
+<tr class="memdesc:a1b56a450e15cc28e53421e2f7d8fd7b4"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>projection (argument)</code> with the INVOKE rules: a callable, or a pointer to a data member or a member function (<code>std::invoke</code>, C++17).  <br /></td></tr>
+<tr class="separator:a1b56a450e15cc28e53421e2f7d8fd7b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abef5f7c3d2178dabfde845fb876bf38c" id="r_abef5f7c3d2178dabfde845fb876bf38c"><td class="memTemplParams" colspan="2">template&lt;typename Range&gt; </td></tr>
+<tr class="memitem:abef5f7c3d2178dabfde845fb876bf38c"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#abef5f7c3d2178dabfde845fb876bf38c">begin_of</a> (Range &amp;&amp;range) -&gt; decltype(begin(std::forward&lt; Range &gt;(range)))</td></tr>
+<tr class="separator:abef5f7c3d2178dabfde845fb876bf38c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66202dfc4f2374989b80f34adf0ba9ac" id="r_a66202dfc4f2374989b80f34adf0ba9ac"><td class="memTemplParams" colspan="2">template&lt;typename Range&gt; </td></tr>
+<tr class="memitem:a66202dfc4f2374989b80f34adf0ba9ac"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a66202dfc4f2374989b80f34adf0ba9ac">end_of</a> (Range &amp;&amp;range) -&gt; decltype(end(std::forward&lt; Range &gt;(range)))</td></tr>
+<tr class="separator:a66202dfc4f2374989b80f34adf0ba9ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f1b3a468e3bc9e2ca02b75c1f0829aa" id="r_a6f1b3a468e3bc9e2ca02b75c1f0829aa"><td class="memTemplParams" colspan="2">template&lt;typename Iterator, typename Value, typename Predicate, typename Projection&gt; </td></tr>
+<tr class="memitem:a6f1b3a468e3bc9e2ca02b75c1f0829aa"><td class="memTemplItemLeft" align="right" valign="top">Iterator&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a6f1b3a468e3bc9e2ca02b75c1f0829aa">lower_bound_of</a> (Iterator first, Iterator last, Value const &amp;value, Predicate &amp;predicate, Projection &amp;projection)</td></tr>
+<tr class="separator:a6f1b3a468e3bc9e2ca02b75c1f0829aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a355239355da779ff320602768f793190" id="r_a355239355da779ff320602768f793190"><td class="memTemplParams" colspan="2">template&lt;typename Iterator&gt; </td></tr>
+<tr class="memitem:a355239355da779ff320602768f793190"><td class="memTemplItemLeft" align="right" valign="top">constexpr Iterator&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a355239355da779ff320602768f793190">iterator_at</a> (Iterator, Iterator last)</td></tr>
+<tr class="memdesc:a355239355da779ff320602768f793190"><td class="mdescLeft">&#160;</td><td class="mdescRight">The iterator that <code>last</code> stands for: <code>last</code> itself when it is an iterator of the same type, the iterator reached by walking from <code>first</code> when it is a sentinel of another type.  <br /></td></tr>
+<tr class="separator:a355239355da779ff320602768f793190"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9273c2f485ae9911c19b5ebe3ad6f236" id="r_a9273c2f485ae9911c19b5ebe3ad6f236"><td class="memTemplParams" colspan="2">template&lt;typename Iterator, typename Sentinel&gt; </td></tr>
+<tr class="memitem:a9273c2f485ae9911c19b5ebe3ad6f236"><td class="memTemplItemLeft" align="right" valign="top">constexpr Iterator&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a9273c2f485ae9911c19b5ebe3ad6f236">iterator_at</a> (Iterator first, Sentinel const &amp;last)</td></tr>
+<tr class="separator:a9273c2f485ae9911c19b5ebe3ad6f236"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0fd1a5acf2f1fed8edeee1309059b06f" id="r_a0fd1a5acf2f1fed8edeee1309059b06f"><td class="memTemplParams" colspan="2">template&lt;typename T, typename U&gt; </td></tr>
+<tr class="memitem:a0fd1a5acf2f1fed8edeee1309059b06f"><td class="memTemplItemLeft" align="right" valign="top">constexpr Detail::integral_distance&lt; T, U &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a0fd1a5acf2f1fed8edeee1309059b06f">distance</a> (T a, U b)</td></tr>
+<tr class="memdesc:a0fd1a5acf2f1fed8edeee1309059b06f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Absolute difference |a - b| of two integers, computed without an intermediate signed underflow for unsigned types.  <br /></td></tr>
+<tr class="separator:a0fd1a5acf2f1fed8edeee1309059b06f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>One process and its parent, as the process tree rules need them. </p>
-</div><h2 class="groupheader">Member Data Documentation</h2>
-<a id="a234e3497f2abbd4daabdb24f29b14dc6" name="a234e3497f2abbd4daabdb24f29b14dc6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a234e3497f2abbd4daabdb24f29b14dc6">&#9670;&#160;</a></span>parent_pid</h2>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="abef5f7c3d2178dabfde845fb876bf38c" name="abef5f7c3d2178dabfde845fb876bf38c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abef5f7c3d2178dabfde845fb876bf38c">&#9670;&#160;</a></span>begin_of()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename Range&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="a01284.html#a4732c0dcb60b25cb92c642d4545ea018">process_id_t</a> lumex::applied::resource_monitor::process::detail::process_link_t::parent_pid {}</td>
+          <td class="memname">auto lumex::core::utility::ranges::Algorithm::Detail::begin_of </td>
+          <td>(</td>
+          <td class="paramtype">Range &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>range</em></span></td><td>)</td>
+          <td> -&gt; decltype (begin (std::forward&lt;Range&gt; (range)))
+</td>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>The ID of its parent process. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01610_abef5f7c3d2178dabfde845fb876bf38c_icgraph.png" border="0" usemap="#aa01610_abef5f7c3d2178dabfde845fb876bf38c_icgraph" alt=""/></div>
+<map name="aa01610_abef5f7c3d2178dabfde845fb876bf38c_icgraph" id="aa01610_abef5f7c3d2178dabfde845fb876bf38c_icgraph">
+<area shape="rect" title=" " alt="" coords="208,5,363,60"/>
+<area shape="rect" href="a01609.html#abdb08d96519514d27aa1d6345cc1ad6b" title="Range&#45;based overload of get_nearest_to()." alt="" coords="5,5,160,60"/>
+<area shape="poly" title=" " alt="" coords="194,35,160,35,160,30,194,30"/>
+</map>
+</div>
 
 </div>
 </div>
-<a id="a57a625bf67db2917ae46a4c14370d4c8" name="a57a625bf67db2917ae46a4c14370d4c8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a57a625bf67db2917ae46a4c14370d4c8">&#9670;&#160;</a></span>pid</h2>
+<a id="a0fd1a5acf2f1fed8edeee1309059b06f" name="a0fd1a5acf2f1fed8edeee1309059b06f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0fd1a5acf2f1fed8edeee1309059b06f">&#9670;&#160;</a></span>distance()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename U&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="a01284.html#a4732c0dcb60b25cb92c642d4545ea018">process_id_t</a> lumex::applied::resource_monitor::process::detail::process_link_t::pid {}</td>
+          <td class="memname">Detail::integral_distance&lt; T, U &gt;::type lumex::core::math::ops::distance </td>
+          <td>(</td>
+          <td class="paramtype">T</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">U</td>          <td class="paramname"><span class="paramname"><em>b</em></span>&#160;)</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>The process ID. </p>
+<p>Absolute difference |a - b| of two integers, computed without an intermediate signed underflow for unsigned types. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01610_a0fd1a5acf2f1fed8edeee1309059b06f_icgraph.png" border="0" usemap="#aa01610_a0fd1a5acf2f1fed8edeee1309059b06f_icgraph" alt=""/></div>
+<map name="aa01610_a0fd1a5acf2f1fed8edeee1309059b06f_icgraph" id="aa01610_a0fd1a5acf2f1fed8edeee1309059b06f_icgraph">
+<area shape="rect" title="Absolute difference |a &#45; b| of two integers, computed without an intermediate signed underflow for un..." alt="" coords="411,29,565,84"/>
+<area shape="rect" href="a01609.html#aec0a81087adec6bd2d38380a680fb136" title="Finds the iterator whose (projected) value is numerically nearest to value." alt="" coords="208,29,363,84"/>
+<area shape="poly" title=" " alt="" coords="397,59,363,59,363,54,397,54"/>
+<area shape="poly" title=" " alt="" coords="319,18,307,11,285,8,267,10,256,15,251,21,251,29,245,29,246,19,253,10,266,5,285,3,308,6,322,14"/>
+<area shape="rect" href="a01609.html#abdb08d96519514d27aa1d6345cc1ad6b" title="Range&#45;based overload of get_nearest_to()." alt="" coords="5,29,160,84"/>
+<area shape="poly" title=" " alt="" coords="194,59,160,59,160,54,194,54"/>
+</map>
+</div>
 
 </div>
 </div>
-<a id="ad0dbdbc507714e4106e0cb1bce525da3" name="ad0dbdbc507714e4106e0cb1bce525da3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad0dbdbc507714e4106e0cb1bce525da3">&#9670;&#160;</a></span>start_time</h2>
+<a id="a66202dfc4f2374989b80f34adf0ba9ac" name="a66202dfc4f2374989b80f34adf0ba9ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a66202dfc4f2374989b80f34adf0ba9ac">&#9670;&#160;</a></span>end_of()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename Range&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::uint64_t lumex::applied::resource_monitor::process::detail::process_link_t::start_time {}</td>
+          <td class="memname">auto lumex::core::utility::ranges::Algorithm::Detail::end_of </td>
+          <td>(</td>
+          <td class="paramtype">Range &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>range</em></span></td><td>)</td>
+          <td> -&gt; decltype (end (std::forward&lt;Range&gt; (range)))
+</td>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>When the process started, in any unit that grows with time (Linux: clock ticks after boot, Windows: the creation <code>FILETIME</code>); 0 when it is not known. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01610_a66202dfc4f2374989b80f34adf0ba9ac_icgraph.png" border="0" usemap="#aa01610_a66202dfc4f2374989b80f34adf0ba9ac_icgraph" alt=""/></div>
+<map name="aa01610_a66202dfc4f2374989b80f34adf0ba9ac_icgraph" id="aa01610_a66202dfc4f2374989b80f34adf0ba9ac_icgraph">
+<area shape="rect" title=" " alt="" coords="208,5,363,60"/>
+<area shape="rect" href="a01609.html#abdb08d96519514d27aa1d6345cc1ad6b" title="Range&#45;based overload of get_nearest_to()." alt="" coords="5,5,160,60"/>
+<area shape="poly" title=" " alt="" coords="194,35,160,35,160,30,194,30"/>
+</map>
+</div>
 
 </div>
 </div>
-<hr/>The documentation for this struct was generated from the following file:<ul>
-<li><a class="el" href="a00161_source.html">LumexProcessDetail.hpp</a></li>
-</ul>
+<a id="a1b56a450e15cc28e53421e2f7d8fd7b4" name="a1b56a450e15cc28e53421e2f7d8fd7b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b56a450e15cc28e53421e2f7d8fd7b4">&#9670;&#160;</a></span>invoke_projection()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Projection, typename Argument&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto lumex::core::utility::ranges::Algorithm::Detail::invoke_projection </td>
+          <td>(</td>
+          <td class="paramtype">Projection &amp;</td>          <td class="paramname"><span class="paramname"><em>projection</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Argument &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>argument</em></span>&#160;) -&gt; decltype (std::invoke (projection, std::forward&lt;Argument&gt; (argument)))
+</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><code>projection (argument)</code> with the INVOKE rules: a callable, or a pointer to a data member or a member function (<code>std::invoke</code>, C++17). </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01610_a1b56a450e15cc28e53421e2f7d8fd7b4_icgraph.png" border="0" usemap="#aa01610_a1b56a450e15cc28e53421e2f7d8fd7b4_icgraph" alt=""/></div>
+<map name="aa01610_a1b56a450e15cc28e53421e2f7d8fd7b4_icgraph" id="aa01610_a1b56a450e15cc28e53421e2f7d8fd7b4_icgraph">
+<area shape="rect" title="projection (argument) with the INVOKE rules: a callable, or a pointer to a data member or a member fu..." alt="" coords="428,73,613,128"/>
+<area shape="rect" href="a01609.html#aec0a81087adec6bd2d38380a680fb136" title="Finds the iterator whose (projected) value is numerically nearest to value." alt="" coords="217,29,371,84"/>
+<area shape="poly" title=" " alt="" coords="414,83,371,74,372,69,415,77"/>
+<area shape="rect" href="a04543.html#a64988bcf02d29b56d2211fa51e18ada5" title=" " alt="" coords="208,109,380,178"/>
+<area shape="poly" title=" " alt="" coords="415,123,381,130,380,124,414,118"/>
+<area shape="poly" title=" " alt="" coords="329,18,316,11,294,8,275,10,263,15,258,21,258,29,253,29,253,19,260,10,274,5,294,3,318,6,332,14"/>
+<area shape="rect" href="a01609.html#abdb08d96519514d27aa1d6345cc1ad6b" title="Range&#45;based overload of get_nearest_to()." alt="" coords="5,29,160,84"/>
+<area shape="poly" title=" " alt="" coords="203,59,160,59,160,54,203,54"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a9273c2f485ae9911c19b5ebe3ad6f236" name="a9273c2f485ae9911c19b5ebe3ad6f236"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9273c2f485ae9911c19b5ebe3ad6f236">&#9670;&#160;</a></span>iterator_at() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Iterator, typename Sentinel&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Iterator lumex::core::utility::ranges::Algorithm::Detail::iterator_at </td>
+          <td>(</td>
+          <td class="paramtype">Iterator</td>          <td class="paramname"><span class="paramname"><em>first</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Sentinel const &amp;</td>          <td class="paramname"><span class="paramname"><em>last</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a355239355da779ff320602768f793190" name="a355239355da779ff320602768f793190"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a355239355da779ff320602768f793190">&#9670;&#160;</a></span>iterator_at() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Iterator&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Iterator lumex::core::utility::ranges::Algorithm::Detail::iterator_at </td>
+          <td>(</td>
+          <td class="paramtype">Iterator</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Iterator</td>          <td class="paramname"><span class="paramname"><em>last</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The iterator that <code>last</code> stands for: <code>last</code> itself when it is an iterator of the same type, the iterator reached by walking from <code>first</code> when it is a sentinel of another type. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01610_a355239355da779ff320602768f793190_icgraph.png" border="0" usemap="#aa01610_a355239355da779ff320602768f793190_icgraph" alt=""/></div>
+<map name="aa01610_a355239355da779ff320602768f793190_icgraph" id="aa01610_a355239355da779ff320602768f793190_icgraph">
+<area shape="rect" title="The iterator that last stands for: last itself when it is an iterator of the same type,..." alt="" coords="411,29,565,84"/>
+<area shape="rect" href="a01609.html#aec0a81087adec6bd2d38380a680fb136" title="Finds the iterator whose (projected) value is numerically nearest to value." alt="" coords="208,29,363,84"/>
+<area shape="poly" title=" " alt="" coords="397,59,363,59,363,54,397,54"/>
+<area shape="poly" title=" " alt="" coords="319,18,307,11,285,8,267,10,256,15,251,21,251,29,245,29,246,19,253,10,266,5,285,3,308,6,322,14"/>
+<area shape="rect" href="a01609.html#abdb08d96519514d27aa1d6345cc1ad6b" title="Range&#45;based overload of get_nearest_to()." alt="" coords="5,29,160,84"/>
+<area shape="poly" title=" " alt="" coords="194,59,160,59,160,54,194,54"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a6f1b3a468e3bc9e2ca02b75c1f0829aa" name="a6f1b3a468e3bc9e2ca02b75c1f0829aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f1b3a468e3bc9e2ca02b75c1f0829aa">&#9670;&#160;</a></span>lower_bound_of()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Iterator, typename Value, typename Predicate, typename Projection&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">Iterator lumex::core::utility::ranges::Algorithm::Detail::lower_bound_of </td>
+          <td>(</td>
+          <td class="paramtype">Iterator</td>          <td class="paramname"><span class="paramname"><em>first</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Iterator</td>          <td class="paramname"><span class="paramname"><em>last</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Value const &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Predicate &amp;</td>          <td class="paramname"><span class="paramname"><em>predicate</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Projection &amp;</td>          <td class="paramname"><span class="paramname"><em>projection</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01610_a6f1b3a468e3bc9e2ca02b75c1f0829aa_icgraph.png" border="0" usemap="#aa01610_a6f1b3a468e3bc9e2ca02b75c1f0829aa_icgraph" alt=""/></div>
+<map name="aa01610_a6f1b3a468e3bc9e2ca02b75c1f0829aa_icgraph" id="aa01610_a6f1b3a468e3bc9e2ca02b75c1f0829aa_icgraph">
+<area shape="rect" title=" " alt="" coords="411,29,583,84"/>
+<area shape="rect" href="a01609.html#aec0a81087adec6bd2d38380a680fb136" title="Finds the iterator whose (projected) value is numerically nearest to value." alt="" coords="208,29,363,84"/>
+<area shape="poly" title=" " alt="" coords="396,59,363,59,363,54,396,54"/>
+<area shape="poly" title=" " alt="" coords="319,18,307,11,285,8,267,10,256,15,251,21,251,29,245,29,246,19,253,10,266,5,285,3,308,6,322,14"/>
+<area shape="rect" href="a01609.html#abdb08d96519514d27aa1d6345cc1ad6b" title="Range&#45;based overload of get_nearest_to()." alt="" coords="5,29,160,84"/>
+<area shape="poly" title=" " alt="" coords="194,59,160,59,160,54,194,54"/>
+</map>
+</div>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01249.html">applied</a></li><li class="navelem"><a class="el" href="a01277.html">resource_monitor</a></li><li class="navelem"><a class="el" href="a01283.html">process</a></li><li class="navelem"><a class="el" href="a01284.html">detail</a></li><li class="navelem"><a class="el" href="a01610.html">process_link_t</a></li>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01586.html">utility</a></li><li class="navelem"><a class="el" href="a01608.html">ranges</a></li><li class="navelem"><a class="el" href="a01609.html">Algorithm</a></li><li class="navelem"><a class="el" href="a01610.html">Detail</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

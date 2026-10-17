@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::applied::logger::logger::log_entry_t Struct Reference</title>
+<title>LumexLib: lumex::core::string::utility Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,42 +104,93 @@ $(function(){initNavTree('a01570.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-attribs">Public Attributes</a> &#124;
-<a href="a01567.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">lumex::applied::logger::logger::log_entry_t Struct Reference</div></div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::string::utility Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>Buffered log-record structure.  
- <a href="#details">More...</a></p>
-
-<p><code>#include &lt;<a class="el" href="a00128_source.html">LumexLogger.hpp</a>&gt;</code></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr class="memitem:a388ec8405355a1c47d6ddbf65f3132d9" id="r_a388ec8405355a1c47d6ddbf65f3132d9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a388ec8405355a1c47d6ddbf65f3132d9">log_entry_t</a> (<a class="el" href="a01272.html#a8abbc573ad9bfc4d4c761d4c300a1e07">LogLevel</a> level_, std::string message_, std::chrono::system_clock::time_point timestamp_=std::chrono::system_clock::now()) noexcept</td></tr>
-<tr class="memdesc:a388ec8405355a1c47d6ddbf65f3132d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Padding: 7 bytes to align to 8 bytes.  <br /></td></tr>
-<tr class="separator:a388ec8405355a1c47d6ddbf65f3132d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01571.html">detail</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:a728f5d7b7d8997eb17a025a7279ed91a" id="r_a728f5d7b7d8997eb17a025a7279ed91a"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a728f5d7b7d8997eb17a025a7279ed91a">message</a></td></tr>
-<tr class="memdesc:a728f5d7b7d8997eb17a025a7279ed91a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Large types (8+ bytes)  <br /></td></tr>
-<tr class="separator:a728f5d7b7d8997eb17a025a7279ed91a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a060e999accc52a8ed7857ac703469085" id="r_a060e999accc52a8ed7857ac703469085"><td class="memItemLeft" align="right" valign="top">std::chrono::system_clock::time_point&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a060e999accc52a8ed7857ac703469085">timestamp</a></td></tr>
-<tr class="memdesc:a060e999accc52a8ed7857ac703469085"><td class="mdescLeft">&#160;</td><td class="mdescRight">Record timestamp.  <br /></td></tr>
-<tr class="separator:a060e999accc52a8ed7857ac703469085"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aedce3417fed0732d6a765c39dab2b4d7" id="r_aedce3417fed0732d6a765c39dab2b4d7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01272.html#a8abbc573ad9bfc4d4c761d4c300a1e07">LogLevel</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aedce3417fed0732d6a765c39dab2b4d7">level</a></td></tr>
-<tr class="memdesc:aedce3417fed0732d6a765c39dab2b4d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Small types (1 byte)  <br /></td></tr>
-<tr class="separator:aedce3417fed0732d6a765c39dab2b4d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a069a5bbde352f2d95ec427f786215113" id="r_a069a5bbde352f2d95ec427f786215113"><td class="memTemplParams" colspan="2">template&lt;typename T, typename D&gt; </td></tr>
+<tr class="memitem:a069a5bbde352f2d95ec427f786215113"><td class="memTemplItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a069a5bbde352f2d95ec427f786215113">operator&lt;&lt;</a> (std::ostream &amp;ostream, std::unique_ptr&lt; T, D &gt; const &amp;ptr)</td></tr>
+<tr class="memdesc:a069a5bbde352f2d95ec427f786215113"><td class="mdescLeft">&#160;</td><td class="mdescRight">Streams the raw address held by a <code>std::unique_ptr</code>.  <br /></td></tr>
+<tr class="separator:a069a5bbde352f2d95ec427f786215113"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aabd30bcdf02da92ec12422a30fd4c4f4" id="r_aabd30bcdf02da92ec12422a30fd4c4f4"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:aabd30bcdf02da92ec12422a30fd4c4f4"><td class="memTemplItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#aabd30bcdf02da92ec12422a30fd4c4f4">operator&lt;&lt;</a> (std::ostream &amp;ostream, std::shared_ptr&lt; T &gt; const &amp;ptr)</td></tr>
+<tr class="memdesc:aabd30bcdf02da92ec12422a30fd4c4f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Streams the raw address held by a <code>std::shared_ptr</code>.  <br /></td></tr>
+<tr class="separator:aabd30bcdf02da92ec12422a30fd4c4f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c0b80a6f74a32424bed62d7597a6759" id="r_a5c0b80a6f74a32424bed62d7597a6759"><td class="memTemplParams" colspan="2">template&lt;typename... Args, typename std::enable_if&lt; <a class="el" href="a04163.html">detail::are_stringifiable</a>&lt; Args... &gt;::value, int &gt;::type = 0&gt; </td></tr>
+<tr class="memitem:a5c0b80a6f74a32424bed62d7597a6759"><td class="memTemplItemLeft" align="right" valign="top">std::string&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a5c0b80a6f74a32424bed62d7597a6759">stringify</a> (Args &amp;&amp;...args)</td></tr>
+<tr class="memdesc:a5c0b80a6f74a32424bed62d7597a6759"><td class="mdescLeft">&#160;</td><td class="mdescRight">Concatenates the streamed text of <code>args</code>.  <br /></td></tr>
+<tr class="separator:a5c0b80a6f74a32424bed62d7597a6759"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6edd6a773e25b016b0dab32f38d58ff9" id="r_a6edd6a773e25b016b0dab32f38d58ff9"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6edd6a773e25b016b0dab32f38d58ff9">stringify</a> () noexcept</td></tr>
+<tr class="memdesc:a6edd6a773e25b016b0dab32f38d58ff9"><td class="mdescLeft">&#160;</td><td class="mdescRight">No arguments: an empty string, without creating a stream.  <br /></td></tr>
+<tr class="separator:a6edd6a773e25b016b0dab32f38d58ff9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:affeacca04aee3e02bb2cbc36fac533db" id="r_affeacca04aee3e02bb2cbc36fac533db"><td class="memTemplParams" colspan="2">template&lt;typename... Args&gt; </td></tr>
+<tr class="memitem:affeacca04aee3e02bb2cbc36fac533db"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#affeacca04aee3e02bb2cbc36fac533db">stringify_v2</a> (Args &amp;&amp;...args) -&gt; decltype(<a class="el" href="#a5c0b80a6f74a32424bed62d7597a6759">lumex::core::string::utility::stringify</a>(std::forward&lt; Args &gt;(args)...))</td></tr>
+<tr class="memdesc:affeacca04aee3e02bb2cbc36fac533db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Same as <code>stringify</code>, kept under its name: it was the variant of <code>stringify</code> that could be detected with SFINAE.  <br /></td></tr>
+<tr class="separator:affeacca04aee3e02bb2cbc36fac533db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Buffered log-record structure. </p>
-<p>Holds log records in a buffer before they are written to the file. Holds everything needed for a later write. </p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a388ec8405355a1c47d6ddbf65f3132d9" name="a388ec8405355a1c47d6ddbf65f3132d9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a388ec8405355a1c47d6ddbf65f3132d9">&#9670;&#160;</a></span>log_entry_t()</h2>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="aabd30bcdf02da92ec12422a30fd4c4f4" name="aabd30bcdf02da92ec12422a30fd4c4f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aabd30bcdf02da92ec12422a30fd4c4f4">&#9670;&#160;</a></span>operator&lt;&lt;() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::ostream &amp; lumex::core::string::utility::operator&lt;&lt; </td>
+          <td>(</td>
+          <td class="paramtype">std::ostream &amp;</td>          <td class="paramname"><span class="paramname"><em>ostream</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::shared_ptr&lt; T &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>ptr</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Streams the raw address held by a <code>std::shared_ptr</code>. </p>
+
+</div>
+</div>
+<a id="a069a5bbde352f2d95ec427f786215113" name="a069a5bbde352f2d95ec427f786215113"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a069a5bbde352f2d95ec427f786215113">&#9670;&#160;</a></span>operator&lt;&lt;() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename D&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::ostream &amp; lumex::core::string::utility::operator&lt;&lt; </td>
+          <td>(</td>
+          <td class="paramtype">std::ostream &amp;</td>          <td class="paramname"><span class="paramname"><em>ostream</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::unique_ptr&lt; T, D &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>ptr</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Streams the raw address held by a <code>std::unique_ptr</code>. </p>
+<p>Declared here so <code>stringify</code> finds it by ordinary lookup. The standard library has the same overload only since C++20 and only in newer releases; where it has one, this one is more specialized and prints the same text. </p>
+
+</div>
+</div>
+<a id="a6edd6a773e25b016b0dab32f38d58ff9" name="a6edd6a773e25b016b0dab32f38d58ff9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6edd6a773e25b016b0dab32f38d58ff9">&#9670;&#160;</a></span>stringify() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -148,19 +199,10 @@ Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">lumex::applied::logger::logger::log_entry_t::log_entry_t </td>
+          <td class="memname">std::string lumex::core::string::utility::stringify </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="a01272.html#a8abbc573ad9bfc4d4c761d4c300a1e07">LogLevel</a></td>          <td class="paramname"><span class="paramname"><em>level_</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
-          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>message_</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::chrono::system_clock::time_point</td>          <td class="paramname"><span class="paramname"><em>timestamp_</em></span><span class="paramdefsep"> = </span><span class="paramdefval">std::chrono::system_clock::now&#160;()</span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -170,78 +212,133 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Padding: 7 bytes to align to 8 bytes. </p>
-<p>Constructor with parameters. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">level_</td><td>Log level. </td></tr>
-    <tr><td class="paramname">message_</td><td>Log message. </td></tr>
-    <tr><td class="paramname">timestamp_</td><td>Timestamp (defaults to now). </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>No arguments: an empty string, without creating a stream. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01570_a6edd6a773e25b016b0dab32f38d58ff9_icgraph.png" border="0" usemap="#aa01570_a6edd6a773e25b016b0dab32f38d58ff9_icgraph" alt=""/></div>
+<map name="aa01570_a6edd6a773e25b016b0dab32f38d58ff9_icgraph" id="aa01570_a6edd6a773e25b016b0dab32f38d58ff9_icgraph">
+<area shape="rect" title="No arguments: an empty string, without creating a stream." alt="" coords="263,85,407,125"/>
+<area shape="rect" href="a01592.html#a02a37787ed4cea8acf82cb81aced1f04" title="Lightweight alternative: captures only the immediate caller." alt="" coords="25,5,195,60"/>
+<area shape="poly" title=" " alt="" coords="258,83,195,63,196,57,260,78"/>
+<area shape="rect" href="a01592.html#a0071950e460324a9a1045bd73bfe1759" title="Capture current call stack in a formatted string." alt="" coords="5,85,215,125"/>
+<area shape="poly" title=" " alt="" coords="249,107,215,107,215,102,249,102"/>
+<area shape="rect" href="a01570.html#affeacca04aee3e02bb2cbc36fac533db" title="Same as stringify, kept under its name: it was the variant of stringify that could be detected with S..." alt="" coords="34,149,186,189"/>
+<area shape="poly" title=" " alt="" coords="251,131,181,151,179,146,250,126"/>
+</map>
+</div>
 
 </div>
 </div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="aedce3417fed0732d6a765c39dab2b4d7" name="aedce3417fed0732d6a765c39dab2b4d7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aedce3417fed0732d6a765c39dab2b4d7">&#9670;&#160;</a></span>level</h2>
+<a id="a5c0b80a6f74a32424bed62d7597a6759" name="a5c0b80a6f74a32424bed62d7597a6759"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5c0b80a6f74a32424bed62d7597a6759">&#9670;&#160;</a></span>stringify() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename... Args, typename std::enable_if&lt; <a class="el" href="a04163.html">detail::are_stringifiable</a>&lt; Args... &gt;::value, int &gt;::type = 0&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="a01272.html#a8abbc573ad9bfc4d4c761d4c300a1e07">LogLevel</a> lumex::applied::logger::logger::log_entry_t::level</td>
+          <td class="memname">std::string lumex::core::string::utility::stringify </td>
+          <td>(</td>
+          <td class="paramtype">Args &amp;&amp;...</td>          <td class="paramname"><span class="paramname"><em>args</em></span></td><td>)</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Small types (1 byte) </p>
-<p>Log level </p>
+<p>Concatenates the streamed text of <code>args</code>. </p>
+<p>Takes part in overload resolution only when every argument is streamable (<code><a class="el" href="a04163.html" title="stringify accepts every type in Args: the argument lists of traits::stream::all_streamable (below C++...">detail::are_stringifiable</a></code>), in every standard. </p><dl class="section return"><dt>Returns</dt><dd>The text. Calling it with no arguments picks the overload below. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>O(total length of the text). </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01570_a5c0b80a6f74a32424bed62d7597a6759_icgraph.png" border="0" usemap="#aa01570_a5c0b80a6f74a32424bed62d7597a6759_icgraph" alt=""/></div>
+<map name="aa01570_a5c0b80a6f74a32424bed62d7597a6759_icgraph" id="aa01570_a5c0b80a6f74a32424bed62d7597a6759_icgraph">
+<area shape="rect" title="Concatenates the streamed text of args." alt="" coords="1108,197,1252,237"/>
+<area shape="rect" href="a01592.html#a0071950e460324a9a1045bd73bfe1759" title="Capture current call stack in a formatted string." alt="" coords="849,5,1058,45"/>
+<area shape="poly" title=" " alt="" coords="1162,186,1120,122,1092,88,1058,60,1038,48,1040,43,1062,55,1095,84,1125,118,1166,184"/>
+<area shape="rect" href="a01759.html#ab45388c23b278021a8bb9e4a7b435e0c" title="Log a CRITICAL&#45;level message." alt="" coords="851,197,1056,237"/>
+<area shape="poly" title=" " alt="" coords="1094,220,1056,220,1056,215,1094,215"/>
+<area shape="rect" href="a01759.html#a44ad22b8a67f4f15a9a574b3d4d5cd74" title="Log a DEBUG&#45;level message." alt="" coords="853,69,1054,109"/>
+<area shape="poly" title=" " alt="" coords="1149,190,1108,156,1059,124,1032,112,1034,107,1061,119,1111,151,1152,186"/>
+<area shape="rect" href="a01759.html#aaeebb797a274ef51607814be5801bcc4" title="Log an ERROR&#45;level message." alt="" coords="857,133,1049,173"/>
+<area shape="poly" title=" " alt="" coords="1095,196,1023,176,1025,171,1097,191"/>
+<area shape="rect" href="a01759.html#aafb110cd6feeb2ab91305f27352b9118" title="Log an INFO&#45;level message." alt="" coords="860,456,1047,496"/>
+<area shape="poly" title=" " alt="" coords="1161,250,1117,311,1062,379,1019,422,979,458,976,454,1015,418,1058,376,1113,308,1157,247"/>
+<area shape="rect" href="a01759.html#a8e7bac7289460386a2e59d59c388d4b6" title="Log a SUCCESS&#45;level message (custom level)." alt="" coords="847,261,1059,301"/>
+<area shape="poly" title=" " alt="" coords="1097,244,1025,264,1023,259,1095,238"/>
+<area shape="rect" href="a01759.html#af4fec23e76323ffee4eaf2aaf716eb15" title="Log a WARNING&#45;level message." alt="" coords="847,325,1060,365"/>
+<area shape="poly" title=" " alt="" coords="1152,249,1111,283,1061,316,1034,328,1032,323,1059,311,1108,279,1149,244"/>
+<area shape="rect" href="a00440.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="666,178,721,203"/>
+<area shape="poly" title=" " alt="" coords="837,208,721,196,721,191,838,203"/>
+<area shape="poly" title=" " alt="" coords="870,116,848,124,778,153,720,180,718,175,776,148,846,119,868,111"/>
+<area shape="poly" title=" " alt="" coords="844,172,721,189,721,184,844,166"/>
+<area shape="poly" title=" " alt="" coords="914,450,878,418,844,379,828,348,821,322,814,297,797,268,757,232,717,206,719,201,760,227,801,265,818,294,826,321,833,346,849,376,882,414,917,446"/>
+<area shape="rect" href="a01711.html#a3eaf2f4c04de9dfd7a0692f22f8c0b41" title="Automatically configures optimal rendering settings based on detected hardware." alt="" coords="5,489,256,543"/>
+<area shape="poly" title=" " alt="" coords="921,507,867,544,834,562,799,575,722,591,642,599,562,600,483,595,407,586,337,573,220,546,221,541,338,568,408,580,483,590,562,595,642,594,721,586,798,569,832,557,864,540,918,503"/>
+<area shape="rect" href="a01903.html#af9bac403ac10a4c027b0b3b3e7242dab" title="Copies filename to a sibling &lt;filename&gt;.bak.&lt;YYYYMMDD&#45;HHMMSS&gt; backup file." alt="" coords="588,410,799,465"/>
+<area shape="poly" title=" " alt="" coords="846,463,798,456,799,450,847,457"/>
+<area shape="rect" href="a01711.html#af3c48849b42dbcc0651429190b4a86b9" title="Performs comprehensive system hardware detection and analysis." alt="" coords="589,489,797,543"/>
+<area shape="poly" title=" " alt="" coords="847,495,798,503,797,497,846,490"/>
+<area shape="rect" href="a01711.html#abe50368bd4ba1088c99e329d0fc5deb4" title="Determines whether software rendering should be used instead of hardware acceleration." alt="" coords="304,489,540,543"/>
+<area shape="poly" title=" " alt="" coords="915,506,862,535,799,559,725,569,650,568,578,559,514,546,515,541,579,554,650,563,725,564,798,553,859,531,912,501"/>
+<area shape="poly" title=" " alt="" coords="576,519,540,519,540,513,576,513"/>
+<area shape="poly" title=" " alt="" coords="291,519,256,519,256,513,291,513"/>
+<area shape="poly" title=" " alt="" coords="865,259,846,252,798,225,720,200,722,195,800,220,848,247,867,254"/>
+<area shape="poly" title=" " alt="" coords="870,261,753,237,683,228,607,224,530,225,452,234,376,253,305,284,275,303,247,328,201,384,166,442,144,490,139,487,162,440,197,381,244,324,272,299,303,279,375,248,451,229,529,220,607,218,683,223,754,232,871,255"/>
+<area shape="poly" title=" " alt="" coords="858,322,845,316,830,304,820,293,797,269,711,206,715,201,800,265,824,290,833,300,848,311,860,317"/>
+<area shape="poly" title=" " alt="" coords="884,373,772,412,770,407,882,368"/>
+<area shape="poly" title=" " alt="" coords="833,351,713,367,650,381,589,401,550,420,513,443,453,490,450,486,510,439,548,415,587,396,648,376,712,361,833,346"/>
+<area shape="rect" href="a01903.html#a1b16b4af8293c508e1b10b2181ab3bb3" title="Ensures every key in specs is present and valid, restoring default_value otherwise." alt="" coords="588,279,799,334"/>
+<area shape="poly" title=" " alt="" coords="833,330,799,325,799,320,834,325"/>
+<area shape="rect" href="a00311.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="395,294,449,319"/>
+<area shape="poly" title=" " alt="" coords="574,309,450,309,450,304,574,304"/>
+</map>
+</div>
 
 </div>
 </div>
-<a id="a728f5d7b7d8997eb17a025a7279ed91a" name="a728f5d7b7d8997eb17a025a7279ed91a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a728f5d7b7d8997eb17a025a7279ed91a">&#9670;&#160;</a></span>message</h2>
+<a id="affeacca04aee3e02bb2cbc36fac533db" name="affeacca04aee3e02bb2cbc36fac533db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#affeacca04aee3e02bb2cbc36fac533db">&#9670;&#160;</a></span>stringify_v2()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename... Args&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::string lumex::applied::logger::logger::log_entry_t::message</td>
+          <td class="memname">auto lumex::core::string::utility::stringify_v2 </td>
+          <td>(</td>
+          <td class="paramtype">Args &amp;&amp;...</td>          <td class="paramname"><span class="paramname"><em>args</em></span></td><td>)</td>
+          <td> -&gt; decltype (<a class="el" href="#a5c0b80a6f74a32424bed62d7597a6759">lumex::core::string::utility::stringify</a> (
+        std::forward&lt;Args&gt; (args)...))
+</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Large types (8+ bytes) </p>
-<p>Log message </p>
+<p>Same as <code>stringify</code>, kept under its name: it was the variant of <code>stringify</code> that could be detected with SFINAE. </p>
+<p>The return type is that of <code>stringify</code> for the same arguments, so the overload exists exactly when <code>stringify</code> accepts them. </p><dl class="section return"><dt>Returns</dt><dd>The text, or an empty string for no arguments. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01570_affeacca04aee3e02bb2cbc36fac533db_cgraph.png" border="0" usemap="#aa01570_affeacca04aee3e02bb2cbc36fac533db_cgraph" alt=""/></div>
+<map name="aa01570_affeacca04aee3e02bb2cbc36fac533db_cgraph" id="aa01570_affeacca04aee3e02bb2cbc36fac533db_cgraph">
+<area shape="rect" title="Same as stringify, kept under its name: it was the variant of stringify that could be detected with S..." alt="" coords="5,5,157,45"/>
+<area shape="rect" href="a01570.html#a6edd6a773e25b016b0dab32f38d58ff9" title="No arguments: an empty string, without creating a stream." alt="" coords="205,5,349,45"/>
+<area shape="poly" title=" " alt="" coords="158,23,191,23,191,28,158,28"/>
+</map>
+</div>
 
 </div>
 </div>
-<a id="a060e999accc52a8ed7857ac703469085" name="a060e999accc52a8ed7857ac703469085"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a060e999accc52a8ed7857ac703469085">&#9670;&#160;</a></span>timestamp</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::chrono::system_clock::time_point lumex::applied::logger::logger::log_entry_t::timestamp</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Record timestamp. </p>
-
-</div>
-</div>
-<hr/>The documentation for this struct was generated from the following file:<ul>
-<li><a class="el" href="a00128_source.html">LumexLogger.hpp</a></li>
-</ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01249.html">applied</a></li><li class="navelem"><a class="el" href="a01271.html">logger</a></li><li class="navelem"><a class="el" href="a01272.html">logger</a></li><li class="navelem"><a class="el" href="a01570.html">log_entry_t</a></li>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01567.html">string</a></li><li class="navelem"><a class="el" href="a01570.html">utility</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

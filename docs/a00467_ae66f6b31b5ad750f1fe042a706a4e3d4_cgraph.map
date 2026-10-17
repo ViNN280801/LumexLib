@@ -1,0 +1,33 @@
+<map id="main" name="main">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,80,60,105"/>
+<area shape="rect" id="Node000002" href="$a01540.html#a71066b6ff2980b7f4a955111551f11e4" title="Names value for a {name} replacement field." alt="" coords="123,5,282,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="47,77,74,58,107,40,125,32,127,37,109,44,77,63,50,82"/>
+<area shape="rect" id="Node000003" href="$a01540.html#a6a63800323204704cefa342dec4cad40" title="Formats args into a std::string." alt="" coords="111,55,294,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="60,86,103,79,104,85,61,91"/>
+<area shape="rect" id="Node000006" href="$a01540.html#aa328bdae873006fb83ed2cc71f3ae020" title="Skips the compile&#45;time check; the string is checked when used." alt="" coords="108,104,297,129"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="61,94,100,99,99,105,60,99"/>
+<area shape="rect" id="Node000007" href="$a01540.html#af18b181b489ca7b9b343f99cc1d70e42" title="Like format, but never throws: a failure (bad specification at run time, missing argument,..." alt="" coords="125,154,281,194"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="52,103,109,138,128,147,126,151,107,143,49,108"/>
+<area shape="rect" id="Node000004" href="$a01540.html#a1a7369743e9a56cdf14f5bd2ce80b599" title="Type&#45;erased arguments for vformat; the result refers to args, so use it within the same full expressi..." alt="" coords="353,69,528,109"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="294,73,340,77,339,82,294,78"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="397,69,395,59,402,50,417,44,441,42,468,45,482,52,480,57,466,50,441,47,418,49,405,54,400,60,402,68"/>
+<area shape="rect" id="Node000005" href="$a01541.html#a7c0b83d64d43d9c8746e82f05d43db5a" title=" " alt="" coords="584,69,761,109"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="528,86,570,86,570,91,528,91"/>
+<area shape="poly" id="edge8_Node000007_Node000004" title=" " alt="" coords="259,151,296,138,372,111,374,116,298,143,261,157"/>
+<area shape="rect" id="Node000008" href="$a01540.html#a55a58f4ca365fa94db3766c720cb2585" title=" " alt="" coords="345,161,536,187"/>
+<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="281,171,332,171,332,177,281,177"/>
+<area shape="rect" id="Node000009" href="$a01541.html#a9b8fbd4db71c1059fadb982021043cb4" title="Formats into buffer; adds the field offset to errors." alt="" coords="584,154,761,194"/>
+<area shape="poly" id="edge10_Node000008_Node000009" title=" " alt="" coords="536,171,570,171,570,177,536,177"/>
+<area shape="rect" id="Node000010" href="$a03103.html#a6ab4cd9529ea82665743a1a876e4e67f" title=" " alt="" coords="809,90,1012,130"/>
+<area shape="poly" id="edge11_Node000009_Node000010" title=" " alt="" coords="747,151,822,131,824,136,748,157"/>
+<area shape="rect" id="Node000011" href="$a02971.html#a31ad5f8d467dbd7691cce0e32d953ce0" title=" " alt="" coords="819,154,1002,194"/>
+<area shape="poly" id="edge12_Node000009_Node000011" title=" " alt="" coords="762,171,806,171,806,177,762,177"/>
+<area shape="rect" id="Node000012" href="$a01541.html#a9fced4d130ed35de9eb22230b7bd6e56" title="Walks a format string and reports literal text, replacement fields and their specifications to handle..." alt="" coords="822,218,999,258"/>
+<area shape="poly" id="edge13_Node000009_Node000012" title=" " alt="" coords="748,191,824,212,822,217,747,197"/>
+<area shape="rect" id="Node000013" href="$a01541.html#a562623a0bebe727eda8a328a6367f409" title="Parses an arg&#45;id (0, 12, name) at it; leaves it on the character after it." alt="" coords="1060,218,1237,258"/>
+<area shape="poly" id="edge14_Node000012_Node000013" title=" " alt="" coords="1000,235,1046,235,1046,241,1000,241"/>
+<area shape="rect" id="Node000014" href="$a01541.html#adaae5d05b7b1928c889b5c429a0ed1bf" title=" " alt="" coords="1285,186,1463,226"/>
+<area shape="poly" id="edge15_Node000013_Node000014" title=" " alt="" coords="1237,223,1272,218,1272,223,1238,228"/>
+<area shape="rect" id="Node000015" href="$a01541.html#a9a0112c6db4da55a5ecdb292c7b4a207" title=" " alt="" coords="1285,250,1463,290"/>
+<area shape="poly" id="edge16_Node000013_Node000015" title=" " alt="" coords="1238,248,1272,253,1272,258,1237,253"/>
+</map>

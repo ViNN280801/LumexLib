@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: WindowsSEHTranslator.hpp File Reference</title>
+<title>LumexLib: example_circular_buffer_workflow.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,49 +104,110 @@ $(function(){initNavTree('a00371.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#define-members">Macros</a>  </div>
-  <div class="headertitle"><div class="title">WindowsSEHTranslator.hpp File Reference</div></div>
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">example_circular_buffer_workflow.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>The Windows structured exception translator <code>seh_translator()</code> and the <code>SET_SEH_TRANSLATOR</code> macro that installs it.  
-<a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00932_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a01241_source.html">lumex/core/utility/LumexUtility</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00584_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &quot;<a class="el" href="a01358_source.html">lumex/core/circular_buffer/CircularBuffer</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for WindowsSEHTranslator.hpp:</div>
+Include dependency graph for example_circular_buffer_workflow.cpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00372.png" border="0" usemap="#a_windows_s_e_h_translator_8hpp" alt=""/></div>
+<div class="center"><img src="a00372.png" border="0" usemap="#aexample__circular__buffer__workflow_8cpp" alt=""/></div>
+<map name="aexample__circular__buffer__workflow_8cpp" id="aexample__circular__buffer__workflow_8cpp">
+<area shape="rect" title=" " alt="" coords="556,5,735,45"/>
+<area shape="rect" title=" " alt="" coords="512,101,592,126"/>
+<area shape="poly" title=" " alt="" coords="626,48,577,93,574,89,622,44"/>
+<area shape="rect" title=" " alt="" coords="616,101,675,126"/>
+<area shape="poly" title=" " alt="" coords="648,46,648,87,643,87,643,46"/>
+<area shape="rect" href="a01358.html" title="Circular buffer module: a ring buffer with a run&#45;time capacity that overwrites its oldest element whe..." alt="" coords="699,93,859,133"/>
+<area shape="poly" title=" " alt="" coords="678,44,738,83,735,88,675,48"/>
+<area shape="rect" href="a00941.html" title="circular_buffer, a ring buffer with a run&#45;time capacity that overwrites its oldest element when full,..." alt="" coords="709,181,848,207"/>
+<area shape="poly" title=" " alt="" coords="781,134,781,168,776,168,776,134"/>
+<area shape="rect" title=" " alt="" coords="5,262,91,287"/>
+<area shape="poly" title=" " alt="" coords="709,201,393,223,225,239,103,257,92,260,91,255,102,252,224,234,393,217,709,195"/>
+<area shape="rect" title=" " alt="" coords="115,262,186,287"/>
+<area shape="poly" title=" " alt="" coords="709,201,439,223,299,239,198,257,190,260,189,254,197,252,298,234,439,218,709,196"/>
+<area shape="rect" title=" " alt="" coords="210,262,297,287"/>
+<area shape="poly" title=" " alt="" coords="709,201,527,219,417,235,309,257,298,260,297,255,307,252,416,230,526,213,709,195"/>
+<area shape="rect" title=" " alt="" coords="321,262,431,287"/>
+<area shape="poly" title=" " alt="" coords="709,207,585,228,443,257,429,261,428,256,442,252,584,223,708,202"/>
+<area shape="rect" title=" " alt="" coords="455,262,526,287"/>
+<area shape="poly" title=" " alt="" coords="719,209,633,230,539,257,533,260,531,254,538,252,632,225,718,204"/>
+<area shape="rect" title=" " alt="" coords="551,262,609,287"/>
+<area shape="poly" title=" " alt="" coords="744,209,622,257,619,259,617,254,620,252,742,204"/>
+<area shape="rect" title=" " alt="" coords="633,262,711,287"/>
+<area shape="poly" title=" " alt="" coords="763,209,701,256,698,252,760,205"/>
+<area shape="rect" title=" " alt="" coords="735,262,822,287"/>
+<area shape="poly" title=" " alt="" coords="781,207,781,248,776,248,776,207"/>
+<area shape="rect" title=" " alt="" coords="901,438,993,463"/>
+<area shape="poly" title=" " alt="" coords="794,205,815,227,836,253,855,288,866,317,876,346,894,381,928,426,924,429,890,384,871,349,861,319,850,290,831,256,811,230,791,209"/>
+<area shape="rect" title=" " alt="" coords="1749,262,1809,287"/>
+<area shape="poly" title=" " alt="" coords="848,193,1042,199,1297,210,1548,227,1651,239,1730,252,1739,255,1738,260,1729,257,1651,244,1547,233,1297,215,1042,204,848,198"/>
+<area shape="rect" title=" " alt="" coords="1833,262,1895,287"/>
+<area shape="poly" title=" " alt="" coords="848,192,1060,196,1341,205,1620,223,1735,236,1822,252,1829,254,1827,259,1821,257,1734,241,1619,228,1341,211,1060,201,848,197"/>
+<area shape="rect" href="a01073.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="1053,255,1235,295"/>
+<area shape="poly" title=" " alt="" coords="837,204,1040,249,1039,254,836,209"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="1049,431,1303,471"/>
+<area shape="poly" title=" " alt="" coords="803,205,834,225,865,253,888,288,899,321,911,351,922,366,938,381,959,392,989,404,1065,425,1064,430,987,409,956,397,934,385,918,369,907,354,894,323,883,291,861,256,831,229,800,209"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="1344,431,1557,471"/>
+<area shape="poly" title=" " alt="" coords="848,197,1058,218,1324,251,1452,271,1562,292,1644,316,1671,328,1687,341,1697,360,1697,377,1689,392,1673,405,1627,425,1571,438,1570,433,1626,419,1670,400,1685,389,1692,376,1692,361,1683,344,1668,333,1642,321,1561,298,1451,276,1323,256,1057,223,848,203"/>
+<area shape="rect" href="a01124.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="1418,343,1673,383"/>
+<area shape="poly" title=" " alt="" coords="849,196,1031,214,1140,230,1249,252,1379,292,1489,335,1487,340,1377,297,1247,257,1139,235,1030,219,848,201"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="948,350,1129,375"/>
+<area shape="poly" title=" " alt="" coords="1121,297,1067,343,1063,339,1118,293"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="1153,343,1343,383"/>
+<area shape="poly" title=" " alt="" coords="1170,293,1215,332,1212,336,1166,297"/>
+<area shape="poly" title=" " alt="" coords="1237,290,1297,311,1356,340,1399,378,1432,418,1428,421,1395,381,1353,345,1295,315,1235,295"/>
+<area shape="poly" title=" " alt="" coords="1180,385,1005,437,1003,431,1178,380"/>
+<area shape="poly" title=" " alt="" coords="1233,385,1203,421,1199,418,1229,381"/>
+<area shape="poly" title=" " alt="" coords="1296,380,1393,423,1391,428,1293,385"/>
+<area shape="poly" title=" " alt="" coords="1525,385,1484,423,1481,419,1522,381"/>
+</map>
 </div>
-</div><div class="textblock"><div class="dynheader">
-This graph shows which files directly or indirectly include this file:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00373.png" border="0" usemap="#a_windows_s_e_h_translator_8hppdep" alt=""/></div>
-</div>
-</div>
-<p><a href="a00371_source.html">Go to the source code of this file.</a></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:a0d7aeb5eed30cf65a5415d7bb1014f5b" id="r_a0d7aeb5eed30cf65a5415d7bb1014f5b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0d7aeb5eed30cf65a5415d7bb1014f5b">SET_SEH_TRANSLATOR</a></td></tr>
-<tr class="separator:a0d7aeb5eed30cf65a5415d7bb1014f5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
+<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The Windows structured exception translator <code>seh_translator()</code> and the <code>SET_SEH_TRANSLATOR</code> macro that installs it. </p>
-<p>On Windows <code>SET_SEH_TRANSLATOR</code> calls <code>_set_se_translator(seh_translator)</code>, which applies to the calling thread only. When a structured exception (an access violation, for example) then occurs in that thread, the translator lets <code><a class="el" href="a00365.html#a229b8ca6ad48bf3d63c3769b549d5817">lumex_crash_handler</a></code> write a minidump and terminates the process with the exception code. MSVC expects the code that installs a translator to be compiled with <code>/EHa</code> (warning C4535 otherwise). <code>LUMEX_EXCEPTION_HANDLE_BEGIN</code> of <code><a class="el" href="a00377.html" title="lumex_base_exception, the base exception of LumexLib that records the stack where it was constructed,...">LumexException.hpp</a></code> expands to this macro. On other platforms the macro is empty and the function is not declared. </p>
-</div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a0d7aeb5eed30cf65a5415d7bb1014f5b" name="a0d7aeb5eed30cf65a5415d7bb1014f5b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0d7aeb5eed30cf65a5415d7bb1014f5b">&#9670;&#160;</a></span>SET_SEH_TRANSLATOR</h2>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define SET_SEH_TRANSLATOR</td>
+          <td class="memname">int main </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00371_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00371_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
+<map name="aa00371_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" id="aa00371_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph">
+<area shape="rect" title=" " alt="" coords="5,157,60,182"/>
+<area shape="rect" href="a02055.html#afbc5c3841ea20a009a439ae264462ea9" title="Access the newest element (back)." alt="" coords="108,5,315,45"/>
+<area shape="poly" title=" " alt="" coords="35,155,61,107,81,79,106,55,114,50,117,54,110,59,85,83,65,110,40,158"/>
+<area shape="rect" href="a02055.html#a3d9d4aeb03998d6bd83b53ccf46d9905" title="Access the oldest element (front)." alt="" coords="127,70,295,125"/>
+<area shape="poly" title=" " alt="" coords="59,155,107,135,126,127,128,132,109,140,61,160"/>
+<area shape="rect" href="a02055.html#a04d667565ac3dcb51157f6448ba77c21" title="Checks whether the buffer is full." alt="" coords="113,149,310,189"/>
+<area shape="poly" title=" " alt="" coords="60,167,99,167,99,172,60,172"/>
+<area shape="rect" href="a02055.html#ab8b530317c0c039c0856ccc14b6e7575" title="Appends a copy of an element." alt="" coords="127,214,295,269"/>
+<area shape="poly" title=" " alt="" coords="61,179,109,199,128,206,126,211,107,204,59,184"/>
+<area shape="rect" href="a02055.html#a5ecc4cbf0af26e45311c542a7d3f7e41" title="Returns the current number of elements in the buffer." alt="" coords="110,293,313,333"/>
+<area shape="poly" title=" " alt="" coords="40,181,66,228,86,255,110,278,120,285,117,289,106,282,82,259,61,231,36,184"/>
+<area shape="rect" href="a02055.html#a8d484612f38792175e6101ef13cb1513" title="Checks whether the buffer is empty." alt="" coords="363,34,531,89"/>
+<area shape="poly" title=" " alt="" coords="315,39,350,44,349,49,314,44"/>
+<area shape="poly" title=" " alt="" coords="295,82,349,74,350,79,296,87"/>
+</map>
+</div>
 
 </div>
 </div>
@@ -155,7 +216,7 @@ Macros</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_c5abfa2a5a0424f8cc91dab0edfcaee4.html">exceptions</a></li><li class="navelem"><a class="el" href="dir_5e607916477df1770f4b94662507e744.html">crash</a></li><li class="navelem"><a class="el" href="a00371.html">WindowsSEHTranslator.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_0355cb929a8769565a0594efea203022.html">circular_buffer</a></li><li class="navelem"><a class="el" href="a00371.html">example_circular_buffer_workflow.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

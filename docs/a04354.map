@@ -1,0 +1,7 @@
+<map id="lumex::core::utility::cast::Detail::is_valid_down_cast&lt; Base, Derived &gt;" name="lumex::core::utility::cast::Detail::is_valid_down_cast&lt; Base, Derived &gt;">
+<area shape="rect" id="Node000001" title="Base can be cast to Derived by downcast: both are pointers to classes or both are lvalue references t..." alt="" coords="464,13,683,67"/>
+<area shape="rect" id="Node000002" href="$a04347.html" title=" " alt="" coords="172,5,416,75"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="430,37,464,37,464,43,430,43"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,27,124,53"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="138,37,172,37,172,43,138,43"/>
+</map>

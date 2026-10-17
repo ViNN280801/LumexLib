@@ -1,0 +1,7 @@
+<map id="lumex::core::utility::ranges::Algorithm::Detail::is_sentinel_for&lt; Sentinel, Iterator, traits::meta::void_t&lt; decltype(std::declval&lt; Iterator const &amp; &gt;()==std::declval&lt; Sentinel const &amp; &gt;()), decltype(std::declval&lt; Iterator const &amp; &gt;() !=std::declval&lt; Sentinel const &amp; &gt;())&gt; &gt;" name="lumex::core::utility::ranges::Algorithm::Detail::is_sentinel_for&lt; Sentinel, Iterator, traits::meta::void_t&lt; decltype(std::declval&lt; Iterator const &amp; &gt;()==std::declval&lt; Sentinel const &amp; &gt;()), decltype(std::declval&lt; Iterator const &amp; &gt;() !=std::declval&lt; Sentinel const &amp; &gt;())&gt; &gt;">
+<area shape="rect" id="Node000001" title=" " alt="" coords="325,5,572,163"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="82,21,201,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="215,43,325,61,325,66,214,48"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,71,277,199"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="290,107,325,102,326,107,291,113"/>
+</map>

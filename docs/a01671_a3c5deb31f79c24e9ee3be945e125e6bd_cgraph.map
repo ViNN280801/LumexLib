@@ -1,0 +1,9 @@
+<map id="lumex::xml::utility::stringview_equal" name="lumex::xml::utility::stringview_equal">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,91,148,131"/>
+<area shape="rect" id="Node000002" href="$a04167.html#aff8d326ef9c6866116899f0eac72cfea" title="The pointer to the first character; null for a default view." alt="" coords="196,5,383,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="130,89,202,62,204,67,132,94"/>
+<area shape="rect" id="Node000003" href="$a04167.html#aef7453e757e48a1e7b0158b75f958b43" title="The number of characters." alt="" coords="196,84,383,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="148,109,182,109,182,114,148,114"/>
+<area shape="rect" id="Node000004" href="$a01671.html#a93864568db0bec9a41250c719b5da0ee" title=" " alt="" coords="218,163,361,203"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="137,129,218,156,216,161,135,134"/>
+</map>

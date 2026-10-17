@@ -1,0 +1,11 @@
+<map id="Encoder.hpp" name="Encoder.hpp">
+<area shape="rect" id="Node000001" title="Base64 encoding: the encoder class of the lumex::base64 library." alt="" coords="77,5,179,31"/>
+<area shape="rect" id="Node000002" href="$a00956.html" title=" " alt="" coords="13,79,113,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="110,43,76,80,72,76,106,39"/>
+<area shape="rect" id="Node000003" href="$a01355.html" title="Base64 module: encoding, decoding and syntax checks of Base64 text." alt="" coords="137,79,252,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="151,39,185,76,181,80,147,43"/>
+<area shape="rect" id="Node000004" href="$a00404.html" title=" " alt="" coords="5,152,165,177"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="166,114,106,154,103,150,163,109"/>
+<area shape="rect" id="Node000005" href="$a00401.html" title=" " alt="" coords="190,152,415,177"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="227,110,285,150,282,154,224,114"/>
+</map>

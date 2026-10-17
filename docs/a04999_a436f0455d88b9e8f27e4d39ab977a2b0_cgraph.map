@@ -1,0 +1,12 @@
+<map id="lumex::core::fmt::formatter&lt; pressure_t, wchar_t &gt;::format" name="lumex::core::fmt::formatter&lt; pressure_t, wchar_t &gt;::format">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,54,205,109"/>
+<area shape="rect" id="Node000002" href="$a01540.html#a4f41d65453fdbe85e6e80736ab5488ea" title="Writes the formatted text through an output iterator." alt="" coords="253,37,456,62"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="205,66,242,61,243,66,206,71"/>
+<area shape="rect" id="Node000005" href="$a02983.html#a9112c94300e77a697d64cdb6cf167668" title=" " alt="" coords="255,86,455,141"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="206,92,242,96,241,101,205,97"/>
+<area shape="rect" id="Node000003" href="$a01540.html#a1a7369743e9a56cdf14f5bd2ce80b599" title="Type&#45;erased arguments for vformat; the result refers to args, so use it within the same full expressi..." alt="" coords="504,29,679,69"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="456,47,490,47,490,52,456,52"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="549,30,547,20,554,10,569,5,591,3,617,6,632,13,629,18,616,11,591,8,570,10,557,15,552,21,555,28"/>
+<area shape="rect" id="Node000004" href="$a01541.html#a7c0b83d64d43d9c8746e82f05d43db5a" title=" " alt="" coords="727,29,904,69"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="679,47,713,47,713,52,679,52"/>
+</map>

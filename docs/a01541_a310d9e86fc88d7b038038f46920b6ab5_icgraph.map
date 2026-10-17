@@ -1,0 +1,18 @@
+<map id="lumex::core::fmt::Detail::write_number" name="lumex::core::fmt::Detail::write_number">
+<area shape="rect" id="Node000001" title="Writes a number: prefix (sign and base prefix) then digits, zero&#45;padded after the prefix when 0 is se..." alt="" coords="788,149,965,189"/>
+<area shape="rect" id="Node000002" href="$a01541.html#a6b34c5fe47ddfae5a9c589dccabb1828" title=" " alt="" coords="305,5,483,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="796,148,461,48,462,43,797,143"/>
+<area shape="rect" id="Node000004" href="$a01541.html#a7898bf6375c2b5c9cb5388739286a138" title="Writes an integer given as sign + magnitude." alt="" coords="563,149,740,189"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="774,172,740,172,740,167,774,167"/>
+<area shape="rect" id="Node000007" href="$a01541.html#a47271428753ee1d5c3ca1d7ad954a017" title=" " alt="" coords="563,256,740,296"/>
+<area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="823,198,695,258,693,253,821,193"/>
+<area shape="rect" id="Node000003" href="$a03099.html#a16ef79c73db159e87e2fa860cdb76b82" title=" " alt="" coords="5,153,225,193"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="308,52,275,66,200,111,141,155,138,151,197,107,272,62,305,48"/>
+<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="604,145,561,125,514,111,447,98,394,94,341,99,274,111,209,130,153,156,151,151,207,125,273,105,340,93,394,89,448,93,515,105,563,120,606,140"/>
+<area shape="rect" id="Node000005" href="$a03119.html#a63e555d41c58a3f16e9cdbc4a7b4be4c" title=" " alt="" coords="273,120,515,219"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="549,172,515,172,515,167,549,167"/>
+<area shape="rect" id="Node000006" href="$a01541.html#a70073520a5772944d567f23f0c4f76af" title=" " alt="" coords="305,243,483,283"/>
+<area shape="poly" id="edge6_Node000004_Node000006" title=" " alt="" coords="600,198,516,233,478,245,476,240,514,228,598,193"/>
+<area shape="poly" id="edge7_Node000006_Node000003" title=" " alt="" coords="301,242,273,233,166,196,168,191,274,228,302,236"/>
+<area shape="poly" id="edge9_Node000007_Node000003" title=" " alt="" coords="562,301,497,312,423,317,347,314,309,307,272,297,229,277,190,250,131,196,135,192,193,246,232,272,274,292,310,302,347,308,423,312,496,306,561,296"/>
+</map>

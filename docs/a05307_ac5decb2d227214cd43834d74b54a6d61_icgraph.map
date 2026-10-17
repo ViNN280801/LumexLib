@@ -1,0 +1,28 @@
+<map id="lumex::xml::xpath::parser::XPathParser::parse_path_or_unary_expression" name="lumex::xml::xpath::parser::XPathParser::parse_path_or_unary_expression">
+<area shape="rect" id="Node000001" title="Parses a PathExpr, UnionExpr, or UnaryExpr production." alt="" coords="1155,170,1321,239"/>
+<area shape="rect" id="Node000002" href="$a05307.html#a0db2c6a36b7bb7d4555b6fad1c547bc2" title="Parses a general XPath expression (Expr)." alt="" coords="739,127,888,181"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1141,203,888,173,888,167,1141,198"/>
+<area shape="rect" id="Node000010" href="$a05307.html#a6263a1f1e32bf9258c8123f0064fc3ea" title="Recursively parses binary expressions based on operator precedence." alt="" coords="936,228,1107,283"/>
+<area shape="poly" id="edge14_Node000001_Node000010" title=" " alt="" coords="1142,230,1107,238,1106,233,1140,225"/>
+<area shape="poly" id="edge6_Node000002_Node000001" title=" " alt="" coords="902,154,1155,185,1154,190,901,160"/>
+<area shape="rect" id="Node000003" href="$a05307.html#aba27010788f3f47a1ad2d1f0b0c00d61" title="Parses the XPath query." alt="" coords="515,149,664,204"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="725,166,665,172,664,166,724,160"/>
+<area shape="rect" id="Node000005" href="$a05307.html#a36eceab449e9caffedaba9928580dca9" title="Parses a FilterExpr production in the XPath grammar." alt="" coords="237,5,418,60"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="777,119,737,87,690,60,621,41,549,30,480,26,418,27,418,22,480,21,550,25,622,35,692,56,740,82,780,115"/>
+<area shape="rect" id="Node000006" href="$a05307.html#a94a6d92fbfc6de074d2b4a9dfc706acc" title="Parses a PrimaryExpr production in the XPath grammar." alt="" coords="488,71,691,125"/>
+<area shape="poly" id="edge7_Node000002_Node000006" title=" " alt="" coords="725,135,690,126,692,121,726,129"/>
+<area shape="rect" id="Node000007" href="$a05307.html#a9c860c7129b5f44bb914b8a6649fe187" title="Parses a Step production in the XPath grammar." alt="" coords="515,228,664,283"/>
+<area shape="poly" id="edge9_Node000002_Node000007" title=" " alt="" coords="750,190,692,218,662,230,660,225,690,213,748,185"/>
+<area shape="rect" id="Node000004" href="$a05315.html#a2a56412faeaeb1eebca754f5e970c9e4" title="Constructs an XPathQuery by parsing the given query string." alt="" coords="215,157,440,197"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="501,179,440,179,440,174,501,174"/>
+<area shape="poly" id="edge5_Node000005_Node000001" title=" " alt="" coords="432,23,488,21,590,15,634,15,691,21,811,43,903,69,1108,146,1161,167,1159,172,1106,151,901,74,810,48,690,26,634,20,590,20,488,26,432,28"/>
+<area shape="poly" id="edge8_Node000006_Node000005" title=" " alt="" coords="474,72,418,58,419,53,475,67"/>
+<area shape="rect" id="Node000008" href="$a05307.html#a85ae080728b0c9380662df52ac8094b8" title="Parses a RelativeLocationPath production in the XPath grammar." alt="" coords="218,279,437,333"/>
+<area shape="poly" id="edge10_Node000007_Node000008" title=" " alt="" coords="502,275,437,287,436,282,501,270"/>
+<area shape="poly" id="edge13_Node000008_Node000001" title=" " alt="" coords="451,323,588,336,754,341,842,338,932,329,1020,314,1106,291,1156,268,1198,237,1201,242,1158,272,1108,297,1021,319,932,334,843,343,754,346,587,341,450,328"/>
+<area shape="rect" id="Node000009" href="$a05307.html#a6fbb4c6336015c96cd046d723e18a6d5" title="Parses a LocationPath production in the XPath grammar." alt="" coords="5,312,167,367"/>
+<area shape="poly" id="edge11_Node000008_Node000009" title=" " alt="" coords="205,326,167,331,166,326,204,320"/>
+<area shape="poly" id="edge12_Node000009_Node000001" title=" " alt="" coords="181,346,370,361,589,369,813,369,898,371,965,372,1029,361,1105,332,1137,312,1166,288,1211,238,1215,241,1170,292,1140,317,1108,336,1030,367,965,377,898,376,813,374,589,374,369,366,181,352"/>
+<area shape="poly" id="edge15_Node000010_Node000002" title=" " alt="" coords="952,224,868,184,871,179,954,220"/>
+<area shape="poly" id="edge16_Node000010_Node000010" title=" " alt="" coords="1056,217,1043,209,1021,207,1003,209,991,213,986,220,986,228,980,228,981,218,988,209,1002,203,1021,201,1045,204,1058,212"/>
+</map>

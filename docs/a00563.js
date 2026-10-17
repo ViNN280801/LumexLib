@@ -1,16 +1,13 @@
 var a00563 =
 [
-    [ "lumex::core::time::clock::lumex_time", "a04074.html", "a04074" ],
-    [ "lumex_time", "a00563.html#a5b355dcbce15ac2bbfc00d5110a14dd4", null ],
-    [ "lumex::core::time::clock::Constants::K_MICROSECONDS_IN_MILLISECOND", "a01404.html#a92520332f10f7de93c03c8fa00ec3ece", null ],
-    [ "lumex::core::time::clock::Constants::KDEFAULT_DATETIME_BUF_SIZE", "a01404.html#a671e67abbc9991b141ccb6ea913b6170", null ],
-    [ "lumex::core::time::clock::Constants::NS_IN_D", "a01404.html#a9a09901f0cb2371836aea56749964be6", null ],
-    [ "lumex::core::time::clock::Constants::NS_IN_H", "a01404.html#aee175c5f761ca33e9daa712038466e46", null ],
-    [ "lumex::core::time::clock::Constants::NS_IN_M", "a01404.html#ae4851dee738c69b971cd8ef30d1bde23", null ],
-    [ "lumex::core::time::clock::Constants::NS_IN_MCS", "a01404.html#a05f374ba4164eff86a94ac72a7f76f90", null ],
-    [ "lumex::core::time::clock::Constants::NS_IN_MIN", "a01404.html#aa3bb1731becc79770defd32979ecd592", null ],
-    [ "lumex::core::time::clock::Constants::NS_IN_MS", "a01404.html#aae41865849d544e2b2065c79ad5d04a3", null ],
-    [ "lumex::core::time::clock::Constants::NS_IN_S", "a01404.html#ab23f024fdea559a5db8d58650e206481", null ],
-    [ "lumex::core::time::clock::Constants::NS_IN_W", "a01404.html#a204ae22b890f0382c080e185412f2233", null ],
-    [ "lumex::core::time::clock::Constants::NS_IN_Y", "a01404.html#adb9e9c4c5982bb75a94a3e06f58d1540", null ]
+    [ "lumex::xml::xpath::variable::XPathVariable", "a05327.html", "a05327" ],
+    [ "lumex::xml::xpath::variable::xpath_variable_boolean", "a05331.html", "a05331" ],
+    [ "lumex::xml::xpath::variable::xpath_variable_number", "a05335.html", "a05335" ],
+    [ "lumex::xml::xpath::variable::xpath_variable_string", "a05339.html", "a05339" ],
+    [ "lumex::xml::xpath::variable::xpath_variable_node_set", "a05343.html", "a05343" ],
+    [ "lumex::xml::xpath::variable::copy_xpath_variable", "a01680.html#a8c614ae14269eea0013728c7722e8f69", null ],
+    [ "lumex::xml::xpath::variable::delete_xpath_variable", "a01680.html#a0be06ec2c3c4e4250c31819d89fce85e", null ],
+    [ "lumex::xml::xpath::variable::delete_xpath_variable", "a01680.html#a10c437efc4cf016b68b63e55b2fe1672", null ],
+    [ "lumex::xml::xpath::variable::new_xpath_variable", "a01680.html#a8d071b6248d853a14d7dbc4f01968013", null ],
+    [ "lumex::xml::xpath::variable::new_xpath_variable", "a01680.html#ac00f497c2f418ba8cc3ced40dab14be2", null ]
 ];

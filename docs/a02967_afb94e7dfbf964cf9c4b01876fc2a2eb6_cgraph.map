@@ -1,0 +1,14 @@
+<map id="lumex::core::filesystem::fs::lumex_filesystem::remove" name="lumex::core::filesystem::fs::lumex_filesystem::remove">
+<area shape="rect" id="Node000001" title="Removes a file or an empty directory at the specified path_arg." alt="" coords="5,55,180,109"/>
+<area shape="poly" id="edge8_Node000001_Node000001" title=" " alt="" coords="49,55,50,45,57,36,72,30,93,28,118,31,132,39,129,44,116,36,93,33,73,35,60,40,55,46,55,55"/>
+<area shape="rect" id="Node000002" href="$a02947.html#afbc4f64f22c9c5e9057842a5b81178ea" title="Returns a pointer to the null&#45;terminated C&#45;style string representation of the path." alt="" coords="451,62,625,102"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="137,52,180,31,227,16,276,6,315,3,354,6,403,16,452,32,495,53,493,58,450,37,402,21,354,11,315,8,277,11,229,21,182,36,139,57"/>
+<area shape="rect" id="Node000003" href="$a02967.html#a00f75a949bda6f52adc1e19318d74e68" title="Checks if a file or directory exists at the specified path." alt="" coords="228,55,403,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="180,79,214,79,214,85,180,85"/>
+<area shape="rect" id="Node000004" href="$a02967.html#a4be8bab7c98dca322220cdbbee740654" title="Checks if the specified path_arg refers to a directory." alt="" coords="228,157,403,212"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="153,107,245,149,242,154,151,112"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="403,79,437,79,437,85,403,85"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="272,55,272,45,280,36,294,30,315,28,340,31,355,39,352,44,339,36,315,33,296,35,283,40,277,46,277,55"/>
+<area shape="poly" id="edge6_Node000004_Node000002" title=" " alt="" coords="374,155,481,106,483,110,376,160"/>
+<area shape="poly" id="edge7_Node000004_Node000004" title=" " alt="" coords="272,157,272,147,280,138,294,133,315,131,340,134,355,142,352,146,339,139,315,136,296,138,283,143,277,149,277,157"/>
+</map>

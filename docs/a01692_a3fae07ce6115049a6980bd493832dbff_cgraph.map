@@ -1,0 +1,13 @@
+<map id="lumex::xml::xpath::document::document_buffer_order" name="lumex::xml::xpath::document::document_buffer_order">
+<area shape="rect" id="Node000001" title="Retrieves a pointer to a buffer location for document order comparison optimization." alt="" coords="5,127,252,167"/>
+<area shape="rect" id="Node000002" href="$a05283.html#ac344e4ef6ff5cad96438d4c8c9e4eb80" title="Gets the wrapped XmlAttribute if this XPathNode represents an attribute." alt="" coords="318,5,515,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="161,124,224,89,299,55,321,47,323,52,301,60,226,94,164,129"/>
+<area shape="rect" id="Node000003" href="$a05115.html#a0bbf2ddf1ea68f4ed3612fe0a45849eb" title="Retrieves the raw internal XmlAttributeBase pointer wrapped by this XmlAttribute object." alt="" coords="337,69,497,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="229,124,323,105,324,111,230,129"/>
+<area shape="rect" id="Node000004" href="$a05143.html#aaace51cc18e7d56b0d6112a525c63295" title="Retrieves the raw internal XmlNodeBase pointer wrapped by this XmlNode object." alt="" coords="300,134,533,159"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="252,144,287,144,287,149,252,149"/>
+<area shape="rect" id="Node000005" href="$a01676.html#a9ff47d1fab33d9dac2db3f3203dd5b2b" title="Retrieves a reference to the XmlDocumentBase object that owns a given object (node or attribute)." alt="" coords="332,184,501,224"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="230,164,319,182,318,187,229,169"/>
+<area shape="rect" id="Node000006" href="$a05283.html#aab5f8620b5100f640652c56743a21b7b" title="Gets the wrapped XmlNode if this XPathNode represents an element/document node." alt="" coords="330,248,503,288"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="164,165,226,199,301,234,323,241,321,246,299,238,224,204,161,169"/>
+</map>

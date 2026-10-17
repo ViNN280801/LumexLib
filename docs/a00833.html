@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: example_serial.cpp File Reference</title>
+<title>LumexLib: LumexDwcasBackendAsm.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,57 +103,57 @@ $(function(){initNavTree('a00833.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="summary">
-<a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">example_serial.cpp File Reference</div></div>
+  <div class="headertitle"><div class="title">LumexDwcasBackendAsm.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;chrono&gt;</code><br />
-<code>#include &lt;cstdint&gt;</code><br />
-<code>#include &lt;iostream&gt;</code><br />
-<code>#include &lt;string&gt;</code><br />
-<code>#include &lt;vector&gt;</code><br />
-<code>#include &quot;<a class="el" href="a01169_source.html">lumex/applied/serial/LumexSerialPort</a>&quot;</code><br />
+
+<p>The <code>lock cmpxchg16b</code> backend in GNU inline assembly (GCC, Clang, clang-cl, MinGW).  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &lt;cstdint&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00830_source.html">lumex/core/atomic/dwcas/LumexDwcasConfig.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00845_source.html">lumex/core/atomic/dwcas/LumexDwcasFromCas.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00824_source.html">lumex/core/atomic/dwcas/LumexDwcasValue.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01127_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for example_serial.cpp:</div>
+Include dependency graph for LumexDwcasBackendAsm.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00834.png" border="0" usemap="#aexample__serial_8cpp" alt=""/></div>
-</div>
-</div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
-<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int main </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00833_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00833_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
-</div>
-
+<div class="center"><img src="a00834.png" border="0" usemap="#aLumexDwcasBackendAsm_8hpp" alt=""/></div>
+<map name="aLumexDwcasBackendAsm_8hpp" id="aLumexDwcasBackendAsm_8hpp">
+<area shape="rect" title="The lock cmpxchg16b backend in GNU inline assembly (GCC, Clang, clang&#45;cl, MinGW)." alt="" coords="262,5,485,31"/>
+<area shape="rect" title=" " alt="" coords="324,262,391,287"/>
+<area shape="poly" title=" " alt="" coords="392,29,428,60,467,104,481,129,490,155,491,182,482,208,450,230,397,258,394,254,447,226,478,205,486,181,485,156,477,131,462,107,425,64,389,33"/>
+<area shape="rect" href="a00830.html" title="Detection macros of the 128&#45;bit compare&#45;and&#45;swap layer: whether the layer exists on this target and w..." alt="" coords="5,255,195,295"/>
+<area shape="poly" title=" " alt="" coords="268,33,178,52,143,65,121,81,108,98,100,118,91,161,91,204,95,241,90,242,85,204,85,160,94,116,104,95,117,77,141,61,177,47,267,28"/>
+<area shape="rect" href="a00845.html" title="cas_operations_t: load, store and exchange of a 128&#45;bit word built on a backend that only has a compa..." alt="" coords="131,79,328,119"/>
+<area shape="poly" title=" " alt="" coords="352,33,278,74,276,70,349,29"/>
+<area shape="rect" href="a00824.html" title="dwcas_value_t, the 16&#45;byte value of a dwcas_word: two 64&#45;bit halves." alt="" coords="279,167,468,207"/>
+<area shape="poly" title=" " alt="" coords="376,31,376,152,371,152,371,31"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="415,255,628,295"/>
+<area shape="poly" title=" " alt="" coords="410,28,447,48,479,77,502,117,516,161,523,204,525,241,519,241,517,205,511,162,497,119,475,80,444,52,408,33"/>
+<area shape="poly" title=" " alt="" coords="209,121,192,140,178,161,172,184,173,195,178,205,198,221,232,237,312,261,310,266,230,242,196,226,174,208,168,196,167,184,173,159,188,136,205,117"/>
+<area shape="poly" title=" " alt="" coords="209,121,165,168,139,207,118,244,114,241,135,204,161,165,205,117"/>
+<area shape="rect" title=" " alt="" coords="188,174,255,199"/>
+<area shape="poly" title=" " alt="" coords="230,119,226,160,221,160,225,119"/>
+<area shape="poly" title=" " alt="" coords="264,117,330,157,328,162,261,121"/>
+<area shape="poly" title=" " alt="" coords="329,113,419,136,456,149,482,165,496,182,507,201,519,241,514,242,502,203,492,185,478,169,454,154,417,141,328,119"/>
+<area shape="poly" title=" " alt="" coords="372,208,365,249,360,248,367,207"/>
+<area shape="poly" title=" " alt="" coords="312,209,176,253,175,248,310,204"/>
+<area shape="poly" title=" " alt="" coords="409,205,477,245,474,250,406,209"/>
+</map>
 </div>
 </div>
-</div><!-- contents -->
+<p><a href="a00833_source.html">Go to the source code of this file.</a></p>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>The <code>lock cmpxchg16b</code> backend in GNU inline assembly (GCC, Clang, clang-cl, MinGW). </p>
+<p>One instruction, written out by hand, so the compiler needs no <code>-mcx16</code> and no libatomic is linked: GCC sends every 16-byte <code>__atomic_*</code> operation to libatomic, with or without <code>-mcx16</code>, and <code>__sync_*_16</code> without the flag is an undefined symbol. The instruction compares <code>rdx:rax</code> with the 16 bytes at the (16-byte aligned) operand; if equal it stores <code>rcx:rbx</code>, otherwise it loads the 16 bytes into <code>rdx:rax</code>. Either way <code>rdx:rax</code> ends as the value that was in memory, so no flag output is needed: the caller compares the result with the expected value.</p>
+<p><code>lock</code> makes the instruction a full barrier, and the <code>"memory"</code> clobber makes it a compiler barrier, so every C++ memory order is satisfied with the strength of <code>seq_cst</code>; the order arguments are ignored. The address is passed in a register, so the template spells the same instruction for the AT&amp;T and the Intel assembler dialect (<code>-masm=intel</code>); the clobber tells the compiler that memory changes, which is what makes the access safe under strict aliasing (and under <code>-fno-strict-aliasing</code>).</p>
+<p>This file is only meant to be included when <code>LUMEX_DWCAS_BACKEND</code> is <code>LUMEX_DWCAS_BACKEND_ASM</code>. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_17cee27abc1c3519861fbb803c40e452.html">serial</a></li><li class="navelem"><a class="el" href="a00833.html">example_serial.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_46588a2def099f5c90ce8dff319725b2.html">atomic</a></li><li class="navelem"><a class="el" href="dir_0ef745ae619b7a2bc428b08d4c1ccc55.html">dwcas</a></li><li class="navelem"><a class="el" href="a00833.html">LumexDwcasBackendAsm.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

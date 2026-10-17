@@ -1,0 +1,6 @@
+<map id="lumex::core::exceptions::Wrapper::detail::report_line" name="lumex::core::exceptions::Wrapper::detail::report_line">
+<area shape="rect" id="Node000001" title="Sends line to the installed sink. On a null sink or a throw from the sink, writes line to std::cerr." alt="" coords="269,29,476,69"/>
+<area shape="poly" id="edge2_Node000001_Node000001" title=" " alt="" coords="417,18,401,11,373,8,348,10,332,15,327,21,330,28,325,30,322,20,330,10,347,5,373,3,403,6,419,13"/>
+<area shape="rect" id="Node000002" href="$a01522.html#afb06f391d20856dda70f63c9b3e13037" title="Calls func(args...), catching and safely reporting any exception it throws instead of letting it prop..." alt="" coords="5,29,221,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="255,52,221,52,221,47,255,47"/>
+</map>

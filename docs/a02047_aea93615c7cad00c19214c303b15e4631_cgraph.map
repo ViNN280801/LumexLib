@@ -1,0 +1,5 @@
+<map id="lumex::core::base64::encode::encoder::encode" name="lumex::core::base64::encode::encoder::encode">
+<area shape="rect" id="Node000001" title="Encodes raw binary data into a Base64 string." alt="" coords="5,5,197,45"/>
+<area shape="rect" id="Node000002" href="$a01501.html#abda97488987b0b151816d6cc1ee24873" title="Internal helper to encode binary data into a Base64 string from a view&#45;like type." alt="" coords="245,5,456,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="197,23,232,23,232,28,197,28"/>
+</map>

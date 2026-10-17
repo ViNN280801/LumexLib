@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::core::reflection::field_reflection Namespace Reference</title>
+<title>LumexLib: LumexFormat File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,259 +104,178 @@ $(function(){initNavTree('a01379.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#namespaces">Namespaces</a> &#124;
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#func-members">Functions</a> &#124;
-<a href="#var-members">Variables</a>  </div>
-  <div class="headertitle"><div class="title">lumex::core::reflection::field_reflection Namespace Reference</div></div>
+<a href="#define-members">Macros</a>  </div>
+  <div class="headertitle"><div class="title">LumexFormat File Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Format module: <code>std::format</code>-style text formatting from C++11 on, including ranges, tuples and <code>std::chrono</code> types.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &quot;<a class="el" href="a01013_source.html">LumexFormat.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01016_source.html">LumexFormatChrono.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01019_source.html">LumexFormatRanges.hpp</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for LumexFormat:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01380.png" border="0" usemap="#aLumexFormat" alt=""/></div>
+<map name="aLumexFormat" id="aLumexFormat">
+<area shape="rect" title="Format module: std::format&#45;style text formatting from C++11 on, including ranges, tuples and std::chr..." alt="" coords="2415,5,2527,31"/>
+<area shape="rect" href="a01013.html" title="std::format&#45;style text formatting from C++11 on." alt="" coords="1847,152,1987,177"/>
+<area shape="poly" title=" " alt="" coords="2424,33,1979,151,1977,146,2422,28"/>
+<area shape="rect" href="a01016.html" title="std::chrono::duration and system_clock time points for LumexFormat, with the chrono specification of ..." alt="" coords="3046,79,3233,104"/>
+<area shape="poly" title=" " alt="" coords="2528,22,3032,77,3032,82,2527,27"/>
+<area shape="rect" href="a01019.html" title="Ranges, std::pair and std::tuple for LumexFormat, as the C++23 range formatting of std::format (P2286..." alt="" coords="2377,79,2565,104"/>
+<area shape="poly" title=" " alt="" coords="2474,31,2474,65,2469,65,2469,31"/>
+<area shape="rect" title=" " alt="" coords="1250,233,1317,258"/>
+<area shape="poly" title=" " alt="" coords="1847,169,1746,173,1618,183,1476,201,1336,228,1326,231,1325,226,1335,223,1476,196,1617,178,1745,168,1846,163"/>
+<area shape="rect" title=" " alt="" coords="2071,233,2139,258"/>
+<area shape="poly" title=" " alt="" coords="1948,175,2064,225,2062,230,1945,180"/>
+<area shape="rect" title=" " alt="" coords="2836,233,2899,258"/>
+<area shape="poly" title=" " alt="" coords="1987,163,2173,169,2415,180,2652,197,2750,209,2824,223,2831,225,2830,230,2823,228,2749,214,2652,203,2415,185,2173,174,1987,169"/>
+<area shape="rect" title=" " alt="" coords="2424,321,2495,346"/>
+<area shape="poly" title=" " alt="" coords="1987,166,2249,186,2370,203,2412,212,2436,223,2450,242,2459,264,2464,307,2458,307,2454,265,2446,244,2432,227,2410,217,2369,208,2248,192,1987,171"/>
+<area shape="rect" title=" " alt="" coords="1391,233,1458,258"/>
+<area shape="poly" title=" " alt="" coords="1847,171,1674,188,1572,204,1471,228,1464,230,1462,225,1469,223,1571,199,1673,182,1846,165"/>
+<area shape="rect" title=" " alt="" coords="1482,233,1543,258"/>
+<area shape="poly" title=" " alt="" coords="1847,173,1711,192,1633,208,1556,228,1551,230,1549,225,1555,223,1631,202,1710,187,1846,168"/>
+<area shape="rect" title=" " alt="" coords="1568,233,1633,258"/>
+<area shape="poly" title=" " alt="" coords="1847,179,1750,199,1646,228,1640,230,1638,225,1644,223,1749,194,1846,174"/>
+<area shape="rect" title=" " alt="" coords="1657,233,1744,258"/>
+<area shape="poly" title=" " alt="" coords="1883,180,1748,230,1746,225,1882,175"/>
+<area shape="rect" title=" " alt="" coords="1769,233,1849,258"/>
+<area shape="poly" title=" " alt="" coords="1901,180,1838,226,1835,222,1898,175"/>
+<area shape="rect" title=" " alt="" coords="2732,321,2803,346"/>
+<area shape="poly" title=" " alt="" coords="1987,167,2261,189,2404,205,2507,223,2570,242,2633,266,2732,312,2730,317,2630,271,2569,247,2505,228,2403,210,2261,194,1987,172"/>
+<area shape="rect" title=" " alt="" coords="981,321,1039,346"/>
+<area shape="poly" title=" " alt="" coords="1846,171,1454,193,1259,210,1189,219,1148,228,1114,245,1082,267,1033,312,1029,308,1079,263,1111,241,1147,223,1188,213,1258,204,1454,188,1846,165"/>
+<area shape="rect" title=" " alt="" coords="2750,233,2811,258"/>
+<area shape="poly" title=" " alt="" coords="1987,165,2289,183,2484,200,2681,223,2737,233,2736,238,2680,228,2484,205,2289,188,1987,170"/>
+<area shape="rect" title=" " alt="" coords="1064,321,1140,346"/>
+<area shape="poly" title=" " alt="" coords="1847,170,1483,192,1303,208,1240,218,1203,228,1177,245,1153,266,1119,311,1115,307,1150,263,1173,240,1201,223,1239,213,1303,203,1482,186,1847,165"/>
+<area shape="rect" title=" " alt="" coords="3126,233,3201,258"/>
+<area shape="poly" title=" " alt="" coords="1987,166,2381,189,2912,223,3113,238,3112,244,2911,228,2380,194,1987,171"/>
+<area shape="rect" title=" " alt="" coords="1873,233,1960,258"/>
+<area shape="poly" title=" " alt="" coords="1919,178,1919,218,1914,218,1914,178"/>
+<area shape="rect" title=" " alt="" coords="2519,321,2578,346"/>
+<area shape="poly" title=" " alt="" coords="1987,163,2105,167,2244,177,2375,195,2427,207,2466,223,2490,241,2511,263,2539,307,2535,310,2506,266,2487,245,2463,228,2426,213,2374,200,2244,182,2104,173,1987,168"/>
+<area shape="rect" title=" " alt="" coords="2616,497,2708,522"/>
+<area shape="poly" title=" " alt="" coords="1987,163,2113,168,2264,178,2407,195,2464,208,2507,223,2543,246,2573,277,2598,312,2618,349,2646,424,2660,483,2655,484,2641,425,2613,352,2594,314,2569,280,2540,250,2505,228,2463,213,2406,201,2263,183,2113,173,1987,169"/>
+<area shape="rect" title=" " alt="" coords="1285,321,1345,346"/>
+<area shape="poly" title=" " alt="" coords="1847,168,1688,173,1496,183,1327,200,1270,213,1251,220,1240,227,1234,237,1233,247,1242,270,1262,292,1285,311,1282,315,1258,296,1237,273,1227,248,1229,235,1236,223,1249,215,1268,208,1327,195,1495,177,1688,167,1847,163"/>
+<area shape="rect" title=" " alt="" coords="1984,233,2047,258"/>
+<area shape="poly" title=" " alt="" coords="1934,176,1991,222,1987,226,1931,180"/>
+<area shape="rect" title=" " alt="" coords="1164,321,1261,346"/>
+<area shape="poly" title=" " alt="" coords="1846,169,1685,173,1489,184,1317,201,1258,213,1226,227,1215,245,1209,265,1210,307,1205,307,1204,264,1210,242,1223,223,1256,208,1316,196,1489,178,1685,168,1846,163"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="563,401,753,441"/>
+<area shape="poly" title=" " alt="" coords="1847,169,1254,189,939,207,825,217,759,228,708,241,668,254,635,276,606,315,601,333,604,353,614,372,628,389,624,393,610,375,599,354,595,333,601,312,632,272,666,250,707,236,758,223,825,212,939,201,1253,184,1847,164"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="683,489,897,529"/>
+<area shape="poly" title=" " alt="" coords="1847,171,1720,178,1574,190,1448,207,1404,217,1381,227,1370,242,1366,256,1369,287,1373,321,1369,338,1359,355,1329,385,1300,404,1270,416,1240,423,1174,429,1137,435,1095,444,906,489,905,484,1093,439,1136,429,1174,424,1239,417,1269,411,1297,399,1326,380,1355,352,1364,336,1368,320,1364,288,1361,256,1366,239,1378,223,1403,212,1447,201,1574,185,1720,173,1846,165"/>
+<area shape="rect" href="a01121.html" title="Macros that declare an exception class in one line." alt="" coords="2163,225,2423,265"/>
+<area shape="poly" title=" " alt="" coords="1976,175,2186,220,2185,225,1975,180"/>
+<area shape="rect" href="a01067.html" title="Every general&#45;purpose type trait of LumexLib, one sub&#45;namespace of lumex::core::utility::traits per t..." alt="" coords="771,225,972,265"/>
+<area shape="poly" title=" " alt="" coords="1846,170,1480,187,1238,204,992,228,986,229,985,223,991,223,1237,199,1480,182,1846,164"/>
+<area shape="poly" title=" " alt="" coords="753,432,816,439,1084,458,1358,473,1885,494,2324,503,2602,506,2602,512,2324,509,1885,499,1358,479,1084,463,815,444,753,437"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="249,489,504,529"/>
+<area shape="poly" title=" " alt="" coords="595,444,455,488,454,482,593,439"/>
+<area shape="poly" title=" " alt="" coords="690,440,750,479,747,484,687,444"/>
+<area shape="poly" title=" " alt="" coords="2365,263,2507,311,2511,313,2509,317,2505,316,2363,268"/>
+<area shape="poly" title=" " alt="" coords="2163,267,2150,268,1917,291,1688,310,1359,333,1359,328,1688,305,1916,286,2150,263,2162,261"/>
+<area shape="poly" title=" " alt="" coords="973,248,2410,328,2410,333,972,254"/>
+<area shape="poly" title=" " alt="" coords="972,249,1238,263,1618,275,1915,280,2210,288,2590,311,2719,324,2718,329,2590,316,2210,294,1914,285,1618,281,1238,268,972,254"/>
+<area shape="poly" title=" " alt="" coords="905,263,980,311,977,315,902,268"/>
+<area shape="poly" title=" " alt="" coords="926,263,1052,311,1058,313,1056,318,1050,316,924,268"/>
+<area shape="poly" title=" " alt="" coords="972,249,1238,263,1517,266,1875,267,2059,270,2232,277,2385,290,2507,311,2514,313,2512,318,2505,316,2384,295,2232,282,2059,275,1875,272,1516,272,1238,268,972,254"/>
+<area shape="poly" title=" " alt="" coords="889,264,930,314,952,337,970,351,1009,365,1071,378,1247,404,1477,428,1735,450,2249,484,2602,504,2602,509,2248,490,1735,455,1476,433,1247,409,1070,383,1008,370,967,356,949,341,926,318,885,267"/>
+<area shape="poly" title=" " alt="" coords="973,252,1116,273,1196,290,1274,311,1279,313,1278,318,1272,316,1195,295,1115,279,972,257"/>
+<area shape="poly" title=" " alt="" coords="963,263,1152,311,1163,314,1161,319,1151,316,961,268"/>
+<area shape="poly" title=" " alt="" coords="771,252,623,259,458,272,319,291,273,302,248,315,236,335,234,357,241,379,254,401,293,444,336,479,333,483,289,448,249,404,236,381,229,357,231,334,244,311,271,297,318,286,458,267,622,254,770,246"/>
+<area shape="poly" title=" " alt="" coords="866,267,818,402,800,476,794,475,813,401,861,265"/>
+<area shape="rect" title=" " alt="" coords="616,321,703,346"/>
+<area shape="poly" title=" " alt="" coords="824,268,704,318,702,313,822,263"/>
+<area shape="rect" title=" " alt="" coords="727,321,805,346"/>
+<area shape="poly" title=" " alt="" coords="849,268,794,314,791,309,845,264"/>
+<area shape="rect" title=" " alt="" coords="128,321,183,346"/>
+<area shape="poly" title=" " alt="" coords="771,254,466,279,313,296,203,316,195,318,194,313,201,311,312,291,465,274,770,249"/>
+<area shape="rect" title=" " alt="" coords="258,321,333,346"/>
+<area shape="poly" title=" " alt="" coords="771,253,572,273,458,291,345,316,337,319,335,313,344,311,457,286,572,268,770,248"/>
+<area shape="rect" href="a01073.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="357,313,540,353"/>
+<area shape="poly" title=" " alt="" coords="776,268,554,314,553,309,774,263"/>
+<area shape="rect" href="a01124.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="828,401,1083,441"/>
+<area shape="poly" title=" " alt="" coords="883,264,942,387,937,390,879,267"/>
+<area shape="poly" title=" " alt="" coords="498,351,599,394,597,398,496,356"/>
+<area shape="poly" title=" " alt="" coords="408,356,378,374,353,395,345,406,341,418,342,429,348,439,362,448,389,456,470,472,670,496,669,502,469,477,387,462,360,453,344,443,337,430,336,417,340,404,349,392,375,370,405,351"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="358,409,539,434"/>
+<area shape="poly" title=" " alt="" coords="451,354,451,395,446,395,446,354"/>
+<area shape="poly" title=" " alt="" coords="919,444,841,485,838,481,916,439"/>
+<area shape="poly" title=" " alt="" coords="3046,100,2000,162,2000,157,3046,94"/>
+<area shape="poly" title=" " alt="" coords="3114,107,3021,154,2900,227,2897,223,3018,150,3111,102"/>
+<area shape="poly" title=" " alt="" coords="3129,106,3096,140,3045,185,2982,231,2912,268,2854,288,2803,298,2756,301,2712,300,2621,299,2569,304,2508,316,2500,318,2499,313,2507,311,2568,298,2621,293,2712,295,2756,296,2802,292,2852,282,2910,263,2979,226,3042,181,3092,136,3126,102"/>
+<area shape="poly" title=" " alt="" coords="3195,102,3233,120,3250,134,3264,151,3271,167,3272,184,3261,217,3239,246,3214,268,3183,283,3139,296,3029,315,2913,328,2816,334,2816,329,2912,322,3029,310,3138,291,3181,278,3211,263,3235,243,3256,215,3267,184,3266,168,3260,153,3247,137,3230,125,3193,106"/>
+<area shape="poly" title=" " alt="" coords="3102,107,2972,154,2889,193,2818,229,2816,224,2887,188,2970,150,3100,102"/>
+<area shape="poly" title=" " alt="" coords="3182,102,3216,121,3232,134,3245,151,3249,173,3239,194,3222,212,3201,228,3198,223,3218,208,3235,191,3243,172,3240,153,3228,138,3213,125,3179,107"/>
+<area shape="poly" title=" " alt="" coords="3138,105,3104,192,3081,238,3058,268,2998,279,2866,296,2592,331,2591,325,2866,291,2997,273,3055,263,3077,235,3099,190,3133,103"/>
+<area shape="poly" title=" " alt="" coords="3200,101,3255,120,3311,149,3335,168,3354,190,3367,216,3371,245,3371,334,3366,358,3350,380,3325,400,3293,418,3210,447,3110,470,3002,486,2895,498,2722,510,2722,505,2895,493,3001,481,3109,465,3208,442,3291,413,3322,396,3346,377,3361,356,3366,333,3366,246,3362,217,3350,193,3331,171,3308,153,3253,125,3198,107"/>
+<area shape="poly" title=" " alt="" coords="3144,104,3152,138,3168,176,3180,190,3192,198,3205,208,3215,224,3222,246,3221,256,3215,267,3172,311,3129,337,3085,351,3039,355,2937,351,2879,350,2816,356,2541,393,2260,423,1981,448,1712,469,1241,496,911,509,911,503,1240,490,1712,463,1980,443,2259,418,2540,387,2815,351,2879,345,2937,346,3039,350,3084,346,3127,332,3169,306,3211,264,3216,255,3217,247,3210,226,3201,212,3189,203,3176,194,3164,179,3147,139,3139,105"/>
+<area shape="rect" title=" " alt="" coords="3406,152,3473,177"/>
+<area shape="poly" title=" " alt="" coords="3192,101,3393,151,3392,156,3191,107"/>
+<area shape="rect" title=" " alt="" coords="3497,152,3555,177"/>
+<area shape="poly" title=" " alt="" coords="3230,101,3347,121,3484,149,3483,155,3346,126,3229,107"/>
+<area shape="rect" title=" " alt="" coords="3177,152,3229,177"/>
+<area shape="poly" title=" " alt="" coords="3153,102,3185,140,3181,143,3149,106"/>
+<area shape="poly" title=" " alt="" coords="2378,106,2001,156,2001,151,2377,101"/>
+<area shape="poly" title=" " alt="" coords="2474,104,2467,265,2464,307,2459,307,2462,265,2468,104"/>
+<area shape="poly" title=" " alt="" coords="2558,101,2657,120,2765,147,2814,163,2858,181,2892,201,2914,224,2921,245,2914,267,2894,289,2870,306,2817,327,2815,322,2867,301,2891,285,2909,264,2916,245,2909,227,2888,206,2855,186,2813,168,2763,152,2656,125,2557,107"/>
+<area shape="poly" title=" " alt="" coords="2561,101,2661,122,2704,135,2733,150,2748,165,2760,183,2776,218,2771,220,2756,185,2744,168,2730,154,2702,140,2659,127,2560,107"/>
+<area shape="poly" title=" " alt="" coords="2478,104,2543,307,2538,308,2473,105"/>
+<area shape="poly" title=" " alt="" coords="2566,97,2695,115,2833,144,2894,163,2944,186,2977,213,2987,229,2990,245,2990,333,2988,355,2982,376,2961,410,2930,439,2891,461,2848,479,2803,491,2722,506,2721,501,2802,486,2846,474,2889,456,2926,434,2957,407,2977,373,2983,354,2985,333,2985,246,2982,230,2973,217,2941,190,2892,168,2832,149,2694,120,2565,103"/>
+<area shape="poly" title=" " alt="" coords="2377,97,2091,109,1726,134,1550,151,1398,173,1286,198,1248,212,1227,227,1220,238,1220,248,1231,271,1254,293,1281,311,1278,316,1250,297,1226,274,1214,249,1215,236,1223,224,1246,207,1284,193,1397,167,1549,146,1725,129,2090,104,2377,92"/>
+<area shape="poly" title=" " alt="" coords="2377,95,1834,105,1460,115,1068,130,698,150,386,176,264,191,171,208,112,227,97,236,93,246,93,334,89,344,79,350,52,355,11,353,68,367,335,439,421,459,509,475,670,497,669,502,509,481,420,464,333,444,66,373,6,352,52,350,77,345,85,340,87,333,87,245,93,233,110,222,170,203,263,186,385,170,697,144,1068,125,1459,110,1834,100,2377,90"/>
+<area shape="poly" title=" " alt="" coords="2377,96,1673,118,1305,135,1172,144,1093,155,1046,168,1000,185,921,221,919,217,998,180,1045,163,1092,149,1171,139,1305,129,1673,112,2377,91"/>
+<area shape="poly" title=" " alt="" coords="2377,96,1690,116,1299,133,1136,143,1013,155,908,170,826,186,641,228,433,269,227,316,196,324,195,319,225,311,432,264,640,223,825,181,907,164,1012,149,1136,138,1299,128,1690,111,2377,91"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01381.png" border="0" usemap="#aLumexFormatdep" alt=""/></div>
+<map name="aLumexFormatdep" id="aLumexFormatdep">
+<area shape="rect" title="Format module: std::format&#45;style text formatting from C++11 on, including ranges, tuples and std::chr..." alt="" coords="560,5,672,31"/>
+<area shape="rect" href="a00473.html" title=" " alt="" coords="5,79,163,104"/>
+<area shape="poly" title=" " alt="" coords="547,30,175,81,163,83,163,78,174,76,546,25"/>
+<area shape="rect" href="a00464.html" title=" " alt="" coords="187,79,371,104"/>
+<area shape="poly" title=" " alt="" coords="547,36,338,81,337,76,546,30"/>
+<area shape="rect" href="a00461.html" title=" " alt="" coords="395,79,603,104"/>
+<area shape="poly" title=" " alt="" coords="586,40,521,81,518,76,583,36"/>
+<area shape="rect" href="a00470.html" title=" " alt="" coords="627,79,839,104"/>
+<area shape="poly" title=" " alt="" coords="649,36,714,76,711,81,646,40"/>
+<area shape="rect" href="a00476.html" title=" " alt="" coords="864,79,1072,104"/>
+<area shape="poly" title=" " alt="" coords="686,30,907,76,906,81,685,35"/>
+<area shape="rect" href="a00467.html" title=" " alt="" coords="1097,79,1319,104"/>
+<area shape="poly" title=" " alt="" coords="686,24,1106,76,1105,81,685,29"/>
+</map>
+</div>
+</div>
+<p><a href="a01379_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01380.html">detail</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03614.html">tuple_size</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:affc4125f1c661b62d9a1011d7c589dc9" id="r_affc4125f1c661b62d9a1011d7c589dc9"><td class="memTemplParams" colspan="2">template&lt;std::size_t Index, typename Aggregate&gt; </td></tr>
-<tr class="memitem:affc4125f1c661b62d9a1011d7c589dc9"><td class="memTemplItemLeft" align="right" valign="top">decltype(auto)&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#affc4125f1c661b62d9a1011d7c589dc9">get</a> (Aggregate &amp;value) noexcept</td></tr>
-<tr class="memdesc:affc4125f1c661b62d9a1011d7c589dc9"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <code>Index</code>-th field of an aggregate, by reference.  <br /></td></tr>
-<tr class="separator:affc4125f1c661b62d9a1011d7c589dc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af734b0fe3e627e210ec21f71e86e7d5f" id="r_af734b0fe3e627e210ec21f71e86e7d5f"><td class="memTemplParams" colspan="2">template&lt;std::size_t Index, typename Aggregate&gt; </td></tr>
-<tr class="memitem:af734b0fe3e627e210ec21f71e86e7d5f"><td class="memTemplItemLeft" align="right" valign="top">decltype(auto)&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#af734b0fe3e627e210ec21f71e86e7d5f">get</a> (Aggregate const &amp;value) noexcept</td></tr>
-<tr class="separator:af734b0fe3e627e210ec21f71e86e7d5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0a8d34c9fd7381d1fb19e20251b0c67a" id="r_a0a8d34c9fd7381d1fb19e20251b0c67a"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a0a8d34c9fd7381d1fb19e20251b0c67a"><td class="memTemplItemLeft" align="right" valign="top">std::array&lt; char const *, <a class="el" href="a03614.html">tuple_size</a>&lt; Aggregate &gt;::value &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a0a8d34c9fd7381d1fb19e20251b0c67a">names_as_array</a> () noexcept</td></tr>
-<tr class="memdesc:a0a8d34c9fd7381d1fb19e20251b0c67a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The names of the fields of an aggregate, in declaration order.  <br /></td></tr>
-<tr class="separator:a0a8d34c9fd7381d1fb19e20251b0c67a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adf61047afd5b3dcf759431721bae5a13" id="r_adf61047afd5b3dcf759431721bae5a13"><td class="memTemplParams" colspan="2">template&lt;typename Struct&gt; </td></tr>
-<tr class="memitem:adf61047afd5b3dcf759431721bae5a13"><td class="memTemplItemLeft" align="right" valign="top">nlohmann::json&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#adf61047afd5b3dcf759431721bae5a13">to_json</a> (Struct const &amp;obj)</td></tr>
-<tr class="memdesc:adf61047afd5b3dcf759431721bae5a13"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serializes a simple aggregate to JSON, visiting every field.  <br /></td></tr>
-<tr class="separator:adf61047afd5b3dcf759431721bae5a13"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:a3ce0ada95e71ecd52eaedeff52d0a902" id="r_a3ce0ada95e71ecd52eaedeff52d0a902"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a3ce0ada95e71ecd52eaedeff52d0a902"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::size_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a3ce0ada95e71ecd52eaedeff52d0a902">tuple_size_v</a> = <a class="el" href="a03614.html">tuple_size</a>&lt;Aggregate&gt;::value</td></tr>
-<tr class="separator:a3ce0ada95e71ecd52eaedeff52d0a902"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:ab3b5e6ee8f5a0b2801d5bc6d67f0a09c" id="r_ab3b5e6ee8f5a0b2801d5bc6d67f0a09c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab3b5e6ee8f5a0b2801d5bc6d67f0a09c">LUMEX_CORE_FMT_HPP</a></td></tr>
+<tr class="separator:ab3b5e6ee8f5a0b2801d5bc6d67f0a09c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="affc4125f1c661b62d9a1011d7c589dc9" name="affc4125f1c661b62d9a1011d7c589dc9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#affc4125f1c661b62d9a1011d7c589dc9">&#9670;&#160;</a></span>get() <span class="overload">[1/2]</span></h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Format module: <code>std::format</code>-style text formatting from C++11 on, including ranges, tuples and <code>std::chrono</code> types. </p>
+<p>Link <code>lumex::fmt</code> (header-only). Works from C++11; from C++20 a literal format string is checked at compile time, below C++20 the same checks run at run time. The umbrella includes <code><a class="el" href="a01013.html" title="std::format-style text formatting from C++11 on.">LumexFormat.hpp</a></code>, <code><a class="el" href="a01016.html" title="std::chrono::duration and system_clock time points for LumexFormat, with the chrono specification of ...">LumexFormatChrono.hpp</a></code> and <code><a class="el" href="a01019.html" title="Ranges, std::pair and std::tuple for LumexFormat, as the C++23 range formatting of std::format (P2286...">LumexFormatRanges.hpp</a></code>. </p><dl class="section see"><dt>See also</dt><dd>The <code>README.md</code> page next to this umbrella (part of the documentation). </dd></dl>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="ab3b5e6ee8f5a0b2801d5bc6d67f0a09c" name="ab3b5e6ee8f5a0b2801d5bc6d67f0a09c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab3b5e6ee8f5a0b2801d5bc6d67f0a09c">&#9670;&#160;</a></span>LUMEX_CORE_FMT_HPP</h2>
 
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;std::size_t Index, typename Aggregate&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">decltype(auto) lumex::core::reflection::field_reflection::get </td>
-          <td>(</td>
-          <td class="paramtype">Aggregate &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
-          <td></td>
+          <td class="memname">#define LUMEX_CORE_FMT_HPP</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>The <code>Index</code>-th field of an aggregate, by reference. </p>
-<p>An aggregate with a registration (<code>LUMEX_DEFINE_FIELD_NAMES</code>) reads the <code>Index</code>-th registered member, in every standard. An aggregate without one reads the <code>Index</code>-th field by the automatic means: from C++17 structured bindings, at C++14 the field types injected by a friend and the sequential layout. Below C++14 an aggregate without a registration is a <code>static_assert</code> that names the macro. The reference is <code>const</code> for a <code>const</code> aggregate. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">Index</td><td>The position of the field, below <code><a class="el" href="a03614.html">tuple_size</a></code>. </td></tr>
-    <tr><td class="paramname">Aggregate</td><td>A simple aggregate (see <code><a class="el" href="a00476.html" title="Serializes a simple aggregate (no constructors, no private members, no base classes) to JSON by walki...">LumexFieldReflection.hpp</a></code>). </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">value</td><td>The aggregate. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A reference to the field. </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01379_affc4125f1c661b62d9a1011d7c589dc9_cgraph.png" border="0" usemap="#aa01379_affc4125f1c661b62d9a1011d7c589dc9_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01379_affc4125f1c661b62d9a1011d7c589dc9_icgraph.png" border="0" usemap="#aa01379_affc4125f1c661b62d9a1011d7c589dc9_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="af734b0fe3e627e210ec21f71e86e7d5f" name="af734b0fe3e627e210ec21f71e86e7d5f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af734b0fe3e627e210ec21f71e86e7d5f">&#9670;&#160;</a></span>get() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;std::size_t Index, typename Aggregate&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">decltype(auto) lumex::core::reflection::field_reflection::get </td>
-          <td>(</td>
-          <td class="paramtype">Aggregate const &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01379_af734b0fe3e627e210ec21f71e86e7d5f_cgraph.png" border="0" usemap="#aa01379_af734b0fe3e627e210ec21f71e86e7d5f_cgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a0a8d34c9fd7381d1fb19e20251b0c67a" name="a0a8d34c9fd7381d1fb19e20251b0c67a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0a8d34c9fd7381d1fb19e20251b0c67a">&#9670;&#160;</a></span>names_as_array()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Aggregate&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::array&lt; char const *, <a class="el" href="a03614.html">tuple_size</a>&lt; Aggregate &gt;::value &gt; lumex::core::reflection::field_reflection::names_as_array </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>The names of the fields of an aggregate, in declaration order. </p>
-<p>The names come from the registration of the aggregate (<code>LUMEX_DEFINE_FIELD_NAMES</code>) when there is one, in every standard; otherwise, from C++20, from the compiler. Below C++20 an aggregate without a registration is a <code>static_assert</code> that names the macro, except an aggregate without fields, whose array is empty. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">Aggregate</td><td>A simple aggregate (see <code><a class="el" href="a00476.html" title="Serializes a simple aggregate (no constructors, no private members, no base classes) to JSON by walki...">LumexFieldReflection.hpp</a></code>). </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>One pointer to a static string per field. The strings live for the whole run. </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01379_a0a8d34c9fd7381d1fb19e20251b0c67a_cgraph.png" border="0" usemap="#aa01379_a0a8d34c9fd7381d1fb19e20251b0c67a_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01379_a0a8d34c9fd7381d1fb19e20251b0c67a_icgraph.png" border="0" usemap="#aa01379_a0a8d34c9fd7381d1fb19e20251b0c67a_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="adf61047afd5b3dcf759431721bae5a13" name="adf61047afd5b3dcf759431721bae5a13"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adf61047afd5b3dcf759431721bae5a13">&#9670;&#160;</a></span>to_json()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Struct&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">nlohmann::json lumex::core::reflection::field_reflection::to_json </td>
-          <td>(</td>
-          <td class="paramtype">Struct const &amp;</td>          <td class="paramname"><span class="paramname"><em>obj</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Serializes a simple aggregate to JSON, visiting every field. </p>
-<p>Rule per field, the first that fits (the file comment has the reasons):</p><ul>
-<li>a type with <code>has_value()</code> and unary <code>*</code> is written only if <code>has_value()</code> is true, its value by this same rule;</li>
-<li>a type nlohmann can convert (numbers, strings, enums, standard containers of those, <code>nlohmann::json</code>, and any type with a <code>to_json (nlohmann::json &amp;, Type const &amp;)</code> found by ADL, which therefore has priority over the next lines) is converted by nlohmann;</li>
-<li>a map with keys convertible to <code>std::string</code> is an object, any other container or <code>std::array</code> an array, each element by this rule (an empty optional-like element is <code>null</code>);</li>
-<li>any other class is a nested aggregate and becomes an object through <code>to_json</code> itself, at any depth.</li>
-</ul>
-<p>The keys are the names of the fields: the registered ones (<code>LUMEX_DEFINE_FIELD_NAMES</code>) in every standard, otherwise, from C++20, the ones the compiler supplies. Below C++20 an aggregate without a registration, the nested ones included, is a <code>static_assert</code>, except an aggregate without fields, which gives an empty object. A nested aggregate with a <code>to_json</code> of its own needs no names. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">Struct</td><td>A simple standard-layout aggregate (no user constructors, no private or protected members, no base classes, no virtual functions), at most 32 fields. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">obj</td><td>The aggregate instance to serialize. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A <code>nlohmann::json</code> object with one key per written field, named after the field. </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01379_adf61047afd5b3dcf759431721bae5a13_cgraph.png" border="0" usemap="#aa01379_adf61047afd5b3dcf759431721bae5a13_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01379_adf61047afd5b3dcf759431721bae5a13_icgraph.png" border="0" usemap="#aa01379_adf61047afd5b3dcf759431721bae5a13_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<h2 class="groupheader">Variable Documentation</h2>
-<a id="a3ce0ada95e71ecd52eaedeff52d0a902" name="a3ce0ada95e71ecd52eaedeff52d0a902"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3ce0ada95e71ecd52eaedeff52d0a902">&#9670;&#160;</a></span>tuple_size_v</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Aggregate&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::size_t lumex::core::reflection::field_reflection::tuple_size_v = <a class="el" href="a03614.html">tuple_size</a>&lt;Aggregate&gt;::value</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 </div>
@@ -366,7 +285,7 @@ template&lt;typename Aggregate&gt; </div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01311.html">core</a></li><li class="navelem"><a class="el" href="a01378.html">reflection</a></li><li class="navelem"><a class="el" href="a01379.html">field_reflection</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_338a3242ca58d57e3179a5eb9e6b0159.html">fmt</a></li><li class="navelem"><a class="el" href="a01379.html">LumexFormat</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

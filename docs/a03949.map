@@ -1,0 +1,5 @@
+<map id="lumex::core::smart_ptr::detail::is_deleter_for&lt; D, P, class &gt;" name="lumex::core::smart_ptr::detail::is_deleter_for&lt; D, P, class &gt;">
+<area shape="rect" id="Node000001" title="True when d (p) is well&#45;formed for a D lvalue and a P lvalue." alt="" coords="5,79,169,133"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="28,5,147,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="90,45,90,78,85,78,85,45"/>
+</map>

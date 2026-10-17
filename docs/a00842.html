@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: example_settings_json.cpp File Reference</title>
+<title>LumexLib: LumexDwcasCpu.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,57 +103,89 @@ $(function(){initNavTree('a00842.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="summary">
-<a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">example_settings_json.cpp File Reference</div></div>
+  <div class="headertitle"><div class="title">LumexDwcasCpu.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;cstdio&gt;</code><br />
-<code>#include &lt;fstream&gt;</code><br />
-<code>#include &lt;iostream&gt;</code><br />
-<code>#include &lt;memory&gt;</code><br />
-<code>#include &lt;string&gt;</code><br />
-<code>#include &quot;<a class="el" href="a01172_source.html">lumex/applied/settings/LumexSettings</a>&quot;</code><br />
+
+<p>Run-time check that the CPU has the <code>CMPXCHG16B</code> instruction: <code>dwcas_supported ()</code> and <code>require_dwcas ()</code>.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &lt;atomic&gt;</code><br />
+<code>#include &lt;cstdint&gt;</code><br />
+<code>#include &lt;cstdio&gt;</code><br />
+<code>#include &lt;cstdlib&gt;</code><br />
+<code>#include &lt;cpuid.h&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00830_source.html">lumex/core/atomic/dwcas/LumexDwcasConfig.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01088_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01127_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for example_settings_json.cpp:</div>
+Include dependency graph for LumexDwcasCpu.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00843.png" border="0" usemap="#aexample__settings__json_8cpp" alt=""/></div>
+<div class="center"><img src="a00843.png" border="0" usemap="#aLumexDwcasCpu_8hpp" alt=""/></div>
+<map name="aLumexDwcasCpu_8hpp" id="aLumexDwcasCpu_8hpp">
+<area shape="rect" title="Run&#45;time check that the CPU has the CMPXCHG16B instruction: dwcas_supported () and require_dwcas ()." alt="" coords="269,5,432,31"/>
+<area shape="rect" title=" " alt="" coords="5,86,72,111"/>
+<area shape="poly" title=" " alt="" coords="278,33,185,53,85,81,79,83,77,78,83,76,184,48,277,28"/>
+<area shape="rect" title=" " alt="" coords="96,86,163,111"/>
+<area shape="poly" title=" " alt="" coords="312,33,176,81,171,83,169,78,174,76,310,28"/>
+<area shape="rect" title=" " alt="" coords="187,86,248,111"/>
+<area shape="poly" title=" " alt="" coords="331,33,252,81,249,76,328,29"/>
+<area shape="rect" title=" " alt="" coords="273,86,338,111"/>
+<area shape="poly" title=" " alt="" coords="346,32,322,75,317,72,341,30"/>
+<area shape="rect" title=" " alt="" coords="363,86,432,111"/>
+<area shape="poly" title=" " alt="" coords="360,30,385,72,381,75,356,32"/>
+<area shape="rect" href="a00830.html" title="Detection macros of the 128&#45;bit compare&#45;and&#45;swap layer: whether the layer exists on this target and w..." alt="" coords="456,79,645,119"/>
+<area shape="poly" title=" " alt="" coords="383,28,489,71,487,76,381,33"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="669,79,859,119"/>
+<area shape="poly" title=" " alt="" coords="416,28,656,75,655,80,415,33"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="884,167,1097,207"/>
+<area shape="poly" title=" " alt="" coords="432,19,544,26,671,37,788,53,836,64,872,76,900,92,926,112,968,154,964,158,923,116,897,97,870,81,834,69,787,59,670,42,543,31,432,24"/>
+<area shape="rect" title=" " alt="" coords="489,174,581,199"/>
+<area shape="poly" title=" " alt="" coords="712,121,581,172,580,167,710,116"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="605,167,859,207"/>
+<area shape="poly" title=" " alt="" coords="759,120,747,154,742,153,754,118"/>
+<area shape="poly" title=" " alt="" coords="817,116,927,159,925,164,815,121"/>
+</map>
 </div>
-</div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
-<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int main </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00842_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00842_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
+<div class="center"><img src="a00844.png" border="0" usemap="#aLumexDwcasCpu_8hppdep" alt=""/></div>
+<map name="aLumexDwcasCpu_8hppdep" id="aLumexDwcasCpu_8hppdep">
+<area shape="rect" title="Run&#45;time check that the CPU has the CMPXCHG16B instruction: dwcas_supported () and require_dwcas ()." alt="" coords="557,5,719,31"/>
+<area shape="rect" href="a00839.html" title="dwcas_word, a 16&#45;byte atomic word with a 128&#45;bit compare&#45;and&#45;swap (x86&#45;64 only), and the header that ..." alt="" coords="553,79,723,104"/>
+<area shape="poly" title=" " alt="" coords="641,44,641,78,635,78,635,44"/>
+<area shape="rect" href="a01352.html" title="Atomic module: atomic_shared_ptr&lt;T&gt; and atomic_weak_ptr&lt;T&gt;, the interface of the C++20 std::atomic&lt;st..." alt="" coords="338,152,450,177"/>
+<area shape="poly" title=" " alt="" coords="583,111,437,154,436,149,582,106"/>
+<area shape="rect" href="a00809.html" title="The split&#45;count engine behind atomic_shared_ptr_lock_free_split_count and atomic_weak_ptr_lock_free_s..." alt="" coords="655,313,842,339"/>
+<area shape="poly" title=" " alt="" coords="633,118,626,150,623,188,627,227,640,264,653,280,668,293,704,311,702,316,665,297,649,283,636,267,621,228,618,188,621,149,628,117"/>
+<area shape="rect" href="a00812.html" title="The policy of the split&#45;count engine: the named steps of its protocol, the events a ledger counts,..." alt="" coords="649,233,848,258"/>
+<area shape="poly" title=" " alt="" coords="653,115,691,176,738,231,734,234,687,179,649,118"/>
+<area shape="rect" href="a00815.html" title="The slot word of the split&#45;count engine: a control block, the ticks of the loads in flight and the st..." alt="" coords="701,152,895,177"/>
+<area shape="poly" title=" " alt="" coords="679,107,771,149,769,154,677,112"/>
+<area shape="rect" href="a00275.html" title=" " alt="" coords="5,225,183,265"/>
+<area shape="poly" title=" " alt="" coords="334,184,169,228,168,223,332,178"/>
+<area shape="rect" href="a00272.html" title=" " alt="" coords="207,225,383,265"/>
+<area shape="poly" title=" " alt="" coords="369,188,322,227,318,223,366,184"/>
+<area shape="rect" href="a00278.html" title=" " alt="" coords="408,225,575,265"/>
+<area shape="poly" title=" " alt="" coords="422,184,469,223,465,227,418,188"/>
+<area shape="poly" title=" " alt="" coords="751,272,751,313,746,313,746,272"/>
+<area shape="poly" title=" " alt="" coords="830,184,849,202,863,224,869,246,863,267,850,283,833,297,797,316,794,311,830,293,846,280,858,264,864,246,858,226,845,205,827,187"/>
+<area shape="poly" title=" " alt="" coords="785,190,759,234,754,231,781,188"/>
+</map>
 </div>
-
 </div>
-</div>
-</div><!-- contents -->
+<p><a href="a00842_source.html">Go to the source code of this file.</a></p>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Run-time check that the CPU has the <code>CMPXCHG16B</code> instruction: <code>dwcas_supported ()</code> and <code>require_dwcas ()</code>. </p>
+<p>Every x86-64 CPU sold since 2006 has the instruction (the first AMD64 steppings did not; Windows 8.1 and later require it). The layer therefore does not emulate it: a program that reaches <code>require_dwcas ()</code> on a CPU without it writes one line to <code>stderr</code> and calls <code>std::abort ()</code>. Code that wants to degrade gracefully asks <code>dwcas_supported ()</code> first.</p>
+<p>The answer comes from CPUID leaf 1, ECX bit 13. It is computed on first use and cached in a function-local <code>std::atomic&lt;int&gt;</code> that is constant initialized, so there is no static-initialization-order problem and no guard variable, and two threads that race on the first call compute the same value. <code>dwcas_word</code> itself does not check: its constructors are <code>constexpr</code> so a word with static storage needs no run-time initialization. The objects built on the layer call <code>require_dwcas ()</code> from their constructors.</p>
+<p>The functions in <code>Detail</code> take the CPUID reading as a parameter or through a replaceable function pointer, so the tests can inject the answer of a CPU without the instruction. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_687203564ac037bfeaa905b155c4129c.html">settings</a></li><li class="navelem"><a class="el" href="a00842.html">example_settings_json.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_46588a2def099f5c90ce8dff319725b2.html">atomic</a></li><li class="navelem"><a class="el" href="dir_0ef745ae619b7a2bc428b08d4c1ccc55.html">dwcas</a></li><li class="navelem"><a class="el" href="a00842.html">LumexDwcasCpu.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

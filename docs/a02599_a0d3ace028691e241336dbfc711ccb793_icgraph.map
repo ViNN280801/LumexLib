@@ -1,0 +1,12 @@
+<map id="lumex::core::environment::env::lumex_environment::set_environment_variable" name="lumex::core::environment::env::lumex_environment::set_environment_variable">
+<area shape="rect" id="Node000001" title="Sets or updates the value of a specified environment variable in a thread&#45;safe manner." alt="" coords="513,63,713,117"/>
+<area shape="rect" id="Node000002" href="$a02599.html#ac02c7b9738c63ae45eb982591086e9fc" title="Deleted move assignment operator." alt="" coords="5,5,197,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="499,66,465,61,325,46,197,38,198,33,325,41,466,55,500,61"/>
+<area shape="rect" id="Node000003" href="$a02599.html#a147e76e1acf58c05b4b6250838707cfd" title="Static convenience method to set an environment variable." alt="" coords="245,70,465,110"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="500,93,466,93,466,87,500,87"/>
+<area shape="rect" id="Node000005" href="$a02599.html#a5632f3f86f4afb10d1964e5a160d7588" title="Convenience overload for set_environment_variable using std::string." alt="" coords="255,135,455,189"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="503,124,454,137,453,132,501,118"/>
+<area shape="poly" id="edge4_Node000003_Node000002" title=" " alt="" coords="253,70,197,57,198,52,254,64"/>
+<area shape="rect" id="Node000004" href="$a00530.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="74,84,129,109"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="231,96,129,99,129,93,231,91"/>
+</map>

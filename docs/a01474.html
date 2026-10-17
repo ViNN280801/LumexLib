@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::examples::logger Namespace Reference</title>
+<title>LumexLib: lumex::applied::serial::probe::Constants Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,29 +104,28 @@ $(function(){initNavTree('a01474.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">lumex::examples::logger Namespace Reference</div></div>
+<a href="#var-members">Variables</a>  </div>
+  <div class="headertitle"><div class="title">lumex::applied::serial::probe::Constants Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Compile-time defaults of the probe contract.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04882.html">temporary_config_file_t</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:adda1389651fbe9d9a5e8ef363d2535da" id="r_adda1389651fbe9d9a5e8ef363d2535da"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adda1389651fbe9d9a5e8ef363d2535da">require</a> (bool condition, std::string const &amp;message)</td></tr>
-<tr class="separator:adda1389651fbe9d9a5e8ef363d2535da"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a165ec8fcea03590b2cffd889ae9f816f" id="r_a165ec8fcea03590b2cffd889ae9f816f"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a165ec8fcea03590b2cffd889ae9f816f">verify_full_config</a> (<a class="el" href="a01566.html">logger_config_t</a> const &amp;config, std::string const &amp;format)</td></tr>
-<tr class="separator:a165ec8fcea03590b2cffd889ae9f816f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aab14961ea93b42c8867851c5113e6744" id="r_aab14961ea93b42c8867851c5113e6744"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aab14961ea93b42c8867851c5113e6744">show_compiled_format</a> ()</td></tr>
-<tr class="separator:aab14961ea93b42c8867851c5113e6744"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a9e0fd1a76f5f73871121c1cb4ba1881d" id="r_a9e0fd1a76f5f73871121c1cb4ba1881d"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9e0fd1a76f5f73871121c1cb4ba1881d">KDEFAULT_PROBE_DEADLINE_MS</a> = 500U</td></tr>
+<tr class="memdesc:a9e0fd1a76f5f73871121c1cb4ba1881d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default overall probe deadline in milliseconds.  <br /></td></tr>
+<tr class="separator:a9e0fd1a76f5f73871121c1cb4ba1881d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a986ffb1746dc1de359d5f8d07b163b1d" id="r_a986ffb1746dc1de359d5f8d07b163b1d"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a986ffb1746dc1de359d5f8d07b163b1d">KDEFAULT_PROBE_MAX_RESPONSE_BYTES</a> = 8192U</td></tr>
+<tr class="memdesc:a986ffb1746dc1de359d5f8d07b163b1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default cap of the collected response, in bytes.  <br /></td></tr>
+<tr class="separator:a986ffb1746dc1de359d5f8d07b163b1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="adda1389651fbe9d9a5e8ef363d2535da" name="adda1389651fbe9d9a5e8ef363d2535da"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adda1389651fbe9d9a5e8ef363d2535da">&#9670;&#160;</a></span>require()</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Compile-time defaults of the probe contract. </p>
+</div><h2 class="groupheader">Variable Documentation</h2>
+<a id="a9e0fd1a76f5f73871121c1cb4ba1881d" name="a9e0fd1a76f5f73871121c1cb4ba1881d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9e0fd1a76f5f73871121c1cb4ba1881d">&#9670;&#160;</a></span>KDEFAULT_PROBE_DEADLINE_MS</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -135,32 +134,23 @@ Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void lumex::examples::logger::require </td>
-          <td>(</td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>condition</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>message</em></span>&#160;)</td>
+          <td class="memname">constLUMEX_CONSTINITstd::uint32_t lumex::applied::serial::probe::Constants::KDEFAULT_PROBE_DEADLINE_MS = 500U</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01474_adda1389651fbe9d9a5e8ef363d2535da_icgraph.png" border="0" usemap="#aa01474_adda1389651fbe9d9a5e8ef363d2535da_icgraph" alt=""/></div>
-</div>
+
+<p>Default overall probe deadline in milliseconds. </p>
+<p>Shared by the open and the exchange of one <code>probe</code> call; every method takes the deadline as a parameter and falls back to this value. </p>
 
 </div>
 </div>
-<a id="aab14961ea93b42c8867851c5113e6744" name="aab14961ea93b42c8867851c5113e6744"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aab14961ea93b42c8867851c5113e6744">&#9670;&#160;</a></span>show_compiled_format()</h2>
+<a id="a986ffb1746dc1de359d5f8d07b163b1d" name="a986ffb1746dc1de359d5f8d07b163b1d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a986ffb1746dc1de359d5f8d07b163b1d">&#9670;&#160;</a></span>KDEFAULT_PROBE_MAX_RESPONSE_BYTES</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -169,67 +159,18 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void lumex::examples::logger::show_compiled_format </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
+          <td class="memname">constLUMEX_CONSTINITstd::size_t lumex::applied::serial::probe::Constants::KDEFAULT_PROBE_MAX_RESPONSE_BYTES = 8192U</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01474_aab14961ea93b42c8867851c5113e6744_cgraph.png" border="0" usemap="#aa01474_aab14961ea93b42c8867851c5113e6744_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01474_aab14961ea93b42c8867851c5113e6744_icgraph.png" border="0" usemap="#aa01474_aab14961ea93b42c8867851c5113e6744_icgraph" alt=""/></div>
-</div>
 
-</div>
-</div>
-<a id="a165ec8fcea03590b2cffd889ae9f816f" name="a165ec8fcea03590b2cffd889ae9f816f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a165ec8fcea03590b2cffd889ae9f816f">&#9670;&#160;</a></span>verify_full_config()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static void lumex::examples::logger::verify_full_config </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a01566.html">logger_config_t</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>config</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>format</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01474_a165ec8fcea03590b2cffd889ae9f816f_cgraph.png" border="0" usemap="#aa01474_a165ec8fcea03590b2cffd889ae9f816f_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01474_a165ec8fcea03590b2cffd889ae9f816f_icgraph.png" border="0" usemap="#aa01474_a165ec8fcea03590b2cffd889ae9f816f_icgraph" alt=""/></div>
-</div>
+<p>Default cap of the collected response, in bytes. </p>
+<p>A response that reaches the cap stops the read loop with the <code>incomplete</code> outcome when the predicate has not confirmed it. </p>
 
 </div>
 </div>
@@ -238,7 +179,7 @@ Here is the caller graph for this function:</div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01473.html">examples</a></li><li class="navelem"><a class="el" href="a01474.html">logger</a></li>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01426.html">applied</a></li><li class="navelem"><a class="el" href="a01464.html">serial</a></li><li class="navelem"><a class="el" href="a01470.html">probe</a></li><li class="navelem"><a class="el" href="a01474.html">Constants</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

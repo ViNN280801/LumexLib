@@ -1,0 +1,14 @@
+<map id="LumexHazardPointerBatch.hpp" name="LumexHazardPointerBatch.hpp">
+<area shape="rect" id="Node000001" title="make_hazard_pointer_batch and clear_hazard_pointer_batch, which fill and empty many holders at once (..." alt="" coords="224,5,447,31"/>
+<area shape="rect" id="Node000002" href="$a01385.html" title="Hazard pointer module: hazard_pointer, hazard_pointer_obj_base and make_hazard_pointer,..." alt="" coords="256,79,415,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="338,44,338,78,333,78,333,44"/>
+<area shape="rect" id="Node000003" href="$a00800.html" title="The immutable heap box of the lock&#45;free engine, and the policies that say when a replaced box is dest..." alt="" coords="5,159,228,185"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="289,111,152,162,150,157,287,106"/>
+<area shape="rect" id="Node000004" href="$a00821.html" title="The lock&#45;free engine behind atomic_shared_ptr_lock_free and atomic_weak_ptr_lock_free: an immutable h..." alt="" coords="77,240,303,280"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="317,116,210,241,206,238,313,113"/>
+<area shape="rect" id="Node000005" href="$a00524.html" title=" " alt="" coords="303,159,512,185"/>
+<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="358,113,398,157,394,161,354,116"/>
+<area shape="rect" id="Node000006" href="$a00521.html" title=" " alt="" coords="536,152,719,192"/>
+<area shape="poly" id="edge6_Node000002_Node000006" title=" " alt="" coords="395,105,555,149,554,154,394,110"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="138,194,175,238,171,241,134,197"/>
+</map>

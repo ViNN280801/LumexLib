@@ -1,0 +1,9 @@
+<map id="lumex::xml::utility::get_value_int" name="lumex::xml::utility::get_value_int">
+<area shape="rect" id="Node000001" title=" " alt="" coords="347,37,489,77"/>
+<area shape="rect" id="Node000002" href="$a05115.html#a60197dee0eb2b25d5e4e1f8d857630fd" title="Converts the attribute&#39;s value to an int." alt="" coords="123,5,283,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="333,47,283,40,284,35,333,42"/>
+<area shape="rect" id="Node000004" href="$a05187.html#a9216d03ae5dbb7049af4c3c0a1ffa50d" title="Converts the text object&#39;s value to an int." alt="" coords="108,69,299,109"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="333,73,299,78,299,72,333,67"/>
+<area shape="rect" id="Node000003" href="$a00395.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,13,60,38"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="109,28,60,28,60,23,109,23"/>
+</map>

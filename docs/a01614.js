@@ -1,5 +1,27 @@
 var a01614 =
 [
-    [ "descendants", "a01614.html#a9fa5b64cf5325ac77676ac38e5b011de", null ],
-    [ "root", "a01614.html#a37c8435e030be366c95ec721c5731a35", null ]
+    [ "default_return", "a04619.html", "a04619" ],
+    [ "default_return< T * >", "a04627.html", "a04627" ],
+    [ "default_return< void >", "a04623.html", "a04623" ],
+    [ "has_type", "a04607.html", null ],
+    [ "has_type< T, void_t< typename T::type > >", "a04611.html", null ],
+    [ "indirection_of", "a04631.html", "a04631" ],
+    [ "indirection_of< T & >", "a04639.html", "a04639" ],
+    [ "indirection_of< T * >", "a04635.html", "a04635" ],
+    [ "is_byte_like", "a04647.html", null ],
+    [ "is_complete_type", "a04659.html", null ],
+    [ "is_complete_type< T, void_t< decltype(sizeof(T))> >", "a04663.html", null ],
+    [ "is_derived_from", "a04671.html", null ],
+    [ "is_extractible", "a04643.html", null ],
+    [ "is_lvalue_ref_to_class", "a04655.html", null ],
+    [ "is_pointer_to_class", "a04651.html", null ],
+    [ "make_void", "a04603.html", "a04603" ],
+    [ "preserves_cv", "a04667.html", null ],
+    [ "type_identity", "a04615.html", "a04615" ],
+    [ "CleanType", "a01614.html#a05ad396a9f8ac20cc83c0a856aec1510", null ],
+    [ "CleanTypeOf", "a01614.html#adc02419d3b465284115ab8aeba6ec53d", null ],
+    [ "indirection_of_t", "a01614.html#a46f5c4d90e5f8ff4fa1fecccdf3bbb2f", null ],
+    [ "RemovePtr", "a01614.html#abd77a2242871400fb3bbb3a9ec30e895", null ],
+    [ "void_t", "a01614.html#ac89eed2501e6875f3f45fac66df7d004", null ],
+    [ "safe_cast", "a01614.html#a553ef5e6a8844ea79f5f8cef788a8388", null ]
 ];

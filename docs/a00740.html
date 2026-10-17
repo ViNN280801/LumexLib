@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: example_format_chrono.cpp File Reference</title>
+<title>LumexLib: XmlDocumentBase.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,56 +104,161 @@ $(function(){initNavTree('a00740.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a> &#124;
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">example_format_chrono.cpp File Reference</div></div>
+  <div class="headertitle"><div class="title">XmlDocumentBase.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;chrono&gt;</code><br />
-<code>#include &lt;iostream&gt;</code><br />
-<code>#include &lt;locale&gt;</code><br />
-<code>#include &lt;ratio&gt;</code><br />
-<code>#include &lt;string&gt;</code><br />
-<code>#include &quot;<a class="el" href="a01202_source.html">lumex/core/fmt/LumexFormat</a>&quot;</code><br />
+
+<p>Internal root record of a document: the document node and the allocator of its tree in one object.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &quot;<a class="el" href="a00746_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01073_source.html">lumex/core/utility/assert/LumexAssert.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00704_source.html">lumex/xml/memory/XmlAllocator.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00698_source.html">lumex/xml/memory/XmlMemoryPage.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00716_source.html">lumex/xml/node/XmlNodeBase.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for example_format_chrono.cpp:</div>
+Include dependency graph for XmlDocumentBase.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00741.png" border="0" usemap="#aexample__format__chrono_8cpp" alt=""/></div>
+<div class="center"><img src="a00741.png" border="0" usemap="#aXmlDocumentBase_8hpp" alt=""/></div>
+<map name="aXmlDocumentBase_8hpp" id="aXmlDocumentBase_8hpp">
+<area shape="rect" title="Internal root record of a document: the document node and the allocator of its tree in one object." alt="" coords="952,5,1127,31"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="1108,409,1289,434"/>
+<area shape="poly" title=" " alt="" coords="1090,28,1139,45,1193,70,1244,105,1267,126,1287,150,1322,203,1344,251,1349,275,1348,300,1341,326,1327,355,1314,372,1298,386,1261,406,1259,401,1295,381,1310,368,1323,352,1336,324,1343,299,1344,275,1339,252,1317,205,1283,154,1263,130,1241,109,1190,75,1137,50,1089,33"/>
+<area shape="rect" href="a01073.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="223,313,406,353"/>
+<area shape="poly" title=" " alt="" coords="1005,33,881,81,592,207,370,310,367,305,589,202,879,76,1003,28"/>
+<area shape="rect" href="a00704.html" title="The page allocator that holds the nodes, attributes and strings of one XML document." alt="" coords="710,240,977,265"/>
+<area shape="poly" title=" " alt="" coords="986,33,942,52,922,65,904,80,880,116,864,155,854,194,848,227,843,226,848,193,859,154,875,113,900,77,919,60,940,47,984,28"/>
+<area shape="rect" href="a00698.html" title="The header of a memory page of the XML allocator, and the default page size." alt="" coords="1153,321,1313,346"/>
+<area shape="poly" title=" " alt="" coords="1100,28,1150,44,1202,69,1251,104,1271,126,1287,151,1295,172,1297,194,1290,237,1273,278,1253,310,1249,308,1268,276,1285,236,1292,194,1290,173,1282,153,1267,129,1247,108,1200,74,1148,49,1099,33"/>
+<area shape="rect" href="a00716.html" title="Internal storage of an XML node and the functions that build, link, copy and destroy the tree." alt="" coords="914,79,1166,104"/>
+<area shape="poly" title=" " alt="" coords="1042,31,1042,65,1037,65,1037,31"/>
+<area shape="poly" title=" " alt="" coords="406,340,1094,408,1093,414,406,345"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="24,577,213,617"/>
+<area shape="poly" title=" " alt="" coords="301,355,143,568,139,565,297,352"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="12,665,225,705"/>
+<area shape="poly" title=" " alt="" coords="270,356,208,389,136,438,100,468,67,502,37,538,14,578,8,597,14,616,32,639,56,656,52,661,28,643,9,619,3,598,9,576,33,535,63,498,96,464,132,434,205,385,268,351"/>
+<area shape="rect" title=" " alt="" coords="764,673,856,698"/>
+<area shape="poly" title=" " alt="" coords="213,607,751,675,750,680,213,612"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="330,665,584,705"/>
+<area shape="poly" title=" " alt="" coords="196,615,367,659,365,664,195,620"/>
+<area shape="poly" title=" " alt="" coords="121,618,121,651,116,651,116,618"/>
+<area shape="poly" title=" " alt="" coords="881,263,934,284,990,311,1019,331,1048,351,1102,379,1153,401,1151,406,1099,383,1045,356,1016,335,988,316,931,289,879,268"/>
+<area shape="poly" title=" " alt="" coords="750,268,425,316,420,317,419,312,424,311,749,263"/>
+<area shape="poly" title=" " alt="" coords="818,268,174,574,171,569,816,263"/>
+<area shape="rect" href="a00656.html" title="The basic types and enumerations of the XML module: character and string types, node types,..." alt="" coords="750,321,977,346"/>
+<area shape="poly" title=" " alt="" coords="849,265,860,306,854,308,844,266"/>
+<area shape="poly" title=" " alt="" coords="905,263,1159,315,1157,320,904,268"/>
+<area shape="rect" title=" " alt="" coords="1413,585,1480,610"/>
+<area shape="poly" title=" " alt="" coords="895,344,937,367,979,399,993,417,1003,435,1014,468,1026,499,1036,513,1053,527,1099,552,1140,565,1180,569,1218,567,1301,561,1348,564,1402,575,1409,577,1407,582,1400,580,1348,569,1301,567,1219,573,1179,574,1139,570,1097,557,1050,532,1033,517,1021,502,1009,470,998,437,989,420,975,403,934,371,892,348"/>
+<area shape="rect" title=" " alt="" coords="1504,585,1562,610"/>
+<area shape="poly" title=" " alt="" coords="892,344,1097,439,1207,479,1295,506,1382,533,1493,575,1497,577,1495,581,1491,580,1380,538,1293,511,1205,484,1095,444,890,349"/>
+<area shape="rect" href="a00854.html" title="lumex_string_view: the view over char, the std::string_view of the library from C++11." alt="" coords="762,401,965,441"/>
+<area shape="poly" title=" " alt="" coords="866,346,866,387,861,387,861,346"/>
+<area shape="rect" href="a00710.html" title="Preprocessor macros of the XML module: the decoding of header words and the scanning macros of the pa..." alt="" coords="482,497,720,522"/>
+<area shape="poly" title=" " alt="" coords="842,348,752,404,630,491,627,486,749,399,840,344"/>
+<area shape="rect" href="a00857.html" title="Header&#45;only, C++11&#45;first basic_string_view: the class template behind lumex_string_view,..." alt="" coords="745,489,982,529"/>
+<area shape="poly" title=" " alt="" coords="866,442,866,475,861,475,861,442"/>
+<area shape="poly" title=" " alt="" coords="745,530,733,532,592,547,482,555,372,564,232,580,227,581,227,575,231,575,372,558,482,550,592,542,733,527,744,525"/>
+<area shape="poly" title=" " alt="" coords="899,527,924,549,943,576,950,598,943,619,929,637,911,652,870,672,868,668,908,647,925,633,939,616,944,598,938,579,920,552,896,531"/>
+<area shape="poly" title=" " alt="" coords="745,532,640,554,595,567,563,580,539,596,517,616,481,656,477,652,513,612,536,592,561,575,593,562,638,549,744,526"/>
+<area shape="poly" title=" " alt="" coords="745,530,733,532,663,538,603,540,499,537,450,538,399,544,342,557,277,580,261,588,251,597,227,619,165,660,162,656,223,615,247,593,258,584,274,575,340,552,398,538,450,533,499,532,603,534,663,533,733,527,744,525"/>
+<area shape="poly" title=" " alt="" coords="983,524,1001,527,1114,537,1203,542,1291,551,1402,575,1409,577,1407,582,1400,580,1290,556,1202,547,1114,543,1001,532,982,529"/>
+<area shape="poly" title=" " alt="" coords="983,519,1492,575,1498,577,1496,582,1491,580,982,525"/>
+<area shape="rect" title=" " alt="" coords="1587,585,1658,610"/>
+<area shape="poly" title=" " alt="" coords="983,514,1302,538,1460,555,1575,575,1584,577,1582,582,1574,580,1460,561,1302,543,982,519"/>
+<area shape="rect" title=" " alt="" coords="574,585,641,610"/>
+<area shape="poly" title=" " alt="" coords="797,532,655,580,649,582,648,577,653,575,796,527"/>
+<area shape="rect" title=" " alt="" coords="666,585,752,610"/>
+<area shape="poly" title=" " alt="" coords="829,532,745,580,742,575,827,527"/>
+<area shape="rect" title=" " alt="" coords="776,585,863,610"/>
+<area shape="poly" title=" " alt="" coords="856,531,834,573,830,571,851,529"/>
+<area shape="rect" title=" " alt="" coords="887,585,928,610"/>
+<area shape="poly" title=" " alt="" coords="876,529,897,571,893,573,871,531"/>
+<area shape="rect" title=" " alt="" coords="1004,585,1075,610"/>
+<area shape="poly" title=" " alt="" coords="905,527,1003,576,1001,581,903,532"/>
+<area shape="rect" title=" " alt="" coords="1100,585,1177,610"/>
+<area shape="poly" title=" " alt="" coords="936,527,1088,575,1095,577,1093,582,1087,580,934,532"/>
+<area shape="rect" title=" " alt="" coords="1202,585,1278,610"/>
+<area shape="poly" title=" " alt="" coords="983,527,1084,547,1190,575,1198,577,1196,582,1188,580,1083,553,982,532"/>
+<area shape="rect" title=" " alt="" coords="1302,585,1388,610"/>
+<area shape="poly" title=" " alt="" coords="983,524,1169,553,1291,575,1301,578,1300,583,1290,580,1168,559,982,530"/>
+<area shape="rect" title=" " alt="" coords="288,585,378,610"/>
+<area shape="poly" title=" " alt="" coords="745,530,733,532,636,544,560,551,485,560,389,580,379,583,377,578,388,575,484,555,560,545,635,538,733,527,744,525"/>
+<area shape="rect" title=" " alt="" coords="402,585,499,610"/>
+<area shape="poly" title=" " alt="" coords="748,532,637,554,519,580,505,584,504,578,518,575,636,548,747,527"/>
+<area shape="poly" title=" " alt="" coords="532,525,227,580,226,575,531,519"/>
+<area shape="poly" title=" " alt="" coords="1230,347,1211,397,1206,395,1225,345"/>
+<area shape="poly" title=" " alt="" coords="1253,344,1593,575,1590,579,1250,348"/>
+<area shape="poly" title=" " alt="" coords="1044,104,1053,147,1070,211,1096,283,1131,352,1151,377,1173,398,1169,402,1147,380,1127,355,1091,285,1065,212,1048,148,1039,105"/>
+<area shape="poly" title=" " alt="" coords="1026,106,872,233,868,229,1022,102"/>
+<area shape="poly" title=" " alt="" coords="1042,104,1039,136,1031,178,1016,225,991,267,957,297,918,318,916,313,954,293,987,264,1011,222,1026,177,1033,135,1036,104"/>
+<area shape="rect" href="a00536.html" title="Internal storage of an XML attribute and the functions that allocate, link, unlink and copy it." alt="" coords="1103,152,1272,192"/>
+<area shape="poly" title=" " alt="" coords="1065,102,1140,143,1137,148,1062,107"/>
+<area shape="poly" title=" " alt="" coords="1177,194,1160,225,1145,265,1137,309,1138,331,1143,352,1157,377,1174,397,1170,401,1152,380,1138,354,1133,332,1132,309,1140,264,1155,223,1172,191"/>
+<area shape="poly" title=" " alt="" coords="1103,195,911,240,910,234,1102,189"/>
+<area shape="poly" title=" " alt="" coords="1196,192,1228,307,1223,308,1191,193"/>
+</map>
 </div>
-</div><table class="memberdecls">
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00742.png" border="0" usemap="#aXmlDocumentBase_8hppdep" alt=""/></div>
+<map name="aXmlDocumentBase_8hppdep" id="aXmlDocumentBase_8hppdep">
+<area shape="rect" title="Internal root record of a document: the document node and the allocator of its tree in one object." alt="" coords="544,5,719,31"/>
+<area shape="rect" href="a00647.html" title=" " alt="" coords="5,79,271,104"/>
+<area shape="poly" title=" " alt="" coords="533,35,224,81,223,76,532,30"/>
+<area shape="rect" href="a00734.html" title=" " alt="" coords="295,79,437,104"/>
+<area shape="poly" title=" " alt="" coords="573,37,413,81,411,76,571,32"/>
+<area shape="rect" href="a00737.html" title=" " alt="" coords="461,79,636,104"/>
+<area shape="poly" title=" " alt="" coords="609,42,565,80,562,76,605,38"/>
+<area shape="rect" href="a00725.html" title=" " alt="" coords="661,79,770,104"/>
+<area shape="poly" title=" " alt="" coords="658,38,702,76,699,80,654,42"/>
+<area shape="rect" href="a00683.html" title=" " alt="" coords="732,152,883,177"/>
+<area shape="poly" title=" " alt="" coords="711,33,750,50,784,77,796,95,804,115,810,151,804,152,798,117,791,97,780,80,747,55,709,37"/>
+<area shape="rect" href="a00689.html" title="The internal XML parser that turns a writable character buffer into a node tree in place." alt="" coords="845,79,959,104"/>
+<area shape="poly" title=" " alt="" coords="693,32,856,76,854,81,691,37"/>
+<area shape="poly" title=" " alt="" coords="876,115,826,154,823,149,873,111"/>
+<area shape="rect" href="a00686.html" title=" " alt="" coords="907,152,1022,177"/>
+<area shape="poly" title=" " alt="" coords="924,113,955,150,951,153,920,116"/>
+</map>
+</div>
+</div>
+<p><a href="a00740_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a05131.html">lumex::xml::document::XmlDocumentBase</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Base structure representing an XML document, combining node and allocator functionalities.  <a href="a05131.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01425.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01669.html">lumex::xml</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01676.html">lumex::xml::document</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
-<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ff47d1fab33d9dac2db3f3203dd5b2b" id="r_a9ff47d1fab33d9dac2db3f3203dd5b2b"><td class="memTemplParams" colspan="2">template&lt;typename Object&gt; </td></tr>
+<tr class="memitem:a9ff47d1fab33d9dac2db3f3203dd5b2b"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a05131.html">XmlDocumentBase</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01676.html#a9ff47d1fab33d9dac2db3f3203dd5b2b">lumex::xml::document::get_document</a> (Object const *object)</td></tr>
+<tr class="memdesc:a9ff47d1fab33d9dac2db3f3203dd5b2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves a reference to the <code><a class="el" href="a05131.html" title="Base structure representing an XML document, combining node and allocator functionalities.">XmlDocumentBase</a></code> object that owns a given object (node or attribute).  <br /></td></tr>
+<tr class="separator:a9ff47d1fab33d9dac2db3f3203dd5b2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int main </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00740_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00740_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-</div><!-- contents -->
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Internal root record of a document: the document node and the allocator of its tree in one object. </p>
+<p><code>XmlDocumentBase</code> derives from both <code>XmlNodeBase</code> (as a <code>node_document</code> node) and <code>XmlAllocator</code>, so the root of every tree is also the allocator that owns the tree's memory pages. It also keeps the buffers that the document and the fragments appended to it were parsed from, because names and values point into them. <code>get_document</code> finds the document that owns a node or an attribute through the memory page the object lives in.</p>
+<p>The public type is <code>XmlDocument</code>, which holds this record. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_48f63977bcbbc0057df875ef8f8dd4ef.html">fmt</a></li><li class="navelem"><a class="el" href="a00740.html">example_format_chrono.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_451e7857950ad48a5f718c2083a77540.html">document</a></li><li class="navelem"><a class="el" href="a00740.html">XmlDocumentBase.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

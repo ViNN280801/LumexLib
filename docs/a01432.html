@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::core::utility::ranges::Algorithm Namespace Reference</title>
+<title>LumexLib: lumex::applied::hardware::caps::CPUIDECXFlags Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,154 +103,20 @@ $(function(){initNavTree('a01432.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="summary">
-<a href="#namespaces">Namespaces</a> &#124;
-<a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">lumex::core::utility::ranges::Algorithm Namespace Reference</div></div>
+  <div class="headertitle"><div class="title">lumex::applied::hardware::caps::CPUIDECXFlags Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01433.html">Detail</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:aec0a81087adec6bd2d38380a680fb136" id="r_aec0a81087adec6bd2d38380a680fb136"><td class="memTemplParams" colspan="2">template&lt;typename IteratorType, typename Sentinel, typename ValueType, typename Projection = functional::identity, typename Predicate = functional::less, typename std::enable_if&lt; <a class="el" href="a04386.html">Detail::is_nearest_call</a>&lt; IteratorType, Sentinel, ValueType, Predicate, Projection &gt;::value, int &gt;::type = 0&gt; </td></tr>
-<tr class="memitem:aec0a81087adec6bd2d38380a680fb136"><td class="memTemplItemLeft" align="right" valign="top">constexpr IteratorType&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#aec0a81087adec6bd2d38380a680fb136">get_nearest_to</a> (IteratorType first, Sentinel last, ValueType const &amp;value, Predicate pred=Predicate(), Projection proj=Projection())</td></tr>
-<tr class="memdesc:aec0a81087adec6bd2d38380a680fb136"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds the iterator whose (projected) value is numerically nearest to <code>value</code>.  <br /></td></tr>
-<tr class="separator:aec0a81087adec6bd2d38380a680fb136"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abdb08d96519514d27aa1d6345cc1ad6b" id="r_abdb08d96519514d27aa1d6345cc1ad6b"><td class="memTemplParams" colspan="2">template&lt;typename RangeType, typename ValueType, typename Projection = functional::identity, typename Predicate = functional::less, typename std::enable_if&lt; <a class="el" href="a04390.html">Detail::is_nearest_range_call</a>&lt; RangeType, ValueType, Predicate, Projection &gt;::value, int &gt;::type = 0&gt; </td></tr>
-<tr class="memitem:abdb08d96519514d27aa1d6345cc1ad6b"><td class="memTemplItemLeft" align="right" valign="top">constexpr <a class="el" href="a04358.html">Detail::range_types</a>&lt; RangeType &gt;::iterator&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#abdb08d96519514d27aa1d6345cc1ad6b">get_nearest_to</a> (RangeType &amp;&amp;range, ValueType const &amp;value, Predicate pred=Predicate(), Projection proj=Projection())</td></tr>
-<tr class="memdesc:abdb08d96519514d27aa1d6345cc1ad6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Range-based overload of <a class="el" href="#aec0a81087adec6bd2d38380a680fb136" title="Finds the iterator whose (projected) value is numerically nearest to value.">get_nearest_to()</a>.  <br /></td></tr>
-<tr class="separator:abdb08d96519514d27aa1d6345cc1ad6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="aec0a81087adec6bd2d38380a680fb136" name="aec0a81087adec6bd2d38380a680fb136"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aec0a81087adec6bd2d38380a680fb136">&#9670;&#160;</a></span>get_nearest_to() <span class="overload">[1/2]</span></h2>
 
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename IteratorType, typename Sentinel, typename ValueType, typename Projection = functional::identity, typename Predicate = functional::less, typename std::enable_if&lt; <a class="el" href="a04386.html">Detail::is_nearest_call</a>&lt; IteratorType, Sentinel, ValueType, Predicate, Projection &gt;::value, int &gt;::type = 0&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">IteratorType lumex::core::utility::ranges::Algorithm::get_nearest_to </td>
-          <td>(</td>
-          <td class="paramtype">IteratorType</td>          <td class="paramname"><span class="paramname"><em>first</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Sentinel</td>          <td class="paramname"><span class="paramname"><em>last</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">ValueType const &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Predicate</td>          <td class="paramname"><span class="paramname"><em>pred</em></span><span class="paramdefsep"> = </span><span class="paramdefval">Predicate&#160;()</span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Projection</td>          <td class="paramname"><span class="paramname"><em>proj</em></span><span class="paramdefsep"> = </span><span class="paramdefval">Projection&#160;()</span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Finds the iterator whose (projected) value is numerically nearest to <code>value</code>. </p>
-<p>Requires the range to be sorted according to <code>pred</code>/<code>proj</code> (uses <code>std::ranges::lower_bound</code> from C++20 and <code>std::lower_bound</code> below), then compares the found element and its predecessor to pick whichever is closer to <code>value</code>; on a tie the predecessor wins. A sentinel of another type than the iterator is walked to once, before the search. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">IteratorType</td><td>Bidirectional iterator over the range. </td></tr>
-    <tr><td class="paramname">Sentinel</td><td>Sentinel type for <code>IteratorType</code>. </td></tr>
-    <tr><td class="paramname">ValueType</td><td>Numeric type of <code>value</code> (see <code><a class="el" href="a06383.html" title="A &quot;real&quot; numeric type: any integral type except bool, or any floating-point type (cv-qualifiers ignor...">is_numeric</a></code> of the math module). </td></tr>
-    <tr><td class="paramname">Projection</td><td>Projection applied to elements before comparison (defaults to <code><a class="el" href="a04206.html" title="The function object that returns its argument unchanged, as the same reference (the counterpart of st...">functional::identity</a></code>); a callable or a pointer to a member. </td></tr>
-    <tr><td class="paramname">Predicate</td><td>Strict-weak-order predicate used for the search (defaults to <code><a class="el" href="a04214.html" title="The function object that compares two operands of any types with &lt; (the counterpart of std::less&lt;void...">functional::less</a></code>). </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Iterator to the nearest element, or the end iterator if <code>first == last</code>. </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01432_aec0a81087adec6bd2d38380a680fb136_cgraph.png" border="0" usemap="#aa01432_aec0a81087adec6bd2d38380a680fb136_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01432_aec0a81087adec6bd2d38380a680fb136_icgraph.png" border="0" usemap="#aa01432_aec0a81087adec6bd2d38380a680fb136_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="abdb08d96519514d27aa1d6345cc1ad6b" name="abdb08d96519514d27aa1d6345cc1ad6b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abdb08d96519514d27aa1d6345cc1ad6b">&#9670;&#160;</a></span>get_nearest_to() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename RangeType, typename ValueType, typename Projection = functional::identity, typename Predicate = functional::less, typename std::enable_if&lt; <a class="el" href="a04390.html">Detail::is_nearest_range_call</a>&lt; RangeType, ValueType, Predicate, Projection &gt;::value, int &gt;::type = 0&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a04358.html">Detail::range_types</a>&lt; RangeType &gt;::iterator lumex::core::utility::ranges::Algorithm::get_nearest_to </td>
-          <td>(</td>
-          <td class="paramtype">RangeType &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>range</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">ValueType const &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Predicate</td>          <td class="paramname"><span class="paramname"><em>pred</em></span><span class="paramdefsep"> = </span><span class="paramdefval">Predicate&#160;()</span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Projection</td>          <td class="paramname"><span class="paramname"><em>proj</em></span><span class="paramdefsep"> = </span><span class="paramdefval">Projection&#160;()</span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Range-based overload of <a class="el" href="#aec0a81087adec6bd2d38380a680fb136" title="Finds the iterator whose (projected) value is numerically nearest to value.">get_nearest_to()</a>. </p>
-<p><code>RangeType</code> is deduced as a forwarding reference. The range must outlive the call (see the file comment): below C++20 only an lvalue range is accepted, from C++20 also a borrowed range. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01432_abdb08d96519514d27aa1d6345cc1ad6b_cgraph.png" border="0" usemap="#aa01432_abdb08d96519514d27aa1d6345cc1ad6b_cgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-</div><!-- contents -->
+<p>CPUID feature flags (ECX register, function 0x00000001)  
+<a href="#details">More...</a></p>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>CPUID feature flags (ECX register, function 0x00000001) </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01311.html">core</a></li><li class="navelem"><a class="el" href="a01409.html">utility</a></li><li class="navelem"><a class="el" href="a01431.html">ranges</a></li><li class="navelem"><a class="el" href="a01432.html">Algorithm</a></li>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01426.html">applied</a></li><li class="navelem"><a class="el" href="a01427.html">hardware</a></li><li class="navelem"><a class="el" href="a01428.html">caps</a></li><li class="navelem"><a class="el" href="a01432.html">CPUIDECXFlags</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

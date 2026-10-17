@@ -1,0 +1,22 @@
+<map id="lumex::xml::document::XmlDocument::load_file" name="lumex::xml::document::XmlDocument::load_file">
+<area shape="rect" id="Node000001" title="Loads an XML document from a file specified by a C&#45;style character path." alt="" coords="781,149,968,189"/>
+<area shape="rect" id="Node000002" href="$a01919.html#ae1b637ba55ed87cd379edb2d82afdf23" title="Checks that a path is a readable, well&#45;formed XML file with a document element." alt="" coords="547,77,733,132"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="787,148,733,133,734,128,788,142"/>
+<area shape="rect" id="Node000007" href="$a00389.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="613,156,667,181"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="768,171,667,171,667,166,768,166"/>
+<area shape="rect" id="Node000008" href="$a01755.html#a18e6ebf596904b610362cfb2257fd9b4" title="Reads logger configuration from an absolute enable/config path." alt="" coords="551,205,729,260"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="789,195,730,211,729,206,787,190"/>
+<area shape="rect" id="Node000003" href="$a01919.html#a8d037cd5f5f2336c9295633a24a5f53c" title=" " alt="" coords="294,5,481,60"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="533,77,480,62,481,57,534,72"/>
+<area shape="rect" id="Node000004" href="$a01919.html#aee36de8debc87784e6a28833736c0f88" title="Loads and parses an XML file from the given path." alt="" coords="276,85,499,125"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="533,107,499,107,499,102,533,102"/>
+<area shape="rect" id="Node000006" href="$a00317.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="89,149,144,175"/>
+<area shape="poly" id="edge6_Node000002_Node000006" title=" " alt="" coords="534,133,499,139,397,151,296,159,144,164,144,159,295,153,396,146,498,134,533,128"/>
+<area shape="rect" id="Node000005" href="$a01919.html#a49ecba46ab453277477a0298ca001778" title=" " alt="" coords="5,85,228,125"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="262,107,228,107,228,102,262,102"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="280,130,145,159,144,154,279,125"/>
+<area shape="rect" id="Node000009" href="$a01651.html#aab14961ea93b42c8867851c5113e6744" title=" " alt="" coords="295,213,479,253"/>
+<area shape="poly" id="edge9_Node000008_Node000009" title=" " alt="" coords="537,235,480,235,480,230,537,230"/>
+<area shape="rect" id="Node000010" href="$a00329.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="89,220,144,245"/>
+<area shape="poly" id="edge10_Node000009_Node000010" title=" " alt="" coords="281,235,144,235,144,230,281,230"/>
+</map>

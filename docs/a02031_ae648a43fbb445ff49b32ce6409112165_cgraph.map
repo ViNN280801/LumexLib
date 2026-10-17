@@ -1,0 +1,20 @@
+<map id="lumex::core::atomic::sync::table_wait::Detail::bit_lock::lock" name="lumex::core::atomic::sync::table_wait::Detail::bit_lock::lock">
+<area shape="rect" id="Node000001" title="Takes the lock, sleeping while another thread holds it." alt="" coords="5,211,160,265"/>
+<area shape="rect" id="Node000002" href="$a01496.html#a069847c28bd87c2003813e1284bcf355" title="Tells the processor that the calling thread is spinning." alt="" coords="239,29,391,84"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="98,209,143,151,173,120,206,93,226,82,228,87,210,98,177,124,147,155,102,212"/>
+<area shape="rect" id="Node000003" href="$a02031.html#a00f6a128dd620d777dbf53b1ccdb553b" title="Returns the current lock word (lock_bit, notify_bit)." alt="" coords="235,108,396,163"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="132,208,207,172,222,165,224,170,209,176,134,213"/>
+<area shape="rect" id="Node000004" href="$a01496.html#aa411a9b6a91063b2ca57a48b5cda7e38" title="ThreadSanitizer annotations of the lock word; no&#45;ops in other builds." alt="" coords="208,211,423,265"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="160,235,194,235,194,241,160,241"/>
+<area shape="rect" id="Node000005" href="$a01496.html#aaa48cf4ef446317fc83f672e8954ea02" title="ThreadSanitizer annotations of the lock word; no&#45;ops in other builds." alt="" coords="211,313,419,368"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="146,263,242,305,240,310,144,268"/>
+<area shape="rect" id="Node000006" href="$a01496.html#a1639c5bbfd26c902c3942c785090b761" title="Blocks the calling thread while word holds old." alt="" coords="218,416,413,471"/>
+<area shape="poly" id="edge8_Node000001_Node000006" title=" " alt="" coords="105,264,151,319,210,377,252,407,249,411,206,381,147,323,101,267"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="271,29,271,19,279,10,294,5,315,3,341,6,356,14,354,18,340,11,315,8,295,10,282,15,276,21,276,29"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="271,211,271,200,279,192,294,186,315,184,341,187,356,195,354,200,340,192,315,189,295,191,282,196,276,202,276,211"/>
+<area shape="poly" id="edge7_Node000005_Node000005" title=" " alt="" coords="271,313,271,303,279,294,294,289,315,287,341,290,356,298,354,302,340,295,315,292,295,294,282,299,276,305,276,313"/>
+<area shape="poly" id="edge11_Node000006_Node000006" title=" " alt="" coords="271,416,271,406,279,397,294,391,315,389,341,392,356,400,354,405,340,398,315,395,295,397,282,401,276,408,276,416"/>
+<area shape="rect" id="Node000007" href="$a01496.html#a0ef36c77415fb5ece4adacc21cfd1d2c" title="Returns the stripe that serves the word at address." alt="" coords="471,416,623,471"/>
+<area shape="poly" id="edge9_Node000006_Node000007" title=" " alt="" coords="413,441,457,441,457,446,413,446"/>
+<area shape="poly" id="edge10_Node000007_Node000007" title=" " alt="" coords="502,416,502,406,510,397,525,391,547,389,573,392,587,400,585,405,571,398,547,395,526,397,513,401,507,408,507,416"/>
+</map>

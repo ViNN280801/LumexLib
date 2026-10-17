@@ -1,0 +1,9 @@
+<map id="lumex::core::optional::opt::detail::opt_destruct_base&lt; T, bool &gt;" name="lumex::core::optional::opt::detail::opt_destruct_base&lt; T, bool &gt;">
+<area shape="rect" id="Node000001" title="The union, the flag and the destructor; this form is for a trivially destructible T,..." alt="" coords="5,84,191,139"/>
+<area shape="rect" id="Node000002" href="$a03571.html" title=" " alt="" coords="239,5,401,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="188,77,242,58,244,63,189,82"/>
+<area shape="rect" id="Node000003" href="$a03563.html" title=" " alt="" coords="239,84,401,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="204,109,238,109,238,114,204,114"/>
+<area shape="rect" id="Node000004" href="$a03567.html" title=" " alt="" coords="239,163,401,217"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="189,141,244,160,242,165,188,146"/>
+</map>

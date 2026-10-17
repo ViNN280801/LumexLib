@@ -68,6 +68,14 @@
  *   ticks it saw, so that ticks that arrive before its swap need no further
  *   access to the counter (8 in production; a test sets 0 to take the
  *   top-up path every time).
+ * - `cas_reserve ()`: the reserve of a successful compare-exchange, like
+ *   `reserve ()` for a store: the units it deposits in `ext` beyond the ticks
+ *   it saw, returned with the drop of the old word when the swap succeeds
+ *   (`reserve ()` by default, 8 in production; 0 switches the reserve of the
+ *   compare-exchange off, so that it deposits exactly the ticks it sees, and
+ *   the cell then compiles the code of the engine as it was). It selects the
+ *   code at compile time, so it must be a constant expression: declare it
+ *   `static LUMEX_CONSTEXPR std::uint32_t cas_reserve () LUMEX_NOEXCEPT`.
  * - `back_off ()`: what a pin does while `L` is at the limit (yield).
  *
  * Everything here is an implementation detail of `lumex/core/atomic`.
@@ -158,10 +166,20 @@ struct split_native_policy_t
     return 0xFFFFFFu;
   }
 
-  static std::uint32_t
+  static LUMEX_CONSTEXPR std::uint32_t
   reserve () LUMEX_NOEXCEPT
   {
     return 8u;
+  }
+
+  /// The reserve of a successful compare-exchange; a policy that returns 0
+  /// switches it off. It returns the `reserve ()` of THIS class (static
+  /// functions do not dispatch): a policy that derives from it and changes
+  /// `reserve ()` overrides `cas_reserve ()` as well.
+  static LUMEX_CONSTEXPR std::uint32_t
+  cas_reserve () LUMEX_NOEXCEPT
+  {
+    return reserve ();
   }
 
   static void

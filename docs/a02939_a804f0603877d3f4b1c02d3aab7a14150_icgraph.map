@@ -1,0 +1,39 @@
+<map id="lumex::core::filesystem::fs::filesystem_result::value" name="lumex::core::filesystem::fs::filesystem_result::value">
+<area shape="rect" id="Node000001" title="Retrieves the encapsulated value (const version)." alt="" coords="685,299,860,353"/>
+<area shape="rect" id="Node000002" href="$a02967.html#acc96cd1cd2ca1a6ffb8fdeed8ba3ca4c" title="Checks if a file is empty or a directory is empty." alt="" coords="457,60,631,115"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="752,288,706,208,673,165,636,128,620,117,623,113,639,124,677,162,710,205,757,285"/>
+<area shape="rect" id="Node000003" href="$a02967.html#a1264c37f3d82b70459f4cf3d2160e4b1" title="Check if a file is readable by the current process." alt="" coords="457,163,631,217"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="727,292,684,261,636,231,614,220,616,215,639,226,687,256,730,288"/>
+<area shape="rect" id="Node000009" href="$a02967.html#abb3dd60af7fc9ce36757396d06988938" title="Check if a file is writable by the current process." alt="" coords="457,265,631,320"/>
+<area shape="poly" id="edge11_Node000001_Node000009" title=" " alt="" coords="671,314,631,308,632,303,672,309"/>
+<area shape="rect" id="Node000012" href="$a00260.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="288,423,343,448"/>
+<area shape="poly" id="edge16_Node000001_Node000012" title=" " alt="" coords="672,338,564,355,507,369,452,386,428,399,404,412,344,432,342,426,402,408,425,394,450,381,506,364,563,350,671,333"/>
+<area shape="rect" id="Node000013" href="$a02939.html#ac69660c0ee13cd2f476412ad5fbbf480" title="Factory method for creating a successful filesystem_result." alt="" coords="451,395,637,435"/>
+<area shape="poly" id="edge17_Node000001_Node000013" title=" " alt="" coords="690,361,596,398,594,393,688,356"/>
+<area shape="rect" id="Node000014" href="$a02967.html#ab88255f0532696ecffda0491931b6dfd" title="Recursively removes a file or a directory and all its contents." alt="" coords="457,484,631,539"/>
+<area shape="poly" id="edge18_Node000001_Node000014" title=" " alt="" coords="736,365,639,449,588,486,585,482,636,445,732,361"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="582,49,568,42,544,39,524,41,511,45,505,52,505,60,500,60,500,50,508,41,523,35,544,33,570,36,584,44"/>
+<area shape="poly" id="edge9_Node000003_Node000003" title=" " alt="" coords="582,152,568,144,544,141,524,143,511,148,505,154,505,163,500,163,500,152,508,144,523,138,544,136,570,139,584,147"/>
+<area shape="rect" id="Node000004" href="$a02967.html#a0061e0d3d6fd72dddb13d151f253ba5d" title="Check if a file is both readable and writable by the current process." alt="" coords="228,187,403,241"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="443,203,403,207,403,202,443,198"/>
+<area shape="rect" id="Node000007" href="$a02967.html#a257dbed76aa10531c19d12c270cfc2bf" title="Overload of is_readable that accepts a C&#45;style string path_arg." alt="" coords="228,5,403,60"/>
+<area shape="poly" id="edge8_Node000003_Node000007" title=" " alt="" coords="486,157,449,128,425,99,416,87,401,73,384,62,386,58,404,69,420,83,429,96,453,124,490,153"/>
+<area shape="rect" id="Node000008" href="$a02967.html#a1c62501dba7e40016d7312a46ba5dc93" title="Overload of is_readable that accepts a std::string path_arg." alt="" coords="228,84,403,139"/>
+<area shape="poly" id="edge10_Node000003_Node000008" title=" " alt="" coords="450,161,394,141,396,136,452,156"/>
+<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="352,176,339,168,315,165,296,167,283,172,277,178,277,187,272,187,272,176,280,168,294,162,315,160,340,163,355,171"/>
+<area shape="rect" id="Node000005" href="$a02967.html#a9826461da6bac52ef2b518832b4cef59" title="Overload of is_accessible that accepts a C&#45;style string path_arg." alt="" coords="5,148,180,203"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="214,199,180,193,181,188,215,194"/>
+<area shape="rect" id="Node000006" href="$a02967.html#aa4e19c385184485a25386baf34bf43a9" title="Overload of is_accessible that accepts a std::string path_arg." alt="" coords="5,227,180,281"/>
+<area shape="poly" id="edge7_Node000004_Node000006" title=" " alt="" coords="215,235,181,241,180,236,214,229"/>
+<area shape="poly" id="edge12_Node000009_Node000004" title=" " alt="" coords="450,263,394,244,396,239,452,258"/>
+<area shape="poly" id="edge14_Node000009_Node000009" title=" " alt="" coords="582,254,568,247,544,244,524,246,511,251,505,257,505,265,500,265,500,255,508,246,523,241,544,239,570,242,584,250"/>
+<area shape="rect" id="Node000010" href="$a02967.html#aa582081094837488074f92d72877df79" title="Overload of is_writable that accepts a C&#45;style string path_arg." alt="" coords="228,265,403,320"/>
+<area shape="poly" id="edge13_Node000009_Node000010" title=" " alt="" coords="443,295,403,295,403,290,443,290"/>
+<area shape="rect" id="Node000011" href="$a02967.html#a3f5084f644c3067ea55fdd09f2c67493" title="Overload of is_writable that accepts a std::string path_arg." alt="" coords="228,344,403,399"/>
+<area shape="poly" id="edge15_Node000009_Node000011" title=" " alt="" coords="452,327,396,346,394,341,450,322"/>
+<area shape="poly" id="edge19_Node000014_Node000012" title=" " alt="" coords="456,482,402,463,342,445,344,440,403,458,458,477"/>
+<area shape="poly" id="edge22_Node000014_Node000014" title=" " alt="" coords="582,473,568,466,544,463,524,465,511,469,505,476,505,484,500,484,500,474,508,465,523,459,544,457,570,460,584,468"/>
+<area shape="rect" id="Node000015" href="$a02967.html#ac1050fc7fb4e882f6b23a9ad965f9e6c" title="Moves a directory and its contents from one location to another." alt="" coords="228,496,403,551"/>
+<area shape="poly" id="edge20_Node000014_Node000015" title=" " alt="" coords="443,519,403,521,403,516,442,514"/>
+<area shape="poly" id="edge21_Node000015_Node000015" title=" " alt="" coords="352,485,339,478,315,475,296,477,283,481,277,488,277,496,272,496,272,486,280,477,294,471,315,469,340,472,355,480"/>
+</map>

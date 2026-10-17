@@ -1,0 +1,17 @@
+<map id="lumex::xml::writer::XmlBufferedWriter::write_direct" name="lumex::xml::writer::XmlBufferedWriter::write_direct">
+<area shape="rect" id="Node000001" title="Writes a block of characters directly to the buffer, bypassing encoding." alt="" coords="639,26,789,80"/>
+<area shape="rect" id="Node000002" href="$a05207.html#a0344d1878971800f0d9a384eace1bfc7" title="Deleted copy assignment operator." alt="" coords="232,26,383,80"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="629,24,590,16,515,8,440,16,384,29,382,23,440,10,515,3,591,10,630,19"/>
+<area shape="rect" id="Node000003" href="$a05207.html#a8cd530939b0654164d288f7c4b579e51" title="Writes a block of characters to the buffer, handling encoding conversions if necessary." alt="" coords="440,26,591,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="625,56,591,56,591,50,625,50"/>
+<area shape="rect" id="Node000004" href="$a05207.html#a7a6efd2746de7d9a7c614a8f8725e9e1" title="Writes a null&#45;terminated string to the buffer." alt="" coords="440,104,591,159"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="633,88,585,107,583,102,631,83"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="426,56,383,56,383,50,426,50"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="429,102,379,83,381,78,431,97"/>
+<area shape="rect" id="Node000005" href="$a05127.html#a40677f13bf1306858bdcc329c3812775" title="Saves the XML document to a custom writer interface." alt="" coords="223,112,392,152"/>
+<area shape="poly" id="edge6_Node000004_Node000005" title=" " alt="" coords="426,134,392,134,392,129,426,129"/>
+<area shape="rect" id="Node000006" href="$a05127.html#aa6db85e0f29ddd002d752a2b587a17c8" title="Saves the XML document to a C&#45;style character output stream." alt="" coords="5,80,175,120"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="208,120,174,115,175,109,209,115"/>
+<area shape="rect" id="Node000007" href="$a05127.html#a5d454caaddafe49d675882e3928dbc3d" title="Saves the XML document to a wide character output stream." alt="" coords="5,144,175,184"/>
+<area shape="poly" id="edge8_Node000005_Node000007" title=" " alt="" coords="209,149,175,154,174,149,208,144"/>
+</map>

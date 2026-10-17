@@ -1,0 +1,13 @@
+<map id="lumex::core::filesystem::fs::check_name" name="lumex::core::filesystem::fs::check_name">
+<area shape="rect" id="Node000001" title="Checks if a file or directory name is valid." alt="" coords="5,133,180,173"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="47,133,45,123,52,114,68,108,93,106,121,109,136,116,134,121,119,114,93,111,69,113,55,118,50,124,53,132"/>
+<area shape="rect" id="Node000002" href="$a01538.html#a75f931473dff95752bbf968f5fe0fac7" title=" " alt="" coords="249,29,423,84"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="139,130,227,94,247,86,249,91,229,99,141,135"/>
+<area shape="rect" id="Node000003" href="$a01538.html#a91cd3a30484a7ae2ca526d8809579acb" title=" " alt="" coords="247,133,425,173"/>
+<area shape="poly" id="edge4_Node000001_Node000003" title=" " alt="" coords="180,150,234,150,234,155,180,155"/>
+<area shape="rect" id="Node000004" href="$a01538.html#a3244ed9dd864a653698dc515f12beed2" title=" " alt="" coords="228,221,444,261"/>
+<area shape="poly" id="edge6_Node000001_Node000004" title=" " alt="" coords="149,170,268,213,267,218,148,175"/>
+<area shape="poly" id="edge3_Node000002_Node000002" title=" " alt="" coords="289,29,289,19,297,10,313,5,336,3,363,6,379,14,377,18,362,11,336,8,314,10,300,15,294,21,294,29"/>
+<area shape="poly" id="edge5_Node000003_Node000003" title=" " alt="" coords="291,133,288,123,295,114,311,108,336,106,364,109,380,116,377,121,363,114,336,111,313,113,298,118,293,124,296,132"/>
+<area shape="poly" id="edge7_Node000004_Node000004" title=" " alt="" coords="291,221,288,211,295,202,311,196,336,194,364,197,380,204,377,209,363,202,336,199,313,201,298,206,293,212,296,220"/>
+</map>

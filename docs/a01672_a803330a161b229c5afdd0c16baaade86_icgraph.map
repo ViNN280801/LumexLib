@@ -1,0 +1,37 @@
+<map id="lumex::xml::node::append_new_attribute" name="lumex::xml::node::append_new_attribute">
+<area shape="rect" id="Node000001" title="Appends a newly allocated attribute to the current node." alt="" coords="1481,229,1673,269"/>
+<area shape="rect" id="Node000002" href="$a01672.html#aec8cf7d559fe456a7d4396307ffc5404" title="Copies the name and value strings and all attributes from a source XmlNodeBase to a destination XmlNo..." alt="" coords="1243,197,1419,237"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1467,238,1419,231,1420,226,1468,232"/>
+<area shape="rect" id="Node000009" href="$a05179.html#a6428c586faec7c093c2720191554582b" title="The main parsing function that constructs the XML document tree from a buffer." alt="" coords="1229,261,1433,301"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="1468,266,1434,271,1433,265,1468,261"/>
+<area shape="rect" id="Node000003" href="$a01672.html#a11377e4dbc3c07bbcae59a081a6040b6" title="Performs a deep copy of an XML node&#39;s entire subtree (including itself, children, and attributes)." alt="" coords="991,165,1167,205"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="1229,207,1167,199,1168,194,1230,202"/>
+<area shape="rect" id="Node000004" href="$a05143.html#affd983d76ecc8d527bff7cb6f9c13018" title="Appends a deep copy of an existing XmlNode (proto) as a child of the current node." alt="" coords="725,5,929,45"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="1049,157,996,107,963,82,928,60,902,48,905,43,931,55,966,77,999,103,1053,153"/>
+<area shape="rect" id="Node000005" href="$a05143.html#ade75f490c8aafb015483a5444c1af76c" title="Inserts a deep copy of an existing XmlNode (proto) after a given existing child node." alt="" coords="725,69,929,109"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="1022,162,928,124,894,112,895,107,930,119,1024,157"/>
+<area shape="rect" id="Node000006" href="$a05143.html#a35ef839927e8d9eaef5c22122c802fb1" title="Inserts a deep copy of an existing XmlNode (proto) before a given existing child node." alt="" coords="725,133,929,173"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="977,175,929,169,930,164,978,170"/>
+<area shape="rect" id="Node000007" href="$a05143.html#acf48c85813bfecc4b524bfc0e2cb9344" title="Prepends a deep copy of an existing XmlNode (proto) as a child of the current node." alt="" coords="725,197,929,237"/>
+<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="978,201,930,207,929,202,977,196"/>
+<area shape="rect" id="Node000008" href="$a05127.html#a3be8c5ddd0fac3d0f74c85f9ce393341" title="Removes all nodes from the document, then copies the entire contents of a specified document." alt="" coords="743,261,912,301"/>
+<area shape="poly" id="edge7_Node000003_Node000008" title=" " alt="" coords="1024,213,930,252,895,264,894,259,928,247,1022,209"/>
+<area shape="rect" id="Node000010" href="$a05179.html#a6b411ab037cc6b67ddb6c7e3c6f74d57" title="Parses an XML buffer and builds the document tree." alt="" coords="977,261,1181,301"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="1216,284,1182,284,1182,279,1216,279"/>
+<area shape="rect" id="Node000011" href="$a01682.html#a7355b4c5a34fafe87b02c6fd5d116775" title="Internal implementation for loading an XML document from a buffer." alt="" coords="744,325,911,365"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="988,307,907,328,905,323,986,302"/>
+<area shape="rect" id="Node000012" href="$a05143.html#ad912c9685395afada772e08f6b4fbbf8" title="Parses an XML buffer as a document fragment and appends its root&#45;level nodes as children to the curre..." alt="" coords="473,225,677,265"/>
+<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="739,323,724,316,700,297,676,280,649,268,651,263,679,275,703,293,727,311,741,318"/>
+<area shape="rect" id="Node000013" href="$a05127.html#a2be82b4cec0c495439948d0743cf967e" title="Loads an XML document from a read&#45;only memory buffer." alt="" coords="473,289,677,329"/>
+<area shape="poly" id="edge12_Node000011_Node000013" title=" " alt="" coords="730,334,677,327,678,321,731,329"/>
+<area shape="rect" id="Node000017" href="$a05127.html#ae9e5c00e1006515a52f21ab08ff70183" title="Loads an XML document by parsing a provided memory buffer in&#45;place." alt="" coords="473,354,677,409"/>
+<area shape="poly" id="edge16_Node000011_Node000017" title=" " alt="" coords="731,362,678,369,677,364,730,357"/>
+<area shape="rect" id="Node000018" href="$a05127.html#ad5dd01b2674c63beb5ec52966f930319" title="Loads an XML document by parsing a provided memory buffer in&#45;place, with ownership transfer." alt="" coords="473,433,677,487"/>
+<area shape="poly" id="edge17_Node000011_Node000018" title=" " alt="" coords="778,374,678,422,649,435,647,430,676,418,776,370"/>
+<area shape="rect" id="Node000014" href="$a05127.html#a9e0254f783e96e70cde965a50ba9c7e0" title="Loads an XML document from a zero&#45;terminated C&#45;style string." alt="" coords="223,289,425,329"/>
+<area shape="poly" id="edge13_Node000013_Node000014" title=" " alt="" coords="459,312,426,312,426,307,459,307"/>
+<area shape="rect" id="Node000015" href="$a05127.html#a8b098069f109e13fd8bd8e02648d490f" title="DEPRECATED: Loads an XML document from a zero&#45;terminated C&#45;style string. Use load_string instead." alt="" coords="5,260,175,300"/>
+<area shape="poly" id="edge14_Node000014_Node000015" title=" " alt="" coords="209,298,174,293,175,288,209,292"/>
+<area shape="rect" id="Node000016" href="$a00389.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="63,325,117,350"/>
+<area shape="poly" id="edge15_Node000014_Node000016" title=" " alt="" coords="209,326,118,337,117,331,209,320"/>
+</map>

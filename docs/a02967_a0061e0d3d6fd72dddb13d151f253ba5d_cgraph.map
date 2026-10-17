@@ -1,0 +1,25 @@
+<map id="lumex::core::filesystem::fs::lumex_filesystem::is_accessible" name="lumex::core::filesystem::fs::lumex_filesystem::is_accessible">
+<area shape="rect" id="Node000001" title="Check if a file is both readable and writable by the current process." alt="" coords="5,159,180,214"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="49,159,50,149,57,140,72,134,93,132,118,136,132,143,129,148,116,141,93,138,73,140,60,144,55,151,55,159"/>
+<area shape="rect" id="Node000002" href="$a02967.html#a1264c37f3d82b70459f4cf3d2160e4b1" title="Check if a file is readable by the current process." alt="" coords="228,210,403,264"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="181,204,215,212,214,217,179,209"/>
+<area shape="rect" id="Node000007" href="$a02967.html#abb3dd60af7fc9ce36757396d06988938" title="Check if a file is writable by the current process." alt="" coords="228,107,403,162"/>
+<area shape="poly" id="edge11_Node000001_Node000007" title=" " alt="" coords="179,163,214,155,215,160,181,169"/>
+<area shape="poly" id="edge7_Node000002_Node000002" title=" " alt="" coords="272,210,272,200,280,191,294,185,315,183,340,186,355,194,352,199,339,191,315,188,296,190,283,195,277,201,277,210"/>
+<area shape="rect" id="Node000003" href="$a02947.html#afbc4f64f22c9c5e9057842a5b81178ea" title="Returns a pointer to the null&#45;terminated C&#45;style string representation of the path." alt="" coords="673,256,848,296"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="352,263,398,291,451,313,514,322,578,320,638,311,691,297,693,302,639,316,578,326,514,328,450,318,396,296,349,267"/>
+<area shape="rect" id="Node000004" href="$a02967.html#a00f75a949bda6f52adc1e19318d74e68" title="Checks if a file or directory exists at the specified path." alt="" coords="451,248,625,303"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="403,250,438,256,437,261,402,255"/>
+<area shape="rect" id="Node000005" href="$a02967.html#a861a96cb2ff50243832db3b15d3d41ac" title="Returns the status of the file or directory at the specified path_arg, following symbolic links." alt="" coords="451,67,625,122"/>
+<area shape="poly" id="edge8_Node000002_Node000005" title=" " alt="" coords="352,207,401,171,424,150,449,131,457,126,460,131,452,135,428,154,404,175,356,212"/>
+<area shape="rect" id="Node000006" href="$a02939.html#a804f0603877d3f4b1c02d3aab7a14150" title="Retrieves the encapsulated value (const version)." alt="" coords="451,146,625,200"/>
+<area shape="poly" id="edge10_Node000002_Node000006" title=" " alt="" coords="402,209,437,199,438,205,403,215"/>
+<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="625,273,660,273,660,278,625,278"/>
+<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="495,248,495,238,503,229,517,224,538,222,563,225,577,233,575,237,561,230,538,227,518,229,506,234,500,240,500,248"/>
+<area shape="poly" id="edge9_Node000005_Node000005" title=" " alt="" coords="495,67,495,57,503,48,517,42,538,40,563,44,577,51,575,56,561,49,538,46,518,48,506,52,500,59,500,67"/>
+<area shape="poly" id="edge12_Node000007_Node000003" title=" " alt="" coords="338,105,387,63,417,43,450,28,499,12,540,4,581,8,627,28,655,49,679,74,699,102,716,132,741,192,756,242,751,243,736,193,711,134,695,105,675,77,651,53,624,33,579,13,541,9,500,17,452,33,420,47,390,67,342,109"/>
+<area shape="poly" id="edge13_Node000007_Node000004" title=" " alt="" coords="384,160,404,171,429,190,452,211,489,238,486,243,449,215,426,194,401,175,381,164"/>
+<area shape="poly" id="edge15_Node000007_Node000005" title=" " alt="" coords="402,116,437,110,438,115,403,121"/>
+<area shape="poly" id="edge16_Node000007_Node000006" title=" " alt="" coords="403,147,438,153,437,158,402,152"/>
+<area shape="poly" id="edge14_Node000007_Node000007" title=" " alt="" coords="272,107,272,97,280,88,294,82,315,80,340,84,355,91,352,96,339,89,315,86,296,88,283,92,277,99,277,107"/>
+</map>

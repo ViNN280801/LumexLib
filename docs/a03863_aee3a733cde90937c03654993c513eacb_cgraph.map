@@ -1,0 +1,6 @@
+<map id="lumex::core::smart_ptr::shared_ptr::reset" name="lumex::core::smart_ptr::shared_ptr::reset">
+<area shape="rect" id="Node000001" title="Takes ownership of p, releasing the previous object." alt="" coords="5,29,171,69"/>
+<area shape="rect" id="Node000002" href="$a03863.html#ab2104fa6e839672da3c30400e8325e52" title=" " alt="" coords="219,29,420,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="171,47,205,47,205,52,171,52"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="276,30,274,20,281,10,296,5,319,3,346,6,361,13,358,18,345,11,319,8,297,10,284,15,279,21,282,28"/>
+</map>

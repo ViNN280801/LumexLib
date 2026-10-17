@@ -1,0 +1,9 @@
+<map id="lumex::core::math::ops::Detail::is_numeric_range&lt; Range, typename voider&lt; decltype(adl_begin(std::declval&lt; typename range_object&lt; Range &gt;::type &amp; &gt;()) !=adl_end(std::declval&lt; typename range_object&lt; Range &gt;::type &amp; &gt;())), decltype(++std::declval&lt; decltype(adl_begin(std::declval&lt; typename range_object&lt; Range &gt;::type &amp; &gt;())) &amp; &gt;()), decltype(*adl_begin(std::declval&lt; typename range_object&lt; Range &gt;::type &amp; &gt;()))&gt;::type &gt;" name="lumex::core::math::ops::Detail::is_numeric_range&lt; Range, typename voider&lt; decltype(adl_begin(std::declval&lt; typename range_object&lt; Range &gt;::type &amp; &gt;()) !=adl_end(std::declval&lt; typename range_object&lt; Range &gt;::type &amp; &gt;())), decltype(++std::declval&lt; decltype(adl_begin(std::declval&lt; typename range_object&lt; Range &gt;::type &amp; &gt;())) &amp; &gt;()), decltype(*adl_begin(std::declval&lt; typename range_object&lt; Range &gt;::type &amp; &gt;()))&gt;::type &gt;">
+<area shape="rect" id="Node000001" title=" " alt="" coords="633,5,980,207"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="426,49,545,75"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="559,69,634,80,633,85,558,75"/>
+<area shape="rect" id="Node000003" href="$a03319.html" title=" " alt="" coords="385,99,585,198"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="599,131,632,126,633,132,599,136"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="5,48,337,249"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="351,146,385,146,385,151,351,151"/>
+</map>

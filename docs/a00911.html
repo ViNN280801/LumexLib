@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: example_unicode_workflow.cpp File Reference</title>
+<title>LumexLib: ExpectedTypes.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,46 +104,203 @@ $(function(){initNavTree('a00911.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">example_unicode_workflow.cpp File Reference</div></div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#var-members">Variables</a>  </div>
+  <div class="headertitle"><div class="title">ExpectedTypes.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;cstddef&gt;</code><br />
-<code>#include &lt;cstdint&gt;</code><br />
-<code>#include &lt;cstring&gt;</code><br />
-<code>#include &lt;iomanip&gt;</code><br />
-<code>#include &lt;iostream&gt;</code><br />
-<code>#include &lt;sstream&gt;</code><br />
-<code>#include &lt;string&gt;</code><br />
-<code>#include &lt;vector&gt;</code><br />
-<code>#include &quot;<a class="el" href="a01238_source.html">lumex/core/unicode/LumexUnicode</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00587_source.html">lumex/core/utility/bit/LumexBit.hpp</a>&quot;</code><br />
+
+<p>The tags and the placeholder type that <code>expected</code> uses: <code>in_place</code>, <code>unexpect</code> and <code>Unit</code>.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &lt;type_traits&gt;</code><br />
+<code>#include &quot;<a class="el" href="a01127_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01067_source.html">lumex/core/utility/traits/LumexTypeTraits.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for example_unicode_workflow.cpp:</div>
+Include dependency graph for ExpectedTypes.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00912.png" border="0" usemap="#aexample__unicode__workflow_8cpp" alt=""/></div>
+<div class="center"><img src="a00912.png" border="0" usemap="#aExpectedTypes_8hpp" alt=""/></div>
+<map name="aExpectedTypes_8hpp" id="aExpectedTypes_8hpp">
+<area shape="rect" title="The tags and the placeholder type that expected uses: in_place, unexpect and Unit." alt="" coords="671,5,818,31"/>
+<area shape="rect" title=" " alt="" coords="5,350,97,375"/>
+<area shape="poly" title=" " alt="" coords="672,26,518,41,331,68,240,87,159,110,93,137,68,152,49,168,36,187,29,207,25,253,32,298,43,336,38,337,27,299,20,253,23,206,32,184,45,165,65,148,90,133,157,105,239,82,330,63,517,36,671,21"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="1477,343,1690,383"/>
+<area shape="poly" title=" " alt="" coords="819,20,1040,40,1181,57,1326,81,1467,112,1590,150,1643,172,1687,197,1723,224,1747,253,1753,268,1753,282,1748,294,1739,306,1712,325,1678,340,1675,336,1709,321,1735,302,1743,292,1748,281,1748,269,1742,256,1719,228,1685,201,1641,177,1589,155,1465,117,1325,86,1180,62,1040,45,818,25"/>
+<area shape="rect" href="a01067.html" title="Every general&#45;purpose type trait of LumexLib, one sub&#45;namespace of lumex::core::utility::traits per t..." alt="" coords="644,79,845,119"/>
+<area shape="poly" title=" " alt="" coords="747,31,747,65,742,65,742,31"/>
+<area shape="poly" title=" " alt="" coords="644,105,486,112,309,125,158,144,106,156,78,169,64,186,54,207,44,252,44,298,48,336,43,337,38,298,39,252,49,205,60,184,75,165,104,151,157,139,309,120,486,107,644,99"/>
+<area shape="poly" title=" " alt="" coords="845,99,969,105,1121,117,1288,136,1453,164,1537,174,1607,179,1638,186,1668,199,1697,221,1726,253,1732,267,1733,280,1728,292,1720,304,1694,324,1661,340,1658,335,1691,319,1716,300,1724,290,1728,279,1727,268,1721,256,1694,225,1666,204,1637,191,1606,185,1536,180,1452,169,1287,141,1121,122,968,110,845,104"/>
+<area shape="rect" title=" " alt="" coords="89,174,160,199"/>
+<area shape="poly" title=" " alt="" coords="644,105,544,111,425,123,298,142,172,169,164,172,163,166,171,164,297,136,424,118,543,106,643,99"/>
+<area shape="rect" title=" " alt="" coords="184,174,271,199"/>
+<area shape="poly" title=" " alt="" coords="644,110,474,132,377,148,283,169,272,172,271,167,281,164,376,143,473,126,643,105"/>
+<area shape="rect" title=" " alt="" coords="295,174,365,199"/>
+<area shape="poly" title=" " alt="" coords="644,114,517,136,379,169,372,171,370,166,377,164,515,131,643,109"/>
+<area shape="rect" title=" " alt="" coords="390,174,449,199"/>
+<area shape="poly" title=" " alt="" coords="645,120,555,141,462,169,457,171,455,166,460,164,553,136,643,115"/>
+<area shape="rect" title=" " alt="" coords="473,174,550,199"/>
+<area shape="poly" title=" " alt="" coords="691,121,563,169,557,171,555,166,561,164,689,116"/>
+<area shape="rect" title=" " alt="" coords="575,174,651,199"/>
+<area shape="poly" title=" " alt="" coords="716,121,645,168,642,164,713,117"/>
+<area shape="rect" title=" " alt="" coords="675,174,734,199"/>
+<area shape="poly" title=" " alt="" coords="738,120,719,163,714,160,733,118"/>
+<area shape="rect" title=" " alt="" coords="759,174,813,199"/>
+<area shape="poly" title=" " alt="" coords="757,118,777,160,772,163,752,120"/>
+<area shape="rect" title=" " alt="" coords="837,174,897,199"/>
+<area shape="poly" title=" " alt="" coords="775,117,840,164,837,168,772,121"/>
+<area shape="rect" title=" " alt="" coords="922,174,997,199"/>
+<area shape="poly" title=" " alt="" coords="795,116,916,166,914,171,793,121"/>
+<area shape="rect" title=" " alt="" coords="1021,174,1119,199"/>
+<area shape="poly" title=" " alt="" coords="829,116,1009,164,1020,167,1018,172,1008,169,828,121"/>
+<area shape="rect" href="a01073.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="1195,167,1377,207"/>
+<area shape="poly" title=" " alt="" coords="846,111,1176,164,1181,165,1180,170,1175,169,845,117"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="991,343,1245,383"/>
+<area shape="poly" title=" " alt="" coords="846,100,928,106,1013,118,1086,137,1113,150,1132,165,1149,190,1151,199,1147,206,1131,210,1105,210,1073,211,1038,216,1005,230,990,241,976,256,970,268,969,279,973,290,982,300,1008,319,1041,335,1038,340,1005,324,978,304,969,293,964,280,965,267,972,253,986,237,1002,225,1037,211,1073,206,1105,205,1130,205,1144,201,1146,198,1144,192,1128,168,1110,154,1084,142,1012,123,928,112,846,105"/>
+<area shape="rect" href="a01124.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="1456,255,1711,295"/>
+<area shape="poly" title=" " alt="" coords="846,102,1139,125,1286,142,1345,153,1391,164,1434,181,1476,201,1546,244,1543,249,1473,206,1432,186,1389,169,1344,158,1285,148,1139,130,845,107"/>
+<area shape="poly" title=" " alt="" coords="1321,205,1394,253,1420,273,1446,292,1525,334,1523,339,1443,297,1417,277,1391,257,1318,209"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="986,262,1167,287"/>
+<area shape="poly" title=" " alt="" coords="1239,209,1120,259,1118,254,1237,204"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="1191,255,1381,295"/>
+<area shape="poly" title=" " alt="" coords="1289,207,1289,241,1283,241,1283,207"/>
+<area shape="poly" title=" " alt="" coords="1192,296,1180,297,865,328,556,348,292,360,111,364,111,359,292,354,556,343,865,323,1179,292,1191,290"/>
+<area shape="poly" title=" " alt="" coords="1355,292,1503,336,1502,341,1353,297"/>
+<area shape="poly" title=" " alt="" coords="1249,297,1170,339,1167,334,1246,292"/>
+<area shape="poly" title=" " alt="" coords="1586,295,1586,329,1581,329,1581,295"/>
+</map>
 </div>
-</div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
-<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00913.png" border="0" usemap="#aExpectedTypes_8hppdep" alt=""/></div>
+<map name="aExpectedTypes_8hppdep" id="aExpectedTypes_8hppdep">
+<area shape="rect" title="The tags and the placeholder type that expected uses: in_place, unexpect and Unit." alt="" coords="783,5,929,31"/>
+<area shape="rect" href="a01373.html" title="Expected module: expected&lt;T, E&gt;, a value or an error after the C++23 std::expected,..." alt="" coords="705,519,788,544"/>
+<area shape="poly" title=" " alt="" coords="789,37,741,56,695,83,676,99,661,119,652,140,648,165,648,385,650,406,657,426,679,463,706,494,731,516,728,520,702,498,674,466,652,428,645,407,643,385,643,164,646,139,657,116,672,96,692,78,739,51,787,32"/>
+<area shape="rect" href="a00902.html" title="expected&lt;SuccessType, ErrorType&gt;, an implementation of C++23 std::expected usable from C++11,..." alt="" coords="745,299,855,324"/>
+<area shape="poly" title=" " alt="" coords="782,38,751,55,726,80,714,109,712,139,718,171,729,201,761,257,791,297,786,300,756,260,724,204,712,172,707,139,709,107,722,77,748,51,780,33"/>
+<area shape="rect" href="a00905.html" title="The return markers success() and failure() for functions that return an expected." alt="" coords="835,445,981,471"/>
+<area shape="poly" title=" " alt="" coords="944,25,1008,40,1040,52,1070,66,1096,85,1117,107,1131,133,1136,164,1136,312,1132,339,1120,364,1102,385,1079,403,1026,430,972,448,971,443,1024,425,1076,399,1098,381,1115,361,1127,338,1131,311,1131,165,1126,135,1113,110,1093,89,1067,71,1038,57,1006,45,942,30"/>
+<area shape="rect" href="a00917.html" title="Internal helpers of expected: language helpers that C++11 lacks as constexpr (fwd,..." alt="" coords="835,152,984,177"/>
+<area shape="poly" title=" " alt="" coords="868,43,907,151,902,153,863,45"/>
+<area shape="rect" href="a00908.html" title="Internal storage of expected: the union of the two alternatives, and the layers that give expected th..." alt="" coords="936,225,1096,251"/>
+<area shape="poly" title=" " alt="" coords="888,37,945,84,974,116,998,151,1013,190,1018,225,1013,225,1008,191,994,153,970,119,941,88,885,41"/>
+<area shape="rect" href="a00920.html" title="unexpected, the wrapper that carries an error into an expected; an analogue of C++23 std::unexpected." alt="" coords="736,79,864,104"/>
+<area shape="poly" title=" " alt="" coords="840,43,812,80,808,77,836,40"/>
+<area shape="rect" href="a01298.html" title="CPU and RAM of single processes, by process ID or by executable name, with the processes they started..." alt="" coords="211,592,403,617"/>
+<area shape="poly" title=" " alt="" coords="692,543,383,595,382,589,692,538"/>
+<area shape="rect" href="a00335.html" title=" " alt="" coords="427,592,600,617"/>
+<area shape="poly" title=" " alt="" coords="694,551,555,594,553,589,692,546"/>
+<area shape="rect" href="a00338.html" title=" " alt="" coords="624,592,869,617"/>
+<area shape="poly" title=" " alt="" coords="749,558,749,592,744,592,744,558"/>
+<area shape="rect" href="a00344.html" title=" " alt="" coords="893,592,1093,617"/>
+<area shape="poly" title=" " alt="" coords="803,545,951,589,950,594,801,550"/>
+<area shape="rect" href="a00341.html" title=" " alt="" coords="1118,592,1357,617"/>
+<area shape="poly" title=" " alt="" coords="802,537,1153,589,1152,595,801,542"/>
+<area shape="rect" href="a01301.html" title=" " alt="" coords="9,665,199,691"/>
+<area shape="poly" title=" " alt="" coords="259,625,140,668,138,663,258,620"/>
+<area shape="rect" href="a01343.html" title="Resource monitor module: a background thread that samples the CPU and RAM usage of the system (and of..." alt="" coords="150,739,325,764"/>
+<area shape="poly" title=" " alt="" coords="289,630,265,667,250,705,242,739,237,738,245,704,260,664,284,627"/>
+<area shape="rect" href="a01292.html" title="Background CPU/RAM usage sampler that appends one line per sample to a dated log file,..." alt="" coords="275,665,477,691"/>
+<area shape="poly" title=" " alt="" coords="330,626,366,663,362,667,326,629"/>
+<area shape="rect" href="a01289.html" title="The text the background sampler logs for a watch list." alt="" coords="501,665,659,691"/>
+<area shape="poly" title=" " alt="" coords="368,618,533,663,532,668,367,624"/>
+<area shape="rect" href="a00449.html" title=" " alt="" coords="5,819,232,845"/>
+<area shape="poly" title=" " alt="" coords="208,774,139,821,136,817,205,770"/>
+<area shape="rect" href="a00446.html" title=" " alt="" coords="256,812,456,852"/>
+<area shape="poly" title=" " alt="" coords="269,770,328,810,325,814,266,774"/>
+<area shape="poly" title=" " alt="" coords="341,700,263,741,260,736,338,695"/>
+<area shape="rect" href="a01295.html" title=" " alt="" coords="349,739,549,764"/>
+<area shape="poly" title=" " alt="" coords="400,699,438,736,434,740,397,702"/>
+<area shape="poly" title=" " alt="" coords="546,700,474,741,471,736,544,695"/>
+<area shape="rect" href="a01283.html" title=" " alt="" coords="574,739,730,764"/>
+<area shape="poly" title=" " alt="" coords="604,699,641,736,637,740,600,702"/>
+<area shape="poly" title=" " alt="" coords="796,339,752,519,747,518,791,337"/>
+<area shape="rect" href="a00914.html" title="The specialization expected&lt;void, ErrorType&gt; for operations that succeed without a value; an implemen..." alt="" coords="837,372,976,397"/>
+<area shape="poly" title=" " alt="" coords="832,330,889,370,886,374,828,334"/>
+<area shape="poly" title=" " alt="" coords="806,337,813,367,828,396,854,423,884,443,881,447,851,427,823,399,808,369,801,338"/>
+<area shape="poly" title=" " alt="" coords="877,407,826,447,788,486,759,520,755,517,784,482,822,443,874,403"/>
+<area shape="poly" title=" " alt="" coords="910,411,910,445,905,445,904,411"/>
+<area shape="poly" title=" " alt="" coords="868,479,776,521,774,516,866,474"/>
+<area shape="poly" title=" " alt="" coords="894,190,812,300,807,297,889,187"/>
+<area shape="poly" title=" " alt="" coords="912,191,909,372,904,372,906,191"/>
+<area shape="poly" title=" " alt="" coords="941,183,999,223,996,227,938,187"/>
+<area shape="poly" title=" " alt="" coords="967,258,838,301,837,296,965,253"/>
+<area shape="poly" title=" " alt="" coords="1000,263,918,373,914,370,996,260"/>
+<area shape="poly" title=" " alt="" coords="783,116,757,152,729,199,707,254,701,282,699,311,699,385,703,423,715,461,741,517,737,520,710,463,698,425,693,385,693,311,696,282,702,252,724,197,752,149,778,113"/>
+<area shape="poly" title=" " alt="" coords="803,118,803,299,797,299,797,118"/>
+<area shape="poly" title=" " alt="" coords="832,109,892,150,889,154,829,114"/>
+</map>
+</div>
+</div>
+<p><a href="a00911_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02907.html">lumex::core::expected::result::in_place_tag</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">In-place construction tag; C++11 has no std::in_place.  <a href="a02907.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02911.html">lumex::core::expected::result::Unit</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Placeholder success type for <code>expected&lt;void, ErrorType&gt;</code>.  <a href="a02911.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02915.html">lumex::core::expected::result::unexpect_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">C++23-compatible tag: construct the error in place.  <a href="a02915.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a06548.html">in_place_tag</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">In-place construction tag; C++11 has no std::in_place.  <a href="a06548.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a06552.html">unexpect_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">C++23-compatible tag: construct the error in place.  <a href="a06552.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01425.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01488.html">lumex::core</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01528.html">lumex::core::expected</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01532.html">lumex::core::expected::result</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a2843a9a82731a57457a67854be6546d6" id="r_a2843a9a82731a57457a67854be6546d6"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="a02907.html">in_place_tag</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01532.html#a2843a9a82731a57457a67854be6546d6">lumex::core::expected::result::in_place</a> {}</td></tr>
+<tr class="memdesc:a2843a9a82731a57457a67854be6546d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global constant of type <code><a class="el" href="a02907.html" title="In-place construction tag; C++11 has no std::in_place.">in_place_tag</a></code>.  <br /></td></tr>
+<tr class="separator:a2843a9a82731a57457a67854be6546d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99d7baa9c7bfa0e1e8d7ac195f1abcbc" id="r_a99d7baa9c7bfa0e1e8d7ac195f1abcbc"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="a02915.html">unexpect_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01532.html#a99d7baa9c7bfa0e1e8d7ac195f1abcbc">lumex::core::expected::result::unexpect</a> {}</td></tr>
+<tr class="memdesc:a99d7baa9c7bfa0e1e8d7ac195f1abcbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global tag constant (like std::unexpect).  <br /></td></tr>
+<tr class="separator:a99d7baa9c7bfa0e1e8d7ac195f1abcbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99d7baa9c7bfa0e1e8d7ac195f1abcbc" id="r_a99d7baa9c7bfa0e1e8d7ac195f1abcbc"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="a02915.html">unexpect_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a99d7baa9c7bfa0e1e8d7ac195f1abcbc">unexpect</a></td></tr>
+<tr class="memdesc:a99d7baa9c7bfa0e1e8d7ac195f1abcbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global tag constant (like std::unexpect).  <br /></td></tr>
+<tr class="separator:a99d7baa9c7bfa0e1e8d7ac195f1abcbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>The tags and the placeholder type that <code>expected</code> uses: <code>in_place</code>, <code>unexpect</code> and <code>Unit</code>. </p>
+<p><code><a class="el" href="a06548.html" title="In-place construction tag; C++11 has no std::in_place.">in_place_tag</a></code> and <code>in_place</code> request in-place construction of the value, <code><a class="el" href="a06552.html" title="C++23-compatible tag: construct the error in place.">unexpect_t</a></code> and <code>unexpect</code> in-place construction of the error, as <code>std::in_place</code> (C++17) and <code>std::unexpect</code> (C++23) do. <code>Unit</code> is the empty object that fills the success alternative of <code>expected&lt;void, E&gt;</code>. The <code>is_expected</code> traits are not here but in <code><a class="el" href="a01067.html" title="Every general-purpose type trait of LumexLib, one sub-namespace of lumex::core::utility::traits per t...">LumexTypeTraits.hpp</a></code>. <code><a class="el" href="a06548.html" title="In-place construction tag; C++11 has no std::in_place.">in_place_tag</a></code>, <code><a class="el" href="a06552.html" title="C++23-compatible tag: construct the error in place.">unexpect_t</a></code> and <code>unexpect</code> are also visible at global scope; <code>in_place</code> is not (<code>optional</code> has its own). </p>
+</div><h2 class="groupheader">Variable Documentation</h2>
+<a id="a99d7baa9c7bfa0e1e8d7ac195f1abcbc" name="a99d7baa9c7bfa0e1e8d7ac195f1abcbc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a99d7baa9c7bfa0e1e8d7ac195f1abcbc">&#9670;&#160;</a></span>unexpect</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int main </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
+          <td class="memname"><a class="el" href="a02915.html">unexpect_t</a> lumex::core::expected::result::unexpect</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
+
+<p>Global tag constant (like std::unexpect). </p>
 
 </div>
 </div>
@@ -152,7 +309,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_96974dbd24a5b5597024f342fa6acb49.html">unicode</a></li><li class="navelem"><a class="el" href="a00911.html">example_unicode_workflow.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_91063fb91facb4308dc4edc779d408bb.html">expected</a></li><li class="navelem"><a class="el" href="dir_558ea4e037858a45ed7ac4d50d1489ee.html">result</a></li><li class="navelem"><a class="el" href="a00911.html">ExpectedTypes.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

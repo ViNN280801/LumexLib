@@ -1,0 +1,23 @@
+<map id="main" name="main">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,217,60,243"/>
+<area shape="rect" id="Node000002" href="$a01867.html#aec4e0ca8a3228735b8dde7e2c5e51f7e" title="Closes the port; safe to call on a closed session." alt="" coords="127,5,290,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="33,216,41,187,55,147,76,106,106,69,114,63,118,67,110,73,81,109,60,150,46,188,38,218"/>
+<area shape="rect" id="Node000003" href="$a01465.html#aa0d54b6acae1ec6f1744d15ce56f769f" title="Enumerate serial port names only." alt="" coords="113,84,305,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="40,215,67,182,106,148,114,143,117,147,110,152,71,186,44,219"/>
+<area shape="rect" id="Node000008" href="$a01465.html#ae27c22d50630c732a459b88a4f0e4260" title="True when Windows registered port_name through a Bluetooth enumerator (BTHENUM / BTHLEENUM)." alt="" coords="108,163,309,217"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="60,221,94,213,95,219,61,226"/>
+<area shape="rect" id="Node000009" href="$a01867.html#aeccb8971734d9825d958152ec2e6ed49" title="True while the port is open." alt="" coords="127,241,290,296"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="61,233,114,245,113,250,60,239"/>
+<area shape="rect" id="Node000010" href="$a01867.html#aa345ad61b5406b3ed295788ec6ad8ffd" title="Opens the port with the configured settings inside deadline." alt="" coords="111,321,306,361"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="44,241,71,273,110,305,123,313,121,317,106,310,67,277,40,245"/>
+<area shape="rect" id="Node000011" href="$a01467.html#a523de1146ace21810686af24cd7edd8f" title="Converts a short serial&#45;port name into the full, platform&#45;specific path a channel needs in order to a..." alt="" coords="127,385,290,440"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="39,242,62,303,83,339,110,371,117,377,114,381,106,375,78,342,57,305,34,244"/>
+<area shape="rect" id="Node000004" href="$a01465.html#a06d1dda0ef41ff2008e9792d2c6744ab" title="Enumerate serial ports with full serial_port_info_t records." alt="" coords="357,84,549,139"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="305,109,344,109,344,114,305,114"/>
+<area shape="rect" id="Node000005" href="$a01465.html#a0a518e9f25f40fbb213907e34b881f81" title="Opens open_path so the caller never waits past deadline." alt="" coords="608,5,785,60"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="537,81,598,62,600,67,539,86"/>
+<area shape="rect" id="Node000006" href="$a01465.html#aeda0fc72f871cf1ddc177f5c172131ea" title="Closes handle; a no&#45;op for the invalid value." alt="" coords="597,84,796,139"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="550,109,584,109,584,114,550,114"/>
+<area shape="rect" id="Node000007" href="$a01465.html#a2baec958c3eebd588ab9cbc9bccd7e5f" title="Maps an open outcome to the enumeration state." alt="" coords="601,163,793,217"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="539,136,600,156,598,161,537,141"/>
+</map>

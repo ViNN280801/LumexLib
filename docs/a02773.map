@@ -1,0 +1,5 @@
+<map id="lumex::core::expected::result::detail::constructs_from_expected&lt; ValueType, ErrorType, U, G &gt;" name="lumex::core::expected::result::detail::constructs_from_expected&lt; ValueType, ErrorType, U, G &gt;">
+<area shape="rect" id="Node000001" title="The converting constructors of expected step aside: ValueType or unexpected&lt;ErrorType&gt; can be built f..." alt="" coords="343,27,555,97"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,295,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="309,59,343,59,343,65,309,65"/>
+</map>

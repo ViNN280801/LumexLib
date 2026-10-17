@@ -1,0 +1,10 @@
+<map id="lumex::applied::json::diagnostics::Detail::report" name="lumex::applied::json::diagnostics::Detail::report">
+<area shape="rect" id="Node000001" title="Concatenates parts with operator&lt;&lt; and sends the text to the installed sink, or to the default one wh..." alt="" coords="5,69,160,124"/>
+<area shape="rect" id="Node000002" href="$a01442.html#aca3063965d5431c7f906a0a354f2d4c4" title=" " alt="" coords="208,29,363,84"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="160,79,194,72,195,77,161,84"/>
+<area shape="rect" id="Node000003" href="$a01442.html#ab6f3b82c767e9d70cfc7b4fad75bdf33" title="Default sink: writes [level] message to std::cerr for warning and error, drops debug and info...." alt="" coords="208,108,363,163"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="161,109,195,115,194,121,160,114"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="245,29,246,19,253,10,266,5,285,3,308,6,322,14,319,18,307,11,285,8,267,10,256,15,251,21,251,29"/>
+<area shape="rect" id="Node000004" href="$a01441.html#aa74764209653f54b32c958aa8ac3f75f" title=" " alt="" coords="411,115,580,155"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="363,133,397,133,397,138,363,138"/>
+</map>

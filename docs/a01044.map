@@ -1,0 +1,16 @@
+<map id="LumexSpanChecks.hpp" name="LumexSpanChecks.hpp">
+<area shape="rect" id="Node000001" title="The switch of the precondition checks of span: the macro LUMEX_SPAN_CHECKS and the macro LUMEX_SPAN_C..." alt="" coords="118,5,291,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="10,86,71,111"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,33,80,82,78,77,178,28"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="96,86,161,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="194,33,152,78,148,74,191,29"/>
+<area shape="rect" id="Node000004" href="$a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="186,79,375,119"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="219,29,254,67,250,70,215,33"/>
+<area shape="rect" id="Node000007" href="$a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="401,167,614,207"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="264,28,325,47,389,76,440,114,482,154,478,158,437,118,386,81,324,52,262,33"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="5,174,97,199"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="229,121,98,172,96,167,227,116"/>
+<area shape="rect" id="Node000006" href="$a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="121,167,376,207"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="276,120,263,154,258,153,271,118"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="334,116,444,159,442,164,332,121"/>
+</map>

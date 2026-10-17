@@ -1,0 +1,11 @@
+<map id="lumex::xml::attribute::prepend_attribute" name="lumex::xml::attribute::prepend_attribute">
+<area shape="rect" id="Node000001" title="Prepends an XmlAttributeBase to the beginning of a node&#39;s attribute list." alt="" coords="509,69,669,109"/>
+<area shape="rect" id="Node000002" href="$a05143.html#afc6e5a7c3b3dc02be7f5f003c5192d27" title="Prepends a new attribute with the specified name to the current node." alt="" coords="257,5,461,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="503,68,431,48,432,43,505,63"/>
+<area shape="rect" id="Node000004" href="$a05143.html#a15e68847db6ff8e341f795e5be99f613" title="prepend_attribute with a name of size characters at name, which need no terminating NUL (a range of a..." alt="" coords="257,69,461,109"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="495,92,462,92,462,87,495,87"/>
+<area shape="rect" id="Node000005" href="$a05143.html#a0519abe0f6488556f8a8fd22d242df12" title="Prepends a copy of an existing attribute (proto) to the current node." alt="" coords="257,133,461,173"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="505,116,432,136,431,131,503,110"/>
+<area shape="rect" id="Node000003" href="$a05143.html#a59b7df394f724928ed2edcd4feba7e3b" title="Prepends a new attribute with the specified name (string_view_t) to the current node." alt="" coords="5,5,209,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="244,28,210,28,210,23,244,23"/>
+</map>

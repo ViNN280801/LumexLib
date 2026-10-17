@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::filesystem::fs::file_status Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a02954.html',''); initResizable(true); });
+$(function(){initNavTree('a02951.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,24 +103,272 @@ $(function(){initNavTree('a02954.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::core::fmt::formatter&lt; streamed_t&lt; T &gt;, Char, void &gt; Member List</div></div>
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="a02948.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::filesystem::fs::file_status Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a02954.html">lumex::core::fmt::formatter&lt; streamed_t&lt; T &gt;, Char, void &gt;</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a02954.html#a1f694ca6b4fcac1b2a8b2efd6bd2152b">format</a>(streamed_t&lt; T &gt; const &amp;value, basic_format_context&lt; Char &gt; &amp;ctx) const</td><td class="entry"><a class="el" href="a02954.html">lumex::core::fmt::formatter&lt; streamed_t&lt; T &gt;, Char, void &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a02946.html#a4bc6a825a1ee2c996cde58b722f70579">lumex::core::fmt::ostream_formatter::format</a>(T const &amp;value, basic_format_context&lt; Char &gt; &amp;ctx) const</td><td class="entry"><a class="el" href="a02946.html">lumex::core::fmt::ostream_formatter&lt; Char &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a02806.html#a9112c94300e77a697d64cdb6cf167668">formatter</a>()=delete</td><td class="entry"><a class="el" href="a02954.html">lumex::core::fmt::formatter&lt; streamed_t&lt; T &gt;, Char, void &gt;</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a02806.html#a2a1dc1d68310efc31349a5a829b28417">formatter</a>(formatter const &amp;)=delete</td><td class="entry"><a class="el" href="a02954.html">lumex::core::fmt::formatter&lt; streamed_t&lt; T &gt;, Char, void &gt;</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a02806.html#a1bff704bc2e0aafc38754401598cb8c1">operator=</a>(formatter const &amp;)=delete</td><td class="entry"><a class="el" href="a02954.html">lumex::core::fmt::formatter&lt; streamed_t&lt; T &gt;, Char, void &gt;</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a02946.html#ad1d8455e584d19086bb7126fad0ca184">ostream_formatter</a>() noexcept</td><td class="entry"><a class="el" href="a02946.html">lumex::core::fmt::ostream_formatter&lt; Char &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a02946.html#af923af214d5f2ee3853f5c7e72685df2">parse</a>(basic_format_parse_context&lt; Char &gt; &amp;ctx)</td><td class="entry"><a class="el" href="a02946.html">lumex::core::fmt::ostream_formatter&lt; Char &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-</table></div><!-- contents -->
+<p>File status information.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="a00749_source.html">LumexFilesystem.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:ad286506641ef529c178d811e530f7b82" id="r_ad286506641ef529c178d811e530f7b82"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad286506641ef529c178d811e530f7b82">file_status</a> ()</td></tr>
+<tr class="memdesc:ad286506641ef529c178d811e530f7b82"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor. Initializes with <code>file_type::none</code> and <code>perms::unknown</code>.  <br /></td></tr>
+<tr class="separator:ad286506641ef529c178d811e530f7b82"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af96980eec047db52291c5b214b63b32c" id="r_af96980eec047db52291c5b214b63b32c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af96980eec047db52291c5b214b63b32c">file_status</a> (<a class="el" href="a01537.html#ab64d400fe6c2cab49e4cf4c63a82cc19">file_type</a> type, <a class="el" href="a01537.html#ab64132a6feae0925f48c883dd04ce26f">perms</a> p=perms::unknown)</td></tr>
+<tr class="memdesc:af96980eec047db52291c5b214b63b32c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a <code><a class="el" href="a02951.html" title="File status information.">file_status</a></code> object with a specified file type and optional permissions.  <br /></td></tr>
+<tr class="separator:af96980eec047db52291c5b214b63b32c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6352838c45be85587fcbae6f579a21fd" id="r_a6352838c45be85587fcbae6f579a21fd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01537.html#ab64d400fe6c2cab49e4cf4c63a82cc19">file_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6352838c45be85587fcbae6f579a21fd">type</a> () const</td></tr>
+<tr class="memdesc:a6352838c45be85587fcbae6f579a21fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the file type.  <br /></td></tr>
+<tr class="separator:a6352838c45be85587fcbae6f579a21fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a0cf072b16eefcd18ff6a703e31b0d6" id="r_a4a0cf072b16eefcd18ff6a703e31b0d6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01537.html#ab64132a6feae0925f48c883dd04ce26f">perms</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4a0cf072b16eefcd18ff6a703e31b0d6">permissions</a> () const</td></tr>
+<tr class="memdesc:a4a0cf072b16eefcd18ff6a703e31b0d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the file permissions.  <br /></td></tr>
+<tr class="separator:a4a0cf072b16eefcd18ff6a703e31b0d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d72317f3a8a85bbe11a0efe04d477d2" id="r_a9d72317f3a8a85bbe11a0efe04d477d2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9d72317f3a8a85bbe11a0efe04d477d2">type</a> (<a class="el" href="a01537.html#ab64d400fe6c2cab49e4cf4c63a82cc19">file_type</a> type)</td></tr>
+<tr class="memdesc:a9d72317f3a8a85bbe11a0efe04d477d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the file type.  <br /></td></tr>
+<tr class="separator:a9d72317f3a8a85bbe11a0efe04d477d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaaa18777434167b511b9bc3f17af0d03" id="r_aaaa18777434167b511b9bc3f17af0d03"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaaa18777434167b511b9bc3f17af0d03">permissions</a> (<a class="el" href="a01537.html#ab64132a6feae0925f48c883dd04ce26f">perms</a> p)</td></tr>
+<tr class="memdesc:aaaa18777434167b511b9bc3f17af0d03"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the file permissions.  <br /></td></tr>
+<tr class="separator:aaaa18777434167b511b9bc3f17af0d03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>File status information. </p>
+<p>This class encapsulates information about a file system entry, including its type (e.g., regular file, directory) and permissions. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="ad286506641ef529c178d811e530f7b82" name="ad286506641ef529c178d811e530f7b82"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad286506641ef529c178d811e530f7b82">&#9670;&#160;</a></span>file_status() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">lumex::core::filesystem::fs::file_status::file_status </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Default constructor. Initializes with <code>file_type::none</code> and <code>perms::unknown</code>. </p>
+
+</div>
+</div>
+<a id="af96980eec047db52291c5b214b63b32c" name="af96980eec047db52291c5b214b63b32c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af96980eec047db52291c5b214b63b32c">&#9670;&#160;</a></span>file_status() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">lumex::core::filesystem::fs::file_status::file_status </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01537.html#ab64d400fe6c2cab49e4cf4c63a82cc19">file_type</a></td>          <td class="paramname"><span class="paramname"><em>type</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a01537.html#ab64132a6feae0925f48c883dd04ce26f">perms</a></td>          <td class="paramname"><span class="paramname"><em>p</em></span><span class="paramdefsep"> = </span><span class="paramdefval">perms::unknown</span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel explicit">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constructs a <code><a class="el" href="a02951.html" title="File status information.">file_status</a></code> object with a specified file type and optional permissions. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">type</td><td>The <code>file_type</code> of the entry. </td></tr>
+    <tr><td class="paramname">p</td><td>The <code>perms</code> of the entry. Defaults to <code>perms::unknown</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a02951_af96980eec047db52291c5b214b63b32c_cgraph.png" border="0" usemap="#aa02951_af96980eec047db52291c5b214b63b32c_cgraph" alt=""/></div>
+<map name="aa02951_af96980eec047db52291c5b214b63b32c_cgraph" id="aa02951_af96980eec047db52291c5b214b63b32c_cgraph">
+<area shape="rect" title="Constructs a file_status object with a specified file type and optional permissions." alt="" coords="5,5,180,60"/>
+<area shape="rect" href="a02951.html#a6352838c45be85587fcbae6f579a21fd" title="Retrieves the file type." alt="" coords="228,13,403,53"/>
+<area shape="poly" title=" " alt="" coords="180,30,214,30,214,35,180,35"/>
+</map>
+</div>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a4a0cf072b16eefcd18ff6a703e31b0d6" name="a4a0cf072b16eefcd18ff6a703e31b0d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a0cf072b16eefcd18ff6a703e31b0d6">&#9670;&#160;</a></span>permissions() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01537.html#ab64132a6feae0925f48c883dd04ce26f">perms</a> lumex::core::filesystem::fs::file_status::permissions </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Retrieves the file permissions. </p>
+<dl class="section return"><dt>Returns</dt><dd>The <code>perms</code> of the entry. </dd></dl>
+
+</div>
+</div>
+<a id="aaaa18777434167b511b9bc3f17af0d03" name="aaaa18777434167b511b9bc3f17af0d03"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaaa18777434167b511b9bc3f17af0d03">&#9670;&#160;</a></span>permissions() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::core::filesystem::fs::file_status::permissions </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01537.html#ab64132a6feae0925f48c883dd04ce26f">perms</a></td>          <td class="paramname"><span class="paramname"><em>p</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sets the file permissions. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">p</td><td>The new <code>perms</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a6352838c45be85587fcbae6f579a21fd" name="a6352838c45be85587fcbae6f579a21fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6352838c45be85587fcbae6f579a21fd">&#9670;&#160;</a></span>type() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01537.html#ab64d400fe6c2cab49e4cf4c63a82cc19">file_type</a> lumex::core::filesystem::fs::file_status::type </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Retrieves the file type. </p>
+<dl class="section return"><dt>Returns</dt><dd>The <code>file_type</code> of the entry. </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a02951_a6352838c45be85587fcbae6f579a21fd_icgraph.png" border="0" usemap="#aa02951_a6352838c45be85587fcbae6f579a21fd_icgraph" alt=""/></div>
+<map name="aa02951_a6352838c45be85587fcbae6f579a21fd_icgraph" id="aa02951_a6352838c45be85587fcbae6f579a21fd_icgraph">
+<area shape="rect" title="Retrieves the file type." alt="" coords="228,49,403,89"/>
+<area shape="rect" href="a02951.html#af96980eec047db52291c5b214b63b32c" title="Constructs a file_status object with a specified file type and optional permissions." alt="" coords="5,5,180,60"/>
+<area shape="poly" title=" " alt="" coords="214,55,180,49,181,44,215,50"/>
+<area shape="rect" href="a02951.html#a9d72317f3a8a85bbe11a0efe04d477d2" title="Sets the file type." alt="" coords="5,85,180,125"/>
+<area shape="poly" title=" " alt="" coords="215,88,181,93,180,88,214,82"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a9d72317f3a8a85bbe11a0efe04d477d2" name="a9d72317f3a8a85bbe11a0efe04d477d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d72317f3a8a85bbe11a0efe04d477d2">&#9670;&#160;</a></span>type() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::core::filesystem::fs::file_status::type </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01537.html#ab64d400fe6c2cab49e4cf4c63a82cc19">file_type</a></td>          <td class="paramname"><span class="paramname"><em>type</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sets the file type. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">type</td><td>The new <code>file_type</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a02951_a9d72317f3a8a85bbe11a0efe04d477d2_cgraph.png" border="0" usemap="#aa02951_a9d72317f3a8a85bbe11a0efe04d477d2_cgraph" alt=""/></div>
+<map name="aa02951_a9d72317f3a8a85bbe11a0efe04d477d2_cgraph" id="aa02951_a9d72317f3a8a85bbe11a0efe04d477d2_cgraph">
+<area shape="rect" title="Sets the file type." alt="" coords="5,5,180,45"/>
+<area shape="rect" href="a02951.html#a6352838c45be85587fcbae6f579a21fd" title="Retrieves the file type." alt="" coords="228,5,403,45"/>
+<area shape="poly" title=" " alt="" coords="180,23,214,23,214,28,180,28"/>
+</map>
+</div>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
+<li><a class="el" href="a00749_source.html">LumexFilesystem.hpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01536.html">filesystem</a></li><li class="navelem"><a class="el" href="a01537.html">fs</a></li><li class="navelem"><a class="el" href="a02951.html">file_status</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

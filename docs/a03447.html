@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::optional::opt::detail::is_tag_type&lt; T &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a03450.html',''); initResizable(true); });
+$(function(){initNavTree('a03447.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,23 +103,46 @@ $(function(){initNavTree('a03450.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::core::optional::opt::detail::opt_move_assign_base&lt; T, 2 &gt; Member List</div></div>
+  <div class="headertitle"><div class="title">lumex::core::optional::opt::detail::is_tag_type&lt; T &gt; Struct Template Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a03450.html">lumex::core::optional::opt::detail::opt_move_assign_base&lt; T, 2 &gt;</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a03450.html#a587ef23efcacfc78f03b2ff06ccc9a58">base_type</a> typedef</td><td class="entry"><a class="el" href="a03450.html">lumex::core::optional::opt::detail::opt_move_assign_base&lt; T, 2 &gt;</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a03450.html#ae4d69af234363af56234e90315f7709d">operator=</a>(opt_move_assign_base const &amp;)=default</td><td class="entry"><a class="el" href="a03450.html">lumex::core::optional::opt::detail::opt_move_assign_base&lt; T, 2 &gt;</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a03450.html#aacffdca717045c04e546d4f86849a8cf">operator=</a>(opt_move_assign_base &amp;&amp;other) noexcept(std::is_nothrow_move_constructible&lt; T &gt;::value &amp;&amp;std::is_nothrow_move_assignable&lt; T &gt;::value)</td><td class="entry"><a class="el" href="a03450.html">lumex::core::optional::opt::detail::opt_move_assign_base&lt; T, 2 &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a03450.html#aeb4f5166a38f9c68eb505736258ba23d">opt_move_assign_base</a>()=default</td><td class="entry"><a class="el" href="a03450.html">lumex::core::optional::opt::detail::opt_move_assign_base&lt; T, 2 &gt;</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a03450.html#a44345fa3660cb6cb782dda0f80383d9d">opt_move_assign_base</a>(opt_move_assign_base const &amp;)=default</td><td class="entry"><a class="el" href="a03450.html">lumex::core::optional::opt::detail::opt_move_assign_base&lt; T, 2 &gt;</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a03450.html#ac7653307a25ceff196c4a844c5b51d34">opt_move_assign_base</a>(opt_move_assign_base &amp;&amp;)=default</td><td class="entry"><a class="el" href="a03450.html">lumex::core::optional::opt::detail::opt_move_assign_base&lt; T, 2 &gt;</a></td><td class="entry"></td></tr>
-</table></div><!-- contents -->
+<p>Whether <code>T</code> is <code><a class="el" href="a03675.html" title="A tag type used to indicate in-place construction of the contained value.">in_place_t</a></code> or <code><a class="el" href="a03667.html" title="A tag type used to indicate the absence of a value in optional.">nullopt_t</a></code>, cv-qualified or not: the types an <code>optional</code> may not hold.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="a00995_source.html">LumexOptionalDetail.hpp</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for lumex::core::optional::opt::detail::is_tag_type&lt; T &gt;:</div>
+<div class="dyncontent">
+<div class="center"><img src="a03446.png" border="0" usemap="#alumex_1_1core_1_1optional_1_1opt_1_1detail_1_1is__tag__type_3_01T_01_4_inherit__map" alt="Inheritance graph"/></div>
+<map name="alumex_1_1core_1_1optional_1_1opt_1_1detail_1_1is__tag__type_3_01T_01_4_inherit__map" id="alumex_1_1core_1_1optional_1_1opt_1_1detail_1_1is__tag__type_3_01T_01_4_inherit__map">
+<area shape="rect" title="Whether T is in_place_t or nullopt_t, cv&#45;qualified or not: the types an optional may not hold." alt="" coords="279,27,439,82"/>
+<area shape="rect" title=" " alt="" coords="5,5,231,104"/>
+<area shape="poly" title=" " alt="" coords="245,52,279,52,279,57,245,57"/>
+</map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<div class="dynheader">
+Collaboration diagram for lumex::core::optional::opt::detail::is_tag_type&lt; T &gt;:</div>
+<div class="dyncontent">
+<div class="center"><img src="a03445.png" border="0" usemap="#alumex_1_1core_1_1optional_1_1opt_1_1detail_1_1is__tag__type_3_01T_01_4_coll__map" alt="Collaboration graph"/></div>
+<map name="alumex_1_1core_1_1optional_1_1opt_1_1detail_1_1is__tag__type_3_01T_01_4_coll__map" id="alumex_1_1core_1_1optional_1_1opt_1_1detail_1_1is__tag__type_3_01T_01_4_coll__map">
+<area shape="rect" title="Whether T is in_place_t or nullopt_t, cv&#45;qualified or not: the types an optional may not hold." alt="" coords="279,27,439,82"/>
+<area shape="rect" title=" " alt="" coords="5,5,231,104"/>
+<area shape="poly" title=" " alt="" coords="245,52,279,52,279,57,245,57"/>
+</map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><div class="compoundTemplParams">template&lt;typename T&gt;<br />
+struct lumex::core::optional::opt::detail::is_tag_type&lt; T &gt;</div><p>Whether <code>T</code> is <code><a class="el" href="a03675.html" title="A tag type used to indicate in-place construction of the contained value.">in_place_t</a></code> or <code><a class="el" href="a03667.html" title="A tag type used to indicate the absence of a value in optional.">nullopt_t</a></code>, cv-qualified or not: the types an <code>optional</code> may not hold. </p>
+</div><hr/>The documentation for this struct was generated from the following file:<ul>
+<li><a class="el" href="a00995_source.html">LumexOptionalDetail.hpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01552.html">optional</a></li><li class="navelem"><a class="el" href="a01553.html">opt</a></li><li class="navelem"><a class="el" href="a01554.html">detail</a></li><li class="navelem"><a class="el" href="a03447.html">is_tag_type</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

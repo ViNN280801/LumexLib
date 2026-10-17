@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::core::utility::traits::range Namespace Reference</title>
+<title>LumexLib: lumex::applied::json::diagnostics::Detail Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,60 +104,226 @@ $(function(){initNavTree('a01442.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a>  </div>
-  <div class="headertitle"><div class="title">lumex::core::utility::traits::range Namespace Reference</div></div>
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">lumex::applied::json::diagnostics::Detail Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04658.html">has_convertible_indexed_access</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>std::declval&lt;T&gt;()[std::size_t]</code> exists and its result converts to <code>To</code> (for example a byte type for a byte buffer).  <a href="a04658.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04662.html">has_convertible_indexed_access&lt; T, To, meta::void_t&lt; decltype(std::declval&lt; T &gt;()[std::declval&lt; std::size_t &gt;()])&gt; &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04650.html">has_convertible_size</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>std::declval&lt;T&gt;().size()</code> exists and converts to <code>std::size_t</code>.  <a href="a04650.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04654.html">has_convertible_size&lt; T, meta::void_t&lt; decltype(std::declval&lt; T &gt;().size())&gt; &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04626.html">has_elements_convertible_to</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>Range</code> is iterable and its element reference converts to <code>To</code> (for example <code>std::string const &amp;</code>).  <a href="a04626.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04630.html">has_elements_convertible_to&lt; Range, To, meta::void_t&lt; typename range_reference&lt; Range &gt;::type &gt; &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04634.html">has_key_type</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>T</code> has a nested type <code>key_type</code> (associative containers).  <a href="a04634.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04638.html">has_key_type&lt; T, meta::void_t&lt; typename T::key_type &gt; &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04642.html">has_mapped_type</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>T</code> has a nested type <code>mapped_type</code> (maps).  <a href="a04642.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04646.html">has_mapped_type&lt; T, meta::void_t&lt; typename T::mapped_type &gt; &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04618.html">has_streamable_elements</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>Range</code> is iterable and its elements (after <code>std::decay</code>) are streamable.  <a href="a04618.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04622.html">has_streamable_elements&lt; Range, meta::void_t&lt; typename range_reference&lt; Range &gt;::type &gt; &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04610.html">is_iterable</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>Range const &amp;</code> can be walked (see <code><a class="el" href="a04602.html" title="type is what *std::begin(range) yields for a Range const &amp; that has std::begin, std::end,...">range_reference</a></code>).  <a href="a04610.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04614.html">is_iterable&lt; Range, meta::void_t&lt; typename range_reference&lt; Range &gt;::type &gt; &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04602.html">range_reference</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>type</code> is what <code>*std::begin(range)</code> yields for a <code>Range const &amp;</code> that has <code>std::begin</code>, <code>std::end</code>, <code>!=</code> and <code>++</code>; absent otherwise, so it can drive SFINAE.  <a href="a04602.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04606.html">range_reference&lt; Range, meta::void_t&lt; decltype(std::begin(std::declval&lt; Range const &amp; &gt;()) !=std::end(std::declval&lt; Range const &amp; &gt;())), decltype(++std::declval&lt; decltype(std::begin(std::declval&lt; Range const &amp; &gt;())) &amp; &gt;()), decltype(*std::begin(std::declval&lt; Range const &amp; &gt;()))&gt; &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:aca3063965d5431c7f906a0a354f2d4c4" id="r_aca3063965d5431c7f906a0a354f2d4c4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aca3063965d5431c7f906a0a354f2d4c4">append_parts</a> (std::ostringstream &amp;)</td></tr>
+<tr class="separator:aca3063965d5431c7f906a0a354f2d4c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5350d69eada86df796421b3f44453e82" id="r_a5350d69eada86df796421b3f44453e82"><td class="memTemplParams" colspan="2">template&lt;typename Head, typename... Tail&gt; </td></tr>
+<tr class="memitem:a5350d69eada86df796421b3f44453e82"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a5350d69eada86df796421b3f44453e82">append_parts</a> (std::ostringstream &amp;stream, Head const &amp;head, Tail const &amp;...tail)</td></tr>
+<tr class="separator:a5350d69eada86df796421b3f44453e82"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6f3b82c767e9d70cfc7b4fad75bdf33" id="r_ab6f3b82c767e9d70cfc7b4fad75bdf33"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab6f3b82c767e9d70cfc7b4fad75bdf33">write_to_stderr</a> (<a class="el" href="a01441.html#acf6c250fe30b33bf20e97c6bc52ad446">LumexJsonDiagnosticLevel</a> level, char const *message) noexcept</td></tr>
+<tr class="memdesc:ab6f3b82c767e9d70cfc7b4fad75bdf33"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default sink: writes <code>[level] message</code> to <code>std::cerr</code> for <code>warning</code> and <code>error</code>, drops <code>debug</code> and <code>info</code>. Never throws.  <br /></td></tr>
+<tr class="separator:ab6f3b82c767e9d70cfc7b4fad75bdf33"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad8e38666393a49d562e6873564539189" id="r_ad8e38666393a49d562e6873564539189"><td class="memTemplParams" colspan="2">template&lt;typename... Parts&gt; </td></tr>
+<tr class="memitem:ad8e38666393a49d562e6873564539189"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ad8e38666393a49d562e6873564539189">report</a> (<a class="el" href="a01441.html#acf6c250fe30b33bf20e97c6bc52ad446">LumexJsonDiagnosticLevel</a> level, Parts const &amp;...parts) noexcept</td></tr>
+<tr class="memdesc:ad8e38666393a49d562e6873564539189"><td class="mdescLeft">&#160;</td><td class="mdescRight">Concatenates <code>parts</code> with <code>operator&lt;&lt;</code> and sends the text to the installed sink, or to the default one when the slot is empty or the sink throws. Never throws: a failure while building the text drops the message.  <br /></td></tr>
+<tr class="separator:ad8e38666393a49d562e6873564539189"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="aca3063965d5431c7f906a0a354f2d4c4" name="aca3063965d5431c7f906a0a354f2d4c4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aca3063965d5431c7f906a0a354f2d4c4">&#9670;&#160;</a></span>append_parts() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::applied::json::diagnostics::Detail::append_parts </td>
+          <td>(</td>
+          <td class="paramtype">std::ostringstream &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01442_aca3063965d5431c7f906a0a354f2d4c4_cgraph.png" border="0" usemap="#aa01442_aca3063965d5431c7f906a0a354f2d4c4_cgraph" alt=""/></div>
+<map name="aa01442_aca3063965d5431c7f906a0a354f2d4c4_cgraph" id="aa01442_aca3063965d5431c7f906a0a354f2d4c4_cgraph">
+<area shape="rect" title=" " alt="" coords="5,29,160,84"/>
+<area shape="poly" title=" " alt="" coords="52,29,52,19,58,11,68,5,83,3,100,6,110,13,107,18,98,11,83,8,70,10,61,14,57,21,57,29"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01442_aca3063965d5431c7f906a0a354f2d4c4_icgraph.png" border="0" usemap="#aa01442_aca3063965d5431c7f906a0a354f2d4c4_icgraph" alt=""/></div>
+<map name="aa01442_aca3063965d5431c7f906a0a354f2d4c4_icgraph" id="aa01442_aca3063965d5431c7f906a0a354f2d4c4_icgraph">
+<area shape="rect" title=" " alt="" coords="208,45,363,100"/>
+<area shape="poly" title=" " alt="" coords="319,34,307,27,285,24,267,26,256,31,251,37,251,45,245,45,246,35,253,26,266,21,285,19,308,22,322,30"/>
+<area shape="rect" href="a01442.html#a5350d69eada86df796421b3f44453e82" title=" " alt="" coords="5,5,160,60"/>
+<area shape="poly" title=" " alt="" coords="194,57,160,51,161,45,195,52"/>
+<area shape="rect" href="a01442.html#ad8e38666393a49d562e6873564539189" title="Concatenates parts with operator&lt;&lt; and sends the text to the installed sink, or to the default one wh..." alt="" coords="5,84,160,139"/>
+<area shape="poly" title=" " alt="" coords="195,93,161,99,160,94,194,87"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a5350d69eada86df796421b3f44453e82" name="a5350d69eada86df796421b3f44453e82"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5350d69eada86df796421b3f44453e82">&#9670;&#160;</a></span>append_parts() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Head, typename... Tail&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::applied::json::diagnostics::Detail::append_parts </td>
+          <td>(</td>
+          <td class="paramtype">std::ostringstream &amp;</td>          <td class="paramname"><span class="paramname"><em>stream</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Head const &amp;</td>          <td class="paramname"><span class="paramname"><em>head</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Tail const &amp;...</td>          <td class="paramname"><span class="paramname"><em>tail</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01442_a5350d69eada86df796421b3f44453e82_cgraph.png" border="0" usemap="#aa01442_a5350d69eada86df796421b3f44453e82_cgraph" alt=""/></div>
+<map name="aa01442_a5350d69eada86df796421b3f44453e82_cgraph" id="aa01442_a5350d69eada86df796421b3f44453e82_cgraph">
+<area shape="rect" title=" " alt="" coords="5,29,160,84"/>
+<area shape="rect" href="a01442.html#aca3063965d5431c7f906a0a354f2d4c4" title=" " alt="" coords="208,29,363,84"/>
+<area shape="poly" title=" " alt="" coords="160,54,194,54,194,59,160,59"/>
+<area shape="poly" title=" " alt="" coords="245,29,246,19,253,10,266,5,285,3,308,6,322,14,319,18,307,11,285,8,267,10,256,15,251,21,251,29"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ad8e38666393a49d562e6873564539189" name="ad8e38666393a49d562e6873564539189"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad8e38666393a49d562e6873564539189">&#9670;&#160;</a></span>report()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... Parts&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::applied::json::diagnostics::Detail::report </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01441.html#acf6c250fe30b33bf20e97c6bc52ad446">LumexJsonDiagnosticLevel</a></td>          <td class="paramname"><span class="paramname"><em>level</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Parts const &amp;...</td>          <td class="paramname"><span class="paramname"><em>parts</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Concatenates <code>parts</code> with <code>operator&lt;&lt;</code> and sends the text to the installed sink, or to the default one when the slot is empty or the sink throws. Never throws: a failure while building the text drops the message. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01442_ad8e38666393a49d562e6873564539189_cgraph.png" border="0" usemap="#aa01442_ad8e38666393a49d562e6873564539189_cgraph" alt=""/></div>
+<map name="aa01442_ad8e38666393a49d562e6873564539189_cgraph" id="aa01442_ad8e38666393a49d562e6873564539189_cgraph">
+<area shape="rect" title="Concatenates parts with operator&lt;&lt; and sends the text to the installed sink, or to the default one wh..." alt="" coords="5,69,160,124"/>
+<area shape="rect" href="a01442.html#aca3063965d5431c7f906a0a354f2d4c4" title=" " alt="" coords="208,29,363,84"/>
+<area shape="poly" title=" " alt="" coords="160,79,194,72,195,77,161,84"/>
+<area shape="rect" href="a01442.html#ab6f3b82c767e9d70cfc7b4fad75bdf33" title="Default sink: writes [level] message to std::cerr for warning and error, drops debug and info...." alt="" coords="208,108,363,163"/>
+<area shape="poly" title=" " alt="" coords="161,109,195,115,194,121,160,114"/>
+<area shape="poly" title=" " alt="" coords="245,29,246,19,253,10,266,5,285,3,308,6,322,14,319,18,307,11,285,8,267,10,256,15,251,21,251,29"/>
+<area shape="rect" href="a01441.html#aa74764209653f54b32c958aa8ac3f75f" title=" " alt="" coords="411,115,580,155"/>
+<area shape="poly" title=" " alt="" coords="363,133,397,133,397,138,363,138"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ab6f3b82c767e9d70cfc7b4fad75bdf33" name="ab6f3b82c767e9d70cfc7b4fad75bdf33"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab6f3b82c767e9d70cfc7b4fad75bdf33">&#9670;&#160;</a></span>write_to_stderr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::applied::json::diagnostics::Detail::write_to_stderr </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01441.html#acf6c250fe30b33bf20e97c6bc52ad446">LumexJsonDiagnosticLevel</a></td>          <td class="paramname"><span class="paramname"><em>level</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char const *</td>          <td class="paramname"><span class="paramname"><em>message</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Default sink: writes <code>[level] message</code> to <code>std::cerr</code> for <code>warning</code> and <code>error</code>, drops <code>debug</code> and <code>info</code>. Never throws. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01442_ab6f3b82c767e9d70cfc7b4fad75bdf33_cgraph.png" border="0" usemap="#aa01442_ab6f3b82c767e9d70cfc7b4fad75bdf33_cgraph" alt=""/></div>
+<map name="aa01442_ab6f3b82c767e9d70cfc7b4fad75bdf33_cgraph" id="aa01442_ab6f3b82c767e9d70cfc7b4fad75bdf33_cgraph">
+<area shape="rect" title="Default sink: writes [level] message to std::cerr for warning and error, drops debug and info...." alt="" coords="5,5,160,60"/>
+<area shape="rect" href="a01441.html#aa74764209653f54b32c958aa8ac3f75f" title=" " alt="" coords="208,13,377,53"/>
+<area shape="poly" title=" " alt="" coords="160,30,195,30,195,35,160,35"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01442_ab6f3b82c767e9d70cfc7b4fad75bdf33_icgraph.png" border="0" usemap="#aa01442_ab6f3b82c767e9d70cfc7b4fad75bdf33_icgraph" alt=""/></div>
+<map name="aa01442_ab6f3b82c767e9d70cfc7b4fad75bdf33_icgraph" id="aa01442_ab6f3b82c767e9d70cfc7b4fad75bdf33_icgraph">
+<area shape="rect" title="Default sink: writes [level] message to std::cerr for warning and error, drops debug and info...." alt="" coords="208,5,363,60"/>
+<area shape="rect" href="a01442.html#ad8e38666393a49d562e6873564539189" title="Concatenates parts with operator&lt;&lt; and sends the text to the installed sink, or to the default one wh..." alt="" coords="5,5,160,60"/>
+<area shape="poly" title=" " alt="" coords="194,35,160,35,160,30,194,30"/>
+</map>
+</div>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01311.html">core</a></li><li class="navelem"><a class="el" href="a01409.html">utility</a></li><li class="navelem"><a class="el" href="a01436.html">traits</a></li><li class="navelem"><a class="el" href="a01442.html">range</a></li>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01426.html">applied</a></li><li class="navelem"><a class="el" href="a01440.html">json</a></li><li class="navelem"><a class="el" href="a01441.html">diagnostics</a></li><li class="navelem"><a class="el" href="a01442.html">Detail</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

@@ -1,0 +1,5 @@
+<map id="lumex::core::crc::catalog::compute_crc_catalog" name="lumex::core::crc::catalog::compute_crc_catalog">
+<area shape="rect" id="Node000001" title="Catalogue CRC of a span of bytes. Available from C++11; a std::span (C++20), a std::array and a built..." alt="" coords="5,5,188,45"/>
+<area shape="rect" id="Node000002" href="$a01513.html#abe3bcc143a0031fd14358b238d67479b" title="CRC for catalogue index all_crc_specs_t (0 ... get_crc_catalog_entry_count &#45; 1)." alt="" coords="236,5,419,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="188,23,222,23,222,28,188,28"/>
+</map>

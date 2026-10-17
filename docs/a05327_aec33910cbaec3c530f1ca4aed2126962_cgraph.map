@@ -1,0 +1,6 @@
+<map id="lumex::xml::xpath::variable::XPathVariable::set_next" name="lumex::xml::xpath::variable::XPathVariable::set_next">
+<area shape="rect" id="Node000001" title="Sets the next variable in the linked list." alt="" coords="5,22,179,77"/>
+<area shape="rect" id="Node000002" href="$a05327.html#a5dc14fabea7bbb316dfb6a5816ea3626" title="Gets a pointer to the next variable in a linked list." alt="" coords="227,29,437,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,47,213,47,213,52,179,52"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="287,30,285,20,292,10,308,5,332,3,360,6,375,13,373,18,358,11,332,8,309,10,295,15,290,21,292,28"/>
+</map>

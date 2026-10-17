@@ -1,0 +1,9 @@
+<map id="lumex::core::math::ops::rmse" name="lumex::core::math::ops::rmse">
+<area shape="rect" id="Node000001" title="Root Mean Squared Error of a range against a fixed scalar: sqrt( 1/N * sum (x_i &#45; scalar)^2 )...." alt="" coords="5,69,155,109"/>
+<area shape="rect" id="Node000002" href="$a01551.html#abdf8ed32a58d7ef1884b0e2eb69e139b" title="begin (range) with std::begin and ADL, as a range&#45;for does." alt="" coords="210,5,373,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="146,67,211,47,213,52,147,72"/>
+<area shape="rect" id="Node000003" href="$a01551.html#a39800dfb129ce7e0f3b8520f0e8ce977" title="end (range) with std::end and ADL, as a range&#45;for does." alt="" coords="216,69,367,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="155,87,202,87,202,92,155,92"/>
+<area shape="rect" id="Node000004" href="$a01549.html#a8c77830600ff2261070b9e599fdfe916" title="(a &#45; b)^2, computed in the common type of a and b (promoted, so two short operands give an int)." alt="" coords="203,133,380,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="147,107,213,127,211,132,146,112"/>
+</map>

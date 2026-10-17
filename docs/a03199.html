@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::fmt::Detail::tuple_formatter&lt; Char, Types &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a03202.html',''); initResizable(true); });
+$(function(){initNavTree('a03199.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,18 +103,360 @@ $(function(){initNavTree('a03202.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::core::math::ops::Detail::floating_distance&lt; T, U, true &gt; Member List</div></div>
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="a03196.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::fmt::Detail::tuple_formatter&lt; Char, Types &gt; Class Template Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a03202.html">lumex::core::math::ops::Detail::floating_distance&lt; T, U, true &gt;</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a03202.html#a64a711058a225bbf7a5828c263f0084a">type</a> typedef</td><td class="entry"><a class="el" href="a03202.html">lumex::core::math::ops::Detail::floating_distance&lt; T, U, true &gt;</a></td><td class="entry"></td></tr>
-</table></div><!-- contents -->
+<p>Formats a <code>std::pair</code> / <code>std::tuple</code> of <code>Types</code> as <code>(a, b)</code>; base of the public <code>formatter</code> specializations.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="a01019_source.html">LumexFormatRanges.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:ae98fcf72a694e32fed47683122e94f0c" id="r_ae98fcf72a694e32fed47683122e94f0c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae98fcf72a694e32fed47683122e94f0c">tuple_formatter</a> ()</td></tr>
+<tr class="separator:ae98fcf72a694e32fed47683122e94f0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aabacee7a33bd10458fd2ca73c14dbbec" id="r_aabacee7a33bd10458fd2ca73c14dbbec"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aabacee7a33bd10458fd2ca73c14dbbec">set_separator</a> (<a class="el" href="a02987.html">basic_string_ref</a>&lt; Char &gt; separator)</td></tr>
+<tr class="memdesc:aabacee7a33bd10458fd2ca73c14dbbec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Text between elements (<code>", "</code> by default).  <br /></td></tr>
+<tr class="separator:aabacee7a33bd10458fd2ca73c14dbbec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a41365e41a9e17056b17ccb5598a2edd4" id="r_a41365e41a9e17056b17ccb5598a2edd4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a41365e41a9e17056b17ccb5598a2edd4">set_brackets</a> (<a class="el" href="a02987.html">basic_string_ref</a>&lt; Char &gt; open, <a class="el" href="a02987.html">basic_string_ref</a>&lt; Char &gt; close)</td></tr>
+<tr class="memdesc:a41365e41a9e17056b17ccb5598a2edd4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Text around the elements (<code>"("</code> and <code>")"</code> by default).  <br /></td></tr>
+<tr class="separator:a41365e41a9e17056b17ccb5598a2edd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59aa6a934d521a15be0b21917759e892" id="r_a59aa6a934d521a15be0b21917759e892"><td class="memItemLeft" align="right" valign="top">Char const *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a59aa6a934d521a15be0b21917759e892">parse</a> (<a class="el" href="a02979.html">basic_format_parse_context</a>&lt; Char &gt; &amp;ctx)</td></tr>
+<tr class="separator:a59aa6a934d521a15be0b21917759e892"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f8059f3994ef544167a8c963effd113" id="r_a4f8059f3994ef544167a8c963effd113"><td class="memTemplParams" colspan="2">template&lt;typename Tuple&gt; </td></tr>
+<tr class="memitem:a4f8059f3994ef544167a8c963effd113"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a03011.html">basic_appender</a>&lt; Char &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a4f8059f3994ef544167a8c963effd113">format</a> (Tuple const &amp;value, <a class="el" href="a02975.html">basic_format_context</a>&lt; Char &gt; &amp;ctx) const</td></tr>
+<tr class="separator:a4f8059f3994ef544167a8c963effd113"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><div class="compoundTemplParams">template&lt;typename Char, typename... Types&gt;<br />
+class lumex::core::fmt::Detail::tuple_formatter&lt; Char, Types &gt;</div><p>Formats a <code>std::pair</code> / <code>std::tuple</code> of <code>Types</code> as <code>(a, b)</code>; base of the public <code>formatter</code> specializations. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="ae98fcf72a694e32fed47683122e94f0c" name="ae98fcf72a694e32fed47683122e94f0c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae98fcf72a694e32fed47683122e94f0c">&#9670;&#160;</a></span>tuple_formatter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Char, typename... Types&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a03199.html">lumex::core::fmt::Detail::tuple_formatter</a>&lt; Char, Types &gt;::tuple_formatter </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a03199_ae98fcf72a694e32fed47683122e94f0c_cgraph.png" border="0" usemap="#aa03199_ae98fcf72a694e32fed47683122e94f0c_cgraph" alt=""/></div>
+<map name="aa03199_ae98fcf72a694e32fed47683122e94f0c_cgraph" id="aa03199_ae98fcf72a694e32fed47683122e94f0c_cgraph">
+<area shape="rect" title=" " alt="" coords="5,5,183,60"/>
+<area shape="rect" href="a01541.html#a7c1f19007d88c2cbb57cb2da7a1bbd9a" title=" " alt="" coords="231,13,408,53"/>
+<area shape="poly" title=" " alt="" coords="183,30,217,30,217,35,183,35"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a03199_ae98fcf72a694e32fed47683122e94f0c_icgraph.png" border="0" usemap="#aa03199_ae98fcf72a694e32fed47683122e94f0c_icgraph" alt=""/></div>
+<map name="aa03199_ae98fcf72a694e32fed47683122e94f0c_icgraph" id="aa03199_ae98fcf72a694e32fed47683122e94f0c_icgraph">
+<area shape="rect" title=" " alt="" coords="237,22,415,77"/>
+<area shape="rect" href="a03199.html#a4f8059f3994ef544167a8c963effd113" title=" " alt="" coords="5,29,189,69"/>
+<area shape="poly" title=" " alt="" coords="223,52,190,52,190,47,223,47"/>
+<area shape="poly" title=" " alt="" coords="136,18,122,11,97,8,76,10,62,15,58,21,60,28,55,30,52,20,59,10,74,5,97,3,124,6,138,13"/>
+</map>
+</div>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a4f8059f3994ef544167a8c963effd113" name="a4f8059f3994ef544167a8c963effd113"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4f8059f3994ef544167a8c963effd113">&#9670;&#160;</a></span>format()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Char, typename... Types&gt; </div>
+<div class="memtemplate">
+template&lt;typename Tuple&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a03011.html">basic_appender</a>&lt; Char &gt; <a class="el" href="a03199.html">lumex::core::fmt::Detail::tuple_formatter</a>&lt; Char, Types &gt;::format </td>
+          <td>(</td>
+          <td class="paramtype">Tuple const &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02975.html">basic_format_context</a>&lt; Char &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>ctx</em></span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a03199_a4f8059f3994ef544167a8c963effd113_cgraph.png" border="0" usemap="#aa03199_a4f8059f3994ef544167a8c963effd113_cgraph" alt=""/></div>
+<map name="aa03199_a4f8059f3994ef544167a8c963effd113_cgraph" id="aa03199_a4f8059f3994ef544167a8c963effd113_cgraph">
+<area shape="rect" title=" " alt="" coords="5,105,189,145"/>
+<area shape="poly" title=" " alt="" coords="55,106,52,96,59,86,74,81,97,79,124,82,138,89,136,94,122,87,97,84,76,86,62,91,58,97,60,104"/>
+<area shape="rect" href="a03011.html#a31af630fad97a8533bdc5e768d3e76ce" title="The buffer this appender writes to." alt="" coords="465,5,637,45"/>
+<area shape="poly" title=" " alt="" coords="172,103,237,87,451,42,452,47,238,92,173,108"/>
+<area shape="rect" href="a02975.html#a04c7f3d5ffc13bc90ea29ab029bb88a2" title=" " alt="" coords="465,69,637,109"/>
+<area shape="poly" title=" " alt="" coords="190,115,451,95,452,100,190,121"/>
+<area shape="rect" href="a03199.html#ae98fcf72a694e32fed47683122e94f0c" title=" " alt="" coords="237,290,415,345"/>
+<area shape="poly" title=" " alt="" coords="123,143,284,279,281,283,120,148"/>
+<area shape="rect" href="a01541.html#a8b79a1789ab9e1a4f978bdf8cb91c6c1" title="Writes with write_body (context) directly, or into a temporary text padded to the resolved width when..." alt="" coords="237,133,415,173"/>
+<area shape="poly" title=" " alt="" coords="190,134,224,138,223,143,189,139"/>
+<area shape="rect" href="a01541.html#a7c1f19007d88c2cbb57cb2da7a1bbd9a" title=" " alt="" coords="463,389,640,429"/>
+<area shape="poly" title=" " alt="" coords="387,342,464,375,482,382,480,387,462,380,385,347"/>
+<area shape="poly" title=" " alt="" coords="349,131,399,93,461,55,475,48,478,53,464,60,402,98,352,135"/>
+<area shape="poly" title=" " alt="" coords="396,131,467,111,468,116,397,136"/>
+<area shape="rect" href="a02975.html#ad7867118e3dfee2c221a6568b520de3c" title=" " alt="" coords="465,197,637,237"/>
+<area shape="poly" title=" " alt="" coords="397,171,468,191,467,196,396,176"/>
+<area shape="rect" href="a02975.html#a2c34871a93aed0ee94f470a4a5465b06" title="The locale passed to format (loc, ...), else the global one." alt="" coords="463,261,639,301"/>
+<area shape="poly" title=" " alt="" coords="352,171,402,209,464,247,478,253,475,258,461,252,399,213,349,176"/>
+<area shape="rect" href="a01541.html#ad5678c6626a8595ede9b1b001237c32b" title=" " alt="" coords="463,325,640,365"/>
+<area shape="poly" title=" " alt="" coords="340,172,389,240,424,278,464,311,473,317,470,321,461,315,421,282,385,243,336,175"/>
+<area shape="rect" href="a01541.html#a9c9a25218bf7a93eebf8242de6a1d169" title="Writes [first, stop) padded to specs.width." alt="" coords="463,133,640,173"/>
+<area shape="poly" title=" " alt="" coords="415,151,449,151,449,156,415,156"/>
+<area shape="rect" href="a01540.html#a71066b6ff2980b7f4a955111551f11e4" title="Names value for a {name} replacement field." alt="" coords="697,275,856,301"/>
+<area shape="poly" title=" " alt="" coords="629,323,713,301,714,307,631,328"/>
+<area shape="rect" href="a02975.html#a65b345c63de1c27f72d3a00fcd77d668" title=" " alt="" coords="691,325,863,365"/>
+<area shape="poly" title=" " alt="" coords="640,343,677,343,677,348,640,348"/>
+<area shape="rect" href="a02975.html#a0ff5deb7e42e1203c6dcbc429c8da02d" title=" " alt="" coords="688,389,865,429"/>
+<area shape="poly" title=" " alt="" coords="623,363,693,383,692,388,621,368"/>
+<area shape="rect" href="a02991.html#af889c72b016fbc4382a83b4d44a4b9fe" title=" " alt="" coords="913,76,1091,116"/>
+<area shape="poly" title=" " alt="" coords="627,131,688,119,797,105,899,98,900,103,797,111,688,124,628,136"/>
+<area shape="rect" href="a01541.html#a2ed0744f528e973133ba3815d7650826" title="Estimated display width, as std::format (C++23) defines it." alt="" coords="688,204,865,244"/>
+<area shape="poly" title=" " alt="" coords="616,171,701,197,699,202,615,176"/>
+<area shape="rect" href="a01541.html#a3e45da52824f4287006ffe4514534657" title=" " alt="" coords="688,133,865,173"/>
+<area shape="poly" title=" " alt="" coords="640,151,674,151,674,156,640,156"/>
+<area shape="rect" href="a02991.html#a6f4eb61317095976b06eebbf9d38c205" title=" " alt="" coords="1148,60,1325,100"/>
+<area shape="poly" title=" " alt="" coords="1091,87,1134,84,1134,90,1091,93"/>
+<area shape="rect" href="a01541.html#a9e0a7453f21fa61d5f221016d15cbe2e" title="Moves it past one extended grapheme cluster and returns its estimated width: the width of its first c..." alt="" coords="913,220,1091,260"/>
+<area shape="poly" title=" " alt="" coords="866,228,900,230,899,235,866,233"/>
+<area shape="rect" href="a01541.html#aea68f84128932af81acea442416d4e71" title="Decodes one code point at it (UTF&#45;8 for char, UTF&#45;16 or UTF&#45;32 for wchar_t); an invalid sequence yiel..." alt="" coords="1148,316,1325,356"/>
+<area shape="poly" title=" " alt="" coords="1043,258,1140,302,1159,309,1158,314,1138,306,1040,262"/>
+<area shape="rect" href="a01541.html#ad7db5669bbcd6622f5c86c4fca26b2c3" title="Extended_Pictographic (approximated by the emoji blocks): a code point that a zero width joiner glues..." alt="" coords="1139,380,1335,420"/>
+<area shape="poly" title=" " alt="" coords="1020,258,1071,312,1104,341,1140,366,1152,372,1149,377,1137,370,1101,345,1067,315,1017,262"/>
+<area shape="rect" href="a01541.html#aff580c84b9a022c6cd09fff2dd4357ed" title="The code point joins the preceding one in the same extended grapheme cluster: Grapheme_Cluster_Break ..." alt="" coords="1148,124,1325,164"/>
+<area shape="poly" title=" " alt="" coords="1040,218,1138,174,1158,166,1159,171,1140,178,1043,222"/>
+<area shape="rect" href="a01541.html#a7ed054b3519f96e75e5f34a597d411ee" title="Regional indicator symbols (two of them form one flag)." alt="" coords="1148,188,1325,228"/>
+<area shape="poly" title=" " alt="" coords="1090,225,1134,219,1135,225,1091,231"/>
+<area shape="rect" href="a01541.html#a92eaf1c71d6bb3ecff60069c005917f8" title=" " alt="" coords="1148,252,1325,292"/>
+<area shape="poly" title=" " alt="" coords="1091,249,1135,255,1134,261,1090,255"/>
+<area shape="poly" title=" " alt="" coords="855,131,910,117,911,122,856,136"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a03199_a4f8059f3994ef544167a8c963effd113_icgraph.png" border="0" usemap="#aa03199_a4f8059f3994ef544167a8c963effd113_icgraph" alt=""/></div>
+<map name="aa03199_a4f8059f3994ef544167a8c963effd113_icgraph" id="aa03199_a4f8059f3994ef544167a8c963effd113_icgraph">
+<area shape="rect" title=" " alt="" coords="5,29,189,69"/>
+<area shape="poly" title=" " alt="" coords="128,17,117,11,97,8,80,10,69,15,66,21,68,28,62,30,60,20,66,11,78,5,97,3,119,6,131,13"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a59aa6a934d521a15be0b21917759e892" name="a59aa6a934d521a15be0b21917759e892"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a59aa6a934d521a15be0b21917759e892">&#9670;&#160;</a></span>parse()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Char, typename... Types&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Char const  * <a class="el" href="a03199.html">lumex::core::fmt::Detail::tuple_formatter</a>&lt; Char, Types &gt;::parse </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02979.html">basic_format_parse_context</a>&lt; Char &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>ctx</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a03199_a59aa6a934d521a15be0b21917759e892_cgraph.png" border="0" usemap="#aa03199_a59aa6a934d521a15be0b21917759e892_cgraph" alt=""/></div>
+<map name="aa03199_a59aa6a934d521a15be0b21917759e892_cgraph" id="aa03199_a59aa6a934d521a15be0b21917759e892_cgraph">
+<area shape="rect" title=" " alt="" coords="5,139,183,179"/>
+<area shape="poly" title=" " alt="" coords="49,139,46,129,53,120,69,114,94,112,122,115,138,122,135,127,121,120,94,117,71,119,56,124,51,130,54,138"/>
+<area shape="rect" href="a02979.html#a083812f4abac5c390c1b3f2232466c3f" title=" " alt="" coords="719,5,923,45"/>
+<area shape="poly" title=" " alt="" coords="175,136,230,124,484,77,705,40,706,46,485,82,231,129,176,141"/>
+<area shape="rect" href="a01541.html#a78146b6be0e4554a882bb6eec9971b9d" title="[[fill]align][width] of a range / tuple specification: : is never a fill here (it starts the element ..." alt="" coords="231,139,445,179"/>
+<area shape="poly" title=" " alt="" coords="183,156,217,156,217,161,183,161"/>
+<area shape="rect" href="a01541.html#a7c1f19007d88c2cbb57cb2da7a1bbd9a" title=" " alt="" coords="249,203,427,243"/>
+<area shape="poly" title=" " alt="" coords="171,176,249,197,248,202,170,181"/>
+<area shape="rect" href="a01541.html#ae60423b45d0639b6fcc845a3aebf8a26" title="Parses [[fill]align][width] from ctx.begin(), the part every specification shares (used by the range ..." alt="" coords="493,164,671,204"/>
+<area shape="poly" title=" " alt="" coords="446,167,480,171,480,176,445,172"/>
+<area shape="poly" title=" " alt="" coords="599,162,649,113,682,86,717,62,743,48,746,53,720,66,685,90,653,117,602,166"/>
+<area shape="rect" href="a02979.html#aca48191286b3912fd9d1b0ffd796b441" title=" " alt="" coords="735,121,907,175"/>
+<area shape="poly" title=" " alt="" coords="670,168,721,160,722,166,671,173"/>
+<area shape="rect" href="a01541.html#a223c59fa6c7ce43d8256f0fe2ea9afab" title="Number of code units of the code point starting at it." alt="" coords="732,200,909,240"/>
+<area shape="poly" title=" " alt="" coords="671,195,719,202,718,207,670,200"/>
+<area shape="rect" href="a01541.html#a823b8b6f4700e47cb765fac8dce410ff" title=" " alt="" coords="732,264,909,304"/>
+<area shape="poly" title=" " alt="" coords="620,202,720,250,739,257,738,262,718,254,617,206"/>
+<area shape="rect" href="a01541.html#adaae5d05b7b1928c889b5c429a0ed1bf" title=" " alt="" coords="1197,317,1375,357"/>
+<area shape="poly" title=" " alt="" coords="598,203,618,230,646,261,681,291,720,314,778,334,839,349,902,358,964,363,1083,361,1183,352,1184,357,1083,367,964,368,901,363,838,354,777,339,718,318,677,295,643,265,614,233,593,206"/>
+<area shape="rect" href="a01541.html#a1d433bc889461c7576948230c7d3a0ed" title="Parses {} / {3} / {name} used as dynamic width / precision." alt="" coords="732,489,909,529"/>
+<area shape="poly" title=" " alt="" coords="599,203,800,476,796,480,595,206"/>
+<area shape="rect" href="a01541.html#a73a1e16b59f592ef142c5e35bb5e2cc6" title="Parses a non&#45;negative decimal number; throws when above INT_MAX." alt="" coords="971,163,1149,203"/>
+<area shape="poly" title=" " alt="" coords="608,162,657,131,687,117,718,107,775,94,821,90,866,94,923,107,976,127,1022,153,1020,157,974,132,922,112,866,100,821,95,776,99,719,112,689,122,660,136,610,166"/>
+<area shape="rect" href="a02979.html#af8cbbe975292480629e0c83838452db8" title="Records manual indexing; throws after automatic indexing." alt="" coords="974,443,1146,498"/>
+<area shape="poly" title=" " alt="" coords="909,492,960,484,961,489,910,498"/>
+<area shape="rect" href="a02979.html#ac7de27e293647be7090e0d6f8bcc0e3a" title="Compile&#45;time check only: argument id is an integer." alt="" coords="974,522,1146,577"/>
+<area shape="poly" title=" " alt="" coords="910,522,961,530,960,535,909,527"/>
+<area shape="rect" href="a02979.html#afb523ff24fb4035bb928ab2bde553f1d" title="Records a reference by name: it counts as manual indexing when no automatic index was used yet (so {a..." alt="" coords="974,601,1146,655"/>
+<area shape="poly" title=" " alt="" coords="858,527,972,587,984,593,981,597,969,592,855,532"/>
+<area shape="rect" href="a02979.html#af05a380747221a522d1cc5f2c1cb1382" title="Next automatic argument index; throws after manual indexing." alt="" coords="974,679,1146,734"/>
+<area shape="poly" title=" " alt="" coords="837,528,893,594,930,632,972,666,979,670,976,675,969,670,927,636,889,598,833,531"/>
+<area shape="rect" href="a01541.html#a562623a0bebe727eda8a328a6367f409" title="Parses an arg&#45;id (0, 12, name) at it; leaves it on the character after it." alt="" coords="971,379,1149,419"/>
+<area shape="poly" title=" " alt="" coords="856,487,970,430,989,421,991,426,972,434,858,491"/>
+<area shape="poly" title=" " alt="" coords="1133,376,1198,358,1200,364,1135,381"/>
+<area shape="rect" href="a01541.html#a9a0112c6db4da55a5ecdb292c7b4a207" title=" " alt="" coords="1197,381,1375,421"/>
+<area shape="poly" title=" " alt="" coords="1149,397,1184,397,1184,403,1149,402"/>
+<area shape="poly" title=" " alt="" coords="1091,201,1247,307,1244,312,1088,205"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a03199_a59aa6a934d521a15be0b21917759e892_icgraph.png" border="0" usemap="#aa03199_a59aa6a934d521a15be0b21917759e892_icgraph" alt=""/></div>
+<map name="aa03199_a59aa6a934d521a15be0b21917759e892_icgraph" id="aa03199_a59aa6a934d521a15be0b21917759e892_icgraph">
+<area shape="rect" title=" " alt="" coords="5,29,183,69"/>
+<area shape="poly" title=" " alt="" coords="123,17,113,11,94,8,77,10,67,15,64,21,66,28,60,30,58,20,64,11,76,5,94,3,115,6,126,13"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a41365e41a9e17056b17ccb5598a2edd4" name="a41365e41a9e17056b17ccb5598a2edd4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a41365e41a9e17056b17ccb5598a2edd4">&#9670;&#160;</a></span>set_brackets()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Char, typename... Types&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="a03199.html">lumex::core::fmt::Detail::tuple_formatter</a>&lt; Char, Types &gt;::set_brackets </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02987.html">basic_string_ref</a>&lt; Char &gt;</td>          <td class="paramname"><span class="paramname"><em>open</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02987.html">basic_string_ref</a>&lt; Char &gt;</td>          <td class="paramname"><span class="paramname"><em>close</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Text around the elements (<code>"("</code> and <code>")"</code> by default). </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a03199_a41365e41a9e17056b17ccb5598a2edd4_cgraph.png" border="0" usemap="#aa03199_a41365e41a9e17056b17ccb5598a2edd4_cgraph" alt=""/></div>
+<map name="aa03199_a41365e41a9e17056b17ccb5598a2edd4_cgraph" id="aa03199_a41365e41a9e17056b17ccb5598a2edd4_cgraph">
+<area shape="rect" title="Text around the elements (&quot;(&quot; and &quot;)&quot; by default)." alt="" coords="5,30,183,85"/>
+<area shape="rect" href="a02987.html#aadd054de0b280c1ced82cbf2c7267c0d" title=" " alt="" coords="231,5,408,45"/>
+<area shape="poly" title=" " alt="" coords="183,42,217,37,218,42,183,47"/>
+<area shape="rect" href="a02987.html#ac94ec26524d63cee98d3d82cfbf91c2f" title=" " alt="" coords="231,69,408,109"/>
+<area shape="poly" title=" " alt="" coords="183,67,218,72,217,77,183,73"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="aabacee7a33bd10458fd2ca73c14dbbec" name="aabacee7a33bd10458fd2ca73c14dbbec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aabacee7a33bd10458fd2ca73c14dbbec">&#9670;&#160;</a></span>set_separator()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Char, typename... Types&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="a03199.html">lumex::core::fmt::Detail::tuple_formatter</a>&lt; Char, Types &gt;::set_separator </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02987.html">basic_string_ref</a>&lt; Char &gt;</td>          <td class="paramname"><span class="paramname"><em>separator</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Text between elements (<code>", "</code> by default). </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a03199_aabacee7a33bd10458fd2ca73c14dbbec_cgraph.png" border="0" usemap="#aa03199_aabacee7a33bd10458fd2ca73c14dbbec_cgraph" alt=""/></div>
+<map name="aa03199_aabacee7a33bd10458fd2ca73c14dbbec_cgraph" id="aa03199_aabacee7a33bd10458fd2ca73c14dbbec_cgraph">
+<area shape="rect" title="Text between elements (&quot;, &quot; by default)." alt="" coords="5,30,183,85"/>
+<area shape="rect" href="a02987.html#aadd054de0b280c1ced82cbf2c7267c0d" title=" " alt="" coords="231,5,408,45"/>
+<area shape="poly" title=" " alt="" coords="183,42,217,37,218,42,183,47"/>
+<area shape="rect" href="a02987.html#ac94ec26524d63cee98d3d82cfbf91c2f" title=" " alt="" coords="231,69,408,109"/>
+<area shape="poly" title=" " alt="" coords="183,67,218,72,217,77,183,73"/>
+</map>
+</div>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
+<li><a class="el" href="a01019_source.html">LumexFormatRanges.hpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01540.html">fmt</a></li><li class="navelem"><a class="el" href="a01541.html">Detail</a></li><li class="navelem"><a class="el" href="a03199.html">tuple_formatter</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

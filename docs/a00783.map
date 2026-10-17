@@ -1,0 +1,34 @@
+<map id="LumexSmartPtrTraits.hpp" name="LumexSmartPtrTraits.hpp">
+<area shape="rect" id="Node000001" title="Building blocks of the smart pointers: the type identity without RTTI, the empty&#45;base storage of dele..." alt="" coords="318,5,505,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,86,76,111"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="318,33,208,52,89,81,83,83,81,78,88,76,207,47,318,28"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="101,86,167,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="353,33,270,54,180,81,175,83,173,78,178,76,269,49,351,28"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="192,86,279,111"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="385,33,277,83,274,78,382,28"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="303,86,362,111"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="401,33,357,78,353,74,397,29"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="387,86,436,111"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="414,31,414,72,409,72,409,31"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="460,350,552,375"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="423,30,450,78,473,149,489,222,506,336,501,336,484,223,468,151,445,80,418,32"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="512,86,572,111"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="434,29,511,76,508,81,431,33"/>
+<area shape="rect" id="Node000009" href="$a00779.html" title="Configuration macros of core/smart_ptr: exception handling, ThreadSanitizer detection,..." alt="" coords="597,79,834,119"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="460,28,627,72,625,78,458,33"/>
+<area shape="rect" id="Node000015" href="$a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="862,343,1075,383"/>
+<area shape="poly" id="edge17_Node000001_Node000015" title=" " alt="" coords="505,20,597,27,696,39,785,55,821,65,847,76,879,100,904,129,924,163,940,198,960,270,969,328,964,329,955,271,935,200,920,165,900,132,875,104,845,81,819,70,784,60,695,44,597,33,505,26"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="631,174,696,199"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="706,120,680,163,676,161,701,118"/>
+<area shape="rect" id="Node000011" href="$a01073.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="720,167,903,207"/>
+<area shape="poly" id="edge10_Node000009_Node000011" title=" " alt="" coords="739,117,781,155,777,159,736,121"/>
+<area shape="rect" id="Node000012" href="$a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="511,262,693,287"/>
+<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="764,209,646,259,644,254,762,204"/>
+<area shape="rect" id="Node000013" href="$a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="717,255,906,295"/>
+<area shape="poly" id="edge12_Node000011_Node000013" title=" " alt="" coords="814,207,814,241,809,241,809,207"/>
+<area shape="poly" id="edge16_Node000011_Node000015" title=" " alt="" coords="856,205,889,225,920,253,945,290,961,328,956,330,940,293,916,256,886,230,853,209"/>
+<area shape="poly" id="edge13_Node000013_Node000007" title=" " alt="" coords="739,297,572,345,561,349,559,343,571,340,738,292"/>
+<area shape="rect" id="Node000014" href="$a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="583,343,837,383"/>
+<area shape="poly" id="edge14_Node000013_Node000014" title=" " alt="" coords="790,297,745,336,742,332,786,293"/>
+<area shape="poly" id="edge15_Node000013_Node000015" title=" " alt="" coords="849,293,922,334,920,338,846,297"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="lumex::xml::node::XmlNode::attributes_end" name="lumex::xml::node::XmlNode::attributes_end">
+<area shape="rect" id="Node000001" title="Returns an iterator to the past&#45;the&#45;end attribute of the current node." alt="" coords="257,5,461,45"/>
+<area shape="rect" id="Node000002" href="$a05143.html#a02ca553f82bfae1da83ba14c887e344f" title="Provides a range object for iterating over all attributes." alt="" coords="5,5,209,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="244,28,210,28,210,23,244,23"/>
+</map>

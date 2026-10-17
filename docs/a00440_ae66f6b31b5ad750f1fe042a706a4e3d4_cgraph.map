@@ -1,0 +1,40 @@
+<map id="main" name="main">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,269,60,294"/>
+<area shape="rect" id="Node000002" href="$a01759.html#ab45388c23b278021a8bb9e4a7b435e0c" title="Log a CRITICAL&#45;level message." alt="" coords="112,197,317,237"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="59,266,107,247,130,239,132,244,109,252,61,271"/>
+<area shape="rect" id="Node000004" href="$a01759.html#a44ad22b8a67f4f15a9a574b3d4d5cd74" title="Log a DEBUG&#45;level message." alt="" coords="114,261,315,301"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="60,279,100,279,100,284,60,284"/>
+<area shape="rect" id="Node000005" href="$a01759.html#aaeebb797a274ef51607814be5801bcc4" title="Log an ERROR&#45;level message." alt="" coords="119,405,311,445"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="40,293,66,340,85,367,110,390,121,397,118,401,106,394,81,371,61,343,36,295"/>
+<area shape="rect" id="Node000006" href="$a01759.html#ad00cb0a154e2546162cb226d3b494de5" title="Get the path to the logs directory." alt="" coords="369,450,552,505"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="36,294,42,328,54,373,76,419,91,439,110,455,137,471,167,484,231,498,295,501,356,496,356,501,295,506,230,503,165,489,135,476,106,459,87,442,71,421,49,375,36,329,31,295"/>
+<area shape="rect" id="Node000010" href="$a01759.html#aafb110cd6feeb2ab91305f27352b9118" title="Log an INFO&#45;level message." alt="" coords="121,5,308,45"/>
+<area shape="poly" id="edge12_Node000001_Node000010" title=" " alt="" coords="33,268,61,157,82,96,94,72,106,56,111,51,114,55,110,59,98,75,87,98,66,159,38,269"/>
+<area shape="rect" id="Node000011" href="$a01759.html#a75864780c708757d7a260b1bb6d339d4" title="Set the name of the application." alt="" coords="124,326,305,381"/>
+<area shape="poly" id="edge14_Node000001_Node000011" title=" " alt="" coords="61,291,109,311,129,319,127,324,107,316,59,296"/>
+<area shape="rect" id="Node000012" href="$a01759.html#a8e7bac7289460386a2e59d59c388d4b6" title="Log a SUCCESS&#45;level message (custom level)." alt="" coords="109,69,321,109"/>
+<area shape="poly" id="edge15_Node000001_Node000012" title=" " alt="" coords="32,268,40,238,54,198,75,156,106,119,112,115,115,119,110,123,80,159,59,200,45,239,38,269"/>
+<area shape="rect" id="Node000013" href="$a01759.html#aba1b51f61fc63faeb93387a3e0b9a04b" title="Write a log to a file in the logs/ directory." alt="" coords="114,525,315,565"/>
+<area shape="poly" id="edge17_Node000001_Node000013" title=" " alt="" coords="36,294,41,333,53,388,75,447,90,475,110,499,132,517,128,521,106,503,86,478,70,449,48,389,36,334,31,294"/>
+<area shape="rect" id="Node000016" href="$a01759.html#af4fec23e76323ffee4eaf2aaf716eb15" title="Log a WARNING&#45;level message." alt="" coords="108,133,321,173"/>
+<area shape="poly" id="edge21_Node000001_Node000016" title=" " alt="" coords="37,267,64,226,83,203,106,183,116,177,119,182,110,187,87,206,68,229,42,269"/>
+<area shape="rect" id="Node000003" href="$a01570.html#a5c0b80a6f74a32424bed62d7597a6759" title="Concatenates the streamed text of args." alt="" coords="389,165,533,205"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="317,201,375,194,376,199,318,207"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="286,259,320,247,407,209,409,214,322,252,288,264"/>
+<area shape="poly" id="edge6_Node000005_Node000003" title=" " alt="" coords="298,403,320,390,362,350,397,303,425,257,445,217,449,219,430,259,402,306,366,354,323,394,300,407"/>
+<area shape="rect" id="Node000007" href="$a02599.html#a395ab3b27b542b7cb9092beed95f748d" title="Static convenience method to retrieve an environment variable." alt="" coords="600,457,821,497"/>
+<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="552,475,586,475,586,480,552,480"/>
+<area shape="rect" id="Node000008" href="$a02599.html#a7fbb25c5cfa51fc3427bb29df4cb7e6e" title="Retrieves the value of a specified environment variable in a thread&#45;safe manner." alt="" coords="869,398,1071,453"/>
+<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="810,455,856,446,857,451,811,460"/>
+<area shape="rect" id="Node000009" href="$a02599.html#a8773983c01d39e03732541958672fb84" title="Provides the single, globally accessible instance of lumex_environment." alt="" coords="874,501,1066,555"/>
+<area shape="poly" id="edge10_Node000007_Node000009" title=" " alt="" coords="814,495,861,504,860,509,813,500"/>
+<area shape="poly" id="edge11_Node000009_Node000009" title=" " alt="" coords="920,501,920,490,929,482,946,476,970,474,999,477,1016,485,1013,490,998,482,970,479,947,481,932,486,925,492,925,501"/>
+<area shape="poly" id="edge13_Node000010_Node000003" title=" " alt="" coords="297,43,323,55,356,77,387,103,437,153,433,156,383,107,353,81,320,60,295,48"/>
+<area shape="poly" id="edge16_Node000012_Node000003" title=" " alt="" coords="288,107,322,119,409,157,407,162,320,124,286,112"/>
+<area shape="poly" id="edge19_Node000013_Node000006" title=" " alt="" coords="286,523,355,504,356,509,288,528"/>
+<area shape="rect" id="Node000014" href="$a04251.html#a32efb9c5bcc248c83b37abd86a5dd24d" title="Retrieves the current date and time formatted as a string." alt="" coords="375,529,546,583"/>
+<area shape="poly" id="edge18_Node000013_Node000014" title=" " alt="" coords="316,547,361,549,361,554,315,552"/>
+<area shape="rect" id="Node000015" href="$a04251.html#a869c4e47c5c72561f0c99282b06049c6" title="Gettters for the time since epoch in different time units." alt="" coords="375,607,546,662"/>
+<area shape="poly" id="edge20_Node000013_Node000015" title=" " alt="" coords="271,563,373,600,371,605,269,568"/>
+<area shape="poly" id="edge22_Node000016_Node000003" title=" " alt="" coords="322,165,375,172,375,177,321,170"/>
+</map>

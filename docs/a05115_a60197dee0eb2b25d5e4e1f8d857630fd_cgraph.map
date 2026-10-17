@@ -1,0 +1,10 @@
+<map id="lumex::xml::attribute::XmlAttribute::as_int" name="lumex::xml::attribute::XmlAttribute::as_int">
+<area shape="rect" id="Node000001" title="Converts the attribute&#39;s value to an int." alt="" coords="5,49,165,89"/>
+<area shape="rect" id="Node000002" href="$a01671.html#a16b4ac35b0b90e24e97c3db4edf3944a" title=" " alt="" coords="222,5,365,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="165,50,208,41,209,46,166,55"/>
+<area shape="rect" id="Node000004" href="$a05115.html#a40dc4738d939dd04914625f44b5e01c8" title="Retrieves the value of the XML attribute as a C&#45;style string." alt="" coords="213,93,373,133"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="166,84,200,91,199,96,165,89"/>
+<area shape="rect" id="Node000003" href="$a01671.html#a97919c57db6358f57a97461f9f97cc7f" title=" " alt="" coords="421,5,564,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="365,23,408,23,408,28,365,28"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="256,94,254,84,260,75,273,69,293,67,317,70,329,77,327,82,315,75,293,72,274,74,263,79,259,85,261,92"/>
+</map>

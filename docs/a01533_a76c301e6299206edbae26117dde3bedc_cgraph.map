@@ -1,0 +1,9 @@
+<map id="lumex::core::expected::result::detail::construct_at" name="lumex::core::expected::result::detail::construct_at">
+<area shape="rect" id="Node000001" title="Starts the lifetime of a T at where, direct&#45;non&#45;list&#45;initialized with args...: std::construct_at." alt="" coords="5,37,205,77"/>
+<area shape="rect" id="Node000002" href="$a01533.html#a8a84107209623635f4270b7b6c0d6339" title="static_cast&lt;T &amp;&amp;&gt; (t), the body of std::forward for a constexpr function of C++11,..." alt="" coords="253,5,420,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="205,41,239,36,240,41,206,46"/>
+<area shape="rect" id="Node000003" href="$a01533.html#a530b8cd2ab418fa6df0c17235386995a" title="The address of object as a void *, also for a const or volatile object." alt="" coords="253,69,420,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="206,69,240,73,239,79,205,74"/>
+<area shape="rect" id="Node000004" href="$a01533.html#a07d94bee6da20f2047136d97431d8d45" title="The address of object also when T overloads operator&amp;, usable in a constant expression from C++11 (st..." alt="" coords="468,69,659,109"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="420,87,454,87,454,92,420,92"/>
+</map>

@@ -1,0 +1,55 @@
+<map id="lumex::xml::node::allocate_node" name="lumex::xml::node::allocate_node">
+<area shape="rect" id="Node000001" title="Allocates a new XmlNodeBase object using the provided allocator." alt="" coords="761,414,996,439"/>
+<area shape="rect" id="Node000002" href="$a05143.html#a6226c2329935d1fc5d905862a3b21da3" title="Appends a new child node of a specified type to the current node." alt="" coords="509,120,713,160"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="857,406,711,244,630,162,634,158,715,241,861,402"/>
+<area shape="rect" id="Node000007" href="$a05143.html#affd983d76ecc8d527bff7cb6f9c13018" title="Appends a deep copy of an existing XmlNode (proto) as a child of the current node." alt="" coords="5,221,209,261"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="856,406,795,352,755,325,712,304,672,292,617,281,483,265,338,254,209,247,209,242,338,249,484,260,618,276,673,287,714,299,758,321,798,348,859,402"/>
+<area shape="rect" id="Node000008" href="$a01672.html#a250c352fb5975642cf858d3b0904f533" title="Appends a newly allocated child node of a specified type to the current node." alt="" coords="515,349,707,389"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="806,414,704,392,705,387,807,409"/>
+<area shape="rect" id="Node000010" href="$a05143.html#ade75f490c8aafb015483a5444c1af76c" title="Inserts a deep copy of an existing XmlNode (proto) after a given existing child node." alt="" coords="5,285,209,325"/>
+<area shape="poly" id="edge22_Node000001_Node000010" title=" " alt="" coords="849,409,788,372,751,354,713,340,647,324,579,312,443,299,316,297,210,300,210,295,316,291,443,294,580,307,648,319,714,335,753,349,791,367,852,404"/>
+<area shape="rect" id="Node000011" href="$a05143.html#a35ef839927e8d9eaef5c22122c802fb1" title="Inserts a deep copy of an existing XmlNode (proto) before a given existing child node." alt="" coords="5,413,209,453"/>
+<area shape="poly" id="edge23_Node000001_Node000011" title=" " alt="" coords="748,430,209,435,209,430,748,425"/>
+<area shape="rect" id="Node000012" href="$a05143.html#acf48c85813bfecc4b524bfc0e2cb9344" title="Prepends a deep copy of an existing XmlNode (proto) as a child of the current node." alt="" coords="5,477,209,517"/>
+<area shape="poly" id="edge28_Node000001_Node000012" title=" " alt="" coords="748,441,210,491,209,485,747,436"/>
+<area shape="rect" id="Node000014" href="$a05143.html#a8ac674a8eb55c7777142210558672170" title="Inserts a new child node of a specified type before a given existing child node." alt="" coords="509,547,713,587"/>
+<area shape="poly" id="edge14_Node000001_Node000014" title=" " alt="" coords="844,448,651,549,648,544,841,443"/>
+<area shape="rect" id="Node000018" href="$a05143.html#a62df8cc6d084b34512830bb14d04a8f2" title="Inserts a new child node of a specified type after a given existing child node." alt="" coords="509,739,713,779"/>
+<area shape="poly" id="edge18_Node000001_Node000018" title=" " alt="" coords="862,452,630,740,625,737,858,449"/>
+<area shape="rect" id="Node000022" href="$a05143.html#a2b60652b5cf0a8218617bcc2256066b5" title="Prepends a new child node of a specified type to the current node." alt="" coords="509,931,713,971"/>
+<area shape="poly" id="edge24_Node000001_Node000022" title=" " alt="" coords="871,453,809,599,765,695,716,792,669,870,628,932,623,929,664,868,711,789,760,693,804,597,866,451"/>
+<area shape="rect" id="Node000003" href="$a05143.html#a3c7bd51171193d163b75123b6fcb858d" title="Appends a new child element with the specified name to the current node." alt="" coords="257,120,461,160"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="496,143,462,143,462,137,496,137"/>
+<area shape="rect" id="Node000004" href="$a05143.html#a25d05a0cc347c9c670f4ec1df768742c" title="append_child with a name of size characters at name, which need no terminating NUL (a range of a larg..." alt="" coords="257,184,461,224"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="520,166,439,187,437,181,518,161"/>
+<area shape="rect" id="Node000005" href="$a05143.html#a72fa49721a6ffa9200f240b4772e8a12" title="Appends a new child element with the specified name (string_view_t) to the current node." alt="" coords="257,5,461,45"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="566,115,516,87,460,60,429,48,431,43,462,55,519,82,569,110"/>
+<area shape="rect" id="Node000006" href="$a00395.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="332,70,387,95"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="510,120,387,92,388,86,511,114"/>
+<area shape="rect" id="Node000009" href="$a01672.html#a11377e4dbc3c07bbcae59a081a6040b6" title="Performs a deep copy of an XML node&#39;s entire subtree (including itself, children, and attributes)." alt="" coords="271,349,447,389"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="501,372,447,372,447,367,501,367"/>
+<area shape="poly" id="edge9_Node000009_Node000007" title=" " alt="" coords="320,343,268,309,208,276,179,264,181,259,210,271,271,304,323,339"/>
+<area shape="poly" id="edge10_Node000009_Node000010" title=" " alt="" coords="266,348,185,328,187,323,268,343"/>
+<area shape="poly" id="edge11_Node000009_Node000011" title=" " alt="" coords="268,395,187,416,185,411,266,390"/>
+<area shape="poly" id="edge12_Node000009_Node000012" title=" " alt="" coords="323,400,271,435,210,468,181,480,179,475,208,463,268,430,320,395"/>
+<area shape="rect" id="Node000013" href="$a05127.html#a3be8c5ddd0fac3d0f74c85f9ce393341" title="Removes all nodes from the document, then copies the entire contents of a specified document." alt="" coords="23,349,192,389"/>
+<area shape="poly" id="edge13_Node000009_Node000013" title=" " alt="" coords="258,372,192,372,192,367,258,367"/>
+<area shape="rect" id="Node000015" href="$a05143.html#ae8bb7651245fb6e302ffd4cb102d20c3" title="insert_child_after with a name of size characters at name, which need no terminating NUL (a range of ..." alt="" coords="257,515,461,555"/>
+<area shape="poly" id="edge15_Node000014_Node000015" title=" " alt="" coords="496,555,461,550,462,545,496,549"/>
+<area shape="rect" id="Node000016" href="$a05143.html#a33547ff6911a38d3cd5aafb699001b7a" title="Inserts a new child element with the specified name after a given existing child node." alt="" coords="257,579,461,619"/>
+<area shape="poly" id="edge16_Node000014_Node000016" title=" " alt="" coords="496,584,462,588,461,583,496,579"/>
+<area shape="rect" id="Node000017" href="$a05143.html#a91f2cdca9e92733aeb3496240735c5de" title="Inserts a new child element with the specified name (string_view_t) after a given existing child node..." alt="" coords="257,643,461,683"/>
+<area shape="poly" id="edge17_Node000014_Node000017" title=" " alt="" coords="556,595,462,633,427,645,426,640,460,628,554,590"/>
+<area shape="rect" id="Node000019" href="$a05143.html#aab7bcf34968c0972b2f2663112ac9cc6" title="insert_child_before with a name of size characters at name, which need no terminating NUL (a range of..." alt="" coords="257,707,461,747"/>
+<area shape="poly" id="edge19_Node000018_Node000019" title=" " alt="" coords="496,747,461,742,462,737,496,741"/>
+<area shape="rect" id="Node000020" href="$a05143.html#a382508de160ecc5107cf79c88c597b36" title="Inserts a new child element with the specified name before a given existing child node." alt="" coords="257,771,461,811"/>
+<area shape="poly" id="edge20_Node000018_Node000020" title=" " alt="" coords="496,776,462,780,461,775,496,771"/>
+<area shape="rect" id="Node000021" href="$a05143.html#a972e7ea652b109d8b1c1b383cae27905" title="Inserts a new child element with the specified name (string_view_t) before a given existing child nod..." alt="" coords="257,835,461,875"/>
+<area shape="poly" id="edge21_Node000018_Node000021" title=" " alt="" coords="556,787,462,825,427,837,426,832,460,820,554,782"/>
+<area shape="rect" id="Node000023" href="$a05143.html#aa6f134b485f2cd2c478edf6c0af50243" title="Prepends a new child element with the specified name to the current node." alt="" coords="257,899,461,939"/>
+<area shape="poly" id="edge25_Node000022_Node000023" title=" " alt="" coords="496,939,461,934,462,929,496,933"/>
+<area shape="rect" id="Node000024" href="$a05143.html#ad1158e66c6a726feead88bf858821421" title="prepend_child with a name of size characters at name, which need no terminating NUL (a range of a lar..." alt="" coords="257,963,461,1003"/>
+<area shape="poly" id="edge26_Node000022_Node000024" title=" " alt="" coords="496,968,462,972,461,967,496,963"/>
+<area shape="rect" id="Node000025" href="$a05143.html#a077e87bb4351f086653426a4b66560e3" title="Prepends a new child element with the specified name (string_view_t) to the current node." alt="" coords="257,1027,461,1067"/>
+<area shape="poly" id="edge27_Node000022_Node000025" title=" " alt="" coords="556,979,462,1017,427,1029,426,1024,460,1012,554,974"/>
+</map>

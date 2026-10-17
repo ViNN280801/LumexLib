@@ -1,0 +1,18 @@
+<map id="SupportedConfigExtensions.hpp" name="SupportedConfigExtensions.hpp">
+<area shape="rect" id="Node000001" title="The configuration file formats the settings module knows, used to select an implementation from Lumex..." alt="" coords="366,5,594,31"/>
+<area shape="rect" id="Node000002" href="$a01349.html" title="Settings module: section, key and value configuration files in INI, JSON or XML behind one interface,..." alt="" coords="354,152,473,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="464,43,441,80,427,119,418,153,413,151,422,117,436,78,459,40"/>
+<area shape="rect" id="Node000007" href="$a01217.html" title="Creates the ILumexSettings implementation for a configuration file format." alt="" coords="451,79,643,104"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="503,39,537,76,533,80,499,43"/>
+<area shape="rect" id="Node000003" href="$a00320.html" title=" " alt="" coords="5,225,171,251"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="345,183,145,228,144,223,343,178"/>
+<area shape="rect" id="Node000004" href="$a00314.html" title=" " alt="" coords="195,225,394,251"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="383,187,317,227,314,223,380,182"/>
+<area shape="rect" id="Node000005" href="$a00311.html" title=" " alt="" coords="418,225,649,251"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="447,182,514,223,511,227,445,187"/>
+<area shape="rect" id="Node000006" href="$a00317.html" title=" " alt="" coords="673,225,871,251"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="487,177,710,223,709,228,486,182"/>
+<area shape="poly" id="edge7_Node000007_Node000002" title=" " alt="" coords="512,113,438,154,435,149,510,109"/>
+<area shape="rect" id="Node000008" href="$a01220.html" title=" " alt="" coords="497,152,687,177"/>
+<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="564,114,586,150,582,153,559,117"/>
+</map>

@@ -1,0 +1,13 @@
+<map id="lumex::applied::json::helper::LumexJsonHelper::get_file_mutex" name="lumex::applied::json::helper::LumexJsonHelper::get_file_mutex">
+<area shape="rect" id="Node000001" title="The mutex that serializes the file operations of this helper." alt="" coords="247,163,440,217"/>
+<area shape="rect" id="Node000002" href="$a01715.html#a3c294a75299ef8fd653d78a68d505e1a" title="Like write_value, but only replaces a key that already exists (not null) in a non&#45;empty file." alt="" coords="5,5,199,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="304,155,255,114,197,74,176,63,179,58,200,69,258,109,307,151"/>
+<area shape="rect" id="Node000003" href="$a01715.html#ac21025445d1a3a227555fd46350d3cec" title="Whether the file exists and parses as JSON." alt="" coords="5,84,199,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="246,161,185,141,187,136,247,156"/>
+<area shape="rect" id="Node000004" href="$a01715.html#ac2438f84fe091074be251ab7ca8a3445" title="Loads a JSON document from a file." alt="" coords="5,163,199,217"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="233,193,199,193,199,187,233,187"/>
+<area shape="rect" id="Node000005" href="$a01715.html#a61602e68acb04f112b6da91520856848" title="Writes config to a file, indented by four spaces." alt="" coords="5,241,199,296"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="247,224,187,244,185,239,246,219"/>
+<area shape="rect" id="Node000006" href="$a01715.html#a8591e536f16a57221a13814d3fdff1e7" title="Loads the file (an unreadable or missing file counts as an empty object), stores value and saves it b..." alt="" coords="5,320,199,375"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="306,229,257,270,200,310,176,322,174,317,197,305,254,266,303,225"/>
+</map>

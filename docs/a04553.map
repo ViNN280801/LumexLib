@@ -1,0 +1,5 @@
+<map id="lumex::core::utility::ranges::Algorithm::Detail::has_valid_iterators&lt; Iterator, Sentinel, Value, Predicate, Projection, bool &gt;" name="lumex::core::utility::ranges::Algorithm::Detail::has_valid_iterators&lt; Iterator, Sentinel, Value, Predicate, Projection, bool &gt;">
+<area shape="rect" id="Node000001" title="Second step: the iterator is bidirectional and the sentinel fits it; only then are the callables look..." alt="" coords="5,79,216,163"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="51,5,170,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="113,45,113,78,108,78,108,45"/>
+</map>

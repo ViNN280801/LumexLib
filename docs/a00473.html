@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexAggregateFields.hpp File Reference</title>
+<title>LumexLib: example_format.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,1895 +104,208 @@ $(function(){initNavTree('a00473.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a> &#124;
-<a href="#define-members">Macros</a> &#124;
-<a href="#typedef-members">Typedefs</a> &#124;
-<a href="#func-members">Functions</a> &#124;
-<a href="#var-members">Variables</a>  </div>
-  <div class="headertitle"><div class="title">LumexAggregateFields.hpp File Reference</div></div>
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">example_format.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>Non-intrusive field count, indexed access and field names for simple aggregates, from C++11.  
-<a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;array&gt;</code><br />
-<code>#include &lt;cstddef&gt;</code><br />
-<code>#include &lt;memory&gt;</code><br />
-<code>#include &lt;type_traits&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00581_source.html">lumex/core/utility/assert/LumexAssert.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00584_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00623_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00626_source.html">lumex/core/utility/macros/LumexMacros.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00650_source.html">lumex/core/utility/sequence/LumexIndexSequence.hpp</a>&quot;</code><br />
-<code>#include &lt;tuple&gt;</code><br />
+<div class="textblock"><code>#include &lt;cstdint&gt;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;limits&gt;</code><br />
+<code>#include &lt;locale&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &lt;string_view&gt;</code><br />
+<code>#include &quot;<a class="el" href="a01379_source.html">lumex/core/fmt/LumexFormat</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00854_source.html">lumex/core/string_view/view/LumexStringView.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexAggregateFields.hpp:</div>
+Include dependency graph for example_format.cpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00474.png" border="0" usemap="#a_lumex_aggregate_fields_8hpp" alt=""/></div>
+<div class="center"><img src="a00474.png" border="0" usemap="#aexample__format_8cpp" alt=""/></div>
+<map name="aexample__format_8cpp" id="aexample__format_8cpp">
+<area shape="rect" title=" " alt="" coords="2211,5,2368,31"/>
+<area shape="rect" title=" " alt="" coords="428,409,495,434"/>
+<area shape="poly" title=" " alt="" coords="2210,23,1518,43,1115,60,820,81,772,84,723,83,626,73,531,58,445,47,370,46,339,52,312,63,291,80,275,105,265,137,261,179,261,252,265,281,277,306,294,329,316,349,367,381,416,404,414,409,364,386,313,353,290,332,272,309,260,282,256,253,256,179,260,136,270,102,287,77,310,58,337,47,370,41,445,42,532,53,626,68,724,78,772,79,820,76,1115,55,1518,38,2210,17"/>
+<area shape="rect" title=" " alt="" coords="2851,321,2931,346"/>
+<area shape="poly" title=" " alt="" coords="2360,28,2435,47,2514,76,2622,134,2723,199,2807,262,2867,310,2864,314,2804,266,2720,204,2619,138,2512,81,2434,52,2358,33"/>
+<area shape="rect" title=" " alt="" coords="195,409,253,434"/>
+<area shape="poly" title=" " alt="" coords="2211,21,1786,27,1177,38,598,56,386,68,262,81,216,88,171,90,89,95,56,103,30,117,14,142,8,180,8,252,13,283,26,310,46,334,71,354,129,387,183,407,181,412,126,391,68,359,43,338,22,313,8,285,3,253,3,179,9,140,27,114,54,98,88,90,171,85,216,82,261,76,386,62,598,50,1177,33,1786,21,2211,16"/>
+<area shape="rect" title=" " alt="" coords="2715,321,2776,346"/>
+<area shape="poly" title=" " alt="" coords="2346,28,2406,47,2468,76,2550,133,2624,198,2685,260,2728,308,2724,311,2681,264,2620,202,2546,138,2465,81,2404,52,2344,33"/>
+<area shape="rect" title=" " alt="" coords="584,409,643,434"/>
+<area shape="poly" title=" " alt="" coords="2210,25,1768,52,1149,94,850,117,598,141,425,163,378,173,362,181,363,252,369,287,385,316,409,341,440,362,473,379,508,393,571,411,570,416,506,398,471,384,437,367,406,345,381,319,364,289,357,253,358,178,376,168,424,157,598,135,849,112,1149,88,1768,47,2210,20"/>
+<area shape="rect" title=" " alt="" coords="2647,409,2745,434"/>
+<area shape="poly" title=" " alt="" coords="2369,18,2538,28,2637,39,2736,54,2826,75,2901,102,2930,118,2952,136,2966,156,2971,179,2971,253,2970,308,2963,331,2944,355,2913,374,2866,390,2759,414,2758,409,2864,385,2911,369,2941,351,2958,329,2965,308,2965,253,2965,180,2961,159,2948,140,2927,122,2898,106,2825,80,2735,59,2637,44,2537,34,2368,23"/>
+<area shape="rect" href="a01379.html" title="Format module: std::format&#45;style text formatting from C++11 on, including ranges, tuples and std::chr..." alt="" coords="1804,86,2020,111"/>
+<area shape="poly" title=" " alt="" coords="2231,33,1986,86,1984,80,2229,28"/>
+<area shape="rect" href="a00854.html" title="lumex_string_view: the view over char, the std::string_view of the library from C++11." alt="" coords="2252,79,2455,119"/>
+<area shape="poly" title=" " alt="" coords="2302,29,2331,66,2327,69,2298,33"/>
+<area shape="rect" href="a01013.html" title="std::format&#45;style text formatting from C++11 on." alt="" coords="1653,240,1793,265"/>
+<area shape="poly" title=" " alt="" coords="1898,114,1751,233,1748,229,1894,110"/>
+<area shape="rect" href="a01016.html" title="std::chrono::duration and system_clock time points for LumexFormat, with the chrono specification of ..." alt="" coords="2069,167,2256,192"/>
+<area shape="poly" title=" " alt="" coords="1953,109,2111,160,2110,165,1951,114"/>
+<area shape="rect" href="a01019.html" title="Ranges, std::pair and std::tuple for LumexFormat, as the C++23 range formatting of std::format (P2286..." alt="" coords="1171,167,1359,192"/>
+<area shape="poly" title=" " alt="" coords="1811,114,1373,169,1373,163,1810,109"/>
+<area shape="poly" title=" " alt="" coords="1653,257,1083,275,783,293,675,304,611,316,574,333,540,355,485,401,482,397,537,351,572,328,610,311,674,298,782,288,1082,270,1652,252"/>
+<area shape="poly" title=" " alt="" coords="1793,251,1968,255,2215,264,2499,282,2788,311,2837,319,2837,324,2788,316,2499,287,2214,269,1968,260,1793,256"/>
+<area shape="poly" title=" " alt="" coords="1653,256,1330,263,889,275,489,293,355,304,313,310,292,316,272,332,256,353,234,397,230,394,251,350,268,328,289,311,312,304,354,298,489,287,889,270,1330,258,1652,251"/>
+<area shape="poly" title=" " alt="" coords="1793,253,2290,278,2548,295,2696,311,2706,313,2705,318,2696,316,2547,300,2290,283,1793,258"/>
+<area shape="poly" title=" " alt="" coords="1652,257,1072,276,781,294,684,304,655,310,640,315,627,332,619,353,614,395,609,395,614,351,622,330,637,311,653,305,683,299,780,288,1072,271,1652,252"/>
+<area shape="poly" title=" " alt="" coords="1793,253,2219,274,2435,291,2512,301,2558,311,2594,329,2627,351,2677,397,2674,401,2623,355,2591,333,2556,316,2512,306,2434,297,2219,280,1793,258"/>
+<area shape="rect" title=" " alt="" coords="651,321,717,346"/>
+<area shape="poly" title=" " alt="" coords="1652,257,1450,262,1184,272,921,290,813,302,731,316,723,318,722,313,730,311,812,296,921,284,1184,267,1450,256,1652,251"/>
+<area shape="rect" title=" " alt="" coords="1303,321,1371,346"/>
+<area shape="poly" title=" " alt="" coords="1653,263,1527,283,1455,297,1385,316,1378,318,1376,313,1383,311,1454,292,1526,277,1652,258"/>
+<area shape="rect" title=" " alt="" coords="1913,321,1975,346"/>
+<area shape="poly" title=" " alt="" coords="1761,263,1894,311,1901,313,1899,318,1892,316,1759,268"/>
+<area shape="rect" title=" " alt="" coords="1858,409,1929,434"/>
+<area shape="poly" title=" " alt="" coords="1764,263,1806,282,1845,311,1860,331,1873,353,1889,395,1884,397,1868,355,1856,334,1841,315,1803,287,1762,268"/>
+<area shape="rect" title=" " alt="" coords="1396,321,1457,346"/>
+<area shape="poly" title=" " alt="" coords="1655,268,1567,288,1471,316,1466,318,1464,313,1470,311,1566,283,1654,263"/>
+<area shape="rect" title=" " alt="" coords="1482,321,1547,346"/>
+<area shape="poly" title=" " alt="" coords="1687,268,1561,316,1556,318,1554,313,1559,311,1685,263"/>
+<area shape="rect" title=" " alt="" coords="2426,409,2513,434"/>
+<area shape="poly" title=" " alt="" coords="1793,253,2208,275,2406,292,2471,301,2502,311,2512,332,2510,355,2502,378,2490,399,2485,396,2497,376,2505,354,2507,333,2498,315,2470,306,2405,297,2207,280,1793,258"/>
+<area shape="rect" title=" " alt="" coords="1601,409,1671,434"/>
+<area shape="poly" title=" " alt="" coords="1733,265,1748,306,1750,331,1744,355,1716,380,1675,404,1672,400,1713,375,1739,352,1745,330,1743,307,1728,267"/>
+<area shape="rect" title=" " alt="" coords="1398,409,1474,434"/>
+<area shape="poly" title=" " alt="" coords="1725,266,1718,309,1708,334,1693,355,1667,375,1643,386,1620,392,1596,393,1547,394,1519,397,1487,404,1480,406,1478,401,1486,399,1518,391,1546,388,1596,388,1619,386,1642,381,1665,370,1689,351,1704,332,1713,308,1720,265"/>
+<area shape="rect" title=" " alt="" coords="2051,321,2125,346"/>
+<area shape="poly" title=" " alt="" coords="1781,263,2038,320,2037,325,1780,268"/>
+<area shape="rect" title=" " alt="" coords="2537,409,2623,434"/>
+<area shape="poly" title=" " alt="" coords="1793,253,2218,278,2423,295,2491,303,2524,311,2544,329,2559,351,2576,395,2572,397,2554,353,2540,332,2521,316,2490,308,2422,300,2217,284,1793,259"/>
+<area shape="rect" title=" " alt="" coords="2450,585,2542,610"/>
+<area shape="poly" title=" " alt="" coords="1793,254,2262,282,2493,298,2609,311,2645,325,2691,347,2733,373,2760,400,2767,417,2770,434,2763,466,2743,494,2712,518,2675,540,2634,558,2556,585,2554,580,2632,553,2672,535,2709,514,2739,490,2758,463,2765,434,2762,419,2755,403,2729,377,2688,351,2643,330,2607,316,2493,304,2262,287,1793,259"/>
+<area shape="rect" title=" " alt="" coords="803,409,863,434"/>
+<area shape="poly" title=" " alt="" coords="1720,267,1694,312,1674,336,1648,356,1618,369,1582,379,1498,393,1399,399,1294,400,1087,398,999,399,928,404,877,413,876,408,928,399,999,393,1087,393,1294,395,1399,394,1497,387,1581,374,1616,364,1645,351,1670,332,1690,309,1715,264"/>
+<area shape="rect" title=" " alt="" coords="1571,321,1634,346"/>
+<area shape="poly" title=" " alt="" coords="1705,268,1635,315,1632,311,1702,263"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="1725,489,1915,529"/>
+<area shape="poly" title=" " alt="" coords="1735,264,1765,312,1783,355,1798,399,1817,475,1811,476,1793,400,1778,357,1760,315,1730,267"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="715,577,928,617"/>
+<area shape="poly" title=" " alt="" coords="1652,257,1392,262,1043,274,720,291,603,303,535,316,495,331,465,346,440,368,418,403,410,424,408,443,410,461,417,477,444,506,484,530,534,550,589,565,702,584,701,590,588,570,532,555,482,535,441,510,413,480,405,462,402,443,405,422,414,400,436,364,462,341,493,326,534,311,603,298,720,286,1043,269,1392,257,1652,251"/>
+<area shape="rect" href="a01121.html" title="Macros that declare an exception class in one line." alt="" coords="742,313,1002,353"/>
+<area shape="poly" title=" " alt="" coords="1652,260,1378,281,1016,316,1015,311,1377,276,1652,255"/>
+<area shape="rect" href="a01067.html" title="Every general&#45;purpose type trait of LumexLib, one sub&#45;namespace of lumex::core::utility::traits per t..." alt="" coords="1026,313,1227,353"/>
+<area shape="poly" title=" " alt="" coords="1653,265,1242,320,1241,315,1652,260"/>
+<area shape="poly" title=" " alt="" coords="1915,519,2437,587,2436,592,1914,524"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="1693,577,1947,617"/>
+<area shape="poly" title=" " alt="" coords="1823,530,1823,563,1817,563,1817,530"/>
+<area shape="poly" title=" " alt="" coords="1725,520,942,589,942,584,1725,515"/>
+<area shape="poly" title=" " alt="" coords="814,356,657,409,655,404,812,351"/>
+<area shape="poly" title=" " alt="" coords="865,355,847,397,842,395,861,353"/>
+<area shape="poly" title=" " alt="" coords="1026,355,1015,356,901,366,804,369,638,364,558,363,473,367,378,380,267,404,261,406,259,401,266,399,377,375,473,362,558,358,638,359,804,363,901,361,1014,351,1025,349"/>
+<area shape="poly" title=" " alt="" coords="1026,354,1015,356,657,417,656,412,1014,351,1025,349"/>
+<area shape="poly" title=" " alt="" coords="1228,344,1292,351,1423,357,1586,361,1965,363,2344,372,2506,382,2636,399,2651,402,2650,407,2636,404,2506,388,2344,377,1965,369,1586,366,1423,363,1292,356,1227,350"/>
+<area shape="poly" title=" " alt="" coords="1228,343,1292,351,1434,364,1544,371,1654,381,1795,399,1845,408,1844,413,1794,404,1654,386,1544,377,1433,369,1292,356,1227,349"/>
+<area shape="poly" title=" " alt="" coords="1228,348,1247,351,1343,362,1419,368,1494,377,1589,399,1597,401,1595,406,1587,404,1493,383,1418,374,1343,368,1246,356,1227,353"/>
+<area shape="poly" title=" " alt="" coords="1208,351,1379,399,1389,402,1387,407,1378,404,1206,356"/>
+<area shape="poly" title=" " alt="" coords="1206,351,1268,372,1332,399,1349,410,1360,421,1371,430,1388,439,1466,463,1533,477,1594,482,1652,482,1773,477,1844,479,1927,487,2071,509,2214,535,2437,581,2436,587,2213,541,2070,515,1926,492,1844,484,1773,482,1652,487,1594,487,1532,482,1464,469,1386,444,1368,435,1356,425,1345,414,1329,404,1267,377,1204,356"/>
+<area shape="poly" title=" " alt="" coords="1046,356,883,404,877,406,875,401,882,399,1045,351"/>
+<area shape="poly" title=" " alt="" coords="1181,351,1232,373,1285,399,1314,420,1343,439,1440,482,1541,519,1721,571,1719,577,1539,524,1438,487,1340,444,1311,424,1283,404,1230,377,1179,356"/>
+<area shape="poly" title=" " alt="" coords="1138,353,1150,390,1159,437,1157,486,1150,510,1137,531,1124,542,1106,552,1059,568,1002,581,942,589,941,584,1001,575,1057,563,1104,547,1121,538,1133,528,1145,508,1152,485,1153,437,1145,391,1133,355"/>
+<area shape="rect" title=" " alt="" coords="1695,409,1782,434"/>
+<area shape="poly" title=" " alt="" coords="1228,343,1685,399,1696,402,1694,407,1683,404,1227,348"/>
+<area shape="rect" title=" " alt="" coords="1499,409,1576,434"/>
+<area shape="poly" title=" " alt="" coords="1228,348,1373,374,1487,399,1495,401,1494,406,1486,404,1372,379,1227,353"/>
+<area shape="rect" title=" " alt="" coords="278,409,333,434"/>
+<area shape="poly" title=" " alt="" coords="1026,354,1015,356,847,373,715,380,584,387,416,404,347,416,346,410,416,399,584,381,715,375,846,368,1014,351,1026,349"/>
+<area shape="rect" title=" " alt="" coords="1197,409,1272,434"/>
+<area shape="poly" title=" " alt="" coords="1153,352,1210,398,1207,402,1150,356"/>
+<area shape="rect" href="a01073.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="939,401,1122,441"/>
+<area shape="poly" title=" " alt="" coords="1106,356,1065,394,1061,390,1103,352"/>
+<area shape="rect" href="a01124.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="611,489,866,529"/>
+<area shape="poly" title=" " alt="" coords="1050,356,990,376,929,404,903,423,877,444,799,486,796,481,875,439,900,419,927,399,988,372,1048,351"/>
+<area shape="poly" title=" " alt="" coords="1123,431,1186,439,1712,496,1712,501,1185,444,1122,436"/>
+<area shape="poly" title=" " alt="" coords="999,444,931,491,888,530,851,569,847,565,884,527,928,487,996,439"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="941,497,1123,522"/>
+<area shape="poly" title=" " alt="" coords="1034,442,1034,483,1029,483,1028,442"/>
+<area shape="poly" title=" " alt="" coords="760,528,795,565,791,569,756,532"/>
+<area shape="poly" title=" " alt="" coords="2178,190,2226,228,2257,247,2290,263,2349,281,2400,291,2447,294,2490,294,2582,293,2635,298,2697,311,2706,313,2704,318,2695,316,2635,304,2582,298,2491,299,2446,299,2400,296,2348,286,2288,268,2254,252,2223,232,2175,194"/>
+<area shape="poly" title=" " alt="" coords="2069,183,1720,190,1493,198,1257,211,1031,228,836,250,755,264,689,279,641,297,613,315,603,333,600,353,606,395,601,396,594,354,598,331,609,312,639,292,688,274,754,259,835,245,1031,222,1257,205,1493,193,1720,185,2069,178"/>
+<area shape="poly" title=" " alt="" coords="2087,195,1807,241,1806,236,2086,189"/>
+<area shape="poly" title=" " alt="" coords="2146,194,1975,315,1972,311,2143,190"/>
+<area shape="poly" title=" " alt="" coords="2172,191,2186,223,2199,266,2202,289,2201,313,2195,335,2183,355,2158,380,2132,394,2105,400,2078,400,2018,396,1985,397,1949,404,1940,407,1938,402,1947,399,1984,392,2018,391,2078,395,2105,394,2130,389,2155,376,2179,352,2190,333,2196,312,2196,290,2193,267,2181,225,2167,193"/>
+<area shape="poly" title=" " alt="" coords="2168,192,2173,225,2173,269,2164,315,2154,337,2139,355,2123,367,2102,377,2050,390,1988,395,1920,397,1786,396,1729,398,1685,404,1677,406,1675,401,1683,399,1728,392,1786,390,1920,392,1988,390,2049,384,2100,372,2120,363,2135,351,2149,334,2159,314,2168,268,2167,225,2163,193"/>
+<area shape="poly" title=" " alt="" coords="2159,194,2103,309,2098,307,2154,191"/>
+<area shape="poly" title=" " alt="" coords="2256,186,2441,207,2657,236,2759,254,2845,272,2910,291,2931,301,2945,311,2963,336,2976,359,2981,382,2978,405,2964,431,2940,459,2903,492,2853,532,2831,544,2800,555,2721,573,2634,586,2556,595,2556,590,2633,581,2720,568,2798,550,2829,539,2851,527,2900,488,2936,456,2960,428,2973,404,2976,382,2971,361,2959,339,2941,315,2929,306,2908,296,2844,277,2758,259,2657,242,2440,212,2256,191"/>
+<area shape="poly" title=" " alt="" coords="2069,184,1604,198,965,227,658,248,401,273,300,287,224,302,176,318,164,326,160,334,160,421,164,440,175,458,193,475,217,490,280,517,358,539,445,557,536,570,701,587,701,593,535,576,445,562,357,544,278,522,214,495,189,479,171,462,159,442,155,422,155,333,160,323,173,313,223,297,299,281,400,267,658,243,965,222,1604,193,2069,179"/>
+<area shape="rect" title=" " alt="" coords="2301,240,2368,265"/>
+<area shape="poly" title=" " alt="" coords="2194,190,2293,232,2291,237,2192,195"/>
+<area shape="rect" title=" " alt="" coords="2392,240,2451,265"/>
+<area shape="poly" title=" " alt="" coords="2210,189,2379,237,2378,242,2209,195"/>
+<area shape="rect" title=" " alt="" coords="2475,240,2527,265"/>
+<area shape="poly" title=" " alt="" coords="2238,189,2341,209,2463,238,2462,243,2340,214,2237,195"/>
+<area shape="poly" title=" " alt="" coords="1360,181,1638,199,1809,215,1979,237,2037,250,2094,263,2185,274,2263,278,2396,278,2461,279,2529,283,2606,293,2697,311,2706,313,2705,319,2695,316,2605,298,2529,288,2460,284,2396,284,2263,284,2185,279,2093,268,2035,255,1978,243,1808,221,1638,204,1360,186"/>
+<area shape="poly" title=" " alt="" coords="1171,186,1054,193,922,204,800,221,751,231,714,242,684,256,661,269,642,287,625,315,617,334,613,355,613,395,607,395,608,355,612,333,620,312,638,284,658,265,681,251,712,238,750,226,799,215,921,199,1054,188,1171,181"/>
+<area shape="poly" title=" " alt="" coords="1345,189,1639,237,1638,242,1344,195"/>
+<area shape="poly" title=" " alt="" coords="1360,180,1454,185,1566,196,1687,213,1806,237,1863,248,1911,255,1932,261,1952,272,1971,288,1990,312,1997,333,1990,355,1967,384,1938,404,1935,400,1963,380,1986,352,1992,333,1986,315,1968,292,1949,277,1930,266,1910,260,1862,253,1805,243,1686,218,1565,201,1453,191,1359,185"/>
+<area shape="poly" title=" " alt="" coords="1265,192,1262,225,1261,268,1271,313,1280,334,1294,351,1328,379,1361,393,1393,398,1427,396,1501,389,1543,390,1589,399,1597,401,1595,406,1587,404,1542,395,1501,394,1427,402,1393,403,1359,398,1325,383,1290,355,1276,336,1266,315,1256,268,1256,224,1260,192"/>
+<area shape="poly" title=" " alt="" coords="1360,183,1669,205,2055,237,2290,263,2546,273,2702,287,2759,297,2778,304,2790,311,2810,340,2821,369,2823,397,2817,426,2805,454,2787,481,2736,531,2705,548,2659,564,2556,589,2555,583,2657,559,2703,543,2733,527,2783,478,2800,451,2812,424,2818,397,2816,370,2806,342,2786,315,2776,308,2757,302,2702,292,2545,279,2289,268,2054,243,1668,211,1359,188"/>
+<area shape="poly" title=" " alt="" coords="1171,188,1030,202,871,226,795,243,728,263,675,287,655,301,641,315,632,334,635,350,649,365,672,378,731,399,790,412,789,417,729,404,670,383,646,369,631,352,627,333,636,312,652,297,673,283,726,258,794,238,870,221,1030,197,1170,183"/>
+<area shape="poly" title=" " alt="" coords="1171,184,877,195,693,206,507,221,334,241,191,266,135,281,93,297,67,315,61,324,59,334,59,421,64,459,80,485,105,506,140,527,170,537,221,546,370,563,701,588,701,593,369,568,221,551,168,542,138,532,102,511,75,489,59,460,53,422,53,333,56,322,64,311,91,293,134,276,190,261,333,235,506,216,693,201,877,190,1171,179"/>
+<area shape="poly" title=" " alt="" coords="1255,194,1156,305,1152,301,1252,191"/>
+<area shape="poly" title=" " alt="" coords="1172,188,943,205,665,232,533,250,419,269,336,292,308,303,293,315,284,333,283,354,295,395,290,397,278,355,279,332,289,312,306,299,334,286,418,264,532,244,664,227,943,199,1171,182"/>
+<area shape="rect" href="a00857.html" title="Header&#45;only, C++11&#45;first basic_string_view: the class template behind lumex_string_view,..." alt="" coords="2251,313,2488,353"/>
+<area shape="poly" title=" " alt="" coords="2401,116,2438,137,2478,164,2514,198,2542,239,2547,263,2537,283,2518,299,2491,311,2489,306,2515,294,2533,280,2542,262,2538,241,2510,201,2475,168,2436,141,2399,121"/>
+<area shape="poly" title=" " alt="" coords="2250,348,2137,356,1899,367,1697,370,1354,368,1188,368,1011,372,810,383,572,404,509,414,508,409,572,399,809,377,1011,366,1188,362,1354,363,1697,365,1899,361,2137,351,2250,342"/>
+<area shape="poly" title=" " alt="" coords="2250,347,2137,356,1759,373,1465,377,1170,383,997,391,792,404,657,418,656,413,792,399,996,385,1170,378,1464,372,1759,367,2137,351,2250,342"/>
+<area shape="poly" title=" " alt="" coords="2455,351,2637,399,2647,402,2646,407,2635,404,2454,356"/>
+<area shape="poly" title=" " alt="" coords="2251,354,2068,383,1949,404,1938,407,1937,402,1947,399,2067,377,2250,349"/>
+<area shape="poly" title=" " alt="" coords="2394,352,2446,397,2443,401,2391,356"/>
+<area shape="poly" title=" " alt="" coords="2251,349,2182,356,2041,365,1931,368,1822,377,1759,387,1685,404,1677,406,1675,401,1683,399,1758,382,1821,372,1930,363,2041,360,2181,351,2250,343"/>
+<area shape="poly" title=" " alt="" coords="2250,347,2138,356,1954,364,1810,364,1741,366,1667,372,1584,384,1487,404,1477,407,1476,402,1486,399,1583,379,1667,367,1740,361,1810,359,1953,359,2137,351,2250,341"/>
+<area shape="poly" title=" " alt="" coords="2419,351,2538,401,2536,406,2417,356"/>
+<area shape="poly" title=" " alt="" coords="2298,356,2264,375,2238,403,2232,421,2238,440,2256,466,2278,490,2330,529,2386,558,2438,578,2436,583,2384,563,2328,534,2275,494,2252,470,2234,443,2227,421,2234,400,2261,371,2295,351"/>
+<area shape="poly" title=" " alt="" coords="2255,356,2138,380,2050,404,2018,423,1987,444,1889,487,1887,482,1984,439,2015,418,2048,399,2137,374,2254,351"/>
+<area shape="poly" title=" " alt="" coords="2251,354,2172,374,2095,404,2011,466,1928,531,1866,572,1863,568,1925,527,2008,462,2092,399,2171,369,2250,349"/>
+<area shape="poly" title=" " alt="" coords="2251,354,2088,380,2023,393,1986,404,1974,413,1965,423,1957,434,1942,444,1884,461,1786,480,1510,520,1199,559,942,587,941,582,1199,553,1509,515,1785,475,1883,456,1940,439,1953,430,1961,420,1970,409,1984,399,2021,388,2087,375,2250,348"/>
+<area shape="poly" title=" " alt="" coords="2251,350,2061,373,1847,404,1796,413,1795,408,1846,399,2060,368,2250,344"/>
+<area shape="poly" title=" " alt="" coords="2251,346,1590,404,1579,407,1578,402,1589,399,2250,341"/>
+<area shape="rect" title=" " alt="" coords="2105,409,2172,434"/>
+<area shape="poly" title=" " alt="" coords="2317,356,2192,404,2185,406,2183,401,2190,399,2316,351"/>
+<area shape="rect" title=" " alt="" coords="2247,409,2289,434"/>
+<area shape="poly" title=" " alt="" coords="2348,356,2295,401,2291,397,2344,352"/>
+<area shape="rect" title=" " alt="" coords="2313,409,2402,434"/>
+<area shape="poly" title=" " alt="" coords="2369,354,2364,395,2358,395,2364,353"/>
+</map>
 </div>
-</div><div class="textblock"><div class="dynheader">
-This graph shows which files directly or indirectly include this file:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00475.png" border="0" usemap="#a_lumex_aggregate_fields_8hppdep" alt=""/></div>
-</div>
-</div>
-<p><a href="a00473_source.html">Go to the source code of this file.</a></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03510.html">lumex::core::reflection::field_reflection::detail::make_index_sequence&lt; N &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03514.html">lumex::core::reflection::field_reflection::detail::any_field&lt; I &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03518.html">lumex::core::reflection::field_reflection::detail::can_construct_n&lt; Aggregate, N &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03526.html">lumex::core::reflection::field_reflection::detail::count_fields_impl&lt; Aggregate, Lo, Hi, true &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03530.html">lumex::core::reflection::field_reflection::detail::count_fields_impl&lt; Aggregate, Lo, Hi, false &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03534.html">lumex::core::reflection::field_reflection::detail::registry_tag&lt; Aggregate &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03538.html">lumex::core::reflection::field_reflection::detail::unregistered_t</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03546.html">lumex::core::reflection::field_reflection::detail::registry_of&lt; Aggregate &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03550.html">lumex::core::reflection::field_reflection::detail::aggregate_traits&lt; T &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03554.html">lumex::core::reflection::field_reflection::detail::member_constant&lt; Pointer, Value &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03542.html">lumex::core::reflection::field_reflection::detail::registered_fields_t&lt; Aggregate, Members &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03562.html">lumex::core::reflection::field_reflection::detail::nth_member&lt; 0, Head, Tail... &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03566.html">lumex::core::reflection::field_reflection::detail::nth_member&lt; Index, Head, Tail... &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03570.html">lumex::core::reflection::field_reflection::detail::fields_count&lt; Fields &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03574.html">lumex::core::reflection::field_reflection::detail::fields_count&lt; registered_fields_t&lt; Aggregate, Members... &gt; &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03582.html">lumex::core::reflection::field_reflection::detail::fields_member&lt; registered_fields_t&lt; Aggregate, Members... &gt;, Index &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03590.html">lumex::core::reflection::field_reflection::detail::member_value&lt; Value Class::* &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03594.html">lumex::core::reflection::field_reflection::detail::registered_member&lt; Aggregate, Index, Usable &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03598.html">lumex::core::reflection::field_reflection::detail::registered_member&lt; Aggregate, Index, true &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03602.html">lumex::core::reflection::field_reflection::detail::registered_usable&lt; Aggregate, Index &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03606.html">lumex::core::reflection::field_reflection::detail::names_source&lt; Aggregate &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03610.html">lumex::core::reflection::field_reflection::detail::registered_ref&lt; I, Agg &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03614.html">lumex::core::reflection::field_reflection::tuple_size&lt; Aggregate &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01248.html">lumex</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01311.html">lumex::core</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01378.html">lumex::core::reflection</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01379.html">lumex::core::reflection::field_reflection</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01380.html">lumex::core::reflection::field_reflection::detail</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:a89770ba9e5eec4affabea691368b7a3c" id="r_a89770ba9e5eec4affabea691368b7a3c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a89770ba9e5eec4affabea691368b7a3c">LUMEX_AGGREGATE_FIELDS_USE_SB</a>&#160;&#160;&#160;1</td></tr>
-<tr class="separator:a89770ba9e5eec4affabea691368b7a3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af0874b1cb60098c26c10571027af4618" id="r_af0874b1cb60098c26c10571027af4618"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af0874b1cb60098c26c10571027af4618">LUMEX_FIELD_REFLECTION_HAS_NAMES</a>&#160;&#160;&#160;0</td></tr>
-<tr class="separator:af0874b1cb60098c26c10571027af4618"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad16692a7a8afa476f07b2bd8e8aa2f30" id="r_ad16692a7a8afa476f07b2bd8e8aa2f30"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad16692a7a8afa476f07b2bd8e8aa2f30">LUMEX_AF_TIE</a>(N, ...)</td></tr>
-<tr class="separator:ad16692a7a8afa476f07b2bd8e8aa2f30"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8530eadf27d7950b9ca82cec2ad83a1b" id="r_a8530eadf27d7950b9ca82cec2ad83a1b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8530eadf27d7950b9ca82cec2ad83a1b">LUMEX_FIELD_NAMES_EXPAND</a>(x)</td></tr>
-<tr class="separator:a8530eadf27d7950b9ca82cec2ad83a1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad00783bdc5473d86e924a2fea529c612" id="r_ad00783bdc5473d86e924a2fea529c612"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad00783bdc5473d86e924a2fea529c612">LUMEX_FIELD_NAMES_CAT_</a>(a,  b)</td></tr>
-<tr class="separator:ad00783bdc5473d86e924a2fea529c612"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5fd8d49143f43b774d95ffd0143841b0" id="r_a5fd8d49143f43b774d95ffd0143841b0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5fd8d49143f43b774d95ffd0143841b0">LUMEX_FIELD_NAMES_CAT</a>(a,  b)</td></tr>
-<tr class="separator:a5fd8d49143f43b774d95ffd0143841b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa9207ece974b9672b04c7f2624bdc6d5" id="r_aa9207ece974b9672b04c7f2624bdc6d5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa9207ece974b9672b04c7f2624bdc6d5">LUMEX_FIELD_NAMES_ARG_N</a>(_1,  _2,  _3,  _4,  _5,  _6,  _7,  _8,  _9,  _10,  _11,  _12,  _13,  _14,  _15,  _16,  _17,  _18,  _19,  _20,  _21,  _22,  _23,  _24,  _25,  _26,  _27,  _28,  _29,  _30,  _31,  _32,  _33,  N, ...)</td></tr>
-<tr class="separator:aa9207ece974b9672b04c7f2624bdc6d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afc6aefc20c7e0b4c910876938d2b5d51" id="r_afc6aefc20c7e0b4c910876938d2b5d51"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afc6aefc20c7e0b4c910876938d2b5d51">LUMEX_FIELD_NAMES_COUNT</a>(...)</td></tr>
-<tr class="separator:afc6aefc20c7e0b4c910876938d2b5d51"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7bfcb2d6200c1fef98b5458ff213ea0b" id="r_a7bfcb2d6200c1fef98b5458ff213ea0b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7bfcb2d6200c1fef98b5458ff213ea0b">LUMEX_FIELD_NAMES_FE_1</a>(F,  A,  x)</td></tr>
-<tr class="separator:a7bfcb2d6200c1fef98b5458ff213ea0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2e76a94ffc03a98cfc75bc5e8bb2d23f" id="r_a2e76a94ffc03a98cfc75bc5e8bb2d23f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2e76a94ffc03a98cfc75bc5e8bb2d23f">LUMEX_FIELD_NAMES_FE_2</a>(F,  A,  x, ...)</td></tr>
-<tr class="separator:a2e76a94ffc03a98cfc75bc5e8bb2d23f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3782b71d6988df451b403b67880c5be9" id="r_a3782b71d6988df451b403b67880c5be9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3782b71d6988df451b403b67880c5be9">LUMEX_FIELD_NAMES_FE_3</a>(F,  A,  x, ...)</td></tr>
-<tr class="separator:a3782b71d6988df451b403b67880c5be9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adcf3f895b198edeb379f8276f213d0d4" id="r_adcf3f895b198edeb379f8276f213d0d4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adcf3f895b198edeb379f8276f213d0d4">LUMEX_FIELD_NAMES_FE_4</a>(F,  A,  x, ...)</td></tr>
-<tr class="separator:adcf3f895b198edeb379f8276f213d0d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a89cc7834c3d1c65b74fe3e22470a9bad" id="r_a89cc7834c3d1c65b74fe3e22470a9bad"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a89cc7834c3d1c65b74fe3e22470a9bad">LUMEX_FIELD_NAMES_FE_5</a>(F,  A,  x, ...)</td></tr>
-<tr class="separator:a89cc7834c3d1c65b74fe3e22470a9bad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3f8e5c692baa95a004e94209b03bf508" id="r_a3f8e5c692baa95a004e94209b03bf508"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3f8e5c692baa95a004e94209b03bf508">LUMEX_FIELD_NAMES_FE_6</a>(F,  A,  x, ...)</td></tr>
-<tr class="separator:a3f8e5c692baa95a004e94209b03bf508"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2324bb9313952268e8503b35b8b892d8" id="r_a2324bb9313952268e8503b35b8b892d8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2324bb9313952268e8503b35b8b892d8">LUMEX_FIELD_NAMES_FE_7</a>(F,  A,  x, ...)</td></tr>
-<tr class="separator:a2324bb9313952268e8503b35b8b892d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3aec4a81746d7645eb090351b363fc1e" id="r_a3aec4a81746d7645eb090351b363fc1e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3aec4a81746d7645eb090351b363fc1e">LUMEX_FIELD_NAMES_FE_8</a>(F,  A,  x, ...)</td></tr>
-<tr class="separator:a3aec4a81746d7645eb090351b363fc1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa647fde5af63cd67a23fb69113f89301" id="r_aa647fde5af63cd67a23fb69113f89301"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa647fde5af63cd67a23fb69113f89301">LUMEX_FIELD_NAMES_FE_9</a>(F,  A,  x, ...)</td></tr>
-<tr class="separator:aa647fde5af63cd67a23fb69113f89301"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0380277eaa02456a919d042b3c692d88" id="r_a0380277eaa02456a919d042b3c692d88"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0380277eaa02456a919d042b3c692d88">LUMEX_FIELD_NAMES_FE_10</a>(F,  A,  x, ...)</td></tr>
-<tr class="separator:a0380277eaa02456a919d042b3c692d88"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab690355d78594f6c5f31a4c5be69ea14" id="r_ab690355d78594f6c5f31a4c5be69ea14"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab690355d78594f6c5f31a4c5be69ea14">LUMEX_FIELD_NAMES_FE_11</a>(F,  A,  x, ...)</td></tr>
-<tr class="separator:ab690355d78594f6c5f31a4c5be69ea14"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac7255365f8a48eb981ea26aa9111f86b" id="r_ac7255365f8a48eb981ea26aa9111f86b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac7255365f8a48eb981ea26aa9111f86b">LUMEX_FIELD_NAMES_FE_12</a>(F,  A,  x, ...)</td></tr>
-<tr class="separator:ac7255365f8a48eb981ea26aa9111f86b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aca1602f1ea70c945e952a363fb6b9e44" id="r_aca1602f1ea70c945e952a363fb6b9e44"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aca1602f1ea70c945e952a363fb6b9e44">LUMEX_FIELD_NAMES_FE_13</a>(F,  A,  x, ...)</td></tr>
-<tr class="separator:aca1602f1ea70c945e952a363fb6b9e44"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:accfd033c515446387387792f0bdf559c" id="r_accfd033c515446387387792f0bdf559c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#accfd033c515446387387792f0bdf559c">LUMEX_FIELD_NAMES_FE_14</a>(F,  A,  x, ...)</td></tr>
-<tr class="separator:accfd033c515446387387792f0bdf559c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8ebbbbf5a298b6c50bf94b7994677db3" id="r_a8ebbbbf5a298b6c50bf94b7994677db3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8ebbbbf5a298b6c50bf94b7994677db3">LUMEX_FIELD_NAMES_FE_15</a>(F,  A,  x, ...)</td></tr>
-<tr class="separator:a8ebbbbf5a298b6c50bf94b7994677db3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a836b19c978c8400c3f3242eef7d155ab" id="r_a836b19c978c8400c3f3242eef7d155ab"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a836b19c978c8400c3f3242eef7d155ab">LUMEX_FIELD_NAMES_FE_16</a>(F,  A,  x, ...)</td></tr>
-<tr class="separator:a836b19c978c8400c3f3242eef7d155ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6613ba9e15baece5732265269a486fe8" id="r_a6613ba9e15baece5732265269a486fe8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6613ba9e15baece5732265269a486fe8">LUMEX_FIELD_NAMES_FE_17</a>(F,  A,  x, ...)</td></tr>
-<tr class="separator:a6613ba9e15baece5732265269a486fe8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aadb96307c02232abff4bd9a4d12f7c32" id="r_aadb96307c02232abff4bd9a4d12f7c32"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aadb96307c02232abff4bd9a4d12f7c32">LUMEX_FIELD_NAMES_FE_18</a>(F,  A,  x, ...)</td></tr>
-<tr class="separator:aadb96307c02232abff4bd9a4d12f7c32"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a570856b32ef5043f30a805c5ee3476e1" id="r_a570856b32ef5043f30a805c5ee3476e1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a570856b32ef5043f30a805c5ee3476e1">LUMEX_FIELD_NAMES_FE_19</a>(F,  A,  x, ...)</td></tr>
-<tr class="separator:a570856b32ef5043f30a805c5ee3476e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4fd856eb68d09622e03d409f6f0076c7" id="r_a4fd856eb68d09622e03d409f6f0076c7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4fd856eb68d09622e03d409f6f0076c7">LUMEX_FIELD_NAMES_FE_20</a>(F,  A,  x, ...)</td></tr>
-<tr class="separator:a4fd856eb68d09622e03d409f6f0076c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8fb75928a95e999d40a6d181ac97f545" id="r_a8fb75928a95e999d40a6d181ac97f545"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8fb75928a95e999d40a6d181ac97f545">LUMEX_FIELD_NAMES_FE_21</a>(F,  A,  x, ...)</td></tr>
-<tr class="separator:a8fb75928a95e999d40a6d181ac97f545"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a08242d1226a43ac396e71bca188568e5" id="r_a08242d1226a43ac396e71bca188568e5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a08242d1226a43ac396e71bca188568e5">LUMEX_FIELD_NAMES_FE_22</a>(F,  A,  x, ...)</td></tr>
-<tr class="separator:a08242d1226a43ac396e71bca188568e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acfd8577a1b1e9c8b1ecd8bf69bdc423c" id="r_acfd8577a1b1e9c8b1ecd8bf69bdc423c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acfd8577a1b1e9c8b1ecd8bf69bdc423c">LUMEX_FIELD_NAMES_FE_23</a>(F,  A,  x, ...)</td></tr>
-<tr class="separator:acfd8577a1b1e9c8b1ecd8bf69bdc423c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae68969d4697190edde0cf4796d1dbec9" id="r_ae68969d4697190edde0cf4796d1dbec9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae68969d4697190edde0cf4796d1dbec9">LUMEX_FIELD_NAMES_FE_24</a>(F,  A,  x, ...)</td></tr>
-<tr class="separator:ae68969d4697190edde0cf4796d1dbec9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4728a0ca953535700136c4ad5a6a72ff" id="r_a4728a0ca953535700136c4ad5a6a72ff"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4728a0ca953535700136c4ad5a6a72ff">LUMEX_FIELD_NAMES_FE_25</a>(F,  A,  x, ...)</td></tr>
-<tr class="separator:a4728a0ca953535700136c4ad5a6a72ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a687f90eb46717d16e14b55f95690c17b" id="r_a687f90eb46717d16e14b55f95690c17b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a687f90eb46717d16e14b55f95690c17b">LUMEX_FIELD_NAMES_FE_26</a>(F,  A,  x, ...)</td></tr>
-<tr class="separator:a687f90eb46717d16e14b55f95690c17b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aefc3cd9b4c754eb63015012bea6698a4" id="r_aefc3cd9b4c754eb63015012bea6698a4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aefc3cd9b4c754eb63015012bea6698a4">LUMEX_FIELD_NAMES_FE_27</a>(F,  A,  x, ...)</td></tr>
-<tr class="separator:aefc3cd9b4c754eb63015012bea6698a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a515ac428bcfc236611baccf00422613e" id="r_a515ac428bcfc236611baccf00422613e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a515ac428bcfc236611baccf00422613e">LUMEX_FIELD_NAMES_FE_28</a>(F,  A,  x, ...)</td></tr>
-<tr class="separator:a515ac428bcfc236611baccf00422613e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0100b8f049acfb9b7ed87e2274676f84" id="r_a0100b8f049acfb9b7ed87e2274676f84"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0100b8f049acfb9b7ed87e2274676f84">LUMEX_FIELD_NAMES_FE_29</a>(F,  A,  x, ...)</td></tr>
-<tr class="separator:a0100b8f049acfb9b7ed87e2274676f84"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa5c553de01aaae1cf541f96acd92f1e5" id="r_aa5c553de01aaae1cf541f96acd92f1e5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa5c553de01aaae1cf541f96acd92f1e5">LUMEX_FIELD_NAMES_FE_30</a>(F,  A,  x, ...)</td></tr>
-<tr class="separator:aa5c553de01aaae1cf541f96acd92f1e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7a57391598b1a4290fb699513c168e2a" id="r_a7a57391598b1a4290fb699513c168e2a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7a57391598b1a4290fb699513c168e2a">LUMEX_FIELD_NAMES_FE_31</a>(F,  A,  x, ...)</td></tr>
-<tr class="separator:a7a57391598b1a4290fb699513c168e2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad2cf42e12f6b1101d128b9c05e453aed" id="r_ad2cf42e12f6b1101d128b9c05e453aed"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad2cf42e12f6b1101d128b9c05e453aed">LUMEX_FIELD_NAMES_FE_32</a>(F,  A,  x, ...)</td></tr>
-<tr class="separator:ad2cf42e12f6b1101d128b9c05e453aed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aedada92680167045fd3177f348b25ee1" id="r_aedada92680167045fd3177f348b25ee1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aedada92680167045fd3177f348b25ee1">LUMEX_FIELD_NAMES_FE_33</a>(...)</td></tr>
-<tr class="separator:aedada92680167045fd3177f348b25ee1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4921e8b27a977d8fe2781abc7aa8108f" id="r_a4921e8b27a977d8fe2781abc7aa8108f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4921e8b27a977d8fe2781abc7aa8108f">LUMEX_FIELD_NAMES_FOR_EACH</a>(F,  A, ...)</td></tr>
-<tr class="separator:a4921e8b27a977d8fe2781abc7aa8108f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab170af80547cdb2352350f4d536b8766" id="r_ab170af80547cdb2352350f4d536b8766"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab170af80547cdb2352350f4d536b8766">LUMEX_FIELD_NAMES_MEMBER</a>(Aggregate,  name)</td></tr>
-<tr class="separator:ab170af80547cdb2352350f4d536b8766"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3f042b7fb27bcf2e619fd858718b306d" id="r_a3f042b7fb27bcf2e619fd858718b306d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3f042b7fb27bcf2e619fd858718b306d">LUMEX_FIELD_NAMES_STRING</a>(Aggregate,  name)</td></tr>
-<tr class="separator:a3f042b7fb27bcf2e619fd858718b306d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7449c61724afdbc8ad822c7c069831fe" id="r_a7449c61724afdbc8ad822c7c069831fe"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7449c61724afdbc8ad822c7c069831fe">LUMEX_DEFINE_FIELD_NAMES</a>(Aggregate, ...)</td></tr>
-<tr class="memdesc:a7449c61724afdbc8ad822c7c069831fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers the fields of an aggregate: their names, and pointers to them, from C++11.  <br /></td></tr>
-<tr class="separator:a7449c61724afdbc8ad822c7c069831fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
-Typedefs</h2></td></tr>
-<tr class="memitem:a9a30df5a0494c32982bf21963e9ba78c" id="r_a9a30df5a0494c32982bf21963e9ba78c"><td class="memTemplParams" colspan="2">template&lt;std::size_t... Indices&gt; </td></tr>
-<tr class="memitem:a9a30df5a0494c32982bf21963e9ba78c"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01380.html#a9a30df5a0494c32982bf21963e9ba78c">lumex::core::reflection::field_reflection::detail::index_sequence</a></td></tr>
-<tr class="memdesc:a9a30df5a0494c32982bf21963e9ba78c"><td class="mdescLeft">&#160;</td><td class="mdescRight">A list of <code>std::size_t</code> indices (the counterpart of <code>std::index_sequence</code>, C++14).  <br /></td></tr>
-<tr class="separator:a9a30df5a0494c32982bf21963e9ba78c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
+</div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aceb68afc866ef9a65e29384c63d03bac" id="r_aceb68afc866ef9a65e29384c63d03bac"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate, std::size_t... I&gt; </td></tr>
-<tr class="memitem:aceb68afc866ef9a65e29384c63d03bac"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01380.html#aceb68afc866ef9a65e29384c63d03bac">lumex::core::reflection::field_reflection::detail::can_construct_fn</a> (<a class="el" href="a01434.html#a9a30df5a0494c32982bf21963e9ba78c">index_sequence</a>&lt; I... &gt;) -&gt; decltype(Aggregate{ <a class="el" href="a03514.html">any_field</a>&lt; I &gt;{}... }, std::true_type{})</td></tr>
-<tr class="separator:aceb68afc866ef9a65e29384c63d03bac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae4ad9c78afee19bb51090917267383f5" id="r_ae4ad9c78afee19bb51090917267383f5"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:ae4ad9c78afee19bb51090917267383f5"><td class="memTemplItemLeft" align="right" valign="top">std::false_type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01380.html#ae4ad9c78afee19bb51090917267383f5">lumex::core::reflection::field_reflection::detail::can_construct_fn</a> (...)</td></tr>
-<tr class="separator:ae4ad9c78afee19bb51090917267383f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab4d356026b44451cdb733464ac59edac" id="r_ab4d356026b44451cdb733464ac59edac"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate, std::size_t... I&gt; </td></tr>
-<tr class="memitem:ab4d356026b44451cdb733464ac59edac"><td class="memTemplItemLeft" align="right" valign="top">std::array&lt; char const *, sizeof...(I)&gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01380.html#ab4d356026b44451cdb733464ac59edac">lumex::core::reflection::field_reflection::detail::registered_names</a> (<a class="el" href="a01434.html#a9a30df5a0494c32982bf21963e9ba78c">index_sequence</a>&lt; I... &gt;) noexcept</td></tr>
-<tr class="separator:ab4d356026b44451cdb733464ac59edac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4f3e456deefe393955ca7ecdd2bc14bd" id="r_a4f3e456deefe393955ca7ecdd2bc14bd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01380.html#a4f3e456deefe393955ca7ecdd2bc14bd">lumex::core::reflection::field_reflection::detail::is_ident_char</a> (char ch) noexcept</td></tr>
-<tr class="separator:a4f3e456deefe393955ca7ecdd2bc14bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae18ee7e422a25bf58922ce8befe9810e" id="r_ae18ee7e422a25bf58922ce8befe9810e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01380.html#ae18ee7e422a25bf58922ce8befe9810e">lumex::core::reflection::field_reflection::detail::is_ident_start</a> (char ch) noexcept</td></tr>
-<tr class="separator:ae18ee7e422a25bf58922ce8befe9810e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9188ba3ec654153ab1257dbee957a480" id="r_a9188ba3ec654153ab1257dbee957a480"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01380.html#a9188ba3ec654153ab1257dbee957a480">lumex::core::reflection::field_reflection::detail::member_name_begin</a> (char const *pretty, std::size_t len) noexcept</td></tr>
-<tr class="separator:a9188ba3ec654153ab1257dbee957a480"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af95c622ddb01303f143c861215726cf2" id="r_af95c622ddb01303f143c861215726cf2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01380.html#af95c622ddb01303f143c861215726cf2">lumex::core::reflection::field_reflection::detail::copy_parsed_name</a> (char *dest, std::size_t dest_size, char const *pretty) noexcept</td></tr>
-<tr class="separator:af95c622ddb01303f143c861215726cf2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4267bbe4c002bf9161d0966b40e2eb6f" id="r_a4267bbe4c002bf9161d0966b40e2eb6f"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a4267bbe4c002bf9161d0966b40e2eb6f"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::tuple&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01380.html#a4267bbe4c002bf9161d0966b40e2eb6f">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;, std::integral_constant&lt; std::size_t, 0 &gt;) noexcept</td></tr>
-<tr class="separator:a4267bbe4c002bf9161d0966b40e2eb6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aded523a605caa6cfe8d50b58a1a0f11c" id="r_aded523a605caa6cfe8d50b58a1a0f11c"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:aded523a605caa6cfe8d50b58a1a0f11c"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01380.html#aded523a605caa6cfe8d50b58a1a0f11c">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 1 &gt;) noexcept</td></tr>
-<tr class="separator:aded523a605caa6cfe8d50b58a1a0f11c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a912eba9f95e61654c8b933985baa3dc3" id="r_a912eba9f95e61654c8b933985baa3dc3"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a912eba9f95e61654c8b933985baa3dc3"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01380.html#a912eba9f95e61654c8b933985baa3dc3">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 2 &gt;) noexcept</td></tr>
-<tr class="separator:a912eba9f95e61654c8b933985baa3dc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad11a5438edefb2a0bb2d9925c83b3b02" id="r_ad11a5438edefb2a0bb2d9925c83b3b02"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:ad11a5438edefb2a0bb2d9925c83b3b02"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01380.html#ad11a5438edefb2a0bb2d9925c83b3b02">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 3 &gt;) noexcept</td></tr>
-<tr class="separator:ad11a5438edefb2a0bb2d9925c83b3b02"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acad575146ddc07f284dde57c0b9109c9" id="r_acad575146ddc07f284dde57c0b9109c9"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:acad575146ddc07f284dde57c0b9109c9"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01380.html#acad575146ddc07f284dde57c0b9109c9">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 4 &gt;) noexcept</td></tr>
-<tr class="separator:acad575146ddc07f284dde57c0b9109c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a385505884887f9eb655569e19e56ff4f" id="r_a385505884887f9eb655569e19e56ff4f"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a385505884887f9eb655569e19e56ff4f"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01380.html#a385505884887f9eb655569e19e56ff4f">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 5 &gt;) noexcept</td></tr>
-<tr class="separator:a385505884887f9eb655569e19e56ff4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab95ef2fa6d12aa7cb29350878be69aa8" id="r_ab95ef2fa6d12aa7cb29350878be69aa8"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:ab95ef2fa6d12aa7cb29350878be69aa8"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01380.html#ab95ef2fa6d12aa7cb29350878be69aa8">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 6 &gt;) noexcept</td></tr>
-<tr class="separator:ab95ef2fa6d12aa7cb29350878be69aa8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae4db1b12c528a5049bbb5a943ce5953e" id="r_ae4db1b12c528a5049bbb5a943ce5953e"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:ae4db1b12c528a5049bbb5a943ce5953e"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01380.html#ae4db1b12c528a5049bbb5a943ce5953e">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 7 &gt;) noexcept</td></tr>
-<tr class="separator:ae4db1b12c528a5049bbb5a943ce5953e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a47d46b4d49e708f6de92811f3fb5e830" id="r_a47d46b4d49e708f6de92811f3fb5e830"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a47d46b4d49e708f6de92811f3fb5e830"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01380.html#a47d46b4d49e708f6de92811f3fb5e830">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 8 &gt;) noexcept</td></tr>
-<tr class="separator:a47d46b4d49e708f6de92811f3fb5e830"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a82728cefdf5c455716dc20652d5f3943" id="r_a82728cefdf5c455716dc20652d5f3943"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a82728cefdf5c455716dc20652d5f3943"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01380.html#a82728cefdf5c455716dc20652d5f3943">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 9 &gt;) noexcept</td></tr>
-<tr class="separator:a82728cefdf5c455716dc20652d5f3943"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3e6e73dbebb61b103857b7ddf8490d4f" id="r_a3e6e73dbebb61b103857b7ddf8490d4f"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a3e6e73dbebb61b103857b7ddf8490d4f"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01380.html#a3e6e73dbebb61b103857b7ddf8490d4f">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 10 &gt;) noexcept</td></tr>
-<tr class="separator:a3e6e73dbebb61b103857b7ddf8490d4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab8e02960255c1e37fd0b8333eefae5ef" id="r_ab8e02960255c1e37fd0b8333eefae5ef"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:ab8e02960255c1e37fd0b8333eefae5ef"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01380.html#ab8e02960255c1e37fd0b8333eefae5ef">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 11 &gt;) noexcept</td></tr>
-<tr class="separator:ab8e02960255c1e37fd0b8333eefae5ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0fc355207dd559f31b72b36539965e46" id="r_a0fc355207dd559f31b72b36539965e46"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a0fc355207dd559f31b72b36539965e46"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01380.html#a0fc355207dd559f31b72b36539965e46">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 12 &gt;) noexcept</td></tr>
-<tr class="separator:a0fc355207dd559f31b72b36539965e46"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a125412c6679b87475afdcd39ee146320" id="r_a125412c6679b87475afdcd39ee146320"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a125412c6679b87475afdcd39ee146320"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01380.html#a125412c6679b87475afdcd39ee146320">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 13 &gt;) noexcept</td></tr>
-<tr class="separator:a125412c6679b87475afdcd39ee146320"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaf63cffdfbe4d7419721d35f8d1ae201" id="r_aaf63cffdfbe4d7419721d35f8d1ae201"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:aaf63cffdfbe4d7419721d35f8d1ae201"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01380.html#aaf63cffdfbe4d7419721d35f8d1ae201">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 14 &gt;) noexcept</td></tr>
-<tr class="separator:aaf63cffdfbe4d7419721d35f8d1ae201"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac7f2859533a14448e2b1f034426272d5" id="r_ac7f2859533a14448e2b1f034426272d5"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:ac7f2859533a14448e2b1f034426272d5"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01380.html#ac7f2859533a14448e2b1f034426272d5">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 15 &gt;) noexcept</td></tr>
-<tr class="separator:ac7f2859533a14448e2b1f034426272d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1e3964179dc73c8e3ad39448c554ae4c" id="r_a1e3964179dc73c8e3ad39448c554ae4c"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a1e3964179dc73c8e3ad39448c554ae4c"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01380.html#a1e3964179dc73c8e3ad39448c554ae4c">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 16 &gt;) noexcept</td></tr>
-<tr class="separator:a1e3964179dc73c8e3ad39448c554ae4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a10a17d9f5e7eb688c36136acac1cff24" id="r_a10a17d9f5e7eb688c36136acac1cff24"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a10a17d9f5e7eb688c36136acac1cff24"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01380.html#a10a17d9f5e7eb688c36136acac1cff24">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 17 &gt;) noexcept</td></tr>
-<tr class="separator:a10a17d9f5e7eb688c36136acac1cff24"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a64f222c162a6cfe9f67c91b61ae14efb" id="r_a64f222c162a6cfe9f67c91b61ae14efb"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a64f222c162a6cfe9f67c91b61ae14efb"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01380.html#a64f222c162a6cfe9f67c91b61ae14efb">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 18 &gt;) noexcept</td></tr>
-<tr class="separator:a64f222c162a6cfe9f67c91b61ae14efb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2244df144c0daef5938e73d8d240433d" id="r_a2244df144c0daef5938e73d8d240433d"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a2244df144c0daef5938e73d8d240433d"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01380.html#a2244df144c0daef5938e73d8d240433d">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 19 &gt;) noexcept</td></tr>
-<tr class="separator:a2244df144c0daef5938e73d8d240433d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa17e21437a765edfd55b8ad1f00b2c76" id="r_aa17e21437a765edfd55b8ad1f00b2c76"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:aa17e21437a765edfd55b8ad1f00b2c76"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01380.html#aa17e21437a765edfd55b8ad1f00b2c76">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 20 &gt;) noexcept</td></tr>
-<tr class="separator:aa17e21437a765edfd55b8ad1f00b2c76"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a22b38dd653cb880c753508e4491fc363" id="r_a22b38dd653cb880c753508e4491fc363"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a22b38dd653cb880c753508e4491fc363"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01380.html#a22b38dd653cb880c753508e4491fc363">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 21 &gt;) noexcept</td></tr>
-<tr class="separator:a22b38dd653cb880c753508e4491fc363"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a27b5e81a3cb103132463ff12c0df95bf" id="r_a27b5e81a3cb103132463ff12c0df95bf"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a27b5e81a3cb103132463ff12c0df95bf"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01380.html#a27b5e81a3cb103132463ff12c0df95bf">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 22 &gt;) noexcept</td></tr>
-<tr class="separator:a27b5e81a3cb103132463ff12c0df95bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a51c02610ccb480c165f066d095fcf23b" id="r_a51c02610ccb480c165f066d095fcf23b"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a51c02610ccb480c165f066d095fcf23b"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01380.html#a51c02610ccb480c165f066d095fcf23b">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 23 &gt;) noexcept</td></tr>
-<tr class="separator:a51c02610ccb480c165f066d095fcf23b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a48a4300d36d120d6c2d90f338f71fdb2" id="r_a48a4300d36d120d6c2d90f338f71fdb2"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a48a4300d36d120d6c2d90f338f71fdb2"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01380.html#a48a4300d36d120d6c2d90f338f71fdb2">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 24 &gt;) noexcept</td></tr>
-<tr class="separator:a48a4300d36d120d6c2d90f338f71fdb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2440e77d71df4498c398f9d5c792fe18" id="r_a2440e77d71df4498c398f9d5c792fe18"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a2440e77d71df4498c398f9d5c792fe18"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01380.html#a2440e77d71df4498c398f9d5c792fe18">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 25 &gt;) noexcept</td></tr>
-<tr class="separator:a2440e77d71df4498c398f9d5c792fe18"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8aaadcbed462d14db431d2803840971a" id="r_a8aaadcbed462d14db431d2803840971a"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a8aaadcbed462d14db431d2803840971a"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01380.html#a8aaadcbed462d14db431d2803840971a">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 26 &gt;) noexcept</td></tr>
-<tr class="separator:a8aaadcbed462d14db431d2803840971a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0756d6a05c6dff5124151c29b3f2ec0b" id="r_a0756d6a05c6dff5124151c29b3f2ec0b"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a0756d6a05c6dff5124151c29b3f2ec0b"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01380.html#a0756d6a05c6dff5124151c29b3f2ec0b">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 27 &gt;) noexcept</td></tr>
-<tr class="separator:a0756d6a05c6dff5124151c29b3f2ec0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2d5d2dba687cacb9dd2f72f10500f51b" id="r_a2d5d2dba687cacb9dd2f72f10500f51b"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a2d5d2dba687cacb9dd2f72f10500f51b"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01380.html#a2d5d2dba687cacb9dd2f72f10500f51b">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 28 &gt;) noexcept</td></tr>
-<tr class="separator:a2d5d2dba687cacb9dd2f72f10500f51b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a12e9775a18d15a731bfab5807259c09f" id="r_a12e9775a18d15a731bfab5807259c09f"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a12e9775a18d15a731bfab5807259c09f"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01380.html#a12e9775a18d15a731bfab5807259c09f">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 29 &gt;) noexcept</td></tr>
-<tr class="separator:a12e9775a18d15a731bfab5807259c09f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2cf7a26adc5d167e43dbeb8a7fa4e971" id="r_a2cf7a26adc5d167e43dbeb8a7fa4e971"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a2cf7a26adc5d167e43dbeb8a7fa4e971"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01380.html#a2cf7a26adc5d167e43dbeb8a7fa4e971">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 30 &gt;) noexcept</td></tr>
-<tr class="separator:a2cf7a26adc5d167e43dbeb8a7fa4e971"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9e86feeeb022466c719ff90ccb0028c9" id="r_a9e86feeeb022466c719ff90ccb0028c9"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a9e86feeeb022466c719ff90ccb0028c9"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01380.html#a9e86feeeb022466c719ff90ccb0028c9">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 31 &gt;) noexcept</td></tr>
-<tr class="separator:a9e86feeeb022466c719ff90ccb0028c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af1d88b75c54f534ea6b01d58c4b59dd5" id="r_af1d88b75c54f534ea6b01d58c4b59dd5"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:af1d88b75c54f534ea6b01d58c4b59dd5"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01380.html#af1d88b75c54f534ea6b01d58c4b59dd5">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 32 &gt;) noexcept</td></tr>
-<tr class="separator:af1d88b75c54f534ea6b01d58c4b59dd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a690b9805b436adaa9e90e7421fb16f72" id="r_a690b9805b436adaa9e90e7421fb16f72"><td class="memTemplParams" colspan="2">template&lt;typename Agg&gt; </td></tr>
-<tr class="memitem:a690b9805b436adaa9e90e7421fb16f72"><td class="memTemplItemLeft" align="right" valign="top">std::array&lt; char const *, <a class="el" href="a03550.html">aggregate_traits</a>&lt; Agg &gt;::count &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01380.html#a690b9805b436adaa9e90e7421fb16f72">lumex::core::reflection::field_reflection::detail::names_of</a> (std::integral_constant&lt; int, 0 &gt;) noexcept</td></tr>
-<tr class="separator:a690b9805b436adaa9e90e7421fb16f72"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7bf3869220c41a74123dae8d52d95b4e" id="r_a7bf3869220c41a74123dae8d52d95b4e"><td class="memTemplParams" colspan="2">template&lt;typename Agg&gt; </td></tr>
-<tr class="memitem:a7bf3869220c41a74123dae8d52d95b4e"><td class="memTemplItemLeft" align="right" valign="top">std::array&lt; char const *, <a class="el" href="a03550.html">aggregate_traits</a>&lt; Agg &gt;::count &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01380.html#a7bf3869220c41a74123dae8d52d95b4e">lumex::core::reflection::field_reflection::detail::names_of</a> (std::integral_constant&lt; int, 2 &gt;) noexcept</td></tr>
-<tr class="separator:a7bf3869220c41a74123dae8d52d95b4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa86b2876bb55a79d525af0bf9bed796d" id="r_aa86b2876bb55a79d525af0bf9bed796d"><td class="memTemplParams" colspan="2">template&lt;typename Agg&gt; </td></tr>
-<tr class="memitem:aa86b2876bb55a79d525af0bf9bed796d"><td class="memTemplItemLeft" align="right" valign="top">std::array&lt; char const *, <a class="el" href="a03550.html">aggregate_traits</a>&lt; Agg &gt;::count &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01380.html#aa86b2876bb55a79d525af0bf9bed796d">lumex::core::reflection::field_reflection::detail::names_of</a> (std::integral_constant&lt; int, 3 &gt;) noexcept</td></tr>
-<tr class="separator:aa86b2876bb55a79d525af0bf9bed796d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a57ffddbb59caf0ebc5e392a430ce87f9" id="r_a57ffddbb59caf0ebc5e392a430ce87f9"><td class="memTemplParams" colspan="2">template&lt;std::size_t I, typename Agg&gt; </td></tr>
-<tr class="memitem:a57ffddbb59caf0ebc5e392a430ce87f9"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a03610.html">registered_ref</a>&lt; I, Agg &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01380.html#a57ffddbb59caf0ebc5e392a430ce87f9">lumex::core::reflection::field_reflection::detail::get_field</a> (Agg &amp;value, std::true_type) noexcept</td></tr>
-<tr class="separator:a57ffddbb59caf0ebc5e392a430ce87f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad729ee60833a639f7725bec64314dd78" id="r_ad729ee60833a639f7725bec64314dd78"><td class="memTemplParams" colspan="2">template&lt;std::size_t I, typename Agg&gt; </td></tr>
-<tr class="memitem:ad729ee60833a639f7725bec64314dd78"><td class="memTemplItemLeft" align="right" valign="top">decltype(auto)&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01380.html#ad729ee60833a639f7725bec64314dd78">lumex::core::reflection::field_reflection::detail::get_field</a> (Agg &amp;value, std::false_type) noexcept</td></tr>
-<tr class="separator:ad729ee60833a639f7725bec64314dd78"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:affc4125f1c661b62d9a1011d7c589dc9" id="r_affc4125f1c661b62d9a1011d7c589dc9"><td class="memTemplParams" colspan="2">template&lt;std::size_t Index, typename Aggregate&gt; </td></tr>
-<tr class="memitem:affc4125f1c661b62d9a1011d7c589dc9"><td class="memTemplItemLeft" align="right" valign="top">decltype(auto)&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01379.html#affc4125f1c661b62d9a1011d7c589dc9">lumex::core::reflection::field_reflection::get</a> (Aggregate &amp;value) noexcept</td></tr>
-<tr class="memdesc:affc4125f1c661b62d9a1011d7c589dc9"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <code>Index</code>-th field of an aggregate, by reference.  <br /></td></tr>
-<tr class="separator:affc4125f1c661b62d9a1011d7c589dc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af734b0fe3e627e210ec21f71e86e7d5f" id="r_af734b0fe3e627e210ec21f71e86e7d5f"><td class="memTemplParams" colspan="2">template&lt;std::size_t Index, typename Aggregate&gt; </td></tr>
-<tr class="memitem:af734b0fe3e627e210ec21f71e86e7d5f"><td class="memTemplItemLeft" align="right" valign="top">decltype(auto)&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01379.html#af734b0fe3e627e210ec21f71e86e7d5f">lumex::core::reflection::field_reflection::get</a> (Aggregate const &amp;value) noexcept</td></tr>
-<tr class="separator:af734b0fe3e627e210ec21f71e86e7d5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0a8d34c9fd7381d1fb19e20251b0c67a" id="r_a0a8d34c9fd7381d1fb19e20251b0c67a"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a0a8d34c9fd7381d1fb19e20251b0c67a"><td class="memTemplItemLeft" align="right" valign="top">std::array&lt; char const *, <a class="el" href="a03614.html">tuple_size</a>&lt; Aggregate &gt;::value &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01379.html#a0a8d34c9fd7381d1fb19e20251b0c67a">lumex::core::reflection::field_reflection::names_as_array</a> () noexcept</td></tr>
-<tr class="memdesc:a0a8d34c9fd7381d1fb19e20251b0c67a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The names of the fields of an aggregate, in declaration order.  <br /></td></tr>
-<tr class="separator:a0a8d34c9fd7381d1fb19e20251b0c67a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:a75d3fb078865f1adb49edd60c7e02fb8" id="r_a75d3fb078865f1adb49edd60c7e02fb8"><td class="memItemLeft" align="right" valign="top">constexpr std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01380.html#a75d3fb078865f1adb49edd60c7e02fb8">lumex::core::reflection::field_reflection::detail::k_max_aggregate_fields</a> = 32</td></tr>
-<tr class="separator:a75d3fb078865f1adb49edd60c7e02fb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac9e4a0a4ee7558859eab16c9d2aa9070" id="r_ac9e4a0a4ee7558859eab16c9d2aa9070"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a03538.html">unregistered_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01380.html#ac9e4a0a4ee7558859eab16c9d2aa9070">lumex::core::reflection::field_reflection::detail::lumex_field_registry</a> (...)</td></tr>
-<tr class="separator:ac9e4a0a4ee7558859eab16c9d2aa9070"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6573150fe6e70bec008f5ec88b1ff4b4" id="r_a6573150fe6e70bec008f5ec88b1ff4b4"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01380.html#a6573150fe6e70bec008f5ec88b1ff4b4">lumex::core::reflection::field_reflection::detail::k_automatic_names</a> = ( 0 != 0)</td></tr>
-<tr class="separator:a6573150fe6e70bec008f5ec88b1ff4b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3ce0ada95e71ecd52eaedeff52d0a902" id="r_a3ce0ada95e71ecd52eaedeff52d0a902"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a3ce0ada95e71ecd52eaedeff52d0a902"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::size_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01379.html#a3ce0ada95e71ecd52eaedeff52d0a902">lumex::core::reflection::field_reflection::tuple_size_v</a> = <a class="el" href="a03614.html">tuple_size</a>&lt;Aggregate&gt;::value</td></tr>
-<tr class="separator:a3ce0ada95e71ecd52eaedeff52d0a902"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
+<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Non-intrusive field count, indexed access and field names for simple aggregates, from C++11. </p>
-<p>Replaces the three Boost.PFR calls FieldReflection used (<code>tuple_size</code>, <code>get</code>, <code>names_as_array</code>). This header is original Lumex code (MIT), not a relicensed Boost dump.</p>
-<p>Field count is C++11: aggregate initialization against a converting placeholder, binary-searched up to 32 members.</p>
-<p>Indexed <code>get</code> and field names have two sources.</p><ul>
-<li>Automatic, without any registration. <code>get</code> is C++14: friend- injected field types (ADL <code>friend auto</code> on the tag, Boost.PFR shape) plus sequential layout offsets, and from C++17 structured bindings. Names are C++20: <code>LUMEX_FUNCTION_NAME</code> embeds an identifier only when that identifier is a template argument, and C++11 pointer NTTPs accept <code>&amp;Class::member</code> (the name is already known) or the address of a complete object, not a pointer to the I-th member of a static instance. C++20 <code>template&lt;auto&gt;</code> plus a structured binding into a declared-but- undefined phantom aggregate (<code>fake_object</code>) is what puts the real member name into the pretty string. A defined <code>inline T</code> instance fails on MSVC: a local reference into it is not a constant expression for the NTTP. The name is the identifier after the last <code>.</code>, <code>-&gt;</code> or <code>::</code> of the pretty string (<code>detail::member_name_begin</code>), whatever the compiler prints in front of it: GCC 13 qualifies the member by its class (<code>.ns::T::id</code>), the older GCC and Clang do not, MSVC separates the path with <code>-&gt;</code>. GCC 8 cannot take that pointer as a template argument, and reports 201709L at <code>-std=c++2a</code>, so it has no compiler names (the registration works there).</li>
-<li>Registered, in every standard: <code>LUMEX_DEFINE_FIELD_NAMES (Type, a, b, c)</code> next to the aggregate lists its members once. The names come from the tokens and <code>get</code> from pointers to the members (a <code>decltype</code> of <code>&amp;Type::a</code> gives the type, so C++11 needs nothing else), hence neither needs a newer standard, and a registered type gives the same names and the same references at every standard, compiler and optimization level. The registration wins over the automatic sources wherever both exist (names at C++20, <code>get</code> from C++14); the I-th name and the I-th member are one field by construction. Without a registration, <code>names_as_array</code> and <code>to_json</code> below C++20 and <code>get</code> below C++14 are a <code>static_assert</code> that names the macro; an aggregate without fields needs no registration.</li>
-</ul>
-<p>Limit: 32 public data members. No base classes, no bit-fields, no reference members, no array members (the count sees an array as several fields; the registration then fails its arity <code>static_assert</code>). From C++17, indexed <code>get</code> uses structured bindings (Boost.PFR core17 shape) so optional-only aggregates never hit the CWG 2118 loophole. The loophole remains for C++14 only: once-only friend body + <code>operator U&amp;() const&amp;&amp;</code> (plain <code>operator U()</code> redefines the friend for both the wrapper and the contained type -&gt; C2084; locking the contained type first then fails the layout sizeof check). For the same reason a member whose class converts from any type (the <code>optional</code> of this library, <code>std::optional</code>) is not supported by the loophole: an aggregate with such a member needs a registration at C++14, and the layout check is then skipped. </p>
-</div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="ad16692a7a8afa476f07b2bd8e8aa2f30" name="ad16692a7a8afa476f07b2bd8e8aa2f30"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad16692a7a8afa476f07b2bd8e8aa2f30">&#9670;&#160;</a></span>LUMEX_AF_TIE</h2>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define LUMEX_AF_TIE</td>
+          <td class="memname">int main </td>
           <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>N</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Aggregate&gt;                                               \</div>
-<div class="line">  <a class="code hl_define" href="a00623.html#a1513006a1992e7dc9cc43b2e081cc33f">LUMEX_CONSTEXPR</a> <span class="keyword">auto</span> as_tied (Aggregate &amp;&amp;value,                            \</div>
-<div class="line">                                std::integral_constant&lt;std::size_t, N&gt;)       \</div>
-<div class="line">      <a class="code hl_define" href="a00623.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>                                                          \</div>
-<div class="line">  {                                                                           \</div>
-<div class="line">    <span class="keyword">auto</span> &amp;&amp;[__VA_ARGS__] = value;                                             \</div>
-<div class="line">    <span class="keywordflow">return</span> std::tie (__VA_ARGS__);                                            \</div>
-<div class="line">  }</div>
-<div class="ttc" id="aa00623_html_a1513006a1992e7dc9cc43b2e081cc33f"><div class="ttname"><a href="a00623.html#a1513006a1992e7dc9cc43b2e081cc33f">LUMEX_CONSTEXPR</a></div><div class="ttdeci">#define LUMEX_CONSTEXPR</div><div class="ttdef"><b>Definition</b> LumexKeywords.hpp:164</div></div>
-<div class="ttc" id="aa00623_html_a8932f306494e2abfe9045da20a41e47c"><div class="ttname"><a href="a00623.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div><div class="ttdeci">#define LUMEX_NOEXCEPT</div><div class="ttdef"><b>Definition</b> LumexKeywords.hpp:84</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a89770ba9e5eec4affabea691368b7a3c" name="a89770ba9e5eec4affabea691368b7a3c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a89770ba9e5eec4affabea691368b7a3c">&#9670;&#160;</a></span>LUMEX_AGGREGATE_FIELDS_USE_SB</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_AGGREGATE_FIELDS_USE_SB&#160;&#160;&#160;1</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a7449c61724afdbc8ad822c7c069831fe" name="a7449c61724afdbc8ad822c7c069831fe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7449c61724afdbc8ad822c7c069831fe">&#9670;&#160;</a></span>LUMEX_DEFINE_FIELD_NAMES</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_DEFINE_FIELD_NAMES</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>Aggregate</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">  inline ::lumex::core::reflection::field_reflection::detail::                  \</div>
-<div class="line">      registered_fields_t&lt;Aggregate, <a class="code hl_define" href="#a4921e8b27a977d8fe2781abc7aa8108f">LUMEX_FIELD_NAMES_FOR_EACH</a> (               \</div>
-<div class="line">                                         <a class="code hl_define" href="#ab170af80547cdb2352350f4d536b8766">LUMEX_FIELD_NAMES_MEMBER</a>, Aggregate,   \</div>
-<div class="line">                                         __VA_ARGS__)&gt;                          \</div>
-<div class="line">      lumex_field_registry (<a class="code hl_namespace" href="a01379.html">::lumex::core::reflection::field_reflection</a>::       \</div>
-<div class="line">                                detail::registry_tag&lt;Aggregate&gt;)                \</div>
-<div class="line">  {                                                                             \</div>
-<div class="line">    <span class="keyword">static</span> <span class="keywordtype">char</span> <span class="keyword">const</span> *<span class="keyword">const</span> names[] = { <a class="code hl_define" href="#a4921e8b27a977d8fe2781abc7aa8108f">LUMEX_FIELD_NAMES_FOR_EACH</a> (           \</div>
-<div class="line">        <a class="code hl_define" href="#a3f042b7fb27bcf2e619fd858718b306d">LUMEX_FIELD_NAMES_STRING</a>, Aggregate, __VA_ARGS__) };                    \</div>
-<div class="line">    return ::lumex::core::reflection::field_reflection::detail::                \</div>
-<div class="line">        registered_fields_t&lt;Aggregate, <a class="code hl_define" href="#a4921e8b27a977d8fe2781abc7aa8108f">LUMEX_FIELD_NAMES_FOR_EACH</a> (             \</div>
-<div class="line">                                           <a class="code hl_define" href="#ab170af80547cdb2352350f4d536b8766">LUMEX_FIELD_NAMES_MEMBER</a>,            \</div>
-<div class="line">                                           Aggregate, __VA_ARGS__)&gt;{ names };   \</div>
-<div class="line">  }                                                                             \</div>
-<div class="line">  LUMEX_STATIC_ASSERT_MSG (                                                     \</div>
-<div class="line">      ::lumex::core::reflection::field_reflection::tuple_size&lt;Aggregate&gt;::value \</div>
-<div class="line">          == <a class="code hl_define" href="#afc6aefc20c7e0b4c910876938d2b5d51">LUMEX_FIELD_NAMES_COUNT</a> (__VA_ARGS__),                             \</div>
-<div class="line">      <span class="stringliteral">&quot;LUMEX_DEFINE_FIELD_NAMES: the number of names differs from the number &quot;</span>  \</div>
-<div class="line">      <span class="stringliteral">&quot;of fields of the aggregate (arrays, base classes and bit-fields are &quot;</span>    \</div>
-<div class="line">      <span class="stringliteral">&quot;not supported)&quot;</span>)</div>
-<div class="ttc" id="aa00473_html_a3f042b7fb27bcf2e619fd858718b306d"><div class="ttname"><a href="#a3f042b7fb27bcf2e619fd858718b306d">LUMEX_FIELD_NAMES_STRING</a></div><div class="ttdeci">#define LUMEX_FIELD_NAMES_STRING(Aggregate, name)</div><div class="ttdef"><b>Definition</b> LumexAggregateFields.hpp:1152</div></div>
-<div class="ttc" id="aa00473_html_a4921e8b27a977d8fe2781abc7aa8108f"><div class="ttname"><a href="#a4921e8b27a977d8fe2781abc7aa8108f">LUMEX_FIELD_NAMES_FOR_EACH</a></div><div class="ttdeci">#define LUMEX_FIELD_NAMES_FOR_EACH(F, A,...)</div><div class="ttdef"><b>Definition</b> LumexAggregateFields.hpp:1146</div></div>
-<div class="ttc" id="aa00473_html_ab170af80547cdb2352350f4d536b8766"><div class="ttname"><a href="#ab170af80547cdb2352350f4d536b8766">LUMEX_FIELD_NAMES_MEMBER</a></div><div class="ttdeci">#define LUMEX_FIELD_NAMES_MEMBER(Aggregate, name)</div><div class="ttdef"><b>Definition</b> LumexAggregateFields.hpp:1149</div></div>
-<div class="ttc" id="aa00473_html_afc6aefc20c7e0b4c910876938d2b5d51"><div class="ttname"><a href="#afc6aefc20c7e0b4c910876938d2b5d51">LUMEX_FIELD_NAMES_COUNT</a></div><div class="ttdeci">#define LUMEX_FIELD_NAMES_COUNT(...)</div><div class="ttdef"><b>Definition</b> LumexAggregateFields.hpp:1109</div></div>
-<div class="ttc" id="aa01379_html"><div class="ttname"><a href="a01379.html">lumex::core::reflection::field_reflection</a></div><div class="ttdef"><b>Definition</b> LumexAggregateFields.hpp:156</div></div>
-</div><!-- fragment -->
-<p>Registers the fields of an aggregate: their names, and pointers to them, from C++11. </p>
-<p><code>LUMEX_DEFINE_FIELD_NAMES (Type, a, b, c);</code> goes at namespace scope in the namespace of <code>Type</code>, after the definition of the type and before the first use of field reflection on it (the first <code>names_as_array</code>, <code>get</code>, <code>to_json</code>). Name every non-static data member, in declaration order, 1 to 32 of them. <code>Type</code> may be qualified (<code>Host::inner_t</code>) and may be in an unnamed namespace; it must not contain a top-level comma (use a <code>typedef</code>). An aggregate without fields needs no registration.</p>
-<p>The macro defines an inline function that ADL finds from <code>field_reflection</code>, and checks the number of names against the number of fields of the aggregate with a <code>static_assert</code>. A name that is not a member of <code>Type</code> does not compile. The order of the names is not checked: list the members as they are declared.</p>
-<p>With a registration, <code>names_as_array</code>, <code>to_json</code> and <code>get&lt;I&gt;</code> use it in every standard (the registration wins over the names the compiler supplies at C++20 and over the automatic <code>get</code> from C++14), so a registered type behaves the same at C++11 and C++20. The I-th name and the I-th member are one field by construction, also if the registration lists them in another order than the declaration; <code>get&lt;I&gt;</code> is then not the I-th declared member.</p>
-<div class="fragment"><div class="line"><span class="keyword">namespace </span>app {</div>
-<div class="line"><span class="keyword">struct </span>point { <span class="keywordtype">int</span> x; <span class="keywordtype">int</span> y; };</div>
-<div class="line"><a class="code hl_define" href="#a7449c61724afdbc8ad822c7c069831fe">LUMEX_DEFINE_FIELD_NAMES</a> (point, x, y);</div>
-<div class="line">}</div>
-<div class="ttc" id="aa00473_html_a7449c61724afdbc8ad822c7c069831fe"><div class="ttname"><a href="#a7449c61724afdbc8ad822c7c069831fe">LUMEX_DEFINE_FIELD_NAMES</a></div><div class="ttdeci">#define LUMEX_DEFINE_FIELD_NAMES(Aggregate,...)</div><div class="ttdoc">Registers the fields of an aggregate: their names, and pointers to them, from C++11.</div><div class="ttdef"><b>Definition</b> LumexAggregateFields.hpp:1188</div></div>
-</div><!-- fragment --> 
-</div>
-</div>
-<a id="aa9207ece974b9672b04c7f2624bdc6d5" name="aa9207ece974b9672b04c7f2624bdc6d5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa9207ece974b9672b04c7f2624bdc6d5">&#9670;&#160;</a></span>LUMEX_FIELD_NAMES_ARG_N</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_FIELD_NAMES_ARG_N</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>_1</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>_2</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>_3</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>_4</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>_5</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>_6</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>_7</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>_8</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>_9</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>_10</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>_11</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>_12</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>_13</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>_14</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>_15</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>_16</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>_17</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>_18</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>_19</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>_20</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>_21</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>_22</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>_23</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>_24</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>_25</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>_26</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>_27</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>_28</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>_29</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>_30</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>_31</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>_32</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>_33</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>N</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">N</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a5fd8d49143f43b774d95ffd0143841b0" name="a5fd8d49143f43b774d95ffd0143841b0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5fd8d49143f43b774d95ffd0143841b0">&#9670;&#160;</a></span>LUMEX_FIELD_NAMES_CAT</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_FIELD_NAMES_CAT</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>b</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line"><a class="code hl_define" href="#ad00783bdc5473d86e924a2fea529c612">LUMEX_FIELD_NAMES_CAT_</a> (a, b)</div>
-<div class="ttc" id="aa00473_html_ad00783bdc5473d86e924a2fea529c612"><div class="ttname"><a href="#ad00783bdc5473d86e924a2fea529c612">LUMEX_FIELD_NAMES_CAT_</a></div><div class="ttdeci">#define LUMEX_FIELD_NAMES_CAT_(a, b)</div><div class="ttdef"><b>Definition</b> LumexAggregateFields.hpp:1101</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="ad00783bdc5473d86e924a2fea529c612" name="ad00783bdc5473d86e924a2fea529c612"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad00783bdc5473d86e924a2fea529c612">&#9670;&#160;</a></span>LUMEX_FIELD_NAMES_CAT_</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_FIELD_NAMES_CAT_</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>b</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">a##b</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="afc6aefc20c7e0b4c910876938d2b5d51" name="afc6aefc20c7e0b4c910876938d2b5d51"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afc6aefc20c7e0b4c910876938d2b5d51">&#9670;&#160;</a></span>LUMEX_FIELD_NAMES_COUNT</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_FIELD_NAMES_COUNT</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...</td><td>)</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">  <a class="code hl_define" href="#a8530eadf27d7950b9ca82cec2ad83a1b">LUMEX_FIELD_NAMES_EXPAND</a>(<a class="code hl_define" href="#aa9207ece974b9672b04c7f2624bdc6d5">LUMEX_FIELD_NAMES_ARG_N</a> (__VA_ARGS__, 33, 32, 31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0))</div>
-<div class="ttc" id="aa00473_html_a8530eadf27d7950b9ca82cec2ad83a1b"><div class="ttname"><a href="#a8530eadf27d7950b9ca82cec2ad83a1b">LUMEX_FIELD_NAMES_EXPAND</a></div><div class="ttdeci">#define LUMEX_FIELD_NAMES_EXPAND(x)</div><div class="ttdef"><b>Definition</b> LumexAggregateFields.hpp:1100</div></div>
-<div class="ttc" id="aa00473_html_aa9207ece974b9672b04c7f2624bdc6d5"><div class="ttname"><a href="#aa9207ece974b9672b04c7f2624bdc6d5">LUMEX_FIELD_NAMES_ARG_N</a></div><div class="ttdeci">#define LUMEX_FIELD_NAMES_ARG_N(_1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, _22, _23, _24, _25, _26, _27, _28, _29, _30, _31, _32, _33, N,...)</div><div class="ttdef"><b>Definition</b> LumexAggregateFields.hpp:1108</div></div>
-</div><!-- fragment -->
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00473_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00473_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
+<map name="aa00473_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" id="aa00473_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph">
+<area shape="rect" title=" " alt="" coords="5,31,60,56"/>
+<area shape="rect" href="a01540.html#a71066b6ff2980b7f4a955111551f11e4" title="Names value for a {name} replacement field." alt="" coords="120,5,279,31"/>
+<area shape="poly" title=" " alt="" coords="60,37,106,29,107,35,61,42"/>
+<area shape="rect" href="a01540.html#a6a63800323204704cefa342dec4cad40" title="Formats args into a std::string." alt="" coords="108,55,291,80"/>
+<area shape="poly" title=" " alt="" coords="61,45,98,50,97,55,60,50"/>
+<area shape="rect" href="a01540.html#a1a7369743e9a56cdf14f5bd2ce80b599" title="Type&#45;erased arguments for vformat; the result refers to args, so use it within the same full expressi..." alt="" coords="339,47,513,87"/>
+<area shape="poly" title=" " alt="" coords="291,65,325,65,325,70,291,70"/>
+<area shape="poly" title=" " alt="" coords="384,48,382,38,388,28,403,23,426,21,452,24,466,31,464,36,451,29,426,26,404,28,392,33,387,39,389,46"/>
+<area shape="rect" href="a01541.html#a7c0b83d64d43d9c8746e82f05d43db5a" title=" " alt="" coords="561,47,739,87"/>
+<area shape="poly" title=" " alt="" coords="514,65,548,65,548,70,514,70"/>
+</map>
 </div>
-</div>
-<a id="a8530eadf27d7950b9ca82cec2ad83a1b" name="a8530eadf27d7950b9ca82cec2ad83a1b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8530eadf27d7950b9ca82cec2ad83a1b">&#9670;&#160;</a></span>LUMEX_FIELD_NAMES_EXPAND</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_FIELD_NAMES_EXPAND</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>x</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">x</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a7bfcb2d6200c1fef98b5458ff213ea0b" name="a7bfcb2d6200c1fef98b5458ff213ea0b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7bfcb2d6200c1fef98b5458ff213ea0b">&#9670;&#160;</a></span>LUMEX_FIELD_NAMES_FE_1</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_FIELD_NAMES_FE_1</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>F</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>A</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>x</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">F (A, x)</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a0380277eaa02456a919d042b3c692d88" name="a0380277eaa02456a919d042b3c692d88"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0380277eaa02456a919d042b3c692d88">&#9670;&#160;</a></span>LUMEX_FIELD_NAMES_FE_10</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_FIELD_NAMES_FE_10</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>F</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>A</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">F (A, x), <a class="code hl_define" href="#a8530eadf27d7950b9ca82cec2ad83a1b">LUMEX_FIELD_NAMES_EXPAND</a>(<a class="code hl_define" href="#aa647fde5af63cd67a23fb69113f89301">LUMEX_FIELD_NAMES_FE_9</a> (F, A, __VA_ARGS__))</div>
-<div class="ttc" id="aa00473_html_aa647fde5af63cd67a23fb69113f89301"><div class="ttname"><a href="#aa647fde5af63cd67a23fb69113f89301">LUMEX_FIELD_NAMES_FE_9</a></div><div class="ttdeci">#define LUMEX_FIELD_NAMES_FE_9(F, A, x,...)</div><div class="ttdef"><b>Definition</b> LumexAggregateFields.hpp:1120</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="ab690355d78594f6c5f31a4c5be69ea14" name="ab690355d78594f6c5f31a4c5be69ea14"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab690355d78594f6c5f31a4c5be69ea14">&#9670;&#160;</a></span>LUMEX_FIELD_NAMES_FE_11</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_FIELD_NAMES_FE_11</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>F</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>A</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">F (A, x), <a class="code hl_define" href="#a8530eadf27d7950b9ca82cec2ad83a1b">LUMEX_FIELD_NAMES_EXPAND</a>(<a class="code hl_define" href="#a0380277eaa02456a919d042b3c692d88">LUMEX_FIELD_NAMES_FE_10</a> (F, A, __VA_ARGS__))</div>
-<div class="ttc" id="aa00473_html_a0380277eaa02456a919d042b3c692d88"><div class="ttname"><a href="#a0380277eaa02456a919d042b3c692d88">LUMEX_FIELD_NAMES_FE_10</a></div><div class="ttdeci">#define LUMEX_FIELD_NAMES_FE_10(F, A, x,...)</div><div class="ttdef"><b>Definition</b> LumexAggregateFields.hpp:1121</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="ac7255365f8a48eb981ea26aa9111f86b" name="ac7255365f8a48eb981ea26aa9111f86b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac7255365f8a48eb981ea26aa9111f86b">&#9670;&#160;</a></span>LUMEX_FIELD_NAMES_FE_12</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_FIELD_NAMES_FE_12</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>F</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>A</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">F (A, x), <a class="code hl_define" href="#a8530eadf27d7950b9ca82cec2ad83a1b">LUMEX_FIELD_NAMES_EXPAND</a>(<a class="code hl_define" href="#ab690355d78594f6c5f31a4c5be69ea14">LUMEX_FIELD_NAMES_FE_11</a> (F, A, __VA_ARGS__))</div>
-<div class="ttc" id="aa00473_html_ab690355d78594f6c5f31a4c5be69ea14"><div class="ttname"><a href="#ab690355d78594f6c5f31a4c5be69ea14">LUMEX_FIELD_NAMES_FE_11</a></div><div class="ttdeci">#define LUMEX_FIELD_NAMES_FE_11(F, A, x,...)</div><div class="ttdef"><b>Definition</b> LumexAggregateFields.hpp:1122</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="aca1602f1ea70c945e952a363fb6b9e44" name="aca1602f1ea70c945e952a363fb6b9e44"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aca1602f1ea70c945e952a363fb6b9e44">&#9670;&#160;</a></span>LUMEX_FIELD_NAMES_FE_13</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_FIELD_NAMES_FE_13</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>F</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>A</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">F (A, x), <a class="code hl_define" href="#a8530eadf27d7950b9ca82cec2ad83a1b">LUMEX_FIELD_NAMES_EXPAND</a>(<a class="code hl_define" href="#ac7255365f8a48eb981ea26aa9111f86b">LUMEX_FIELD_NAMES_FE_12</a> (F, A, __VA_ARGS__))</div>
-<div class="ttc" id="aa00473_html_ac7255365f8a48eb981ea26aa9111f86b"><div class="ttname"><a href="#ac7255365f8a48eb981ea26aa9111f86b">LUMEX_FIELD_NAMES_FE_12</a></div><div class="ttdeci">#define LUMEX_FIELD_NAMES_FE_12(F, A, x,...)</div><div class="ttdef"><b>Definition</b> LumexAggregateFields.hpp:1123</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="accfd033c515446387387792f0bdf559c" name="accfd033c515446387387792f0bdf559c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#accfd033c515446387387792f0bdf559c">&#9670;&#160;</a></span>LUMEX_FIELD_NAMES_FE_14</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_FIELD_NAMES_FE_14</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>F</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>A</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">F (A, x), <a class="code hl_define" href="#a8530eadf27d7950b9ca82cec2ad83a1b">LUMEX_FIELD_NAMES_EXPAND</a>(<a class="code hl_define" href="#aca1602f1ea70c945e952a363fb6b9e44">LUMEX_FIELD_NAMES_FE_13</a> (F, A, __VA_ARGS__))</div>
-<div class="ttc" id="aa00473_html_aca1602f1ea70c945e952a363fb6b9e44"><div class="ttname"><a href="#aca1602f1ea70c945e952a363fb6b9e44">LUMEX_FIELD_NAMES_FE_13</a></div><div class="ttdeci">#define LUMEX_FIELD_NAMES_FE_13(F, A, x,...)</div><div class="ttdef"><b>Definition</b> LumexAggregateFields.hpp:1124</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a8ebbbbf5a298b6c50bf94b7994677db3" name="a8ebbbbf5a298b6c50bf94b7994677db3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8ebbbbf5a298b6c50bf94b7994677db3">&#9670;&#160;</a></span>LUMEX_FIELD_NAMES_FE_15</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_FIELD_NAMES_FE_15</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>F</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>A</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">F (A, x), <a class="code hl_define" href="#a8530eadf27d7950b9ca82cec2ad83a1b">LUMEX_FIELD_NAMES_EXPAND</a>(<a class="code hl_define" href="#accfd033c515446387387792f0bdf559c">LUMEX_FIELD_NAMES_FE_14</a> (F, A, __VA_ARGS__))</div>
-<div class="ttc" id="aa00473_html_accfd033c515446387387792f0bdf559c"><div class="ttname"><a href="#accfd033c515446387387792f0bdf559c">LUMEX_FIELD_NAMES_FE_14</a></div><div class="ttdeci">#define LUMEX_FIELD_NAMES_FE_14(F, A, x,...)</div><div class="ttdef"><b>Definition</b> LumexAggregateFields.hpp:1125</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a836b19c978c8400c3f3242eef7d155ab" name="a836b19c978c8400c3f3242eef7d155ab"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a836b19c978c8400c3f3242eef7d155ab">&#9670;&#160;</a></span>LUMEX_FIELD_NAMES_FE_16</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_FIELD_NAMES_FE_16</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>F</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>A</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">F (A, x), <a class="code hl_define" href="#a8530eadf27d7950b9ca82cec2ad83a1b">LUMEX_FIELD_NAMES_EXPAND</a>(<a class="code hl_define" href="#a8ebbbbf5a298b6c50bf94b7994677db3">LUMEX_FIELD_NAMES_FE_15</a> (F, A, __VA_ARGS__))</div>
-<div class="ttc" id="aa00473_html_a8ebbbbf5a298b6c50bf94b7994677db3"><div class="ttname"><a href="#a8ebbbbf5a298b6c50bf94b7994677db3">LUMEX_FIELD_NAMES_FE_15</a></div><div class="ttdeci">#define LUMEX_FIELD_NAMES_FE_15(F, A, x,...)</div><div class="ttdef"><b>Definition</b> LumexAggregateFields.hpp:1126</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a6613ba9e15baece5732265269a486fe8" name="a6613ba9e15baece5732265269a486fe8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6613ba9e15baece5732265269a486fe8">&#9670;&#160;</a></span>LUMEX_FIELD_NAMES_FE_17</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_FIELD_NAMES_FE_17</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>F</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>A</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">F (A, x), <a class="code hl_define" href="#a8530eadf27d7950b9ca82cec2ad83a1b">LUMEX_FIELD_NAMES_EXPAND</a>(<a class="code hl_define" href="#a836b19c978c8400c3f3242eef7d155ab">LUMEX_FIELD_NAMES_FE_16</a> (F, A, __VA_ARGS__))</div>
-<div class="ttc" id="aa00473_html_a836b19c978c8400c3f3242eef7d155ab"><div class="ttname"><a href="#a836b19c978c8400c3f3242eef7d155ab">LUMEX_FIELD_NAMES_FE_16</a></div><div class="ttdeci">#define LUMEX_FIELD_NAMES_FE_16(F, A, x,...)</div><div class="ttdef"><b>Definition</b> LumexAggregateFields.hpp:1127</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="aadb96307c02232abff4bd9a4d12f7c32" name="aadb96307c02232abff4bd9a4d12f7c32"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aadb96307c02232abff4bd9a4d12f7c32">&#9670;&#160;</a></span>LUMEX_FIELD_NAMES_FE_18</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_FIELD_NAMES_FE_18</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>F</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>A</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">F (A, x), <a class="code hl_define" href="#a8530eadf27d7950b9ca82cec2ad83a1b">LUMEX_FIELD_NAMES_EXPAND</a>(<a class="code hl_define" href="#a6613ba9e15baece5732265269a486fe8">LUMEX_FIELD_NAMES_FE_17</a> (F, A, __VA_ARGS__))</div>
-<div class="ttc" id="aa00473_html_a6613ba9e15baece5732265269a486fe8"><div class="ttname"><a href="#a6613ba9e15baece5732265269a486fe8">LUMEX_FIELD_NAMES_FE_17</a></div><div class="ttdeci">#define LUMEX_FIELD_NAMES_FE_17(F, A, x,...)</div><div class="ttdef"><b>Definition</b> LumexAggregateFields.hpp:1128</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a570856b32ef5043f30a805c5ee3476e1" name="a570856b32ef5043f30a805c5ee3476e1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a570856b32ef5043f30a805c5ee3476e1">&#9670;&#160;</a></span>LUMEX_FIELD_NAMES_FE_19</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_FIELD_NAMES_FE_19</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>F</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>A</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">F (A, x), <a class="code hl_define" href="#a8530eadf27d7950b9ca82cec2ad83a1b">LUMEX_FIELD_NAMES_EXPAND</a>(<a class="code hl_define" href="#aadb96307c02232abff4bd9a4d12f7c32">LUMEX_FIELD_NAMES_FE_18</a> (F, A, __VA_ARGS__))</div>
-<div class="ttc" id="aa00473_html_aadb96307c02232abff4bd9a4d12f7c32"><div class="ttname"><a href="#aadb96307c02232abff4bd9a4d12f7c32">LUMEX_FIELD_NAMES_FE_18</a></div><div class="ttdeci">#define LUMEX_FIELD_NAMES_FE_18(F, A, x,...)</div><div class="ttdef"><b>Definition</b> LumexAggregateFields.hpp:1129</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a2e76a94ffc03a98cfc75bc5e8bb2d23f" name="a2e76a94ffc03a98cfc75bc5e8bb2d23f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2e76a94ffc03a98cfc75bc5e8bb2d23f">&#9670;&#160;</a></span>LUMEX_FIELD_NAMES_FE_2</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_FIELD_NAMES_FE_2</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>F</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>A</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">F (A, x), <a class="code hl_define" href="#a8530eadf27d7950b9ca82cec2ad83a1b">LUMEX_FIELD_NAMES_EXPAND</a>(<a class="code hl_define" href="#a7bfcb2d6200c1fef98b5458ff213ea0b">LUMEX_FIELD_NAMES_FE_1</a> (F, A, __VA_ARGS__))</div>
-<div class="ttc" id="aa00473_html_a7bfcb2d6200c1fef98b5458ff213ea0b"><div class="ttname"><a href="#a7bfcb2d6200c1fef98b5458ff213ea0b">LUMEX_FIELD_NAMES_FE_1</a></div><div class="ttdeci">#define LUMEX_FIELD_NAMES_FE_1(F, A, x)</div><div class="ttdef"><b>Definition</b> LumexAggregateFields.hpp:1112</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a4fd856eb68d09622e03d409f6f0076c7" name="a4fd856eb68d09622e03d409f6f0076c7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4fd856eb68d09622e03d409f6f0076c7">&#9670;&#160;</a></span>LUMEX_FIELD_NAMES_FE_20</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_FIELD_NAMES_FE_20</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>F</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>A</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">F (A, x), <a class="code hl_define" href="#a8530eadf27d7950b9ca82cec2ad83a1b">LUMEX_FIELD_NAMES_EXPAND</a>(<a class="code hl_define" href="#a570856b32ef5043f30a805c5ee3476e1">LUMEX_FIELD_NAMES_FE_19</a> (F, A, __VA_ARGS__))</div>
-<div class="ttc" id="aa00473_html_a570856b32ef5043f30a805c5ee3476e1"><div class="ttname"><a href="#a570856b32ef5043f30a805c5ee3476e1">LUMEX_FIELD_NAMES_FE_19</a></div><div class="ttdeci">#define LUMEX_FIELD_NAMES_FE_19(F, A, x,...)</div><div class="ttdef"><b>Definition</b> LumexAggregateFields.hpp:1130</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a8fb75928a95e999d40a6d181ac97f545" name="a8fb75928a95e999d40a6d181ac97f545"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8fb75928a95e999d40a6d181ac97f545">&#9670;&#160;</a></span>LUMEX_FIELD_NAMES_FE_21</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_FIELD_NAMES_FE_21</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>F</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>A</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">F (A, x), <a class="code hl_define" href="#a8530eadf27d7950b9ca82cec2ad83a1b">LUMEX_FIELD_NAMES_EXPAND</a>(<a class="code hl_define" href="#a4fd856eb68d09622e03d409f6f0076c7">LUMEX_FIELD_NAMES_FE_20</a> (F, A, __VA_ARGS__))</div>
-<div class="ttc" id="aa00473_html_a4fd856eb68d09622e03d409f6f0076c7"><div class="ttname"><a href="#a4fd856eb68d09622e03d409f6f0076c7">LUMEX_FIELD_NAMES_FE_20</a></div><div class="ttdeci">#define LUMEX_FIELD_NAMES_FE_20(F, A, x,...)</div><div class="ttdef"><b>Definition</b> LumexAggregateFields.hpp:1131</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a08242d1226a43ac396e71bca188568e5" name="a08242d1226a43ac396e71bca188568e5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a08242d1226a43ac396e71bca188568e5">&#9670;&#160;</a></span>LUMEX_FIELD_NAMES_FE_22</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_FIELD_NAMES_FE_22</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>F</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>A</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">F (A, x), <a class="code hl_define" href="#a8530eadf27d7950b9ca82cec2ad83a1b">LUMEX_FIELD_NAMES_EXPAND</a>(<a class="code hl_define" href="#a8fb75928a95e999d40a6d181ac97f545">LUMEX_FIELD_NAMES_FE_21</a> (F, A, __VA_ARGS__))</div>
-<div class="ttc" id="aa00473_html_a8fb75928a95e999d40a6d181ac97f545"><div class="ttname"><a href="#a8fb75928a95e999d40a6d181ac97f545">LUMEX_FIELD_NAMES_FE_21</a></div><div class="ttdeci">#define LUMEX_FIELD_NAMES_FE_21(F, A, x,...)</div><div class="ttdef"><b>Definition</b> LumexAggregateFields.hpp:1132</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="acfd8577a1b1e9c8b1ecd8bf69bdc423c" name="acfd8577a1b1e9c8b1ecd8bf69bdc423c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acfd8577a1b1e9c8b1ecd8bf69bdc423c">&#9670;&#160;</a></span>LUMEX_FIELD_NAMES_FE_23</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_FIELD_NAMES_FE_23</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>F</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>A</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">F (A, x), <a class="code hl_define" href="#a8530eadf27d7950b9ca82cec2ad83a1b">LUMEX_FIELD_NAMES_EXPAND</a>(<a class="code hl_define" href="#a08242d1226a43ac396e71bca188568e5">LUMEX_FIELD_NAMES_FE_22</a> (F, A, __VA_ARGS__))</div>
-<div class="ttc" id="aa00473_html_a08242d1226a43ac396e71bca188568e5"><div class="ttname"><a href="#a08242d1226a43ac396e71bca188568e5">LUMEX_FIELD_NAMES_FE_22</a></div><div class="ttdeci">#define LUMEX_FIELD_NAMES_FE_22(F, A, x,...)</div><div class="ttdef"><b>Definition</b> LumexAggregateFields.hpp:1133</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="ae68969d4697190edde0cf4796d1dbec9" name="ae68969d4697190edde0cf4796d1dbec9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae68969d4697190edde0cf4796d1dbec9">&#9670;&#160;</a></span>LUMEX_FIELD_NAMES_FE_24</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_FIELD_NAMES_FE_24</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>F</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>A</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">F (A, x), <a class="code hl_define" href="#a8530eadf27d7950b9ca82cec2ad83a1b">LUMEX_FIELD_NAMES_EXPAND</a>(<a class="code hl_define" href="#acfd8577a1b1e9c8b1ecd8bf69bdc423c">LUMEX_FIELD_NAMES_FE_23</a> (F, A, __VA_ARGS__))</div>
-<div class="ttc" id="aa00473_html_acfd8577a1b1e9c8b1ecd8bf69bdc423c"><div class="ttname"><a href="#acfd8577a1b1e9c8b1ecd8bf69bdc423c">LUMEX_FIELD_NAMES_FE_23</a></div><div class="ttdeci">#define LUMEX_FIELD_NAMES_FE_23(F, A, x,...)</div><div class="ttdef"><b>Definition</b> LumexAggregateFields.hpp:1134</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a4728a0ca953535700136c4ad5a6a72ff" name="a4728a0ca953535700136c4ad5a6a72ff"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4728a0ca953535700136c4ad5a6a72ff">&#9670;&#160;</a></span>LUMEX_FIELD_NAMES_FE_25</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_FIELD_NAMES_FE_25</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>F</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>A</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">F (A, x), <a class="code hl_define" href="#a8530eadf27d7950b9ca82cec2ad83a1b">LUMEX_FIELD_NAMES_EXPAND</a>(<a class="code hl_define" href="#ae68969d4697190edde0cf4796d1dbec9">LUMEX_FIELD_NAMES_FE_24</a> (F, A, __VA_ARGS__))</div>
-<div class="ttc" id="aa00473_html_ae68969d4697190edde0cf4796d1dbec9"><div class="ttname"><a href="#ae68969d4697190edde0cf4796d1dbec9">LUMEX_FIELD_NAMES_FE_24</a></div><div class="ttdeci">#define LUMEX_FIELD_NAMES_FE_24(F, A, x,...)</div><div class="ttdef"><b>Definition</b> LumexAggregateFields.hpp:1135</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a687f90eb46717d16e14b55f95690c17b" name="a687f90eb46717d16e14b55f95690c17b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a687f90eb46717d16e14b55f95690c17b">&#9670;&#160;</a></span>LUMEX_FIELD_NAMES_FE_26</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_FIELD_NAMES_FE_26</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>F</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>A</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">F (A, x), <a class="code hl_define" href="#a8530eadf27d7950b9ca82cec2ad83a1b">LUMEX_FIELD_NAMES_EXPAND</a>(<a class="code hl_define" href="#a4728a0ca953535700136c4ad5a6a72ff">LUMEX_FIELD_NAMES_FE_25</a> (F, A, __VA_ARGS__))</div>
-<div class="ttc" id="aa00473_html_a4728a0ca953535700136c4ad5a6a72ff"><div class="ttname"><a href="#a4728a0ca953535700136c4ad5a6a72ff">LUMEX_FIELD_NAMES_FE_25</a></div><div class="ttdeci">#define LUMEX_FIELD_NAMES_FE_25(F, A, x,...)</div><div class="ttdef"><b>Definition</b> LumexAggregateFields.hpp:1136</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="aefc3cd9b4c754eb63015012bea6698a4" name="aefc3cd9b4c754eb63015012bea6698a4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aefc3cd9b4c754eb63015012bea6698a4">&#9670;&#160;</a></span>LUMEX_FIELD_NAMES_FE_27</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_FIELD_NAMES_FE_27</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>F</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>A</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">F (A, x), <a class="code hl_define" href="#a8530eadf27d7950b9ca82cec2ad83a1b">LUMEX_FIELD_NAMES_EXPAND</a>(<a class="code hl_define" href="#a687f90eb46717d16e14b55f95690c17b">LUMEX_FIELD_NAMES_FE_26</a> (F, A, __VA_ARGS__))</div>
-<div class="ttc" id="aa00473_html_a687f90eb46717d16e14b55f95690c17b"><div class="ttname"><a href="#a687f90eb46717d16e14b55f95690c17b">LUMEX_FIELD_NAMES_FE_26</a></div><div class="ttdeci">#define LUMEX_FIELD_NAMES_FE_26(F, A, x,...)</div><div class="ttdef"><b>Definition</b> LumexAggregateFields.hpp:1137</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a515ac428bcfc236611baccf00422613e" name="a515ac428bcfc236611baccf00422613e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a515ac428bcfc236611baccf00422613e">&#9670;&#160;</a></span>LUMEX_FIELD_NAMES_FE_28</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_FIELD_NAMES_FE_28</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>F</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>A</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">F (A, x), <a class="code hl_define" href="#a8530eadf27d7950b9ca82cec2ad83a1b">LUMEX_FIELD_NAMES_EXPAND</a>(<a class="code hl_define" href="#aefc3cd9b4c754eb63015012bea6698a4">LUMEX_FIELD_NAMES_FE_27</a> (F, A, __VA_ARGS__))</div>
-<div class="ttc" id="aa00473_html_aefc3cd9b4c754eb63015012bea6698a4"><div class="ttname"><a href="#aefc3cd9b4c754eb63015012bea6698a4">LUMEX_FIELD_NAMES_FE_27</a></div><div class="ttdeci">#define LUMEX_FIELD_NAMES_FE_27(F, A, x,...)</div><div class="ttdef"><b>Definition</b> LumexAggregateFields.hpp:1138</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a0100b8f049acfb9b7ed87e2274676f84" name="a0100b8f049acfb9b7ed87e2274676f84"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0100b8f049acfb9b7ed87e2274676f84">&#9670;&#160;</a></span>LUMEX_FIELD_NAMES_FE_29</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_FIELD_NAMES_FE_29</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>F</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>A</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">F (A, x), <a class="code hl_define" href="#a8530eadf27d7950b9ca82cec2ad83a1b">LUMEX_FIELD_NAMES_EXPAND</a>(<a class="code hl_define" href="#a515ac428bcfc236611baccf00422613e">LUMEX_FIELD_NAMES_FE_28</a> (F, A, __VA_ARGS__))</div>
-<div class="ttc" id="aa00473_html_a515ac428bcfc236611baccf00422613e"><div class="ttname"><a href="#a515ac428bcfc236611baccf00422613e">LUMEX_FIELD_NAMES_FE_28</a></div><div class="ttdeci">#define LUMEX_FIELD_NAMES_FE_28(F, A, x,...)</div><div class="ttdef"><b>Definition</b> LumexAggregateFields.hpp:1139</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a3782b71d6988df451b403b67880c5be9" name="a3782b71d6988df451b403b67880c5be9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3782b71d6988df451b403b67880c5be9">&#9670;&#160;</a></span>LUMEX_FIELD_NAMES_FE_3</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_FIELD_NAMES_FE_3</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>F</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>A</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">F (A, x), <a class="code hl_define" href="#a8530eadf27d7950b9ca82cec2ad83a1b">LUMEX_FIELD_NAMES_EXPAND</a>(<a class="code hl_define" href="#a2e76a94ffc03a98cfc75bc5e8bb2d23f">LUMEX_FIELD_NAMES_FE_2</a> (F, A, __VA_ARGS__))</div>
-<div class="ttc" id="aa00473_html_a2e76a94ffc03a98cfc75bc5e8bb2d23f"><div class="ttname"><a href="#a2e76a94ffc03a98cfc75bc5e8bb2d23f">LUMEX_FIELD_NAMES_FE_2</a></div><div class="ttdeci">#define LUMEX_FIELD_NAMES_FE_2(F, A, x,...)</div><div class="ttdef"><b>Definition</b> LumexAggregateFields.hpp:1113</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="aa5c553de01aaae1cf541f96acd92f1e5" name="aa5c553de01aaae1cf541f96acd92f1e5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa5c553de01aaae1cf541f96acd92f1e5">&#9670;&#160;</a></span>LUMEX_FIELD_NAMES_FE_30</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_FIELD_NAMES_FE_30</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>F</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>A</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">F (A, x), <a class="code hl_define" href="#a8530eadf27d7950b9ca82cec2ad83a1b">LUMEX_FIELD_NAMES_EXPAND</a>(<a class="code hl_define" href="#a0100b8f049acfb9b7ed87e2274676f84">LUMEX_FIELD_NAMES_FE_29</a> (F, A, __VA_ARGS__))</div>
-<div class="ttc" id="aa00473_html_a0100b8f049acfb9b7ed87e2274676f84"><div class="ttname"><a href="#a0100b8f049acfb9b7ed87e2274676f84">LUMEX_FIELD_NAMES_FE_29</a></div><div class="ttdeci">#define LUMEX_FIELD_NAMES_FE_29(F, A, x,...)</div><div class="ttdef"><b>Definition</b> LumexAggregateFields.hpp:1140</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a7a57391598b1a4290fb699513c168e2a" name="a7a57391598b1a4290fb699513c168e2a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7a57391598b1a4290fb699513c168e2a">&#9670;&#160;</a></span>LUMEX_FIELD_NAMES_FE_31</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_FIELD_NAMES_FE_31</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>F</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>A</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">F (A, x), <a class="code hl_define" href="#a8530eadf27d7950b9ca82cec2ad83a1b">LUMEX_FIELD_NAMES_EXPAND</a>(<a class="code hl_define" href="#aa5c553de01aaae1cf541f96acd92f1e5">LUMEX_FIELD_NAMES_FE_30</a> (F, A, __VA_ARGS__))</div>
-<div class="ttc" id="aa00473_html_aa5c553de01aaae1cf541f96acd92f1e5"><div class="ttname"><a href="#aa5c553de01aaae1cf541f96acd92f1e5">LUMEX_FIELD_NAMES_FE_30</a></div><div class="ttdeci">#define LUMEX_FIELD_NAMES_FE_30(F, A, x,...)</div><div class="ttdef"><b>Definition</b> LumexAggregateFields.hpp:1141</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="ad2cf42e12f6b1101d128b9c05e453aed" name="ad2cf42e12f6b1101d128b9c05e453aed"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad2cf42e12f6b1101d128b9c05e453aed">&#9670;&#160;</a></span>LUMEX_FIELD_NAMES_FE_32</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_FIELD_NAMES_FE_32</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>F</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>A</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">F (A, x), <a class="code hl_define" href="#a8530eadf27d7950b9ca82cec2ad83a1b">LUMEX_FIELD_NAMES_EXPAND</a>(<a class="code hl_define" href="#a7a57391598b1a4290fb699513c168e2a">LUMEX_FIELD_NAMES_FE_31</a> (F, A, __VA_ARGS__))</div>
-<div class="ttc" id="aa00473_html_a7a57391598b1a4290fb699513c168e2a"><div class="ttname"><a href="#a7a57391598b1a4290fb699513c168e2a">LUMEX_FIELD_NAMES_FE_31</a></div><div class="ttdeci">#define LUMEX_FIELD_NAMES_FE_31(F, A, x,...)</div><div class="ttdef"><b>Definition</b> LumexAggregateFields.hpp:1142</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="aedada92680167045fd3177f348b25ee1" name="aedada92680167045fd3177f348b25ee1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aedada92680167045fd3177f348b25ee1">&#9670;&#160;</a></span>LUMEX_FIELD_NAMES_FE_33</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_FIELD_NAMES_FE_33</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...</td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">LUMEX_DEFINE_FIELD_NAMES_TAKES_AT_MOST_32_NAMES</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="adcf3f895b198edeb379f8276f213d0d4" name="adcf3f895b198edeb379f8276f213d0d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adcf3f895b198edeb379f8276f213d0d4">&#9670;&#160;</a></span>LUMEX_FIELD_NAMES_FE_4</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_FIELD_NAMES_FE_4</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>F</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>A</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">F (A, x), <a class="code hl_define" href="#a8530eadf27d7950b9ca82cec2ad83a1b">LUMEX_FIELD_NAMES_EXPAND</a>(<a class="code hl_define" href="#a3782b71d6988df451b403b67880c5be9">LUMEX_FIELD_NAMES_FE_3</a> (F, A, __VA_ARGS__))</div>
-<div class="ttc" id="aa00473_html_a3782b71d6988df451b403b67880c5be9"><div class="ttname"><a href="#a3782b71d6988df451b403b67880c5be9">LUMEX_FIELD_NAMES_FE_3</a></div><div class="ttdeci">#define LUMEX_FIELD_NAMES_FE_3(F, A, x,...)</div><div class="ttdef"><b>Definition</b> LumexAggregateFields.hpp:1114</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a89cc7834c3d1c65b74fe3e22470a9bad" name="a89cc7834c3d1c65b74fe3e22470a9bad"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a89cc7834c3d1c65b74fe3e22470a9bad">&#9670;&#160;</a></span>LUMEX_FIELD_NAMES_FE_5</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_FIELD_NAMES_FE_5</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>F</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>A</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">F (A, x), <a class="code hl_define" href="#a8530eadf27d7950b9ca82cec2ad83a1b">LUMEX_FIELD_NAMES_EXPAND</a>(<a class="code hl_define" href="#adcf3f895b198edeb379f8276f213d0d4">LUMEX_FIELD_NAMES_FE_4</a> (F, A, __VA_ARGS__))</div>
-<div class="ttc" id="aa00473_html_adcf3f895b198edeb379f8276f213d0d4"><div class="ttname"><a href="#adcf3f895b198edeb379f8276f213d0d4">LUMEX_FIELD_NAMES_FE_4</a></div><div class="ttdeci">#define LUMEX_FIELD_NAMES_FE_4(F, A, x,...)</div><div class="ttdef"><b>Definition</b> LumexAggregateFields.hpp:1115</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a3f8e5c692baa95a004e94209b03bf508" name="a3f8e5c692baa95a004e94209b03bf508"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3f8e5c692baa95a004e94209b03bf508">&#9670;&#160;</a></span>LUMEX_FIELD_NAMES_FE_6</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_FIELD_NAMES_FE_6</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>F</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>A</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">F (A, x), <a class="code hl_define" href="#a8530eadf27d7950b9ca82cec2ad83a1b">LUMEX_FIELD_NAMES_EXPAND</a>(<a class="code hl_define" href="#a89cc7834c3d1c65b74fe3e22470a9bad">LUMEX_FIELD_NAMES_FE_5</a> (F, A, __VA_ARGS__))</div>
-<div class="ttc" id="aa00473_html_a89cc7834c3d1c65b74fe3e22470a9bad"><div class="ttname"><a href="#a89cc7834c3d1c65b74fe3e22470a9bad">LUMEX_FIELD_NAMES_FE_5</a></div><div class="ttdeci">#define LUMEX_FIELD_NAMES_FE_5(F, A, x,...)</div><div class="ttdef"><b>Definition</b> LumexAggregateFields.hpp:1116</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a2324bb9313952268e8503b35b8b892d8" name="a2324bb9313952268e8503b35b8b892d8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2324bb9313952268e8503b35b8b892d8">&#9670;&#160;</a></span>LUMEX_FIELD_NAMES_FE_7</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_FIELD_NAMES_FE_7</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>F</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>A</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">F (A, x), <a class="code hl_define" href="#a8530eadf27d7950b9ca82cec2ad83a1b">LUMEX_FIELD_NAMES_EXPAND</a>(<a class="code hl_define" href="#a3f8e5c692baa95a004e94209b03bf508">LUMEX_FIELD_NAMES_FE_6</a> (F, A, __VA_ARGS__))</div>
-<div class="ttc" id="aa00473_html_a3f8e5c692baa95a004e94209b03bf508"><div class="ttname"><a href="#a3f8e5c692baa95a004e94209b03bf508">LUMEX_FIELD_NAMES_FE_6</a></div><div class="ttdeci">#define LUMEX_FIELD_NAMES_FE_6(F, A, x,...)</div><div class="ttdef"><b>Definition</b> LumexAggregateFields.hpp:1117</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a3aec4a81746d7645eb090351b363fc1e" name="a3aec4a81746d7645eb090351b363fc1e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3aec4a81746d7645eb090351b363fc1e">&#9670;&#160;</a></span>LUMEX_FIELD_NAMES_FE_8</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_FIELD_NAMES_FE_8</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>F</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>A</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">F (A, x), <a class="code hl_define" href="#a8530eadf27d7950b9ca82cec2ad83a1b">LUMEX_FIELD_NAMES_EXPAND</a>(<a class="code hl_define" href="#a2324bb9313952268e8503b35b8b892d8">LUMEX_FIELD_NAMES_FE_7</a> (F, A, __VA_ARGS__))</div>
-<div class="ttc" id="aa00473_html_a2324bb9313952268e8503b35b8b892d8"><div class="ttname"><a href="#a2324bb9313952268e8503b35b8b892d8">LUMEX_FIELD_NAMES_FE_7</a></div><div class="ttdeci">#define LUMEX_FIELD_NAMES_FE_7(F, A, x,...)</div><div class="ttdef"><b>Definition</b> LumexAggregateFields.hpp:1118</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="aa647fde5af63cd67a23fb69113f89301" name="aa647fde5af63cd67a23fb69113f89301"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa647fde5af63cd67a23fb69113f89301">&#9670;&#160;</a></span>LUMEX_FIELD_NAMES_FE_9</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_FIELD_NAMES_FE_9</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>F</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>A</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">F (A, x), <a class="code hl_define" href="#a8530eadf27d7950b9ca82cec2ad83a1b">LUMEX_FIELD_NAMES_EXPAND</a>(<a class="code hl_define" href="#a3aec4a81746d7645eb090351b363fc1e">LUMEX_FIELD_NAMES_FE_8</a> (F, A, __VA_ARGS__))</div>
-<div class="ttc" id="aa00473_html_a3aec4a81746d7645eb090351b363fc1e"><div class="ttname"><a href="#a3aec4a81746d7645eb090351b363fc1e">LUMEX_FIELD_NAMES_FE_8</a></div><div class="ttdeci">#define LUMEX_FIELD_NAMES_FE_8(F, A, x,...)</div><div class="ttdef"><b>Definition</b> LumexAggregateFields.hpp:1119</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a4921e8b27a977d8fe2781abc7aa8108f" name="a4921e8b27a977d8fe2781abc7aa8108f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4921e8b27a977d8fe2781abc7aa8108f">&#9670;&#160;</a></span>LUMEX_FIELD_NAMES_FOR_EACH</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_FIELD_NAMES_FOR_EACH</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>F</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>A</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">  <a class="code hl_define" href="#a8530eadf27d7950b9ca82cec2ad83a1b">LUMEX_FIELD_NAMES_EXPAND</a>(<a class="code hl_define" href="#a5fd8d49143f43b774d95ffd0143841b0">LUMEX_FIELD_NAMES_CAT</a>(LUMEX_FIELD_NAMES_FE_, <a class="code hl_define" href="#afc6aefc20c7e0b4c910876938d2b5d51">LUMEX_FIELD_NAMES_COUNT</a>(__VA_ARGS__))(F, A, __VA_ARGS__))</div>
-<div class="ttc" id="aa00473_html_a5fd8d49143f43b774d95ffd0143841b0"><div class="ttname"><a href="#a5fd8d49143f43b774d95ffd0143841b0">LUMEX_FIELD_NAMES_CAT</a></div><div class="ttdeci">#define LUMEX_FIELD_NAMES_CAT(a, b)</div><div class="ttdef"><b>Definition</b> LumexAggregateFields.hpp:1102</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="ab170af80547cdb2352350f4d536b8766" name="ab170af80547cdb2352350f4d536b8766"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab170af80547cdb2352350f4d536b8766">&#9670;&#160;</a></span>LUMEX_FIELD_NAMES_MEMBER</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_FIELD_NAMES_MEMBER</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>Aggregate</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>name</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">  <a class="code hl_struct" href="a03554.html">::lumex::core::reflection::field_reflection::detail::member_constant</a>&lt;         \</div>
-<div class="line">      decltype (&amp;Aggregate::name), &amp;Aggregate::name&gt;</div>
-<div class="ttc" id="aa03554_html"><div class="ttname"><a href="a03554.html">lumex::core::reflection::field_reflection::detail::member_constant</a></div><div class="ttdef"><b>Definition</b> LumexAggregateFields.hpp:457</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a3f042b7fb27bcf2e619fd858718b306d" name="a3f042b7fb27bcf2e619fd858718b306d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3f042b7fb27bcf2e619fd858718b306d">&#9670;&#160;</a></span>LUMEX_FIELD_NAMES_STRING</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_FIELD_NAMES_STRING</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>Aggregate</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>name</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line"><span class="preprocessor">#name</span></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="af0874b1cb60098c26c10571027af4618" name="af0874b1cb60098c26c10571027af4618"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af0874b1cb60098c26c10571027af4618">&#9670;&#160;</a></span>LUMEX_FIELD_REFLECTION_HAS_NAMES</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_FIELD_REFLECTION_HAS_NAMES&#160;&#160;&#160;0</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
 
 </div>
 </div>
@@ -2001,7 +314,7 @@ Variables</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_9f19d952725811a71a1277575cb881df.html">reflection</a></li><li class="navelem"><a class="el" href="dir_4183182a33530d5b48cdb15290070151.html">field_reflection</a></li><li class="navelem"><a class="el" href="a00473.html">LumexAggregateFields.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_48f63977bcbbc0057df875ef8f8dd4ef.html">fmt</a></li><li class="navelem"><a class="el" href="a00473.html">example_format.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

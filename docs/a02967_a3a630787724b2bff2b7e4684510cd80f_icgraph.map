@@ -1,0 +1,15 @@
+<map id="lumex::core::filesystem::fs::lumex_filesystem::rename" name="lumex::core::filesystem::fs::lumex_filesystem::rename">
+<area shape="rect" id="Node000001" title="Renames or moves a file or directory." alt="" coords="228,131,403,185"/>
+<area shape="poly" id="edge6_Node000001_Node000001" title=" " alt="" coords="352,120,339,112,315,109,296,111,283,116,277,122,277,131,272,131,272,120,280,112,294,106,315,104,340,107,355,115"/>
+<area shape="rect" id="Node000002" href="$a00260.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="65,5,120,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="279,123,234,82,179,44,149,32,120,25,121,20,151,27,181,40,237,77,283,119"/>
+<area shape="rect" id="Node000003" href="$a02967.html#ac1050fc7fb4e882f6b23a9ad965f9e6c" title="Moves a directory and its contents from one location to another." alt="" coords="5,79,180,133"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="214,137,180,129,181,124,216,132"/>
+<area shape="rect" id="Node000004" href="$a02967.html#a538ee94b70991213bf07c01bc51b3af4" title="Moves a file from one location to another." alt="" coords="5,181,180,236"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="216,183,181,191,180,186,214,178"/>
+<area shape="rect" id="Node000005" href="$a02967.html#a5168b663198b53cd34ffad9098fea240" title="Replaces the content of a file without ever leaving it truncated." alt="" coords="5,284,180,339"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="266,195,134,286,131,282,263,191"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="129,68,116,60,93,57,73,59,60,64,55,70,55,79,49,79,50,68,57,60,72,54,93,52,118,55,132,63"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="129,170,116,163,93,160,73,162,60,167,55,173,55,181,49,181,50,171,57,162,72,157,93,155,118,158,132,166"/>
+<area shape="poly" id="edge8_Node000005_Node000005" title=" " alt="" coords="129,273,116,266,93,263,73,265,60,269,55,276,55,284,49,284,50,274,57,265,72,259,93,257,118,260,132,268"/>
+</map>

@@ -1,0 +1,13 @@
+<map id="main" name="main">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,99,60,124"/>
+<area shape="rect" id="Node000002" href="$a01895.html#a309046eb225dab34d5578b0174e711ab" title="Creates a settings object for the specified file format." alt="" coords="108,5,335,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="53,96,107,69,122,63,124,68,109,74,56,101"/>
+<area shape="rect" id="Node000003" href="$a01903.html#a3c076c86feee26d0eb286d0bd108ea7e" title="Ensures the guarded file exists and is loadable; repairs it via createDefault otherwise." alt="" coords="114,84,329,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="60,109,101,109,101,114,60,114"/>
+<area shape="rect" id="Node000004" href="$a01903.html#a1b16b4af8293c508e1b10b2181ab3bb3" title="Ensures every key in specs is present and valid, restoring default_value otherwise." alt="" coords="116,163,327,217"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="57,122,109,148,127,155,125,160,107,152,55,127"/>
+<area shape="rect" id="Node000005" href="$a01759.html#af4fec23e76323ffee4eaf2aaf716eb15" title="Log a WARNING&#45;level message." alt="" coords="383,170,596,210"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="327,187,369,187,369,193,327,193"/>
+<area shape="rect" id="Node000006" href="$a01570.html#a5c0b80a6f74a32424bed62d7597a6759" title="Concatenates the streamed text of args." alt="" coords="644,170,788,210"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="596,187,630,187,630,193,596,193"/>
+</map>

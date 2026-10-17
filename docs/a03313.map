@@ -1,0 +1,5 @@
+<map id="lumex::core::math::ops::lumex_math_size_mismatch_exception" name="lumex::core::math::ops::lumex_math_size_mismatch_exception">
+<area shape="rect" id="Node000001" title="Thrown by the two&#45;range rms / rmse when the ranges have different lengths, one of them empty included..." alt="" coords="5,79,173,133"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="7,5,171,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="92,45,92,78,87,78,87,45"/>
+</map>

@@ -1,0 +1,27 @@
+<map id="main" name="main">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,280,60,305"/>
+<area shape="rect" id="Node000002" href="$a00515.html#add83d24a37b9709ace69a2479ded1594" title="Safely reinterprets a raw memory block as a value of type T." alt="" coords="189,5,228,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="32,279,59,156,80,87,93,60,106,41,122,30,140,22,175,16,176,21,141,28,124,35,110,45,97,63,85,89,64,157,38,280"/>
+<area shape="rect" id="Node000003" href="$a01587.html#abc5424148a3c93bf6ba9afb098dd93a6" title="Reverses the byte order of an integral value (byte swap / endianness reverse), C++11 form." alt="" coords="136,79,281,119"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="32,279,40,249,54,208,75,166,106,129,122,118,125,123,110,133,80,169,59,211,45,250,38,280"/>
+<area shape="rect" id="Node000005" href="$a00515.html#a8468ef56090dda0cf81cec700a57df38" title="Counts the leading zero bits of an unsigned integer (C++11)." alt="" coords="131,144,286,169"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="35,279,60,230,81,202,106,179,117,172,120,176,110,183,85,205,65,233,40,281"/>
+<area shape="rect" id="Node000006" href="$a01594.html#a5a8a6ca7779e633cf03b6e232ef67775" title="Demangles an already&#45;mangled C++ name (e.g. one captured from a backtrace/stack unwinder),..." alt="" coords="125,193,293,248"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="59,278,107,258,125,251,127,256,109,263,61,283"/>
+<area shape="rect" id="Node000007" href="$a01607.html#a70c7aae8bb35572f410d8de09cfee689" title="Returns the OS process id of the calling process." alt="" coords="114,273,303,313"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="60,290,100,290,100,295,60,295"/>
+<area shape="rect" id="Node000008" href="$a04471.html#a0c1a83b8a794a186c009776e9afc17f4" title="Safe &gt;= comparison with another type." alt="" coords="108,337,309,392"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="61,302,109,322,127,330,125,335,107,327,59,307"/>
+<area shape="rect" id="Node000009" href="$a04471.html#a7a249bd0a6f5c43be320ad8d68099be1" title="Safe &lt; comparison with another type." alt="" coords="108,416,309,471"/>
+<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="41,304,66,351,86,378,110,401,117,407,114,411,106,405,82,381,62,354,36,307"/>
+<area shape="rect" id="Node000010" href="$a04471.html#aeec324ba5cadb80b4038b1f8efe96a03" title="Safe &lt;= comparison with another type." alt="" coords="108,495,309,549"/>
+<area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="37,305,43,340,56,386,78,436,92,459,110,480,114,484,111,488,106,484,88,463,73,439,51,388,38,341,32,306"/>
+<area shape="rect" id="Node000011" href="$a04027.html#a13a83ffe79d91fd182648cca8911f850" title="The elements from Offset on, Count of them or all the rest, as a span of static extent where the size..." alt="" coords="132,598,285,638"/>
+<area shape="poly" id="edge11_Node000001_Node000011" title=" " alt="" coords="38,305,65,436,87,510,98,540,110,560,126,576,144,589,141,593,122,580,106,564,93,542,81,512,60,437,32,307"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="175,80,173,70,179,61,191,55,209,53,230,56,241,63,238,67,228,61,209,58,192,60,182,65,178,71,180,78"/>
+<area shape="rect" id="Node000004" href="$a01588.html#aff30e8b7fe645acb0375d1c7f82f0c1b" title="One&#45;byte value: nothing to reverse." alt="" coords="357,79,536,119"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="281,97,344,97,344,102,281,102"/>
+<area shape="poly" id="edge13_Node000011_Node000011" title=" " alt="" coords="175,598,173,588,179,579,191,573,209,571,230,574,241,582,238,586,228,579,209,577,192,579,182,583,178,589,180,597"/>
+<area shape="rect" id="Node000012" href="$a04027.html#a6f7600a90e7ecaae32edf5924fcfa612" title="Constructs an empty span." alt="" coords="373,598,520,638"/>
+<area shape="poly" id="edge12_Node000011_Node000012" title=" " alt="" coords="286,615,359,615,359,621,286,621"/>
+</map>

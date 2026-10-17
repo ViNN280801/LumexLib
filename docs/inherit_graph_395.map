@@ -1,0 +1,18 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" href="$a03839.html" title="The polymorphic control block (see the file text)." alt="" coords="21,149,176,189"/>
+<area shape="rect" id="Node000001" href="$a03855.html" title="A block that owns one strong reference to another block and the stored pointer of an alias (see the f..." alt="" coords="243,149,407,189"/>
+<area shape="poly" id="edge358_Node000000_Node000001" title=" " alt="" coords="189,167,243,167,243,172,189,172"/>
+<area shape="rect" id="Node000002" href="$a03847.html" title="The control block of make_shared / allocate_shared: block and object in one allocation." alt="" coords="240,214,411,269"/>
+<area shape="poly" id="edge359_Node000000_Node000002" title=" " alt="" coords="175,191,240,212,239,217,174,196"/>
+<area shape="rect" id="Node000004" href="$a03843.html" title="A control block over a pointer, a deleter and an allocator." alt="" coords="253,293,398,347"/>
+<area shape="poly" id="edge360_Node000000_Node000004" title=" " alt="" coords="187,194,194,199,211,220,219,240,226,260,242,279,257,290,254,295,238,283,222,262,214,242,206,222,190,203,184,199"/>
+<area shape="rect" id="Node000006" href="$a03995.html" title=" " alt="" coords="253,5,398,45"/>
+<area shape="poly" id="edge361_Node000000_Node000006" title=" " alt="" coords="128,138,178,96,239,55,263,43,266,48,241,60,181,100,131,142"/>
+<area shape="rect" id="Node000007" href="$a03859.html" title="The holder of an alias that the engine of atomic_weak_ptr cannot pack: it owns one WEAK reference to ..." alt="" coords="246,70,405,125"/>
+<area shape="poly" id="edge362_Node000000_Node000007" title=" " alt="" coords="174,143,245,120,247,125,176,148"/>
+<area shape="rect" id="Node000003" href="$a03919.html" title=" " alt="" coords="5,214,192,269"/>
+<area shape="poly" id="edge363_Node000003_Node000002" title=" " alt="" coords="206,239,240,239,240,244,206,244"/>
+<area shape="poly" id="edge364_Node000003_Node000004" title=" " alt="" coords="192,271,253,292,252,297,190,276"/>
+<area shape="rect" id="Node000005" href="$a03919.html" title=" " alt="" coords="5,293,192,347"/>
+<area shape="poly" id="edge365_Node000005_Node000004" title=" " alt="" coords="206,317,252,317,252,323,206,323"/>
+</map>

@@ -1,0 +1,12 @@
+<map id="XmlWriterStream.hpp" name="XmlWriterStream.hpp">
+<area shape="rect" id="Node000001" title="XmlWriterStream, an IXmlWriter that writes to a narrow or a wide standard output stream." alt="" coords="67,5,229,31"/>
+<area shape="rect" id="Node000002" href="$a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="5,152,187,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="134,33,114,53,98,80,93,109,94,138,89,138,88,109,94,78,110,50,130,29"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="108,79,188,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="151,31,151,65,145,65,145,31"/>
+<area shape="rect" id="Node000004" href="$a00674.html" title="IXmlWriter, the output interface that XML serialization writes bytes to." alt="" coords="213,79,331,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="171,28,240,69,237,74,168,33"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="242,107,140,149,138,144,240,102"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="237,152,307,177"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="275,104,275,138,269,138,269,104"/>
+</map>

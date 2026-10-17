@@ -1,0 +1,8 @@
+<map id="lumex::core::utility::mem::as" name="lumex::core::utility::mem::as">
+<area shape="rect" id="Node000001" title="Safely reinterprets a raw memory block as a value of type T." alt="" coords="199,37,344,77"/>
+<area shape="poly" id="edge3_Node000001_Node000001" title=" " alt="" coords="304,25,292,19,271,16,253,18,242,23,238,29,240,36,235,38,233,28,239,19,252,13,271,11,294,14,306,21"/>
+<area shape="rect" id="Node000002" href="$a01603.html#afb4f1f8ee532ed2f8603537726a22afb" title="Overload of as() that reads from a span of this library (the lumex::core::span module) of byte&#45;like e..." alt="" coords="5,5,151,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="185,46,151,40,152,35,186,40"/>
+<area shape="rect" id="Node000003" href="$a01603.html#ad3ed1441766a19cdd7d42a8532fb8832" title="Overload of as() that reads from a source object exposing get_data()/get_data_size()." alt="" coords="5,69,151,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="186,74,152,80,151,75,185,69"/>
+</map>

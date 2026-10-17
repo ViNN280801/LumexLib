@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexXml File Reference</title>
+<title>LumexLib: LumexLoggerConfigFormat.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,52 +103,87 @@ $(function(){initNavTree('a01244.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">LumexXml File Reference</div></div>
+  <div class="summary">
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">LumexLoggerConfigFormat.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>XML module: a DOM tree of nodes, attributes and text, loading and saving with writers for files and streams, and XPath queries with variables.  
+<p>The format of the logger's trigger file, fixed when the logger library is configured.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00938_source.html">attribute/XmlAttribute.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00956_source.html">document/XmlDocument.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00983_source.html">node/XmlNode.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a01010_source.html">text/XmlText.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a01025_source.html">writer/IXmlWriter.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a01037_source.html">writer/XmlWriterFile.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a01043_source.html">writer/XmlWriterStream.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a01004_source.html">text/XmlParseResult.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a01064_source.html">xpath/exception/XPathException.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a01085_source.html">xpath/node/XPathNode.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a01091_source.html">xpath/node/XPathNodeSet.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a01121_source.html">xpath/query/XPathQuery.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a01139_source.html">xpath/variable/XPathVariable.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a01145_source.html">xpath/variable/XPathVariableSet.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00950_source.html">constants/XmlConstants.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a01016_source.html">types/XmlTypes.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a01052_source.html">xpath/constants/XPathConstants.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a01022_source.html">utility/XmlUtils.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a00746_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
+<code>#include &lt;cstdint&gt;</code><br />
+<code>#include &quot;<a class="el" href="a01127_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexXml:</div>
+Include dependency graph for LumexLoggerConfigFormat.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01245.png" border="0" usemap="#a_lumex_xml" alt=""/></div>
+<div class="center"><img src="a01245.png" border="0" usemap="#aLumexLoggerConfigFormat_8hpp" alt=""/></div>
+<map name="aLumexLoggerConfigFormat_8hpp" id="aLumexLoggerConfigFormat_8hpp">
+<area shape="rect" title="The format of the logger&#39;s trigger file, fixed when the logger library is configured." alt="" coords="131,5,357,31"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="5,86,187,111"/>
+<area shape="poly" title=" " alt="" coords="221,33,133,82,130,77,219,29"/>
+<area shape="rect" title=" " alt="" coords="211,86,277,111"/>
+<area shape="poly" title=" " alt="" coords="247,31,247,72,241,72,241,31"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="301,79,515,119"/>
+<area shape="poly" title=" " alt="" coords="271,28,356,70,353,75,269,33"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01246.png" border="0" usemap="#a_lumex_xmldep" alt=""/></div>
+<div class="center"><img src="a01246.png" border="0" usemap="#aLumexLoggerConfigFormat_8hppdep" alt=""/></div>
+<map name="aLumexLoggerConfigFormat_8hppdep" id="aLumexLoggerConfigFormat_8hppdep">
+<area shape="rect" title="The format of the logger&#39;s trigger file, fixed when the logger library is configured." alt="" coords="50,5,275,31"/>
+<area shape="rect" href="a01241.html" title=" " alt="" coords="5,86,141,111"/>
+<area shape="poly" title=" " alt="" coords="140,42,90,87,86,83,136,38"/>
+<area shape="rect" href="a00329.html" title=" " alt="" coords="165,79,339,119"/>
+<area shape="poly" title=" " alt="" coords="189,38,231,77,228,80,185,42"/>
+</map>
 </div>
 </div>
 <p><a href="a01244_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01425.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01426.html">lumex::applied</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01448.html">lumex::applied::logger</a></td></tr>
+<tr class="memdesc:a01448"><td class="mdescLeft">&#160;</td><td class="mdescRight">Universal file logger, ported and kept up to date from the DChannel project's Logger. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:a50817df5a1c7ef0cc99cfb1a2fd513e9" id="r_a50817df5a1c7ef0cc99cfb1a2fd513e9"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01448.html#a50817df5a1c7ef0cc99cfb1a2fd513e9">lumex::applied::logger::logger_config_format_t</a> : std::uint8_t { <br />
+&#160;&#160;<a class="el" href="a01448.html#a50817df5a1c7ef0cc99cfb1a2fd513e9a10504904240f7c7a24587ef9209b3f55">lumex::applied::logger::plain_text</a> = 0
+, <a class="el" href="a01448.html#a50817df5a1c7ef0cc99cfb1a2fd513e9a4d90362d661461e558408e982aaa49d3">lumex::applied::logger::ini</a>
+, <a class="el" href="a01448.html#a50817df5a1c7ef0cc99cfb1a2fd513e9a466deec76ecdf5fca6d38571f6324d54">lumex::applied::logger::json</a>
+, <a class="el" href="a01448.html#a50817df5a1c7ef0cc99cfb1a2fd513e9a6eedc03a68a69933c763e674f2d7c42f">lumex::applied::logger::yaml</a>
+, <br />
+&#160;&#160;<a class="el" href="a01448.html#a50817df5a1c7ef0cc99cfb1a2fd513e9a0f635d0e0f3874fff8b581c132e6c7a7">lumex::applied::logger::xml</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:a50817df5a1c7ef0cc99cfb1a2fd513e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compile-time format of the logger enable/config file.  <a href="a01448.html#a50817df5a1c7ef0cc99cfb1a2fd513e9">More...</a><br /></td></tr>
+<tr class="separator:a50817df5a1c7ef0cc99cfb1a2fd513e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a4ff8994ab54d107e5c4077786599a415" id="r_a4ff8994ab54d107e5c4077786599a415"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="a01448.html#a50817df5a1c7ef0cc99cfb1a2fd513e9">logger_config_format_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01448.html#a4ff8994ab54d107e5c4077786599a415">lumex::applied::logger::configured_logger_config_format</a> () noexcept</td></tr>
+<tr class="memdesc:a4ff8994ab54d107e5c4077786599a415"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the only logger config format compiled into this target.  <br /></td></tr>
+<tr class="separator:a4ff8994ab54d107e5c4077786599a415"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>XML module: a DOM tree of nodes, attributes and text, loading and saving with writers for files and streams, and XPath queries with variables. </p>
-<p>Link <code>lumex::xml</code> (shared library). Works from C++11; the <code>string_view_t</code> overloads exist in every standard as inline wrappers over the exported functions: they take the <code><a class="el" href="a00548.html#a9eb9aacb4cfd8a21f48c3eb714bda726" title="Global alias of lumex::core::string_view::view::lumex_string_view.">lumex_string_view</a></code> of <code>lumex::string_view</code> in every standard (a string literal, a <code>char const *</code> and a <code>std::string</code> convert to it, and from C++17 so does a <code>std::string_view</code>). The umbrella includes the DOM classes, the writer interface and its file and stream implementations, the parse result, the XPath classes, the common types and constants, and <code>XmlUtils</code>. Linking it also links <code>lumex::unicode</code>, whose UTF transcoders the parser and the buffer conversions use, and <code>lumex::string_view</code>.</p>
-<p>The module is derived from pugixml (<a href="https://github.com/zeux/pugixml">https://github.com/zeux/pugixml</a>, MIT, Copyright (c) 2006-2026 Arseny Kapoulkine); its notice is in <code>THIRD-PARTY-NOTICES.md</code>, installed with the library. </p>
+<div class="textblock"><p>The format of the logger's trigger file, fixed when the logger library is configured. </p>
+<p>Declares <code>logger_config_format_t</code> and <code>configured_logger_config_format()</code>, which returns the one format compiled into the target. The CMake cache variable <code>LUMEX_LOGGER_CONFIG_FORMAT</code> (<code>PLAIN_TEXT</code> by default, or <code>INI</code>, <code>JSON</code>, <code>YAML</code>, <code>XML</code>) becomes exactly one public <code>LUMEX_LOGGER_CONFIG_FORMAT_*</code> definition of <code>lumex::logger</code>, so a consumer compiles this header with the same choice; the header stops with <code>#error</code> unless exactly one is defined. The extension of the trigger file name plays no part in choosing the parser, and <code>yaml</code> is reserved: the logger throws for it until a YAML settings reader exists. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="a01244.html">LumexXml</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_e29b5b767fb03629027b334d9196758a.html">logger</a></li><li class="navelem"><a class="el" href="dir_80d5cf857ff12cbb6cbf9119972f9e06.html">config</a></li><li class="navelem"><a class="el" href="a01244.html">LumexLoggerConfigFormat.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

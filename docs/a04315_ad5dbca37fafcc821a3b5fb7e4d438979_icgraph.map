@@ -1,0 +1,24 @@
+<map id="lumex::core::unicode::utf::wchar_decoder::process" name="lumex::core::unicode::utf::wchar_decoder::process">
+<area shape="rect" id="Node000001" title=" " alt="" coords="1051,144,1209,199"/>
+<area shape="rect" id="Node000002" href="$a01584.html#ac45f6767d3472ac2a5e6a2f83408b678" title="Converts length characters of a wchar_t string to UTF&#45;8." alt="" coords="844,151,1003,191"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1036,174,1003,174,1003,169,1036,169"/>
+<area shape="rect" id="Node000003" href="$a01711.html#af3c48849b42dbcc0651429190b4a86b9" title="Performs comprehensive system hardware detection and analysis." alt="" coords="588,5,796,60"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="890,144,846,108,795,74,772,62,774,58,797,69,849,104,893,140"/>
+<area shape="rect" id="Node000006" href="$a02967.html#a56c55ce41cd351c663b10ce046b1069f" title="Converts a std::wstring to a std::string (UTF&#45;8 encoded)." alt="" coords="605,108,779,163"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="830,160,779,152,780,146,831,154"/>
+<area shape="rect" id="Node000009" href="$a01584.html#ab9c07f4265c583c32fe9a1d1f0dd7474" title="Converts a std::wstring to UTF&#45;8." alt="" coords="613,187,771,227"/>
+<area shape="poly" id="edge11_Node000002_Node000009" title=" " alt="" coords="831,188,772,198,771,192,830,183"/>
+<area shape="rect" id="Node000010" href="$a01584.html#ac5aaa2fe07e8b9f5ec681c9ab83da0af" title="Converts a zero&#45;terminated wchar_t string to UTF&#45;8." alt="" coords="613,251,771,291"/>
+<area shape="poly" id="edge12_Node000002_Node000010" title=" " alt="" coords="879,201,797,242,765,254,763,249,795,237,877,196"/>
+<area shape="rect" id="Node000004" href="$a01711.html#abe50368bd4ba1088c99e329d0fc5deb4" title="Determines whether software rendering should be used instead of hardware acceleration." alt="" coords="304,5,540,60"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="574,35,540,35,540,30,574,30"/>
+<area shape="rect" id="Node000005" href="$a01711.html#a3eaf2f4c04de9dfd7a0692f22f8c0b41" title="Automatically configures optimal rendering settings based on detected hardware." alt="" coords="5,5,256,60"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="291,35,256,35,256,30,291,30"/>
+<area shape="poly" id="edge6_Node000006_Node000006" title=" " alt="" coords="730,97,716,90,692,87,672,89,658,93,652,100,653,108,647,108,647,98,655,89,670,83,692,81,718,84,733,92"/>
+<area shape="rect" id="Node000007" href="$a02967.html#a0a98f5142dd9618a5801a37294439bdc" title="Retrieve the absolute filesystem path_arg of the running executable." alt="" coords="335,108,509,163"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="591,138,510,138,510,133,591,133"/>
+<area shape="rect" id="Node000008" href="$a01539.html#a8a47ae7688640869f80f243407719335" title="Builds a path from a std::filesystem::path (see path)." alt="" coords="335,211,509,265"/>
+<area shape="poly" id="edge9_Node000006_Node000008" title=" " alt="" coords="608,170,495,213,493,208,606,165"/>
+<area shape="poly" id="edge8_Node000007_Node000007" title=" " alt="" coords="467,97,451,90,422,87,398,89,382,93,375,100,375,108,370,108,370,98,379,89,397,83,422,81,452,84,469,92"/>
+<area shape="poly" id="edge10_Node000008_Node000008" title=" " alt="" coords="467,200,451,192,422,189,398,191,382,196,375,203,375,211,370,211,370,200,379,192,397,186,422,184,452,187,469,195"/>
+</map>

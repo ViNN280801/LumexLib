@@ -1,0 +1,7 @@
+<map id="lumex::applied::resource_monitor::process::LumexProcessMonitor::sample" name="lumex::applied::resource_monitor::process::LumexProcessMonitor::sample">
+<area shape="rect" id="Node000001" title="Samples one process, with the processes below it." alt="" coords="5,5,245,60"/>
+<area shape="rect" id="Node000002" href="$a01823.html#a536e5b8a5303fd999c96f3d257046351" title="Finds every process below one process: its children, their children, and so on." alt="" coords="293,5,533,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="245,30,280,30,280,35,245,35"/>
+<area shape="rect" id="Node000003" href="$a01461.html#aa17a3f0aaa3c95a1ed09133d4d7e7a02" title="Every process below one process: its children, their children, and so on." alt="" coords="581,5,764,60"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="534,30,568,30,568,35,534,35"/>
+</map>

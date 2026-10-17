@@ -1,0 +1,7 @@
+<map id="lumex::xml::document::XmlDocument::save" name="lumex::xml::document::XmlDocument::save">
+<area shape="rect" id="Node000001" title="Saves the XML document to a custom writer interface." alt="" coords="223,37,392,77"/>
+<area shape="rect" id="Node000002" href="$a05127.html#aa6db85e0f29ddd002d752a2b587a17c8" title="Saves the XML document to a C&#45;style character output stream." alt="" coords="5,5,175,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="208,45,174,40,175,35,209,40"/>
+<area shape="rect" id="Node000003" href="$a05127.html#a5d454caaddafe49d675882e3928dbc3d" title="Saves the XML document to a wide character output stream." alt="" coords="5,69,175,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="209,74,175,80,174,74,208,69"/>
+</map>

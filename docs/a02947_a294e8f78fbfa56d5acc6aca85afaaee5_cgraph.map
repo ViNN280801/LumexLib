@@ -1,0 +1,17 @@
+<map id="lumex::core::filesystem::fs::path::replace_filename" name="lumex::core::filesystem::fs::path::replace_filename">
+<area shape="rect" id="Node000001" title="Replaces the filename component of the path_arg with a new std::string filename." alt="" coords="5,5,204,45"/>
+<area shape="rect" id="Node000002" href="$a02947.html#a71514665c6051a141be7bee1f16a02d0" title="Extracts the filename component from the path." alt="" coords="499,35,673,75"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="205,29,485,46,485,51,204,34"/>
+<area shape="rect" id="Node000004" href="$a02947.html#a3b470303c0431f218eeebe77b8acd417" title="Default constructor. Constructs an empty path." alt="" coords="944,32,1119,72"/>
+<area shape="poly" id="edge6_Node000001_Node000004" title=" " alt="" coords="204,21,252,20,574,12,716,13,896,27,931,31,930,36,896,32,715,19,575,17,252,25,204,26"/>
+<area shape="rect" id="Node000005" href="$a02947.html#a90baa8257986391e3df401792866c489" title="Replaces the filename component of the path_arg with a new C&#45;style string filename." alt="" coords="252,87,451,127"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="166,43,279,80,277,85,165,48"/>
+<area shape="rect" id="Node000003" href="$a02947.html#a64215fe6be8d35c058ca8e3df2ca90a6" title=" " alt="" coords="721,60,896,100"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="674,62,708,66,707,71,673,67"/>
+<area shape="poly" id="edge5_Node000002_Node000004" title=" " alt="" coords="673,47,721,45,896,45,930,46,930,51,896,51,721,51,673,52"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="896,66,930,62,931,67,896,72"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="990,32,987,22,994,13,1009,7,1031,5,1057,8,1071,16,1069,20,1056,13,1031,11,1010,13,997,17,993,23,995,31"/>
+<area shape="poly" id="edge8_Node000005_Node000002" title=" " alt="" coords="441,84,485,74,486,80,442,89"/>
+<area shape="poly" id="edge9_Node000005_Node000004" title=" " alt="" coords="451,118,546,126,658,130,777,126,837,120,895,109,942,95,984,76,986,81,944,100,897,115,838,125,778,131,658,136,545,132,451,123"/>
+<area shape="poly" id="edge10_Node000005_Node000005" title=" " alt="" coords="308,87,305,77,312,68,328,62,351,60,379,63,394,70,391,75,377,68,351,65,329,67,315,72,310,78,313,86"/>
+</map>

@@ -1,0 +1,15 @@
+<map id="lumex::core::filesystem::fs::lumex_filesystem::is_writable" name="lumex::core::filesystem::fs::lumex_filesystem::is_writable">
+<area shape="rect" id="Node000001" title="Check if a file is writable by the current process." alt="" coords="451,123,625,177"/>
+<area shape="poly" id="edge6_Node000001_Node000001" title=" " alt="" coords="575,112,561,104,538,101,518,103,506,108,500,114,500,123,495,123,495,112,503,104,517,98,538,96,563,99,577,107"/>
+<area shape="rect" id="Node000002" href="$a02967.html#a0061e0d3d6fd72dddb13d151f253ba5d" title="Check if a file is both readable and writable by the current process." alt="" coords="228,44,403,99"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="446,120,392,101,394,96,448,115"/>
+<area shape="rect" id="Node000005" href="$a02967.html#aa582081094837488074f92d72877df79" title="Overload of is_writable that accepts a C&#45;style string path_arg." alt="" coords="228,123,403,177"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="437,153,403,153,403,147,437,147"/>
+<area shape="rect" id="Node000006" href="$a02967.html#a3f5084f644c3067ea55fdd09f2c67493" title="Overload of is_writable that accepts a std::string path_arg." alt="" coords="228,201,403,256"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="448,185,394,204,392,199,446,180"/>
+<area shape="poly" id="edge3_Node000002_Node000002" title=" " alt="" coords="352,33,339,26,315,23,296,25,283,29,277,36,277,44,272,44,272,34,280,25,294,19,315,17,340,20,355,28"/>
+<area shape="rect" id="Node000003" href="$a02967.html#a9826461da6bac52ef2b518832b4cef59" title="Overload of is_accessible that accepts a C&#45;style string path_arg." alt="" coords="5,5,180,60"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="214,56,180,50,181,45,215,51"/>
+<area shape="rect" id="Node000004" href="$a02967.html#aa4e19c385184485a25386baf34bf43a9" title="Overload of is_accessible that accepts a std::string path_arg." alt="" coords="5,84,180,139"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="215,92,181,98,180,93,214,87"/>
+</map>

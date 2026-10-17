@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::xml::constants Namespace Reference</title>
+<title>LumexLib: lumex::core::atomic::sync::table_wait::Detail Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,22 +104,622 @@ $(function(){initNavTree('a01496.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#namespaces">Namespaces</a>  </div>
-  <div class="headertitle"><div class="title">lumex::xml::constants Namespace Reference</div></div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::atomic::sync::table_wait::Detail Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01497.html">Constants</a></td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02031.html">bit_lock</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lock in one 32-bit word that puts contended threads to sleep.  <a href="a02031.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02035.html">bit_lock_guard</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Holds a <code><a class="el" href="a02031.html" title="Lock in one 32-bit word that puts contended threads to sleep.">bit_lock</a></code> for the lifetime of the guard.  <a href="a02035.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02023.html">waiter_stripe_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">One stripe of the waiting table: the sleepers of every word that hashes to it share this mutex and condition variable.  <a href="a02023.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02027.html">waiter_table_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The whole waiting table.  <a href="a02027.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a069847c28bd87c2003813e1284bcf355" id="r_a069847c28bd87c2003813e1284bcf355"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a069847c28bd87c2003813e1284bcf355">cpu_relax</a> () noexcept</td></tr>
+<tr class="memdesc:a069847c28bd87c2003813e1284bcf355"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tells the processor that the calling thread is spinning.  <br /></td></tr>
+<tr class="separator:a069847c28bd87c2003813e1284bcf355"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ef36c77415fb5ece4adacc21cfd1d2c" id="r_a0ef36c77415fb5ece4adacc21cfd1d2c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a02023.html">waiter_stripe_t</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0ef36c77415fb5ece4adacc21cfd1d2c">stripe_for</a> (void const *address) noexcept</td></tr>
+<tr class="memdesc:a0ef36c77415fb5ece4adacc21cfd1d2c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the stripe that serves the word at <code class="param">address</code>.  <br /></td></tr>
+<tr class="separator:a0ef36c77415fb5ece4adacc21cfd1d2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1639c5bbfd26c902c3942c785090b761" id="r_a1639c5bbfd26c902c3942c785090b761"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1639c5bbfd26c902c3942c785090b761">wait_until_changed</a> (std::atomic&lt; std::uint32_t &gt; const &amp;word, std::uint32_t old) noexcept</td></tr>
+<tr class="memdesc:a1639c5bbfd26c902c3942c785090b761"><td class="mdescLeft">&#160;</td><td class="mdescRight">Blocks the calling thread while <code class="param">word</code> holds <code class="param">old</code>.  <br /></td></tr>
+<tr class="separator:a1639c5bbfd26c902c3942c785090b761"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0a372674a94f35856052c9f32a55909" id="r_ab0a372674a94f35856052c9f32a55909"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab0a372674a94f35856052c9f32a55909">notify_all</a> (std::atomic&lt; std::uint32_t &gt; &amp;word) noexcept</td></tr>
+<tr class="memdesc:ab0a372674a94f35856052c9f32a55909"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wakes every thread sleeping in <code>wait_until_changed</code> on <code class="param">word</code>.  <br /></td></tr>
+<tr class="separator:ab0a372674a94f35856052c9f32a55909"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a57da345244e75b4b313c745e12a46382" id="r_a57da345244e75b4b313c745e12a46382"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a57da345244e75b4b313c745e12a46382">notify_one</a> (std::atomic&lt; std::uint32_t &gt; &amp;word) noexcept</td></tr>
+<tr class="memdesc:a57da345244e75b4b313c745e12a46382"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wakes at least one thread sleeping in <code>wait_until_changed</code> on <code class="param">word</code>.  <br /></td></tr>
+<tr class="separator:a57da345244e75b4b313c745e12a46382"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa48cf4ef446317fc83f672e8954ea02" id="r_aaa48cf4ef446317fc83f672e8954ea02"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaa48cf4ef446317fc83f672e8954ea02">tsan_mutex_pre_lock</a> (void *address) noexcept</td></tr>
+<tr class="memdesc:aaa48cf4ef446317fc83f672e8954ea02"><td class="mdescLeft">&#160;</td><td class="mdescRight">ThreadSanitizer annotations of the lock word; no-ops in other builds.  <br /></td></tr>
+<tr class="separator:aaa48cf4ef446317fc83f672e8954ea02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa411a9b6a91063b2ca57a48b5cda7e38" id="r_aa411a9b6a91063b2ca57a48b5cda7e38"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa411a9b6a91063b2ca57a48b5cda7e38">tsan_mutex_post_lock</a> (void *address) noexcept</td></tr>
+<tr class="memdesc:aa411a9b6a91063b2ca57a48b5cda7e38"><td class="mdescLeft">&#160;</td><td class="mdescRight">ThreadSanitizer annotations of the lock word; no-ops in other builds.     <br /></td></tr>
+<tr class="separator:aa411a9b6a91063b2ca57a48b5cda7e38"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7b93d2510244fa9c6dfbd038fef1e35" id="r_ae7b93d2510244fa9c6dfbd038fef1e35"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae7b93d2510244fa9c6dfbd038fef1e35">tsan_mutex_pre_unlock</a> (void *address) noexcept</td></tr>
+<tr class="memdesc:ae7b93d2510244fa9c6dfbd038fef1e35"><td class="mdescLeft">&#160;</td><td class="mdescRight">ThreadSanitizer annotations of the lock word; no-ops in other builds.     <br /></td></tr>
+<tr class="separator:ae7b93d2510244fa9c6dfbd038fef1e35"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45138d629081f839e7c275e9ee3a9b8c" id="r_a45138d629081f839e7c275e9ee3a9b8c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a45138d629081f839e7c275e9ee3a9b8c">tsan_mutex_post_unlock</a> (void *address) noexcept</td></tr>
+<tr class="memdesc:a45138d629081f839e7c275e9ee3a9b8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">ThreadSanitizer annotations of the lock word; no-ops in other builds.     <br /></td></tr>
+<tr class="separator:a45138d629081f839e7c275e9ee3a9b8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af25ffa3720b756fbe30a7e29397ee4bd" id="r_af25ffa3720b756fbe30a7e29397ee4bd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af25ffa3720b756fbe30a7e29397ee4bd">tsan_mutex_destroy</a> (void *address) noexcept</td></tr>
+<tr class="memdesc:af25ffa3720b756fbe30a7e29397ee4bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">ThreadSanitizer annotations of the lock word; no-ops in other builds.     <br /></td></tr>
+<tr class="separator:af25ffa3720b756fbe30a7e29397ee4bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a069847c28bd87c2003813e1284bcf355" name="a069847c28bd87c2003813e1284bcf355"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a069847c28bd87c2003813e1284bcf355">&#9670;&#160;</a></span>cpu_relax()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::core::atomic::sync::table_wait::Detail::cpu_relax </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Tells the processor that the calling thread is spinning. </p>
+<p>On x86 this is the <code>pause</code> instruction, which makes a spin loop cheaper for the other hardware thread of the core and for the memory bus. Other targets give up the rest of the time slice instead. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01496_a069847c28bd87c2003813e1284bcf355_cgraph.png" border="0" usemap="#aa01496_a069847c28bd87c2003813e1284bcf355_cgraph" alt=""/></div>
+<map name="aa01496_a069847c28bd87c2003813e1284bcf355_cgraph" id="aa01496_a069847c28bd87c2003813e1284bcf355_cgraph">
+<area shape="rect" title="Tells the processor that the calling thread is spinning." alt="" coords="5,29,157,84"/>
+<area shape="poly" title=" " alt="" coords="51,29,51,19,56,11,67,5,81,3,99,6,109,13,106,18,97,11,81,8,68,10,60,14,56,21,56,29"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01496_a069847c28bd87c2003813e1284bcf355_icgraph.png" border="0" usemap="#aa01496_a069847c28bd87c2003813e1284bcf355_icgraph" alt=""/></div>
+<map name="aa01496_a069847c28bd87c2003813e1284bcf355_icgraph" id="aa01496_a069847c28bd87c2003813e1284bcf355_icgraph">
+<area shape="rect" title="Tells the processor that the calling thread is spinning." alt="" coords="208,29,360,84"/>
+<area shape="poly" title=" " alt="" coords="317,18,305,11,284,8,266,10,255,15,250,21,250,29,245,29,245,19,252,10,265,5,284,3,307,6,320,14"/>
+<area shape="rect" href="a02031.html#ae648a43fbb445ff49b32ce6409112165" title="Takes the lock, sleeping while another thread holds it." alt="" coords="5,29,160,84"/>
+<area shape="poly" title=" " alt="" coords="194,59,160,59,160,54,194,54"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ab0a372674a94f35856052c9f32a55909" name="ab0a372674a94f35856052c9f32a55909"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab0a372674a94f35856052c9f32a55909">&#9670;&#160;</a></span>notify_all()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::core::atomic::sync::table_wait::Detail::notify_all </td>
+          <td>(</td>
+          <td class="paramtype">std::atomic&lt; std::uint32_t &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>word</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Wakes every thread sleeping in <code>wait_until_changed</code> on <code class="param">word</code>. </p>
+<p>Taking and releasing the stripe mutex before the broadcast orders the change of the word before the re-check of every sleeper that has not fallen asleep yet; the broadcast wakes the ones that have. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">word</td><td>The word whose value the caller has just changed. </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01496_ab0a372674a94f35856052c9f32a55909_cgraph.png" border="0" usemap="#aa01496_ab0a372674a94f35856052c9f32a55909_cgraph" alt=""/></div>
+<map name="aa01496_ab0a372674a94f35856052c9f32a55909_cgraph" id="aa01496_ab0a372674a94f35856052c9f32a55909_cgraph">
+<area shape="rect" title="Wakes every thread sleeping in wait_until_changed on word." alt="" coords="5,29,157,84"/>
+<area shape="poly" title=" " alt="" coords="42,29,42,19,49,10,62,5,81,3,104,6,117,14,114,18,102,11,81,8,64,10,52,15,47,21,47,29"/>
+<area shape="rect" href="a01496.html#a0ef36c77415fb5ece4adacc21cfd1d2c" title="Returns the stripe that serves the word at address." alt="" coords="205,29,357,84"/>
+<area shape="poly" title=" " alt="" coords="158,54,191,54,191,59,158,59"/>
+<area shape="poly" title=" " alt="" coords="242,29,242,19,249,10,262,5,281,3,304,6,317,14,314,18,302,11,281,8,264,10,252,15,247,21,247,29"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01496_ab0a372674a94f35856052c9f32a55909_icgraph.png" border="0" usemap="#aa01496_ab0a372674a94f35856052c9f32a55909_icgraph" alt=""/></div>
+<map name="aa01496_ab0a372674a94f35856052c9f32a55909_icgraph" id="aa01496_ab0a372674a94f35856052c9f32a55909_icgraph">
+<area shape="rect" title="Wakes every thread sleeping in wait_until_changed on word." alt="" coords="224,69,376,124"/>
+<area shape="poly" title=" " alt="" coords="334,58,322,51,300,48,282,50,270,55,264,61,264,69,259,69,259,59,267,50,280,45,300,43,324,46,337,54"/>
+<area shape="rect" href="a01496.html#a57da345244e75b4b313c745e12a46382" title="Wakes at least one thread sleeping in wait_until_changed on word." alt="" coords="15,29,167,84"/>
+<area shape="poly" title=" " alt="" coords="210,82,166,74,167,69,211,77"/>
+<area shape="rect" href="a02031.html#acd9c9f6d0d6a4ddb3cca44080efd0df7" title="Releases the lock and wakes the threads that sleep on it." alt="" coords="5,108,176,163"/>
+<area shape="poly" title=" " alt="" coords="211,116,177,122,176,117,210,111"/>
+<area shape="poly" title=" " alt="" coords="125,18,113,11,91,8,72,10,60,15,55,21,55,29,50,29,50,19,57,10,71,5,91,3,114,6,128,14"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a57da345244e75b4b313c745e12a46382" name="a57da345244e75b4b313c745e12a46382"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a57da345244e75b4b313c745e12a46382">&#9670;&#160;</a></span>notify_one()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::core::atomic::sync::table_wait::Detail::notify_one </td>
+          <td>(</td>
+          <td class="paramtype">std::atomic&lt; std::uint32_t &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>word</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Wakes at least one thread sleeping in <code>wait_until_changed</code> on <code class="param">word</code>. </p>
+<p>The stripe is shared with other words, so a single wake-up could reach a sleeper of another word and leave the sleepers of <code class="param">word</code> asleep. The call wakes the whole stripe instead. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">word</td><td>The word whose value the caller has just changed. </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01496_a57da345244e75b4b313c745e12a46382_cgraph.png" border="0" usemap="#aa01496_a57da345244e75b4b313c745e12a46382_cgraph" alt=""/></div>
+<map name="aa01496_a57da345244e75b4b313c745e12a46382_cgraph" id="aa01496_a57da345244e75b4b313c745e12a46382_cgraph">
+<area shape="rect" title="Wakes at least one thread sleeping in wait_until_changed on word." alt="" coords="5,29,157,84"/>
+<area shape="poly" title=" " alt="" coords="42,29,42,19,49,10,62,5,81,3,104,6,117,14,114,18,102,11,81,8,64,10,52,15,47,21,47,29"/>
+<area shape="rect" href="a01496.html#ab0a372674a94f35856052c9f32a55909" title="Wakes every thread sleeping in wait_until_changed on word." alt="" coords="205,29,357,84"/>
+<area shape="poly" title=" " alt="" coords="158,54,191,54,191,59,158,59"/>
+<area shape="poly" title=" " alt="" coords="242,29,242,19,249,10,262,5,281,3,304,6,317,14,314,18,302,11,281,8,264,10,252,15,247,21,247,29"/>
+<area shape="rect" href="a01496.html#a0ef36c77415fb5ece4adacc21cfd1d2c" title="Returns the stripe that serves the word at address." alt="" coords="405,29,557,84"/>
+<area shape="poly" title=" " alt="" coords="358,54,391,54,391,59,358,59"/>
+<area shape="poly" title=" " alt="" coords="442,29,442,19,449,10,462,5,481,3,504,6,517,14,514,18,502,11,481,8,464,10,452,15,447,21,447,29"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01496_a57da345244e75b4b313c745e12a46382_icgraph.png" border="0" usemap="#aa01496_a57da345244e75b4b313c745e12a46382_icgraph" alt=""/></div>
+<map name="aa01496_a57da345244e75b4b313c745e12a46382_icgraph" id="aa01496_a57da345244e75b4b313c745e12a46382_icgraph">
+<area shape="rect" title="Wakes at least one thread sleeping in wait_until_changed on word." alt="" coords="5,29,157,84"/>
+<area shape="poly" title=" " alt="" coords="106,18,97,11,81,8,68,10,60,14,56,21,56,29,51,29,51,19,56,11,67,5,81,3,99,6,109,13"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a0ef36c77415fb5ece4adacc21cfd1d2c" name="a0ef36c77415fb5ece4adacc21cfd1d2c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ef36c77415fb5ece4adacc21cfd1d2c">&#9670;&#160;</a></span>stripe_for()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02023.html">waiter_stripe_t</a> &amp; lumex::core::atomic::sync::table_wait::Detail::stripe_for </td>
+          <td>(</td>
+          <td class="paramtype">void const *</td>          <td class="paramname"><span class="paramname"><em>address</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the stripe that serves the word at <code class="param">address</code>. </p>
+<p>The table is built in static storage on first use and never destroyed: a thread that still sleeps while the program exits never finds a destroyed mutex, and no destructor runs at exit. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">address</td><td>Address of the watched word. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The stripe of that word. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01496_a0ef36c77415fb5ece4adacc21cfd1d2c_cgraph.png" border="0" usemap="#aa01496_a0ef36c77415fb5ece4adacc21cfd1d2c_cgraph" alt=""/></div>
+<map name="aa01496_a0ef36c77415fb5ece4adacc21cfd1d2c_cgraph" id="aa01496_a0ef36c77415fb5ece4adacc21cfd1d2c_cgraph">
+<area shape="rect" title="Returns the stripe that serves the word at address." alt="" coords="5,29,157,84"/>
+<area shape="poly" title=" " alt="" coords="51,29,51,19,56,11,67,5,81,3,99,6,109,13,106,18,97,11,81,8,68,10,60,14,56,21,56,29"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01496_a0ef36c77415fb5ece4adacc21cfd1d2c_icgraph.png" border="0" usemap="#aa01496_a0ef36c77415fb5ece4adacc21cfd1d2c_icgraph" alt=""/></div>
+<map name="aa01496_a0ef36c77415fb5ece4adacc21cfd1d2c_icgraph" id="aa01496_a0ef36c77415fb5ece4adacc21cfd1d2c_icgraph">
+<area shape="rect" title="Returns the stripe that serves the word at address." alt="" coords="467,148,619,203"/>
+<area shape="poly" title=" " alt="" coords="579,137,566,130,543,127,523,129,510,133,505,140,505,148,499,148,500,138,507,129,522,123,543,121,568,124,582,132"/>
+<area shape="rect" href="a01496.html#ab0a372674a94f35856052c9f32a55909" title="Wakes every thread sleeping in wait_until_changed on word." alt="" coords="245,96,397,151"/>
+<area shape="poly" title=" " alt="" coords="453,157,397,144,398,139,454,152"/>
+<area shape="rect" href="a01496.html#a1639c5bbfd26c902c3942c785090b761" title="Blocks the calling thread while word holds old." alt="" coords="224,199,419,253"/>
+<area shape="poly" title=" " alt="" coords="454,198,419,206,418,201,453,193"/>
+<area shape="poly" title=" " alt="" coords="358,85,345,78,321,75,302,77,289,81,283,88,283,96,278,96,278,86,286,77,300,71,321,69,346,72,361,80"/>
+<area shape="rect" href="a01496.html#a57da345244e75b4b313c745e12a46382" title="Wakes at least one thread sleeping in wait_until_changed on word." alt="" coords="15,29,167,84"/>
+<area shape="poly" title=" " alt="" coords="231,100,166,81,167,76,233,95"/>
+<area shape="rect" href="a02031.html#acd9c9f6d0d6a4ddb3cca44080efd0df7" title="Releases the lock and wakes the threads that sleep on it." alt="" coords="5,108,176,163"/>
+<area shape="poly" title=" " alt="" coords="232,131,176,134,176,128,231,125"/>
+<area shape="poly" title=" " alt="" coords="129,18,115,11,91,8,70,10,57,15,51,21,51,29,46,29,46,19,54,10,69,5,91,3,117,6,131,14"/>
+<area shape="poly" title=" " alt="" coords="358,188,345,180,321,177,302,179,289,184,283,190,283,199,278,199,278,188,286,180,300,174,321,172,346,175,361,183"/>
+<area shape="rect" href="a02031.html#ae648a43fbb445ff49b32ce6409112165" title="Takes the lock, sleeping while another thread holds it." alt="" coords="13,199,168,253"/>
+<area shape="poly" title=" " alt="" coords="210,229,168,229,168,223,210,223"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="af25ffa3720b756fbe30a7e29397ee4bd" name="af25ffa3720b756fbe30a7e29397ee4bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af25ffa3720b756fbe30a7e29397ee4bd">&#9670;&#160;</a></span>tsan_mutex_destroy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::core::atomic::sync::table_wait::Detail::tsan_mutex_destroy </td>
+          <td>(</td>
+          <td class="paramtype">void *</td>          <td class="paramname"><span class="paramname"><em>address</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>ThreadSanitizer annotations of the lock word; no-ops in other builds.    </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">address</td><td>Address of the lock word.    </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01496_af25ffa3720b756fbe30a7e29397ee4bd_cgraph.png" border="0" usemap="#aa01496_af25ffa3720b756fbe30a7e29397ee4bd_cgraph" alt=""/></div>
+<map name="aa01496_af25ffa3720b756fbe30a7e29397ee4bd_cgraph" id="aa01496_af25ffa3720b756fbe30a7e29397ee4bd_cgraph">
+<area shape="rect" title="ThreadSanitizer annotations of the lock word; no&#45;ops in other builds." alt="" coords="5,29,208,84"/>
+<area shape="poly" title=" " alt="" coords="67,29,67,19,74,10,87,5,107,3,130,6,143,14,140,18,128,11,107,8,89,10,77,15,72,21,72,29"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01496_af25ffa3720b756fbe30a7e29397ee4bd_icgraph.png" border="0" usemap="#aa01496_af25ffa3720b756fbe30a7e29397ee4bd_icgraph" alt=""/></div>
+<map name="aa01496_af25ffa3720b756fbe30a7e29397ee4bd_icgraph" id="aa01496_af25ffa3720b756fbe30a7e29397ee4bd_icgraph">
+<area shape="rect" title="ThreadSanitizer annotations of the lock word; no&#45;ops in other builds." alt="" coords="244,29,447,84"/>
+<area shape="poly" title=" " alt="" coords="386,18,371,11,345,8,324,10,310,15,303,21,303,29,298,29,298,19,307,10,323,5,345,3,373,6,388,14"/>
+<area shape="rect" href="a02031.html#af444d20f503a404518e061e30a7cbf1d" title="Destroys the lock. It must not be taken." alt="" coords="5,29,196,84"/>
+<area shape="poly" title=" " alt="" coords="230,59,196,59,196,54,230,54"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="aa411a9b6a91063b2ca57a48b5cda7e38" name="aa411a9b6a91063b2ca57a48b5cda7e38"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa411a9b6a91063b2ca57a48b5cda7e38">&#9670;&#160;</a></span>tsan_mutex_post_lock()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::core::atomic::sync::table_wait::Detail::tsan_mutex_post_lock </td>
+          <td>(</td>
+          <td class="paramtype">void *</td>          <td class="paramname"><span class="paramname"><em>address</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>ThreadSanitizer annotations of the lock word; no-ops in other builds.    </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">address</td><td>Address of the lock word.    </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01496_aa411a9b6a91063b2ca57a48b5cda7e38_cgraph.png" border="0" usemap="#aa01496_aa411a9b6a91063b2ca57a48b5cda7e38_cgraph" alt=""/></div>
+<map name="aa01496_aa411a9b6a91063b2ca57a48b5cda7e38_cgraph" id="aa01496_aa411a9b6a91063b2ca57a48b5cda7e38_cgraph">
+<area shape="rect" title="ThreadSanitizer annotations of the lock word; no&#45;ops in other builds." alt="" coords="5,29,220,84"/>
+<area shape="poly" title=" " alt="" coords="71,29,71,19,79,10,92,5,113,3,137,6,151,14,148,18,135,11,113,8,94,10,82,15,76,21,76,29"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01496_aa411a9b6a91063b2ca57a48b5cda7e38_icgraph.png" border="0" usemap="#aa01496_aa411a9b6a91063b2ca57a48b5cda7e38_icgraph" alt=""/></div>
+<map name="aa01496_aa411a9b6a91063b2ca57a48b5cda7e38_icgraph" id="aa01496_aa411a9b6a91063b2ca57a48b5cda7e38_icgraph">
+<area shape="rect" title="ThreadSanitizer annotations of the lock word; no&#45;ops in other builds." alt="" coords="208,29,423,84"/>
+<area shape="poly" title=" " alt="" coords="354,18,340,11,315,8,295,10,281,15,275,21,275,29,270,29,270,19,278,10,293,5,315,3,342,6,357,14"/>
+<area shape="rect" href="a02031.html#ae648a43fbb445ff49b32ce6409112165" title="Takes the lock, sleeping while another thread holds it." alt="" coords="5,29,160,84"/>
+<area shape="poly" title=" " alt="" coords="194,59,160,59,160,54,194,54"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a45138d629081f839e7c275e9ee3a9b8c" name="a45138d629081f839e7c275e9ee3a9b8c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a45138d629081f839e7c275e9ee3a9b8c">&#9670;&#160;</a></span>tsan_mutex_post_unlock()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::core::atomic::sync::table_wait::Detail::tsan_mutex_post_unlock </td>
+          <td>(</td>
+          <td class="paramtype">void *</td>          <td class="paramname"><span class="paramname"><em>address</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>ThreadSanitizer annotations of the lock word; no-ops in other builds.    </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">address</td><td>Address of the lock word.    </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01496_a45138d629081f839e7c275e9ee3a9b8c_cgraph.png" border="0" usemap="#aa01496_a45138d629081f839e7c275e9ee3a9b8c_cgraph" alt=""/></div>
+<map name="aa01496_a45138d629081f839e7c275e9ee3a9b8c_cgraph" id="aa01496_a45138d629081f839e7c275e9ee3a9b8c_cgraph">
+<area shape="rect" title="ThreadSanitizer annotations of the lock word; no&#45;ops in other builds." alt="" coords="5,29,187,99"/>
+<area shape="poly" title=" " alt="" coords="59,29,61,19,68,10,80,5,96,3,116,6,127,14,124,18,114,11,96,8,81,10,71,14,66,21,65,29"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01496_a45138d629081f839e7c275e9ee3a9b8c_icgraph.png" border="0" usemap="#aa01496_a45138d629081f839e7c275e9ee3a9b8c_icgraph" alt=""/></div>
+<map name="aa01496_a45138d629081f839e7c275e9ee3a9b8c_icgraph" id="aa01496_a45138d629081f839e7c275e9ee3a9b8c_icgraph">
+<area shape="rect" title="ThreadSanitizer annotations of the lock word; no&#45;ops in other builds." alt="" coords="224,29,405,99"/>
+<area shape="poly" title=" " alt="" coords="351,19,337,11,315,8,296,10,284,15,277,21,275,30,270,29,272,19,281,10,295,5,315,3,339,6,353,14"/>
+<area shape="rect" href="a02031.html#acd9c9f6d0d6a4ddb3cca44080efd0df7" title="Releases the lock and wakes the threads that sleep on it." alt="" coords="5,37,176,91"/>
+<area shape="poly" title=" " alt="" coords="210,67,176,67,176,61,210,61"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="aaa48cf4ef446317fc83f672e8954ea02" name="aaa48cf4ef446317fc83f672e8954ea02"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa48cf4ef446317fc83f672e8954ea02">&#9670;&#160;</a></span>tsan_mutex_pre_lock()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::core::atomic::sync::table_wait::Detail::tsan_mutex_pre_lock </td>
+          <td>(</td>
+          <td class="paramtype">void *</td>          <td class="paramname"><span class="paramname"><em>address</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>ThreadSanitizer annotations of the lock word; no-ops in other builds. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">address</td><td>Address of the lock word. </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01496_aaa48cf4ef446317fc83f672e8954ea02_cgraph.png" border="0" usemap="#aa01496_aaa48cf4ef446317fc83f672e8954ea02_cgraph" alt=""/></div>
+<map name="aa01496_aaa48cf4ef446317fc83f672e8954ea02_cgraph" id="aa01496_aaa48cf4ef446317fc83f672e8954ea02_cgraph">
+<area shape="rect" title="ThreadSanitizer annotations of the lock word; no&#45;ops in other builds." alt="" coords="5,29,213,84"/>
+<area shape="poly" title=" " alt="" coords="68,29,69,19,76,10,90,5,109,3,133,6,146,14,144,18,131,11,109,8,91,10,79,15,74,21,74,29"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01496_aaa48cf4ef446317fc83f672e8954ea02_icgraph.png" border="0" usemap="#aa01496_aaa48cf4ef446317fc83f672e8954ea02_icgraph" alt=""/></div>
+<map name="aa01496_aaa48cf4ef446317fc83f672e8954ea02_icgraph" id="aa01496_aaa48cf4ef446317fc83f672e8954ea02_icgraph">
+<area shape="rect" title="ThreadSanitizer annotations of the lock word; no&#45;ops in other builds." alt="" coords="208,29,416,84"/>
+<area shape="poly" title=" " alt="" coords="350,18,336,11,312,8,292,10,278,15,272,21,273,29,267,29,267,19,275,10,290,5,312,3,338,6,353,14"/>
+<area shape="rect" href="a02031.html#ae648a43fbb445ff49b32ce6409112165" title="Takes the lock, sleeping while another thread holds it." alt="" coords="5,29,160,84"/>
+<area shape="poly" title=" " alt="" coords="194,59,160,59,160,54,194,54"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ae7b93d2510244fa9c6dfbd038fef1e35" name="ae7b93d2510244fa9c6dfbd038fef1e35"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae7b93d2510244fa9c6dfbd038fef1e35">&#9670;&#160;</a></span>tsan_mutex_pre_unlock()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::core::atomic::sync::table_wait::Detail::tsan_mutex_pre_unlock </td>
+          <td>(</td>
+          <td class="paramtype">void *</td>          <td class="paramname"><span class="paramname"><em>address</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>ThreadSanitizer annotations of the lock word; no-ops in other builds.    </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">address</td><td>Address of the lock word.    </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01496_ae7b93d2510244fa9c6dfbd038fef1e35_cgraph.png" border="0" usemap="#aa01496_ae7b93d2510244fa9c6dfbd038fef1e35_cgraph" alt=""/></div>
+<map name="aa01496_ae7b93d2510244fa9c6dfbd038fef1e35_cgraph" id="aa01496_ae7b93d2510244fa9c6dfbd038fef1e35_cgraph">
+<area shape="rect" title="ThreadSanitizer annotations of the lock word; no&#45;ops in other builds." alt="" coords="5,29,180,99"/>
+<area shape="poly" title=" " alt="" coords="58,29,59,19,66,10,77,5,93,3,111,6,123,14,120,18,109,11,93,8,79,10,69,14,64,21,63,29"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01496_ae7b93d2510244fa9c6dfbd038fef1e35_icgraph.png" border="0" usemap="#aa01496_ae7b93d2510244fa9c6dfbd038fef1e35_icgraph" alt=""/></div>
+<map name="aa01496_ae7b93d2510244fa9c6dfbd038fef1e35_icgraph" id="aa01496_ae7b93d2510244fa9c6dfbd038fef1e35_icgraph">
+<area shape="rect" title="ThreadSanitizer annotations of the lock word; no&#45;ops in other builds." alt="" coords="224,29,399,99"/>
+<area shape="poly" title=" " alt="" coords="347,19,333,11,311,8,293,10,281,15,275,21,273,30,268,29,270,19,278,10,292,5,311,3,335,6,349,14"/>
+<area shape="rect" href="a02031.html#acd9c9f6d0d6a4ddb3cca44080efd0df7" title="Releases the lock and wakes the threads that sleep on it." alt="" coords="5,37,176,91"/>
+<area shape="poly" title=" " alt="" coords="210,67,176,67,176,61,210,61"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a1639c5bbfd26c902c3942c785090b761" name="a1639c5bbfd26c902c3942c785090b761"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1639c5bbfd26c902c3942c785090b761">&#9670;&#160;</a></span>wait_until_changed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::core::atomic::sync::table_wait::Detail::wait_until_changed </td>
+          <td>(</td>
+          <td class="paramtype">std::atomic&lt; std::uint32_t &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>word</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::uint32_t</td>          <td class="paramname"><span class="paramname"><em>old</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Blocks the calling thread while <code class="param">word</code> holds <code class="param">old</code>. </p>
+<p>The value is re-read under the stripe mutex, and the waking side changes the word before it takes that mutex, so a change made before the thread falls asleep is never missed. Returns once the word holds another value; wake-ups meant for other words of the stripe put the thread back to sleep. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">word</td><td>The word to watch. </td></tr>
+    <tr><td class="paramname">old</td><td>The value the caller last saw. </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01496_a1639c5bbfd26c902c3942c785090b761_cgraph.png" border="0" usemap="#aa01496_a1639c5bbfd26c902c3942c785090b761_cgraph" alt=""/></div>
+<map name="aa01496_a1639c5bbfd26c902c3942c785090b761_cgraph" id="aa01496_a1639c5bbfd26c902c3942c785090b761_cgraph">
+<area shape="rect" title="Blocks the calling thread while word holds old." alt="" coords="5,29,200,84"/>
+<area shape="poly" title=" " alt="" coords="59,29,60,19,67,10,82,5,103,3,128,6,142,14,139,18,126,11,103,8,83,10,70,15,65,21,65,29"/>
+<area shape="rect" href="a01496.html#a0ef36c77415fb5ece4adacc21cfd1d2c" title="Returns the stripe that serves the word at address." alt="" coords="248,29,400,84"/>
+<area shape="poly" title=" " alt="" coords="200,54,234,54,234,59,200,59"/>
+<area shape="poly" title=" " alt="" coords="281,29,281,19,289,10,303,5,324,3,349,6,363,14,361,18,347,11,324,8,304,10,292,15,286,21,286,29"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01496_a1639c5bbfd26c902c3942c785090b761_icgraph.png" border="0" usemap="#aa01496_a1639c5bbfd26c902c3942c785090b761_icgraph" alt=""/></div>
+<map name="aa01496_a1639c5bbfd26c902c3942c785090b761_icgraph" id="aa01496_a1639c5bbfd26c902c3942c785090b761_icgraph">
+<area shape="rect" title="Blocks the calling thread while word holds old." alt="" coords="208,29,403,84"/>
+<area shape="poly" title=" " alt="" coords="342,18,329,11,305,8,286,10,273,15,267,21,267,29,262,29,262,19,270,10,284,5,305,3,330,6,345,14"/>
+<area shape="rect" href="a02031.html#ae648a43fbb445ff49b32ce6409112165" title="Takes the lock, sleeping while another thread holds it." alt="" coords="5,29,160,84"/>
+<area shape="poly" title=" " alt="" coords="194,59,160,59,160,54,194,54"/>
+</map>
+</div>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01492.html">xml</a></li><li class="navelem"><a class="el" href="a01496.html">constants</a></li>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01489.html">atomic</a></li><li class="navelem"><a class="el" href="a01494.html">sync</a></li><li class="navelem"><a class="el" href="a01495.html">table_wait</a></li><li class="navelem"><a class="el" href="a01496.html">Detail</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

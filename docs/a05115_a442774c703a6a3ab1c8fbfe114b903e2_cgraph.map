@@ -1,0 +1,26 @@
+<map id="lumex::xml::attribute::XmlAttribute::set_name" name="lumex::xml::attribute::XmlAttribute::set_name">
+<area shape="rect" id="Node000001" title="Sets the name of the XML attribute from a null&#45;terminated C&#45;style string." alt="" coords="5,193,191,233"/>
+<area shape="rect" id="Node000002" href="$a01671.html#a9b9f5b80f9fb35252ff521a51e4974e6" title=" " alt="" coords="239,127,381,167"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="163,190,231,169,233,174,164,195"/>
+<area shape="rect" id="Node000012" href="$a01671.html#aef8fee41b36e9987a5b7ed339b83ce42" title=" " alt="" coords="692,191,835,231"/>
+<area shape="poly" id="edge12_Node000001_Node000012" title=" " alt="" coords="191,212,620,213,678,211,678,217,620,218,191,217"/>
+<area shape="rect" id="Node000003" href="$a05135.html#a4f8c4e449e68d88fe5326388f967421f" title="Allocates memory for a null&#45;terminated string." alt="" coords="437,5,612,60"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="337,125,379,97,428,69,439,63,442,68,431,74,382,102,340,129"/>
+<area shape="rect" id="Node000008" href="$a05135.html#aa83864016ef06776b8a0075a4fe42d8e" title="Deallocates a string previously allocated by allocate_string." alt="" coords="429,84,620,139"/>
+<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="381,133,415,127,416,132,382,138"/>
+<area shape="rect" id="Node000011" href="$a01671.html#ae819d654fda5c06256cef8359da83977" title=" " alt="" coords="447,163,602,203"/>
+<area shape="poly" id="edge10_Node000002_Node000011" title=" " alt="" coords="382,157,434,165,434,171,381,162"/>
+<area shape="rect" id="Node000004" href="$a05135.html#a52ba49868e2058ba6c0dbeb923c16c02" title="Allocates a block of memory from the allocator&#39;s managed pages." alt="" coords="676,5,851,60"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="612,30,662,30,662,35,612,35"/>
+<area shape="rect" id="Node000005" href="$a05135.html#a9066c8946ee3cffc78c015c7464c6206" title="Allocates memory for large objects or strings that do not fit in the current memory page (out&#45;of&#45;band..." alt="" coords="934,5,1109,60"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="851,30,920,30,920,35,851,35"/>
+<area shape="rect" id="Node000006" href="$a05135.html#a1fb1c756bdb1dc9834c3cca336dc7090" title="Allocates a new XmlMemoryPage of a specified data size." alt="" coords="1184,13,1397,53"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="1109,30,1170,30,1170,35,1109,35"/>
+<area shape="rect" id="Node000007" href="$a05139.html#a9358bd45d40685274a0b0bcbeb7030d2" title="Constructs an XmlMemoryPage object in a pre&#45;allocated memory block." alt="" coords="1445,13,1653,53"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="1397,30,1431,30,1431,35,1397,35"/>
+<area shape="rect" id="Node000009" href="$a05135.html#a7916caf4c4f5e8e87a00f8778a3d4640" title="Deallocates a block of memory previously allocated by this allocator." alt="" coords="668,84,859,139"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="620,109,654,109,654,114,620,114"/>
+<area shape="rect" id="Node000010" href="$a05135.html#a46230e854a38c3389d5b092bdd422645" title="Deallocates a memory page previously allocated by this allocator." alt="" coords="907,91,1136,131"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="859,109,893,109,893,114,859,114"/>
+<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="602,190,679,199,678,204,602,195"/>
+</map>

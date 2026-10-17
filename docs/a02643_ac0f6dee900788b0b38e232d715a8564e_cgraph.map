@@ -1,0 +1,5 @@
+<map id="lumex::core::expected::error::bad_expected_access::bad_expected_access" name="lumex::core::expected::error::bad_expected_access::bad_expected_access">
+<area shape="rect" id="Node000001" title="Constructs the exception, moving error into the object." alt="" coords="5,5,177,75"/>
+<area shape="rect" id="Node000002" href="$a02643.html#aef84018a864b59d4dec018df8c2ef89e" title="Returns a mutable lvalue reference to the stored error." alt="" coords="225,13,392,67"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="178,37,212,37,212,43,178,43"/>
+</map>

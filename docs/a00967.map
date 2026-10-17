@@ -1,0 +1,25 @@
+<map id="Base64.hpp" name="Base64.hpp">
+<area shape="rect" id="Node000001" title="Cross&#45;platform Base64 encoding and decoding utilities." alt="" coords="248,5,347,31"/>
+<area shape="rect" id="Node000002" href="$a00968.html" title="Base64 decoding: the decoder class of the lumex::base64 library." alt="" coords="202,79,305,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="285,44,263,80,259,77,280,41"/>
+<area shape="rect" id="Node000004" href="$a01355.html" title="Base64 module: encoding, decoding and syntax checks of Base64 text." alt="" coords="264,152,379,177"/>
+<area shape="poly" id="edge9_Node000001_Node000004" title=" " alt="" coords="309,43,319,78,323,118,324,152,319,152,318,119,313,79,304,44"/>
+<area shape="rect" id="Node000007" href="$a00953.html" title="Base64 encoding: the encoder class of the lumex::base64 library." alt="" coords="380,79,481,104"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="334,35,409,76,406,81,332,40"/>
+<area shape="rect" id="Node000009" href="$a00962.html" title="Base64 syntax check: the validator class of the lumex::base64 library." alt="" coords="71,79,177,104"/>
+<area shape="poly" id="edge10_Node000001_Node000009" title=" " alt="" coords="256,39,155,81,153,76,253,34"/>
+<area shape="rect" id="Node000003" href="$a00971.html" title=" " alt="" coords="137,152,239,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="235,116,202,153,198,150,231,112"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="276,112,311,150,307,153,273,116"/>
+<area shape="rect" id="Node000005" href="$a00404.html" title=" " alt="" coords="133,225,293,251"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="292,187,234,227,231,223,289,183"/>
+<area shape="rect" id="Node000006" href="$a00401.html" title=" " alt="" coords="318,225,543,251"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="353,183,413,223,410,227,350,187"/>
+<area shape="poly" id="edge8_Node000007_Node000004" title=" " alt="" coords="402,114,342,154,339,150,399,109"/>
+<area shape="rect" id="Node000008" href="$a00956.html" title=" " alt="" coords="403,152,503,177"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="441,116,452,151,447,152,436,118"/>
+<area shape="poly" id="edge11_Node000009_Node000003" title=" " alt="" coords="146,113,179,150,175,153,142,116"/>
+<area shape="poly" id="edge12_Node000009_Node000004" title=" " alt="" coords="172,106,288,149,286,154,170,111"/>
+<area shape="rect" id="Node000010" href="$a00959.html" title=" " alt="" coords="5,152,112,177"/>
+<area shape="poly" id="edge13_Node000009_Node000010" title=" " alt="" coords="106,116,72,153,68,150,102,112"/>
+</map>

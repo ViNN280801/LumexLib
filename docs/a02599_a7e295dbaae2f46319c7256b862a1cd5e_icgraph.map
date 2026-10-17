@@ -1,0 +1,14 @@
+<map id="lumex::core::environment::env::lumex_environment::get_or" name="lumex::core::environment::env::lumex_environment::get_or">
+<area shape="rect" id="Node000001" title="Static convenience method to retrieve an environment variable with a default fallback." alt="" coords="555,48,747,103"/>
+<area shape="rect" id="Node000002" href="$a01518.html#a133dac804e9421baedf88340deadad5b" title="Checks whether an environment variable is set to a non&#45;empty value." alt="" coords="315,55,506,95"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="541,78,506,78,506,73,541,73"/>
+<area shape="rect" id="Node000003" href="$a00530.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="160,5,215,31"/>
+<area shape="poly" id="edge5_Node000001_Node000003" title=" " alt="" coords="541,52,506,46,341,29,215,22,215,16,342,23,507,41,542,47"/>
+<area shape="rect" id="Node000006" href="$a02599.html#ac02c7b9738c63ae45eb982591086e9fc" title="Deleted move assignment operator." alt="" coords="315,120,507,175"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="547,109,503,123,501,117,546,104"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="319,54,214,28,215,22,320,49"/>
+<area shape="rect" id="Node000004" href="$a01582.html#ac2a95e66868e1a2cc9cc1da9676e38c8" title="Optionally gates timing/reporting via an environment variable, then measures callable and writes the ..." alt="" coords="108,55,267,95"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="302,78,267,78,267,73,302,73"/>
+<area shape="rect" id="Node000005" href="$a00509.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,63,60,88"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="94,78,60,78,60,73,94,73"/>
+</map>

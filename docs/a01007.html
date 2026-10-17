@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: XmlText.cpp File Reference</title>
+<title>LumexLib: LumexContractsHandler.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,85 +104,121 @@ $(function(){initNavTree('a01007.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#define-members">Macros</a> &#124;
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">XmlText.cpp File Reference</div></div>
+  <div class="headertitle"><div class="title">LumexContractsHandler.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="a00950_source.html">lumex/xml/constants/XmlConstants.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00983_source.html">lumex/xml/node/XmlNode.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00989_source.html">lumex/xml/node/XmlNodeBase.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a01019_source.html">lumex/xml/utility/XmlMacros.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a01022_source.html">lumex/xml/utility/XmlUtils.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a01010_source.html">XmlText.hpp</a>&quot;</code><br />
+
+<p>The contract-violation handler: <code>set_violation_handler</code>, <code>get_violation_handler</code>, <code>invoke_violation_handler</code>, <code>invoke_default_violation_handler</code> and <code>scoped_violation_handler</code>.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &quot;<a class="el" href="a00746_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00998_source.html">lumex/core/contracts/violation/LumexContractsViolation.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01088_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01127_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for XmlText.cpp:</div>
+Include dependency graph for LumexContractsHandler.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01008.png" border="0" usemap="#a_xml_text_8cpp" alt=""/></div>
+<div class="center"><img src="a01008.png" border="0" usemap="#aLumexContractsHandler_8hpp" alt=""/></div>
+<map name="aLumexContractsHandler_8hpp" id="aLumexContractsHandler_8hpp">
+<area shape="rect" title="The contract&#45;violation handler: set_violation_handler, get_violation_handler, invoke_violation_handle..." alt="" coords="377,5,583,31"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="5,86,187,111"/>
+<area shape="poly" title=" " alt="" coords="420,33,170,86,169,81,419,28"/>
+<area shape="rect" href="a00998.html" title="The enumerations assertion_kind, evaluation_semantic and detection_mode, and the class contract_viola..." alt="" coords="211,79,490,119"/>
+<area shape="poly" title=" " alt="" coords="461,33,396,73,393,69,458,29"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="396,269,609,309"/>
+<area shape="poly" title=" " alt="" coords="584,26,716,49,785,65,847,86,897,112,916,127,930,143,937,161,938,180,932,201,917,223,903,232,878,240,805,256,624,280,623,275,804,250,877,235,900,227,913,219,927,199,933,180,932,162,925,146,912,131,894,116,845,91,783,70,715,54,583,32"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="515,79,704,119"/>
+<area shape="poly" title=" " alt="" coords="502,29,567,69,564,73,499,33"/>
+<area shape="rect" title=" " alt="" coords="192,277,259,302"/>
+<area shape="poly" title=" " alt="" coords="212,119,128,140,97,153,77,168,69,181,67,193,70,206,77,220,97,242,123,259,151,271,179,279,177,284,149,276,120,264,94,246,72,223,64,208,61,194,64,179,73,165,94,148,127,135,210,114"/>
+<area shape="rect" title=" " alt="" coords="479,181,571,207"/>
+<area shape="poly" title=" " alt="" coords="389,117,491,172,489,177,386,121"/>
+<area shape="rect" title=" " alt="" coords="87,181,147,207"/>
+<area shape="poly" title=" " alt="" coords="283,121,223,142,161,169,148,176,146,171,159,164,221,138,282,116"/>
+<area shape="rect" href="a01010.html" title="source_location: the place in the program text that a contract violation names, on every C++ standard..." alt="" coords="172,167,404,221"/>
+<area shape="poly" title=" " alt="" coords="340,120,316,157,311,154,335,117"/>
+<area shape="poly" title=" " alt="" coords="373,117,418,165,485,256,480,260,414,168,370,121"/>
+<area shape="poly" title=" " alt="" coords="272,223,244,266,239,263,268,220"/>
+<area shape="poly" title=" " alt="" coords="351,219,446,261,444,266,349,224"/>
+<area shape="poly" title=" " alt="" coords="594,121,548,173,544,169,590,117"/>
+<area shape="poly" title=" " alt="" coords="612,119,606,168,598,196,586,223,569,245,549,263,545,259,565,241,582,220,593,194,601,167,607,118"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="647,174,902,214"/>
+<area shape="poly" title=" " alt="" coords="646,117,729,165,727,169,643,121"/>
+</map>
 </div>
-</div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:a07486181f1990291c2a348de8eb4c480" id="r_a07486181f1990291c2a348de8eb4c480"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07486181f1990291c2a348de8eb4c480">LUMEX_IMPLEMENTATION</a></td></tr>
-<tr class="separator:a07486181f1990291c2a348de8eb4c480"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01009.png" border="0" usemap="#aLumexContractsHandler_8hppdep" alt=""/></div>
+<map name="aLumexContractsHandler_8hppdep" id="aLumexContractsHandler_8hppdep">
+<area shape="rect" title="The contract&#45;violation handler: set_violation_handler, get_violation_handler, invoke_violation_handle..." alt="" coords="171,5,378,31"/>
+<area shape="rect" href="a01361.html" title="Contracts module: LUMEX_CONTRACT_ASSERT, the contract assertion of C++26 (P2900) from C++11 on,..." alt="" coords="143,152,271,177"/>
+<area shape="poly" title=" " alt="" coords="218,38,189,55,166,80,162,98,168,117,180,135,194,150,190,153,176,138,163,119,157,98,162,77,185,51,215,34"/>
+<area shape="rect" href="a01001.html" title="LUMEX_CONTRACT_ASSERT (expr), the contract assertion of C++26 (contract_assert, P2900) on every stand..." alt="" coords="176,79,373,104"/>
+<area shape="poly" title=" " alt="" coords="277,44,277,78,272,78,272,44"/>
+<area shape="rect" href="a01004.html" title=" " alt="" coords="397,79,603,104"/>
+<area shape="poly" title=" " alt="" coords="327,32,462,76,460,81,326,37"/>
+<area shape="rect" href="a00437.html" title=" " alt="" coords="5,225,179,251"/>
+<area shape="poly" title=" " alt="" coords="176,187,114,227,111,223,174,183"/>
+<area shape="rect" href="a00434.html" title=" " alt="" coords="203,225,442,251"/>
+<area shape="poly" title=" " alt="" coords="240,182,304,223,301,227,237,187"/>
+<area shape="poly" title=" " alt="" coords="255,116,221,153,217,150,252,112"/>
+</map>
+</div>
+</div>
+<p><a href="a01007_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02107.html">lumex::core::contracts::scoped_violation_handler</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Installs a handler for the lifetime of the object and restores the previous one on destruction.  <a href="a02107.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01425.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01488.html">lumex::core</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01509.html">lumex::core::contracts</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:ad25306a44644788864d3dd25cfc74aab" id="r_ad25306a44644788864d3dd25cfc74aab"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01509.html#ad25306a44644788864d3dd25cfc74aab">lumex::core::contracts::violation_handler_type</a> = void (*) (<a class="el" href="a02123.html">contract_violation</a> const &amp;)</td></tr>
+<tr class="memdesc:ad25306a44644788864d3dd25cfc74aab"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of a contract-violation handler.  <br /></td></tr>
+<tr class="separator:ad25306a44644788864d3dd25cfc74aab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ad954eb5934abfa9b54d3615137e4f49b" id="r_ad954eb5934abfa9b54d3615137e4f49b"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad954eb5934abfa9b54d3615137e4f49b">unspecified_bool_xml_text</a> (<a class="el" href="a05010.html">XmlText</a> ***)</td></tr>
-<tr class="separator:ad954eb5934abfa9b54d3615137e4f49b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01aa812e0ede22650e6bdd49096491c0" id="r_a01aa812e0ede22650e6bdd49096491c0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01509.html#ad25306a44644788864d3dd25cfc74aab">violation_handler_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01509.html#a01aa812e0ede22650e6bdd49096491c0">lumex::core::contracts::set_violation_handler</a> (<a class="el" href="a01509.html#ad25306a44644788864d3dd25cfc74aab">violation_handler_type</a> handler) noexcept</td></tr>
+<tr class="memdesc:a01aa812e0ede22650e6bdd49096491c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Installs <code>handler</code> and returns the previously installed one.  <br /></td></tr>
+<tr class="separator:a01aa812e0ede22650e6bdd49096491c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade50b99b2cb4adeb1040fe00fc4b3036" id="r_ade50b99b2cb4adeb1040fe00fc4b3036"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01509.html#ad25306a44644788864d3dd25cfc74aab">violation_handler_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01509.html#ade50b99b2cb4adeb1040fe00fc4b3036">lumex::core::contracts::get_violation_handler</a> () noexcept</td></tr>
+<tr class="memdesc:ade50b99b2cb4adeb1040fe00fc4b3036"><td class="mdescLeft">&#160;</td><td class="mdescRight">The installed handler, <code>nullptr</code> when the default handler is in use.  <br /></td></tr>
+<tr class="separator:ade50b99b2cb4adeb1040fe00fc4b3036"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff0af939d63bcfe05648c2bb8d1b9c87" id="r_aff0af939d63bcfe05648c2bb8d1b9c87"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01509.html#aff0af939d63bcfe05648c2bb8d1b9c87">lumex::core::contracts::invoke_violation_handler</a> (<a class="el" href="a02123.html">contract_violation</a> const &amp;violation)</td></tr>
+<tr class="memdesc:aff0af939d63bcfe05648c2bb8d1b9c87"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reports <code>violation</code> to the installed handler, or to the default handler when none is installed (or when this thread is already inside a handler).  <br /></td></tr>
+<tr class="separator:aff0af939d63bcfe05648c2bb8d1b9c87"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b050992206d89033462d7c9b7eb8c78" id="r_a9b050992206d89033462d7c9b7eb8c78"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01509.html#a9b050992206d89033462d7c9b7eb8c78">lumex::core::contracts::invoke_default_violation_handler</a> (<a class="el" href="a02123.html">contract_violation</a> const &amp;violation) noexcept</td></tr>
+<tr class="memdesc:a9b050992206d89033462d7c9b7eb8c78"><td class="mdescLeft">&#160;</td><td class="mdescRight">The default handler: writes one line about <code>violation</code> to standard error and returns.  <br /></td></tr>
+<tr class="separator:a9b050992206d89033462d7c9b7eb8c78"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a07486181f1990291c2a348de8eb4c480" name="a07486181f1990291c2a348de8eb4c480"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a07486181f1990291c2a348de8eb4c480">&#9670;&#160;</a></span>LUMEX_IMPLEMENTATION</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_IMPLEMENTATION</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="ad954eb5934abfa9b54d3615137e4f49b" name="ad954eb5934abfa9b54d3615137e4f49b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad954eb5934abfa9b54d3615137e4f49b">&#9670;&#160;</a></span>unspecified_bool_xml_text()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static void unspecified_bool_xml_text </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a05010.html">XmlText</a> ***</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01007_ad954eb5934abfa9b54d3615137e4f49b_icgraph.png" border="0" usemap="#aa01007_ad954eb5934abfa9b54d3615137e4f49b_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-</div><!-- contents -->
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>The contract-violation handler: <code>set_violation_handler</code>, <code>get_violation_handler</code>, <code>invoke_violation_handler</code>, <code>invoke_default_violation_handler</code> and <code>scoped_violation_handler</code>. </p>
+<p>The handler is a plain function pointer (<code>void (*) (contract_violation const &amp;)</code>) kept in a process-wide <code><a class="el" href="a04319.html" title="Primary template; only the function-type specialization below is defined.">lumex::core::utility::callback::lumex_callback_slot</a></code>. The slot lives in the compiled library <code>lumex::contracts</code> and is reached through the exported free functions below only, so an executable and every shared library it loads see one handler. <code>set_violation_handler</code> and <code>get_violation_handler</code> are thread-safe (an atomic pointer, release and acquire); a violation reads the pointer once and calls it, so a handler that is replaced while another thread reports a violation is called by the old or by the new one, never by a torn value. The handler itself must be safe to call from any thread.</p>
+<p>Without an installed handler (<code>nullptr</code>) a violation goes to the default handler. It prints one line to standard error ("file:line:column: function:
+contract violation: ...") and returns, as [basic.contract.handler] recommends for the default handler of the standard; the <code>enforce</code> semantic then ends the program, the <code>observe</code> semantic continues. A handler may throw: the exception propagates out of the violated <code>LUMEX_CONTRACT_ASSERT</code> (in a <code>noexcept</code> function this terminates, [basic.contract.eval]). The library never catches it, unlike <code>lumex_callback_slot::invoke_or</code>.</p>
+<p>A violation that is reported while the same thread is inside a handler (the handler itself violates a contract assertion) goes to the default handler, so a faulty handler cannot recurse without end. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_7d2372648e676b867cc7a356791ff2d4.html">text</a></li><li class="navelem"><a class="el" href="a01007.html">XmlText.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_77a8419351938abae08e7136cdf99e60.html">contracts</a></li><li class="navelem"><a class="el" href="dir_84d258bab147136c3ef1fac96250f6e5.html">handler</a></li><li class="navelem"><a class="el" href="a01007.html">LumexContractsHandler.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

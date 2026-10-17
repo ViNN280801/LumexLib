@@ -1,0 +1,5 @@
+<map id="lumex::xml::xpath::utility::xpath_sort" name="lumex::xml::xpath::utility::xpath_sort">
+<area shape="rect" id="Node000001" title="Sorts a range of XPath nodes by document order." alt="" coords="5,5,155,45"/>
+<area shape="rect" id="Node000002" href="$a01699.html#a06d335726027c6477be96cb86f9e56ce" title="Determines the current document order of a range of XPath nodes." alt="" coords="203,5,376,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="155,23,189,23,189,28,155,28"/>
+</map>

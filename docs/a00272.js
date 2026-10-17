@@ -1,8 +1,6 @@
 var a00272 =
 [
-    [ "lumex::core::atomic::smart_ptr::table_wait::Detail::smart_ptr_traits_t< std::shared_ptr< T > >", "a01770.html", "a01770" ],
-    [ "lumex::core::atomic::smart_ptr::table_wait::Detail::smart_ptr_traits_t< std::shared_ptr< T > >::probe_t", "a01774.html", null ],
-    [ "lumex::core::atomic::smart_ptr::table_wait::Detail::smart_ptr_traits_t< std::weak_ptr< T > >", "a01778.html", "a01778" ],
-    [ "lumex::core::atomic::smart_ptr::table_wait::Detail::epoch_wait_base", "a01782.html", "a01782" ],
-    [ "lumex::core::atomic::smart_ptr::table_wait::Detail::lock_based_cell< Pointer >", "a01786.html", "a01786" ]
+    [ "atomic_shared_ptr", "a00272.html#a95edeffb6728b143aa58a91608d059ac", null ],
+    [ "atomic_weak_ptr", "a00272.html#a3e01c91b16f07375bef18e0fab333a38", null ],
+    [ "main", "a00272.html#ae66f6b31b5ad750f1fe042a706a4e3d4", null ]
 ];

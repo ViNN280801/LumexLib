@@ -1048,8 +1048,7 @@ public:
   /// whether the step changed shared state (a step that only spins at a
   /// back-off does not).
   virtual bool step (int id, unsigned from, unsigned to, long stepno,
-                     int decision)
-      = 0;
+                     int decision) = 0;
   /// After the threads are joined: the checks of the end, the teardown.
   virtual void end () = 0;
   /// The hash of the schedule that just ended.
@@ -1985,6 +1984,7 @@ struct policy_info_t
 {
   policy_id_t id;
   std::uint32_t reserve;
+  std::uint32_t cas_reserve;
   std::uint32_t limit;
   split_test::ledger_counters_t *counters;
   cell_ops_t *(*create_shared) (void *storage, strong_t const &initial);
@@ -2012,6 +2012,7 @@ make_policy_info (policy_id_t id, std::uint32_t reserve, std::uint32_t limit)
   policy_info_t info;
   info.id = id;
   info.reserve = reserve;
+  info.cas_reserve = Policy::cas_reserve ();
   info.limit = limit;
   info.counters = &Policy::counters ();
   info.create_shared = &create_shared_cell<Policy>;
@@ -3669,7 +3670,10 @@ private:
             if (is_empty_val (old))
               require (is_end (E), id, P, E, "the old value was empty");
             else
-              require (E == pt_release, id, P, E, "a swap drops the old unit");
+              require (
+                  E == pt_release
+                      || (info_.cas_reserve != 0u && E == pt_note_untransfer),
+                  id, P, E, "a swap drops the old unit");
           }
         else
           require (E == pt_note_untransfer || E == pt_cas || E == pt_transfer
@@ -3951,9 +3955,10 @@ private:
             && g.dep > g.max_need + static_cast<int> (info_.reserve))
           fail (or_W2BOUND, "thread %d deposited %d, the bound is %d + %d", t,
                 g.dep, g.max_need, static_cast<int> (info_.reserve));
-        else if ((g.role == r_cs || g.role == r_ch) && g.dep > g.max_need)
-          fail (or_W2BOUND, "thread %d deposited %d, the bound is %d", t,
-                g.dep, g.max_need);
+        else if ((g.role == r_cs || g.role == r_ch)
+                 && g.dep > g.max_need + static_cast<int> (info_.cas_reserve))
+          fail (or_W2BOUND, "thread %d deposited %d, the bound is %d + %d", t,
+                g.dep, g.max_need, static_cast<int> (info_.cas_reserve));
       }
     // The object blocks
     for (int s = 0; s < 6; ++s)

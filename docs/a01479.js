@@ -1,0 +1,7 @@
+var a01479 =
+[
+    [ "lumex_settings_key_spec_t", "a01899.html", "a01899" ],
+    [ "LumexSettingsGuard", "a01903.html", "a01903" ],
+    [ "LumexSettingsCreateFn", "a01479.html#afa7cdf0a7ae72bb172b541454fb9bf5a", null ],
+    [ "LumexSettingsValidateFn", "a01479.html#abb83c517a273434e9ce8e83640838f61", null ]
+];

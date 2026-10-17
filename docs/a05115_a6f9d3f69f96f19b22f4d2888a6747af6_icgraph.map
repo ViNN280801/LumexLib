@@ -1,0 +1,16 @@
+<map id="lumex::xml::attribute::XmlAttribute::name" name="lumex::xml::attribute::XmlAttribute::name">
+<area shape="rect" id="Node000001" title="Retrieves the name of the XML attribute." alt="" coords="940,51,1100,91"/>
+<area shape="poly" id="edge9_Node000001_Node000001" title=" " alt="" coords="1057,40,1044,33,1020,30,999,32,987,37,982,43,985,50,979,52,977,42,984,32,998,27,1020,25,1045,28,1059,35"/>
+<area shape="rect" id="Node000002" href="$a05239.html#a22fd4b0b8128783c9615823bebff036c" title="Evaluates the XPath expression represented by this AST node to a boolean value." alt="" coords="713,44,892,99"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="926,74,892,74,892,69,926,69"/>
+<area shape="rect" id="Node000003" href="$a05239.html#aefd15ccbea8cfa84dcf96d758e336650" title="Evaluates the XPath expression represented by this AST node to a numeric value." alt="" coords="487,5,665,60"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="699,65,665,59,666,54,700,60"/>
+<area shape="rect" id="Node000004" href="$a05239.html#a65b0bbe9cb7bb56b63909808fd092948" title="Evaluates the XPath expression represented by this AST node to a string value." alt="" coords="260,44,439,99"/>
+<area shape="poly" id="edge8_Node000002_Node000004" title=" " alt="" coords="700,82,439,81,439,76,700,76"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="679,39,714,45,713,50,678,44"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="474,62,439,67,439,62,473,57"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="452,61,713,61,713,67,452,66"/>
+<area shape="poly" id="edge6_Node000004_Node000003" title=" " alt="" coords="452,42,486,36,487,42,453,47"/>
+<area shape="rect" id="Node000005" href="$a05315.html#a246d7958d05f4d033bc4cbdd45f652d1" title="Evaluates the XPath query to a string value, writing to a provided buffer." alt="" coords="5,44,212,99"/>
+<area shape="poly" id="edge7_Node000004_Node000005" title=" " alt="" coords="246,74,212,74,212,69,246,69"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="LumexSplitCountPolicy.hpp" name="LumexSplitCountPolicy.hpp">
+<area shape="rect" id="Node000001" title="The policy of the split&#45;count engine: the named steps of its protocol, the events a ledger counts,..." alt="" coords="5,5,204,31"/>
+<area shape="rect" id="Node000002" href="$a00809.html" title="The split&#45;count engine behind atomic_shared_ptr_lock_free_split_count and atomic_weak_ptr_lock_free_s..." alt="" coords="11,79,198,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="107,44,107,78,102,78,102,44"/>
+</map>

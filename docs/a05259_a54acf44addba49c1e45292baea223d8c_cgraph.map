@@ -1,0 +1,5 @@
+<map id="lumex::xml::xpath::memory::XPathAllocator::revert" name="lumex::xml::xpath::memory::XPathAllocator::revert">
+<area shape="rect" id="Node000001" title="Reverts the allocator&#39;s state to a previously captured state." alt="" coords="5,5,184,60"/>
+<area shape="rect" id="Node000002" href="$a05259.html#a5316cafc0d51151287b517472f8730a8" title="Constructs an XPathAllocator." alt="" coords="232,5,411,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="184,30,218,30,218,35,184,35"/>
+</map>

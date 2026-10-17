@@ -1,0 +1,10 @@
+<map id="lumex::core::utility::dump::core_dump_generator::generate_instance_dump" name="lumex::core::utility::dump::core_dump_generator::generate_instance_dump">
+<area shape="rect" id="Node000001" title="Generate a dump using this instance&#39;s configuration." alt="" coords="271,84,488,139"/>
+<area shape="rect" id="Node000002" href="$a04371.html#abe18d9733796464413fa91c6762636be" title=" " alt="" coords="5,5,223,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="273,83,206,63,207,58,275,78"/>
+<area shape="rect" id="Node000003" href="$a04371.html#a6fb8865d3d80a47a721ef871f6952e36" title=" " alt="" coords="5,84,223,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="257,114,223,114,223,109,257,109"/>
+<area shape="rect" id="Node000004" href="$a04371.html#a652159ef556e7276645ba5972cc95d3e" title="Rename any core files that were created." alt="" coords="5,187,223,241"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="297,146,186,189,184,184,295,141"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="158,176,142,168,114,165,90,167,75,172,68,178,68,187,63,187,63,176,72,168,89,162,114,160,144,163,161,171"/>
+</map>

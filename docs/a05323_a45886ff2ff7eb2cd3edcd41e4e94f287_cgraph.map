@@ -1,0 +1,12 @@
+<map id="lumex::xml::xpath::string::XPathString::from_heap" name="lumex::xml::xpath::string::XPathString::from_heap">
+<area shape="rect" id="Node000001" title="Creates an XPathString by copying data to a new heap buffer." alt="" coords="5,70,155,125"/>
+<area shape="rect" id="Node000002" href="$a05323.html#ab74cb2da6630fae4494d1beded3dc68d" title="Provides a mutable pointer to the string data, ensuring it&#39;s on the heap." alt="" coords="203,5,381,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="154,69,219,47,221,52,156,74"/>
+<area shape="rect" id="Node000004" href="$a05323.html#abe39a62ae0c73e945db3063fc32f7095" title="Returns the length of the string (number of characters)." alt="" coords="217,70,367,125"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="155,95,204,95,204,100,155,100"/>
+<area shape="rect" id="Node000005" href="$a05323.html#a28203eb92f116963c49bb3e5860c254e" title="Default constructor. Constructs an empty XPathString." alt="" coords="217,149,367,203"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="155,122,206,141,204,146,153,127"/>
+<area shape="rect" id="Node000003" href="$a01671.html#aef8fee41b36e9987a5b7ed339b83ce42" title=" " alt="" coords="429,41,572,81"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="382,38,416,44,415,49,381,43"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="366,82,415,73,416,79,367,87"/>
+</map>

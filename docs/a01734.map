@@ -1,0 +1,5 @@
+<map id="lumex::applied::json::validation::ILumexJsonSchemaValidator" name="lumex::applied::json::validation::ILumexJsonSchemaValidator">
+<area shape="rect" id="Node000001" title="Checks raw JSON text against the schema of the implementation. Builds nothing: a conforming document ..." alt="" coords="5,5,236,60"/>
+<area shape="rect" id="Node000002" href="$a01739.html" title="Parses raw JSON text and walks it against one schema tree in validate_only mode. It never normalizes ..." alt="" coords="7,108,234,163"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="123,74,123,108,118,108,118,74"/>
+</map>

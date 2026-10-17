@@ -1,0 +1,23 @@
+<map id="lumex::core::utility::dump::dump_configuration::set_directory" name="lumex::core::utility::dump::dump_configuration::set_directory">
+<area shape="rect" id="Node000001" title=" " alt="" coords="801,136,1005,191"/>
+<area shape="rect" id="Node000002" href="$a04371.html#a29d377fa1c099a68b1b6613b1b8174a4" title="Manually trigger a dump generation with error code." alt="" coords="536,5,753,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="851,131,804,101,752,74,726,62,728,58,754,69,807,97,854,126"/>
+<area shape="rect" id="Node000003" href="$a04371.html#a0b3cc8ffb6d1d5bc1ec3c088a9ea7318" title="Manually trigger a dump generation." alt="" coords="536,84,753,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="787,143,753,136,754,131,788,137"/>
+<area shape="rect" id="Node000009" href="$a04371.html#a29465ea99f0c2d123b4cd595d3d805c6" title="Initialize the crash dump handler." alt="" coords="536,187,753,241"/>
+<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="788,189,754,195,753,190,787,183"/>
+<area shape="rect" id="Node000010" href="$a04363.html#a044e1888db22810b76ac8263e261e0e3" title=" " alt="" coords="543,265,747,320"/>
+<area shape="poly" id="edge11_Node000001_Node000010" title=" " alt="" coords="852,201,755,255,725,268,723,263,752,250,849,196"/>
+<area shape="rect" id="Node000004" href="$a04371.html#a4f262ee10a4816b6048ce1257e3b819d" title="Generate a dump with error handling." alt="" coords="271,45,488,100"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="522,96,488,91,489,86,523,91"/>
+<area shape="rect" id="Node000005" href="$a04371.html#abc108236fa4d3ffc16b070da17d3f948" title="Generate a dump using this instance&#39;s configuration." alt="" coords="271,124,488,179"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="523,132,489,138,488,132,522,127"/>
+<area shape="rect" id="Node000006" href="$a04371.html#abe18d9733796464413fa91c6762636be" title=" " alt="" coords="5,45,223,100"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="273,123,206,103,207,98,275,118"/>
+<area shape="rect" id="Node000007" href="$a04371.html#a6fb8865d3d80a47a721ef871f6952e36" title=" " alt="" coords="5,124,223,179"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="257,154,223,154,223,149,257,149"/>
+<area shape="rect" id="Node000008" href="$a04371.html#a652159ef556e7276645ba5972cc95d3e" title="Rename any core files that were created." alt="" coords="5,227,223,281"/>
+<area shape="poly" id="edge7_Node000005_Node000008" title=" " alt="" coords="297,186,186,229,184,224,295,181"/>
+<area shape="poly" id="edge8_Node000008_Node000008" title=" " alt="" coords="158,216,142,208,114,205,90,207,75,212,68,218,68,227,63,227,63,216,72,208,89,202,114,200,144,203,161,211"/>
+<area shape="poly" id="edge10_Node000009_Node000009" title=" " alt="" coords="688,176,672,168,645,165,621,167,606,172,600,178,600,187,594,187,595,176,604,168,620,162,645,160,674,163,690,171"/>
+</map>

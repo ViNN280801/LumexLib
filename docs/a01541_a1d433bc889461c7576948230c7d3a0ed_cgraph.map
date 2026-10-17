@@ -1,0 +1,17 @@
+<map id="lumex::core::fmt::Detail::parse_dynamic_ref" name="lumex::core::fmt::Detail::parse_dynamic_ref">
+<area shape="rect" id="Node000001" title="Parses {} / {3} / {name} used as dynamic width / precision." alt="" coords="5,170,183,210"/>
+<area shape="rect" id="Node000002" href="$a02979.html#af8cbbe975292480629e0c83838452db8" title="Records manual indexing; throws after automatic indexing." alt="" coords="233,5,405,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="111,168,162,120,229,69,237,64,240,69,232,74,166,124,115,172"/>
+<area shape="rect" id="Node000003" href="$a02979.html#ac7de27e293647be7090e0d6f8bcc0e3a" title="Compile&#45;time check only: argument id is an integer." alt="" coords="233,84,405,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="151,167,227,141,229,146,152,172"/>
+<area shape="rect" id="Node000004" href="$a02979.html#afb523ff24fb4035bb928ab2bde553f1d" title="Records a reference by name: it counts as manual indexing when no automatic index was used yet (so {a..." alt="" coords="233,163,405,217"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="183,187,220,187,220,193,183,193"/>
+<area shape="rect" id="Node000005" href="$a02979.html#af05a380747221a522d1cc5f2c1cb1382" title="Next automatic argument index; throws after manual indexing." alt="" coords="233,241,405,296"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="152,208,229,234,227,239,151,213"/>
+<area shape="rect" id="Node000006" href="$a01541.html#a562623a0bebe727eda8a328a6367f409" title="Parses an arg&#45;id (0, 12, name) at it; leaves it on the character after it." alt="" coords="231,321,408,361"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="115,208,166,256,198,282,232,305,246,313,244,317,229,310,195,286,162,260,111,212"/>
+<area shape="rect" id="Node000007" href="$a01541.html#adaae5d05b7b1928c889b5c429a0ed1bf" title=" " alt="" coords="456,289,633,329"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="408,325,442,321,443,326,409,331"/>
+<area shape="rect" id="Node000008" href="$a01541.html#a9a0112c6db4da55a5ecdb292c7b4a207" title=" " alt="" coords="456,353,633,393"/>
+<area shape="poly" id="edge7_Node000006_Node000008" title=" " alt="" coords="409,351,443,356,442,361,408,356"/>
+</map>

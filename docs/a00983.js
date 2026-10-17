@@ -1,12 +1,9 @@
 var a00983 =
 [
-    [ "lumex::xml::node::XmlNode", "a04966.html", "a04966" ],
-    [ "lumex::xml::node::XmlNodeIterator", "a04970.html", "a04970" ],
-    [ "lumex::xml::node::XmlNamedNodeIterator", "a04974.html", "a04974" ],
-    [ "lumex::xml::attribute::XmlAttributeIterator", "a04978.html", "a04978" ],
-    [ "lumex::xml::node::allow_move", "a01495.html#aae6fd296565521687dfdec74617af3f4", null ],
-    [ "lumex::xml::node::is_text_node", "a01495.html#a1e646ed1cb77d39fa585d98f77a5269c", null ],
-    [ "lumex::xml::node::node_output", "a01495.html#af34491b7156887c5b07e29420a4db813", null ],
-    [ "lumex::xml::node::operator&&", "a01495.html#a9cfeb01c63a015b2ea3b1acdb401fafa", null ],
-    [ "lumex::xml::node::operator||", "a01495.html#a9ddd7da688cc6930afb363d4835bc59d", null ]
+    [ "lumex::core::string::utility::detail::are_stringifiable< Args >", "a04163.html", null ],
+    [ "lumex::core::string::utility::operator<<", "a01570.html#aabd30bcdf02da92ec12422a30fd4c4f4", null ],
+    [ "lumex::core::string::utility::operator<<", "a01570.html#a069a5bbde352f2d95ec427f786215113", null ],
+    [ "lumex::core::string::utility::stringify", "a01570.html#a6edd6a773e25b016b0dab32f38d58ff9", null ],
+    [ "lumex::core::string::utility::stringify", "a01570.html#a5c0b80a6f74a32424bed62d7597a6759", null ],
+    [ "lumex::core::string::utility::stringify_v2", "a01570.html#affeacca04aee3e02bb2cbc36fac533db", null ]
 ];

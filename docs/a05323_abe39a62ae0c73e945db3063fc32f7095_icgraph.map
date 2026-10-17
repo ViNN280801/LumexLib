@@ -1,0 +1,28 @@
+<map id="lumex::xml::xpath::string::XPathString::length" name="lumex::xml::xpath::string::XPathString::length">
+<area shape="rect" id="Node000001" title="Returns the length of the string (number of characters)." alt="" coords="1392,201,1541,256"/>
+<area shape="rect" id="Node000002" href="$a05323.html#a9f02de80f85ac9ee08d58fc40aaabf68" title="Appends another XPathString to this string." alt="" coords="1166,111,1315,165"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1385,199,1308,168,1310,163,1387,194"/>
+<area shape="rect" id="Node000004" href="$a05239.html#aefd15ccbea8cfa84dcf96d758e336650" title="Evaluates the XPath expression represented by this AST node to a numeric value." alt="" coords="713,136,892,191"/>
+<area shape="poly" id="edge12_Node000001_Node000004" title=" " alt="" coords="1378,223,892,175,892,169,1379,217"/>
+<area shape="rect" id="Node000006" href="$a05239.html#a65b0bbe9cb7bb56b63909808fd092948" title="Evaluates the XPath expression represented by this AST node to a string value." alt="" coords="260,123,439,177"/>
+<area shape="poly" id="edge13_Node000001_Node000006" title=" " alt="" coords="1379,239,1210,251,1015,257,803,257,642,260,573,253,486,231,432,208,385,180,388,175,434,203,488,226,573,248,642,254,803,251,1015,251,1210,245,1378,234"/>
+<area shape="rect" id="Node000007" href="$a05315.html#a246d7958d05f4d033bc4cbdd45f652d1" title="Evaluates the XPath query to a string value, writing to a provided buffer." alt="" coords="5,260,212,315"/>
+<area shape="poly" id="edge14_Node000001_Node000007" title=" " alt="" coords="1444,269,1403,319,1376,343,1345,362,1299,381,1258,393,1221,398,1185,398,1109,392,1015,387,576,387,470,380,365,363,269,340,189,317,190,312,270,335,366,358,471,375,576,382,1015,382,1110,387,1185,393,1220,393,1257,387,1297,376,1343,357,1372,339,1399,316,1440,266"/>
+<area shape="rect" id="Node000008" href="$a05315.html#ae41e8cd671284227f5d990c639a0c550" title="Evaluates the XPath query to a string value." alt="" coords="1137,292,1344,347"/>
+<area shape="poly" id="edge15_Node000001_Node000008" title=" " alt="" coords="1387,264,1310,294,1308,290,1385,259"/>
+<area shape="rect" id="Node000009" href="$a05323.html#a45886ff2ff7eb2cd3edcd41e4e94f287" title="Creates an XPathString by copying data to a new heap buffer." alt="" coords="940,5,1089,60"/>
+<area shape="poly" id="edge16_Node000001_Node000009" title=" " alt="" coords="1439,192,1397,143,1371,120,1343,100,1280,73,1212,54,1147,43,1089,37,1090,32,1148,38,1214,49,1281,68,1345,96,1375,115,1401,139,1443,188"/>
+<area shape="rect" id="Node000003" href="$a01698.html#acecf345205af2a10267ea4715f789fc1" title="Retrieves the string value of an XPath node." alt="" coords="940,118,1089,158"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="1152,141,1090,141,1090,135,1152,135"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="927,151,893,155,892,150,926,146"/>
+<area shape="poly" id="edge11_Node000003_Node000006" title=" " alt="" coords="926,128,834,119,724,112,605,111,487,119,439,128,438,122,486,114,605,106,725,107,835,114,926,123"/>
+<area shape="rect" id="Node000005" href="$a05239.html#a22fd4b0b8128783c9615823bebff036c" title="Evaluates the XPath expression represented by this AST node to a boolean value." alt="" coords="487,161,665,216"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="700,186,666,190,665,185,700,181"/>
+<area shape="poly" id="edge10_Node000004_Node000006" title=" " alt="" coords="699,166,665,163,547,160,439,160,439,154,547,155,665,158,700,160"/>
+<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="679,166,713,162,713,167,679,171"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="473,183,439,177,439,171,474,177"/>
+<area shape="poly" id="edge8_Node000006_Node000004" title=" " alt="" coords="453,133,556,131,665,134,713,138,713,143,665,139,556,137,453,139"/>
+<area shape="poly" id="edge7_Node000006_Node000005" title=" " alt="" coords="453,156,487,162,486,167,452,161"/>
+<area shape="poly" id="edge9_Node000006_Node000007" title=" " alt="" coords="291,186,158,262,155,258,288,182"/>
+<area shape="poly" id="edge17_Node000009_Node000006" title=" " alt="" coords="926,38,834,44,723,55,605,72,487,97,408,125,406,120,486,91,604,67,723,50,834,39,926,33"/>
+</map>

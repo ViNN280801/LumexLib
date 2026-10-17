@@ -1,0 +1,22 @@
+<map id="lumex::core::atomic::smart_ptr::table_wait::Detail::epoch_wait_base::epoch_wait_base" name="lumex::core::atomic::smart_ptr::table_wait::Detail::epoch_wait_base::epoch_wait_base">
+<area shape="rect" id="Node000001" title=" " alt="" coords="471,261,660,331"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="604,251,589,243,565,240,546,242,532,247,525,253,524,262,518,261,521,251,530,242,545,237,565,235,591,238,606,246"/>
+<area shape="rect" id="Node000002" href="$a01963.html#a921670866f436f1b6a5bd79272fbcf56" title=" " alt="" coords="238,75,418,144"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="525,253,477,205,421,158,403,146,406,142,424,154,481,201,528,249"/>
+<area shape="rect" id="Node000005" href="$a01963.html#a710e40a37d541a28df50b15514f60ef5" title=" " alt="" coords="238,168,418,237"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="463,259,415,240,417,235,465,254"/>
+<area shape="rect" id="Node000006" href="$a01967.html#a21f73a6e19fc35fd4a8a3ce8aad78247" title=" " alt="" coords="243,261,413,331"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="457,299,413,299,413,293,457,293"/>
+<area shape="rect" id="Node000009" href="$a01967.html#ac6fd17d0cbcde0b9ed4d5f7997ab851e" title=" " alt="" coords="243,355,413,424"/>
+<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="466,338,414,358,412,353,464,333"/>
+<area shape="rect" id="Node000010" href="$a01959.html#a565db411c36da99eb3e3ba922fcecf31" title=" " alt="" coords="233,448,423,517"/>
+<area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="528,343,481,391,424,438,406,450,403,446,421,434,477,387,525,339"/>
+<area shape="rect" id="Node000003" href="$a01963.html#aef7cc2620558069f5c84172db2634086" title=" " alt="" coords="5,5,185,75"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="224,81,185,69,186,64,225,76"/>
+<area shape="rect" id="Node000004" href="$a01963.html#a6815219dd57421203a89abb5d5ba2d95" title=" " alt="" coords="5,99,185,168"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="224,123,186,127,185,121,223,117"/>
+<area shape="rect" id="Node000007" href="$a01967.html#a12378f5aad97081e7fcfaa73804f3b7a" title=" " alt="" coords="11,215,180,284"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="229,279,180,269,181,264,230,274"/>
+<area shape="rect" id="Node000008" href="$a01967.html#a19c2608f9a598ef2462770c993bdf150" title=" " alt="" coords="11,308,180,377"/>
+<area shape="poly" id="edge8_Node000006_Node000008" title=" " alt="" coords="230,318,181,328,180,323,229,313"/>
+</map>

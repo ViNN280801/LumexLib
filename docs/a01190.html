@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexEnvironment File Reference</title>
+<title>LumexLib: LumexPortProcessResolver.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,34 +103,129 @@ $(function(){initNavTree('a01190.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">LumexEnvironment File Reference</div></div>
+  <div class="summary">
+<a href="#namespaces">Namespaces</a>  </div>
+  <div class="headertitle"><div class="title">LumexPortProcessResolver.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>Environment module: <code><a class="el" href="a00356.html#a0b45931cdbbb925765f1b79efa5d466a" title="Alias for lumex::core::environment::lumex_environment.">lumex_environment</a></code>, thread-safe reading and writing of environment variables on Windows, Linux and macOS.  
-<a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00356_source.html">env/LumexEnvironment.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;array&gt;</code><br />
+<code>#include &lt;cstdint&gt;</code><br />
+<code>#include &lt;cstdlib&gt;</code><br />
+<code>#include &lt;cstring&gt;</code><br />
+<code>#include &lt;fstream&gt;</code><br />
+<code>#include &lt;iterator&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
+<code>#include &lt;dirent.h&gt;</code><br />
+<code>#include &lt;fcntl.h&gt;</code><br />
+<code>#include &lt;unistd.h&gt;</code><br />
+<code>#include &quot;<a class="el" href="a01193_source.html">lumex/applied/serial/resolver/LumexPortProcessResolver.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01127_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01070_source.html">lumex/core/utility/os/LumexCheckOS.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexEnvironment:</div>
+Include dependency graph for LumexPortProcessResolver.cpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01191.png" border="0" usemap="#a_lumex_environment" alt=""/></div>
+<div class="center"><img src="a01191.png" border="0" usemap="#aLumexPortProcessResolver_8cpp" alt=""/></div>
+<map name="aLumexPortProcessResolver_8cpp" id="aLumexPortProcessResolver_8cpp">
+<area shape="rect" title=" " alt="" coords="477,5,701,31"/>
+<area shape="rect" title=" " alt="" coords="5,86,61,111"/>
+<area shape="poly" title=" " alt="" coords="477,29,255,51,150,65,74,81,69,83,67,78,73,76,149,60,254,46,477,24"/>
+<area shape="rect" title=" " alt="" coords="85,86,152,111"/>
+<area shape="poly" title=" " alt="" coords="477,28,327,47,245,62,165,81,158,83,156,78,163,76,244,56,326,41,477,23"/>
+<area shape="rect" title=" " alt="" coords="177,86,242,111"/>
+<area shape="poly" title=" " alt="" coords="484,33,373,52,255,81,249,83,247,78,254,76,372,47,483,28"/>
+<area shape="rect" title=" " alt="" coords="267,86,333,111"/>
+<area shape="poly" title=" " alt="" coords="526,33,440,54,346,81,341,83,339,78,345,76,438,48,525,28"/>
+<area shape="rect" title=" " alt="" coords="358,86,431,111"/>
+<area shape="poly" title=" " alt="" coords="559,33,444,81,439,83,437,78,442,76,557,28"/>
+<area shape="rect" title=" " alt="" coords="455,86,526,111"/>
+<area shape="poly" title=" " alt="" coords="575,33,519,79,516,75,572,29"/>
+<area shape="rect" title=" " alt="" coords="636,599,695,625"/>
+<area shape="poly" title=" " alt="" coords="589,32,575,98,569,142,567,187,567,436,568,468,573,492,598,543,618,568,640,589,636,593,614,571,594,545,568,494,563,468,561,436,561,187,564,141,570,97,583,30"/>
+<area shape="rect" title=" " alt="" coords="1162,86,1225,111"/>
+<area shape="poly" title=" " alt="" coords="702,23,947,45,1065,60,1150,76,1157,78,1155,83,1149,81,1064,65,946,50,701,29"/>
+<area shape="rect" title=" " alt="" coords="1249,86,1321,111"/>
+<area shape="poly" title=" " alt="" coords="702,22,991,44,1134,59,1237,76,1246,79,1245,84,1235,81,1133,64,991,49,702,27"/>
+<area shape="rect" title=" " alt="" coords="1346,86,1409,111"/>
+<area shape="poly" title=" " alt="" coords="702,20,1041,39,1211,56,1281,65,1334,76,1341,78,1339,83,1333,81,1280,71,1210,61,1040,45,701,25"/>
+<area shape="rect" title=" " alt="" coords="1433,86,1508,111"/>
+<area shape="poly" title=" " alt="" coords="702,19,1084,39,1280,55,1360,65,1422,76,1431,79,1430,84,1421,81,1360,70,1280,60,1084,44,701,25"/>
+<area shape="rect" href="a01193.html" title="Identifies the process that holds a serial port open." alt="" coords="653,79,939,119"/>
+<area shape="poly" title=" " alt="" coords="623,28,733,71,731,76,621,33"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="740,592,953,632"/>
+<area shape="poly" title=" " alt="" coords="595,30,609,97,615,141,617,187,617,436,621,463,631,487,646,509,666,529,714,561,766,585,763,590,712,566,663,533,642,513,626,490,616,464,612,436,612,187,610,142,604,98,590,32"/>
+<area shape="rect" href="a01070.html" title="Cross&#45;platform OS macros." alt="" coords="963,79,1138,119"/>
+<area shape="poly" title=" " alt="" coords="670,28,950,76,949,81,669,33"/>
+<area shape="poly" title=" " alt="" coords="767,121,736,147,703,181,678,222,671,244,668,267,668,436,668,585,663,585,663,436,663,267,665,243,673,219,699,178,732,143,764,117"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="929,174,1111,199"/>
+<area shape="poly" title=" " alt="" coords="848,116,976,166,974,171,846,121"/>
+<area shape="rect" href="a01391.html" title="Optional module: a C++11 implementation of the C++17 std::optional with the C++23 monadic operations." alt="" coords="753,167,905,207"/>
+<area shape="poly" title=" " alt="" coords="806,118,819,153,814,155,801,120"/>
+<area shape="poly" title=" " alt="" coords="778,121,760,143,744,168,724,216,719,267,719,436,721,458,727,480,749,519,778,554,809,581,805,585,774,557,745,522,722,482,716,459,713,436,713,267,718,215,739,165,755,139,774,117"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="1695,504,1884,544"/>
+<area shape="poly" title=" " alt="" coords="940,115,1168,148,1421,189,1625,230,1687,249,1704,258,1711,266,1711,348,1716,388,1730,427,1748,462,1767,491,1763,494,1744,465,1725,429,1711,390,1705,348,1705,268,1700,262,1685,254,1623,235,1420,194,1168,153,939,121"/>
+<area shape="rect" href="a00986.html" title="The global names of the optional module: optional, nullopt, make_optional and lumex_bad_optional_acce..." alt="" coords="898,255,1121,280"/>
+<area shape="poly" title=" " alt="" coords="875,204,970,247,967,251,873,209"/>
+<area shape="rect" href="a00989.html" title="C++11 implementation of std::optional (C++17) and of its C++23 monadic operations: a type&#45;safe nullab..." alt="" coords="1048,328,1227,368"/>
+<area shape="poly" title=" " alt="" coords="1031,278,1095,318,1092,323,1028,283"/>
+<area shape="rect" title=" " alt="" coords="1533,511,1619,537"/>
+<area shape="poly" title=" " alt="" coords="1227,354,1384,377,1456,393,1505,414,1527,432,1544,454,1568,497,1564,500,1540,457,1523,436,1503,418,1454,398,1383,382,1227,359"/>
+<area shape="rect" title=" " alt="" coords="805,511,915,537"/>
+<area shape="poly" title=" " alt="" coords="1107,370,893,506,890,502,1104,366"/>
+<area shape="rect" title=" " alt="" coords="1578,599,1670,625"/>
+<area shape="poly" title=" " alt="" coords="1227,354,1402,378,1483,394,1541,414,1574,431,1598,448,1618,470,1634,503,1640,524,1641,546,1635,586,1630,585,1636,546,1635,525,1630,505,1613,473,1595,452,1571,435,1539,418,1482,400,1401,383,1226,360"/>
+<area shape="rect" title=" " alt="" coords="1170,511,1230,537"/>
+<area shape="poly" title=" " alt="" coords="1143,368,1151,409,1165,455,1187,498,1182,501,1160,457,1146,410,1138,369"/>
+<area shape="rect" title=" " alt="" coords="1417,423,1492,449"/>
+<area shape="poly" title=" " alt="" coords="1228,365,1315,387,1406,413,1413,416,1411,421,1405,419,1313,392,1226,370"/>
+<area shape="rect" href="a00995.html" title="Internal machinery of optional: the storage union, the layers that give optional the special member f..." alt="" coords="1175,416,1393,456"/>
+<area shape="poly" title=" " alt="" coords="1172,366,1240,407,1237,411,1170,370"/>
+<area shape="rect" href="a00992.html" title="The tags and the exception of the optional module: nullopt_t, nullopt, in_place_t,..." alt="" coords="939,504,1146,544"/>
+<area shape="poly" title=" " alt="" coords="1129,369,1062,493,1058,490,1124,367"/>
+<area shape="poly" title=" " alt="" coords="1049,363,982,380,911,408,877,426,845,449,817,475,794,505,789,524,792,543,803,562,816,580,812,583,798,565,787,545,783,524,790,503,813,471,842,445,874,422,908,403,980,375,1047,358"/>
+<area shape="poly" title=" " alt="" coords="1354,453,1514,501,1525,505,1523,510,1513,507,1352,459"/>
+<area shape="poly" title=" " alt="" coords="1176,456,1056,479,927,507,914,510,912,505,926,501,1055,473,1175,451"/>
+<area shape="poly" title=" " alt="" coords="1355,454,1412,474,1471,502,1498,521,1523,542,1594,590,1591,594,1520,546,1494,525,1468,506,1410,479,1353,459"/>
+<area shape="poly" title=" " alt="" coords="1266,458,1224,503,1220,499,1263,455"/>
+<area shape="rect" title=" " alt="" coords="1306,511,1355,537"/>
+<area shape="poly" title=" " alt="" coords="1297,455,1320,498,1315,500,1292,458"/>
+<area shape="rect" title=" " alt="" coords="1380,511,1457,537"/>
+<area shape="poly" title=" " alt="" coords="1316,454,1389,502,1386,506,1313,458"/>
+<area shape="poly" title=" " alt="" coords="1230,459,1111,502,1110,497,1228,454"/>
+<area shape="poly" title=" " alt="" coords="1285,457,1273,502,1261,526,1243,546,1210,556,1143,569,967,597,967,592,1142,563,1209,551,1240,542,1256,523,1268,500,1279,456"/>
+<area shape="poly" title=" " alt="" coords="1393,452,1682,503,1681,508,1393,458"/>
+<area shape="poly" title=" " alt="" coords="940,546,729,595,709,600,708,595,727,589,939,541"/>
+<area shape="rect" title=" " alt="" coords="999,599,1086,625"/>
+<area shape="poly" title=" " alt="" coords="1045,544,1045,586,1040,586,1040,544"/>
+<area shape="poly" title=" " alt="" coords="999,547,905,589,903,584,997,542"/>
+<area shape="poly" title=" " alt="" coords="1753,547,1661,595,1659,591,1750,542"/>
+<area shape="poly" title=" " alt="" coords="1695,540,1632,547,1451,562,1309,570,1168,578,987,595,967,597,967,592,986,589,1168,573,1309,565,1450,557,1632,541,1694,534"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="1694,592,1949,632"/>
+<area shape="poly" title=" " alt="" coords="1799,543,1812,578,1807,580,1794,545"/>
+<area shape="poly" title=" " alt="" coords="1139,114,1150,116,1207,120,1279,120,1448,117,1534,118,1612,125,1679,140,1706,151,1728,165,1749,187,1759,210,1761,236,1761,267,1761,348,1769,424,1783,490,1777,491,1763,425,1756,348,1756,267,1756,236,1754,211,1745,190,1725,169,1704,155,1677,145,1612,131,1533,124,1448,122,1279,125,1207,125,1149,121,1138,120"/>
+<area shape="rect" href="a01109.html" title="Compiler identification and version macros." alt="" coords="1797,167,2054,207"/>
+<area shape="poly" title=" " alt="" coords="1139,114,1150,116,1326,136,1463,143,1601,150,1778,164,1784,165,1783,170,1777,169,1601,155,1463,149,1325,141,1149,121,1138,120"/>
+</map>
 </div>
-</div><div class="textblock"><div class="dynheader">
-This graph shows which files directly or indirectly include this file:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01192.png" border="0" usemap="#a_lumex_environmentdep" alt=""/></div>
-</div>
-</div>
-<p><a href="a01190_source.html">Go to the source code of this file.</a></p>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Environment module: <code><a class="el" href="a00356.html#a0b45931cdbbb925765f1b79efa5d466a" title="Alias for lumex::core::environment::lumex_environment.">lumex_environment</a></code>, thread-safe reading and writing of environment variables on Windows, Linux and macOS. </p>
-<p>Link <code>lumex::environment</code> (compiled library). Works from C++11. The umbrella includes <code><a class="el" href="a00356.html" title="Defines the lumex_environment class for cross-platform environment variable management.">env/LumexEnvironment.hpp</a></code>. </p>
-</div></div><!-- contents -->
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01425.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01426.html">lumex::applied</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01464.html">lumex::applied::serial</a></td></tr>
+<tr class="memdesc:a01464"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cross-platform helpers for naming/resolving serial (and serial-adjacent) communication ports. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01475.html">lumex::applied::serial::resolver</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_11061250c6f9b78e671467056317b947.html">environment</a></li><li class="navelem"><a class="el" href="a01190.html">LumexEnvironment</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_9f3553d7e4d4ebb0490c2c83481c4624.html">serial</a></li><li class="navelem"><a class="el" href="dir_280ba8667320f31218bd5995288a7b7b.html">resolver</a></li><li class="navelem"><a class="el" href="a01190.html">LumexPortProcessResolver.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

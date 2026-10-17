@@ -1,0 +1,5 @@
+<map id="lumex::core::expected::result::detail::is_std_expected_of&lt; X, T, E &gt;" name="lumex::core::expected::result::detail::is_std_expected_of&lt; X, T, E &gt;">
+<area shape="rect" id="Node000001" title="Whether X is exactly std::expected&lt;T, E&gt; (false where the standard library has no std::expected)." alt="" coords="5,79,212,133"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="49,5,168,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="111,45,111,78,106,78,106,45"/>
+</map>

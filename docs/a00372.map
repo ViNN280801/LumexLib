@@ -1,0 +1,50 @@
+<map id="example_circular_buffer_workflow.cpp" name="example_circular_buffer_workflow.cpp">
+<area shape="rect" id="Node000001" title=" " alt="" coords="556,5,735,45"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="512,101,592,126"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="626,48,577,93,574,89,622,44"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="616,101,675,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="648,46,648,87,643,87,643,46"/>
+<area shape="rect" id="Node000004" href="$a01358.html" title="Circular buffer module: a ring buffer with a run&#45;time capacity that overwrites its oldest element whe..." alt="" coords="699,93,859,133"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="678,44,738,83,735,88,675,48"/>
+<area shape="rect" id="Node000005" href="$a00941.html" title="circular_buffer, a ring buffer with a run&#45;time capacity that overwrites its oldest element when full,..." alt="" coords="709,181,848,207"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="781,134,781,168,776,168,776,134"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="5,262,91,287"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="709,201,393,223,225,239,103,257,92,260,91,255,102,252,224,234,393,217,709,195"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="115,262,186,287"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="709,201,439,223,299,239,198,257,190,260,189,254,197,252,298,234,439,218,709,196"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="210,262,297,287"/>
+<area shape="poly" id="edge7_Node000005_Node000008" title=" " alt="" coords="709,201,527,219,417,235,309,257,298,260,297,255,307,252,416,230,526,213,709,195"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="321,262,431,287"/>
+<area shape="poly" id="edge8_Node000005_Node000009" title=" " alt="" coords="709,207,585,228,443,257,429,261,428,256,442,252,584,223,708,202"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="455,262,526,287"/>
+<area shape="poly" id="edge9_Node000005_Node000010" title=" " alt="" coords="719,209,633,230,539,257,533,260,531,254,538,252,632,225,718,204"/>
+<area shape="rect" id="Node000011" title=" " alt="" coords="551,262,609,287"/>
+<area shape="poly" id="edge10_Node000005_Node000011" title=" " alt="" coords="744,209,622,257,619,259,617,254,620,252,742,204"/>
+<area shape="rect" id="Node000012" title=" " alt="" coords="633,262,711,287"/>
+<area shape="poly" id="edge11_Node000005_Node000012" title=" " alt="" coords="763,209,701,256,698,252,760,205"/>
+<area shape="rect" id="Node000013" title=" " alt="" coords="735,262,822,287"/>
+<area shape="poly" id="edge12_Node000005_Node000013" title=" " alt="" coords="781,207,781,248,776,248,776,207"/>
+<area shape="rect" id="Node000014" title=" " alt="" coords="901,438,993,463"/>
+<area shape="poly" id="edge13_Node000005_Node000014" title=" " alt="" coords="794,205,815,227,836,253,855,288,866,317,876,346,894,381,928,426,924,429,890,384,871,349,861,319,850,290,831,256,811,230,791,209"/>
+<area shape="rect" id="Node000015" title=" " alt="" coords="1749,262,1809,287"/>
+<area shape="poly" id="edge14_Node000005_Node000015" title=" " alt="" coords="848,193,1042,199,1297,210,1548,227,1651,239,1730,252,1739,255,1738,260,1729,257,1651,244,1547,233,1297,215,1042,204,848,198"/>
+<area shape="rect" id="Node000016" title=" " alt="" coords="1833,262,1895,287"/>
+<area shape="poly" id="edge15_Node000005_Node000016" title=" " alt="" coords="848,192,1060,196,1341,205,1620,223,1735,236,1822,252,1829,254,1827,259,1821,257,1734,241,1619,228,1341,211,1060,201,848,197"/>
+<area shape="rect" id="Node000017" href="$a01073.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="1053,255,1235,295"/>
+<area shape="poly" id="edge16_Node000005_Node000017" title=" " alt="" coords="837,204,1040,249,1039,254,836,209"/>
+<area shape="rect" id="Node000020" href="$a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="1049,431,1303,471"/>
+<area shape="poly" id="edge23_Node000005_Node000020" title=" " alt="" coords="803,205,834,225,865,253,888,288,899,321,911,351,922,366,938,381,959,392,989,404,1065,425,1064,430,987,409,956,397,934,385,918,369,907,354,894,323,883,291,861,256,831,229,800,209"/>
+<area shape="rect" id="Node000021" href="$a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="1344,431,1557,471"/>
+<area shape="poly" id="edge26_Node000005_Node000021" title=" " alt="" coords="848,197,1058,218,1324,251,1452,271,1562,292,1644,316,1671,328,1687,341,1697,360,1697,377,1689,392,1673,405,1627,425,1571,438,1570,433,1626,419,1670,400,1685,389,1692,376,1692,361,1683,344,1668,333,1642,321,1561,298,1451,276,1323,256,1057,223,848,203"/>
+<area shape="rect" id="Node000022" href="$a01124.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="1418,343,1673,383"/>
+<area shape="poly" id="edge24_Node000005_Node000022" title=" " alt="" coords="849,196,1031,214,1140,230,1249,252,1379,292,1489,335,1487,340,1377,297,1247,257,1139,235,1030,219,848,201"/>
+<area shape="rect" id="Node000018" href="$a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="948,350,1129,375"/>
+<area shape="poly" id="edge17_Node000017_Node000018" title=" " alt="" coords="1121,297,1067,343,1063,339,1118,293"/>
+<area shape="rect" id="Node000019" href="$a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="1153,343,1343,383"/>
+<area shape="poly" id="edge18_Node000017_Node000019" title=" " alt="" coords="1170,293,1215,332,1212,336,1166,297"/>
+<area shape="poly" id="edge22_Node000017_Node000021" title=" " alt="" coords="1237,290,1297,311,1356,340,1399,378,1432,418,1428,421,1395,381,1353,345,1295,315,1235,295"/>
+<area shape="poly" id="edge19_Node000019_Node000014" title=" " alt="" coords="1180,385,1005,437,1003,431,1178,380"/>
+<area shape="poly" id="edge20_Node000019_Node000020" title=" " alt="" coords="1233,385,1203,421,1199,418,1229,381"/>
+<area shape="poly" id="edge21_Node000019_Node000021" title=" " alt="" coords="1296,380,1393,423,1391,428,1293,385"/>
+<area shape="poly" id="edge25_Node000022_Node000021" title=" " alt="" coords="1525,385,1484,423,1481,419,1522,381"/>
+</map>

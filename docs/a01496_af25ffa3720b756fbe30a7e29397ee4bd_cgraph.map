@@ -1,0 +1,4 @@
+<map id="lumex::core::atomic::sync::table_wait::Detail::tsan_mutex_destroy" name="lumex::core::atomic::sync::table_wait::Detail::tsan_mutex_destroy">
+<area shape="rect" id="Node000001" title="ThreadSanitizer annotations of the lock word; no&#45;ops in other builds." alt="" coords="5,29,208,84"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="67,29,67,19,74,10,87,5,107,3,130,6,143,14,140,18,128,11,107,8,89,10,77,15,72,21,72,29"/>
+</map>

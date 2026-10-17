@@ -1,0 +1,9 @@
+<map id="lumex::core::atomic::smart_ptr::table_wait::Detail::split_pointer_traits_t&lt;::lumex::core::smart_ptr::shared_ptr&lt; T &gt; &gt;::make_holder" name="lumex::core::atomic::smart_ptr::table_wait::Detail::split_pointer_traits_t&lt;::lumex::core::smart_ptr::shared_ptr&lt; T &gt; &gt;::make_holder">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,59,187,158"/>
+<area shape="rect" id="Node000002" href="$a01492.html#a023309f567d7a3d067a6715ac3c998f7" title="A stored pointer as the void * a holder keeps." alt="" coords="249,29,418,84"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="186,86,235,76,236,81,187,91"/>
+<area shape="rect" id="Node000003" href="$a01492.html#aa27e593e75b976cbaf1e42f9a5bac437" title="Allocates the holder of an alias; running out of memory ends the program, because every operation of ..." alt="" coords="235,132,432,187"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="187,125,222,133,220,138,186,131"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="287,29,287,19,296,10,311,5,333,3,360,6,375,14,373,18,359,11,333,8,312,10,299,15,292,21,292,29"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="287,132,287,122,296,113,311,107,333,105,360,108,375,116,373,121,359,114,333,111,312,113,299,117,292,124,292,132"/>
+</map>

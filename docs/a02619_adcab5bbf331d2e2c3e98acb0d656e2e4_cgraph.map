@@ -1,0 +1,9 @@
+<map id="lumex::core::exceptions::exception::lumex_base_exception::to_crash_report" name="lumex::core::exceptions::exception::lumex_base_exception::to_crash_report">
+<area shape="rect" id="Node000001" title="Write a crash report to a file by pattern: &quot;crash_report_{timestamp}.txt&quot;." alt="" coords="5,84,208,139"/>
+<area shape="rect" id="Node000002" href="$a04251.html#a32efb9c5bcc248c83b37abd86a5dd24d" title="Retrieves the current date and time formatted as a string." alt="" coords="261,5,432,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="189,81,249,62,251,67,191,86"/>
+<area shape="rect" id="Node000003" href="$a04251.html#a869c4e47c5c72561f0c99282b06049c6" title="Gettters for the time since epoch in different time units." alt="" coords="261,84,432,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="208,109,248,109,248,114,208,114"/>
+<area shape="rect" id="Node000004" href="$a02619.html#acaa254839e7172bddca02275aa478d7a" title="Returns the error message as a C&#45;string." alt="" coords="256,163,437,217"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="191,136,251,156,249,161,189,141"/>
+</map>

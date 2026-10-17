@@ -1,0 +1,11 @@
+<map id="lumex::core::base64::validate::validator::is_valid_base64" name="lumex::core::base64::validate::validator::is_valid_base64">
+<area shape="rect" id="Node000001" title="Checks if a given string is a valid Base64 encoded string (see the pointer and size overload for the ..." alt="" coords="5,124,160,179"/>
+<area shape="rect" id="Node000002" href="$a04167.html#aff8d326ef9c6866116899f0eac72cfea" title="The pointer to the first character; null for a default view." alt="" coords="208,5,395,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="120,122,207,69,218,63,220,68,209,74,123,126"/>
+<area shape="rect" id="Node000003" href="$a04167.html#a5b3f9ab09fbd99db936fad5d8ae43cc5" title="true when the view has no characters." alt="" coords="208,84,395,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="160,134,194,128,195,134,161,140"/>
+<area shape="rect" id="Node000004" href="$a02051.html#a8b23b25f82a0b98ed3f35601e0d5604b" title="Checks whether size characters starting at str are valid Base64." alt="" coords="224,163,379,217"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="161,162,211,171,210,177,160,168"/>
+<area shape="rect" id="Node000005" href="$a04167.html#aef7453e757e48a1e7b0158b75f958b43" title="The number of characters." alt="" coords="208,241,395,296"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="125,176,209,226,223,233,220,238,207,231,122,181"/>
+</map>

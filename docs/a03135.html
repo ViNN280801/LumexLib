@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::fmt::format_to_n_result_t&lt; OutputIt &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a03138.html',''); initResizable(true); });
+$(function(){initNavTree('a03135.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,20 +103,70 @@ $(function(){initNavTree('a03138.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::core::math::ops::lumex_math_size_mismatch_exception Member List</div></div>
+  <div class="summary">
+<a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="a03132.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::fmt::format_to_n_result_t&lt; OutputIt &gt; Struct Template Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a03138.html">lumex::core::math::ops::lumex_math_size_mismatch_exception</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a03138.html#a1944a1be3d52385f61e13cc6a0d044f1">lumex_math_size_mismatch_exception</a>(char const *message)</td><td class="entry"><a class="el" href="a03138.html">lumex::core::math::ops::lumex_math_size_mismatch_exception</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a03138.html#a7a405ed131b30b4b2c545e418a5eed07">lumex_math_size_mismatch_exception</a>(std::string const &amp;message)</td><td class="entry"><a class="el" href="a03138.html">lumex::core::math::ops::lumex_math_size_mismatch_exception</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a03138.html#a50edfedfa9e1ab353171720de0f7c576">lumex_math_size_mismatch_exception</a>(std::string &amp;&amp;message)</td><td class="entry"><a class="el" href="a03138.html">lumex::core::math::ops::lumex_math_size_mismatch_exception</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-</table></div><!-- contents -->
+<p>Result of <code>format_to_n</code>: the iterator past the written text and the size the full output would have had.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="a01013_source.html">LumexFormat.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:aedf732781558e4f7ecaee89f17b77b0f" id="r_aedf732781558e4f7ecaee89f17b77b0f"><td class="memItemLeft" align="right" valign="top">OutputIt&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aedf732781558e4f7ecaee89f17b77b0f">out</a></td></tr>
+<tr class="separator:aedf732781558e4f7ecaee89f17b77b0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb2aa6ed7d6cff43fc1c16af7ff6c633" id="r_abb2aa6ed7d6cff43fc1c16af7ff6c633"><td class="memItemLeft" align="right" valign="top">std::ptrdiff_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abb2aa6ed7d6cff43fc1c16af7ff6c633">size</a></td></tr>
+<tr class="separator:abb2aa6ed7d6cff43fc1c16af7ff6c633"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><div class="compoundTemplParams">template&lt;typename OutputIt&gt;<br />
+struct lumex::core::fmt::format_to_n_result_t&lt; OutputIt &gt;</div><p>Result of <code>format_to_n</code>: the iterator past the written text and the size the full output would have had. </p>
+</div><h2 class="groupheader">Member Data Documentation</h2>
+<a id="aedf732781558e4f7ecaee89f17b77b0f" name="aedf732781558e4f7ecaee89f17b77b0f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aedf732781558e4f7ecaee89f17b77b0f">&#9670;&#160;</a></span>out</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename OutputIt&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">OutputIt <a class="el" href="a03135.html">lumex::core::fmt::format_to_n_result_t</a>&lt; OutputIt &gt;::out</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abb2aa6ed7d6cff43fc1c16af7ff6c633" name="abb2aa6ed7d6cff43fc1c16af7ff6c633"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb2aa6ed7d6cff43fc1c16af7ff6c633">&#9670;&#160;</a></span>size</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename OutputIt&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::ptrdiff_t <a class="el" href="a03135.html">lumex::core::fmt::format_to_n_result_t</a>&lt; OutputIt &gt;::size</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
+<li><a class="el" href="a01013_source.html">LumexFormat.hpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01540.html">fmt</a></li><li class="navelem"><a class="el" href="a03135.html">format_to_n_result_t</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

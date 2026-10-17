@@ -1,0 +1,10 @@
+<map id="lumex::core::atomic::sync::table_wait::Detail::notify_one" name="lumex::core::atomic::sync::table_wait::Detail::notify_one">
+<area shape="rect" id="Node000001" title="Wakes at least one thread sleeping in wait_until_changed on word." alt="" coords="5,29,157,84"/>
+<area shape="poly" id="edge5_Node000001_Node000001" title=" " alt="" coords="42,29,42,19,49,10,62,5,81,3,104,6,117,14,114,18,102,11,81,8,64,10,52,15,47,21,47,29"/>
+<area shape="rect" id="Node000002" href="$a01496.html#ab0a372674a94f35856052c9f32a55909" title="Wakes every thread sleeping in wait_until_changed on word." alt="" coords="205,29,357,84"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="158,54,191,54,191,59,158,59"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="242,29,242,19,249,10,262,5,281,3,304,6,317,14,314,18,302,11,281,8,264,10,252,15,247,21,247,29"/>
+<area shape="rect" id="Node000003" href="$a01496.html#a0ef36c77415fb5ece4adacc21cfd1d2c" title="Returns the stripe that serves the word at address." alt="" coords="405,29,557,84"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="358,54,391,54,391,59,358,59"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="442,29,442,19,449,10,462,5,481,3,504,6,517,14,514,18,502,11,481,8,464,10,452,15,447,21,447,29"/>
+</map>

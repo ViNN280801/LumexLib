@@ -1,0 +1,5 @@
+<map id="lumex::core::contracts::contract_violation::is_terminating" name="lumex::core::contracts::contract_violation::is_terminating">
+<area shape="rect" id="Node000001" title="Whether the evaluation semantic terminates the program." alt="" coords="5,5,172,60"/>
+<area shape="rect" id="Node000002" href="$a01509.html#a23efd16b97d23ef8be46e99c69d9496b" title="Whether semantic ends the program after the violation handler returns ([basic.contract...." alt="" coords="220,13,387,53"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,30,207,30,207,35,172,35"/>
+</map>

@@ -1,0 +1,21 @@
+<map id="LumexStacktraceEntry.hpp" name="LumexStacktraceEntry.hpp">
+<area shape="rect" id="Node000001" title="Defines the lumex_stacktrace_entry class, representing a single frame in a call stack." alt="" coords="215,5,409,31"/>
+<area shape="rect" id="Node000002" href="$a01370.html" title="Exceptions module: the lumex_base_exception hierarchy, stack traces, a crash handler that writes mini..." alt="" coords="129,225,260,251"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="269,39,242,57,221,80,204,118,196,159,195,197,196,225,191,225,189,197,191,159,199,117,216,77,239,53,266,35"/>
+<area shape="rect" id="Node000005" href="$a00881.html" title="Defines the lumex_basic_stacktrace class and related utilities for capturing and symbolizing call sta..." alt="" coords="231,79,393,104"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="315,44,315,78,309,78,309,44"/>
+<area shape="rect" id="Node000009" href="$a00875.html" title=" " alt="" coords="417,79,612,104"/>
+<area shape="poly" id="edge10_Node000001_Node000009" title=" " alt="" coords="361,33,480,76,479,81,359,38"/>
+<area shape="rect" id="Node000003" href="$a00299.html" title=" " alt="" coords="5,306,189,331"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="170,262,115,308,112,303,167,258"/>
+<area shape="rect" id="Node000004" href="$a00302.html" title=" " alt="" coords="213,299,371,339"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="222,257,269,296,266,301,219,262"/>
+<area shape="poly" id="edge5_Node000005_Node000002" title=" " alt="" coords="287,115,249,154,222,192,203,226,199,224,218,189,245,150,284,111"/>
+<area shape="rect" id="Node000006" href="$a00869.html" title="lumex_base_exception, the base exception of LumexLib that records the stack where it was constructed,..." alt="" coords="258,152,417,177"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="323,116,335,151,330,152,318,118"/>
+<area shape="rect" id="Node000008" href="$a00884.html" title=" " alt="" coords="441,152,604,177"/>
+<area shape="poly" id="edge9_Node000005_Node000008" title=" " alt="" coords="362,106,487,149,485,154,361,111"/>
+<area shape="poly" id="edge7_Node000006_Node000002" title=" " alt="" coords="302,186,221,227,218,223,299,181"/>
+<area shape="rect" id="Node000007" href="$a00872.html" title=" " alt="" coords="284,225,441,251"/>
+<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="349,189,361,224,356,226,344,191"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="lumex::core::expected::result::detail::reinit_nothrow" name="lumex::core::expected::result::detail::reinit_nothrow">
+<area shape="rect" id="Node000001" title="The reinit&#45;expected of [expected.object.assign]/1 for the case that the construction of the new objec..." alt="" coords="220,5,387,60"/>
+<area shape="rect" id="Node000002" href="$a01533.html#aebb2cc5369b2ff0554cb8d8fbda8dca2" title="reinit&#45;expected for an old object that holds something." alt="" coords="5,5,172,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="206,35,172,35,172,30,206,30"/>
+</map>

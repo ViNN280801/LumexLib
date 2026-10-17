@@ -1,0 +1,24 @@
+<map id="node_output_attributes" name="node_output_attributes">
+<area shape="rect" id="Node000001" title=" " alt="" coords="936,159,1109,184"/>
+<area shape="rect" id="Node000002" href="$a00725.html#a9cf6a87493cf624f41e7e716ca14c5b5" title=" " alt="" coords="733,133,888,159"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="922,162,888,158,889,153,923,157"/>
+<area shape="rect" id="Node000011" href="$a00725.html#a3781da2446a997aeab30b3a127de9a9d" title=" " alt="" coords="741,183,881,208"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="923,185,881,190,881,185,922,180"/>
+<area shape="rect" id="Node000003" href="$a01672.html#af34491b7156887c5b07e29420a4db813" title="Outputs the XML subtree rooted at root to a buffered writer." alt="" coords="509,151,685,191"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="720,159,686,164,685,158,719,154"/>
+<area shape="rect" id="Node000004" href="$a05143.html#a513be35988e895f6735f65b1b96c4b5f" title="Prints the XML subtree rooted at the current node to a custom writer interface." alt="" coords="257,87,461,127"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="509,150,433,130,434,125,510,145"/>
+<area shape="rect" id="Node000008" href="$a05127.html#a40677f13bf1306858bdcc329c3812775" title="Saves the XML document to a custom writer interface." alt="" coords="275,183,444,223"/>
+<area shape="poly" id="edge7_Node000003_Node000008" title=" " alt="" coords="496,188,445,195,444,189,495,182"/>
+<area shape="rect" id="Node000005" href="$a00392.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title="Main function demonstrating various LumexXml functionalities." alt="" coords="80,5,135,31"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="304,84,208,46,134,26,136,21,210,41,306,79"/>
+<area shape="rect" id="Node000006" href="$a05143.html#abc0e3ec301cddb026501f215723743b2" title="Prints the XML subtree rooted at the current node to a C&#45;style character output stream." alt="" coords="5,55,209,95"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="244,95,209,91,210,86,244,90"/>
+<area shape="rect" id="Node000007" href="$a05143.html#af65a61ef6f7962ffb99fc701f2deb1e4" title="Prints the XML subtree rooted at the current node to a wide character output stream." alt="" coords="5,119,209,159"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="244,125,210,129,209,124,244,119"/>
+<area shape="rect" id="Node000009" href="$a05127.html#aa6db85e0f29ddd002d752a2b587a17c8" title="Saves the XML document to a C&#45;style character output stream." alt="" coords="23,183,192,223"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="261,206,192,206,192,201,261,201"/>
+<area shape="rect" id="Node000010" href="$a05127.html#a5d454caaddafe49d675882e3928dbc3d" title="Saves the XML document to a wide character output stream." alt="" coords="23,247,192,287"/>
+<area shape="poly" id="edge9_Node000008_Node000010" title=" " alt="" coords="268,229,187,250,185,245,266,224"/>
+<area shape="poly" id="edge11_Node000011_Node000003" title=" " alt="" coords="727,189,685,184,686,179,727,183"/>
+</map>

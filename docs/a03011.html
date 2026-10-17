@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::fmt::basic_appender&lt; Char &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a03014.html',''); initResizable(true); });
+$(function(){initNavTree('a03011.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,21 +103,352 @@ $(function(){initNavTree('a03014.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::core::fmt::Detail::tuple_each&lt; Count, Count &gt; Member List</div></div>
+  <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="a03008.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::fmt::basic_appender&lt; Char &gt; Class Template Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a03014.html">lumex::core::fmt::Detail::tuple_each&lt; Count, Count &gt;</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a03014.html#a3d97568a7b584ba50038c5903f194535">format</a>(Formatters const &amp;, Tuple const &amp;, std::basic_string&lt; Char &gt; const &amp;, basic_format_context&lt; Char &gt; &amp;)</td><td class="entry"><a class="el" href="a03014.html">lumex::core::fmt::Detail::tuple_each&lt; Count, Count &gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a03010.html#a089576a46e9bf89c99bc19ab21744d28">format</a>(Formatters const &amp;formatters, Tuple const &amp;value, std::basic_string&lt; Char &gt; const &amp;separator, basic_format_context&lt; Char &gt; &amp;ctx)</td><td class="entry"><a class="el" href="a03014.html">lumex::core::fmt::Detail::tuple_each&lt; Count, Count &gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a03014.html#aba6c11d96031dacccb0ec1eaef1646b6">parse</a>(Formatters &amp;)</td><td class="entry"><a class="el" href="a03014.html">lumex::core::fmt::Detail::tuple_each&lt; Count, Count &gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a03010.html#ae77798813a173e1484127d9d57f0808a">parse</a>(Formatters &amp;formatters)</td><td class="entry"><a class="el" href="a03014.html">lumex::core::fmt::Detail::tuple_each&lt; Count, Count &gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-</table></div><!-- contents -->
+<p>Output iterator of <code><a class="el" href="a02975.html" title="The output and the arguments of one formatting call (as std::basic_format_context).">basic_format_context</a></code>: every assignment appends one character to the formatting buffer.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="a01013_source.html">LumexFormat.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:ac9a9b3e8aedf72b6ab39f57a6d098a1b" id="r_ac9a9b3e8aedf72b6ab39f57a6d098a1b"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac9a9b3e8aedf72b6ab39f57a6d098a1b">iterator_category</a> = std::output_iterator_tag</td></tr>
+<tr class="separator:ac9a9b3e8aedf72b6ab39f57a6d098a1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4b49845a4accccf8d16ca0b3546eda0" id="r_af4b49845a4accccf8d16ca0b3546eda0"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af4b49845a4accccf8d16ca0b3546eda0">value_type</a> = void</td></tr>
+<tr class="separator:af4b49845a4accccf8d16ca0b3546eda0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1687413581dcc20fa41fdbe0735a8923" id="r_a1687413581dcc20fa41fdbe0735a8923"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1687413581dcc20fa41fdbe0735a8923">difference_type</a> = std::ptrdiff_t</td></tr>
+<tr class="separator:a1687413581dcc20fa41fdbe0735a8923"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d56ceaeca7ae9cb4335c4da5f749b27" id="r_a1d56ceaeca7ae9cb4335c4da5f749b27"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1d56ceaeca7ae9cb4335c4da5f749b27">pointer</a> = void</td></tr>
+<tr class="separator:a1d56ceaeca7ae9cb4335c4da5f749b27"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7f5d2b0594aca12f50f1eed52856e2a" id="r_ac7f5d2b0594aca12f50f1eed52856e2a"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac7f5d2b0594aca12f50f1eed52856e2a">reference</a> = void</td></tr>
+<tr class="separator:ac7f5d2b0594aca12f50f1eed52856e2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a49db1fc04f2660166aaa2de0f6e6e22e" id="r_a49db1fc04f2660166aaa2de0f6e6e22e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a49db1fc04f2660166aaa2de0f6e6e22e">basic_appender</a> (<a class="el" href="a02991.html">Detail::buffer</a>&lt; Char &gt; &amp;<a class="el" href="#a31af630fad97a8533bdc5e768d3e76ce">buffer</a>) noexcept</td></tr>
+<tr class="separator:a49db1fc04f2660166aaa2de0f6e6e22e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1118ed9c6abc943beaf723612ecdad5" id="r_ad1118ed9c6abc943beaf723612ecdad5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a03011.html">basic_appender</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad1118ed9c6abc943beaf723612ecdad5">operator=</a> (Char value)</td></tr>
+<tr class="separator:ad1118ed9c6abc943beaf723612ecdad5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e83acf7f849aa622fd2a3600efb8ed6" id="r_a2e83acf7f849aa622fd2a3600efb8ed6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a03011.html">basic_appender</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2e83acf7f849aa622fd2a3600efb8ed6">operator*</a> () noexcept</td></tr>
+<tr class="separator:a2e83acf7f849aa622fd2a3600efb8ed6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7233fe9395749858ac7362ea199cb9a1" id="r_a7233fe9395749858ac7362ea199cb9a1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a03011.html">basic_appender</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7233fe9395749858ac7362ea199cb9a1">operator++</a> () noexcept</td></tr>
+<tr class="separator:a7233fe9395749858ac7362ea199cb9a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acacd8753332222a2a22febe119f8f791" id="r_acacd8753332222a2a22febe119f8f791"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a03011.html">basic_appender</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acacd8753332222a2a22febe119f8f791">operator++</a> (int) noexcept</td></tr>
+<tr class="separator:acacd8753332222a2a22febe119f8f791"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31af630fad97a8533bdc5e768d3e76ce" id="r_a31af630fad97a8533bdc5e768d3e76ce"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a02991.html">Detail::buffer</a>&lt; Char &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a31af630fad97a8533bdc5e768d3e76ce">buffer</a> () const noexcept</td></tr>
+<tr class="memdesc:a31af630fad97a8533bdc5e768d3e76ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">The buffer this appender writes to.  <br /></td></tr>
+<tr class="separator:a31af630fad97a8533bdc5e768d3e76ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><div class="compoundTemplParams">template&lt;typename Char&gt;<br />
+class lumex::core::fmt::basic_appender&lt; Char &gt;</div><p>Output iterator of <code><a class="el" href="a02975.html" title="The output and the arguments of one formatting call (as std::basic_format_context).">basic_format_context</a></code>: every assignment appends one character to the formatting buffer. </p>
+</div><h2 class="groupheader">Member Typedef Documentation</h2>
+<a id="a1687413581dcc20fa41fdbe0735a8923" name="a1687413581dcc20fa41fdbe0735a8923"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1687413581dcc20fa41fdbe0735a8923">&#9670;&#160;</a></span>difference_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Char&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="a03011.html">lumex::core::fmt::basic_appender</a>&lt; Char &gt;::difference_type = std::ptrdiff_t</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac9a9b3e8aedf72b6ab39f57a6d098a1b" name="ac9a9b3e8aedf72b6ab39f57a6d098a1b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac9a9b3e8aedf72b6ab39f57a6d098a1b">&#9670;&#160;</a></span>iterator_category</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Char&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="a03011.html">lumex::core::fmt::basic_appender</a>&lt; Char &gt;::iterator_category = std::output_iterator_tag</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1d56ceaeca7ae9cb4335c4da5f749b27" name="a1d56ceaeca7ae9cb4335c4da5f749b27"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d56ceaeca7ae9cb4335c4da5f749b27">&#9670;&#160;</a></span>pointer</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Char&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="a03011.html">lumex::core::fmt::basic_appender</a>&lt; Char &gt;::pointer = void</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac7f5d2b0594aca12f50f1eed52856e2a" name="ac7f5d2b0594aca12f50f1eed52856e2a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac7f5d2b0594aca12f50f1eed52856e2a">&#9670;&#160;</a></span>reference</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Char&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="a03011.html">lumex::core::fmt::basic_appender</a>&lt; Char &gt;::reference = void</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af4b49845a4accccf8d16ca0b3546eda0" name="af4b49845a4accccf8d16ca0b3546eda0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af4b49845a4accccf8d16ca0b3546eda0">&#9670;&#160;</a></span>value_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Char&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="a03011.html">lumex::core::fmt::basic_appender</a>&lt; Char &gt;::value_type = void</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a49db1fc04f2660166aaa2de0f6e6e22e" name="a49db1fc04f2660166aaa2de0f6e6e22e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a49db1fc04f2660166aaa2de0f6e6e22e">&#9670;&#160;</a></span>basic_appender()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Char&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a03011.html">lumex::core::fmt::basic_appender</a>&lt; Char &gt;::basic_appender </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02991.html">Detail::buffer</a>&lt; Char &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>buffer</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel explicit">explicit</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a03011_a49db1fc04f2660166aaa2de0f6e6e22e_cgraph.png" border="0" usemap="#aa03011_a49db1fc04f2660166aaa2de0f6e6e22e_cgraph" alt=""/></div>
+<map name="aa03011_a49db1fc04f2660166aaa2de0f6e6e22e_cgraph" id="aa03011_a49db1fc04f2660166aaa2de0f6e6e22e_cgraph">
+<area shape="rect" title=" " alt="" coords="5,5,205,45"/>
+<area shape="rect" href="a03011.html#a31af630fad97a8533bdc5e768d3e76ce" title="The buffer this appender writes to." alt="" coords="253,5,425,45"/>
+<area shape="poly" title=" " alt="" coords="206,23,240,23,240,28,206,28"/>
+</map>
+</div>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a31af630fad97a8533bdc5e768d3e76ce" name="a31af630fad97a8533bdc5e768d3e76ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a31af630fad97a8533bdc5e768d3e76ce">&#9670;&#160;</a></span>buffer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Char&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02991.html">Detail::buffer</a>&lt; Char &gt; &amp; <a class="el" href="a03011.html">lumex::core::fmt::basic_appender</a>&lt; Char &gt;::buffer </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The buffer this appender writes to. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a03011_a31af630fad97a8533bdc5e768d3e76ce_icgraph.png" border="0" usemap="#aa03011_a31af630fad97a8533bdc5e768d3e76ce_icgraph" alt=""/></div>
+<map name="aa03011_a31af630fad97a8533bdc5e768d3e76ce_icgraph" id="aa03011_a31af630fad97a8533bdc5e768d3e76ce_icgraph">
+<area shape="rect" title="The buffer this appender writes to." alt="" coords="632,295,804,335"/>
+<area shape="rect" href="a03011.html#a49db1fc04f2660166aaa2de0f6e6e22e" title=" " alt="" coords="363,5,563,45"/>
+<area shape="poly" title=" " alt="" coords="707,282,692,232,667,172,630,111,608,83,582,59,562,47,565,42,586,55,612,80,635,108,671,169,697,230,713,280"/>
+<area shape="rect" href="a03187.html#a089576a46e9bf89c99bc19ab21744d28" title=" " alt="" coords="375,93,552,133"/>
+<area shape="poly" title=" " alt="" coords="699,284,652,214,620,178,583,148,551,132,554,128,585,143,624,174,657,211,703,281"/>
+<area shape="rect" href="a03199.html#a4f8059f3994ef544167a8c963effd113" title=" " alt="" coords="58,345,242,385"/>
+<area shape="poly" title=" " alt="" coords="619,331,584,335,243,362,242,357,584,329,618,325"/>
+<area shape="rect" href="a03119.html#a63e555d41c58a3f16e9cdbc4a7b4be4c" title=" " alt="" coords="343,221,584,320"/>
+<area shape="poly" title=" " alt="" coords="618,300,584,294,585,289,619,295"/>
+<area shape="rect" href="a03123.html#a4bc6a825a1ee2c996cde58b722f70579" title=" " alt="" coords="367,157,559,197"/>
+<area shape="poly" title=" " alt="" coords="687,287,640,248,583,212,554,200,556,195,585,207,643,244,690,283"/>
+<area shape="rect" href="a03099.html#a16ef79c73db159e87e2fa860cdb76b82" title=" " alt="" coords="353,395,573,435"/>
+<area shape="poly" title=" " alt="" coords="666,343,585,378,532,397,530,392,583,374,664,338"/>
+<area shape="rect" href="a03147.html#a409105bb4970d96c8a5a3295eb29efd5" title=" " alt="" coords="371,572,555,612"/>
+<area shape="poly" title=" " alt="" coords="703,348,655,427,623,471,586,513,544,547,502,574,499,570,541,543,582,509,619,468,651,424,699,345"/>
+<area shape="rect" href="a01541.html#a8b79a1789ab9e1a4f978bdf8cb91c6c1" title="Writes with write_body (context) directly, or into a temporary text padded to the resolved width when..." alt="" coords="375,459,552,499"/>
+<area shape="poly" title=" " alt="" coords="697,348,649,400,619,426,585,449,554,463,551,458,583,444,615,422,645,396,693,344"/>
+<area shape="poly" title=" " alt="" coords="507,82,491,75,463,72,439,74,424,79,419,85,421,92,416,94,413,84,421,74,438,69,463,67,493,70,509,77"/>
+<area shape="poly" title=" " alt="" coords="204,334,185,327,150,324,120,326,101,331,94,337,98,344,93,346,89,336,98,326,119,321,150,319,186,321,206,329"/>
+<area shape="rect" href="a03131.html#a1f694ca6b4fcac1b2a8b2efd6bd2152b" title=" " alt="" coords="50,150,250,205"/>
+<area shape="poly" title=" " alt="" coords="354,180,250,180,250,175,354,175"/>
+<area shape="rect" href="a03151.html#aee2bdadbbcbe1460c2260749a0c1f8ed" title=" " alt="" coords="31,673,269,786"/>
+<area shape="poly" title=" " alt="" coords="406,620,270,680,268,675,404,615"/>
+<area shape="rect" href="a03155.html#ae34894440a19509a856974897f26ec07" title=" " alt="" coords="5,535,295,649"/>
+<area shape="poly" title=" " alt="" coords="357,595,295,595,295,589,357,589"/>
+<area shape="poly" title=" " alt="" coords="361,457,341,449,317,434,293,418,217,388,219,383,296,414,320,429,344,444,363,452"/>
+<area shape="rect" href="a03211.html#a9855da9aeeff8e79ede9b8c3c49bfe93" title=" " alt="" coords="33,427,267,511"/>
+<area shape="poly" title=" " alt="" coords="361,478,268,476,268,470,361,473"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a2e83acf7f849aa622fd2a3600efb8ed6" name="a2e83acf7f849aa622fd2a3600efb8ed6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e83acf7f849aa622fd2a3600efb8ed6">&#9670;&#160;</a></span>operator*()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Char&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a03011.html">basic_appender</a> &amp; <a class="el" href="a03011.html">lumex::core::fmt::basic_appender</a>&lt; Char &gt;::operator* </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7233fe9395749858ac7362ea199cb9a1" name="a7233fe9395749858ac7362ea199cb9a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7233fe9395749858ac7362ea199cb9a1">&#9670;&#160;</a></span>operator++() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Char&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a03011.html">basic_appender</a> &amp; <a class="el" href="a03011.html">lumex::core::fmt::basic_appender</a>&lt; Char &gt;::operator++ </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acacd8753332222a2a22febe119f8f791" name="acacd8753332222a2a22febe119f8f791"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acacd8753332222a2a22febe119f8f791">&#9670;&#160;</a></span>operator++() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Char&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a03011.html">basic_appender</a> <a class="el" href="a03011.html">lumex::core::fmt::basic_appender</a>&lt; Char &gt;::operator++ </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad1118ed9c6abc943beaf723612ecdad5" name="ad1118ed9c6abc943beaf723612ecdad5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad1118ed9c6abc943beaf723612ecdad5">&#9670;&#160;</a></span>operator=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Char&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a03011.html">basic_appender</a> &amp; <a class="el" href="a03011.html">lumex::core::fmt::basic_appender</a>&lt; Char &gt;::operator= </td>
+          <td>(</td>
+          <td class="paramtype">Char</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
+<li><a class="el" href="a01013_source.html">LumexFormat.hpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01540.html">fmt</a></li><li class="navelem"><a class="el" href="a03011.html">basic_appender</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

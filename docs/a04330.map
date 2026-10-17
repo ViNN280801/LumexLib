@@ -1,0 +1,5 @@
+<map id="lumex::core::utility::cast::Detail::is_dyn_cast_form&lt; T &gt;" name="lumex::core::utility::cast::Detail::is_dyn_cast_form&lt; T &gt;">
+<area shape="rect" id="Node000001" title="T is a pointer or an lvalue reference to a class type." alt="" coords="227,27,381,82"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,179,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="192,52,226,52,226,57,192,57"/>
+</map>

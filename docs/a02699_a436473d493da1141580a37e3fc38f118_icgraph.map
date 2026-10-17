@@ -1,0 +1,22 @@
+<map id="lumex::core::expected::result::expected::has_value" name="lumex::core::expected::result::expected::has_value">
+<area shape="rect" id="Node000001" title="Checks whether this expected holds a success value." alt="" coords="581,199,791,239"/>
+<area shape="rect" id="Node000002" href="$a01456.html#a5d9e5e749f32cf264879f63041aa6475" title="The log text of a watch&#45;list item given by process ID." alt="" coords="321,5,505,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="657,191,602,136,568,107,532,82,495,62,497,58,535,77,571,103,606,132,661,187"/>
+<area shape="rect" id="Node000004" href="$a00449.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="98,213,153,239"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="651,193,598,155,566,139,533,126,467,109,413,104,360,110,294,126,248,144,205,168,141,215,138,211,202,164,245,139,293,121,359,104,413,99,467,104,534,121,568,134,600,151,654,188"/>
+<area shape="rect" id="Node000005" href="$a01532.html#a60a6c9c843d1e2df46842a05ee56f8b8" title="Compares two expected objects with a value type for equality." alt="" coords="330,135,497,175"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="587,199,496,177,497,172,588,194"/>
+<area shape="rect" id="Node000006" href="$a01532.html#a7a26f59238e032a56019188424314f2b" title="Compares an expected with an unexpected for equality." alt="" coords="330,199,497,239"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="567,222,497,222,497,217,567,217"/>
+<area shape="rect" id="Node000007" href="$a01532.html#a09b691283843d6bd9bb7ab82ef6502ab" title="Compares an expected with a value for equality." alt="" coords="330,263,497,303"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="588,245,497,266,496,261,587,240"/>
+<area shape="rect" id="Node000008" href="$a01532.html#ad8564be6a54a9f9f0558d32bdf18c9ba" title="Compares two expected&lt;void, E&gt; objects for equality." alt="" coords="330,327,497,367"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="650,250,596,285,534,318,498,331,496,326,532,313,594,280,647,245"/>
+<area shape="rect" id="Node000009" href="$a01823.html#a223f546f37ce831bc11c81cdfb10e29f" title="Samples the processes with this executable name, with the processes below them." alt="" coords="293,392,533,447"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="666,252,611,317,575,352,535,382,511,394,509,389,532,377,571,348,607,313,662,249"/>
+<area shape="rect" id="Node000003" href="$a01456.html#aa72ee67565346d6d368fbc370f2a98ac" title=" " alt="" coords="33,5,217,60"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="308,35,218,35,218,30,308,30"/>
+<area shape="poly" id="edge9_Node000009_Node000004" title=" " alt="" coords="305,389,292,382,242,347,197,307,134,241,138,237,200,303,245,343,295,377,308,384"/>
+<area shape="rect" id="Node000010" href="$a01823.html#a6dab1e927389c40d7ef02763946f8643" title=" " alt="" coords="5,392,245,447"/>
+<area shape="poly" id="edge10_Node000009_Node000010" title=" " alt="" coords="280,422,246,422,246,417,280,417"/>
+</map>

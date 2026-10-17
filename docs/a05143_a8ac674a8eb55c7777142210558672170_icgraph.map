@@ -1,0 +1,9 @@
+<map id="lumex::xml::node::XmlNode::insert_child_after" name="lumex::xml::node::XmlNode::insert_child_after">
+<area shape="rect" id="Node000001" title="Inserts a new child node of a specified type before a given existing child node." alt="" coords="257,69,461,109"/>
+<area shape="rect" id="Node000002" href="$a05143.html#ae8bb7651245fb6e302ffd4cb102d20c3" title="insert_child_after with a name of size characters at name, which need no terminating NUL (a range of ..." alt="" coords="5,5,209,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="266,68,185,48,187,43,268,63"/>
+<area shape="rect" id="Node000003" href="$a05143.html#a33547ff6911a38d3cd5aafb699001b7a" title="Inserts a new child element with the specified name after a given existing child node." alt="" coords="5,69,209,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="244,92,210,92,210,87,244,87"/>
+<area shape="rect" id="Node000004" href="$a05143.html#a91f2cdca9e92733aeb3496240735c5de" title="Inserts a new child element with the specified name (string_view_t) after a given existing child node..." alt="" coords="5,133,209,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="268,115,187,136,185,131,266,110"/>
+</map>

@@ -1,0 +1,8 @@
+<map id="lumex::xml::attribute::XmlAttribute::as_double" name="lumex::xml::attribute::XmlAttribute::as_double">
+<area shape="rect" id="Node000001" title="Converts the attribute&#39;s value to a double." alt="" coords="5,49,192,89"/>
+<area shape="rect" id="Node000002" href="$a01671.html#ab7948998dd533ef6c4c7b3071242053b" title=" " alt="" coords="247,5,393,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="192,48,233,40,234,45,193,53"/>
+<area shape="rect" id="Node000003" href="$a05115.html#a40dc4738d939dd04914625f44b5e01c8" title="Retrieves the value of the XML attribute as a C&#45;style string." alt="" coords="240,93,400,133"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="193,85,227,92,226,97,192,91"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="279,94,276,84,283,74,298,69,320,67,346,70,360,77,358,82,344,75,320,72,299,74,286,79,281,85,284,92"/>
+</map>

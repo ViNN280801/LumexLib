@@ -1,0 +1,5 @@
+<map id="lumex::core::string_view::view::lumex_basic_string_view::remove_suffix" name="lumex::core::string_view::view::lumex_basic_string_view::remove_suffix">
+<area shape="rect" id="Node000001" title="Drops the last n characters (all of them when n &gt; size())." alt="" coords="236,5,440,60"/>
+<area shape="rect" id="Node000002" href="$a01461.html#a338216e93dcc183c0b94bcc5f00f0579" title="The file name of a /proc/&lt;pid&gt;/exe link target." alt="" coords="5,5,188,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="222,35,188,35,188,30,222,30"/>
+</map>

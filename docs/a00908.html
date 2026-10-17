@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: example_unicode.cpp File Reference</title>
+<title>LumexLib: ExpectedStorage.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,59 +104,304 @@ $(function(){initNavTree('a00908.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">example_unicode.cpp File Reference</div></div>
+  <div class="headertitle"><div class="title">ExpectedStorage.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Internal storage of <code>expected</code>: the union of the two alternatives, and the layers that give <code>expected</code> the special member functions the standard describes.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;cstddef&gt;</code><br />
-<code>#include &lt;cstdint&gt;</code><br />
-<code>#include &lt;iomanip&gt;</code><br />
-<code>#include &lt;iostream&gt;</code><br />
-<code>#include &lt;sstream&gt;</code><br />
-<code>#include &lt;string&gt;</code><br />
-<code>#include &lt;vector&gt;</code><br />
-<code>#include &quot;<a class="el" href="a01238_source.html">lumex/core/unicode/LumexUnicode</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00587_source.html">lumex/core/utility/bit/LumexBit.hpp</a>&quot;</code><br />
+<code>#include &lt;type_traits&gt;</code><br />
+<code>#include &lt;utility&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00917_source.html">ExpectedDetail.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00911_source.html">ExpectedTypes.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01073_source.html">lumex/core/utility/assert/LumexAssert.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01127_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for example_unicode.cpp:</div>
+Include dependency graph for ExpectedStorage.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00909.png" border="0" usemap="#aexample__unicode_8cpp" alt=""/></div>
+<div class="center"><img src="a00909.png" border="0" usemap="#aExpectedStorage_8hpp" alt=""/></div>
+<map name="aExpectedStorage_8hpp" id="aExpectedStorage_8hpp">
+<area shape="rect" title="Internal storage of expected: the union of the two alternatives, and the layers that give expected th..." alt="" coords="779,5,939,31"/>
+<area shape="rect" title=" " alt="" coords="297,409,367,434"/>
+<area shape="poly" title=" " alt="" coords="778,26,664,43,602,59,542,81,488,110,468,127,446,154,406,217,376,285,354,347,341,396,335,394,349,346,371,283,401,214,442,150,464,124,485,105,540,76,600,54,663,38,778,21"/>
+<area shape="rect" title=" " alt="" coords="137,585,229,610"/>
+<area shape="poly" title=" " alt="" coords="779,27,568,46,313,78,194,98,97,121,59,133,31,146,14,159,8,173,8,421,12,448,21,473,36,496,55,516,99,551,142,576,139,581,96,555,51,520,32,499,17,475,6,449,3,422,3,171,10,156,28,142,57,128,96,116,193,93,312,73,568,41,778,21"/>
+<area shape="rect" title=" " alt="" coords="391,409,451,434"/>
+<area shape="poly" title=" " alt="" coords="779,30,708,44,629,68,550,104,514,127,481,154,458,180,442,211,431,244,423,278,418,343,421,395,415,395,413,343,418,277,426,242,437,208,454,177,477,150,510,123,548,99,627,63,707,39,778,25"/>
+<area shape="rect" href="a00917.html" title="Internal helpers of expected: language helpers that C++11 lacks as constexpr (fwd,..." alt="" coords="896,79,1045,104"/>
+<area shape="poly" title=" " alt="" coords="880,29,941,69,938,73,877,33"/>
+<area shape="rect" href="a00911.html" title="The tags and the placeholder type that expected uses: in_place, unexpect and Unit." alt="" coords="787,240,933,265"/>
+<area shape="poly" title=" " alt="" coords="861,31,863,226,857,226,856,31"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="1401,577,1615,617"/>
+<area shape="poly" title=" " alt="" coords="939,17,1221,29,1401,40,1584,55,1755,75,1898,100,1953,115,1996,132,2023,150,2031,161,2033,172,2033,421,2032,444,2026,462,2006,490,1976,511,1937,532,1882,551,1804,568,1629,590,1628,585,1803,562,1881,546,1935,527,1973,506,2002,486,2021,460,2026,443,2028,421,2028,172,2026,163,2019,154,1993,136,1952,120,1897,105,1754,80,1584,60,1400,45,1221,34,939,23"/>
+<area shape="rect" href="a01073.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="1709,401,1891,441"/>
+<area shape="poly" title=" " alt="" coords="939,19,1187,34,1499,63,1645,83,1766,108,1813,121,1849,136,1873,153,1881,171,1881,253,1876,292,1863,330,1845,363,1827,391,1823,389,1841,361,1858,328,1871,291,1876,252,1876,173,1869,157,1847,141,1812,126,1765,113,1644,89,1499,68,1187,40,939,24"/>
+<area shape="poly" title=" " alt="" coords="896,98,583,119,435,135,383,144,353,154,327,173,304,195,265,246,236,305,214,366,200,427,192,484,185,571,180,571,186,484,195,426,209,365,231,302,260,243,300,191,324,169,351,150,381,139,434,130,583,113,895,92"/>
+<area shape="poly" title=" " alt="" coords="896,100,672,122,572,138,538,146,519,154,493,180,473,210,457,243,445,277,430,343,425,395,419,395,425,342,440,275,452,240,468,207,489,176,516,150,536,141,571,132,672,117,896,94"/>
+<area shape="rect" title=" " alt="" coords="1414,240,1501,265"/>
+<area shape="poly" title=" " alt="" coords="1046,97,1141,115,1191,130,1240,150,1256,159,1267,169,1292,190,1347,215,1402,234,1400,239,1345,220,1289,194,1263,173,1253,164,1237,154,1189,135,1139,121,1045,102"/>
+<area shape="rect" title=" " alt="" coords="1495,409,1582,434"/>
+<area shape="poly" title=" " alt="" coords="1046,92,1115,98,1196,108,1281,125,1365,149,1413,165,1451,179,1484,201,1516,239,1534,278,1543,321,1546,362,1544,395,1539,395,1540,362,1538,322,1529,280,1511,241,1480,205,1449,184,1411,170,1363,155,1280,130,1195,114,1114,103,1045,97"/>
+<area shape="rect" title=" " alt="" coords="1607,409,1684,434"/>
+<area shape="poly" title=" " alt="" coords="1046,93,1257,113,1360,129,1403,139,1434,150,1474,172,1509,200,1541,233,1568,269,1611,339,1638,394,1633,397,1606,341,1564,272,1537,237,1506,204,1471,176,1432,154,1401,144,1359,134,1256,118,1045,99"/>
+<area shape="rect" title=" " alt="" coords="1302,159,1351,185"/>
+<area shape="poly" title=" " alt="" coords="1046,98,1159,118,1283,149,1290,152,1288,157,1282,155,1158,123,1045,103"/>
+<area shape="poly" title=" " alt="" coords="964,106,879,230,874,227,959,103"/>
+<area shape="poly" title=" " alt="" coords="1046,91,1135,96,1245,106,1364,123,1482,149,1632,184,1698,199,1757,217,1809,243,1855,279,1895,331,1928,400,1939,438,1941,471,1930,502,1906,531,1886,545,1860,556,1790,574,1709,586,1629,594,1628,588,1709,580,1789,568,1858,551,1884,540,1902,527,1926,499,1935,470,1934,439,1923,402,1890,334,1851,283,1806,247,1755,222,1696,204,1631,189,1481,155,1363,129,1244,111,1135,101,1045,96"/>
+<area shape="rect" href="a01067.html" title="Every general&#45;purpose type trait of LumexLib, one sub&#45;namespace of lumex::core::utility::traits per t..." alt="" coords="870,313,1071,353"/>
+<area shape="poly" title=" " alt="" coords="973,104,973,299,968,299,968,104"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="347,489,536,529"/>
+<area shape="poly" title=" " alt="" coords="896,97,790,104,670,115,558,131,513,142,480,154,399,201,368,224,343,250,322,280,304,314,275,402,269,423,270,431,274,440,301,467,335,486,332,490,298,471,270,443,265,432,264,422,269,401,299,312,317,277,339,247,365,220,396,196,478,150,511,137,557,126,669,110,790,98,895,92"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="379,577,634,617"/>
+<area shape="poly" title=" " alt="" coords="896,95,775,100,632,110,498,128,445,140,405,154,378,172,361,191,328,242,290,292,263,337,255,359,253,383,255,410,264,440,277,470,291,490,336,527,378,552,422,570,419,575,375,556,333,532,287,494,272,472,259,442,250,411,247,383,250,358,258,335,285,289,323,238,357,188,375,168,403,150,443,135,497,122,631,105,774,95,896,90"/>
+<area shape="rect" href="a00923.html" title="bad_expected_access, the exception that expected throws when its value is read while it holds an erro..." alt="" coords="1008,152,1227,192"/>
+<area shape="poly" title=" " alt="" coords="996,102,1070,143,1067,148,993,107"/>
+<area shape="rect" href="a00920.html" title="unexpected, the wrapper that carries an error into an expected; an analogue of C++23 std::unexpected." alt="" coords="530,152,697,192"/>
+<area shape="poly" title=" " alt="" coords="915,107,711,153,709,148,914,101"/>
+<area shape="poly" title=" " alt="" coords="819,268,678,319,592,358,510,403,488,424,478,434,464,444,435,456,409,462,362,465,316,469,292,477,265,492,244,509,225,531,197,574,193,571,221,528,240,506,263,487,290,472,315,464,361,460,408,457,433,451,461,439,475,430,484,420,506,399,590,353,676,315,817,263"/>
+<area shape="poly" title=" " alt="" coords="838,268,790,299,740,343,720,367,709,392,708,416,719,440,738,458,763,474,830,503,914,528,1009,547,1110,563,1211,575,1388,589,1388,594,1210,580,1109,568,1008,553,913,533,828,508,761,479,735,462,715,443,703,417,704,390,716,364,736,339,787,295,836,263"/>
+<area shape="poly" title=" " alt="" coords="879,263,934,303,930,307,876,268"/>
+<area shape="poly" title=" " alt="" coords="870,339,766,345,643,357,510,376,379,404,372,406,370,401,378,399,509,370,642,351,766,340,869,333"/>
+<area shape="poly" title=" " alt="" coords="875,356,663,404,499,447,336,492,300,511,265,534,209,578,206,573,262,530,297,507,334,487,498,441,662,399,874,351"/>
+<area shape="poly" title=" " alt="" coords="870,353,851,356,465,417,465,412,850,351,869,348"/>
+<area shape="poly" title=" " alt="" coords="1072,348,1091,351,1199,363,1284,370,1369,379,1477,399,1490,402,1489,407,1475,404,1368,384,1284,375,1199,369,1090,356,1071,353"/>
+<area shape="poly" title=" " alt="" coords="1072,348,1091,351,1233,363,1344,366,1455,373,1520,383,1595,399,1605,401,1603,407,1594,404,1519,388,1455,378,1344,371,1233,368,1090,356,1071,353"/>
+<area shape="poly" title=" " alt="" coords="1072,348,1091,351,1158,356,1245,360,1328,372,1361,383,1383,400,1393,417,1393,433,1380,465,1366,496,1365,511,1372,528,1393,552,1420,569,1417,574,1389,556,1367,531,1360,512,1361,494,1375,462,1388,432,1388,418,1379,403,1358,388,1327,377,1244,365,1157,361,1090,356,1071,353"/>
+<area shape="rect" title=" " alt="" coords="730,409,801,434"/>
+<area shape="poly" title=" " alt="" coords="925,356,809,406,807,401,923,351"/>
+<area shape="rect" title=" " alt="" coords="825,409,884,434"/>
+<area shape="poly" title=" " alt="" coords="945,356,884,403,880,398,942,352"/>
+<area shape="rect" title=" " alt="" coords="909,409,985,434"/>
+<area shape="poly" title=" " alt="" coords="968,354,956,396,951,395,963,353"/>
+<area shape="rect" title=" " alt="" coords="1009,409,1068,434"/>
+<area shape="poly" title=" " alt="" coords="989,352,1023,396,1018,399,984,355"/>
+<area shape="rect" title=" " alt="" coords="1093,409,1147,434"/>
+<area shape="poly" title=" " alt="" coords="1006,351,1088,400,1086,404,1004,356"/>
+<area shape="rect" title=" " alt="" coords="1172,409,1247,434"/>
+<area shape="poly" title=" " alt="" coords="1029,351,1161,399,1167,401,1165,406,1159,404,1028,356"/>
+<area shape="rect" title=" " alt="" coords="1271,409,1369,434"/>
+<area shape="poly" title=" " alt="" coords="1065,351,1259,399,1270,402,1269,407,1258,404,1064,356"/>
+<area shape="poly" title=" " alt="" coords="1072,348,1091,351,1259,367,1391,373,1524,381,1695,399,1695,404,1524,386,1391,379,1258,372,1090,356,1071,353"/>
+<area shape="poly" title=" " alt="" coords="876,356,785,379,746,392,719,404,679,433,653,462,629,494,594,531,546,571,542,567,590,527,625,491,649,459,675,429,716,399,744,387,783,374,875,351"/>
+<area shape="rect" href="a01124.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="1381,489,1635,529"/>
+<area shape="poly" title=" " alt="" coords="1072,348,1091,351,1143,356,1187,357,1265,355,1302,356,1340,362,1381,376,1427,399,1448,415,1467,435,1495,476,1490,479,1463,438,1445,419,1424,404,1379,381,1339,368,1301,361,1265,360,1187,363,1142,362,1090,356,1071,353"/>
+<area shape="poly" title=" " alt="" coords="1825,440,1843,460,1858,483,1864,507,1862,520,1855,531,1841,544,1820,555,1764,572,1697,584,1629,592,1628,587,1696,579,1763,567,1818,550,1838,539,1851,528,1857,518,1859,508,1853,485,1838,463,1821,443"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="1660,497,1841,522"/>
+<area shape="poly" title=" " alt="" coords="1791,443,1767,486,1762,483,1786,440"/>
+<area shape="poly" title=" " alt="" coords="1709,442,1696,444,1461,464,1139,482,550,508,550,503,1138,477,1461,459,1696,439,1708,437"/>
+<area shape="poly" title=" " alt="" coords="383,532,234,583,232,578,381,527"/>
+<area shape="poly" title=" " alt="" coords="537,516,656,527,1388,586,1387,591,656,532,536,521"/>
+<area shape="poly" title=" " alt="" coords="459,528,486,564,481,568,454,531"/>
+<area shape="poly" title=" " alt="" coords="1511,530,1511,563,1505,563,1505,530"/>
+<area shape="poly" title=" " alt="" coords="1086,195,1023,231,946,268,811,318,675,360,465,414,464,409,674,355,809,313,944,263,1020,226,1083,190"/>
+<area shape="poly" title=" " alt="" coords="1202,189,1401,237,1400,242,1201,195"/>
+<area shape="poly" title=" " alt="" coords="1176,189,1403,263,1482,280,1555,286,1684,287,1743,293,1799,310,1826,324,1853,343,1880,368,1906,400,1913,415,1914,434,1906,474,1890,511,1877,531,1859,543,1835,553,1773,570,1701,582,1628,591,1628,586,1700,577,1772,564,1833,548,1856,538,1873,527,1886,508,1901,473,1909,433,1908,416,1902,403,1876,372,1850,348,1823,329,1797,314,1742,298,1684,292,1554,291,1482,285,1402,268,1175,195"/>
+<area shape="poly" title=" " alt="" coords="542,195,490,214,432,240,375,274,325,315,298,346,274,380,235,452,208,520,192,572,187,570,203,518,231,449,269,377,293,343,321,311,372,269,430,235,488,209,540,190"/>
+<area shape="poly" title=" " alt="" coords="592,194,546,242,484,326,438,398,433,395,479,323,542,238,588,191"/>
+<area shape="poly" title=" " alt="" coords="676,190,809,233,807,238,674,195"/>
+<area shape="poly" title=" " alt="" coords="615,192,616,227,621,265,644,354,656,391,670,424,689,453,713,480,745,504,786,527,819,536,875,545,1035,563,1388,588,1388,593,1034,568,874,551,818,541,784,532,742,509,709,484,684,457,665,427,651,393,639,356,616,266,610,227,610,192"/>
+<area shape="poly" title=" " alt="" coords="616,192,621,229,629,248,640,263,675,283,729,299,792,311,857,320,856,325,791,316,727,304,673,288,637,267,624,250,616,230,610,193"/>
+<area shape="poly" title=" " alt="" coords="697,186,946,237,1696,396,1695,401,945,243,696,192"/>
+<area shape="poly" title=" " alt="" coords="577,195,503,237,414,292,334,351,304,378,286,403,279,422,281,431,286,440,300,454,315,463,347,472,381,470,415,463,451,455,486,453,519,462,535,473,550,488,559,507,557,528,548,549,536,568,532,565,544,546,552,527,553,508,546,491,532,477,517,467,485,459,451,461,417,468,381,475,346,477,313,468,297,458,282,443,276,432,274,422,282,400,300,375,330,347,411,288,500,232,574,190"/>
+<area shape="rect" title=" " alt="" coords="651,240,762,265"/>
+<area shape="poly" title=" " alt="" coords="639,190,683,229,680,233,635,194"/>
+</map>
 </div>
-</div><table class="memberdecls">
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00910.png" border="0" usemap="#aExpectedStorage_8hppdep" alt=""/></div>
+<map name="aExpectedStorage_8hppdep" id="aExpectedStorage_8hppdep">
+<area shape="rect" title="Internal storage of expected: the union of the two alternatives, and the layers that give expected th..." alt="" coords="689,5,849,31"/>
+<area shape="rect" href="a00902.html" title="expected&lt;SuccessType, ErrorType&gt;, an implementation of C++23 std::expected usable from C++11,..." alt="" coords="667,79,778,104"/>
+<area shape="poly" title=" " alt="" coords="756,44,733,80,729,77,752,41"/>
+<area shape="rect" href="a00914.html" title="The specialization expected&lt;void, ErrorType&gt; for operations that succeed without a value; an implemen..." alt="" coords="753,152,892,177"/>
+<area shape="poly" title=" " alt="" coords="781,43,821,151,816,153,776,45"/>
+<area shape="rect" href="a01373.html" title="Expected module: expected&lt;T, E&gt;, a value or an error after the C++23 std::expected,..." alt="" coords="705,299,788,324"/>
+<area shape="poly" title=" " alt="" coords="704,116,683,144,665,178,657,214,658,232,664,249,674,264,687,277,717,296,714,301,684,281,670,268,659,252,652,233,651,214,660,176,679,141,699,113"/>
+<area shape="poly" title=" " alt="" coords="753,110,807,150,804,154,750,114"/>
+<area shape="rect" href="a00905.html" title="The return markers success() and failure() for functions that return an expected." alt="" coords="674,225,819,251"/>
+<area shape="poly" title=" " alt="" coords="730,117,747,225,742,226,724,118"/>
+<area shape="rect" href="a01298.html" title="CPU and RAM of single processes, by process ID or by executable name, with the processes they started..." alt="" coords="211,372,403,397"/>
+<area shape="poly" title=" " alt="" coords="692,323,383,375,382,369,692,318"/>
+<area shape="rect" href="a00335.html" title=" " alt="" coords="427,372,600,397"/>
+<area shape="poly" title=" " alt="" coords="694,331,555,374,553,369,692,326"/>
+<area shape="rect" href="a00338.html" title=" " alt="" coords="624,372,869,397"/>
+<area shape="poly" title=" " alt="" coords="749,338,749,372,744,372,744,338"/>
+<area shape="rect" href="a00344.html" title=" " alt="" coords="893,372,1093,397"/>
+<area shape="poly" title=" " alt="" coords="803,325,951,369,950,374,801,330"/>
+<area shape="rect" href="a00341.html" title=" " alt="" coords="1118,372,1357,397"/>
+<area shape="poly" title=" " alt="" coords="802,317,1153,369,1152,375,801,322"/>
+<area shape="rect" href="a01301.html" title=" " alt="" coords="9,445,199,471"/>
+<area shape="poly" title=" " alt="" coords="259,405,140,448,138,443,258,400"/>
+<area shape="rect" href="a01343.html" title="Resource monitor module: a background thread that samples the CPU and RAM usage of the system (and of..." alt="" coords="150,519,325,544"/>
+<area shape="poly" title=" " alt="" coords="289,410,265,447,250,485,242,519,237,518,245,484,260,444,284,407"/>
+<area shape="rect" href="a01292.html" title="Background CPU/RAM usage sampler that appends one line per sample to a dated log file,..." alt="" coords="275,445,477,471"/>
+<area shape="poly" title=" " alt="" coords="330,406,366,443,362,447,326,409"/>
+<area shape="rect" href="a01289.html" title="The text the background sampler logs for a watch list." alt="" coords="501,445,659,471"/>
+<area shape="poly" title=" " alt="" coords="368,398,533,443,532,448,367,404"/>
+<area shape="rect" href="a00449.html" title=" " alt="" coords="5,599,232,625"/>
+<area shape="poly" title=" " alt="" coords="208,554,139,601,136,597,205,550"/>
+<area shape="rect" href="a00446.html" title=" " alt="" coords="256,592,456,632"/>
+<area shape="poly" title=" " alt="" coords="269,550,328,590,325,594,266,554"/>
+<area shape="poly" title=" " alt="" coords="341,480,263,521,260,516,338,475"/>
+<area shape="rect" href="a01295.html" title=" " alt="" coords="349,519,549,544"/>
+<area shape="poly" title=" " alt="" coords="400,479,438,516,434,520,397,482"/>
+<area shape="poly" title=" " alt="" coords="546,480,474,521,471,516,544,475"/>
+<area shape="rect" href="a01283.html" title=" " alt="" coords="574,519,730,544"/>
+<area shape="poly" title=" " alt="" coords="604,479,641,516,637,520,600,482"/>
+<area shape="poly" title=" " alt="" coords="835,190,841,220,840,236,834,252,823,268,809,281,779,301,776,296,806,277,819,264,830,249,834,235,835,220,830,191"/>
+<area shape="poly" title=" " alt="" coords="802,189,762,227,758,223,798,185"/>
+<area shape="poly" title=" " alt="" coords="749,264,749,298,744,298,744,264"/>
+</map>
+</div>
+</div>
+<p><a href="a00908_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02815.html">lumex::core::expected::result::detail::storage::expected_checks&lt; T, E &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The requirements on the types of <code>expected&lt;T, E&gt;</code> ([expected.object.general]/2, [expected.un.general]/2), as <code>static_assert</code>s.  <a href="a02815.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02819.html">lumex::core::expected::result::detail::storage::expected_void_checks&lt; E &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The requirements on the error type of <code>expected&lt;void, E&gt;</code> ([expected.void.general]/2), as <code>static_assert</code>s.  <a href="a02819.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02823.html">lumex::core::expected::result::detail::storage::expected_traits&lt; T, E &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The conditions the standard puts on the special member functions of <code>expected&lt;T, E&gt;</code>, evaluated once for a pair of types.  <a href="a02823.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02827.html">lumex::core::expected::result::detail::storage::empty_alternative</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The alternative of the union that holds nothing.  <a href="a02827.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02835.html">lumex::core::expected::result::detail::storage::expected_union&lt; V, E, true &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code><a class="el" href="a02831.html" title="The anonymous union of [expected.object.general] (union { remove_cv_t&lt;T&gt; val; E unex; }...">expected_union</a></code> with a trivial destructor.  <a href="a02835.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02839.html">lumex::core::expected::result::detail::storage::expected_union&lt; V, E, false &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code><a class="el" href="a02831.html" title="The anonymous union of [expected.object.general] (union { remove_cv_t&lt;T&gt; val; E unex; }...">expected_union</a></code> with a destructor that does nothing.  <a href="a02839.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02843.html">lumex::core::expected::result::detail::storage::has_val_flag&lt; Alignment &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>has_val</code> of [expected.object.general]: a <code>bool</code> in a class as large as the alignment of the union before it.  <a href="a02843.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02847.html">lumex::core::expected::result::detail::storage::expected_storage&lt; T, E &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>has_val</code> and the union of [expected.object.general], the constructors that start one alternative, and the algorithms that move contents between two storages.  <a href="a02847.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02851.html">lumex::core::expected::result::detail::storage::expected_destruct_base&lt; T, E, Trivial &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The layer that destroys the active alternative; trivial.  <a href="a02851.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02855.html">lumex::core::expected::result::detail::storage::expected_destruct_base&lt; T, E, false &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The layer that destroys the active alternative: [expected.object.dtor]/1.  <a href="a02855.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02859.html">lumex::core::expected::result::detail::storage::expected_copy_base&lt; T, E, Kind &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The layer of the copy constructor. <code>Kind</code> is 0 (the compiler's constructor, trivial when the layer below is: [expected.object.cons]/10), 1 (written out) or 2 (deleted: [expected.object.cons]/9). The other three members are defaulted, so they stay what the layers below make them.  <a href="a02859.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02863.html">lumex::core::expected::result::detail::storage::expected_copy_base&lt; T, E, 1 &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The copy constructor is written out: [expected.object.cons]/6.  <a href="a02863.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02867.html">lumex::core::expected::result::detail::storage::expected_copy_base&lt; T, E, 2 &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The copy constructor is deleted.  <a href="a02867.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02871.html">lumex::core::expected::result::detail::storage::expected_move_base&lt; T, E, Kind &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The layer of the move constructor. <code>Kind</code> is 0 (the compiler's constructor, trivial when the layer below is: [expected.object.cons]/16), 1 (written out) or 2 (deleted, which makes the defaulted move constructor of every layer above, and of <code>expected</code>, defined as deleted, and overload resolution ignores such a constructor: [expected.object.cons]/11 leaves it out by a Constraints element, so an rvalue is copied).  <a href="a02871.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02875.html">lumex::core::expected::result::detail::storage::expected_move_base&lt; T, E, 1 &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The move constructor is written out: [expected.object.cons]/12 and /15.  <a href="a02875.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02879.html">lumex::core::expected::result::detail::storage::expected_move_base&lt; T, E, 2 &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The move constructor is deleted (left out).  <a href="a02879.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02883.html">lumex::core::expected::result::detail::storage::expected_copy_assign_base&lt; T, E, Kind &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The layer of the copy assignment. <code>Kind</code> is 0 (the compiler's operator, trivial when the layer below is: [expected.object.assign]/5), 1 (written out) or 2 (deleted: [expected.object.assign]/4).  <a href="a02883.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02887.html">lumex::core::expected::result::detail::storage::expected_copy_assign_base&lt; T, E, 1 &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The copy assignment is written out: [expected.object.assign]/2.  <a href="a02887.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02891.html">lumex::core::expected::result::detail::storage::expected_copy_assign_base&lt; T, E, 2 &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The copy assignment is deleted.  <a href="a02891.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02895.html">lumex::core::expected::result::detail::storage::expected_move_assign_base&lt; T, E, Kind &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The layer of the move assignment. <code>Kind</code> is 0 (the compiler's operator, trivial when the layer below is: [expected.object.assign]/10), 1 (written out) or 2 (deleted, so ignored by overload resolution as the move constructor above: [expected.object.assign]/6).  <a href="a02895.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02899.html">lumex::core::expected::result::detail::storage::expected_move_assign_base&lt; T, E, 1 &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The move assignment is written out: [expected.object.assign]/7 and /9.  <a href="a02899.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02903.html">lumex::core::expected::result::detail::storage::expected_move_assign_base&lt; T, E, 2 &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The move assignment is deleted (left out).  <a href="a02903.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01425.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01488.html">lumex::core</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01528.html">lumex::core::expected</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01532.html">lumex::core::expected::result</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01533.html">lumex::core::expected::result::detail</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01535.html">lumex::core::expected::result::detail::storage</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a71588fc7874861ef047683aaf7386556" id="r_a71588fc7874861ef047683aaf7386556"><td class="memTemplParams" colspan="2">template&lt;typename T, typename E&gt; </td></tr>
+<tr class="memitem:a71588fc7874861ef047683aaf7386556"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01535.html#a71588fc7874861ef047683aaf7386556">lumex::core::expected::result::detail::storage::checks_of</a></td></tr>
+<tr class="separator:a71588fc7874861ef047683aaf7386556"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa87a00edbd20d7a4843cbfb7fcbfcc30" id="r_aa87a00edbd20d7a4843cbfb7fcbfcc30"><td class="memTemplParams" colspan="2">template&lt;typename Rhs, typename T&gt; </td></tr>
+<tr class="memitem:aa87a00edbd20d7a4843cbfb7fcbfcc30"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01535.html#aa87a00edbd20d7a4843cbfb7fcbfcc30">lumex::core::expected::result::detail::storage::source_of</a></td></tr>
+<tr class="memdesc:aa87a00edbd20d7a4843cbfb7fcbfcc30"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type the contents of an <code>expected</code> are read as when it is reached through <code>Rhs</code>: <code>T const &amp;</code> for an lvalue reference to a const object, <code>T &amp;&amp;</code> for an rvalue.  <br /></td></tr>
+<tr class="separator:aa87a00edbd20d7a4843cbfb7fcbfcc30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac65bd352580c736f1985431e902f3dd2" id="r_ac65bd352580c736f1985431e902f3dd2"><td class="memTemplParams" colspan="2">template&lt;typename T, typename E&gt; </td></tr>
+<tr class="memitem:ac65bd352580c736f1985431e902f3dd2"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01535.html#ac65bd352580c736f1985431e902f3dd2">lumex::core::expected::result::detail::storage::expected_base</a> = <a class="el" href="a02895.html">expected_move_assign_base</a>&lt;T, E&gt;</td></tr>
+<tr class="memdesc:ac65bd352580c736f1985431e902f3dd2"><td class="mdescLeft">&#160;</td><td class="mdescRight">The chain of layers <code>expected&lt;T, E&gt;</code> is built on.  <br /></td></tr>
+<tr class="separator:ac65bd352580c736f1985431e902f3dd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
-<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b2e60741d402ef37ccb3959f558e0bc" id="r_a6b2e60741d402ef37ccb3959f558e0bc"><td class="memTemplParams" colspan="2">template&lt;typename Movable, typename N, typename O, typename... Args&gt; </td></tr>
+<tr class="memitem:a6b2e60741d402ef37ccb3959f558e0bc"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01533.html#a6b2e60741d402ef37ccb3959f558e0bc">lumex::core::expected::result::detail::reinit_nothrow</a> (std::true_type, Movable, N &amp;newval, O &amp;oldval, Args &amp;&amp;...args)</td></tr>
+<tr class="memdesc:a6b2e60741d402ef37ccb3959f558e0bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <code>reinit-expected</code> of [expected.object.assign]/1 for the case that the construction of the new object cannot throw: destroy the old object, construct the new one.  <br /></td></tr>
+<tr class="separator:a6b2e60741d402ef37ccb3959f558e0bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4036e7dfa15bb0b3ad160825ec7559a1" id="r_a4036e7dfa15bb0b3ad160825ec7559a1"><td class="memTemplParams" colspan="2">template&lt;typename N, typename O, typename... Args&gt; </td></tr>
+<tr class="memitem:a4036e7dfa15bb0b3ad160825ec7559a1"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01533.html#a4036e7dfa15bb0b3ad160825ec7559a1">lumex::core::expected::result::detail::reinit_nothrow</a> (std::false_type, std::true_type, N &amp;newval, O &amp;oldval, Args &amp;&amp;...args)</td></tr>
+<tr class="memdesc:a4036e7dfa15bb0b3ad160825ec7559a1"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>reinit-expected</code>: the construction may throw, but <code>N</code> can be moved without throwing: build a temporary first.  <br /></td></tr>
+<tr class="separator:a4036e7dfa15bb0b3ad160825ec7559a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aadb2c52eaf3adcbeb3b512eee66452eb" id="r_aadb2c52eaf3adcbeb3b512eee66452eb"><td class="memTemplParams" colspan="2">template&lt;typename N, typename O, typename... Args&gt; </td></tr>
+<tr class="memitem:aadb2c52eaf3adcbeb3b512eee66452eb"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01533.html#aadb2c52eaf3adcbeb3b512eee66452eb">lumex::core::expected::result::detail::reinit_nothrow</a> (std::false_type, std::false_type, N &amp;newval, O &amp;oldval, Args &amp;&amp;...args)</td></tr>
+<tr class="memdesc:aadb2c52eaf3adcbeb3b512eee66452eb"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>reinit-expected</code>: neither can be done without throwing: save the old object and put it back if the construction throws.  <br /></td></tr>
+<tr class="separator:aadb2c52eaf3adcbeb3b512eee66452eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acccbbbed047c705e9d0dfb50a3e29221" id="r_acccbbbed047c705e9d0dfb50a3e29221"><td class="memTemplParams" colspan="2">template&lt;typename N, typename O, typename... Args&gt; </td></tr>
+<tr class="memitem:acccbbbed047c705e9d0dfb50a3e29221"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01533.html#acccbbbed047c705e9d0dfb50a3e29221">lumex::core::expected::result::detail::reinit_dispatch</a> (std::true_type, N &amp;newval, O &amp;, Args &amp;&amp;...args)</td></tr>
+<tr class="memdesc:acccbbbed047c705e9d0dfb50a3e29221"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>reinit-expected</code> when the old object is the <code><a class="el" href="a02911.html" title="Placeholder success type for expected&lt;void, ErrorType&gt;.">Unit</a></code> that stands for <code>void</code>: there is nothing to destroy or to put back, so the new object is built directly ([expected.void.assign]/1.2, /12.1 and [expected.void.swap] build <code>unex</code> with <code>construct_at</code> and nothing else).  <br /></td></tr>
+<tr class="separator:acccbbbed047c705e9d0dfb50a3e29221"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aebb2cc5369b2ff0554cb8d8fbda8dca2" id="r_aebb2cc5369b2ff0554cb8d8fbda8dca2"><td class="memTemplParams" colspan="2">template&lt;typename N, typename O, typename... Args&gt; </td></tr>
+<tr class="memitem:aebb2cc5369b2ff0554cb8d8fbda8dca2"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01533.html#aebb2cc5369b2ff0554cb8d8fbda8dca2">lumex::core::expected::result::detail::reinit_dispatch</a> (std::false_type, N &amp;newval, O &amp;oldval, Args &amp;&amp;...args)</td></tr>
+<tr class="memdesc:aebb2cc5369b2ff0554cb8d8fbda8dca2"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>reinit-expected</code> for an old object that holds something.  <br /></td></tr>
+<tr class="separator:aebb2cc5369b2ff0554cb8d8fbda8dca2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6746fa8e180748b7d38e746bc179df5a" id="r_a6746fa8e180748b7d38e746bc179df5a"><td class="memTemplParams" colspan="2">template&lt;typename N, typename O, typename... Args&gt; </td></tr>
+<tr class="memitem:a6746fa8e180748b7d38e746bc179df5a"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01533.html#a6746fa8e180748b7d38e746bc179df5a">lumex::core::expected::result::detail::reinit</a> (N &amp;newval, O &amp;oldval, Args &amp;&amp;...args)</td></tr>
+<tr class="memdesc:a6746fa8e180748b7d38e746bc179df5a"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>reinit-expected</code> (T = N, U = O): ends the life of <code>oldval</code> and starts <code>newval</code> with <code>args...</code>, keeping the old object if that throws.  <br /></td></tr>
+<tr class="separator:a6746fa8e180748b7d38e746bc179df5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int main </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00908_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00908_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-</div><!-- contents -->
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Internal storage of <code>expected</code>: the union of the two alternatives, and the layers that give <code>expected</code> the special member functions the standard describes. </p>
+<p>Everything here lives in <code><a class="el" href="a01533.html">lumex::core::expected::result::detail</a></code> and is not an interface for consumers. <code>expected&lt;T, E&gt;</code> and <code>expected&lt;void, E&gt;</code> ([expected.object.general], [expected.void.general]) derive from <code>expected_base&lt;T, E&gt;</code> (for <code>void</code> with the empty class <code>Unit</code> as <code>T</code>), which is a chain of class templates, one layer for each special member function whose existence and triviality the standard fixes:</p><ul>
+<li><code>expected_storage</code>: the union <code>{ val, unex }</code> and <code>has_val</code> of [expected.object.general], the constructors that start one alternative, and the algorithms the layers above and <code>expected</code> share (<code>reinit-expected</code> of [expected.object.assign], the swap of [expected.object.swap]);</li>
+<li><code>expected_destruct_base</code>: the destructor, trivial when <code>T</code> and <code>E</code> are trivially destructible ([expected.object.dtor]/2);</li>
+<li><code>expected_copy_base</code>, <code>expected_move_base</code>, <code>expected_copy_assign_base</code>, <code>expected_move_assign_base</code>: the copy and move constructors and assignments, each defaulted (so trivial) when the standard says it is trivial ([expected.object.cons]/10 and /16, [expected.object.assign]/5 and /10) and written out otherwise.</li>
+</ul>
+<p>A member whose condition does not hold is deleted in its layer (the copy constructor and the copy assignment: [expected.object.cons]/9, [expected.object.assign]/4) or deleted in its layer so that the defaulted member of every layer above, and of <code>expected</code>, is defined as deleted and ignored by overload resolution (the move constructor and the move assignment, which the standard leaves out by a Constraints element: [expected.object.cons]/11, [expected.object.assign]/6, so an rvalue is copied). A deleted function in a layer, unlike one added by an extra base class, leaves <code>std::is_trivially_copyable</code> true for the other members that are trivial, as for a class that declares them itself. </p><dl class="section note"><dt>Note</dt><dd>This is the technique of libstdc++ and of the MSVC STL (a layer of base classes per special member function), because C++11 has no <code>requires</code> and no conditionally defaulted member. </dd></dl>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_96974dbd24a5b5597024f342fa6acb49.html">unicode</a></li><li class="navelem"><a class="el" href="a00908.html">example_unicode.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_91063fb91facb4308dc4edc779d408bb.html">expected</a></li><li class="navelem"><a class="el" href="dir_558ea4e037858a45ed7ac4d50d1489ee.html">result</a></li><li class="navelem"><a class="el" href="a00908.html">ExpectedStorage.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

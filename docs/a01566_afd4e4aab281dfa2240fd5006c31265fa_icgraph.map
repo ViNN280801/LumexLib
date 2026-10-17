@@ -1,0 +1,7 @@
+<map id="lumex::core::span::view::detail::iterator_address" name="lumex::core::span::view::detail::iterator_address">
+<area shape="rect" id="Node000001" title="The address of the first element of a contiguous range given by a pointer; the count is not needed." alt="" coords="207,41,360,96"/>
+<area shape="rect" id="Node000002" href="$a01566.html#a7cd5de0c8ebed8aeb690c38d3505507f" title="The address of the first element of a contiguous range given by an iterator class." alt="" coords="5,5,159,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="193,55,158,49,159,44,194,50"/>
+<area shape="rect" id="Node000003" href="$a04027.html#a7036a71b9b1d63512b727049faeda0d6" title="Constructs a span of count elements starting at first." alt="" coords="9,85,155,125"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="194,87,156,94,155,89,193,82"/>
+</map>

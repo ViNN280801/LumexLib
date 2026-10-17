@@ -1,0 +1,5 @@
+<map id="lumex::core::expected::result::detail::is_swappable&lt; T &gt;" name="lumex::core::expected::result::detail::is_swappable&lt; T &gt;">
+<area shape="rect" id="Node000001" title="T has a swap of its own (found by argument&#45;dependent lookup), or the std::swap fallback applies (std:..." alt="" coords="275,20,441,75"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,227,89"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="240,45,274,45,274,50,240,50"/>
+</map>

@@ -1,0 +1,39 @@
+<map id="example_generators.cpp" name="example_generators.cpp">
+<area shape="rect" id="Node000001" title=" " alt="" coords="50,5,233,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,262,85,287"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="139,32,57,250,52,248,134,30"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="110,262,173,287"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="144,31,144,248,139,248,139,31"/>
+<area shape="rect" id="Node000004" href="$a01382.html" title="Generators module: number_generator, random integral and floating&#45;point numbers from the uniform,..." alt="" coords="219,79,389,119"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="168,28,252,70,250,75,166,33"/>
+<area shape="rect" id="Node000005" href="$a00932.html" title="Defines the number_generator template class for versatile random number generation." alt="" coords="224,167,467,207"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="316,118,333,153,328,155,311,120"/>
+<area shape="poly" id="edge7_Node000005_Node000002" title=" " alt="" coords="265,209,98,257,91,260,89,255,97,252,264,204"/>
+<area shape="poly" id="edge11_Node000005_Node000003" title=" " alt="" coords="297,209,185,257,182,259,180,254,183,252,295,204"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="591,262,657,287"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="425,204,500,226,580,252,585,254,583,259,578,257,499,231,423,209"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="681,262,740,287"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="467,202,567,223,670,252,675,254,673,259,669,257,566,228,466,208"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="764,262,836,287"/>
+<area shape="poly" id="edge8_Node000005_Node000008" title=" " alt="" coords="467,197,605,218,680,234,753,252,761,255,759,260,751,257,679,239,604,224,467,202"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="934,438,1026,463"/>
+<area shape="poly" id="edge9_Node000005_Node000009" title=" " alt="" coords="468,193,681,215,779,232,849,252,885,269,912,286,934,309,957,341,974,383,981,424,976,425,969,385,952,344,930,312,909,290,883,274,847,257,778,237,680,221,467,198"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="197,262,257,287"/>
+<area shape="poly" id="edge10_Node000005_Node000010" title=" " alt="" coords="319,209,256,256,253,252,316,205"/>
+<area shape="rect" id="Node000011" href="$a01073.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="383,255,566,295"/>
+<area shape="poly" id="edge12_Node000005_Node000011" title=" " alt="" coords="377,205,435,244,432,249,374,209"/>
+<area shape="rect" id="Node000015" href="$a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="328,431,541,471"/>
+<area shape="poly" id="edge21_Node000005_Node000015" title=" " alt="" coords="336,208,308,250,270,297,251,311,235,319,220,327,208,344,201,363,208,381,223,394,248,406,315,426,313,431,246,411,220,398,203,384,196,363,203,341,216,323,232,314,249,306,266,293,303,247,331,205"/>
+<area shape="rect" id="Node000016" href="$a01124.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="218,343,473,383"/>
+<area shape="poly" id="edge19_Node000005_Node000016" title=" " alt="" coords="348,207,348,328,343,328,343,207"/>
+<area shape="rect" id="Node000012" href="$a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="497,350,679,375"/>
+<area shape="poly" id="edge13_Node000011_Node000012" title=" " alt="" coords="503,293,562,339,559,344,499,297"/>
+<area shape="rect" id="Node000013" href="$a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="753,343,943,383"/>
+<area shape="poly" id="edge14_Node000011_Node000013" title=" " alt="" coords="560,292,750,337,749,342,559,297"/>
+<area shape="poly" id="edge18_Node000011_Node000015" title=" " alt="" coords="567,290,643,312,673,325,693,341,701,363,693,384,672,401,639,415,556,436,554,430,637,410,669,396,689,381,696,363,689,344,671,330,641,317,565,295"/>
+<area shape="poly" id="edge15_Node000013_Node000009" title=" " alt="" coords="880,381,951,428,948,432,877,385"/>
+<area shape="rect" id="Node000014" href="$a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="655,431,910,471"/>
+<area shape="poly" id="edge16_Node000013_Node000014" title=" " alt="" coords="835,385,808,421,804,418,831,381"/>
+<area shape="poly" id="edge17_Node000013_Node000015" title=" " alt="" coords="754,385,543,430,542,425,753,380"/>
+<area shape="poly" id="edge20_Node000016_Node000015" title=" " alt="" coords="368,381,406,419,403,423,364,385"/>
+</map>

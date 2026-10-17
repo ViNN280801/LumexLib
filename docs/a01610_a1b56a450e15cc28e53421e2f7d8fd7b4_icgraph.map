@@ -1,0 +1,10 @@
+<map id="lumex::core::utility::ranges::Algorithm::Detail::invoke_projection" name="lumex::core::utility::ranges::Algorithm::Detail::invoke_projection">
+<area shape="rect" id="Node000001" title="projection (argument) with the INVOKE rules: a callable, or a pointer to a data member or a member fu..." alt="" coords="428,73,613,128"/>
+<area shape="rect" id="Node000002" href="$a01609.html#aec0a81087adec6bd2d38380a680fb136" title="Finds the iterator whose (projected) value is numerically nearest to value." alt="" coords="217,29,371,84"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="414,83,371,74,372,69,415,77"/>
+<area shape="rect" id="Node000004" href="$a04543.html#a64988bcf02d29b56d2211fa51e18ada5" title=" " alt="" coords="208,109,380,178"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="415,123,381,130,380,124,414,118"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="329,18,316,11,294,8,275,10,263,15,258,21,258,29,253,29,253,19,260,10,274,5,294,3,318,6,332,14"/>
+<area shape="rect" id="Node000003" href="$a01609.html#abdb08d96519514d27aa1d6345cc1ad6b" title="Range&#45;based overload of get_nearest_to()." alt="" coords="5,29,160,84"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="203,59,160,59,160,54,203,54"/>
+</map>

@@ -1,0 +1,8 @@
+<map id="lumex::core::span::view::span::span" name="lumex::core::span::view::span::span">
+<area shape="rect" id="Node000001" title="Constructs a span of a contiguous range." alt="" coords="5,49,152,89"/>
+<area shape="rect" id="Node000002" href="$a01566.html#a07dd8478c0e5afece2b1d8149782d3f5" title="The pointer of a contiguous range: the member data ()." alt="" coords="200,5,379,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="152,51,186,44,187,49,153,57"/>
+<area shape="rect" id="Node000003" href="$a04027.html#ab5393aa7cdc476762748852718a134b7" title="The number of elements." alt="" coords="216,93,363,133"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="153,82,203,93,202,98,152,87"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="250,94,247,84,254,74,268,69,289,67,314,70,327,77,325,82,312,75,289,72,269,74,257,79,253,85,255,92"/>
+</map>

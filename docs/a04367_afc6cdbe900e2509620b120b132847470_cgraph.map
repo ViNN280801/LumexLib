@@ -1,0 +1,7 @@
+<map id="lumex::core::utility::dump::dump_factory::create_configuration" name="lumex::core::utility::dump::dump_factory::create_configuration">
+<area shape="rect" id="Node000001" title="Create a dump configuration for the specified type." alt="" coords="5,29,171,84"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="45,29,45,19,53,10,67,5,88,3,113,6,127,14,125,18,111,11,88,8,68,10,56,15,50,21,50,29"/>
+<area shape="rect" id="Node000002" href="$a04367.html#a8385c6ac0f9474e9d0f7744b6d0e56c4" title="Get the default dump type for the current platform." alt="" coords="219,29,403,84"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="171,54,205,54,205,59,171,59"/>
+<area shape="poly" id="edge3_Node000002_Node000002" title=" " alt="" coords="267,29,268,19,275,10,290,5,311,3,336,6,350,14,347,18,334,11,311,8,291,10,278,15,273,21,273,29"/>
+</map>

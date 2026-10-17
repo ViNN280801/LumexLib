@@ -1,0 +1,9 @@
+<map id="lumex::core::smart_ptr::to_std" name="lumex::core::smart_ptr::to_std">
+<area shape="rect" id="Node000001" title="Wraps a shared_ptr of this module into a std::shared_ptr." alt="" coords="5,85,151,125"/>
+<area shape="rect" id="Node000002" href="$a03899.html#ab5a9909429775aef7fd4ae60255e2b1e" title="The control block of a shared pointer (null when it has none)." alt="" coords="203,5,348,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="132,82,189,61,191,66,134,87"/>
+<area shape="rect" id="Node000003" href="$a03863.html#a19673ba006038380f655000a647423c0" title="The stored pointer." alt="" coords="199,85,352,125"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="151,102,184,102,184,107,151,107"/>
+<area shape="rect" id="Node000004" href="$a01563.html#ad9cd1672b0c39fe40c0b5bc9b023deb0" title="The identity of T: the same pointer for the same type, in one program." alt="" coords="201,149,349,189"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="141,122,202,142,200,147,139,127"/>
+</map>

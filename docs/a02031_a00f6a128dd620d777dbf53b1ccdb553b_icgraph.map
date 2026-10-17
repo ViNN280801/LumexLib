@@ -1,0 +1,5 @@
+<map id="lumex::core::atomic::sync::table_wait::Detail::bit_lock::state" name="lumex::core::atomic::sync::table_wait::Detail::bit_lock::state">
+<area shape="rect" id="Node000001" title="Returns the current lock word (lock_bit, notify_bit)." alt="" coords="208,5,369,60"/>
+<area shape="rect" id="Node000002" href="$a02031.html#ae648a43fbb445ff49b32ce6409112165" title="Takes the lock, sleeping while another thread holds it." alt="" coords="5,5,160,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="194,35,160,35,160,30,194,30"/>
+</map>

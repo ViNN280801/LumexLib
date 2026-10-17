@@ -1,0 +1,13 @@
+<map id="lumex::core::environment::env::lumex_environment::get_or" name="lumex::core::environment::env::lumex_environment::get_or">
+<area shape="rect" id="Node000001" title="Static convenience method to retrieve an environment variable with a default fallback." alt="" coords="5,108,197,163"/>
+<area shape="rect" id="Node000002" href="$a02599.html#a96d15dad7b6ca2fa7c910cd5fed9497d" title="Retrieves the value of an environment variable, providing a default fallback." alt="" coords="245,56,467,111"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="197,113,231,106,232,111,198,118"/>
+<area shape="rect" id="Node000005" href="$a02599.html#a8773983c01d39e03732541958672fb84" title="Provides the single, globally accessible instance of lumex_environment." alt="" coords="260,159,452,213"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="198,152,247,162,246,167,197,157"/>
+<area shape="rect" id="Node000003" href="$a02599.html#a7fbb25c5cfa51fc3427bb29df4cb7e6e" title="Retrieves the value of a specified environment variable in a thread&#45;safe manner." alt="" coords="515,5,716,60"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="466,59,501,52,502,58,467,64"/>
+<area shape="rect" id="Node000004" href="$a02603.html#a425467e8560cb446b98a4e8b50a14427" title="Retrieves the variable&#39;s value or a specified fallback value if the operation failed." alt="" coords="519,108,711,163"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="467,103,506,111,505,116,466,108"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="565,108,565,98,574,89,591,83,615,81,644,84,661,92,659,97,643,90,615,87,592,89,577,93,570,100,570,108"/>
+<area shape="poly" id="edge6_Node000005_Node000005" title=" " alt="" coords="307,159,307,148,316,140,332,134,356,132,385,135,401,143,398,148,383,140,356,137,333,139,319,144,312,150,312,159"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="lumex::core::utility::traits::meta::preserves_cv&lt; From, To &gt;" name="lumex::core::utility::traits::meta::preserves_cv&lt; From, To &gt;">
+<area shape="rect" id="Node000001" title="Going from From to To does not drop const or volatile: every qualifier of From is also on To (the C++..." alt="" coords="279,27,457,82"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,231,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="244,52,278,52,278,57,244,57"/>
+</map>

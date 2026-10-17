@@ -1,0 +1,5 @@
+<map id="lumex::applied::json::normalization::LumexJsonSchemaNormalizer" name="lumex::applied::json::normalization::LumexJsonSchemaNormalizer">
+<area shape="rect" id="Node000001" title="Shares the schema walker and the strict/non&#45;strict error policy between concrete normalizers." alt="" coords="5,108,256,163"/>
+<area shape="rect" id="Node000002" href="$a01719.html" title="Parses raw JSON text, checks it and returns the canonical document." alt="" coords="29,5,232,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="133,74,133,108,128,108,128,74"/>
+</map>

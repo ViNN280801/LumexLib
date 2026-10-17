@@ -1,0 +1,13 @@
+<map id="lumex::applied::hardware::caps::HardwareCapabilities::detect_hardware" name="lumex::applied::hardware::caps::HardwareCapabilities::detect_hardware">
+<area shape="rect" id="Node000001" title="Performs comprehensive system hardware detection and analysis." alt="" coords="5,77,213,132"/>
+<area shape="rect" id="Node000002" href="$a01711.html#ae7ff4b9ce7d8a1f9749c1f01a0e2d182" title="Estimates CPU generation year based on processor model name analysis." alt="" coords="261,5,469,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="206,75,254,61,256,66,208,80"/>
+<area shape="rect" id="Node000003" href="$a01759.html#aafb110cd6feeb2ab91305f27352b9118" title="Log an INFO&#45;level message." alt="" coords="272,85,459,125"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="213,102,258,102,258,107,213,107"/>
+<area shape="rect" id="Node000005" href="$a01584.html#ac45f6767d3472ac2a5e6a2f83408b678" title="Converts length characters of a wchar_t string to UTF&#45;8." alt="" coords="286,150,445,190"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="214,129,274,144,273,149,213,134"/>
+<area shape="rect" id="Node000004" href="$a01570.html#a5c0b80a6f74a32424bed62d7597a6759" title="Concatenates the streamed text of args." alt="" coords="525,82,669,122"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="459,101,511,100,511,106,459,106"/>
+<area shape="rect" id="Node000006" href="$a04315.html#ad5dbca37fafcc821a3b5fb7e4d438979" title=" " alt="" coords="517,147,676,201"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="445,169,504,170,504,175,445,174"/>
+</map>

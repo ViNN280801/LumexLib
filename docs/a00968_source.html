@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: XmlAllocator.hpp Source File</title>
+<title>LumexLib: Decoder.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,7 +103,7 @@ $(function(){initNavTree('a00968_source.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">XmlAllocator.hpp</div></div>
+  <div class="headertitle"><div class="title">Decoder.hpp</div></div>
 </div><!--header-->
 <div class="contents">
 <a href="a00968.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/*</span></div>
@@ -145,106 +145,117 @@ $(function(){initNavTree('a00968_source.html',''); initResizable(true); });
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="comment"> * SOFTWARE.</span></div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="comment"> */</span></div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span></div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="preprocessor">#ifndef LUMEX_XML_MEMORY_XML_ALLOCATOR_HPP</span></div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="preprocessor">#define LUMEX_XML_MEMORY_XML_ALLOCATOR_HPP</span></div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="preprocessor">#include &quot;<a class="code" href="a00932.html">lumex/LumexExport.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="preprocessor">#include &quot;<a class="code" href="a00581.html">lumex/core/utility/assert/LumexAssert.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="preprocessor">#include &quot;<a class="code" href="a00584.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span><span class="preprocessor">#include &quot;<a class="code" href="a01016.html">lumex/xml/types/XmlTypes.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="preprocessor">#include &quot;<a class="code" href="a00974.html">XmlMemoryPage.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01248.html">lumex</a> <span class="comment">// NOLINT(modernize-concat-nested-namespaces)</span></div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>{</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01492.html">xml</a></div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>{</div>
-<div class="foldopen" id="foldopen00072" data-start="{" data-end="}">
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno"><a class="line" href="a01500.html">   72</a></span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01500.html">memory</a></div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>{</div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="keyword">using </span><a class="code hl_typedef" href="a01508.html#af5c331138f914028e4642100ea3e7a24">lumex::xml::types::Types::char_t</a>;</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span></div>
-<div class="foldopen" id="foldopen00091" data-start="{" data-end="};">
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno"><a class="line" href="a04958.html">   91</a></span><span class="keyword">struct </span><a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <a class="code hl_function" href="a04958.html#ade249e9173ec469bebe9839a867d7753">XmlAllocator</a></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="preprocessor">#ifndef LUMEX_CORE_BASE64_DECODE_HPP</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="preprocessor">#define LUMEX_CORE_BASE64_DECODE_HPP</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="preprocessor">#if defined(__clang__)</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="preprocessor">#pragma clang diagnostic push</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wpadded&quot;</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wunsafe-buffer-usage&quot;</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="preprocessor">#if __has_warning(&quot;-Wunsafe-buffer-usage-in-libc-call&quot;)</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wunsafe-buffer-usage-in-libc-call&quot;</span></div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wcovered-switch-default&quot;</span></div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wswitch-enum&quot;</span></div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="preprocessor">#if __has_warning(&quot;-Wnrvo&quot;)</span></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wnrvo&quot;</span></div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wheader-hygiene&quot;</span></div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wused-but-marked-unused&quot;</span></div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wundefined-var-template&quot;</span></div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wdeprecated-redundant-constexpr-static-def&quot;</span></div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="preprocessor">#if __has_warning(&quot;-Wvariadic-macro-arguments-omitted&quot;)</span></div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wvariadic-macro-arguments-omitted&quot;</span></div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wunused-result&quot;</span></div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wextra-semi-stmt&quot;</span></div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wexpansion-to-defined&quot;</span></div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wexit-time-destructors&quot;</span></div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wundefined-func-template&quot;</span></div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wfloat-equal&quot;</span></div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span><span class="preprocessor">#include &quot;<a class="code" href="a00746.html">lumex/LumexExport.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span><span class="preprocessor">#include &lt;cstddef&gt;</span></div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span><span class="preprocessor">#include &quot;<a class="code" href="a00965.html">lumex/core/base64/codec/Base64.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01425.html">lumex</a> <span class="comment">// NOLINT(modernize-concat-nested-namespaces)</span></div>
 <div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>{</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>  <a class="code hl_function" href="a04958.html#ade249e9173ec469bebe9839a867d7753">XmlAllocator</a> (<a class="code hl_struct" href="a04962.html">XmlMemoryPage</a> *root);</div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span></div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>  <a class="code hl_struct" href="a04962.html">XmlMemoryPage</a> *<a class="code hl_function" href="a04958.html#a1fb1c756bdb1dc9834c3cca336dc7090">allocate_page</a> (std::size_t data_size);</div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span></div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>  <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="a04958.html#a46230e854a38c3389d5b092bdd422645">deallocate_page</a> (<a class="code hl_struct" href="a04962.html">XmlMemoryPage</a> *page);</div>
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span></div>
-<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>  <a class="code hl_define" href="a00584.html#acb652623305f8803081a68cf664aeeeb">LUMEX_ATTRIBUTE_NOINLINE</a> <span class="keywordtype">void</span> *</div>
-<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>  <a class="code hl_function" href="a04958.html#a9066c8946ee3cffc78c015c7464c6206">allocate_memory_oob</a> (std::size_t size, <a class="code hl_struct" href="a04962.html">XmlMemoryPage</a> *&amp;out_page);</div>
-<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span></div>
-<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>  <span class="keywordtype">void</span> *<a class="code hl_function" href="a04958.html#a52ba49868e2058ba6c0dbeb923c16c02">allocate_memory</a> (std::size_t size, <a class="code hl_struct" href="a04962.html">XmlMemoryPage</a> *&amp;out_page);</div>
-<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span></div>
-<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>  <span class="keywordtype">void</span> *<a class="code hl_function" href="a04958.html#a23666d6049ee4ccf8e92f7c2c56cf8cf">allocate_object</a> (std::size_t size, <a class="code hl_struct" href="a04962.html">XmlMemoryPage</a> *&amp;out_page);</div>
-<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span></div>
-<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="a04958.html#a7916caf4c4f5e8e87a00f8778a3d4640">deallocate_memory</a> (<span class="keywordtype">void</span> *ptr, std::size_t size, <a class="code hl_struct" href="a04962.html">XmlMemoryPage</a> *page);</div>
-<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span></div>
-<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>  <a class="code hl_typedef" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *<a class="code hl_function" href="a04958.html#a4f8c4e449e68d88fe5326388f967421f">allocate_string</a> (std::size_t length);</div>
-<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span></div>
-<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="a04958.html#aa83864016ef06776b8a0075a4fe42d8e">deallocate_string</a> (<a class="code hl_typedef" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *<span class="keywordtype">string</span>);</div>
-<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span></div>
-<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>  <a class="code hl_struct" href="a04962.html">XmlMemoryPage</a></div>
-<div class="line"><a id="l00243" name="l00243"></a><span class="lineno"><a class="line" href="a04958.html#a7bf859771f03b28de1e642893949c110">  243</a></span>      *<a class="code hl_variable" href="a04958.html#a7bf859771f03b28de1e642893949c110">m_root</a>; <span class="comment">// NOLINT(misc-non-private-member-variables-in-classes)</span></div>
-<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>  std::size_t</div>
-<div class="line"><a id="l00255" name="l00255"></a><span class="lineno"><a class="line" href="a04958.html#ac78598e7d05ab83e3b8f824a88688b2f">  255</a></span>      <a class="code hl_variable" href="a04958.html#ac78598e7d05ab83e3b8f824a88688b2f">m_busy_size</a>; <span class="comment">// NOLINT(misc-non-private-member-variables-in-classes)</span></div>
-<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>};</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01488.html">core</a></div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>{</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01497.html">base64</a></div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>{</div>
+<div class="foldopen" id="foldopen00103" data-start="{" data-end="}">
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno"><a class="line" href="a01503.html">  103</a></span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01503.html">decode</a></div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>{</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span><span class="keyword">using namespace </span><a class="code hl_namespace" href="a01499.html">lumex::core::base64::codec::Types</a>;</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span></div>
+<div class="foldopen" id="foldopen00119" data-start="{" data-end="};">
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno"><a class="line" href="a02039.html">  119</a></span><span class="keyword">class </span><a class="code hl_class" href="a02039.html">decoder</a> final</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>{</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>  <a class="code hl_define" href="a00746.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="a02039.html#ac8bf414de7a978ca3fd9ea7121916435">decode</a> (<span class="keywordtype">char</span> <span class="keyword">const</span> *encoded, std::size_t size,</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>                                std::vector&lt;byte_type&gt; &amp;out);</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span></div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>  <a class="code hl_define" href="a00746.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <span class="keyword">static</span> std::vector&lt;byte_type&gt; <a class="code hl_function" href="a02039.html#ac8bf414de7a978ca3fd9ea7121916435">decode</a> (<span class="keywordtype">char</span> <span class="keyword">const</span> *encoded,</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>                                                  std::size_t size);</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span></div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>  <span class="keyword">static</span> <span class="keywordtype">bool</span></div>
+<div class="foldopen" id="foldopen00161" data-start="{" data-end="}">
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno"><a class="line" href="a02039.html#a360afd49df79519220388de49571f5a4">  161</a></span>  <a class="code hl_function" href="a02039.html#a360afd49df79519220388de49571f5a4">decode</a> (<a class="code hl_typedef" href="a01499.html#ad7e09f224a1afaf5231200090c1f100a">string_type_t</a> encoded, std::vector&lt;byte_type&gt; &amp;out)</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>  {</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>    <span class="comment">// An empty input is valid: a default-constructed view has no data</span></div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>    <span class="comment">// pointer, which the core rejects.</span></div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="a02039.html#ac8bf414de7a978ca3fd9ea7121916435">decode</a> (encoded.<a class="code hl_function" href="a04167.html#a5b3f9ab09fbd99db936fad5d8ae43cc5">empty</a> () ? <span class="stringliteral">&quot;&quot;</span> : encoded.<a class="code hl_function" href="a04167.html#aff8d326ef9c6866116899f0eac72cfea">data</a> (), encoded.<a class="code hl_function" href="a04167.html#aef7453e757e48a1e7b0158b75f958b43">size</a> (),</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>                   out);</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>  }</div>
 </div>
-<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span> </div>
-<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Object&gt;</div>
-<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span><a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <span class="keyword">inline</span> <a class="code hl_struct" href="a04958.html">XmlAllocator</a> &amp;</div>
-<div class="foldopen" id="foldopen00276" data-start="{" data-end="}">
-<div class="line"><a id="l00276" name="l00276"></a><span class="lineno"><a class="line" href="a01500.html#a9e2f482374d0d85e41688b19b06931c7">  276</a></span><a class="code hl_function" href="a01500.html#a9e2f482374d0d85e41688b19b06931c7">get_allocator</a> (Object <span class="keyword">const</span> *<span class="keywordtype">object</span>)</div>
-<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>{</div>
-<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>  <a class="code hl_define" href="a00581.html#abff68c03d1bdde004eb72fe25c9c99c9">LUMEX_ASSERT</a> (<span class="keywordtype">object</span>);</div>
-<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span> </div>
-<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>  <span class="keywordflow">return</span> *<a class="code hl_define" href="a01019.html#a52d7b7c93277b4188c6495f44dd8d023">LUMEX_XML_GETPAGE</a> (<span class="keywordtype">object</span>)</div>
-<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>              -&gt;allocator; <span class="comment">// NOLINT(cppcoreguidelines-pro-type-const-cast)</span></div>
-<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>}</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span></div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>  <span class="keyword">static</span> std::vector&lt;byte_type&gt;</div>
+<div class="foldopen" id="foldopen00176" data-start="{" data-end="}">
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno"><a class="line" href="a02039.html#abf0c2c4214bf10c4e53c7f7a3b5f5d33">  176</a></span>  <a class="code hl_function" href="a02039.html#abf0c2c4214bf10c4e53c7f7a3b5f5d33">decode</a> (<a class="code hl_typedef" href="a01499.html#ad7e09f224a1afaf5231200090c1f100a">string_type_t</a> encoded)</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>  {</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="a02039.html#ac8bf414de7a978ca3fd9ea7121916435">decode</a> (encoded.<a class="code hl_function" href="a04167.html#a5b3f9ab09fbd99db936fad5d8ae43cc5">empty</a> () ? <span class="stringliteral">&quot;&quot;</span> : encoded.<a class="code hl_function" href="a04167.html#aff8d326ef9c6866116899f0eac72cfea">data</a> (), encoded.<a class="code hl_function" href="a04167.html#aef7453e757e48a1e7b0158b75f958b43">size</a> ());</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>  }</div>
 </div>
-<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>} <span class="comment">// namespace memory</span></div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>};</div>
 </div>
-<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>} <span class="comment">// namespace xml</span></div>
-<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>} <span class="comment">// namespace lumex</span></div>
-<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span> </div>
-<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span><span class="preprocessor">#endif </span><span class="comment">// !LUMEX_XML_MEMORY_XML_ALLOCATOR_HPP</span></div>
-<div class="ttc" id="aa00581_html"><div class="ttname"><a href="a00581.html">LumexAssert.hpp</a></div><div class="ttdoc">Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_...</div></div>
-<div class="ttc" id="aa00581_html_abff68c03d1bdde004eb72fe25c9c99c9"><div class="ttname"><a href="a00581.html#abff68c03d1bdde004eb72fe25c9c99c9">LUMEX_ASSERT</a></div><div class="ttdeci">#define LUMEX_ASSERT(cond)</div><div class="ttdef"><b>Definition</b> LumexAssert.hpp:111</div></div>
-<div class="ttc" id="aa00584_html"><div class="ttname"><a href="a00584.html">LumexAttributes.hpp</a></div><div class="ttdoc">LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P...</div></div>
-<div class="ttc" id="aa00584_html_acb652623305f8803081a68cf664aeeeb"><div class="ttname"><a href="a00584.html#acb652623305f8803081a68cf664aeeeb">LUMEX_ATTRIBUTE_NOINLINE</a></div><div class="ttdeci">#define LUMEX_ATTRIBUTE_NOINLINE</div><div class="ttdef"><b>Definition</b> LumexAttributes.hpp:166</div></div>
-<div class="ttc" id="aa00932_html"><div class="ttname"><a href="a00932.html">LumexExport.hpp</a></div><div class="ttdoc">Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,...</div></div>
-<div class="ttc" id="aa00932_html_aa948a1b1a43f6a954fd4c15b01ae4207"><div class="ttname"><a href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a></div><div class="ttdeci">#define LUMEX_API</div><div class="ttdef"><b>Definition</b> LumexExport.hpp:96</div></div>
-<div class="ttc" id="aa00974_html"><div class="ttname"><a href="a00974.html">XmlMemoryPage.hpp</a></div><div class="ttdoc">The header of a memory page of the XML allocator, and the default page size.</div></div>
-<div class="ttc" id="aa01016_html"><div class="ttname"><a href="a01016.html">XmlTypes.hpp</a></div><div class="ttdoc">The basic types and enumerations of the XML module: character and string types, node types,...</div></div>
-<div class="ttc" id="aa01019_html_a52d7b7c93277b4188c6495f44dd8d023"><div class="ttname"><a href="a01019.html#a52d7b7c93277b4188c6495f44dd8d023">LUMEX_XML_GETPAGE</a></div><div class="ttdeci">#define LUMEX_XML_GETPAGE(n)</div><div class="ttdef"><b>Definition</b> XmlMacros.hpp:75</div></div>
-<div class="ttc" id="aa01248_html"><div class="ttname"><a href="a01248.html">lumex</a></div><div class="ttdef"><b>Definition</b> LumexCPUVectorizationCapabilities.cpp:68</div></div>
-<div class="ttc" id="aa01492_html"><div class="ttname"><a href="a01492.html">lumex::xml</a></div><div class="ttdef"><b>Definition</b> XmlAttribute.hpp:102</div></div>
-<div class="ttc" id="aa01500_html"><div class="ttname"><a href="a01500.html">lumex::xml::memory</a></div><div class="ttdef"><b>Definition</b> XmlAllocator.hpp:73</div></div>
-<div class="ttc" id="aa01500_html_a9e2f482374d0d85e41688b19b06931c7"><div class="ttname"><a href="a01500.html#a9e2f482374d0d85e41688b19b06931c7">lumex::xml::memory::get_allocator</a></div><div class="ttdeci">XmlAllocator &amp; get_allocator(Object const *object)</div><div class="ttdoc">Retrieves the XmlAllocator instance that manages the memory for a given object.</div><div class="ttdef"><b>Definition</b> XmlAllocator.hpp:276</div></div>
-<div class="ttc" id="aa01508_html_af5c331138f914028e4642100ea3e7a24"><div class="ttname"><a href="a01508.html#af5c331138f914028e4642100ea3e7a24">lumex::xml::types::Types::char_t</a></div><div class="ttdeci">char char_t</div><div class="ttdef"><b>Definition</b> XmlTypes.hpp:77</div></div>
-<div class="ttc" id="aa04958_html"><div class="ttname"><a href="a04958.html">lumex::xml::memory::XmlAllocator</a></div><div class="ttdoc">Manages memory allocation and deallocation for XML nodes, attributes, and strings within a document.</div><div class="ttdef"><b>Definition</b> XmlAllocator.hpp:92</div></div>
-<div class="ttc" id="aa04958_html_a1fb1c756bdb1dc9834c3cca336dc7090"><div class="ttname"><a href="a04958.html#a1fb1c756bdb1dc9834c3cca336dc7090">lumex::xml::memory::XmlAllocator::allocate_page</a></div><div class="ttdeci">XmlMemoryPage * allocate_page(std::size_t data_size)</div><div class="ttdoc">Allocates a new XmlMemoryPage of a specified data size.</div><div class="ttdef"><b>Definition</b> XmlAllocator.cpp:95</div></div>
-<div class="ttc" id="aa04958_html_a23666d6049ee4ccf8e92f7c2c56cf8cf"><div class="ttname"><a href="a04958.html#a23666d6049ee4ccf8e92f7c2c56cf8cf">lumex::xml::memory::XmlAllocator::allocate_object</a></div><div class="ttdeci">void * allocate_object(std::size_t size, XmlMemoryPage *&amp;out_page)</div><div class="ttdoc">Allocates memory for an object from the allocator&#39;s managed pages.</div><div class="ttdef"><b>Definition</b> XmlAllocator.cpp:180</div></div>
-<div class="ttc" id="aa04958_html_a46230e854a38c3389d5b092bdd422645"><div class="ttname"><a href="a04958.html#a46230e854a38c3389d5b092bdd422645">lumex::xml::memory::XmlAllocator::deallocate_page</a></div><div class="ttdeci">static void deallocate_page(XmlMemoryPage *page)</div><div class="ttdoc">Deallocates a memory page previously allocated by this allocator.</div><div class="ttdef"><b>Definition</b> XmlAllocator.cpp:114</div></div>
-<div class="ttc" id="aa04958_html_a4f8c4e449e68d88fe5326388f967421f"><div class="ttname"><a href="a04958.html#a4f8c4e449e68d88fe5326388f967421f">lumex::xml::memory::XmlAllocator::allocate_string</a></div><div class="ttdeci">char_t * allocate_string(std::size_t length)</div><div class="ttdoc">Allocates memory for a null-terminated string.</div><div class="ttdef"><b>Definition</b> XmlAllocator.cpp:227</div></div>
-<div class="ttc" id="aa04958_html_a52ba49868e2058ba6c0dbeb923c16c02"><div class="ttname"><a href="a04958.html#a52ba49868e2058ba6c0dbeb923c16c02">lumex::xml::memory::XmlAllocator::allocate_memory</a></div><div class="ttdeci">void * allocate_memory(std::size_t size, XmlMemoryPage *&amp;out_page)</div><div class="ttdoc">Allocates a block of memory from the allocator&#39;s managed pages.</div><div class="ttdef"><b>Definition</b> XmlAllocator.cpp:163</div></div>
-<div class="ttc" id="aa04958_html_a7916caf4c4f5e8e87a00f8778a3d4640"><div class="ttname"><a href="a04958.html#a7916caf4c4f5e8e87a00f8778a3d4640">lumex::xml::memory::XmlAllocator::deallocate_memory</a></div><div class="ttdeci">void deallocate_memory(void *ptr, std::size_t size, XmlMemoryPage *page)</div><div class="ttdoc">Deallocates a block of memory previously allocated by this allocator.</div><div class="ttdef"><b>Definition</b> XmlAllocator.cpp:187</div></div>
-<div class="ttc" id="aa04958_html_a7bf859771f03b28de1e642893949c110"><div class="ttname"><a href="a04958.html#a7bf859771f03b28de1e642893949c110">lumex::xml::memory::XmlAllocator::m_root</a></div><div class="ttdeci">XmlMemoryPage * m_root</div><div class="ttdoc">Pointer to the root (current active) memory page of this allocator.</div><div class="ttdef"><b>Definition</b> XmlAllocator.hpp:243</div></div>
-<div class="ttc" id="aa04958_html_a9066c8946ee3cffc78c015c7464c6206"><div class="ttname"><a href="a04958.html#a9066c8946ee3cffc78c015c7464c6206">lumex::xml::memory::XmlAllocator::allocate_memory_oob</a></div><div class="ttdeci">void * allocate_memory_oob(std::size_t size, XmlMemoryPage *&amp;out_page)</div><div class="ttdoc">Allocates memory for large objects or strings that do not fit in the current memory page (out-of-band...</div><div class="ttdef"><b>Definition</b> XmlAllocator.cpp:122</div></div>
-<div class="ttc" id="aa04958_html_aa83864016ef06776b8a0075a4fe42d8e"><div class="ttname"><a href="a04958.html#aa83864016ef06776b8a0075a4fe42d8e">lumex::xml::memory::XmlAllocator::deallocate_string</a></div><div class="ttdeci">void deallocate_string(char_t *string)</div><div class="ttdoc">Deallocates a string previously allocated by allocate_string.</div><div class="ttdef"><b>Definition</b> XmlAllocator.cpp:269</div></div>
-<div class="ttc" id="aa04958_html_ac78598e7d05ab83e3b8f824a88688b2f"><div class="ttname"><a href="a04958.html#ac78598e7d05ab83e3b8f824a88688b2f">lumex::xml::memory::XmlAllocator::m_busy_size</a></div><div class="ttdeci">std::size_t m_busy_size</div><div class="ttdoc">The amount of memory currently used within the current m_root memory page.</div><div class="ttdef"><b>Definition</b> XmlAllocator.hpp:255</div></div>
-<div class="ttc" id="aa04958_html_ade249e9173ec469bebe9839a867d7753"><div class="ttname"><a href="a04958.html#ade249e9173ec469bebe9839a867d7753">lumex::xml::memory::XmlAllocator::XmlAllocator</a></div><div class="ttdeci">XmlAllocator(XmlMemoryPage *root)</div><div class="ttdoc">Constructs an XmlAllocator associated with a root memory page.</div><div class="ttdef"><b>Definition</b> XmlAllocator.cpp:88</div></div>
-<div class="ttc" id="aa04962_html"><div class="ttname"><a href="a04962.html">lumex::xml::memory::XmlMemoryPage</a></div><div class="ttdoc">Represents a single fixed-size memory page used by the XmlAllocator.</div><div class="ttdef"><b>Definition</b> XmlMemoryPage.hpp:84</div></div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>} <span class="comment">// namespace decode</span></div>
+</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>} <span class="comment">// namespace base64</span></div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>} <span class="comment">// namespace core</span></div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>} <span class="comment">// namespace lumex</span></div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span> </div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span><span class="preprocessor">#if defined(__clang__)</span></div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span><span class="preprocessor">#pragma clang diagnostic pop</span></div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span> </div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span><span class="preprocessor">#endif </span><span class="comment">// !LUMEX_CORE_BASE64_DECODE_HPP</span></div>
+<div class="ttc" id="aa00746_html"><div class="ttname"><a href="a00746.html">LumexExport.hpp</a></div><div class="ttdoc">Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,...</div></div>
+<div class="ttc" id="aa00746_html_aa948a1b1a43f6a954fd4c15b01ae4207"><div class="ttname"><a href="a00746.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a></div><div class="ttdeci">#define LUMEX_API</div><div class="ttdef"><b>Definition</b> LumexExport.hpp:96</div></div>
+<div class="ttc" id="aa00965_html"><div class="ttname"><a href="a00965.html">Base64.hpp</a></div><div class="ttdoc">Cross-platform Base64 encoding and decoding utilities.</div></div>
+<div class="ttc" id="aa01425_html"><div class="ttname"><a href="a01425.html">lumex</a></div><div class="ttdef"><b>Definition</b> LumexCPUVectorizationCapabilities.cpp:68</div></div>
+<div class="ttc" id="aa01488_html"><div class="ttname"><a href="a01488.html">lumex::core</a></div><div class="ttdef"><b>Definition</b> LumexAtomicSharedPtr.hpp:116</div></div>
+<div class="ttc" id="aa01497_html"><div class="ttname"><a href="a01497.html">lumex::core::base64</a></div><div class="ttdoc">Provides Base64 decoding functionalities.</div><div class="ttdef"><b>Definition</b> Base64.hpp:80</div></div>
+<div class="ttc" id="aa01499_html"><div class="ttname"><a href="a01499.html">lumex::core::base64::codec::Types</a></div><div class="ttdef"><b>Definition</b> Base64.hpp:84</div></div>
+<div class="ttc" id="aa01499_html_ad7e09f224a1afaf5231200090c1f100a"><div class="ttname"><a href="a01499.html#ad7e09f224a1afaf5231200090c1f100a">lumex::core::base64::codec::Types::string_type_t</a></div><div class="ttdeci">lumex::core::string_view::view::lumex_string_view string_type_t</div><div class="ttdoc">Type of the Base64 text the string overloads take: the lumex_string_view of lumex::string_view in eve...</div><div class="ttdef"><b>Definition</b> Base64.hpp:92</div></div>
+<div class="ttc" id="aa01503_html"><div class="ttname"><a href="a01503.html">lumex::core::base64::decode</a></div><div class="ttdef"><b>Definition</b> Decoder.hpp:104</div></div>
+<div class="ttc" id="aa02039_html"><div class="ttname"><a href="a02039.html">lumex::core::base64::decode::decoder</a></div><div class="ttdoc">Base64 decoder.</div><div class="ttdef"><b>Definition</b> Decoder.hpp:120</div></div>
+<div class="ttc" id="aa02039_html_a360afd49df79519220388de49571f5a4"><div class="ttname"><a href="a02039.html#a360afd49df79519220388de49571f5a4">lumex::core::base64::decode::decoder::decode</a></div><div class="ttdeci">static bool decode(string_type_t encoded, std::vector&lt; byte_type &gt; &amp;out)</div><div class="ttdoc">Decodes a Base64 string into out (see the pointer and size overload).</div><div class="ttdef"><b>Definition</b> Decoder.hpp:161</div></div>
+<div class="ttc" id="aa02039_html_abf0c2c4214bf10c4e53c7f7a3b5f5d33"><div class="ttname"><a href="a02039.html#abf0c2c4214bf10c4e53c7f7a3b5f5d33">lumex::core::base64::decode::decoder::decode</a></div><div class="ttdeci">static std::vector&lt; byte_type &gt; decode(string_type_t encoded)</div><div class="ttdoc">Decodes a Base64 string.</div><div class="ttdef"><b>Definition</b> Decoder.hpp:176</div></div>
+<div class="ttc" id="aa02039_html_ac8bf414de7a978ca3fd9ea7121916435"><div class="ttname"><a href="a02039.html#ac8bf414de7a978ca3fd9ea7121916435">lumex::core::base64::decode::decoder::decode</a></div><div class="ttdeci">static bool decode(char const *encoded, std::size_t size, std::vector&lt; byte_type &gt; &amp;out)</div><div class="ttdoc">Decodes size Base64 characters starting at encoded into out.</div><div class="ttdef"><b>Definition</b> Decoder.cpp:93</div></div>
+<div class="ttc" id="aa04167_html_a5b3f9ab09fbd99db936fad5d8ae43cc5"><div class="ttname"><a href="a04167.html#a5b3f9ab09fbd99db936fad5d8ae43cc5">lumex::core::string_view::view::lumex_basic_string_view::empty</a></div><div class="ttdeci">constexpr bool empty() const noexcept</div><div class="ttdoc">true when the view has no characters.</div><div class="ttdef"><b>Definition</b> LumexBasicStringView.hpp:1330</div></div>
+<div class="ttc" id="aa04167_html_aef7453e757e48a1e7b0158b75f958b43"><div class="ttname"><a href="a04167.html#aef7453e757e48a1e7b0158b75f958b43">lumex::core::string_view::view::lumex_basic_string_view::size</a></div><div class="ttdeci">constexpr size_type size() const noexcept</div><div class="ttdoc">The number of characters.</div><div class="ttdef"><b>Definition</b> LumexBasicStringView.hpp:1306</div></div>
+<div class="ttc" id="aa04167_html_aff8d326ef9c6866116899f0eac72cfea"><div class="ttname"><a href="a04167.html#aff8d326ef9c6866116899f0eac72cfea">lumex::core::string_view::view::lumex_basic_string_view::data</a></div><div class="ttdeci">constexpr const_pointer data() const noexcept</div><div class="ttdoc">The pointer to the first character; null for a default view.</div><div class="ttdef"><b>Definition</b> LumexBasicStringView.hpp:1378</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_dfaff3bf0c138bf12cc91354825aa357.html">memory</a></li><li class="navelem"><a class="el" href="a00968.html">XmlAllocator.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_8c8b73b6e18afab83ac8ebfe214770ca.html">base64</a></li><li class="navelem"><a class="el" href="dir_c3d932aadb004fdf3c8a22805bcb3811.html">decode</a></li><li class="navelem"><a class="el" href="a00968.html">Decoder.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

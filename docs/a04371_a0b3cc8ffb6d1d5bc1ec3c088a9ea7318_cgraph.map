@@ -1,0 +1,17 @@
+<map id="lumex::core::utility::dump::core_dump_generator::generate_dump" name="lumex::core::utility::dump::core_dump_generator::generate_dump">
+<area shape="rect" id="Node000001" title="Manually trigger a dump generation." alt="" coords="5,184,223,239"/>
+<area shape="rect" id="Node000002" href="$a04367.html#afc6cdbe900e2509620b120b132847470" title="Create a dump configuration for the specified type." alt="" coords="290,29,455,84"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="144,182,201,137,269,93,280,87,283,92,272,98,204,142,147,186"/>
+<area shape="rect" id="Node000004" href="$a04367.html#a089569dd9d7c24e07cb8579fafae3d44" title="Get a human&#45;readable description of the dump type." alt="" coords="290,132,455,187"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="222,187,276,176,277,181,223,192"/>
+<area shape="rect" id="Node000005" href="$a04363.html#ab14b939f86e081be2c51420ef0e0230e" title=" " alt="" coords="271,235,475,289"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="223,230,258,237,257,242,222,235"/>
+<area shape="rect" id="Node000006" href="$a04363.html#a0ff5aa176e47a23ef046f4335491bbf6" title=" " alt="" coords="271,313,475,368"/>
+<area shape="poly" id="edge9_Node000001_Node000006" title=" " alt="" coords="159,236,272,298,288,305,285,310,269,303,157,241"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="326,29,326,19,335,10,350,5,373,3,400,6,415,14,413,18,398,11,373,8,351,10,337,15,331,21,331,29"/>
+<area shape="rect" id="Node000003" href="$a04367.html#a8385c6ac0f9474e9d0f7744b6d0e56c4" title="Get the default dump type for the current platform." alt="" coords="523,29,707,84"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="456,54,509,54,509,59,456,59"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="568,29,568,19,577,10,592,5,615,3,642,6,657,14,655,18,640,11,615,8,593,10,579,15,573,21,573,29"/>
+<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="326,132,326,122,335,113,350,107,373,105,400,108,415,116,413,121,398,114,373,111,351,113,337,117,331,124,331,132"/>
+<area shape="poly" id="edge8_Node000005_Node000005" title=" " alt="" coords="326,235,326,224,335,216,350,210,373,208,400,211,415,219,413,224,398,216,373,213,351,215,337,220,331,226,331,235"/>
+</map>

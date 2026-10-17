@@ -1,0 +1,9 @@
+<map id="lumex::core::fmt::Detail::shortest_decimal" name="lumex::core::fmt::Detail::shortest_decimal">
+<area shape="rect" id="Node000001" title="Shortest decimal text that reads back to value (non&#45;negative, finite), in std::to_chars plain style: ..." alt="" coords="5,69,183,109"/>
+<area shape="rect" id="Node000002" href="$a01541.html#af34a0e837174fedbea5a781fb348eb59" title="Replaces the C locale&#39;s decimal point with .." alt="" coords="231,5,425,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="167,67,241,46,243,51,168,72"/>
+<area shape="rect" id="Node000003" href="$a01541.html#a211ae3ef1ab3a61baa6061f1e9285687" title="snprintf with one * precision, as a std::string." alt="" coords="239,69,417,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="183,87,226,87,226,92,183,92"/>
+<area shape="rect" id="Node000004" href="$a01541.html#abdf402da92f2de56a23be3b0e34728b1" title=" " alt="" coords="239,133,417,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="168,107,243,127,241,132,167,112"/>
+</map>

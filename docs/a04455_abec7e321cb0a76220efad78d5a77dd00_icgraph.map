@@ -1,0 +1,5 @@
+<map id="lumex::core::utility::numeric::safe_compare_impl_helper&lt; T, U, typename std::enable_if&lt; std::is_integral&lt; traits::meta::CleanType&lt; T &gt; &gt;::value &amp;&amp;std::is_integral&lt; traits::meta::CleanType&lt; U &gt; &gt;::value &amp;&amp;!std::is_same&lt; traits::meta::CleanType&lt; T &gt;, traits::meta::CleanType&lt; U &gt; &gt;::value &gt;::type &gt;::compare" name="lumex::core::utility::numeric::safe_compare_impl_helper&lt; T, U, typename std::enable_if&lt; std::is_integral&lt; traits::meta::CleanType&lt; T &gt; &gt;::value &amp;&amp;std::is_integral&lt; traits::meta::CleanType&lt; U &gt; &gt;::value &amp;&amp;!std::is_same&lt; traits::meta::CleanType&lt; T &gt;, traits::meta::CleanType&lt; U &gt; &gt;::value &gt;::type &gt;::compare">
+<area shape="rect" id="Node000001" title="Safe comparison &gt;= for integer types." alt="" coords="348,5,643,163"/>
+<area shape="rect" id="Node000002" href="$a04455.html#ac66032165e23e44e4e0db3ae856b93dc" title="Safe comparison &gt;= for integer types." alt="" coords="5,5,300,163"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="334,87,301,87,301,81,334,81"/>
+</map>

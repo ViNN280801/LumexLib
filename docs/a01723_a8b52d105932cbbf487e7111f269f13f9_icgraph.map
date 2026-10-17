@@ -1,0 +1,9 @@
+<map id="lumex::applied::json::normalization::LumexJsonSchemaNormalizer::process_against_schema" name="lumex::applied::json::normalization::LumexJsonSchemaNormalizer::process_against_schema">
+<area shape="rect" id="Node000001" title="Single entry into the shared walker; mode decides whether the normalized tree is built...." alt="" coords="333,69,599,124"/>
+<area shape="poly" id="edge3_Node000001_Node000001" title=" " alt="" coords="520,59,501,51,466,48,437,50,418,55,410,61,410,69,405,69,405,59,416,50,436,45,466,43,502,46,522,54"/>
+<area shape="rect" id="Node000002" href="$a01723.html#a6d6a03c5740ff75f5149ea6fdee9dc06" title="validate_and_normalize: returns the built tree." alt="" coords="5,29,285,84"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="320,81,285,77,286,72,320,76"/>
+<area shape="rect" id="Node000003" href="$a01723.html#a1384265ea61be8a83ba651e8fb89a8c5" title="validate_only: throws on the first violation, builds nothing." alt="" coords="11,108,279,163"/>
+<area shape="poly" id="edge4_Node000001_Node000003" title=" " alt="" coords="320,117,280,122,279,117,320,112"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="199,19,180,11,145,8,116,10,98,15,89,21,89,29,84,29,84,19,95,10,116,5,145,3,181,6,201,14"/>
+</map>

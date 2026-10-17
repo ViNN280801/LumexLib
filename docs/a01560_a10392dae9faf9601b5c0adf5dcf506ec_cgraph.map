@@ -1,0 +1,8 @@
+<map id="lumex::core::reflection::var_info::var_info" name="lumex::core::reflection::var_info::var_info">
+<area shape="rect" id="Node000001" title="Builds a diagnostic string about an arbitrary expression: name, value (if the type supports operator&lt;..." alt="" coords="5,53,173,93"/>
+<area shape="poly" id="edge3_Node000001_Node000001" title=" " alt="" coords="48,53,46,43,52,34,67,28,89,26,115,29,129,36,126,41,113,34,89,31,68,33,56,38,51,44,53,52"/>
+<area shape="rect" id="Node000002" href="$a01594.html#a5a8a6ca7779e633cf03b6e232ef67775" title="Demangles an already&#45;mangled C++ name (e.g. one captured from a backtrace/stack unwinder),..." alt="" coords="225,5,393,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,55,211,48,212,53,174,60"/>
+<area shape="rect" id="Node000003" href="$a01561.html#af5d8deba2f532feb4dfe17ec82886bb7" title="Detects whether std::ostream::operator&lt;&lt;(T) exists for a type T." alt="" coords="221,84,397,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="174,85,208,91,207,96,173,90"/>
+</map>

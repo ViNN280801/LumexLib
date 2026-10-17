@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::xml Namespace Reference</title>
+<title>LumexLib: lumex::core::atomic::smart_ptr::table_wait::Detail Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,42 +104,324 @@ $(function(){initNavTree('a01492.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#namespaces">Namespaces</a>  </div>
-  <div class="headertitle"><div class="title">lumex::xml Namespace Reference</div></div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::atomic::smart_ptr::table_wait::Detail Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01493.html">attribute</a></td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01923.html">basic_atomic_shared_ptr</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Atomic <code>std::shared_ptr&lt;T&gt;</code>, as <code>std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;</code>.  <a href="a01923.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01496.html">constants</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01995.html">basic_atomic_weak_ptr</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Atomic <code>std::weak_ptr&lt;T&gt;</code>, as <code>std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;</code>.  <a href="a01995.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01499.html">document</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01939.html">box_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">One published value of the lock-free engine: a retire node and an immutable smart pointer.  <a href="a01939.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01500.html">memory</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01959.html">epoch_wait_base</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The wait generation shared by every engine: <code>notify_*</code> advances a 32-bit counter and wakes the threads that sleep on it, <code>wait</code> compares the current value with the old one and sleeps on the counter only while they are equivalent.  <a href="a01959.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01495.html">node</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01963.html">lock_based_cell</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lock-based atomic cell over an ordinary smart pointer.  <a href="a01963.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01505.html">text</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01967.html">lock_free_cell</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lock-free atomic cell over an ordinary smart pointer.  <a href="a01967.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01506.html">tree</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01943.html">smart_ptr_traits_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalence of two smart pointers of one kind.  <a href="a01943.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01507.html">types</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01947.html">smart_ptr_traits_t&lt; std::shared_ptr&lt; T &gt; &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalence of <code>std::shared_ptr</code>: same stored pointer and same owner (or both empty).  <a href="a01947.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01494.html">utility</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01955.html">smart_ptr_traits_t&lt; std::weak_ptr&lt; T &gt; &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalence of <code>std::weak_ptr</code>: same owner, and the same stored pointer as far as <code>lock ()</code> can observe it.  <a href="a01955.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01509.html">writer</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01979.html">smart_ptr_traits_t&lt;::lumex::core::smart_ptr::shared_ptr&lt; T &gt; &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01501.html">xpath</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01987.html">smart_ptr_traits_t&lt;::lumex::core::smart_ptr::weak_ptr&lt; T &gt; &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02011.html">split_pointer_traits_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The traits of a pointer kind; specialized below.  <a href="a02011.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02015.html">split_pointer_traits_t&lt;::lumex::core::smart_ptr::shared_ptr&lt; T &gt; &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code><a class="el" href="a03863.html" title="Shared ownership of an object ([util.smartptr.shared]).">lumex::core::smart_ptr::shared_ptr</a>&lt;T&gt;</code>.  <a href="a02015.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02019.html">split_pointer_traits_t&lt;::lumex::core::smart_ptr::weak_ptr&lt; T &gt; &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code><a class="el" href="a03867.html" title="A weak reference to an object owned by shared_ptr objects.">lumex::core::smart_ptr::weak_ptr</a>&lt;T&gt;</code>.  <a href="a02019.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02003.html">split_strong_ledger_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The strong group of a control block.  <a href="a02003.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02007.html">split_weak_ledger_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The weak ledger of a control block.  <a href="a02007.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:adb6bacd656d47fc088685836f33190d7" id="r_adb6bacd656d47fc088685836f33190d7"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adb6bacd656d47fc088685836f33190d7">test_point_id_t</a> { <a class="el" href="#adb6bacd656d47fc088685836f33190d7aa06640f836d006857791f60c27b5e330">load_protected</a> = 1
+, <a class="el" href="#adb6bacd656d47fc088685836f33190d7a3aedc879fb3c0b34c8402d726f81637b">cas_checked</a> = 2
+ }</td></tr>
+<tr class="memdesc:adb6bacd656d47fc088685836f33190d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ids of the test points (see <code>LUMEX_ATOMIC_SMART_PTR_TEST_POINT</code>).  <a href="#adb6bacd656d47fc088685836f33190d7">More...</a><br /></td></tr>
+<tr class="separator:adb6bacd656d47fc088685836f33190d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a31c402376bcc2e685ff264c2e57d227f" id="r_a31c402376bcc2e685ff264c2e57d227f"><td class="memTemplParams" colspan="2">template&lt;typename Pointer&gt; </td></tr>
+<tr class="memitem:a31c402376bcc2e685ff264c2e57d227f"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a31c402376bcc2e685ff264c2e57d227f">dispose_box</a> (<a class="el" href="a01939.html">box_t</a>&lt; Pointer &gt; *box, <a class="el" href="a01931.html">reclaim::immediate</a>) noexcept</td></tr>
+<tr class="memdesc:a31c402376bcc2e685ff264c2e57d227f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hands a box that was removed from its cell to the policy.  <br /></td></tr>
+<tr class="separator:a31c402376bcc2e685ff264c2e57d227f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19b5ddda62e663afe553a29f90c7743c" id="r_a19b5ddda62e663afe553a29f90c7743c"><td class="memTemplParams" colspan="2">template&lt;typename Pointer&gt; </td></tr>
+<tr class="memitem:a19b5ddda62e663afe553a29f90c7743c"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a19b5ddda62e663afe553a29f90c7743c">dispose_box</a> (<a class="el" href="a01939.html">box_t</a>&lt; Pointer &gt; *box, <a class="el" href="a01935.html">reclaim::deferred</a>) noexcept</td></tr>
+<tr class="memdesc:a19b5ddda62e663afe553a29f90c7743c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hands a box that was removed from its cell to the policy.     <br /></td></tr>
+<tr class="separator:a19b5ddda62e663afe553a29f90c7743c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a023309f567d7a3d067a6715ac3c998f7" id="r_a023309f567d7a3d067a6715ac3c998f7"><td class="memTemplParams" colspan="2">template&lt;typename E&gt; </td></tr>
+<tr class="memitem:a023309f567d7a3d067a6715ac3c998f7"><td class="memTemplItemLeft" align="right" valign="top">void *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a023309f567d7a3d067a6715ac3c998f7">split_erase</a> (E *pointer) noexcept</td></tr>
+<tr class="memdesc:a023309f567d7a3d067a6715ac3c998f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">A stored pointer as the <code>void *</code> a holder keeps.  <br /></td></tr>
+<tr class="separator:a023309f567d7a3d067a6715ac3c998f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa27e593e75b976cbaf1e42f9a5bac437" id="r_aa27e593e75b976cbaf1e42f9a5bac437"><td class="memTemplParams" colspan="2">template&lt;typename Holder&gt; </td></tr>
+<tr class="memitem:aa27e593e75b976cbaf1e42f9a5bac437"><td class="memTemplItemLeft" align="right" valign="top">Holder *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#aa27e593e75b976cbaf1e42f9a5bac437">split_make_holder</a> (<a class="el" href="a03839.html">::lumex::core::smart_ptr::detail::ctl_base</a> *owner, void *pointer) noexcept</td></tr>
+<tr class="memdesc:aa27e593e75b976cbaf1e42f9a5bac437"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocates the holder of an alias; running out of memory ends the program, because every operation of the engine is <code>noexcept</code>.  <br /></td></tr>
+<tr class="separator:aa27e593e75b976cbaf1e42f9a5bac437"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="adb6bacd656d47fc088685836f33190d7" name="adb6bacd656d47fc088685836f33190d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adb6bacd656d47fc088685836f33190d7">&#9670;&#160;</a></span>test_point_id_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="#adb6bacd656d47fc088685836f33190d7">lumex::core::atomic::smart_ptr::table_wait::Detail::test_point_id_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Ids of the test points (see <code>LUMEX_ATOMIC_SMART_PTR_TEST_POINT</code>). </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="adb6bacd656d47fc088685836f33190d7aa06640f836d006857791f60c27b5e330" name="adb6bacd656d47fc088685836f33190d7aa06640f836d006857791f60c27b5e330"></a>load_protected&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="adb6bacd656d47fc088685836f33190d7a3aedc879fb3c0b34c8402d726f81637b" name="adb6bacd656d47fc088685836f33190d7a3aedc879fb3c0b34c8402d726f81637b"></a>cas_checked&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a19b5ddda62e663afe553a29f90c7743c" name="a19b5ddda62e663afe553a29f90c7743c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a19b5ddda62e663afe553a29f90c7743c">&#9670;&#160;</a></span>dispose_box() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Pointer&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::atomic::smart_ptr::table_wait::Detail::dispose_box </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01939.html">box_t</a>&lt; Pointer &gt; *</td>          <td class="paramname"><span class="paramname"><em>box</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a01935.html">reclaim::deferred</a></td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Hands a box that was removed from its cell to the policy.    </p>
+<dl class="section return"><dt>Returns</dt><dd>True when the box is already destroyed, false when it was retired (a reader named it, or the policy defers).</dd></dl>
+<p>The caller holds no hazard pointer that names the box.    </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01492_a19b5ddda62e663afe553a29f90c7743c_cgraph.png" border="0" usemap="#aa01492_a19b5ddda62e663afe553a29f90c7743c_cgraph" alt=""/></div>
+<map name="aa01492_a19b5ddda62e663afe553a29f90c7743c_cgraph" id="aa01492_a19b5ddda62e663afe553a29f90c7743c_cgraph">
+<area shape="rect" title="Hands a box that was removed from its cell to the policy." alt="" coords="5,29,175,84"/>
+<area shape="rect" href="a01492.html#a31c402376bcc2e685ff264c2e57d227f" title="Hands a box that was removed from its cell to the policy." alt="" coords="223,29,392,84"/>
+<area shape="poly" title=" " alt="" coords="175,54,209,54,209,59,175,59"/>
+<area shape="poly" title=" " alt="" coords="265,29,265,19,273,10,287,5,307,3,332,6,346,14,343,18,330,11,307,8,288,10,276,15,270,21,270,29"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a31c402376bcc2e685ff264c2e57d227f" name="a31c402376bcc2e685ff264c2e57d227f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a31c402376bcc2e685ff264c2e57d227f">&#9670;&#160;</a></span>dispose_box() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Pointer&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::atomic::smart_ptr::table_wait::Detail::dispose_box </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01939.html">box_t</a>&lt; Pointer &gt; *</td>          <td class="paramname"><span class="paramname"><em>box</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a01931.html">reclaim::immediate</a></td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Hands a box that was removed from its cell to the policy. </p>
+<dl class="section return"><dt>Returns</dt><dd>True when the box is already destroyed, false when it was retired (a reader named it, or the policy defers).</dd></dl>
+<p>The caller holds no hazard pointer that names the box. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01492_a31c402376bcc2e685ff264c2e57d227f_cgraph.png" border="0" usemap="#aa01492_a31c402376bcc2e685ff264c2e57d227f_cgraph" alt=""/></div>
+<map name="aa01492_a31c402376bcc2e685ff264c2e57d227f_cgraph" id="aa01492_a31c402376bcc2e685ff264c2e57d227f_cgraph">
+<area shape="rect" title="Hands a box that was removed from its cell to the policy." alt="" coords="5,29,175,84"/>
+<area shape="poly" title=" " alt="" coords="56,29,57,19,63,10,74,5,90,3,109,6,120,13,117,18,107,11,90,8,75,10,66,14,62,21,62,29"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01492_a31c402376bcc2e685ff264c2e57d227f_icgraph.png" border="0" usemap="#aa01492_a31c402376bcc2e685ff264c2e57d227f_icgraph" alt=""/></div>
+<map name="aa01492_a31c402376bcc2e685ff264c2e57d227f_icgraph" id="aa01492_a31c402376bcc2e685ff264c2e57d227f_icgraph">
+<area shape="rect" title="Hands a box that was removed from its cell to the policy." alt="" coords="223,29,392,84"/>
+<area shape="poly" title=" " alt="" coords="343,18,330,11,307,8,288,10,276,15,270,21,270,29,265,29,265,19,273,10,287,5,307,3,332,6,346,14"/>
+<area shape="rect" href="a01492.html#a19b5ddda62e663afe553a29f90c7743c" title="Hands a box that was removed from its cell to the policy." alt="" coords="5,29,175,84"/>
+<area shape="poly" title=" " alt="" coords="208,59,175,59,175,54,208,54"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a023309f567d7a3d067a6715ac3c998f7" name="a023309f567d7a3d067a6715ac3c998f7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a023309f567d7a3d067a6715ac3c998f7">&#9670;&#160;</a></span>split_erase()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename E&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void * lumex::core::atomic::smart_ptr::table_wait::Detail::split_erase </td>
+          <td>(</td>
+          <td class="paramtype">E *</td>          <td class="paramname"><span class="paramname"><em>pointer</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>A stored pointer as the <code>void *</code> a holder keeps. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01492_a023309f567d7a3d067a6715ac3c998f7_cgraph.png" border="0" usemap="#aa01492_a023309f567d7a3d067a6715ac3c998f7_cgraph" alt=""/></div>
+<map name="aa01492_a023309f567d7a3d067a6715ac3c998f7_cgraph" id="aa01492_a023309f567d7a3d067a6715ac3c998f7_cgraph">
+<area shape="rect" title="A stored pointer as the void * a holder keeps." alt="" coords="5,29,175,84"/>
+<area shape="poly" title=" " alt="" coords="56,29,57,19,63,10,74,5,90,3,109,6,120,13,117,18,107,11,90,8,75,10,66,14,62,21,62,29"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01492_a023309f567d7a3d067a6715ac3c998f7_icgraph.png" border="0" usemap="#aa01492_a023309f567d7a3d067a6715ac3c998f7_icgraph" alt=""/></div>
+<map name="aa01492_a023309f567d7a3d067a6715ac3c998f7_icgraph" id="aa01492_a023309f567d7a3d067a6715ac3c998f7_icgraph">
+<area shape="rect" title="A stored pointer as the void * a holder keeps." alt="" coords="237,89,407,143"/>
+<area shape="poly" title=" " alt="" coords="359,78,346,70,322,67,302,69,289,74,283,80,283,89,278,89,278,78,286,70,301,64,322,62,347,65,362,73"/>
+<area shape="rect" href="a02015.html#a21983dfba9c1c766742a7675fa24de7b" title=" " alt="" coords="7,5,188,104"/>
+<area shape="poly" title=" " alt="" coords="223,92,187,82,189,77,225,87"/>
+<area shape="rect" href="a02019.html#afa930ced7f6260426234cb487d86ca74" title=" " alt="" coords="5,128,189,227"/>
+<area shape="poly" title=" " alt="" coords="225,145,190,155,189,150,223,140"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="aa27e593e75b976cbaf1e42f9a5bac437" name="aa27e593e75b976cbaf1e42f9a5bac437"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa27e593e75b976cbaf1e42f9a5bac437">&#9670;&#160;</a></span>split_make_holder()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Holder&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Holder * lumex::core::atomic::smart_ptr::table_wait::Detail::split_make_holder </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a03839.html">::lumex::core::smart_ptr::detail::ctl_base</a> *</td>          <td class="paramname"><span class="paramname"><em>owner</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *</td>          <td class="paramname"><span class="paramname"><em>pointer</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Allocates the holder of an alias; running out of memory ends the program, because every operation of the engine is <code>noexcept</code>. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01492_aa27e593e75b976cbaf1e42f9a5bac437_cgraph.png" border="0" usemap="#aa01492_aa27e593e75b976cbaf1e42f9a5bac437_cgraph" alt=""/></div>
+<map name="aa01492_aa27e593e75b976cbaf1e42f9a5bac437_cgraph" id="aa01492_aa27e593e75b976cbaf1e42f9a5bac437_cgraph">
+<area shape="rect" title="Allocates the holder of an alias; running out of memory ends the program, because every operation of ..." alt="" coords="5,29,203,84"/>
+<area shape="poly" title=" " alt="" coords="65,29,65,19,72,10,85,5,104,3,127,6,139,14,137,18,125,11,104,8,87,10,75,15,70,21,70,29"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01492_aa27e593e75b976cbaf1e42f9a5bac437_icgraph.png" border="0" usemap="#aa01492_aa27e593e75b976cbaf1e42f9a5bac437_icgraph" alt=""/></div>
+<map name="aa01492_aa27e593e75b976cbaf1e42f9a5bac437_icgraph" id="aa01492_aa27e593e75b976cbaf1e42f9a5bac437_icgraph">
+<area shape="rect" title="Allocates the holder of an alias; running out of memory ends the program, because every operation of ..." alt="" coords="237,89,435,143"/>
+<area shape="poly" title=" " alt="" coords="376,78,361,70,336,67,315,69,301,74,295,80,295,89,290,89,290,78,298,70,314,64,336,62,363,65,378,73"/>
+<area shape="rect" href="a02015.html#a21983dfba9c1c766742a7675fa24de7b" title=" " alt="" coords="7,5,188,104"/>
+<area shape="poly" title=" " alt="" coords="223,90,187,81,189,75,225,85"/>
+<area shape="rect" href="a02019.html#afa930ced7f6260426234cb487d86ca74" title=" " alt="" coords="5,128,189,227"/>
+<area shape="poly" title=" " alt="" coords="225,147,190,156,189,151,224,142"/>
+</map>
+</div>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01492.html">xml</a></li>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01489.html">atomic</a></li><li class="navelem"><a class="el" href="a01490.html">smart_ptr</a></li><li class="navelem"><a class="el" href="a01491.html">table_wait</a></li><li class="navelem"><a class="el" href="a01492.html">Detail</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

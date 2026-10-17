@@ -1,0 +1,25 @@
+<map id="lumex::core::string_view::view::lumex_basic_string_view::substr" name="lumex::core::string_view::view::lumex_basic_string_view::substr">
+<area shape="rect" id="Node000001" title="The view of min(n, size() &#45; pos) characters from pos." alt="" coords="512,320,699,375"/>
+<area shape="rect" id="Node000002" href="$a04167.html#a30c6fb79bbf14a9d97ac6d7ea474e2a8" title=" " alt="" coords="237,5,464,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="593,308,575,255,548,192,511,128,488,99,462,73,447,62,450,58,466,69,492,96,515,125,553,189,580,253,598,306"/>
+<area shape="rect" id="Node000003" href="$a04167.html#a450aab6f4bdb30675c77556fbb272b84" title=" " alt="" coords="237,84,464,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="584,309,563,272,536,229,502,188,462,152,445,141,448,137,466,148,506,184,540,226,568,269,589,306"/>
+<area shape="rect" id="Node000004" href="$a04167.html#a4e95d86f524a2d4a8be104bc46964472" title=" " alt="" coords="237,163,464,217"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="567,312,520,270,463,231,440,220,442,215,465,226,523,266,571,308"/>
+<area shape="rect" id="Node000005" href="$a04167.html#aca8ff115a0b52ef8d94b2c340cf9b03f" title=" " alt="" coords="237,241,464,296"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="503,318,439,299,440,294,504,313"/>
+<area shape="rect" id="Node000006" href="$a01461.html#a1fdc61ad2fd0b3708f639104d5888ca3" title="The file name of the first argument in a /proc/&lt;pid&gt;/cmdline text." alt="" coords="259,320,442,375"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="498,350,442,350,442,345,498,345"/>
+<area shape="rect" id="Node000007" href="$a01461.html#ab85d8b416a2ab829a4f6ab529a0fb87c" title="The Linux name rule: does a process named name match the requested name?" alt="" coords="259,399,442,453"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="504,381,440,401,439,396,503,376"/>
+<area shape="rect" id="Node000008" href="$a00290.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="323,477,378,503"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="572,387,524,429,465,467,421,483,379,490,378,485,419,477,463,462,521,425,569,383"/>
+<area shape="rect" id="Node000009" href="$a01456.html#a6717a3ed5cd72967d51be31b9a06e15b" title="The value of a Key: &lt;number&gt; kB line, as /proc/meminfo and /proc/&lt;pid&gt;/status write them." alt="" coords="259,527,443,581"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="583,388,534,453,502,487,466,516,444,529,441,524,462,512,498,483,530,450,579,385"/>
+<area shape="rect" id="Node000012" href="$a01456.html#a0e67ec54524f7f56bec9c2d60b10aafa" title="Parses the text of /proc/stat." alt="" coords="259,605,443,660"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="595,389,576,436,548,491,512,546,466,595,444,609,441,604,462,591,507,543,543,488,571,433,590,387"/>
+<area shape="rect" id="Node000010" href="$a01456.html#adb9007f2be00ed6f67e4ea5fb3bcf1af" title="Parses the text of /proc/meminfo." alt="" coords="5,488,189,543"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="245,541,189,532,190,527,246,535"/>
+<area shape="rect" id="Node000011" href="$a01461.html#abfd03a410a583bd4d98d8452b164f802" title="Parses the text of /proc/&lt;pid&gt;/status." alt="" coords="6,567,189,621"/>
+<area shape="poly" id="edge10_Node000009_Node000011" title=" " alt="" coords="245,573,189,582,189,577,245,568"/>
+</map>

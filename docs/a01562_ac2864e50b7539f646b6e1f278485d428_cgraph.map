@@ -1,0 +1,9 @@
+<map id="lumex::core::smart_ptr::from_std" name="lumex::core::smart_ptr::from_std">
+<area shape="rect" id="Node000001" title="Wraps a std::shared_ptr (see the file text)." alt="" coords="5,53,151,93"/>
+<area shape="rect" id="Node000002" href="$a03899.html#a0273cd4b435d7c8c421e980b917d825c" title=" " alt="" coords="199,5,344,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="151,55,184,48,186,53,152,60"/>
+<area shape="rect" id="Node000003" href="$a03995.html#a0a6c3ea863906e8dee2185a0288877ed" title="Allocates a block that owns owner." alt="" coords="199,84,344,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="152,85,186,91,184,97,151,90"/>
+<area shape="rect" id="Node000004" href="$a01563.html#a277e6ded451b01456aadd0d07940efb6" title="Allocates one object of Block with the allocator Alloc rebound to it, constructs it with make and fre..." alt="" coords="392,91,575,131"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="344,109,378,109,378,114,344,114"/>
+</map>

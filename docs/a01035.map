@@ -1,0 +1,25 @@
+<map id="LumexUtf.hpp" name="LumexUtf.hpp">
+<area shape="rect" id="Node000001" title="Transcoding policies for UTF&#45;8, UTF&#45;16, UTF&#45;32, Latin&#45;1 and wchar_t: counters, writers and decoders t..." alt="" coords="77,5,191,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,174,76,199"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="129,32,57,163,52,161,125,29"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="101,174,167,199"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="137,31,137,160,131,160,131,31"/>
+<area shape="rect" id="Node000004" href="$a01082.html" title="Bit helpers. count_leading_zeros (C++11) counts the leading zeros of an unsigned integer of 1,..." alt="" coords="449,79,587,119"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="192,27,436,79,435,84,191,33"/>
+<area shape="poly" id="edge6_Node000004_Node000002" title=" " alt="" coords="450,107,284,128,186,146,89,169,82,172,80,167,88,164,185,141,283,123,449,102"/>
+<area shape="poly" id="edge7_Node000004_Node000003" title=" " alt="" coords="449,111,323,133,251,149,180,169,174,171,173,166,179,164,250,144,322,128,448,105"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="429,174,514,199"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="510,120,487,163,482,161,505,118"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="538,174,594,199"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="531,118,555,161,550,163,527,120"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="618,174,685,199"/>
+<area shape="poly" id="edge8_Node000004_Node000007" title=" " alt="" coords="550,117,622,164,620,169,547,121"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="709,174,786,199"/>
+<area shape="poly" id="edge9_Node000004_Node000008" title=" " alt="" coords="572,116,698,164,703,166,701,171,696,169,570,121"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="811,174,903,199"/>
+<area shape="poly" id="edge10_Node000004_Node000009" title=" " alt="" coords="588,111,688,135,799,164,809,167,807,172,797,169,686,140,586,116"/>
+<area shape="rect" id="Node000010" href="$a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="927,167,1181,207"/>
+<area shape="poly" id="edge11_Node000004_Node000010" title=" " alt="" coords="587,107,919,162,918,167,587,113"/>
+<area shape="rect" id="Node000011" href="$a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="191,167,405,207"/>
+<area shape="poly" id="edge12_Node000004_Node000011" title=" " alt="" coords="469,121,362,164,360,159,467,116"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="lumex::applied::serial::probe::detail::invalid_native_serial_handle" name="lumex::applied::serial::probe::detail::invalid_native_serial_handle">
+<area shape="rect" id="Node000001" title="The platform value that means &quot;no handle&quot;." alt="" coords="229,45,393,100"/>
+<area shape="rect" id="Node000002" href="$a01471.html#a0a518e9f25f40fbb213907e34b881f81" title="Opens open_path so the caller never waits past deadline." alt="" coords="5,5,181,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="215,58,181,52,182,46,216,53"/>
+<area shape="rect" id="Node000003" href="$a01471.html#aeda0fc72f871cf1ddc177f5c172131ea" title="Closes handle; a no&#45;op for the invalid value." alt="" coords="12,84,175,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="216,92,175,100,174,94,215,87"/>
+</map>

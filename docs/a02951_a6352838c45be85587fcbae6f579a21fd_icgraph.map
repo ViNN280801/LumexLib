@@ -1,0 +1,7 @@
+<map id="lumex::core::filesystem::fs::file_status::type" name="lumex::core::filesystem::fs::file_status::type">
+<area shape="rect" id="Node000001" title="Retrieves the file type." alt="" coords="228,49,403,89"/>
+<area shape="rect" id="Node000002" href="$a02951.html#af96980eec047db52291c5b214b63b32c" title="Constructs a file_status object with a specified file type and optional permissions." alt="" coords="5,5,180,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="214,55,180,49,181,44,215,50"/>
+<area shape="rect" id="Node000003" href="$a02951.html#a9d72317f3a8a85bbe11a0efe04d477d2" title="Sets the file type." alt="" coords="5,85,180,125"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="215,88,181,93,180,88,214,82"/>
+</map>

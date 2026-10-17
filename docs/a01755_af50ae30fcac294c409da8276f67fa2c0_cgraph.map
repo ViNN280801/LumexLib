@@ -1,0 +1,10 @@
+<map id="lumex::applied::logger::logger::LumexLogger::trace" name="lumex::applied::logger::logger::LumexLogger::trace">
+<area shape="rect" id="Node000001" title="Writes a LEVEL_TRACE message." alt="" coords="5,37,173,92"/>
+<area shape="poly" id="edge4_Node000001_Node000001" title=" " alt="" coords="45,37,45,27,53,18,68,13,89,11,115,14,130,22,128,26,114,19,89,16,69,18,56,23,50,29,50,37"/>
+<area shape="rect" id="Node000002" href="$a01755.html#a0cf9bc708c53e2340ad13cca5f49d522" title="Writes a message at the given log level." alt="" coords="221,13,416,53"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,50,207,46,208,51,174,56"/>
+<area shape="rect" id="Node000004" href="$a01449.html#ac3b769211eadb0537cfd497b72c9d94c" title=" " alt="" coords="228,77,409,117"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="174,74,214,79,214,85,173,79"/>
+<area shape="rect" id="Node000003" href="$a01755.html#aee932e2ee3ecf51f5f8204ec9ea05130" title="Prints a developer hint on how to use the logger." alt="" coords="464,5,632,60"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="417,30,450,30,450,35,417,35"/>
+</map>

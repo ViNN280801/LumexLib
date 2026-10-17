@@ -1,0 +1,5 @@
+<map id="lumex::core::utility::functional::detail::are_object_pointers&lt; T, U &gt;" name="lumex::core::utility::functional::detail::are_object_pointers&lt; T, U &gt;">
+<area shape="rect" id="Node000001" title="Both operands are pointers to objects (an array counts as one after the array&#45;to&#45;pointer conversion),..." alt="" coords="340,49,499,119"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,292,163"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="306,81,340,81,340,87,306,87"/>
+</map>
