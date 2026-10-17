@@ -3,7 +3,10 @@
 // point: right after a reader announced and fenced, or inside a reclamation
 // pass after it read the slots. With the two threads held there, the outcome
 // of the race between "the reader announced" and "the object was removed" is
-// not a matter of timing. Exit code 0 means every check passed.
+// not a matter of timing. A pop of the pool of free slots can be held the same
+// way, inside its lock. Exit code 0 means every check passed. The fixture is
+// also built with ThreadSanitizer (-DSANITIZE=thread), which then checks the
+// ordering of the held interleavings as well.
 
 #include <atomic>
 #include <chrono>
@@ -34,9 +37,21 @@ static int g_failures = 0;
     }                                                                         \
   while (false)
 
+// ThreadSanitizer brings its own operator new and delete, so the injected
+// allocation failure (a replaced operator new) and the check that needs it are
+// left out of a ThreadSanitizer build.
+#if defined(__SANITIZE_THREAD__)
+#define HOOKS_UNDER_TSAN 1
+#elif defined(__has_feature)
+#if __has_feature(thread_sanitizer)
+#define HOOKS_UNDER_TSAN 1
+#endif
+#endif
+
 // --- injected allocation failure
 // -----------------------------------------------
 
+#if !defined(HOOKS_UNDER_TSAN)
 namespace
 {
 // -1: off; n >= 0: the allocation that finds the counter at 0 throws.
@@ -70,6 +85,7 @@ operator delete (void *memory, std::size_t) noexcept
 {
   std::free (memory);
 }
+#endif
 
 namespace
 {
@@ -432,6 +448,77 @@ check_thread_exit_evicts_the_cache ()
   CHECK (evictions.load () == 5);
 }
 
+// A pop holds the lock of the pool and is about to read the link of the slot
+// on top; a push gets in meanwhile, so the pop's compare-exchange fails and
+// the pop takes the pushed slot instead. The slot it read stays in the pool,
+// and the next pop takes it and writes its link when its thread exits. The
+// first pop must release what it read when it lets the lock go, or that read
+// and the later write are a data race (ThreadSanitizer reports it; without the
+// sanitizer this check only proves the interleaving: the pop hit its test
+// point twice). No other synchronization may join the two threads: the first
+// popper reports its progress with relaxed atomics only.
+void
+check_a_pop_that_lost_to_a_push_releases_what_it_read ()
+{
+  // This thread's cache is emptied by taking more slots than it holds, then
+  // filled again (eight releases); the ninth release goes to the pool and is
+  // its top, and the tenth, made while the pop waits, is the push.
+  std::vector<hp::hazard_pointer> held;
+  for (int i = 0; i < 18; ++i)
+    {
+      held.push_back (hp::make_hazard_pointer ());
+    }
+  for (int i = 0; i < 9; ++i)
+    {
+      held.pop_back ();
+    }
+  std::atomic<bool> popped (false);
+  std::atomic<bool> may_finish (false);
+  std::atomic<int> visits (0);
+  arm (engine::pool_popping);
+  std::thread first (
+      [&]
+        {
+          t_stalls = true;
+          t_records = true;
+          t_events.clear ();
+          // A fresh thread has an empty cache: this pops from the pool.
+          hp::hazard_pointer holder = hp::make_hazard_pointer ();
+          t_records = false;
+          int seen = 0;
+          for (int const id : t_events)
+            {
+              seen += id == engine::pool_popping ? 1 : 0;
+            }
+          visits.store (seen, std::memory_order_relaxed);
+          popped.store (true, std::memory_order_relaxed);
+          while (!may_finish.load (std::memory_order_relaxed))
+            {
+              std::this_thread::yield ();
+            }
+        });
+  wait_until_arrived ();
+  // Disarmed before the release: the second visit of the point must neither
+  // stall nor signal (a signal read here would order the first pop's read
+  // before the work below).
+  g_stall_point.store (0);
+  held.pop_back (); // the push: this thread's cache is full
+  release ();
+  while (!popped.load (std::memory_order_relaxed))
+    {
+      std::this_thread::yield ();
+    }
+  // The next pop takes the slot the first pop read and writes its link when
+  // the thread exits and hands its cache back.
+  std::thread second (
+      [] { hp::hazard_pointer const holder = hp::make_hazard_pointer (); });
+  second.join ();
+  may_finish.store (true, std::memory_order_relaxed);
+  first.join ();
+  CHECK (visits.load (std::memory_order_relaxed) >= 2);
+  held.clear ();
+}
+
 // The pass that matches node by node gives the same answers as the set.
 void
 check_linear_scan_agrees ()
@@ -468,6 +555,7 @@ check_linear_scan_agrees ()
   engine::set_test_linear_scan (false);
 }
 
+#if !defined(HOOKS_UNDER_TSAN)
 // A batch that cannot get its slots has no effect: every holder stays empty
 // and the slots it had taken are back.
 void
@@ -524,6 +612,7 @@ check_a_failed_batch_has_no_effect ()
     }
   CHECK (failed_once);
 }
+#endif
 } // namespace
 
 int
@@ -539,8 +628,11 @@ main ()
   check_a_recycled_slot_is_read_by_the_pass ();
   check_clean_up_waits_for_a_running_pass ();
   check_thread_exit_evicts_the_cache ();
+  check_a_pop_that_lost_to_a_push_releases_what_it_read ();
   check_linear_scan_agrees ();
+#if !defined(HOOKS_UNDER_TSAN)
   check_a_failed_batch_has_no_effect ();
+#endif
   if (g_failures != 0)
     {
       std::fprintf (stderr, "%d check(s) failed\n", g_failures);

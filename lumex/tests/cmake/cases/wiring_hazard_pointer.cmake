@@ -141,6 +141,17 @@ _require_text("lumex/tests/cmake/consumer/hazard_pointer_compile_checks/CMakeLis
 # does not link the library of the tree.
 _require_text("lumex/tests/cmake/consumer/hazard_pointer_hooks/CMakeLists.txt"
     "LUMEX_HAZARD_POINTER_TEST_HOOKS")
+# It also runs under ThreadSanitizer, which alone sees the ordering of the pop
+# lock of the slot pool (the held pop of check_a_pop_that_lost_to_a_push_...).
+_require_text("lumex/tests/cmake/CMakeLists.txt"
+    "lumex_add_consumer_test(consumer_hazard_pointer_hooks_tsan hazard_pointer_hooks")
+_require_text("lumex/tests/cmake/CMakeLists.txt" "-DSANITIZE=thread RUN_PREFIX")
+_require_text("lumex/tests/cmake/consumer/hazard_pointer_hooks/CMakeLists.txt"
+    "if(SANITIZE STREQUAL \"thread\")")
+_require_text("lumex/tests/cmake/consumer/hazard_pointer_hooks/main.cpp"
+    "check_a_pop_that_lost_to_a_push_releases_what_it_read ();")
+_require_text("lumex/core/hazard_pointer/engine/LumexHazardPointerDomain.cpp"
+    "LUMEX_HAZARD_POINTER_TEST_POINT (pool_popping);")
 # The two-libraries fixture shares the library, with hidden visibility in the
 # two libraries.
 _require_text("lumex/tests/cmake/consumer/hazard_pointer_two_modules/CMakeLists.txt"

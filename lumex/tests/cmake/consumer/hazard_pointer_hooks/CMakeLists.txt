@@ -4,14 +4,27 @@
 # executable, with LUMEX_HAZARD_POINTER_TEST_HOOKS: the engine and the reader
 # then call a handler at named points, and main.cpp stalls threads there to
 # make the Dekker race of the protocol deterministic (a reader that announced
-# and waits, a pass that read the slots and waits). The library of the tree is
-# not linked, so the two engines never meet.
+# and waits, a pass that read the slots and waits, a pop of the slot pool that
+# holds its lock and waits). The library of the tree is not linked, so the two
+# engines never meet. With -DSANITIZE=thread
+# (cmake.consumer_hazard_pointer_hooks_tsan) everything is built with
+# ThreadSanitizer.
 
 cmake_minimum_required(VERSION 3.16)
 project(LumexHazardPointerHooks LANGUAGES CXX)
 
 if(NOT LUMEX_SOURCE_DIR)
     message(FATAL_ERROR "pass -DLUMEX_SOURCE_DIR=<LumexLib checkout>")
+endif()
+
+if(SANITIZE STREQUAL "thread")
+    if(NOT CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang" OR WIN32)
+        message("LUMEX_CONSUMER_SKIP: ThreadSanitizer needs GCC or Clang on a non-Windows host")
+        return()
+    endif()
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=thread -g -O1")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fsanitize=thread")
+    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -fsanitize=thread")
 endif()
 
 set(LUMEX_BUILD_TESTS OFF CACHE BOOL "" FORCE)

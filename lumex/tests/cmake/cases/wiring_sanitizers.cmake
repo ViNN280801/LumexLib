@@ -57,3 +57,19 @@ _require_text("CMakeLists.txt" "lumex_warn_sanitizers_without_debug_info")
 _require_text("CMakeLists.txt" "LUMEX_USE_ASAN")
 _require_text("CMakeLists.txt" "LUMEX_USE_UBSAN")
 _require_text("CMakeLists.txt" "LUMEX_USE_TSAN")
+
+# ThreadSanitizer with libc++: the test-only source with the instrumented
+# copies of the two libc++ members of the shared_ptr control block goes into
+# every test and every in-tree example, and into no library.
+_require_text("cmake/LumexBuild.cmake"
+    "function(lumex_add_tsan_libcxx_support target)")
+_require_text("cmake/LumexBuild.cmake"
+    "lumex/tests/support/LumexTestTsanLibcxx.cpp")
+_require_text("cmake/LumexGoogleTest.cmake"
+    "lumex_add_tsan_libcxx_support(\${target})")
+_require_text("lumex/examples/cmake/LumexExampleHelpers.cmake"
+    "lumex_add_tsan_libcxx_support(\${LEX_NAME})")
+_require_text("lumex/tests/support/LumexTestTsanLibcxx.cpp"
+    "__shared_weak_count::__release_weak ()")
+_require_text("lumex/tests/support/LumexTestTsanLibcxx.cpp"
+    "__shared_weak_count::lock ()")
