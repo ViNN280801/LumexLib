@@ -4,21 +4,30 @@
 // objects over the module's pointers.
 
 #include <algorithm>
-#include <compare>
-#include <concepts>
 #include <functional>
 #include <memory>
 #include <type_traits>
 #include <vector>
+#if defined(__has_include)
+#if __has_include(<compare>)
+#include <compare>
+#endif
+#if __has_include(<concepts>)
+#include <concepts>
+#endif
+#endif
 
 #include <gtest/gtest.h>
 
+#include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 #include "lumex/tests/core/smart_ptr/LumexSmartPtrTestSupport.hpp"
 
 namespace
 {
 using namespace smart_ptr_test;
 
+// Needs <compare> and <concepts> (not in GCC 8 -std=c++2a)
+#if LUMEX_HAS_STD_THREE_WAY_COMPARISON && LUMEX_HAS_STD_CONCEPTS
 template <class F>
 void
 scenario_three_way (Trace &t)
@@ -72,7 +81,10 @@ TEST (LumexSharedPtrCpp20Test,
                            <=> std::declval<ptr const &> ()));
   SUCCEED ();
 }
+#endif // LUMEX_HAS_STD_THREE_WAY_COMPARISON && LUMEX_HAS_STD_CONCEPTS
 
+// Needs std::ranges (not in GCC 8 -std=c++2a)
+#if LUMEX_HAS_STD_RANGES
 TEST (LumexSharedPtrCpp20Test,
       GivenTheRangesObjects_WhenComparing_ThenTheyWork)
 {
@@ -89,6 +101,7 @@ TEST (LumexSharedPtrCpp20Test,
   EXPECT_TRUE (v[0] <= v[1]);
   EXPECT_TRUE (v[1] <= v[2]);
 }
+#endif // LUMEX_HAS_STD_RANGES
 
 TEST (LumexSharedPtrCpp20Test,
       GivenReversedOperands_WhenComparingWithNullptr_ThenTheRewriteWorks)
@@ -108,7 +121,11 @@ TEST (LumexSharedPtrCpp20Test,
   // module has it on every standard (checked in the construction tests).
   std::shared_ptr<int> standard (new int (1));
   std::shared_ptr<int> alias (std::move (standard), nullptr);
+// Needs the rvalue aliasing constructor of std::shared_ptr (not in libstdc++
+// 8 with GCC 8 -std=c++2a; there is no feature-test macro for it)
+#if !defined(_GLIBCXX_RELEASE) || _GLIBCXX_RELEASE >= 11
   EXPECT_EQ (standard.get (), nullptr);
+#endif
   sp::shared_ptr<int> mine (new int (1));
   sp::shared_ptr<int> my_alias (std::move (mine), nullptr);
   EXPECT_EQ (mine.get (), nullptr);
