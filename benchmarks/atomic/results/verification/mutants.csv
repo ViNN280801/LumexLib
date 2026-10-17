@@ -1,92 +1,92 @@
-layer,id,description,verdict,catching,v1,v2,v3,v4,other
-prereg,M1,settle: un-tick without the L > 0 guard,caught (aggregate record),"expected: V1 S01@R8@1 (WORD); unit suites (ledger, torn policy)",aggregate,,,,aggregate
-prereg,M2,pre-transfer moved after the swap (the order of the first design),caught (aggregate record),"expected: V1 S01@R8@1 (G1); unit suites (exactness, observer reads 1 for K = 3)",aggregate,,,,aggregate
-prereg,M3,pre-transfer skipped on the L > 0 path,caught (aggregate record),"expected: unit suites (exactness, ext < 0 assert, ledger)",,,,,aggregate
-prereg,M4,exchange hand-over also transfers,caught (aggregate record),"expected: unit suites (ext != 0 at quiescence, leak)",,,,,aggregate
-prereg,M5,holder hand-over adopts the owner reference without add,caught (aggregate record),"expected: unit suites (holder exchange with a held loader, ASan, double dispose)",,,,,aggregate
-prereg,M6,load settles before reading the value,caught (aggregate record),"expected: V1 H1@R8@1 (SAFETY under ASan, or LIN)",aggregate,,,,
-prereg,M7,settle decision taken on the guess (no acquire re-read),caught (aggregate record),"expected: unit suites (torn policy, double payment); not visible to V1 by construction",,,,,aggregate
-prereg,M8,L3 tick relaxed,caught,"V4 block.publish_load/k0, data race on the published object (see the table of the Relacy mutants)",,,,caught,
-prereg,M9,S4 swap success order without acquire,"caught under the TSan counter, masked under the library counter",V4 holder.two_loads_in_one_thread_store/k0 (TSan counter only; see the table of the Relacy mutants),,,,partial,
-prereg,M10,L7 un-tick relaxed,caught,"V4 holder.load_store/k0, data race, a holder destroyed under a reader (see the table of the Relacy mutants)",,,,caught,
-prereg,M11,same_value compares lo only,caught (aggregate record),expected: unit suites (aliasing compare-exchange test),,,,,aggregate
-prereg,M12,same_value compares the whole hi,caught (aggregate record),expected: V1 SCL@R8@1 (PROGRESS),aggregate,,,,
-prereg,M13,fits with >> 39,caught (aggregate record),word codec suite: the commit that added it records that a mutation of the window shift is caught; the catching row is not recorded,,,,,aggregate
-prereg,M14,offset_of without sign extension,caught (aggregate record),word codec suite: the commit that added it records that a mutation of the sign extension is caught; negative-delta alias in the unit suites; the catching row is not recorded,,,,,aggregate
-prereg,M15,weak engine: holder settles on the weak ledger,caught (aggregate record),"expected: unit suites (weak holder ledger, leak)",,,,,aggregate
-prereg,M16,pin returns an empty guess without the confirming CAS,caught (aggregate record),expected: unit suites (torn policy),,,,,aggregate
-prereg,M17,tick-limit check removed,caught (aggregate record),expected: unit suites (peak L with tick_limit 2),,,,,aggregate
-prereg,M18,>= replaced by > in the tick-limit check,caught (aggregate record),expected: unit suites (peak L with tick_limit 2),,,,,aggregate
-prereg,M19,S12: settles the own tick after a successful swap,caught (aggregate record),"expected: unit suites (ledger, ASan); V1 H4@R8@2 rerun not recorded",,,,,aggregate
-prereg,M20,compare-exchange: no retire of the image on failure,caught (aggregate record),expected: unit suites (leak of desired),,,,,aggregate
-prereg,M21,strong compare-exchange: no retry when the reloaded value is equivalent,caught (aggregate record),"expected: V1 SC@R8@2 (LIN, CAS-STRONG)",aggregate,,,,
-prereg,M22,pre-transfer off by one (L or L - 2 instead of L - 1),caught (aggregate record),expected: V1 S01@R8@1 (W2BOUND) and S01@R0@1 (DEP-SHORT); unit suites (ledger),aggregate,,,,aggregate
-prereg,M23,destructor does not drop,caught (aggregate record),expected: unit suites (leak),,,,,aggregate
-prereg,M24,try_add refuses count == 0,caught (aggregate record),expected: V1 LK@R8@1 (LOCK),aggregate,,,,
-prereg,M25,rmw_order ignores seq_cst,survives,no catcher: V4 litmus tests pass with the mutant (see the table of the Relacy mutants); not catchable on x86-64 by tests,,,,missed,missed
-prereg,M26,no writer pin (pre-transfer on the guessed block),caught (aggregate record),"expected: V1 GF@R8@2 (SAFETY, write to a freed slot)",aggregate,,,,
-prereg,M27,no undo when the word turned to another block,caught (aggregate record),"expected: V1 UW@R8@2 (OP-END, E-ID); unit suites (I4)",aggregate,,,,aggregate
-prereg,M28,undo pays moved instead of moved + 1,caught (aggregate record),"expected: unit suites (I4, leak); V1 UW@R8@2 rerun not recorded",,,,,aggregate
-prereg,M29,holder pre-transfer without the owner mirror,caught (aggregate record),"expected: V1 H1@R8@1 (E-ID, then G1); unit suites (exactness oracle (b))",aggregate,,,,aggregate
-prereg,M30,holder payment without the mirror payment,caught (aggregate record),expected: unit suites (owner ext != 0 at quiescence),,,,,aggregate
-prereg,M31,own tick pre-transferred and settled instead of consumed,caught (aggregate record),expected: V1 S01@R8@1 (W2BOUND),aggregate,,,,
-prereg,M32,swapped-out path counts and pays in two read-modify-writes,caught by V1 only (aggregate record),"expected: V1 S01@R8@1 (G2, C-ID, BAL); the unit suites do not catch it (changelog)",aggregate,,,,missed
-prereg,M33,decision reads relaxed (load and the failure order of the swap),caught,"V4 (ghost race, see the table of the Relacy mutants); the unit suites do not catch it (changelog)",,,,caught,missed
-prereg,M34,fast path without the L == 0 check,caught (aggregate record),"expected: V1 S01@R8@1 (E-ID, BAL); unit suites (exactness)",aggregate,,,,aggregate
-prereg,M35,reserve surplus not returned (store drop or exchange hand-over),caught (aggregate record),expected: unit suites (ext != 0 at quiescence),,,,,aggregate
-prereg,M36,reserve exceeded without a top-up,caught (aggregate record),"expected: V1 TU@R0@3 (DEP-SHORT, soak bound); unit suites (ext < 0 assert, ledger)",aggregate,,,,aggregate
-prereg,M37,use_count returns count only,caught (aggregate record),expected: unit suites (exactness oracle (a)),,,,,aggregate
-prereg,M38,L9 take_and_settle replaced by add (payment forgotten),caught (aggregate record),expected: unit suites (I4); V1 S01@R8@1 rerun not recorded,,,,,aggregate
-V1,V1/R4,swap_out: the found word with L == 0 is treated as the same block,not recorded,"expected: UW2@R8@2 (W2BOUND, NONNEG)",,,,,
-V1,V1/R5,not reproducible from the repository,not recorded,expected: H4@R8@2 (E-ID or OP-END),,,,,
-V1,V1/R6,not reproducible from the repository,not recorded,expected: H4@R8@2 (DEP-SHORT),,,,,
-V1,V1/R7,not reproducible from the repository,not recorded,expected: S05@R8@1 (SAFETY),,,,,
-V2,V2/M01,same_value ignores delta (same as N02),caught at quick,V2 DAC; V1 RIC,caught,caught,,,
-V2,V2/M02,load: stale holder owner/pointer from the first guess,caught at quick,V2 HA1 HA3 HA4 WH1 WH2,missed,caught,,,
-V2,V2/M03,holder CAS: owner/pointer read from the guess,caught at quick,V2 HA1 HA4 WH2,missed,caught,,,
-V2,V2/M04,holder CAS: no compare after the pin,caught at quick,V2 HA1 HA2 HA4 WH2; V1 HC,caught,caught,,,
-V2,V2/M05,settle: blind retry,caught at quick,V2 36 tests (AR1 and others); V1 84 tests,caught,caught,,,
-V2,V2/M06,settle: un-tick of any block,caught at quick,V2 HA4 (soak: CD1@2); V1 24 tests,caught,caught,,,
-V2,V2/M07,count_and_settle: present decision ignores the tag,caught at quick,V2 HA4 (soak: CD1@2); V1 26 tests,caught,caught,,,
-V2,V2/M08,count_and_settle: present decision ignores L != 0,caught at quick,V2 DA BA4 RW DAC DA2 and others; V1 27 tests,caught,caught,,,
-V2,V2/M09,swap_out: same block with L == 0 counts as pinned,caught at quick,V2 RW (oracle PATH); V1 S08 UW2,caught,caught,,,
-V2,V2/M10,swap_out: other block with ticks counts as the same,"caught at the soak bound (V2), at quick by V1",V2 soak RX@3 HA1@3 HA2@3 WH2@3 (PATH); V1 S08 S14,caught,soak,,,
-V2,V2/M11,CAS: image dropped after a failed CAS but reused,caught at quick,V2 CD2 LKC EXC DAC; V1 18 tests,caught,caught,,,
-V2,V2/M12,counter try_add: count_of instead of the whole word,caught at quick,V2 LKX LKC; V1 LK,caught,caught,,,
-V2,V2/M13,weak_ptr expired: count part only,caught at quick,V2 EXX EXC; V1 EX,caught,caught,,,
-V2,V2/M14a,block_of: holder flag not masked,caught at quick,V2 AR3 AR4 HA1 CH2 and others; V1 15 tests,caught,caught,,,
-V2,V2/M14b,tag compared without the holder bit,equivalent mutant,"no test in any set; the pinned block keeps its address, the holder bit is never observable where addresses are compared",missed,missed,,,
-V2,V2/M15,"load: stale holder owner, weak engine only",caught at quick,V2 WH1 WH2,missed,caught,,,
-V2,V2/M16,load: static cross-thread cache holder to owner,caught at quick,V2 HA1 HA2 HA3 HA4 WH1 WH2 CH2,missed,caught,,,
-V2,V2/M17,CAS block: deposit 0 instead of the ticks of the word,caught at quick,V2 CD2 LKC EXC; V1 18 tests,caught,caught,,,
-V2,V2/N03,empty same_value ignores the raw pointer,caught at quick,V2 CE1,missed,caught,,,
-V2,V2/N04,an empty word equals any word with the same hi,caught at quick,V2 CE2 CE3,missed,caught,,,
-V2,V2/N07,settle: tick present only with the same delta,caught at quick,V2 DA2 (soak: DA@3); V1 RI RIC,caught,caught,,,
-V2,V2/N08,count_and_settle: the same,caught at quick,V2 DA2 (soak: DA@3); V1 RI RIC,caught,caught,,,
-V2,V2/N10,holder CAS compares the owner only,caught at quick,V2 HA4; V1 HC,caught,caught,,,
-V2,V2/N11,holder CAS compares the pointer only,survives,"vocabulary gap: in the simulator a far pointer is determined by its owner, so owner equality and pointer equality never differ",missed,missed,,,
-V3,V3/M1,compare ignores the delta,caught,Aba.EveryPairOfIdentities; Aba.AliasingPointersOfSeveralOwners; Lin.ShortRecordedHistories; Lin.RmwOnAliasingValues,,,caught,,
-V3,V3/M2,store drops the replaced word without its decrement,caught,Aba.AToBAToA_SameOwnerReturns; Aba.StalledHolderOfExpected; Aba.DeadNodesAddressReused; Aba.SameOwnerStoredAgain; Aba ReusePool/AllocatorBoundaries/weak-owner; Lin.MonotoneLoads; Lifecycle 7 of 7,,,caught,,
-V3,V3/M3,exchange returns load () and drops the store,caught,Aba.EveryPairOfIdentities; Aba.AliasingPointersOfSeveralOwners; Lin.ShortRecordedHistories; Lin.RmwOnAliasingValues; Lin.ExchangingUniqueTokens; Lifecycle 2,,,caught,,
-V3,V3/M4,a successful compare-exchange skips drop_word,caught,Aba.AliasingPointersOfSeveralOwners; Aba.AToBAToA_SameOwnerReturns; Aba.StalledHolderOfExpected; Lin.RmwOnAliasingValues; Lin.CasVersionChain; Lin Stack/Queue/List histories; Structures Treiber/MSQueue/HarrisList/ForcedAba; Lifecycle 5,,,caught,,
-V3,V3/M5,compare ignores the block,caught,Aba.EveryPairOfIdentities; Aba.AliasingPointersOfSeveralOwners; Aba.AToBAToA_SameOwnerReturns; Aba.StalledHolderOfExpected; Lin.ShortRecordedHistories; Lin.RmwOnAliasingValues; Lin.CasVersionChain; Lin histories; Structures; Lifecycle 2,,,caught,,
-V4,M8,L3 tick of a load relaxed [library counter],caught,block.publish_load/k0; DATA RACE in load; found at execution 1 (full search),,,,caught,
-V4,M10,L7 un-tick relaxed [library counter],caught,holder.load_store/k0; DATA RACE in finish; found at execution 9 (full search),,,,caught,
-V4,M33,"decision reads relaxed, load and swap failure [library counter]",caught,block.load_store/k0; DATA RACE in witness_read; found at execution 47 (full search),,,,caught,
-V4,M33a (331),decision read of a load relaxed [library counter],caught,block.load_store/k0; DATA RACE in witness_read; found at execution 47 (full search),,,,caught,
-V4,M33b (332),failure order of the swap relaxed [library counter],caught,block.two_writers_load/k0; DATA RACE in witness_read; found at execution 5621 (bound 4 search; 3 in the random search),,,,caught,
-V4,M33,"decision reads relaxed, swap to an empty pointer [library counter]",caught,block.load_reset/k0; DATA RACE in witness_read; found at execution 34 (full search),,,,caught,
-V4,M33a (331),"decision read of a load relaxed, swap to an empty pointer [library counter]",caught,block.load_reset/k0; DATA RACE in witness_read; found at execution 34 (full search),,,,caught,
-V4,V4/101,no acquire fence after a drop that made the counter zero [library counter],caught,block.load_store/k0; DATA RACE in finish; found at execution 1 (full search),,,,caught,
-V4,V4/102,counter drop relaxed (no release) [library counter],caught,block.load_store/k0; DATA RACE in finish; found at execution 1 (full search),,,,caught,
-V4,V4/103,S1 swap of a tick-free word relaxed [library counter],caught,block.publish_load/k0; DATA RACE in load; found at execution 1 (full search),,,,caught,
-V4,V4/104,S2 writer's pin relaxed [library counter],caught,holder.publish_load/k0; DATA RACE in deposit; found at execution 45 (bound 4 search; 155 in the random search),,,,caught,
-V4,V4/105,S10 and S12 compare-exchange swap relaxed (block word) [library counter],caught,block.cas_load_store/k0; DATA RACE in finish; found at execution 1 (bound 4 search; 4 in the random search),,,,caught,
-V4,V4/105,S10 and S12 compare-exchange swap relaxed (holder word) [library counter],caught,holder.cas_load; DATA RACE in witness_read; found at execution 80 (full search),,,,caught,
-V4,V4/201,compare-exchange: the surplus of the swap one too big (block word) [library counter],caught,block.cas_load_store/k2; USER INVARIANT FAILED (ext negative); found at execution 1 (bound 4 search; 2 in the random search),,,,caught,
-V4,V4/202,strong compare-exchange: the retained deposit is not topped up [library counter],caught,block.cas_load_store/k2; USER INVARIANT FAILED (ext negative); found at execution 899400 (bound 4 search; 88 in the random search),,,,caught,
-V4,V4/203,holder compare-exchange: the deposit is one short [library counter],caught,holder.cas_load/k2; USER INVARIANT FAILED (ext negative); found at execution 59 (full search),,,,caught,
-V4,V4/204,strong compare-exchange: the deposit is never kept [library counter],caught,block.cas_load_store/k2; COVERAGE FAILED (S10-keep and S10-keep-topup never reached; the balance holds); reported when the search ended (3600220 executions of the bound 4 search),,,,caught,
-V4,M9,S4 and S12 swap success order without acquire [TSan counter],caught,holder.two_loads_in_one_thread_store/k0; DATA RACE in finish; found at execution 126746 (bound 8 search; 2138 in the random search),,,,caught,
-V4,M9,S4 and S12 swap success order without acquire [library counter],survives,"the 8 entries of the CTest case (filter two_loads_in_one_thread) pass; the whole LumexSplitCountRelacyHolder_M9 program, 35 entries, also passes in a re-run of this page (152 s); masked by the acquire fence of the disposing drop",,,,missed,
-V4,M25,rmw_order ignores seq_cst [library counter],survives,all models of the Litmus program pass (see the argument in the README),,,,missed,
+layer,id,description,verdict,catching,v1,v2,v3,v4,other,harness
+prereg,M1,settle: un-tick without the L > 0 guard,caught,"expected: V1 S01@R8@1 (WORD); unit suites (ledger, torn policy) | harness: V1/M1: V1 S01@R8@1 caught: WORD,E-ID,G2,BAL, schedule 4; unit: first failing test ExactTest.GivenLoadersAndWriters",caught,,,,caught,V1/M1
+prereg,M2,pre-transfer moved after the swap (the order of the first design),caught,"expected: V1 S01@R8@1 (G1); unit suites (exactness, observer reads 1 for K = 3) | harness: V1/M2: V1 S01@R8@1 caught: PATH,DEP-SHORT,E-ID,BAL, schedule 4; unit: first failing test DeleterTest.GivenADeleterThatUsesTheAtomic",caught,,,,caught,V1/M2
+prereg,M3,pre-transfer skipped on the L > 0 path,caught,"expected: unit suites (exactness, ext < 0 assert, ledger) | harness: V1/M3: V1 S01@R8@1 caught: DEP-SHORT,E-ID,BAL, schedule 4; unit: first failing test DeleterTest.GivenADeleterThatUsesTheAtomic",caught,,,,caught,V1/M3
+prereg,M4,exchange hand-over also transfers,caught,"expected: unit suites (ext != 0 at quiescence, leak) | harness: V1/M4: unit: first failing test DeleterTest.GivenADeleterThatUsesTheAtomic",,,,,caught,V1/M4
+prereg,M5,holder hand-over adopts the owner reference without add,caught,"expected: unit suites (holder exchange with a held loader, ASan, double dispose) | harness: V1/M5: unit: first failing test ExactTest.GivenHeldLoadsOnAHolderWord / V1/M5w: unit: first failing test LedgerTest.GivenTheWeakShape",,,,,caught,V1/M5; V1/M5w
+prereg,M6,load settles before reading the value,caught,"expected: V1 H1@R8@1 (SAFETY under ASan, or LIN) | harness: V1/M6: V1 H1@R8@1 caught: LIN, schedule 3; unit: first failing test LedgerTest.GivenTheHolderShape",caught,,,,caught,V1/M6
+prereg,M7,settle decision taken on the guess (no acquire re-read),caught,"expected: unit suites (torn policy, double payment); not visible to V1 by construction | harness: V1/M7: V1 quick set caught by scenario S02 (PATH); unit: first failing test TornTest.GivenTornGuesses",caught,,,,caught,V1/M7
+prereg,M8,L3 tick relaxed,caught,"V4 block.publish_load/k0, data race on the published object (see the table of the Relacy mutants) | harness: V1/M8: V1 quick set (92 tests) not caught; unit suites (125 tests) not caught",missed,,,caught,missed,V1/M8
+prereg,M9,S4 swap success order without acquire,"caught under the TSan counter, masked under the library counter",V4 holder.two_loads_in_one_thread_store/k0 (TSan counter only; see the table of the Relacy mutants) | harness: V1/M9: V1 quick set (92 tests) not caught; unit suites (125 tests) not caught,missed,,,partial,missed,V1/M9
+prereg,M10,L7 un-tick relaxed,caught,"V4 holder.load_store/k0, data race, a holder destroyed under a reader (see the table of the Relacy mutants) | harness: V1/M10: V1 quick set (92 tests) not caught; unit suites (125 tests) not caught",missed,,,caught,missed,V1/M10
+prereg,M11,same_value compares lo only,caught,expected: unit suites (aliasing compare-exchange test) | harness: V1/M11: unit: first failing test SemanticsTest.GivenEveryTripleOfKinds,,,,,caught,V1/M11
+prereg,M12,same_value compares the whole hi,caught,"expected: V1 SCL@R8@1 (PROGRESS) | harness: V1/M12: V1 SCL@R8@1 caught: PATH, schedule 4; unit: first failing test ExactTest.GivenHeldLoadsOnABlockWord",caught,,,,caught,V1/M12
+prereg,M13,fits with >> 39,caught,word codec suite: the commit that added it records that a mutation of the window shift is caught; the catching test is in the harness record | harness: V1/M13: unit: first failing test ExactTest.GivenTheSameBlockReinstalledWithAnotherDelta,,,,,caught,V1/M13
+prereg,M14,offset_of without sign extension,caught,word codec suite: the commit that added it records that a mutation of the sign extension is caught; negative-delta alias in the unit suites; the catching test is in the harness record | harness: V1/M14: unit: first failing test HolderTest.GivenANullAliasOfALiveOwner,,,,,caught,V1/M14
+prereg,M15,weak engine: holder settles on the weak ledger,caught,"expected: unit suites (weak holder ledger, leak) | harness: V1/M15: unit: first failing test ExactTest.GivenHeldWeakLoads",,,,,caught,V1/M15
+prereg,M16,pin returns an empty guess without the confirming CAS,caught,expected: unit suites (torn policy) | harness: V1/M16: unit: first failing test SmokeTest.GivenTornGuesses,,,,,caught,V1/M16
+prereg,M17,tick-limit check removed,caught,expected: unit suites (peak L with tick_limit 2) | harness: V1/M17: unit: first failing test LedgerTest.GivenTheSharedShape,,,,,caught,V1/M17
+prereg,M18,>= replaced by > in the tick-limit check,caught,expected: unit suites (peak L with tick_limit 2) | harness: V1/M18: unit: first failing test LedgerTest.GivenTheSharedShape,,,,,caught,V1/M18
+prereg,M19,S12: settles the own tick after a successful swap,caught,"expected: unit suites (ledger, ASan); V1 H4@R8@2 | harness: V1/M19: V1 H4@R8@2 caught: PATH, schedule 1; unit: first failing test ExactTest.GivenHeldLoadsOnAHolderWord",caught,,,,caught,V1/M19
+prereg,M20,compare-exchange: no retire of the image on failure,caught,expected: unit suites (leak of desired) | harness: V1/M20: unit: first failing test DeleterTest.GivenDeletersThatLoadTheAtomic,,,,,caught,V1/M20
+prereg,M21,strong compare-exchange: no retry when the reloaded value is equivalent,caught,"expected: V1 SC@R8@2 (LIN, CAS-STRONG) | harness: V1/M21: V1 SC@R8@2 caught: PATH,LIN, schedule 47; unit: first failing test TornTest.GivenTornGuesses",caught,,,,caught,V1/M21
+prereg,M22,pre-transfer off by one (L or L - 2 instead of L - 1),caught,"expected: V1 S01@R8@1 (W2BOUND) and S01@R0@1 (DEP-SHORT); unit suites (ledger) | harness: V1/M22a: V1 S01@R8@1 caught: W2BOUND, schedule 4; unit: first failing test ExactTest.GivenAWriterHeldAfterItsDeposit / V1/M22b: V1 S01@R0@1 caught: DEP-SHORT,E-ID,BAL, schedule 4; unit: first failing test ExactTest.GivenAWriterHeldAfterItsDeposit",caught,,,,caught,V1/M22a; V1/M22b
+prereg,M23,destructor does not drop,caught,expected: unit suites (leak) | harness: V1/M23: unit: first failing test ConstinitTest.GivenAStaticAtomicUsedByAnEarlierInitializer,,,,,caught,V1/M23
+prereg,M24,try_add refuses count == 0,caught,"expected: V1 LK@R8@1 (LOCK) | harness: V1/M24: V1 LK@R8@1 caught: LOCK, schedule 24; unit: first failing test ExactTest.GivenOnlyLoadsInTransitOwnTheObject",caught,,,,caught,V1/M24
+prereg,M25,rmw_order ignores seq_cst,survives,no catcher: V4 litmus tests pass with the mutant (see the table of the Relacy mutants); not catchable on x86-64 by tests | harness: V1/M25: V1 quick set (92 tests) not caught; unit suites (125 tests) not caught,missed,,,missed,missed,V1/M25
+prereg,M26,no writer pin (pre-transfer on the guessed block),caught,"expected: V1 GF@R8@2 (SAFETY, write to a freed slot) | harness: V1/M26: V1 GF@R8@2 caught: PATH, schedule 97; unit: first failing test DeleterTest.GivenADeleterThatUsesTheAtomic",caught,,,,caught,V1/M26
+prereg,M27,no undo when the word turned to another block,caught,"expected: V1 UW@R8@2 (OP-END, E-ID); unit suites (I4) | harness: V1/M27: V1 UW@R8@2 caught: PATH, schedule 119; unit: first failing test DeleterTest.GivenADeleterThatUsesTheAtomic",caught,,,,caught,V1/M27
+prereg,M28,undo pays moved instead of moved + 1,caught,"expected: unit suites (I4, leak); V1 UW@R8@2 | harness: V1/M28: V1 UW@R8@2 caught: E-ID,G2,BAL, schedule 119; unit: first failing test DeleterTest.GivenADeleterThatUsesTheAtomic",caught,,,,caught,V1/M28
+prereg,M29,holder pre-transfer without the owner mirror,caught,"expected: V1 H1@R8@1 (E-ID, then G1); unit suites (exactness oracle (b)) | harness: V1/M29: V1 H1@R8@1 caught: E-ID,BAL, schedule 4; unit: first failing test DeleterTest.GivenADeleterThatUsesTheAtomic",caught,,,,caught,V1/M29
+prereg,M30,holder payment without the mirror payment,caught,expected: unit suites (owner ext != 0 at quiescence) | harness: V1/M30: unit: first failing test DeleterTest.GivenADeleterThatUsesTheAtomic,,,,,caught,V1/M30
+prereg,M31,own tick pre-transferred and settled instead of consumed,caught,"expected: V1 S01@R8@1 (W2BOUND) | harness: V1/M31: V1 S01@R8@1 caught: W2BOUND, schedule 4; unit: first failing test DeleterTest.GivenDeletersThatLoadTheAtomic",caught,,,,caught,V1/M31
+prereg,M32,swapped-out path counts and pays in two read-modify-writes,caught by V1 only,"expected: V1 S01@R8@1 (G2, C-ID, BAL); the unit suites do not catch it (changelog) | harness: V1/M32: V1 S01@R8@1 caught: C-ID,G2,BAL, schedule 6; unit suites (125 tests) not caught",caught,,,,missed,V1/M32
+prereg,M33,decision reads relaxed (load and the failure order of the swap),caught,"V4 (ghost race, see the table of the Relacy mutants); the unit suites do not catch it (changelog) | harness: V1/M33: V1 quick set (92 tests) not caught; unit suites (125 tests) not caught",missed,,,caught,missed,V1/M33
+prereg,M34,fast path without the L == 0 check,caught,"expected: V1 S01@R8@1 (E-ID, BAL); unit suites (exactness) | harness: V1/M34: V1 S01@R8@1 caught: DEP-SHORT,E-ID,BAL, schedule 4; unit: first failing test DeleterTest.GivenADeleterThatUsesTheAtomic",caught,,,,caught,V1/M34
+prereg,M35,reserve surplus not returned (store drop or exchange hand-over),caught,expected: unit suites (ext != 0 at quiescence) | harness: V1/M35a: unit: first failing test DeleterTest.GivenADeleterThatUsesTheAtomic / V1/M35b: unit: first failing test DeleterTest.GivenDeletersThatLoadTheAtomic,,,,,caught,V1/M35a; V1/M35b
+prereg,M36,reserve exceeded without a top-up,caught,"expected: V1 TU@R0@3 (DEP-SHORT, soak bound); unit suites (ext < 0 assert, ledger) | harness: V1/M36: V1 TU@R0@3 caught: PATH, schedule 2113; unit: first failing test DeleterTest.GivenDeletersThatLoadTheAtomic",caught,,,,caught,V1/M36
+prereg,M37,use_count returns count only,caught,expected: unit suites (exactness oracle (a)) | harness: V1/M37: unit: first failing test ExactTest.GivenHeldLoadsOnABlockWord,,,,,caught,V1/M37
+prereg,M38,L9 take_and_settle replaced by add (payment forgotten),caught,"expected: unit suites (I4); V1 S01@R8@1 | harness: V1/M38: V1 S01@R8@1 caught: E-ID,G2,BAL, schedule 6; unit: first failing test DeleterTest.GivenADeleterThatUsesTheAtomic",caught,,,,caught,V1/M38
+V1,V1/R4,swap_out: the same block with L == 0 counts as pinned,caught,"UW2@R8@2 caught: PATH, schedule 191; unit: first failing test ExactTest.GivenLoadersAndWriters",caught,,,,caught,V1/R4
+V1,V1/R5,not reproducible from the repository,not recorded,expected: H4@R8@2 (E-ID or OP-END),,,,,,
+V1,V1/R6,not reproducible from the repository,not recorded,expected: H4@R8@2 (DEP-SHORT),,,,,,
+V1,V1/R7,not reproducible from the repository,not recorded,expected: S05@R8@1 (SAFETY),,,,,,
+V2,V2/M01,same_value ignores delta (same as N02),caught at quick,V2 DAC; V1 RIC,caught,caught,,,,V2/M01
+V2,V2/M02,"load: stale holder owner/pointer from the guess, the cache refreshed on every failed compare-exchange",caught at quick,V2 HA1 HA3 HA4 WH1 WH2,missed,caught,,,,V2/M02
+V2,V2/M03,holder CAS: owner/pointer read from the guess,caught at quick,V2 HA1 HA4 WH2,missed,caught,,,,V2/M03
+V2,V2/M04,holder CAS: no compare after the pin,caught at quick,V2 HA1 HA2 HA4 WH2; V1 HC,caught,caught,,,,V2/M04
+V2,V2/M05,settle: blind retry,caught at quick,V2 36 tests (AR1 and others); V1 84 tests,caught,caught,,,,V2/M05
+V2,V2/M06,settle: un-tick of any block,caught at quick,V2 HA4 (soak: CD1@2); V1 24 tests,caught,caught,,,,V2/M06
+V2,V2/M07,count_and_settle: present decision ignores the tag,caught at quick,V2 HA4 (soak: CD1@2); V1 26 tests,caught,caught,,,,V2/M07
+V2,V2/M08,count_and_settle: present decision ignores L != 0,caught at quick,V2 DA BA4 RW DAC DA2 and others; V1 27 tests,caught,caught,,,,V2/M08
+V2,V2/M09,swap_out: same block with L == 0 counts as pinned,caught at quick,V2 RW (oracle PATH); V1 S08 UW2,caught,caught,,,,V2/M09
+V2,V2/M10,swap_out: other block with ticks counts as the same,"caught at the soak bound (V2), at quick by V1",V2 soak RX@3 HA1@3 HA2@3 WH2@3 (PATH); V1 S08 S14,caught,soak,,,,V2/M10
+V2,V2/M11,CAS: image dropped after a failed CAS but reused,caught at quick,V2 CD2 LKC EXC DAC; V1 18 tests,caught,caught,,,,V2/M11
+V2,V2/M12,counter try_add: count_of instead of the whole word,caught at quick,V2 LKX LKC; V1 LK,caught,caught,,,,V2/M12
+V2,V2/M13,weak_ptr expired: count part only,caught at quick,V2 EXX EXC; V1 EX,caught,caught,,,,V2/M13
+V2,V2/M14a,block_of: holder flag not masked,caught at quick,V2 AR3 AR4 HA1 CH2 and others; V1 15 tests,caught,caught,,,,V2/M14a
+V2,V2/M14b,tag compared without the holder bit,equivalent mutant,"no test in any set; the pinned block keeps its address, the holder bit is never observable where addresses are compared",missed,missed,,,,V2/M14b
+V2,V2/M15,"load: stale holder owner, weak engine only",caught at quick,V2 WH1 WH2,missed,caught,,,,V2/M15
+V2,V2/M16,load: static cross-thread cache holder to owner,caught at quick,V2 HA1 HA2 HA3 HA4 WH1 WH2 CH2,missed,caught,,,,V2/M16
+V2,V2/M17,CAS block: deposit 0 instead of the ticks of the word,caught at quick,V2 CD2 LKC EXC; V1 18 tests,caught,caught,,,,V2/M17
+V2,V2/N03,empty same_value ignores the raw pointer,caught at quick,V2 CE1,missed,caught,,,,V2/N03
+V2,V2/N04,an empty word equals any word with the same hi,caught at quick,V2 CE2 CE3,missed,caught,,,,V2/N04
+V2,V2/N07,settle: tick present only with the same delta,caught at quick,V2 DA2 (soak: DA@3); V1 RI RIC,caught,caught,,,,V2/N07
+V2,V2/N08,count_and_settle: the same,caught at quick,V2 DA2 (soak: DA@3); V1 RI RIC,caught,caught,,,,V2/N08
+V2,V2/N10,holder CAS compares the owner only,caught at quick,V2 HA4; V1 HC,caught,caught,,,,V2/N10
+V2,V2/N11,holder CAS compares the pointer only,survives,"vocabulary gap: in the simulator a far pointer is determined by its owner, so owner equality and pointer equality never differ",missed,missed,,,,V2/N11
+V3,V3/M1,compare ignores the delta,caught,Aba.EveryPairOfIdentities; Aba.AliasingPointersOfSeveralOwners; Lin.ShortRecordedHistories; Lin.RmwOnAliasingValues,,,caught,,,V3/M1
+V3,V3/M2,store drops the replaced word without its decrement,caught,Aba.AToBAToA_SameOwnerReturns; Aba.StalledHolderOfExpected; Aba.DeadNodesAddressReused; Aba.SameOwnerStoredAgain; Aba ReusePool/AllocatorBoundaries/weak-owner; Lin.MonotoneLoads; Lifecycle 7 of 7,,,caught,,,V3/M2
+V3,V3/M3,exchange returns load () and drops the store,caught,Aba.EveryPairOfIdentities; Aba.AliasingPointersOfSeveralOwners; Lin.ShortRecordedHistories; Lin.RmwOnAliasingValues; Lin.ExchangingUniqueTokens; Lifecycle 2,,,caught,,,V3/M3
+V3,V3/M4,a successful compare-exchange skips drop_word,caught,Aba.AliasingPointersOfSeveralOwners; Aba.AToBAToA_SameOwnerReturns; Aba.StalledHolderOfExpected; Lin.RmwOnAliasingValues; Lin.CasVersionChain; Lin Stack/Queue/List histories; Structures Treiber/MSQueue/HarrisList/ForcedAba; Lifecycle 5,,,caught,,,V3/M4
+V3,V3/M5,compare ignores the block,caught,Aba.EveryPairOfIdentities; Aba.AliasingPointersOfSeveralOwners; Aba.AToBAToA_SameOwnerReturns; Aba.StalledHolderOfExpected; Lin.ShortRecordedHistories; Lin.RmwOnAliasingValues; Lin.CasVersionChain; Lin histories; Structures; Lifecycle 2,,,caught,,,V3/M5
+V4,M8,L3 tick of a load relaxed [library counter],caught,block.publish_load/k0; DATA RACE in load; found at execution 1 (full search),,,,caught,,
+V4,M10,L7 un-tick relaxed [library counter],caught,holder.load_store/k0; DATA RACE in finish; found at execution 9 (full search),,,,caught,,
+V4,M33,"decision reads relaxed, load and swap failure [library counter]",caught,block.load_store/k0; DATA RACE in witness_read; found at execution 47 (full search),,,,caught,,
+V4,M33a (331),decision read of a load relaxed [library counter],caught,block.load_store/k0; DATA RACE in witness_read; found at execution 47 (full search),,,,caught,,
+V4,M33b (332),failure order of the swap relaxed [library counter],caught,block.two_writers_load/k0; DATA RACE in witness_read; found at execution 5621 (bound 4 search; 3 in the random search),,,,caught,,
+V4,M33,"decision reads relaxed, swap to an empty pointer [library counter]",caught,block.load_reset/k0; DATA RACE in witness_read; found at execution 34 (full search),,,,caught,,
+V4,M33a (331),"decision read of a load relaxed, swap to an empty pointer [library counter]",caught,block.load_reset/k0; DATA RACE in witness_read; found at execution 34 (full search),,,,caught,,
+V4,V4/101,no acquire fence after a drop that made the counter zero [library counter],caught,block.load_store/k0; DATA RACE in finish; found at execution 1 (full search),,,,caught,,
+V4,V4/102,counter drop relaxed (no release) [library counter],caught,block.load_store/k0; DATA RACE in finish; found at execution 1 (full search),,,,caught,,
+V4,V4/103,S1 swap of a tick-free word relaxed [library counter],caught,block.publish_load/k0; DATA RACE in load; found at execution 1 (full search),,,,caught,,
+V4,V4/104,S2 writer's pin relaxed [library counter],caught,holder.publish_load/k0; DATA RACE in deposit; found at execution 45 (bound 4 search; 155 in the random search),,,,caught,,
+V4,V4/105,S10 and S12 compare-exchange swap relaxed (block word) [library counter],caught,block.cas_load_store/k0; DATA RACE in finish; found at execution 1 (bound 4 search; 4 in the random search),,,,caught,,
+V4,V4/105,S10 and S12 compare-exchange swap relaxed (holder word) [library counter],caught,holder.cas_load; DATA RACE in witness_read; found at execution 80 (full search),,,,caught,,
+V4,V4/201,compare-exchange: the surplus of the swap one too big (block word) [library counter],caught,block.cas_load_store/k2; USER INVARIANT FAILED (ext negative); found at execution 1 (bound 4 search; 2 in the random search),,,,caught,,
+V4,V4/202,strong compare-exchange: the retained deposit is not topped up [library counter],caught,block.cas_load_store/k2; USER INVARIANT FAILED (ext negative); found at execution 899400 (bound 4 search; 88 in the random search),,,,caught,,
+V4,V4/203,holder compare-exchange: the deposit is one short [library counter],caught,holder.cas_load/k2; USER INVARIANT FAILED (ext negative); found at execution 59 (full search),,,,caught,,
+V4,V4/204,strong compare-exchange: the deposit is never kept [library counter],caught,block.cas_load_store/k2; COVERAGE FAILED (S10-keep and S10-keep-topup never reached; the balance holds); reported when the search ended (3600220 executions of the bound 4 search),,,,caught,,
+V4,M9,S4 and S12 swap success order without acquire [TSan counter],caught,holder.two_loads_in_one_thread_store/k0; DATA RACE in finish; found at execution 126746 (bound 8 search; 2138 in the random search),,,,caught,,
+V4,M9,S4 and S12 swap success order without acquire [library counter],survives,"the 8 entries of the CTest case (filter two_loads_in_one_thread) pass; the whole LumexSplitCountRelacyHolder_M9 program, 35 entries, also passes in a re-run of this page (152 s); masked by the acquire fence of the disposing drop",,,,missed,,
+V4,M25,rmw_order ignores seq_cst [library counter],survives,all models of the Litmus program pass (see the argument in the README),,,,missed,,

@@ -40,6 +40,7 @@
 #define LUMEX_IMPLEMENTATION
 #include <algorithm> // std::transform
 #include <cctype>    // std::tolower
+#include <cstdlib>   // std::malloc, std::free
 
 #include "LumexEnvironment.hpp"
 
@@ -96,8 +97,11 @@ lumex_environment::windows_environment_strategy::get_variable (
   if (size > MAX_ENV_BUFFER_SIZE)
     return { ERROR_BUFFER_OVERFLOW };
 
-  std::unique_ptr<char[]> win_buffer (new (
-      std::nothrow) char[size]); // NOLINT(cppcoreguidelines-avoid-c-arrays)
+  // malloc and free, not new (std::nothrow) and delete[]: a libstdc++ before
+  // GCC 9 does not route the nothrow forms to a replaced operator new, while
+  // delete[] always reaches a replaced operator delete.
+  std::unique_ptr<char, void (*) (void *)> win_buffer (
+      static_cast<char *> (std::malloc (size)), &std::free);
   if (!win_buffer)
     return { ERROR_NOT_ENOUGH_MEMORY };
 

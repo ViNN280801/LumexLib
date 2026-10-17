@@ -694,6 +694,10 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
               }));
       join_all (threads);
       a.store (nullptr);
+      // The retired boxes keep owners with the deleter, which names the
+      // locals above (deferred reclamation): run every pending deleter
+      // before they die.
+      LUMEX_ATOMIC_TEST_ENGINE_QUIESCE ();
       EXPECT_EQ (broken.load (), 0L);
     }
 }

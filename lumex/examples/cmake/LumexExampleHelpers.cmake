@@ -84,6 +84,8 @@ function(lumex_example_executable)
       RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
     )
     set_property(GLOBAL APPEND PROPERTY LUMEX_EXAMPLE_TARGETS ${LEX_NAME})
+    # ThreadSanitizer with libc++ (cmake/LumexBuild.cmake); in-tree only.
+    lumex_add_tsan_libcxx_support(${LEX_NAME})
     if(LUMEX_BUILD_TESTS)
       lumex_example_test_name(_ctest_name ${LEX_NAME})
       add_test(NAME ${_ctest_name} COMMAND ${LEX_NAME})
