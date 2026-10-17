@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.2.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -106,14 +106,14 @@ $(function(){initNavTree('a06615.html',''); initResizable(true); });
   <div class="headertitle"><div class="title">Универсальная Система Логирования</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h2><a class="anchor" id="autotoc_md82"></a>
+<div class="textblock"><h2><a class="anchor" id="autotoc_md84"></a>
 Обзор</h2>
 <p><b><a class="el" href="a01238.html#a538f3e482b0ee9b4e5a7bd7e7e404a0c" title="Alias for lumex::applied::logger::logger::LumexLogger.">LumexLogger</a></b> - это универсальная система логирования для C++ приложений, реализованная как потокобезопасный синглтон. Логгер автоматически создает файлы журналов рядом с исполняемым файлом и предоставляет гибкие возможности настройки через конфигурационные файлы.</p>
 <p>Класс живет в пространстве имен <code><a class="el" href="a01449.html">lumex::applied::logger::logger</a></code> (файл <code><a class="el" href="a01238.html" title="The file logger of the lumex::logger module: the LumexLogger singleton, its level and configuration t...">LumexLogger.hpp</a></code>, полное имя <code><a class="el" href="a01755.html" title="Singleton logger that writes messages to a file next to the executable file.">lumex::applied::logger::logger::LumexLogger</a></code>), а для удобства использования в глобальном пространстве имен объявлен алиас <code><a class="el" href="a01238.html#a538f3e482b0ee9b4e5a7bd7e7e404a0c" title="Alias for lumex::applied::logger::logger::LumexLogger.">LumexLogger</a></code> (по аналогии с <code><a class="el" href="a01163.html#a0b45931cdbbb925765f1b79efa5d466a" title="Alias for lumex::core::environment::lumex_environment.">lumex_environment</a></code> и <code><a class="el" href="a01274.html#a4a6909dcad3d67fe13dede37e3679899">LumexLogging</a></code>). В коде достаточно писать <code>LumexLogger::getInstance()</code>, не указывая полный путь пространства имен.</p>
 <p>Этот модуль (<code>lumex/applied/logger/</code>) - это отдельный, самостоятельный механизм логирования, синхронизированный по функциональности с <code>Logger</code> из проекта DChannel. Он <b>не связан</b> с <code>lumex/applied/logging/</code> (<code><a class="el" href="a01274.html#a4a6909dcad3d67fe13dede37e3679899">LumexLogging</a></code>) - другим, независимо используемым внутри самой LumexLib логирующим фасадом (см. <code><a class="el" href="a01316.html">LumexHardwareCapabilities.cpp</a></code>, <code><a class="el" href="a01295.html">LumexResourceMonitor.cpp</a></code>, <code><a class="el" href="a01202.html">LumexSettingsGuard.cpp</a></code>). Не путайте эти два модуля.</p>
-<h2><a class="anchor" id="autotoc_md83"></a>
+<h2><a class="anchor" id="autotoc_md85"></a>
 Ключевые особенности</h2>
-<h3><a class="anchor" id="autotoc_md84"></a>
+<h3><a class="anchor" id="autotoc_md86"></a>
 Архитектурные преимущества</h3>
 <ul>
 <li><b>Синглтон-паттерн</b>: Единственный экземпляр логгера на все приложение</li>
@@ -122,7 +122,7 @@ $(function(){initNavTree('a06615.html',''); initResizable(true); });
 <li><b>Автоматическое определение пути</b>: Лог создается рядом с исполняемым файлом</li>
 <li><b>Пространство имен</b>: Все публичные символы (<code>LogLevel</code>, <code>FunctionNameMode</code>, <code>logger_config_t</code>, внутренние хелперы форматирования вроде <code>logger_stringify</code>) находятся в <code><a class="el" href="a01449.html">lumex::applied::logger::logger</a></code>, а не в глобальном пространстве имен - это специально сделано, чтобы избежать коллизий имен в общей библиотеке, используемой многими проектами.</li>
 </ul>
-<h3><a class="anchor" id="autotoc_md85"></a>
+<h3><a class="anchor" id="autotoc_md87"></a>
 Уровни логирования</h3>
 <p>Система поддерживает 7 уровней логирования с возможностью фильтрации:</p>
 <table class="markdownTable">
@@ -146,7 +146,7 @@ $(function(){initNavTree('a06615.html',''); initResizable(true); });
 <blockquote class="doxtable">
 <p><b>Важно для эксплуатации:</b> уровни <code>LEVEL_DEBUG</code> и особенно <code>LEVEL_TRACE</code> предназначены для коротких диагностических сессий и точечной отладки. Их длительное использование в рабочем режиме может быстро увеличивать объем файлов логов, усложнять анализ и создавать дополнительную нагрузку на систему. Для длительной работы и продакшена используйте <code>LEVEL_INFO</code>/<code>LEVEL_WARNING</code>/<code>LEVEL_ERROR</code> в зависимости от задачи. </p>
 </blockquote>
-<h3><a class="anchor" id="autotoc_md86"></a>
+<h3><a class="anchor" id="autotoc_md88"></a>
 Производительность</h3>
 <ul>
 <li><b>Условная компиляция</b>: Макросы проверяют уровень на этапе компиляции</li>
@@ -155,7 +155,7 @@ $(function(){initNavTree('a06615.html',''); initResizable(true); });
 <li><b>Минимальные накладные расходы</b>: Оптимизированные операции записи</li>
 <li><b>Практическая рекомендация по уровню</b>: <code>DEBUG/TRACE</code> не использовать для длинных непрерывных сессий; эти уровни нужны для ограниченной по времени диагностики</li>
 </ul>
-<h3><a class="anchor" id="autotoc_md87"></a>
+<h3><a class="anchor" id="autotoc_md89"></a>
 Критические уровни всегда проходят, независимо от пресета</h3>
 <p>Это ключевое инвариантное поведение <code>log()</code>: <b>сначала</b> проверяется, является ли уровень сообщения критическим (<code>WARNING</code>/<code>ERROR</code>/<code>FATAL</code>, либо уровень <code>BUFFERING_TRIGGER</code> и выше, если он задан), и только если уровень <b>не</b> критический, применяется фильтрация по пресету (<code>PRESET=...</code>). Критическое сообщение от любого компонента (даже не входящего в <code>PRESET</code>) всегда:</p>
 <ol type="1">
@@ -163,7 +163,7 @@ $(function(){initNavTree('a06615.html',''); initResizable(true); });
 <li>Записывается в файл само.</li>
 </ol>
 <p>Это сделано намеренно: если бы фильтрация по пресету применялась раньше проверки критичности уровня, то WARNING/ERROR/FATAL от компонента вне пресета терялся бы целиком и никогда не приводил бы к сбросу буфера - что лишает буферизацию всякого смысла именно в момент, когда контекст важнее всего.</p>
-<h3><a class="anchor" id="autotoc_md88"></a>
+<h3><a class="anchor" id="autotoc_md90"></a>
 Эксплуатационные ограничения и технические риски</h3>
 <p>Ниже перечислено, что разработчик должен учитывать при включении детального логирования:</p>
 <ol type="1">
@@ -173,7 +173,7 @@ $(function(){initNavTree('a06615.html',''); initResizable(true); });
 <li><b>Буферизация меняет профиль нагрузки на I/O</b> При <code>BUFFERING=true</code> сброс буфера происходит пачкой при достижении уровня-триггера. Это полезно для контекста, но может давать кратковременные пики записи и задержки в момент dump.</li>
 <li><b>Практический стандарт для продакшена</b> Де-факто рабочий режим для длинных сессий - <code>WARNING</code> и выше (<code>ERROR</code>/<code>FATAL</code> для максимально "тихого" режима). <code>INFO</code> допускается для расширенного мониторинга на ограниченный период. <code>DEBUG/TRACE</code> - только целевая диагностика на ограниченном интервале времени.</li>
 </ol>
-<h3><a class="anchor" id="autotoc_md89"></a>
+<h3><a class="anchor" id="autotoc_md91"></a>
 Расширенные возможности</h3>
 <ul>
 <li><b>Буферизация логов</b>: Настраиваемая буферизация с автоматической записью истории при критическом уровне</li>
@@ -181,20 +181,20 @@ $(function(){initNavTree('a06615.html',''); initResizable(true); });
 <li><b>Древовидный разбор фреймов</b> (<code>DESCRIBE_FRAME</code>): опциональный дополнительный слой детального логирования</li>
 <li><b>Идентификатор потока в каждой записи</b> (<code>[TID=...]</code>): упрощает анализ многопоточных логов</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md90"></a>
+<h2><a class="anchor" id="autotoc_md92"></a>
 Управление логированием</h2>
-<h3><a class="anchor" id="autotoc_md91"></a>
+<h3><a class="anchor" id="autotoc_md93"></a>
 Включение/отключение логирования</h3>
 <p>Логирование управляется через специальный файл-триггер <code>enable_logs</code> (по умолчанию), который должен находиться в той же директории, что и исполняемый файл (.exe, .dll, .so, .dylib). Имя файла-триггера можно изменить программно через метод <code>set_trigger_file_name()</code>.</p>
-<h4><a class="anchor" id="autotoc_md92"></a>
+<h4><a class="anchor" id="autotoc_md94"></a>
 Включение логирования</h4>
 <div class="fragment"><div class="line"># Создать файл рядом с исполняемым файлом</div>
 <div class="line">touch enable_logs</div>
-</div><!-- fragment --><h4><a class="anchor" id="autotoc_md93"></a>
+</div><!-- fragment --><h4><a class="anchor" id="autotoc_md95"></a>
 Отключение логирования</h4>
 <div class="fragment"><div class="line"># Удалить файл-триггер</div>
 <div class="line">rm enable_logs</div>
-</div><!-- fragment --><h4><a class="anchor" id="autotoc_md94"></a>
+</div><!-- fragment --><h4><a class="anchor" id="autotoc_md96"></a>
 Изменение имени файла-триггера</h4>
 <div class="fragment"><div class="line"><a class="code hl_typedef" href="a01238.html#a538f3e482b0ee9b4e5a7bd7e7e404a0c">LumexLogger</a>&amp; logger = LumexLogger::getInstance();</div>
 <div class="line">logger.<a class="code hl_function" href="a01755.html#a2f0ef34c15d8714311df5feeed51dacb">set_trigger_file_name</a>(<span class="stringliteral">&quot;my_custom_log_trigger&quot;</span>); <span class="comment">// Теперь используется my_custom_log_trigger вместо enable_logs</span></div>
@@ -202,10 +202,10 @@ $(function(){initNavTree('a06615.html',''); initResizable(true); });
 <div class="ttc" id="aa01238_html_a538f3e482b0ee9b4e5a7bd7e7e404a0c"><div class="ttname"><a href="a01238.html#a538f3e482b0ee9b4e5a7bd7e7e404a0c">LumexLogger</a></div><div class="ttdeci">lumex::applied::logger::logger::LumexLogger LumexLogger</div><div class="ttdoc">Alias for lumex::applied::logger::logger::LumexLogger.</div><div class="ttdef"><b>Definition</b> LumexLogger.hpp:1339</div></div>
 <div class="ttc" id="aa01755_html_a05e17ee39d5bdc5fa2c721842bc21ac0"><div class="ttname"><a href="a01755.html#a05e17ee39d5bdc5fa2c721842bc21ac0">lumex::applied::logger::logger::LumexLogger::get_trigger_file_name</a></div><div class="ttdeci">std::string get_trigger_file_name() const noexcept</div><div class="ttdoc">Returns the current trigger-file name.</div><div class="ttdef"><b>Definition</b> LumexLogger.cpp:1649</div></div>
 <div class="ttc" id="aa01755_html_a2f0ef34c15d8714311df5feeed51dacb"><div class="ttname"><a href="a01755.html#a2f0ef34c15d8714311df5feeed51dacb">lumex::applied::logger::logger::LumexLogger::set_trigger_file_name</a></div><div class="ttdeci">void set_trigger_file_name(std::string const &amp;fileName) noexcept</div><div class="ttdoc">Sets the trigger-file name used to enable logging.</div><div class="ttdef"><b>Definition</b> LumexLogger.cpp:1641</div></div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md95"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md97"></a>
 Настройка уровня логирования</h3>
 <p>Уровень логирования настраивается через содержимое файла-триггера (по умолчанию <code>enable_logs</code>):</p>
-<h4><a class="anchor" id="autotoc_md96"></a>
+<h4><a class="anchor" id="autotoc_md98"></a>
 Формат файла конфигурации</h4>
 <p>В сборку входит ровно один reader. Формат задается CMake cache-переменной <code>LUMEX_LOGGER_CONFIG_FORMAT</code> и компилируется в <code>lumex::logger</code> как <code>LUMEX_LOGGER_CONFIG_FORMAT_*</code>. Расширение пути не влияет на разбор: <code>configured_logger_config_format()</code> возвращает выбранный enum без чтения имени файла. Смена формата требует reconfigure и пересборки logger.</p>
 <table class="markdownTable">
@@ -223,13 +223,13 @@ $(function(){initNavTree('a06615.html',''); initResizable(true); });
 <td class="markdownTableBodyNone"><code>XML</code>   </td><td class="markdownTableBodyNone"><code>xml</code>   </td><td class="markdownTableBodyNone">существующий <code>LumexXml</code>; PRIVATE <code><a class="el" href="a01669.html">lumex::xml</a></code>; требует effective <code>LUMEX_BUILD_XML</code>   </td></tr>
 </table>
 <p><code>read_config_from_path()</code> возвращает <code>logger_config_t{}</code> при отсутствующем файле, неподдерживаемой структуре или большинстве ошибок разбора. Единственное намеренное исключение - сборка с <code>LUMEX_LOGGER_CONFIG_FORMAT=YAML</code>.</p>
-<h5><a class="anchor" id="autotoc_md97"></a>
+<h5><a class="anchor" id="autotoc_md99"></a>
 CMake</h5>
 <div class="fragment"><div class="line">set(LUMEX_LOGGER_CONFIG_FORMAT &quot;PLAIN_TEXT&quot;) # или INI, JSON, YAML, XML</div>
 </div><!-- fragment --><p>Эквивалент для командной строки:</p>
 <div class="fragment"><div class="line">cmake -S . -B build -DLUMEX_LOGGER_CONFIG_FORMAT=XML</div>
 </div><!-- fragment --><p><code>INI</code> без effective settings и <code>XML</code> без effective XML завершают configure через <code>FATAL_ERROR</code>. Неизвестное значение <code>LUMEX_LOGGER_CONFIG_FORMAT</code> тоже является <code>FATAL_ERROR</code>. YAML включает только документированное исключение <code>unimplemented</code>.</p>
-<h5><a class="anchor" id="autotoc_md98"></a>
+<h5><a class="anchor" id="autotoc_md100"></a>
 Plain text</h5>
 <p>Новый формат с префиксами (рекомендуемый для стандартного <code>enable_logs</code>):</p>
 <div class="fragment"><div class="line">LEVEL=warning</div>
@@ -248,7 +248,7 @@ Plain text</h5>
 <div class="fragment"><div class="line">&lt;уровень_логирования&gt;</div>
 <div class="line">&lt;настройка_имени_функции&gt;</div>
 <div class="line">&lt;настройка_timestamped_логов&gt;</div>
-</div><!-- fragment --><h5><a class="anchor" id="autotoc_md99"></a>
+</div><!-- fragment --><h5><a class="anchor" id="autotoc_md101"></a>
 INI</h5>
 <p>Reader обрабатывает только секцию <code>[logger]</code>. Значение <code>PRESET</code> с запятыми следует заключать в кавычки:</p>
 <div class="fragment"><div class="line">[logger]</div>
@@ -263,7 +263,7 @@ INI</h5>
 <div class="line">DESCRIBE_FRAME=false</div>
 <div class="line">BUFFER_SIZE=200</div>
 <div class="line">BUFFERING_TRIGGER=error</div>
-</div><!-- fragment --><h5><a class="anchor" id="autotoc_md100"></a>
+</div><!-- fragment --><h5><a class="anchor" id="autotoc_md102"></a>
 JSON</h5>
 <p>Предпочтительная форма содержит объект <code>logger</code>. Строки, числа и <code>bool</code> преобразуются к общей строковой модели ключей:</p>
 <div class="fragment"><div class="line">{</div>
@@ -287,7 +287,7 @@ JSON</h5>
 <div class="line">  &quot;FUNCNAME&quot;: &quot;short&quot;</div>
 <div class="line">}</div>
 </div><!-- fragment --><p>Массивы, objects в значениях и <code>null</code> пропускаются.</p>
-<h5><a class="anchor" id="autotoc_md101"></a>
+<h5><a class="anchor" id="autotoc_md103"></a>
 YAML</h5>
 <p>YAML пока не реализован. При <code>LUMEX_LOGGER_CONFIG_FORMAT=YAML</code> любой вызов <code>read_config_from_path()</code> приводит к точному исключению:</p>
 <div class="fragment"><div class="line">logger config YAML is selected (LUMEX_LOGGER_CONFIG_FORMAT=YAML) but LumexSettingsYAML is not implemented yet</div>
@@ -297,7 +297,7 @@ YAML</h5>
 <div class="line">  FUNCNAME: normal</div>
 <div class="line">  BUFFERING: true</div>
 </div><!-- fragment --><p>Пример обязан перехватить это исключение. Молчаливое чтение YAML как реализованного формата является ошибкой.</p>
-<h5><a class="anchor" id="autotoc_md102"></a>
+<h5><a class="anchor" id="autotoc_md104"></a>
 XML</h5>
 <p>XML реализован через существующий компонент <code>LumexXml</code>. Корневой элемент должен называться <code>logger</code>; каждый ключ представлен дочерним элементом:</p>
 <div class="fragment"><div class="line">&lt;?<span class="keyword">xml</span> <span class="keyword">version</span>=<span class="stringliteral">&quot;1.0&quot;</span> <span class="keyword">encoding</span>=<span class="stringliteral">&quot;utf-8&quot;</span>?&gt;</div>
@@ -315,7 +315,7 @@ XML</h5>
 <div class="line">  &lt;<span class="keywordtype">BUFFERING_TRIGGER</span>&gt;<span class="keyword">error</span>&lt;/<span class="keywordtype">BUFFERING_TRIGGER</span>&gt;</div>
 <div class="line">&lt;/<span class="keywordtype">logger</span>&gt;</div>
 </div><!-- fragment --><p>Имена XML elements регистрозависимы и записываются в указанной выше верхней форме. Отсутствующие и пустые elements сохраняют соответствующее значение по умолчанию. Неизвестные elements игнорируются. Невалидный XML или другой root возвращает default config.</p>
-<h5><a class="anchor" id="autotoc_md103"></a>
+<h5><a class="anchor" id="autotoc_md105"></a>
 Программный разбор</h5>
 <p><code>read_config_from_path()</code> позволяет проверить config независимо от жизненного цикла singleton:</p>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="a01337.html">lumex/applied/logger/LumexLogger</a>&quot;</span></div>
@@ -336,7 +336,7 @@ XML</h5>
 <div class="ttc" id="aa01743_html"><div class="ttname"><a href="a01743.html">lumex::applied::logger::logger::logger_config_t</a></div><div class="ttdoc">Logger configuration read from the enable_logs file.</div><div class="ttdef"><b>Definition</b> LumexLogger.hpp:371</div></div>
 <div class="ttc" id="aa01755_html_a18e6ebf596904b610362cfb2257fd9b4"><div class="ttname"><a href="a01755.html#a18e6ebf596904b610362cfb2257fd9b4">lumex::applied::logger::logger::LumexLogger::read_config_from_path</a></div><div class="ttdeci">static logger_config_t read_config_from_path(std::string const &amp;enableFilePath)</div><div class="ttdoc">Reads logger configuration from an absolute enable/config path.</div><div class="ttdef"><b>Definition</b> LumexLogger.cpp:2036</div></div>
 </div><!-- fragment --><p>Singleton читает trigger-файл при первом <code>LumexLogger::getInstance()</code> тем reader-ом, который скомпилирован в эту сборку. Вызов <code>set_trigger_file_name()</code> после создания singleton меняет имя для последующих проверок, но не перечитывает уже примененную конфигурацию. Для явной загрузки используйте <code>read_config_from_path()</code>.</p>
-<h4><a class="anchor" id="autotoc_md104"></a>
+<h4><a class="anchor" id="autotoc_md106"></a>
 Поддерживаемые ключи конфигурации</h4>
 <p><b>Префиксы (case-insensitive, т.е. можно писать хоть <code>funcname=none</code>, хоть <code>FUnCnaMe=NOne</code>):</b></p>
 <ul>
@@ -413,16 +413,16 @@ XML</h5>
 <blockquote class="doxtable">
 <p>Все параметры (LEVEL, FUNCNAME, TIMESTAMPED, STACKTRACE, PRESET, BUFFERING, BUFFERING_TRIGGER, DESCRIBE_FRAME, HINT, BUFFER_SIZE) - case-insensitive, пробелы и табуляции в значении стираются. Порядок строк в файле не важен. </p>
 </blockquote>
-<h2><a class="anchor" id="autotoc_md105"></a>
+<h2><a class="anchor" id="autotoc_md107"></a>
 Использование в коде</h2>
-<h3><a class="anchor" id="autotoc_md106"></a>
+<h3><a class="anchor" id="autotoc_md108"></a>
 Два слоя макросов</h3>
 <ul>
 <li><code>LOGGER_LOG_*</code> - обобщенный (generic) слой, максимально переносимый между проектами.</li>
 <li><code>LUMEX_LOG_*</code> - слой, адаптированный под LumexLib (аналог <code>DCHANNEL_LOG_*</code> в проекте DChannel). Используйте именно этот слой в коде LumexLib и зависимых проектов.</li>
 </ul>
 <p>Ранее существовавший ультра-короткий слой <code>LOG_TRACE</code>/<code>LOG_INFO</code>/<code>LOG_ADDRESS_*</code>/<code>LOG_OBJECT_*</code> был убран из этой версии - такие обобщенные имена слишком легко коллизируют с другими логирующими библиотеками в общем проекте. Используйте <code>LUMEX_LOG_*</code>.</p>
-<h3><a class="anchor" id="autotoc_md107"></a>
+<h3><a class="anchor" id="autotoc_md109"></a>
 Базовые макросы логирования</h3>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="a01337.html">lumex/applied/logger/LumexLogger</a>&quot;</span></div>
 <div class="line"> </div>
@@ -454,24 +454,24 @@ XML</h5>
 </div><!-- fragment --><p>Каждая запись, сделанная через макросы, автоматически дополняется префиксом <code>[TID=&lt;id потока&gt;]</code> - идентификатором текущего <code>std::thread</code>, что упрощает анализ логов в многопоточных приложениях:</p>
 <div class="fragment"><div class="line">[2025-10-02 16:05:28.643] [TRACE] [ClassName::MethodName()] [TID=140234123456] Created new object</div>
 </div><!-- fragment --><p>В режиме <code>FUNCNAME=none</code> строка выглядит как <code>[TID=&lt;id&gt;] сообщение</code> (без имени функции).</p>
-<h3><a class="anchor" id="autotoc_md108"></a>
+<h3><a class="anchor" id="autotoc_md110"></a>
 Специализированные макросы</h3>
-<h4><a class="anchor" id="autotoc_md109"></a>
+<h4><a class="anchor" id="autotoc_md111"></a>
 Логирование адресов объектов</h4>
 <div class="fragment"><div class="line">MyClass* obj = <span class="keyword">new</span> MyClass();</div>
 <div class="line"><a class="code hl_define" href="a01238.html#a2a22e6cd18162ab0a2b377860729f8c7">LUMEX_LOG_ADDRESS_INFO</a>(<span class="stringliteral">&quot;Создан объект&quot;</span>, obj);</div>
 <div class="ttc" id="aa01238_html_a2a22e6cd18162ab0a2b377860729f8c7"><div class="ttname"><a href="a01238.html#a2a22e6cd18162ab0a2b377860729f8c7">LUMEX_LOG_ADDRESS_INFO</a></div><div class="ttdeci">#define LUMEX_LOG_ADDRESS_INFO(message, address)</div><div class="ttdef"><b>Definition</b> LumexLogger.hpp:1598</div></div>
-</div><!-- fragment --><h4><a class="anchor" id="autotoc_md110"></a>
+</div><!-- fragment --><h4><a class="anchor" id="autotoc_md112"></a>
 Логирование объектов с контекстом</h4>
 <div class="fragment"><div class="line">MyClass* obj = <span class="keyword">new</span> MyClass();</div>
 <div class="line"><a class="code hl_define" href="a01238.html#a7ceecdfa4bb284e16b49b618a1e88140">LUMEX_LOG_OBJECT_DEBUG</a>(obj, <span class="stringliteral">&quot;Инициализация завершена&quot;</span>);</div>
 <div class="ttc" id="aa01238_html_a7ceecdfa4bb284e16b49b618a1e88140"><div class="ttname"><a href="a01238.html#a7ceecdfa4bb284e16b49b618a1e88140">LUMEX_LOG_OBJECT_DEBUG</a></div><div class="ttdeci">#define LUMEX_LOG_OBJECT_DEBUG(object,...)</div><div class="ttdef"><b>Definition</b> LumexLogger.hpp:1611</div></div>
-</div><!-- fragment --><h4><a class="anchor" id="autotoc_md111"></a>
+</div><!-- fragment --><h4><a class="anchor" id="autotoc_md113"></a>
 Логирование с древовидным разбором фреймов</h4>
 <div class="fragment"><div class="line"><span class="comment">// Пишет только если LEVEL включен И DESCRIBE_FRAME=true|1|yes в конфигурации</span></div>
 <div class="line"><a class="code hl_define" href="a01238.html#a1a99252c3ed364fe0baeaabc971e4228">LUMEX_LOG_INFO_DESCRIBE_FRAME</a>(<span class="stringliteral">&quot;Разбор входящего пакета:&quot;</span>, packetDump);</div>
 <div class="ttc" id="aa01238_html_a1a99252c3ed364fe0baeaabc971e4228"><div class="ttname"><a href="a01238.html#a1a99252c3ed364fe0baeaabc971e4228">LUMEX_LOG_INFO_DESCRIBE_FRAME</a></div><div class="ttdeci">#define LUMEX_LOG_INFO_DESCRIBE_FRAME(...)</div><div class="ttdef"><b>Definition</b> LumexLogger.hpp:1628</div></div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md112"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md114"></a>
 Программное управление</h3>
 <div class="fragment"><div class="line"><a class="code hl_typedef" href="a01238.html#a538f3e482b0ee9b4e5a7bd7e7e404a0c">LumexLogger</a>&amp; <a class="code hl_namespace" href="a01449.html">logger</a> = LumexLogger::getInstance();</div>
 <div class="line"> </div>
@@ -486,7 +486,7 @@ XML</h5>
 <div class="line"><span class="keyword">auto</span> configView = <a class="code hl_namespace" href="a01449.html">logger</a>.get_applied_config_view();</div>
 <div class="ttc" id="aa01449_html_a8abbc573ad9bfc4d4c761d4c300a1e07a4bd3c3990b6dd7979ea0277ae799272e"><div class="ttname"><a href="a01449.html#a8abbc573ad9bfc4d4c761d4c300a1e07a4bd3c3990b6dd7979ea0277ae799272e">lumex::applied::logger::logger::LogLevel::LEVEL_WARNING</a></div><div class="ttdeci">@ LEVEL_WARNING</div><div class="ttdoc">Warnings.</div><div class="ttdef"><b>Definition</b> LumexLogger.hpp:299</div></div>
 <div class="ttc" id="aa01449_html_a8abbc573ad9bfc4d4c761d4c300a1e07a895f68ab8463dcefaa0968193e50c1c8"><div class="ttname"><a href="a01449.html#a8abbc573ad9bfc4d4c761d4c300a1e07a895f68ab8463dcefaa0968193e50c1c8">lumex::applied::logger::logger::LogLevel::LEVEL_DEBUG</a></div><div class="ttdeci">@ LEVEL_DEBUG</div><div class="ttdoc">Debug information.</div><div class="ttdef"><b>Definition</b> LumexLogger.hpp:296</div></div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md113"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md115"></a>
 Буферизация логов</h3>
 <p>Буферизация позволяет не записывать все логи сразу, а сохранять их в буфере. При возникновении критического события (WARNING, ERROR, FATAL, либо уровня <code>BUFFERING_TRIGGER</code> и выше) все записи из буфера автоматически записываются в файл вместе с маркером <code>=======&gt;&gt;&gt; Dumped &lt;N&gt; logs</code>, что позволяет видеть контекст перед критическим событием.</p>
 <div class="fragment"><div class="line"><a class="code hl_typedef" href="a01238.html#a538f3e482b0ee9b4e5a7bd7e7e404a0c">LumexLogger</a>&amp; <a class="code hl_namespace" href="a01449.html">logger</a> = LumexLogger::getInstance();</div>
@@ -504,14 +504,14 @@ XML</h5>
 <div class="line">BUFFERING=<span class="keyword">true</span></div>
 <div class="line">BUFFER_SIZE=200</div>
 <div class="line">BUFFERING_TRIGGER=warning</div>
-</div><!-- fragment --><h4><a class="anchor" id="autotoc_md114"></a>
+</div><!-- fragment --><h4><a class="anchor" id="autotoc_md116"></a>
 Как работает буферизация (с учетом порядка проверок в <code>log()</code>)</h4>
 <ol type="1">
 <li>Проверяется, является ли уровень сообщения критическим (WARNING/ERROR/FATAL, либо <code>BUFFERING_TRIGGER</code> и выше).</li>
 <li><b>Если критический</b> - буфер (если непуст) сбрасывается в файл с маркером <code>Dumped &lt;N&gt; logs</code>, затем <b>само</b> сообщение записывается в файл. Это происходит <b>безусловно</b>, от любого компонента, независимо от пресета.</li>
 <li><b>Если не критический</b> - применяется фильтрация по пресету; прошедшее фильтр сообщение либо добавляется в буфер (если буферизация включена), либо записывается сразу.</li>
 </ol>
-<h3><a class="anchor" id="autotoc_md115"></a>
+<h3><a class="anchor" id="autotoc_md117"></a>
 Пресеты компонентов</h3>
 <p>Пресеты фильтруют <b>некритические</b> уровни логирования по компонентам. Формат компонента в сообщении: <code>[ComponentName]: message</code> или <code>[ComponentName] message</code> (оба варианта поддерживаются).</p>
 <div class="fragment"><div class="line"><a class="code hl_typedef" href="a01238.html#a538f3e482b0ee9b4e5a7bd7e7e404a0c">LumexLogger</a>&amp; <a class="code hl_namespace" href="a01449.html">logger</a> = LumexLogger::getInstance();</div>
@@ -531,22 +531,22 @@ XML</h5>
 <li>полная сигнатура (когда <code>FUNCNAME=full</code>).</li>
 </ul>
 <p><b>Важно:</b> критические уровни (WARNING/ERROR/FATAL, либо <code>BUFFERING_TRIGGER</code> и выше) <b>не фильтруются пресетом</b> - они всегда логируются и всегда флашат буфер, независимо от того, входит ли компонент в пресет.</p>
-<h2><a class="anchor" id="autotoc_md116"></a>
+<h2><a class="anchor" id="autotoc_md118"></a>
 Формат вывода</h2>
-<h3><a class="anchor" id="autotoc_md117"></a>
+<h3><a class="anchor" id="autotoc_md119"></a>
 Структура сообщения</h3>
 <div class="fragment"><div class="line">[время] [уровень] [имя_функции] [TID=id_потока] сообщение</div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md118"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md120"></a>
 Примеры вывода</h3>
 <div class="fragment"><div class="line">[2025-10-02 15:57:07.427] [TRACE] [TID=140234123456] Created new statistics object: &lt;0x2031799451904&gt;</div>
 <div class="line">[2025-10-02 16:05:28.643] [TRACE] [ClassName::MethodName()] [TID=140234123456] Processing data values:</div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md119"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md121"></a>
 Маркер сброса буфера</h3>
 <div class="fragment"><div class="line">[2025-10-02 16:05:28.500] [DEBUG] [TID=140234123456] Шаг обработки #1</div>
 <div class="line">[2025-10-02 16:05:28.501] [DEBUG] [TID=140234123456] Шаг обработки #2</div>
 <div class="line">=======&gt;&gt;&gt; Dumped 2 logs</div>
 <div class="line">[2025-10-02 16:05:28.502] [ERROR] [TID=140234123456] Критическая ошибка!</div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md120"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md122"></a>
 Заголовок и завершение лога</h3>
 <div class="fragment"><div class="line">=== Log start of the program ===</div>
 <div class="line">Time start: 2025-10-02 16:05:28.643</div>
@@ -567,7 +567,7 @@ XML</h5>
 <div class="line">Time end: 2025-10-02 16:05:34.811</div>
 <div class="line">Active time: 6.168 seconds</div>
 <div class="line">===================================</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md121"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md123"></a>
 Файловая структура</h2>
 <div class="fragment"><div class="line">&lt;директория_исполняемого_файла&gt;/</div>
 <div class="line">├── myapp.exe                    # Исполняемый файл</div>
@@ -575,7 +575,7 @@ XML</h5>
 <div class="line">├── LOGGER_README.txt            # Файл-хелпер с подсказкой (создается автоматически, если HINT=true)</div>
 <div class="line">└── logger.log                   # Файл лога (создается автоматически)</div>
 </div><!-- fragment --><p>При <code>TIMESTAMPED=true</code> вместо <code>logger.log</code> создается директория <code>Logger_logs/</code> с файлами вида <code>logger_DD.MM.YYYY-hh-mm-ss.log</code> (каждый запуск - отдельный файл, без перезаписи).</p>
-<h2><a class="anchor" id="autotoc_md122"></a>
+<h2><a class="anchor" id="autotoc_md124"></a>
 Практические рекомендации</h2>
 <ul>
 <li>Для продакшена: <code>LEVEL=warning</code>/<code>error</code>, <code>BUFFERING=true</code> с разумным <code>BUFFER_SIZE</code> для контекста при ошибках.</li>
@@ -584,7 +584,7 @@ XML</h5>
 <li><code>DESCRIBE_FRAME=true</code> включайте только на время анализа протокола - это дополнительный объем логов поверх обычного уровня детализации.</li>
 <li><code>FUNCNAME=none</code> для минимального размера логов в продакшене; <code>FUNCNAME=normal</code> - хороший баланс читаемости и краткости для разработки (короче полной сигнатуры, но однозначно указывает класс и метод).</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md123"></a>
+<h2><a class="anchor" id="autotoc_md125"></a>
 Устранение неполадок</h2>
 <ol type="1">
 <li>Логирование не работает - проверьте наличие и расположение файла-триггера (<code>get_trigger_file_name()</code>).</li>

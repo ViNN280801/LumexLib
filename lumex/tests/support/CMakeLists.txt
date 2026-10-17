@@ -10,13 +10,19 @@
 # One suite per standard the helpers are compiled at:
 #   LumexTestSupportCxx11Tests, LumexTestSupportCxx17Tests,
 #   LumexTestSupportCxx20Tests
-# and the CTest names are support.<Suite>.<Test>.cxx<std>. A second
+# and the CTest names are support.<Suite>.<Test>.cxx<std>. They also hold
+# LumexTestTsanLibcxx.cxx11.tests.cpp, the races of the standard smart
+# pointers that ThreadSanitizer misreads against an uninstrumented libc++
+# without LumexTestTsanLibcxx.cpp (which lumex_add_tsan_libcxx_support of
+# cmake/LumexBuild.cmake adds to every test and in-tree example of a
+# ThreadSanitizer build with Clang). A second
 # executable, LumexTestSupportNoForkCxx11Tests, builds the subprocess runner
 # for platforms without fork () (LUMEX_TEST_FORCE_NO_FORK) so that branch is
 # tested on every platform.
 foreach(_std IN ITEMS 11 17 20)
     set(_target LumexTestSupportCxx${_std}Tests)
-    add_executable(${_target} LumexTestSupport.cxx11.tests.cpp)
+    add_executable(${_target} LumexTestSupport.cxx11.tests.cpp
+        LumexTestTsanLibcxx.cxx11.tests.cpp)
     target_include_directories(${_target} PRIVATE ${LumexLib_SOURCE_DIR})
     target_link_libraries(${_target} PRIVATE Threads::Threads)
     lumex_test_use_gtest(${_target} CXX_STANDARD ${_std})

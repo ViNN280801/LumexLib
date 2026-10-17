@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['g1_20g2_20and_20the_20balance_0',['The reserve of the compare-exchange under G1, G2 and the balance',['../a06614.html#autotoc_md42',1,'']]],
-  ['g2_20and_20the_20balance_1',['The reserve of the compare-exchange under G1, G2 and the balance',['../a06614.html#autotoc_md42',1,'']]],
+  ['g1_20g2_20and_20the_20balance_0',['The reserve of the compare-exchange under G1, G2 and the balance',['../a06614.html#autotoc_md43',1,'']]],
+  ['g2_20and_20the_20balance_1',['The reserve of the compare-exchange under G1, G2 and the balance',['../a06614.html#autotoc_md43',1,'']]],
   ['gamma_2',['GAMMA',['../a01543.html#ac790ad052a54165bc304a20f53f7a502a469bb22a9f1f560331b06cd6ef0da944',1,'lumex::core::generators::number_generator']]],
   ['gap_3',['gap',['../a05167.html',1,'gap'],['../a05167.html#a4ae36e370647da0df57eb30d3bbcd32b',1,'gap::gap()']]],
   ['general_4',['general',['../a01541.html#a6d0e5ca2289d7692d18fc6fd0b832ef7a958153f1b8b96ec4c4eb2147429105d9',1,'lumex::core::fmt::Detail']]],
@@ -111,7 +111,7 @@ var searchData=
   ['group_5fexec_108',['group_exec',['../a01537.html#ab64132a6feae0925f48c883dd04ce26fa314d3c6602524dddf70432b0ece937a8',1,'lumex::core::filesystem::fs']]],
   ['group_5fread_109',['group_read',['../a01537.html#ab64132a6feae0925f48c883dd04ce26fa25103dc0b7bf4bb70a12fdc9ae83b5dc',1,'lumex::core::filesystem::fs']]],
   ['group_5fwrite_110',['group_write',['../a01537.html#ab64132a6feae0925f48c883dd04ce26facf5f2e0341d3d21a4bc073c8eb8a25fa',1,'lumex::core::filesystem::fs']]],
-  ['guarantee_111',['The guarantee',['..//home/vladislavsemykin/Develop/PEAK_EXPERT_WEB/.cursor/tmp/doxy1132/wt/lumex/core/atomic/README.md#autotoc_md31',1,'']]],
+  ['guarantee_111',['The guarantee',['..//home/vladislavsemykin/Develop/PEAK_EXPERT_WEB/.cursor/tmp/lumexlib-release/lumex/core/atomic/README.md#autotoc_md31',1,'']]],
   ['guarantees_112',['Exception guarantees',['../a02055.html#exceptions',1,'']]],
   ['guarantees_20invalidation_20and_20complexity_113',['Guarantees, invalidation, and complexity',['../a02055.html#guarantees',1,'']]],
   ['guess_5fbuffer_5fencoding_114',['guess_buffer_encoding',['../a01671.html#a0b03422e6a429d3386d49503ea29f9ca',1,'lumex::xml::utility']]]

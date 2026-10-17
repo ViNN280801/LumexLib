@@ -1,17 +1,27 @@
 #include <algorithm>
-#include <compare>
-#include <concepts>
 #include <cstddef>
 #include <cwchar>
 #include <ios>
 #include <string>
 #include <string_view>
 #include <vector>
+#if defined(__has_include)
+#if __has_include(<compare>)
+#include <compare>
+#endif
+#if __has_include(<concepts>)
+#include <concepts>
+#endif
+#endif
 
 #include <gtest/gtest.h>
 
 #include "LumexStringViewTestSupport.hpp"
 #include "lumex/core/string_view/LumexStringView"
+#include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
+
+// Needs <compare> and <concepts> (not in GCC 8 -std=c++2a)
+#if LUMEX_HAS_STD_THREE_WAY_COMPARISON && LUMEX_HAS_STD_CONCEPTS
 
 // operator<=> (C++20): strong_ordering, as the standard view's, consistent
 // with the six operators, with the embedded NUL and the unsigned order.
@@ -140,3 +150,5 @@ TEST (LumexStringViewOrderingCxx20Test,
                == std::weak_ordering::greater);
   EXPECT_TRUE ((caseless_view ("AB") <=> lower) == std::weak_ordering::less);
 }
+
+#endif // LUMEX_HAS_STD_THREE_WAY_COMPARISON && LUMEX_HAS_STD_CONCEPTS

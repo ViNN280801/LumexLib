@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.2.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -187,7 +187,7 @@ Files</h2></td></tr>
 <div class="ttc" id="aa01509_html"><div class="ttname"><a href="a01509.html">lumex::core::contracts</a></div><div class="ttdef"><b>Definition</b> LumexContractsAssert.hpp:212</div></div>
 <div class="ttc" id="aa02123_html"><div class="ttname"><a href="a02123.html">lumex::core::contracts::contract_violation</a></div><div class="ttdoc">What a violation handler is told about a violated contract assertion.</div><div class="ttdef"><b>Definition</b> LumexContractsViolation.hpp:223</div></div>
 </div><!-- fragment --><p><code>LUMEX_ASSERT</code> of the utility module is a different, older facility and is not touched: it is always active, has no semantics and one fixed handler. A contract assertion states a property of the program that must hold; what happens when it does not is a decision of the build, not of the line.</p>
-<h1><a class="anchor" id="autotoc_md68"></a>
+<h1><a class="anchor" id="autotoc_md70"></a>
 Evaluation semantics</h1>
 <p>Four semantics follow [basic.contract.eval]; the fifth hands the decision to the compiler.</p>
 <table class="markdownTable">
@@ -206,10 +206,10 @@ Evaluation semantics</h1>
 </table>
 <p>The semantic is chosen per build by the CMake option <code>LUMEX_CONTRACTS_SEMANTIC</code> (<code>IGNORE</code>, <code>OBSERVE</code>, <code>ENFORCE</code>, <code>QUICK_ENFORCE</code>, <code>P2900</code>; default <code>ENFORCE</code>), which <code>lumex::contracts</code> hands to every translation unit that links it (<code>LUMEX_CONTRACTS_BUILD_SEMANTIC</code>, also from an installed package). A translation unit may override it: define <code>LUMEX_CONTRACTS_SEMANTIC</code> to one of the words <code>ignore</code>, <code>observe</code>, <code>enforce</code>, <code>quick_enforce</code>, <code>p2900</code> before the first include of the module (<code>#define LUMEX_CONTRACTS_SEMANTIC observe</code>, or <code>-DLUMEX_CONTRACTS_SEMANTIC=observe</code>); any other word is an <code>#error</code>. Precedence: the macro of the translation unit, then the build, then <code>enforce</code>. <code>LUMEX_CONTRACTS_EFFECTIVE_SEMANTIC</code> is the number in force (1 ignore, 2 observe, 3 enforce, 4 quick_enforce, 5 the compiler's own keyword); <code>LUMEX_CONTRACT_ASSERT_IGNORE</code>, <code>_OBSERVE</code>, <code>_ENFORCE</code>, <code>_QUICK_ENFORCE</code> and <code>_P2900</code> fix the semantic of one assertion whatever the choice above.</p>
 <p><code>NDEBUG</code> has no effect: a contract assertion is not <code>assert</code>. To drop the checks of a release build choose <code>ignore</code> for it. The default is <code>enforce</code> because [basic.contract.eval] recommends it.</p>
-<h1><a class="anchor" id="autotoc_md69"></a>
+<h1><a class="anchor" id="autotoc_md71"></a>
 The real <code>contract_assert</code></h1>
 <p><code>__cpp_contracts</code> of 202502L (P2900) or more means the compiler has the keyword. No installed toolchain here has it, so the native path is tested with a mock (<code>contract_assert</code> defined as a macro in a test translation unit). <code>__cpp_contracts</code> of 201906L is the withdrawn contracts of the C++20 draft (GCC <code>-fcontracts</code>, <code>[[assert: ...]]</code>), which have no <code>contract_assert</code>; it does not count. The native keyword is used only for the semantic <code>p2900</code>: with any other semantic the emulation of this module runs, so the library handler is the one that is called. With the keyword, the compiler's own flags and <code>handle_contract_violation</code> decide, and the handler of this module is not consulted. <code>contract_violation</code> has an explicit constructor from any object with the accessors of <code>std::contracts::contract_violation</code>, so a handler of the compiler can forward into the same code.</p>
-<h1><a class="anchor" id="autotoc_md70"></a>
+<h1><a class="anchor" id="autotoc_md72"></a>
 Macro hygiene</h1>
 <ul>
 <li>The predicate is evaluated exactly once with <code>observe</code>, <code>enforce</code> and <code>quick_enforce</code>, and zero times with <code>ignore</code>; never twice. It is contextually converted to <code>bool</code> (<code>static_cast&lt;bool&gt;</code>), so a type with an explicit conversion works and a type without one does not compile, also with <code>ignore</code>.</li>
@@ -219,11 +219,11 @@ Macro hygiene</h1>
 <li>The violation path is not <code>noexcept</code>: the handler may throw. In a <code>noexcept</code> function a throwing handler ends the program, as [basic.contract.eval] says.</li>
 <li>Location: file, function and line (and the column where the compiler has <code>__builtin_COLUMN</code>, for example Clang) of the assertion; the function name is <code>__PRETTY_FUNCTION__</code> / <code>__FUNCSIG__</code>.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md71"></a>
+<h1><a class="anchor" id="autotoc_md73"></a>
 The violation handler</h1>
 <p>A handler is a plain function pointer, <code>void (*) (contract_violation const &amp;)</code>, kept in a process-wide <code>lumex_callback_slot</code> inside the compiled library; only free functions are exported (<code>set_violation_handler</code>, <code>get_violation_handler</code>, <code>invoke_violation_handler</code>, <code>invoke_default_violation_handler</code>, <code>LUMEX_CONTRACTS_API</code>), so an executable and all shared libraries it loads share one handler on every platform, Windows included. <code>set_violation_handler</code> returns the previous handler (<code>nullptr</code> selects the default one); <code>scoped_violation_handler</code> restores it on scope exit. Both are thread-safe (an atomic pointer); the handler itself must be safe to call from any thread. A handler may throw (unlike <code>lumex_callback_slot::invoke_or</code>, the library never catches it). A violation reported from inside a handler of the same thread goes to the default handler, so a faulty handler cannot recurse.</p>
 <p>The default handler writes one line to standard error (<code><a href="file:line:column:">file:line:column:</a> function: contract violation: predicate [kind: assert, semantic: observe, detection: predicate_false]</code>) and returns, as [basic.contract.handler] recommends; <code>enforce</code> then aborts, <code>observe</code> goes on. It is not rate-limited.</p>
-<h1><a class="anchor" id="autotoc_md72"></a>
+<h1><a class="anchor" id="autotoc_md74"></a>
 Differences from P2900</h1>
 <ul>
 <li>No <code>pre</code> and <code>post</code>: only the assertion statement. <code>assertion_kind::pre</code> and <code>post</code> exist for completeness and for violations converted from a compiler.</li>
@@ -233,7 +233,7 @@ Differences from P2900</h1>
 <li>Exceptions from the predicate are violations only on request (<code>LUMEX_CONTRACTS_CATCH_EXCEPTIONS</code>).</li>
 <li><code>source_location</code> is the module's own class (accessors of <code>std::source_location</code>, constructible from four values, comparable); a <code>std::source_location</code> converts into it implicitly (C++20), the other direction does not exist.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md73"></a>
+<h1><a class="anchor" id="autotoc_md75"></a>
 What was taken from Boost</h1>
 <p>Boost.Assert (<code>BOOST_ASSERT</code>, <code>BOOST_ASSERT_MSG</code>, <code>BOOST_VERIFY</code>, <code>BOOST_DISABLE_ASSERTS</code>, <code>BOOST_ENABLE_ASSERT_HANDLER</code>, <code>BOOST_ENABLE_ASSERT_DEBUG_HANDLER</code>, <code>boost::assertion_failed</code> / <code>assertion_failed_msg</code>, <code>boost::source_location</code>) and Boost.Contract (<code>BOOST_CONTRACT_ASSERT</code>, <code>boost::contract::set_*_failure</code>, <code>BOOST_CONTRACT_NO_*</code>) were read as design references (Boost Software License 1.0; ideas only, no code; see <code>THIRD-PARTY-NOTICES.md</code>).</p>
 <table class="markdownTable">
@@ -262,7 +262,7 @@ What was taken from Boost</h1>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><code>BOOST_CONTRACT_NO_PRECONDITIONS</code> ... (a switch per kind)   </td><td class="markdownTableBodyNone">one macro per assertion (<code>LUMEX_CONTRACT_ASSERT_IGNORE</code> ...) and one choice per translation unit   </td></tr>
 </table>
-<h1><a class="anchor" id="autotoc_md74"></a>
+<h1><a class="anchor" id="autotoc_md76"></a>
 Where it lives</h1>
 <ul>
 <li><code><a class="el" href="a01001.html" title="LUMEX_CONTRACT_ASSERT (expr), the contract assertion of C++26 (contract_assert, P2900) on every stand...">assert/LumexContractsAssert.hpp</a></code>: the macros and the choice of the semantic.</li>
