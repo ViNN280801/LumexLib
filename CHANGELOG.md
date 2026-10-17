@@ -14,9 +14,21 @@
 
 ## [v2.0.2.0] - в разработке
 
-> Изменения поверх `v2.0.1.0`.
+> Изменения поверх `v2.0.1.0`. Номер `2.0.2.0` выбран по [VERSIONING.md](VERSIONING.md): исправление поведения скомпилированного модуля без изменения API и ABI (PATCH).
 
 ### [v2.0.2.0]
+
+#### Исправлено
+
+##### `hazard_pointer`: кэш потока и хеш-таблица прохода берутся из `malloc`/`free`, а не из `operator new`
+
+**Файлы:** `lumex/core/hazard_pointer/engine/LumexHazardPointerDomain.cpp`, `lumex/core/hazard_pointer/README.md`, `lumex/tests/cmake/consumer/hazard_pointer_throwing_new_only/`, `lumex/tests/cmake/CMakeLists.txt`.
+
+**Суть:** Движок выделял кэш потока и таблицу адресов прохода через `new (std::nothrow)`, а освобождал через `delete`. libstdc++ до GCC 9 (PR libstdc++/68210) не направляет `new (std::nothrow)` в замененный `operator new`, а `delete` всегда вызывает замененный `operator delete`. Программа, заменившая только бросающие `operator new/delete` схемой, которая не является чистыми `malloc`/`free` (заголовок блока, списки свободных блоков; это допустимо в C++11), при выходе потока получала в свой `operator delete` чужой указатель (`free(): invalid pointer` или повреждение). Теперь обе внутренние области берутся из `std::malloc` и возвращаются `std::free` (оба типа тривиальны, выравнивание `alignof (std::max_align_t)` достаточно, `static_assert` это проверяет); обработка неудачного выделения прежняя (поток без кэша, проход по узлам без таблицы; `retire` остается `noexcept`). Поведение для программ, заменяющих `operator new`: эти два выделения больше не проходят через их аллокатор (не считаются и не получают отказ от него); блоки слотов (живут до конца процесса) по-прежнему выделяются бросающим `operator new`; объекты, которые пользователь передает в `retire`, выделяются и освобождаются самим пользователем. Остальные пары `new`/`delete` в движке и в lock-free ящиках `atomic::smart_ptr` (`LumexAtomicSmartPtrLockFreeCell.hpp`) используют бросающие формы в паре друг с другом и не менялись.
+
+**Тесты:** новая фикстура `hazard_pointer_throwing_new_only` (`cmake.consumer_hazard_pointer_throwing_new_only`): аллокатор заменяет только бросающие `operator new`, `operator delete` и размерный `operator delete` схемой с заголовком блока (чужой блок: abort), потоки берут слоты, выбирают тысячи объектов и завершаются, главный поток держит один защищенный объект при проходах.
+
+**Проверено:** фикстура с релизным кодом (`new (std::nothrow)`/`delete`) на GCC 8.3 с системной libstdc++ 8 падает (`operator delete: a block without a header`, abort), с исправлением проходит; на GCC 13.2 (Release) и Clang 23 (libc++ и libstdc++) проходит; мутации (кэш освобождается через `delete`, таблица через `delete[]`) ловятся на GCC 8.3. Наборы `hazard_pointer` и `atomic` (C++11..20 там, где компилятор их собирает): GCC 13.2 Release, Clang 23 libc++ и libstdc++ Release, GCC 13.2 Debug с ASan и UBSan - 3425 тестов, 0 отказов; GCC 8.3 - без отказов, кроме двух наборов C++20 (`<span>` и неподвижные лямбды в `-std=c++2a` GCC 8 отсутствуют, к изменению не относится); `cmake.consumer_hazard_pointer_*`, `cmake.consumer_atomic_*`, `cmake.hazard_pointer_soak` проходят; TSan (Clang 23, libc++, Debug): те же 16 тестов `atomic.smart_ptr` (гонка `shared_ptr` в libc++) и пример `LumexAtomicExampleConfigReload` падают и на выпуске без исправления; `create_release.sh --std 11,20` для gcc-8, gcc13 и clang: 0 предупреждений; `ctest -R '^(cmake|lint)\.'` - 201 тест проходит.
 
 #### Изменено
 
