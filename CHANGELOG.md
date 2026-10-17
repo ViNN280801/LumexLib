@@ -30,6 +30,14 @@
 
 #### Исправлено
 
+##### `VERIFICATION.md`: имена политик симулятора в документации Doxygen
+
+**Файлы:** `lumex/core/atomic/VERIFICATION.md`.
+
+**Суть:** изменение только документации (TWEAK). Обозначения вида `S01@R8@1` Doxygen читал как команду `@R8` и убирал из страницы; знак `@` в них экранирован (`\@`), в HTML-документации имена политик видны.
+
+**Проверено:** Doxygen 1.13.2: предупреждения `Found unknown command '@R8'` и `'@R0'` (40 штук) исчезли.
+
 ##### `hazard_pointer`: кэш потока и хеш-таблица прохода берутся из `malloc`/`free`, а не из `operator new`
 
 **Файлы:** `lumex/core/hazard_pointer/engine/LumexHazardPointerDomain.cpp`, `lumex/core/environment/env/LumexEnvironment.cpp`, `lumex/core/hazard_pointer/README.md`, `lumex/tests/cmake/consumer/hazard_pointer_throwing_new_only/`, `lumex/tests/cmake/CMakeLists.txt`.
