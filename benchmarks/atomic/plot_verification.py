@@ -154,8 +154,9 @@ def mutants_chart(rows):
         "not run on it, or has no record. Rows: the pre-registered M1-M38 (with the two halves of M33),",
         "the 24 mutants of the ABA campaign, the 5 of the family-suite review, and the 5 own mutants",
         "V4/101 to V4/105 of the Relacy models."])
+    used = {row[key] for _, row in drawn for key, _ in LAYERS}
     items = [(color, letter, meaning)
-             for _, letter, color, meaning in STATES]
+             for name, letter, color, meaning in STATES if name in used]
     items.append((EMPTY_COLOR, "", "not run, or no record"))
     y = swatch_legend(out, items, margin, y + 22, width - 2 * margin)
     top = y + 26
