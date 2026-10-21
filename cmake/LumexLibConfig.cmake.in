@@ -121,7 +121,7 @@ if(NOT TARGET lumex::Lumex)
     foreach(_c
             hardware json logger logging resource_monitor serial settings
             atomic base64 circular_buffer contracts crc environment exceptions expected
-            filesystem fmt hazard_pointer
+            filesystem fmt hazard_pointer framing
             number_generator math optional reflection span string smart_ptr
             string_view temporary time unicode utility xml)
         if(TARGET lumex::${_c})
