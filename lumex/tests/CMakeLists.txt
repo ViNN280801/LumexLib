@@ -63,6 +63,20 @@ else()
     message(STATUS "Skipping lint.msvc_pragmas: no Python 3 interpreter")
 endif()
 
+# A standard header newer than C++11 (<optional>, <compare>, <expected>, ...)
+# is included only under a guard on its standard: below it the MSVC STL prints
+# STL4038 through #pragma message, which /WX does not stop.
+if(Python3_Interpreter_FOUND)
+    add_test(NAME lint.std_header_guards
+        COMMAND ${Python3_EXECUTABLE}
+            ${LumexLib_SOURCE_DIR}/Scripts/CodeTools/check_std_header_guards.py
+            --check --dir ${LumexLib_SOURCE_DIR}/lumex
+    )
+    set_tests_properties(lint.std_header_guards PROPERTIES LABELS "lint")
+else()
+    message(STATUS "Skipping lint.std_header_guards: no Python 3 interpreter")
+endif()
+
 # Every public source file under lumex/ starts with the MIT notice in a plain
 # /* comment: a Doxygen /** comment would copy the license onto every page.
 if(Python3_Interpreter_FOUND)
