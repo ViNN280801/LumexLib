@@ -447,6 +447,11 @@ foreach(_semantic IN ITEMS ignore observe enforce quick_enforce p2900)
         contracts_build_semantic -DSEMANTIC=${_semantic})
 endforeach()
 lumex_add_consumer_test(consumer_contracts_two_modules contracts_two_modules)
+# The framing error category is one per process: an error code made in a DLL
+# equals the enumerator in the executable.
+lumex_add_consumer_test(consumer_framing_two_modules framing_two_modules)
+# The header-only codecs compile without a warning in a strict consumer.
+lumex_add_consumer_test(consumer_framing_warnings framing_warnings)
 # The header-only modules (string, string_view, math, generators, optional, atomic, span) compile
 # from an install prefix built with LUMEX_BUILD_UTILITY OFF: the core/utility
 # headers they include are installed whatever that option says.
