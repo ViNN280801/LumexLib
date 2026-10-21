@@ -38,6 +38,12 @@ _require_text("create_release.sh" "std_tag_for")
 _require_text("create_release.ps1" "_cxx${stdTag}")
 _require_text("create_release.ps1" "$StdList")
 _require_text("create_release.ps1" "[string[]] $Std")
+# C++23 is in the release matrix: a compiler without it (GCC 8, MinGW 8.3) is
+# skipped for it, not the run stopped (release_script_dry_run runs it).
+_require_text("create_release.sh" "std_supported")
+_require_text("create_release.sh" "SKIPPED_JOBS")
+# Below C++17 the C standard is C11: compile.py warns about C17 with C++11/14.
+_require_text("create_release.ps1" "$compileArgs += @('--stdc', 11)")
 # --dry-run, --quiet and --color: the commands shown after a "$", the output
 # of a command in the terminal's own colour. The behaviour is in release_script_dry_run.
 _require_text("create_release.sh" "--dry-run) DRY_RUN=1")

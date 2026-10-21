@@ -75,8 +75,8 @@ Options:
                      the machine/user PATH values or the usual install
                      directories.
   -Std LIST          C++ standards to build, comma-separated (11, 14, 17, 20,
-                     23), for example -Std 17,20: every compiler is built
-                     once per standard. Default: the compile.py default (20);
+                     23), for example -Std 11,14,17,20,23 (the release
+                     matrix): every compiler is built once per standard. Default: the compile.py default (20);
                      pass -Std 17 for a compiler without C++20, for example
                      the v141 toolset. The standard ends the name of the
                      package (..._cxx17.zip; cxx20 when -Std is not given).
@@ -761,6 +761,11 @@ foreach ($build in $Builds) {
     }
     if ($stdItem -ne 0) {
         $compileArgs += @('--stdcxx', $stdItem)
+        # compile.py defaults to C17 and warns "C17 standard works best with
+        # C++17 or later" below C++17: the C standard follows the C++ one.
+        if ($stdItem -lt 17) {
+            $compileArgs += @('--stdc', 11)
+        }
     }
     $buildLog = Join-Path $work 'build.log'
     $buildExit = Invoke-NativeRedirectedIn $BuildRoot 'python' $compileArgs $buildLog

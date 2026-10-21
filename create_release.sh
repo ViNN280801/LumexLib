@@ -45,13 +45,15 @@ Options:
                      A MinGW compiler always gives a zip (needs "zip");
                      --formats does not apply to it.
   --std LIST         C++ standards to build, comma-separated (11, 14, 17, 20,
-                     23), for example --std 11,14,17,20: every compiler is
+                     23), for example --std 11,14,17,20,23: every compiler is
                      built once per standard. Default: 20 where the compiler
                      supports it (probe: -std=c++20 gives __cplusplus >=
                      202002L), otherwise the compiler's default standard.
                      GCC 8 and MinGW 8.3 have no
                      C++20 (only the draft -std=c++2a, __cplusplus 201709L):
-                     --std 20 builds that draft there and says so. The
+                     --std 20 builds that draft there and says so. They know
+                     no C++23 at all, not even -std=c++2b: their C++23 build
+                     is skipped and listed as skipped. The
                      standard of the build ends the name of the package:
                      ..._cxx17.tar.gz (cxx2a for the draft, and the compiler's
                      own default when no standard was set).
@@ -78,7 +80,8 @@ Options:
                      of the terminal.
   --no-package       Build only: no install, no packages, no packaging tools
                      needed. The warnings of the build are still collected;
-                     with --std 11,14,17,20 one run checks all four standards.
+                     with --std 11,14,17,20,23 one run checks all five
+                     standards.
   --output-dir DIR   Where the packages go (default: <repo>/release). The
                      diagnostics of every build go to <output-dir>/warns/:
                      <compiler>_c++<std>_warn.log and _err.log (x86 builds:
@@ -528,6 +531,18 @@ std_for() {
   fi
 }
 
+# std_supported <c++ compiler> <isa> <std> -> status 0 when the compiler knows
+# the standard or its draft (GCC 8 and MinGW 8.3 know neither -std=c++23 nor
+# -std=c++2b: their C++23 build is skipped, not failed)
+std_supported() {
+  local cxx="$1" isa="$2" std="$3" flags draft
+  case "$std" in 20) draft=c++2a ;; 23) draft=c++2b ;; *) return 0 ;; esac
+  flags="$(arch_flags "$isa")"
+  # shellcheck disable=SC2086
+  "$cxx" $flags -std="c++${std}" -x c++ -fsyntax-only /dev/null >/dev/null 2>&1 \
+    || "$cxx" $flags -std="${draft}" -x c++ -fsyntax-only /dev/null >/dev/null 2>&1
+}
+
 # std_note <c++ compiler> <isa> <std> -> a note when the standard asked for is
 # only a draft there (GCC 8: -std=c++20 does not exist, -std=c++2a does)
 std_note() {
@@ -575,6 +590,7 @@ std_tag_for() {
 }
 
 declare -a JOB_C JOB_CXX JOB_LABEL JOB_ISA JOB_STD JOB_KIND JOB_NOTE JOB_STDTAG
+SKIPPED_JOBS=()
 for path in "${COMPILER_PATHS[@]}"; do
   [[ -x "$path" ]] || die "compiler '$path' does not exist or is not executable"
   pair="$(pair_for "$path")"
@@ -594,6 +610,10 @@ for path in "${COMPILER_PATHS[@]}"; do
     fi
     probe_link "$cxx" "$isa"
     for std_item in "${STD_ITEMS[@]}"; do
+      if [[ -n "${std_item}" ]] && ! std_supported "$cxx" "$isa" "${std_item}"; then
+        SKIPPED_JOBS+=("${label} ${isa} C++${std_item}")
+        continue
+      fi
       JOB_C+=("$c"); JOB_CXX+=("$cxx"); JOB_LABEL+=("$label"); JOB_ISA+=("$isa")
       JOB_KIND+=("$kind")
       job_std="$(std_for "$cxx" "$isa" "$std_item")"
@@ -603,6 +623,7 @@ for path in "${COMPILER_PATHS[@]}"; do
     done
   done
 done
+[[ ${#JOB_CXX[@]} -gt 0 ]] || die "none of the compilers knows the standards of --std ${STD_ARG}"
 
 # ---------------------------------------------------------------------------
 # Build and package
@@ -633,6 +654,10 @@ for i in "${!JOB_CXX[@]}"; do
   printf '  %s%-12s%s %-7s C++%-8s %s%s / %s%s\n' "${C_BOLD}" "${JOB_LABEL[$i]}" "${C_RESET}" "${JOB_ISA[$i]}" "${JOB_STD[$i]:-default}" \
     "${C_DIM}" "${JOB_C[$i]}" "${JOB_CXX[$i]}" "${C_RESET}"
   [[ -z "${JOB_NOTE[$i]}" ]] || echo "    ${C_YELLOW}note:${C_RESET} ${JOB_NOTE[$i]}"
+done
+# The guard keeps bash before 4.4 from calling an empty array unbound (set -u).
+for skipped in ${SKIPPED_JOBS[@]+"${SKIPPED_JOBS[@]}"}; do
+  echo "  ${C_YELLOW}skipped:${C_RESET} ${skipped} (the compiler has no such standard, not even as a draft)"
 done
 
 remove_x64() {
