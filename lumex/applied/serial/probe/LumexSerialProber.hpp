@@ -357,7 +357,16 @@ public:
 
 private:
   struct Impl;
+  // Private and touched only by the out-of-line members: C4251 does not
+  // apply to clients.
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable : 4251)
+#endif
   std::unique_ptr<Impl> impl_;
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
 };
 
 } // namespace probe
