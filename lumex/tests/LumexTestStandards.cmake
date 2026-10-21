@@ -410,6 +410,9 @@ lumex_test_standards_declare(logger 11 14 17 20)
 lumex_test_standards_declare(crc 11 14 17 20)
 lumex_test_standards_declare(hazard_pointer 11 14 17 20)
 lumex_test_standards_declare(contracts 11 14 17 20)
+# framing: its checksum stages use crc, whose tables are built at compile time
+# from C++14; C++20 adds the std::span conversion of the byte views.
+lumex_test_standards_declare(framing 11 14 17 20)
 
 lumex_test_standards_declare(atomic 11 17 20)
 lumex_test_standards_declare_variant(atomic lock_based 11 20)
