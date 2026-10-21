@@ -1,0 +1,66 @@
+/*
+ * Copyright (c) 2026 Vladislav Semykin <vladislav.semykin@gmail.com>
+ *
+ *
+ * SPDX-License-Identifier: MIT
+ *
+ * Permission is hereby granted, free of
+ * charge, to any person obtaining a copy
+ * of this software and associated
+ * documentation files (the "Software"), to deal
+ * in the Software without
+ * restriction, including without limitation the rights
+ * to use, copy,
+ * modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the
+ * Software, and to permit persons to whom the Software is
+ * furnished to do
+ * so, subject to the following conditions:
+ *
+ * The above copyright notice
+ * and this permission notice shall be included in
+ * all copies or substantial
+ * portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT
+ * WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO
+ * THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH
+ * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+/**
+ * @file LumexFraming
+ * @brief Framing module: codecs that turn payloads into frames and a byte
+ * stream back into frames, with no I/O and no threads.
+ * @details Link <tt>%lumex::framing</tt> (compiled library: it holds the
+ * error category; the codecs are header-only). Works from C++11. The contract
+ * of every codec is in `codec/LumexFramingCodec.hpp`, the error codes in
+ * `codec/LumexFramingErrc.hpp`. The codecs: `slip::slip_codec` (RFC 1055),
+ * `cobs::cobs_codec`, `delimiter::delimiter_codec` (text lines),
+ * `length::length_prefix_codec`, `header::header_codec<Check>` (binary
+ * headers with a length field and a check value),
+ * `modbus_rtu::modbus_rtu_codec`; `stage::pipeline<Outer, Stage...>` adds
+ * transformations of the frame (prefix byte, ASCII hex, check value, word
+ * reversal) to any of them.
+ */
+#include "codec/LumexFramingErrc.hpp"
+
+#include "codec/LumexFramingCodec.hpp"
+
+#include "cobs/LumexCobsCodec.hpp"
+#include "delimiter/LumexDelimiterCodec.hpp"
+#include "header/LumexHeaderCodec.hpp"
+#include "length/LumexLengthPrefixCodec.hpp"
+#include "modbus_rtu/LumexModbusRtuCodec.hpp"
+#include "slip/LumexSlipCodec.hpp"
+#include "stage/LumexFramingPipeline.hpp"
+#include "stage/LumexFramingStages.hpp"

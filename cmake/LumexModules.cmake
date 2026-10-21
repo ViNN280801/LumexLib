@@ -23,6 +23,7 @@ set(LUMEX_CORE_MODULE_OPTIONS
     LUMEX_BUILD_EXPECTED
     LUMEX_BUILD_FILESYSTEM
     LUMEX_BUILD_FMT
+    LUMEX_BUILD_FRAMING
     LUMEX_BUILD_GENERATORS
     LUMEX_BUILD_HAZARD_POINTER
     LUMEX_BUILD_MATH
@@ -171,6 +172,12 @@ function(lumex_check_module_dependencies)
 
     lumex_require_module(LUMEX_BUILD_CONTRACTS LUMEX_BUILD_UTILITY)
 
+    lumex_require_module(LUMEX_BUILD_FRAMING LUMEX_BUILD_CONTRACTS)
+    lumex_require_module(LUMEX_BUILD_FRAMING LUMEX_BUILD_CRC)
+    lumex_require_module(LUMEX_BUILD_FRAMING LUMEX_BUILD_EXPECTED)
+    lumex_require_module(LUMEX_BUILD_FRAMING LUMEX_BUILD_SPAN)
+    lumex_require_module(LUMEX_BUILD_FRAMING LUMEX_BUILD_UTILITY)
+
     string(TOUPPER "${LUMEX_CONTRACTS_SEMANTIC}" _contracts_semantic)
     set(_contracts_semantics IGNORE OBSERVE ENFORCE QUICK_ENFORCE P2900)
     if(NOT _contracts_semantic IN_LIST _contracts_semantics)
@@ -245,6 +252,7 @@ set(LUMEX_SHARED_LIBRARY_CANDIDATES
     LumexCore_expected
     LumexCore_filesystem
     LumexCore_fmt
+    LumexCore_framing
     LumexCore_hazard_pointer
     LumexCore_number_generator
     LumexCore_math

@@ -267,6 +267,7 @@ if(LUMEX_INSTALL)
         LumexCore_expected
         LumexCore_filesystem
         LumexCore_fmt
+        LumexCore_framing
         LumexCore_hazard_pointer
         LumexCore_number_generator
         LumexCore_math
