@@ -60,6 +60,11 @@ foreach(_edge
         "lumex_require_module(LUMEX_BUILD_FRAMING LUMEX_BUILD_EXPECTED)"
         "lumex_require_module(LUMEX_BUILD_FRAMING LUMEX_BUILD_SPAN)"
         "lumex_require_module(LUMEX_BUILD_FRAMING LUMEX_BUILD_UTILITY)"
+        "lumex_require_module(LUMEX_BUILD_TRANSPORT LUMEX_BUILD_CONTRACTS)"
+        "lumex_require_module(LUMEX_BUILD_TRANSPORT LUMEX_BUILD_EXPECTED)"
+        "lumex_require_module(LUMEX_BUILD_TRANSPORT LUMEX_BUILD_SERIAL)"
+        "lumex_require_module(LUMEX_BUILD_TRANSPORT LUMEX_BUILD_SPAN)"
+        "lumex_require_module(LUMEX_BUILD_TRANSPORT LUMEX_BUILD_UTILITY)"
         "lumex_require_module(LUMEX_BUILD_SMART_PTR LUMEX_BUILD_UTILITY)")
     string(FIND "${_mod}" "${_edge}" _pos)
     if(_pos EQUAL -1)

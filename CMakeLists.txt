@@ -291,6 +291,7 @@ if(LUMEX_INSTALL)
         LumexApplied_resource_monitor
         LumexApplied_serial
         LumexApplied_settings
+        LumexApplied_transport
     )
 
     lumex_install_export_if_any(LumexXmlTargets LumexXmlTargets.cmake

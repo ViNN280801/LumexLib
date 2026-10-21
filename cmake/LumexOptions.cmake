@@ -63,6 +63,13 @@ option(LUMEX_BUILD_LOGGER "Build applied/logger" ON)
 option(LUMEX_BUILD_LOGGING "Build applied/logging" ON)
 option(LUMEX_BUILD_RESOURCE_MONITOR "Build applied/resource_monitor" ON)
 option(LUMEX_BUILD_SERIAL "Build applied/serial" ON)
+option(LUMEX_BUILD_TRANSPORT "Build applied/transport (byte streams and message transports over the vendored Asio: serial, TCP, UDP; always a static library)" ON)
+option(LUMEX_TRANSPORT_WITH_SPAWN "applied/transport: the asio::yield_context completion token (builds the vendored Boost.Context)" ON)
+set(LUMEX_TRANSPORT_LOG_MIN_LEVEL "TRACE" CACHE STRING
+    "applied/transport: the lowest log level compiled in (TRACE, DEBUG, INFO, WARNING, ERROR)")
+set_property(CACHE LUMEX_TRANSPORT_LOG_MIN_LEVEL PROPERTY STRINGS
+    TRACE DEBUG INFO WARNING ERROR)
+option(LUMEX_TRANSPORT_WITH_TESTING "applied/transport: the public test doubles (mock streams and datagrams)" ON)
 option(LUMEX_BUILD_SETTINGS "Build applied/settings" ON)
 
 # The logger compiles exactly one config reader. Changing the format requires

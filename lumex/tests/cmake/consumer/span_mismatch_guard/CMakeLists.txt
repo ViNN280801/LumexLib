@@ -52,7 +52,9 @@ endif()
 
 set(_library_definitions "")
 foreach(_t IN LISTS _compiled)
-    if(_t MATCHES "^lumex_gtest")
+    # GoogleTest and the vendored third-party code (Boost.Context, hidapi)
+    # never include the span headers and get no Lumex compile settings.
+    if(_t MATCHES "^lumex_gtest" OR _t MATCHES "^lumex_3rdparty_")
         continue()
     endif()
     get_target_property(_defs "${_t}" COMPILE_DEFINITIONS)

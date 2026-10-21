@@ -41,7 +41,17 @@ function(lumex_setup_asio)
     add_library(lumex_3rdparty_asio INTERFACE)
     add_library(lumex::3rdparty_asio ALIAS lumex_3rdparty_asio)
     target_include_directories(lumex_3rdparty_asio SYSTEM INTERFACE
-        "$<BUILD_INTERFACE:${_dir}>")
+        "$<BUILD_INTERFACE:${_dir}>"
+        "$<INSTALL_INTERFACE:include/lumex/3rdparty/asio>")
+    # What lumex_third_party_install copies when a module that needs Asio is
+    # installed (cmake/LumexThirdParty.cmake).
+    get_filename_component(_root "${_dir}/.." ABSOLUTE)
+    set_target_properties(lumex_3rdparty_asio PROPERTIES
+        INTERFACE_LUMEX_3RDPARTY_INSTALL_DIRS "${_dir};include/lumex/3rdparty/asio")
+    if(EXISTS "${_root}/LICENSE_1_0.txt")
+        set_target_properties(lumex_3rdparty_asio PROPERTIES
+            INTERFACE_LUMEX_3RDPARTY_LICENSE "${_root}/LICENSE_1_0.txt;include/lumex/3rdparty/asio")
+    endif()
     target_compile_definitions(lumex_3rdparty_asio INTERFACE
         ASIO_STANDALONE
         ASIO_NO_DEPRECATED)

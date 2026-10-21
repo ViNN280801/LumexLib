@@ -57,7 +57,16 @@ function(lumex_setup_boost_context)
         CXX_STANDARD_REQUIRED ON
         CXX_EXTENSIONS OFF)
     target_include_directories(lumex_3rdparty_boost_context SYSTEM PUBLIC
-        "$<BUILD_INTERFACE:${_dir}>")
+        "$<BUILD_INTERFACE:${_dir}>"
+        "$<INSTALL_INTERFACE:include/lumex/3rdparty/boost_context>")
+    # What lumex_third_party_install copies: the headers of the closure.
+    set_target_properties(lumex_3rdparty_boost_context PROPERTIES
+        INTERFACE_LUMEX_3RDPARTY_INSTALL_DIRS
+            "${_dir}/boost;include/lumex/3rdparty/boost_context/boost")
+    if(EXISTS "${_dir}/LICENSE_1_0.txt")
+        set_target_properties(lumex_3rdparty_boost_context PROPERTIES
+            INTERFACE_LUMEX_3RDPARTY_LICENSE "${_dir}/LICENSE_1_0.txt;include/lumex/3rdparty/boost_context")
+    endif()
     # BOOST_ALL_NO_LIB: no MSVC auto-link to a prebuilt boost_context library.
     target_compile_definitions(lumex_3rdparty_boost_context PUBLIC
         BOOST_ALL_NO_LIB

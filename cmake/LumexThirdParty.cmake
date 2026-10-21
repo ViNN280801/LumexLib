@@ -73,3 +73,48 @@ function(lumex_third_party_apply_stdlib target)
         set_property(TARGET ${target} PROPERTY LUMEX_3RDPARTY_STDLIB_DONE TRUE)
     endif()
 endfunction()
+
+# Installs a third-party target that LumexLib created (not one the consumer
+# defined first) with the export set of the module that needs it, so that an
+# installed package that exports that module also provides the target:
+# lumex_third_party_install(<target> <export set>). The headers go under
+# include/lumex/3rdparty/<name> (the INSTALL_INTERFACE include directory the
+# setup function gave the target), the license file next to them, a static
+# library to the library directory. The setup functions mark their targets
+# with INTERFACE_LUMEX_3RDPARTY_INSTALL_DIRS (pairs of source directory and
+# destination) and INTERFACE_LUMEX_3RDPARTY_LICENSE (the license file and its
+# destination); the INTERFACE_ prefix because CMake before 3.19 allows no
+# other custom property on an INTERFACE library.
+function(lumex_third_party_install target export_set)
+    if(NOT TARGET ${target})
+        return()
+    endif()
+    get_target_property(_dirs ${target} INTERFACE_LUMEX_3RDPARTY_INSTALL_DIRS)
+    if(NOT _dirs)
+        # Defined by the consumer: it installs its own copy.
+        return()
+    endif()
+    get_property(_installed GLOBAL PROPERTY LUMEX_3RDPARTY_INSTALLED_${target})
+    if(_installed)
+        return()
+    endif()
+    set_property(GLOBAL PROPERTY LUMEX_3RDPARTY_INSTALLED_${target} TRUE)
+    list(LENGTH _dirs _count)
+    math(EXPR _last "${_count} - 1")
+    foreach(_i RANGE 0 ${_last} 2)
+        math(EXPR _j "${_i} + 1")
+        list(GET _dirs ${_i} _from)
+        list(GET _dirs ${_j} _to)
+        install(DIRECTORY "${_from}/" DESTINATION "${_to}")
+    endforeach()
+    get_target_property(_license ${target} INTERFACE_LUMEX_3RDPARTY_LICENSE)
+    if(_license)
+        list(GET _license 0 _license_file)
+        list(GET _license 1 _license_to)
+        install(FILES "${_license_file}" DESTINATION "${_license_to}")
+    endif()
+    install(TARGETS ${target} EXPORT ${export_set}
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+endfunction()
