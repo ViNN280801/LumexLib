@@ -182,6 +182,12 @@ else()
     message(STATUS "Skipping serial examples (LUMEX_BUILD_APPLIED or LUMEX_BUILD_SERIAL is OFF)")
 endif()
 
+if(LUMEX_BUILD_APPLIED AND LUMEX_BUILD_TRANSPORT)
+    add_subdirectory(transport)
+else()
+    message(STATUS "Skipping transport examples (LUMEX_BUILD_APPLIED or LUMEX_BUILD_TRANSPORT is OFF)")
+endif()
+
 if(LUMEX_BUILD_APPLIED AND LUMEX_BUILD_SETTINGS)
     add_subdirectory(settings)
 else()
