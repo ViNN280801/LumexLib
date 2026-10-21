@@ -28,6 +28,14 @@
 
 **Проверено:** cl.exe и clang-cl 21.1.7, наборы `framing.*` на C++11, 14, 17 и 20: 728 тестов на каждом компиляторе, среди них эталоны DChannel v4 (SLIP, ASCII, TCP), шесть пар кадров двоичного протокола с CRC-32 по перевернутым словам (кодирование байт в байт и разбор), команда и ответ текстового протокола с XOR, кадры Modbus RTU с CRC старшим байтом вперед и обмен с разными разделителями приема и передачи (протоколы приборов в тестах намеренно изменены по соглашению о неразглашении (NDA) и не описывают ни один реальный прибор), примеры Cheshire-Baker для COBS, свойства для каждого кодека (круговой обход, разрез в любой позиции, обрезка и порча любого байта). Фикстура `cmake.consumer_framing_two_modules` поймала намеренную замену категории на header-only (код возврата 1); `cmake.consumer_framing_warnings` собирает все шаблоны модуля с `/W4 /WX` (cl.exe) и `-Weverything` (clang-cl) без единого предупреждения.
 
+##### Модуль `applied/transport`: байтовые потоки и транспорты сообщений поверх Asio
+
+**Файлы:** `lumex/applied/transport/` (новый: `LumexTransport`, `README.md`, `error/`, `log/`, `stream/`, `datagram/`, `serial/`, `net/`, `testing/`, `detail/`), `lumex/LumexExport.hpp` (`LUMEX_SERIAL_API`), `lumex/applied/serial/probe/detail/LumexSerialBoundedOpen.hpp`, `cmake/LumexOptions.cmake` (`LUMEX_BUILD_TRANSPORT`, `LUMEX_TRANSPORT_WITH_SPAWN`, `LUMEX_TRANSPORT_WITH_TESTING`, `LUMEX_TRANSPORT_LOG_MIN_LEVEL`), `cmake/LumexModules.cmake`, `cmake/LumexThirdParty.cmake` (`lumex_third_party_install`), `cmake/LumexAsio.cmake`, `cmake/LumexBoostContext.cmake`, `cmake/LumexLibConfig.cmake.in`, `CMakeLists.txt`, `conanfile.py` (компоненты `applied_transport`, `thirdparty_asio`, `thirdparty_boost_context`), `lumex/applied/CMakeLists.txt`, `lumex/tests/applied/transport/` (новый), `lumex/tests/LumexTestStandards.cmake`, `lumex/tests/cmake/` (кейс `require_fail_transport_without_serial`, фикстуры `serial_without_transport`, `transport_two_modules`, `transport_warnings`, списки модулей), `lumex/examples/transport/` (новый), `Doxyfile.in`, `Scripts/CodeTools/check_headers_standalone.py` (каталог и макросы Asio для заголовков модуля).
+
+**Суть:** `stream::byte_stream` (последовательный порт, TCP, заглушка) и `datagram::message_transport` (UDP, заглушка) с синхронным API, ограниченным дедлайнами, и асинхронным API для любого completion token Asio (колбэк, `asio::use_future`, `asio::yield_context` при `LUMEX_TRANSPORT_WITH_SPAWN`, `asio::use_awaitable` при C++20), с C++11. Все операции, `cancel ()` и `close ()` идут на strand транспорта; `close ()` из любого потока сразу завершает заблокированное чтение с `cancelled` (зависание `StopDataExchange` DChannel). Синхронный вызов на потоке своего executor возвращает `would_deadlock`, по дедлайну отменяет операцию и возвращает `timeout`. Последовательный порт открывается ограниченным открытием `applied/serial` (DLL экспортирует его через `LUMEX_SERIAL_API`) и передается `asio::serial_port`; TCP с `no_delay` и `keep_alive`, отмена во время разрешения имени завершает открытие сразу; UDP подключен к одному адресату, длинная датаграмма обрезается на всех платформах одинаково. Ошибки `transport_errc` (`eof` и сброс TCP-соединения становятся `disconnected`, собственные категории Asio наружу не выходят), `is_transport_error` сравнивает и код из другого бинарника. Лог: слот на бинарник, приемник и порог меняются во время работы, фильтр компонентов, дамп hex и текста. Библиотека всегда статическая; поставляемые Asio и Boost.Context устанавливаются вместе с заголовками. В `README.md` таблица соответствия DChannel.
+
+**Проверено:** cl.exe и clang-cl 21.1.7, деревья с `LUMEX_WERROR=ON`: наборы `transport.*` на C++11, 14, 17 и 20, 270 тестов на каждом компиляторе. Среди них: закрытие из другого потока завершает заблокированное чтение за 200 мс (заглушка, TCP, UDP, реальный порт), `would_deadlock` и дедлайны, TCP и UDP на loopback (отказ, недоступный адрес, имя без разрешения, закрытие во время открытия, `disconnected`, обрезка датаграммы), все стили токенов на заглушке и TCP. Последовательный порт проверен на паре com0com COM8/COM9 (300 байт, even, 2 стоповых бита) через `LUMEX_TEST_SERIAL_PAIR`. Фикстуры `cmake.consumer_transport_two_modules` (EXE и DLL на одном `io_context`, `is_transport_error` между бинарниками), `cmake.consumer_transport_warnings` (`/W4 /WX` и `-Weverything` при C++11 и C++20; нашла C4251 в `SerialProber` и `strcmp` во встроенной функции) и `cmake.consumer_serial_without_transport`; `ctest -R "^(transport|serial|framing|cmake|lint)\."` 1184 из 1184 (clang-cl) и на cl.exe 1184 из 1185 (`cmake.wiring_test_names` отверг имя нового теста; исправлено, кейс перепроверен); оба примера. `create_release.ps1 -Compilers v145,clang-cl -Std 11,14,17,20,23`: 10 сборок из 10, ни одной строки предупреждения. Строки Linux в todo 158.
+
 ##### Вендоринг Asio 1.36.0, Boost.Context 1.88.0 и hidapi 0.15.0
 
 **Файлы:** `3rdparty/asio/`, `3rdparty/boost_context/`, `3rdparty/hidapi/` (новые, с `VENDORED.md`: архив, SHA-256, состав), `cmake/LumexThirdParty.cmake`, `cmake/LumexAsio.cmake`, `cmake/LumexBoostContext.cmake`, `cmake/LumexHidapi.cmake` (новые), `cmake/LumexOptions.cmake`, `cmake/LumexBuild.cmake`, `CMakeLists.txt`, `THIRD-PARTY-NOTICES.md`, `lumex/tests/cmake/CMakeLists.txt`, `lumex/tests/cmake/consumer/run_consumer.cmake`, `lumex/tests/cmake/consumer/third_party_*/` (новые).
@@ -53,6 +61,38 @@
 **Проверено:** `bash -n create_release.sh`. В `cmake.release_script_dry_run` добавлен случай с компилятором без C++23 (обертка компилятора хоста, отвергающая оба флага): `--std 17,23` строит одну сборку и пропускает C++23, `--std 23` завершается с ошибкой. Случай работает только на Linux и на этой машине не запускался.
 
 #### Исправлено
+
+##### `LumexLibConfig.cmake`: модуль `framing` не входил в `lumex::Lumex`
+
+**Файлы:** `cmake/LumexLibConfig.cmake.in`, `lumex/tests/cmake/cases/wiring_package_config_modules.cmake` (новый), `lumex/tests/cmake/CMakeLists.txt`.
+
+**Суть:** зонтичная цель установленного пакета перечисляет модули вручную, и `framing` в список не попал: потребитель `find_package (LumexLib)` с `lumex::Lumex` не получал `lumex::framing`. Добавлен в список. Новый кейс `cmake.wiring_package_config_modules` проверяет, что у каждого модуля из `cmake/LumexModules.cmake` в конфигурации пакета есть псевдоним `lumex::<модуль>` и место в зонтичной цели.
+
+**Проверено:** кейс отвергает прежний `LumexLibConfig.cmake.in` (`omits framing`) и принимает исправленный.
+
+##### Поставляемые сторонние цели: D9025 под генератором Visual Studio
+
+**Файлы:** `cmake/LumexThirdParty.cmake` (`lumex_third_party_finish`), `lumex/tests/cmake/consumer/third_party_vs_generator.cmake` (новый), `lumex/tests/cmake/CMakeLists.txt`.
+
+**Суть:** `create_release.ps1` собирает cl.exe генератором Visual Studio, у которого элементы ClCompile по умолчанию получают `/W1`; `suppress_warnings` добавлял к ним `/w`, и cl.exe печатал `warning D9025: overriding '/W1' with '/w'` при сборке поставляемого Boost.Context в каждой из пяти сборок MSVC. Под генератором Visual Studio сторонняя цель получает `/W0`: для cl.exe это тот же ключ, а CMake переводит его в уровень предупреждений проекта.
+
+**Проверено:** новый `cmake.consumer_third_party_vs_generator` (только для cl.exe) собирает Boost.Context генератором Visual Studio 18 2026 и падает на любой строке предупреждения: до исправления ловит D9025, после проходит.
+
+##### `LumexCallbackSlot::invoke_or`: `-Wdocumentation` для слота `void`
+
+**Файлы:** `lumex/core/utility/callback/LumexCallbackSlot.hpp`.
+
+**Суть:** комментарий `invoke_or` содержал команду `@return`, а у слота с результатом `void` функция ничего не возвращает: clang-cl в сборке релиза (`-Wall` у clang-cl означает `-Weverything`) останавливался на `-Wdocumentation` в первой единице трансляции со слотом `void` (лог транспорта). Возвращаемое значение описано в тексте.
+
+**Проверено:** `create_release.ps1` с clang-cl при C++11-23.
+
+##### `SerialProber`: C4251 у строгого потребителя DLL
+
+**Файлы:** `lumex/applied/serial/probe/LumexSerialProber.hpp`.
+
+**Суть:** экспортируемый класс хранит `std::unique_ptr<Impl>`, и cl.exe с `/W4 /WX` в коде потребителя, включившего заголовок при `LUMEX_BUILD_SHARED_LIBS=ON`, останавливался на C4251. Член закрытый и используется только функциями, определенными в библиотеке, поэтому предупреждение подавлено на нем, как в остальных экспортируемых классах библиотеки.
+
+**Проверено:** `cmake.consumer_transport_warnings` (включает заголовок через `serial/LumexSerialStream.hpp`) падал с C4251 на cl.exe, после исправления проходит.
 
 ##### `LumexSharedPtr.hpp`: STL4038 при сборке ниже C++20 на MSVC
 
