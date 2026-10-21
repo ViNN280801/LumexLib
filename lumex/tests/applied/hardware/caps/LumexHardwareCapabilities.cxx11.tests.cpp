@@ -136,15 +136,17 @@ TEST_F (HardwareCapabilitiesTest, DetectHardware_GpuDetection)
       EXPECT_FALSE (info.gpu_name.empty ());
       EXPECT_FALSE (info.gpu_name.find ("Microsoft Basic Render Driver")
                     != std::string::npos);
-      // Check if the GPU name contains expected identifiers (NVIDIA, AMD,
-      // Radeon)
+      // A discrete GPU is NVIDIA, AMD (Radeon) or Intel Arc; an integrated
+      // one (Intel UHD 770 with its 128 MB carve-out) must not get here
       EXPECT_TRUE (
           info.gpu_name.find (Constants::KNVIDIA_GPU_IDENTIFIER)
               != std::string::npos
           || info.gpu_name.find (Constants::KAMD_GPU_IDENTIFIER)
                  != std::string::npos
           || info.gpu_name.find (Constants::KAMD_RADEON_GPU_IDENTIFIER)
-                 != std::string::npos);
+                 != std::string::npos
+          || info.gpu_name.find ("Arc") != std::string::npos)
+          << info.gpu_name;
     }
 }
 
