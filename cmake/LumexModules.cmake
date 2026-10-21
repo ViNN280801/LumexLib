@@ -47,6 +47,7 @@ set(LUMEX_APPLIED_MODULE_OPTIONS
     LUMEX_BUILD_RESOURCE_MONITOR
     LUMEX_BUILD_SERIAL
     LUMEX_BUILD_SETTINGS
+    LUMEX_BUILD_TRANSPORT
 )
 
 function(lumex_module_group out_var opt_var)
@@ -177,6 +178,12 @@ function(lumex_check_module_dependencies)
     lumex_require_module(LUMEX_BUILD_FRAMING LUMEX_BUILD_EXPECTED)
     lumex_require_module(LUMEX_BUILD_FRAMING LUMEX_BUILD_SPAN)
     lumex_require_module(LUMEX_BUILD_FRAMING LUMEX_BUILD_UTILITY)
+
+    lumex_require_module(LUMEX_BUILD_TRANSPORT LUMEX_BUILD_CONTRACTS)
+    lumex_require_module(LUMEX_BUILD_TRANSPORT LUMEX_BUILD_EXPECTED)
+    lumex_require_module(LUMEX_BUILD_TRANSPORT LUMEX_BUILD_SERIAL)
+    lumex_require_module(LUMEX_BUILD_TRANSPORT LUMEX_BUILD_SPAN)
+    lumex_require_module(LUMEX_BUILD_TRANSPORT LUMEX_BUILD_UTILITY)
 
     string(TOUPPER "${LUMEX_CONTRACTS_SEMANTIC}" _contracts_semantic)
     set(_contracts_semantics IGNORE OBSERVE ENFORCE QUICK_ENFORCE P2900)
