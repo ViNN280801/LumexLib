@@ -477,6 +477,14 @@ lumex_add_consumer_test(consumer_contracts_two_modules contracts_two_modules)
 lumex_add_consumer_test(consumer_framing_two_modules framing_two_modules)
 # The header-only codecs compile without a warning in a strict consumer.
 lumex_add_consumer_test(consumer_framing_warnings framing_warnings)
+# serial never needs transport (decision A of the transport spec).
+lumex_add_consumer_test(consumer_serial_without_transport serial_without_transport)
+# An executable and a DLL share one io_context; each has its own transport
+# category and log slot, and is_transport_error matches across them (G6).
+lumex_add_consumer_test(consumer_transport_two_modules transport_two_modules)
+# Every public transport header and token style compiles without a warning in
+# a strict consumer.
+lumex_add_consumer_test(consumer_transport_warnings transport_warnings)
 # The header-only modules (string, string_view, math, generators, optional, atomic, span) compile
 # from an install prefix built with LUMEX_BUILD_UTILITY OFF: the core/utility
 # headers they include are installed whatever that option says.
