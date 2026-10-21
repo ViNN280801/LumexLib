@@ -36,7 +36,12 @@ endfunction()
 # for C++ targets, the C++ standard library the tree chose (-stdlib=libc++ on
 # Clang), so instrumented or libc++ objects never mix with plain ones.
 function(lumex_third_party_finish target)
-    if(COMMAND suppress_warnings)
+    if(MSVC AND CMAKE_GENERATOR MATCHES "^Visual Studio")
+        # The ClCompile items of a Visual Studio project default to /W1, and
+        # suppress_warnings adds /w next to it: cl.exe warns D9025. /W0 is
+        # the same switch to cl.exe and becomes the project's WarningLevel.
+        target_compile_options(${target} PRIVATE /W0)
+    elseif(COMMAND suppress_warnings)
         suppress_warnings(${target})
     elseif(MSVC)
         target_compile_options(${target} PRIVATE /W0)
