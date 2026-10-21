@@ -108,6 +108,13 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 include(cmake/LumexOptions.cmake)
 include(cmake/LumexModules.cmake)
 include(cmake/LumexNlohmannJson.cmake)
+# Third-party code of the transport layer: the files only define
+# lumex_setup_asio / lumex_setup_boost_context / lumex_setup_hidapi; no target
+# exists until a module (or a consumer) calls them.
+include(cmake/LumexThirdParty.cmake)
+include(cmake/LumexAsio.cmake)
+include(cmake/LumexBoostContext.cmake)
+include(cmake/LumexHidapi.cmake)
 lumex_check_module_dependencies()
 
 string(TOUPPER "${LUMEX_OPTIMIZATION_LEVEL}" _LUMEX_OPTIMIZATION_LEVEL)

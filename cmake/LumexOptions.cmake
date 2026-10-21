@@ -196,3 +196,23 @@ option(LUMEX_GENERATE_BUILD_INFO "Write per-library build-info via CMakeRoutines
 set(LUMEX_BUILD_INFO_FORMAT "json" CACHE STRING
     "Build-info format when LUMEX_GENERATE_BUILD_INFO=ON: txt, json, yaml, ini")
 set_property(CACHE LUMEX_BUILD_INFO_FORMAT PROPERTY STRINGS txt json yaml ini)
+
+# ==============================================================================
+# THIRD-PARTY CODE OF THE TRANSPORT LAYER (cmake/LumexAsio.cmake,
+# cmake/LumexBoostContext.cmake, cmake/LumexHidapi.cmake)
+# ==============================================================================
+# Vendored under 3rdparty/ (Asio 1.36.0, Boost.Context 1.88.0, hidapi 0.15.0).
+# An empty directory option means the vendored copy. A consumer that already
+# ships one of these libraries points the option at its own source tree, which
+# must have the same version (checked at configure time): a process that loads
+# DChannel holds a second copy of Asio and hidapi, and both copies must be
+# identical. The vendored targets build with every warning off.
+set(LUMEX_ASIO_DIR "" CACHE PATH
+    "Asio include directory (the one that contains asio.hpp); empty = 3rdparty/asio/include")
+set(LUMEX_BOOST_CONTEXT_DIR "" CACHE PATH
+    "Boost source root with boost/context and libs/context/src; empty = 3rdparty/boost_context")
+set(LUMEX_HIDAPI_DIR "" CACHE PATH
+    "hidapi source root (hidapi/hidapi.h, windows/, linux/, libusb/, mac/); empty = 3rdparty/hidapi")
+set(LUMEX_HIDAPI_BACKEND "hidraw" CACHE STRING
+    "hidapi backend on Linux and other non-Windows, non-Apple systems: hidraw (needs libudev) or libusb (needs libusb-1.0)")
+set_property(CACHE LUMEX_HIDAPI_BACKEND PROPERTY STRINGS hidraw libusb)
