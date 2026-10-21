@@ -287,7 +287,10 @@ function(lumex_configure_target target_name)
     return()
   endif()
 
+  # lumex_3rdparty_*: vendored third-party code (cmake/LumexThirdParty.cmake),
+  # built with every warning off; it never gets WARNINGS HIGH.
   if(target_name MATCHES "^lumex_gtest"
+      OR target_name MATCHES "^lumex_3rdparty_"
       OR target_name MATCHES "^compile_commands"
       OR target_name STREQUAL "publish_distr"
       OR target_name STREQUAL "generate_documentation"
@@ -492,4 +495,14 @@ function(lumex_configure_all_compiled_targets)
       endif()
     endforeach()
   endif()
+
+  # The compiled vendored third-party targets were created before the tree
+  # recorded its -stdlib= choice (above, in lumex_configure_target); give them
+  # the same library now. Their sanitizer flags were applied when they were
+  # created (lumex_third_party_finish).
+  foreach(_t lumex_3rdparty_boost_context lumex_3rdparty_hidapi)
+    if(TARGET "${_t}")
+      lumex_third_party_apply_stdlib("${_t}")
+    endif()
+  endforeach()
 endfunction()
