@@ -32,8 +32,10 @@
  * A paired but disconnected Bluetooth virtual COM port blocks inside
  * `CreateFile` in the RFCOMM connect, so the Windows branch runs the open
  * on a worker thread and cancels it with `CancelSynchronousIo`; the POSIX
- * branch opens with `O_NONBLOCK`. The enumeration and `LumexSerialProber`
- * are the only callers. Consumers must not include this header.
+ * branch opens with `O_NONBLOCK`. The enumeration, `LumexSerialProber` and
+ * the serial stream of the transport library (a separate library, hence
+ * `LUMEX_SERIAL_API` on the open and the close) are the only callers.
+ * Consumers must not include this header.
  */
 #ifndef LUMEX_APPLIED_SERIAL_PROBE_DETAIL_SERIAL_BOUNDED_OPEN_HPP
 #define LUMEX_APPLIED_SERIAL_PROBE_DETAIL_SERIAL_BOUNDED_OPEN_HPP
@@ -127,14 +129,15 @@ struct open_result_t
  * @note On Windows a cancelled or abandoned worker closes a late handle
  * itself, so a `timed_out` result never owns one.
  */
-open_result_t bounded_open_serial_port (std::string const &open_path,
-                                        std::uint32_t platform_open_flags,
-                                        std::chrono::milliseconds deadline);
+LUMEX_SERIAL_API open_result_t bounded_open_serial_port (
+    std::string const &open_path, std::uint32_t platform_open_flags,
+    std::chrono::milliseconds deadline);
 
 /**
  * @brief Closes `handle`; a no-op for the invalid value.
  */
-void close_serial_handle (native_serial_handle_t handle) LUMEX_NOEXCEPT;
+LUMEX_SERIAL_API void
+close_serial_handle (native_serial_handle_t handle) LUMEX_NOEXCEPT;
 
 /**
  * @brief Maps an open outcome to the enumeration state.

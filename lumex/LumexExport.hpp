@@ -170,6 +170,21 @@
 #define LUMEX_FRAMING_API
 #endif
 
+// Per-module export for LumexApplied_serial, like LUMEX_FRAMING_API: the
+// internal API that the transport library (a different, static library)
+// calls, the bounded open of a port and the close of its handle.
+#if defined(_WIN32) || defined(__CYGWIN__)
+#if defined(LumexApplied_serial_EXPORTS)
+#define LUMEX_SERIAL_API __declspec (dllexport)
+#else
+#define LUMEX_SERIAL_API __declspec (dllimport)
+#endif
+#elif defined(LumexApplied_serial_EXPORTS)
+#define LUMEX_SERIAL_API __attribute__ ((visibility ("default")))
+#else
+#define LUMEX_SERIAL_API
+#endif
+
 #ifdef LUMEX_IMPLEMENTATION
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__)                   \
     || defined(__NT__) && defined(_MSC_VER)
