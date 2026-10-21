@@ -354,6 +354,28 @@ if(UNIX AND NOT APPLE)
 endif()
 lumex_add_consumer_test(consumer_third_party_hidapi third_party_hidapi)
 lumex_add_consumer_test(consumer_third_party_warnings third_party_warnings)
+# The release script builds with a Visual Studio generator: the vendored
+# Boost.Context must not make cl.exe warn there either (D9025).
+if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC" AND NOT MSVC_VERSION LESS 1930)
+    if(MSVC_VERSION LESS 1950)
+        set(_lumex_vs_generator "Visual Studio 17 2022")
+    else()
+        set(_lumex_vs_generator "Visual Studio 18 2026")
+    endif()
+    lumex_test_name(_ctest_name consumer_third_party_vs_generator)
+    add_test(NAME ${_ctest_name}
+        COMMAND ${CMAKE_COMMAND}
+            -DLUMEX_SOURCE_DIR=${LumexLib_SOURCE_DIR}
+            -DWORK_DIR=${CMAKE_BINARY_DIR}/c/vs_gen
+            "-DVS_GENERATOR=${_lumex_vs_generator}"
+            -P ${CMAKE_CURRENT_SOURCE_DIR}/consumer/third_party_vs_generator.cmake
+    )
+    set_tests_properties(${_ctest_name} PROPERTIES
+        LABELS "cmake;consumer"
+        TIMEOUT 900
+        RUN_SERIAL TRUE
+    )
+endif()
 lumex_add_consumer_test(consumer_third_party_coexistence third_party_coexistence)
 
 # expected without exceptions: value () terminates, no try block remains. The
