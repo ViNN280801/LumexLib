@@ -165,6 +165,12 @@ lumex_add_cmake_fail_test(require_fail_base64_without_utility
     "LUMEX_BUILD_BASE64 is enabled but requires LUMEX_BUILD_UTILITY")
 lumex_add_cmake_fail_test(require_fail_crc_without_utility
     "LUMEX_BUILD_CRC is enabled but requires LUMEX_BUILD_UTILITY")
+lumex_add_cmake_fail_test(require_fail_framing_without_crc
+    "LUMEX_BUILD_FRAMING is enabled but requires LUMEX_BUILD_CRC")
+lumex_add_cmake_fail_test(require_fail_framing_without_contracts
+    "LUMEX_BUILD_FRAMING is enabled but requires LUMEX_BUILD_CONTRACTS")
+lumex_add_cmake_fail_test(require_fail_framing_without_expected
+    "LUMEX_BUILD_FRAMING is enabled but requires LUMEX_BUILD_EXPECTED")
 # base64, crc, exceptions and xml link the string_view module (the views their
 # string overloads take below C++17). Each case switches the modules checked
 # before it off, so that the module under test is the one that fails.

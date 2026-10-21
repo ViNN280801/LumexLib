@@ -185,6 +185,11 @@ class LumexLibConan(ConanFile):
         )
         self._component("core_crc", "crc", ["LumexCore_crc"],
                         ["core_utility", "core_span", "core_string_view"])
+        self._component(
+            "core_framing", "framing", ["LumexCore_framing"],
+            ["core_contracts", "core_crc", "core_expected", "core_span",
+             "core_utility"],
+        )
         hazard_pointer = self._component(
             "core_hazard_pointer", "hazard_pointer",
             ["LumexCore_hazard_pointer"], ["core_utility", "core_span"],
