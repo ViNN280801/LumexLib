@@ -26,6 +26,12 @@ else()
     message(STATUS "Skipping crc examples (LUMEX_BUILD_CORE or LUMEX_BUILD_CRC is OFF)")
 endif()
 
+if(LUMEX_BUILD_CORE AND LUMEX_BUILD_FRAMING)
+    add_subdirectory(framing)
+else()
+    message(STATUS "Skipping framing examples (LUMEX_BUILD_CORE or LUMEX_BUILD_FRAMING is OFF)")
+endif()
+
 if(LUMEX_BUILD_CORE AND LUMEX_BUILD_ENVIRONMENT)
     add_subdirectory(environment)
 else()
