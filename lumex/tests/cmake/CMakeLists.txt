@@ -321,6 +321,34 @@ lumex_add_consumer_test(consumer_reflection_umbrella_field_reflection_on
 # __cplusplus in Lumex headers (the INTERFACE flag of every module target).
 lumex_add_consumer_test(consumer_cplusplus_macro cplusplus_macro)
 
+# Third-party code of the transport layer (cmake/LumexAsio.cmake,
+# cmake/LumexBoostContext.cmake, cmake/LumexHidapi.cmake): the vendored copies
+# build and run, the version pins and the override hold, an existing consumer
+# target is reused, a strict consumer sees no warning from them, and two copies
+# coexist in one process the way DChannel and LumexLib do.
+lumex_add_consumer_test(consumer_third_party_asio_cxx11 third_party_asio
+    -DFIXTURE_CXX_STANDARD=11)
+lumex_add_consumer_test(consumer_third_party_asio_cxx20 third_party_asio
+    -DFIXTURE_CXX_STANDARD=20)
+lumex_add_consumer_test(consumer_third_party_asio_override third_party_asio
+    -DFIXTURE_CXX_STANDARD=11
+    "-DLUMEX_ASIO_DIR=${LumexLib_SOURCE_DIR}/3rdparty/asio/include")
+lumex_add_consumer_test(consumer_third_party_asio_wrong_version
+    third_party_asio_wrong_version)
+lumex_test_name(_lumex_wrong_asio consumer_third_party_asio_wrong_version)
+set_tests_properties(${_lumex_wrong_asio} PROPERTIES
+    PASS_REGULAR_EXPRESSION "LumexLib needs Asio 103600")
+lumex_add_consumer_test(consumer_third_party_reuse third_party_reuse)
+lumex_add_consumer_test(consumer_third_party_boost_context third_party_boost_context)
+if(UNIX AND NOT APPLE)
+    # The ucontext backend under AddressSanitizer (BOOST_USE_ASAN).
+    lumex_add_consumer_test(consumer_third_party_boost_context_asan
+        third_party_boost_context -DLUMEX_USE_ASAN=ON)
+endif()
+lumex_add_consumer_test(consumer_third_party_hidapi third_party_hidapi)
+lumex_add_consumer_test(consumer_third_party_warnings third_party_warnings)
+lumex_add_consumer_test(consumer_third_party_coexistence third_party_coexistence)
+
 # expected without exceptions: value () terminates, no try block remains. The
 # real -fno-exceptions build at C++11 and C++20 (GCC, Clang; skipped on MSVC),
 # and the macro LUMEX_EXPECTED_HAS_EXCEPTIONS=0 with exceptions on at C++17
