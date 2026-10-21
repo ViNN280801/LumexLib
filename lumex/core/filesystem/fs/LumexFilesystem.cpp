@@ -112,7 +112,9 @@ namespace Detail
 {
 #if defined(LUMEX_OS_WINDOWS)
 LUMEX_CONST_STR kForbiddenChars = "<>:\"/\\|*?";
-static std::array<std::string, 22> const kReservedNames
+// Plain pointers, not std::string: a table of strings needs a global
+// destructor (clang -Wglobal-constructors).
+static char const *const kReservedNames[]
     = { "CON",  "PRN",  "AUX",  "NUL",  "COM1", "COM2", "COM3", "COM4",
         "COM5", "COM6", "COM7", "COM8", "COM9", "LPT1", "LPT2", "LPT3",
         "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9" };
@@ -131,7 +133,7 @@ is_reserved_name (std::string const &name) LUMEX_NOEXCEPT
                   [] (unsigned char ch)
                     { return static_cast<char> (::toupper (ch)); });
 
-  for (std::string const &reserved : kReservedNames)
+  for (char const *reserved : kReservedNames)
     if (upperName == reserved)
       return true;
   return false;

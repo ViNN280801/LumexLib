@@ -8,6 +8,7 @@
 #include <limits>
 #include <random>
 #include <sstream>
+#include <stdexcept>
 #include <string>
 #include <thread>
 #include <vector>
@@ -1137,4 +1138,27 @@ TEST_F (LumexFilesystemTest, DirectoryEntry_Comparison_WorksCorrectly)
   // Note: Comparison order might vary depending on path string comparison
   // Just verify they are different
   EXPECT_TRUE (entry1 != entry3);
+}
+
+// The reserved device names of Windows, in any case, are refused whole; a
+// longer name that starts with one is a valid name. Elsewhere none is
+// reserved.
+TEST (LumexFilesystemNames, ReservedNames_WhenChecked_ThenRefusedOnWindowsOnly)
+{
+  namespace fs = lumex::core::filesystem::fs;
+  char const *const reserved[]
+      = { "CON", "con", "Prn", "AUX", "NUL", "COM1", "com9", "LPT1", "LPT9" };
+  for (char const *name : reserved)
+    {
+#if defined(LUMEX_OS_WINDOWS)
+      EXPECT_THROW (fs::check_name (name), std::invalid_argument) << name;
+      EXPECT_EQ (fs::sanitize_name (name, "dflt"), "dflt_file") << name;
+#else
+      EXPECT_NO_THROW (fs::check_name (name)) << name;
+#endif
+    }
+  char const *const valid[]
+      = { "CONSOLE", "COM10", "LPT", "nul2", "aux_file" };
+  for (char const *name : valid)
+    EXPECT_NO_THROW (fs::check_name (name)) << name;
 }
