@@ -12,6 +12,64 @@
 
 ---
 
+## [v2.0.3.0] - в разработке
+
+> Изменения поверх `v2.0.2.0`: транспортный уровень (`core/framing`, `applied/transport`, `core/protocol`). Номер `2.0.3.0` по [VERSIONING.md](VERSIONING.md): новые модули (PATCH).
+
+### [v2.0.3.0]
+
+#### Добавлено
+
+##### Вендоринг Asio 1.36.0, Boost.Context 1.88.0 и hidapi 0.15.0
+
+**Файлы:** `3rdparty/asio/`, `3rdparty/boost_context/`, `3rdparty/hidapi/` (новые, с `VENDORED.md`: архив, SHA-256, состав), `cmake/LumexThirdParty.cmake`, `cmake/LumexAsio.cmake`, `cmake/LumexBoostContext.cmake`, `cmake/LumexHidapi.cmake` (новые), `cmake/LumexOptions.cmake`, `cmake/LumexBuild.cmake`, `CMakeLists.txt`, `THIRD-PARTY-NOTICES.md`, `lumex/tests/cmake/CMakeLists.txt`, `lumex/tests/cmake/consumer/run_consumer.cmake`, `lumex/tests/cmake/consumer/third_party_*/` (новые).
+
+**Суть:** зависимости будущего модуля `applied/transport`. Исходники не изменены. Функции `lumex_setup_asio ()`, `lumex_setup_boost_context ()` и макрос `lumex_setup_hidapi ()` создают внутренние цели `lumex_3rdparty_asio` (INTERFACE), `lumex_3rdparty_boost_context` и `lumex_3rdparty_hidapi` (STATIC) с псевдонимами `lumex::3rdparty_*`; цели не экспортируются, повторный вызов и цель, заданная потребителем заранее, не создают дубликата. Boost.Context собирается только с бэкендами без ассемблера: Windows fibers и ucontext. Бэкенд hidapi на Linux задает `LUMEX_HIDAPI_BACKEND` (`hidraw` по умолчанию, нужен libudev, или `libusb`). `LUMEX_ASIO_DIR`, `LUMEX_BOOST_CONTEXT_DIR` и `LUMEX_HIDAPI_DIR` подставляют дерево потребителя. Версия проверяется при конфигурации: процесс может загрузить и DChannel со своими копиями Asio и hidapi, поэтому версии и макросы (`ASIO_STANDALONE`, `ASIO_NO_DEPRECATED`) совпадают с DChannel. Сторонний код не дает предупреждений: `lumex_configure_target` пропускает цели `lumex_3rdparty_*`, они собираются через `suppress_warnings`, пути включения SYSTEM, для MSVC потребителю добавляется `/external:W0`. Санитайзеры и `-stdlib=` применяются к ним так же, как к GoogleTest. `run_consumer.cmake` передает и C-компилятор, выведенный из C++-компилятора.
+
+**Проверено:** фикстуры `cmake.consumer_third_party_*` (Asio C++11 и C++20, подстановка дерева, неверная версия, повторное использование, Boost.Context, hidapi, предупреждения) на cl.exe и clang-cl Windows: 8 из 8. Та же единица трансляции с обычными `-I` вместо SYSTEM под clang-cl `/W4 /WX -Wconversion -Wold-style-cast` дает 20 ошибок в `3rdparty/asio`, с SYSTEM ни одной.
+
+##### `lint.std_header_guards`: заголовки новых стандартов только под проверкой стандарта
+
+**Файлы:** `Scripts/CodeTools/check_std_header_guards.py` (новый), `lumex/tests/CMakeLists.txt`, `lumex/tests/cmake/cases/lint_std_header_guards_script.cmake` (новый), `lumex/tests/cmake/fixtures/std_header_guards/` (новый), `lumex/tests/cmake/CMakeLists.txt`.
+
+**Суть:** STL MSVC при включении заголовка более нового стандарта печатает `warning STL4038: The contents of <compare> are available only with C++20 or later`. Сообщение идет через `#pragma message`, поэтому `/WX` его не останавливает, и оно проходило мимо проверки релиза. Проверка требует, чтобы каждый `#include` заголовка C++17, C++20 или C++23 в коде библиотеки (`lumex/` без `tests`, `examples` и `3rdparty`) стоял под `#if`, который требует этот стандарт: `__cplusplus` или `_MSVC_LANG` с достаточным порогом, макрос `__cpp_lib_*` или `LUMEX_HAS_STD_*`. Одного `__has_include` мало: заголовок есть при любом стандарте.
+
+**Проверено:** `cmake.lint_std_header_guards_script`: в плохой фикстуре найдены все пять случаев (только `__has_include`, без условия, слишком старый стандарт, ветка `#else`, условие с `||`), хорошая принята; прежний `LumexSharedPtr.hpp` проверка отвергает, текущее дерево проходит.
+
+##### `create_release.sh`, `create_release.ps1`: стандарт C++23 в матрице релиза
+
+**Файлы:** `create_release.sh`, `create_release.ps1`, `lumex/tests/cmake/cases/release_script_dry_run.cmake`.
+
+**Суть:** матрица релиза теперь C++11, 14, 17, 20 и 23. GCC 8 и MinGW 8.3 не знают ни `-std=c++23`, ни `-std=c++2b`; раньше `--std ...,23` с ними обрывал весь прогон, теперь их сборка C++23 пропускается и выводится строкой `skipped:`. Если стандарт не знает ни один компилятор, скрипт завершается с ошибкой. Примеры в справке обоих скриптов перечисляют пять стандартов.
+
+**Проверено:** `bash -n create_release.sh`. В `cmake.release_script_dry_run` добавлен случай с компилятором без C++23 (обертка компилятора хоста, отвергающая оба флага): `--std 17,23` строит одну сборку и пропускает C++23, `--std 23` завершается с ошибкой. Случай работает только на Linux и на этой машине не запускался.
+
+#### Исправлено
+
+##### `LumexSharedPtr.hpp`: STL4038 при сборке ниже C++20 на MSVC
+
+**Файлы:** `lumex/core/smart_ptr/shared/LumexSharedPtr.hpp`, `lumex/examples/expected/example_expected_std.cpp`.
+
+**Суть:** `<compare>` включался при любом стандарте (условие было только `__has_include`), и STL MSVC печатал STL4038 в каждой единице трансляции модулей `smart_ptr` и `atomic` при C++11, 14 и 17: 294 сообщения в дереве тестов. Теперь заголовок включается только при `__cplusplus > 201703L`, как в `CircularBuffer.hpp` и `LumexOrdering.hpp`; до C++20 `operator<=>` и так не объявлялся. Пример `example_expected_std.cpp` по той же причине включает `<expected>` только при стандарте новее C++20.
+
+##### `HardwareCapabilities::detect_hardware`: встроенная графика на Windows считалась дискретной
+
+**Файлы:** `lumex/applied/hardware/caps/LumexHardwareCapabilities.cpp`, `lumex/tests/applied/hardware/caps/LumexHardwareCapabilities.cxx11.tests.cpp`.
+
+**Суть:** Windows-ветка объявляла дискретным любой адаптер DXGI с `DedicatedVideoMemory > 0`, а встроенная графика сообщает там выделенный прошивкой участок (128 МБ у Intel UHD 770). Поэтому `has_discrete_gpu` был `true` на машине без видеокарты, решение о программном рендеринге этого не учитывало, а тест `DetectHardware_GpuDetection` падал. Теперь адаптер с общей памятью (`UnifiedMemoryArchitecture` из `D3D11_FEATURE_DATA_D3D11_OPTIONS2`, Windows 10) не считается дискретным; если D3D11 не отвечает, остается прежнее правило. Производитель не годится как признак: Intel Arc дискретный. Тест принимает и Intel Arc и печатает имя адаптера при ошибке.
+
+**Проверено:** cl.exe, `hardware.caps.HardwareCapabilitiesTest`: 16 из 16; на Intel UHD 770 журнал пишет `GPU: Integrated/None`.
+
+##### Предупреждения clang-cl ниже C++20
+
+**Файлы:** `lumex/core/filesystem/fs/LumexFilesystem.cpp`, `lumex/core/exceptions/crash/LumexCrashHandler.hpp`, `LumexCrashHandler.cpp`, `WindowsSEHTranslator.hpp`, `WindowsSEHTranslator.cpp`, `lumex/tests/core/filesystem/fs/LumexFilesystem.cxx11.tests.cpp`, `create_release.ps1`.
+
+**Суть:** `create_release.ps1` с clang-cl 21.1.7 при C++11, 14 и 17 останавливался на `-Werror`; проверка от 12.10.2026 шла только при C++20. Таблица зарезервированных имен Windows в `LumexFilesystem.cpp` была `static std::array<std::string, 22>` и требовала глобального деструктора (`-Wglobal-constructors`), теперь это массив `char const *const`. Параметры `appName` у `lumex_crash_handler::initialize` и `code` у `seh_translator` используются, но были помечены `LUMEX_ATTRIBUTE_MAYBE_UNUSED`; ниже C++17 атрибут раскрывается в `__attribute__((unused))`, и clang сообщал `-Wused-but-marked-unused`. Атрибут снят в объявлении и определении, ABI не меняется. `create_release.ps1` при C++11 и C++14 передает `compile.py` стандарт C11: при C17 по умолчанию `compile.py` писал в журнал `WARNING C17 standard works best with C++17 or later`.
+
+**Проверено:** новый тест `LumexFilesystemNames.ReservedNames_WhenChecked_ThenRefusedOnWindowsOnly` (`check_name` отвергает `CON`, `com9`, `LPT1` в любом регистре, принимает `CONSOLE` и `COM10`; `sanitize_name` подставляет имя по умолчанию).
+
+---
+
 ## [v2.0.2.0] - 2026-10-17
 
 > Изменения поверх `v2.0.1.0`. Номер `2.0.2.0` выбран по [VERSIONING.md](VERSIONING.md): исправление поведения скомпилированного модуля без изменения API и ABI (PATCH).
