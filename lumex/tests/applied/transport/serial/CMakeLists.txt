@@ -6,4 +6,5 @@
 lumex_add_standard_suites(TransportSerial
     MODULE transport
     LINK lumex::transport
+    SOURCES ../LumexTempNode.hpp
 )
