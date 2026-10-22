@@ -55,6 +55,7 @@
 #include <system_error>
 
 #include "lumex/applied/transport/error/LumexTransportErrc.hpp"
+#include "lumex/applied/transport/statistics/LumexTransportStatistics.hpp"
 #include "lumex/applied/transport/stream/LumexStreamTypes.hpp"
 
 #if defined(__clang__)
@@ -126,11 +127,13 @@ bool runs_on (executor_type const &executor) LUMEX_NOEXCEPT;
 /**
  * @brief Waits for the operation of `state` until the deadline; then cancels
  * it through `front.cancel ()` and waits for its completion, and reports
- * `timeout` for an operation the cancel ended.
+ * `timeout` for an operation the cancel ended; that one is counted as a
+ * timeout in `counters`, no longer as a cancellation.
  */
 template <typename Front>
 sync_outcome
-wait (sync_state &state, deadline_t deadline, Front &front)
+wait (sync_state &state, deadline_t deadline, Front &front,
+      statistics::statistics_counters &counters)
 {
   std::unique_lock<std::mutex> lock (state.mutex);
   bool timed_out = false;
@@ -147,7 +150,10 @@ wait (sync_state &state, deadline_t deadline, Front &front)
   if (timed_out
       && error::is_transport_error (outcome.error,
                                     error::transport_errc::cancelled))
-    outcome.error = error::transport_errc::timeout;
+    {
+      outcome.error = error::transport_errc::timeout;
+      counters.convert_cancel_to_timeout ();
+    }
   return outcome;
 }
 } // namespace detail

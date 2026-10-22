@@ -125,6 +125,14 @@ public:
   }
 
   void
+  fail_write_after (std::size_t writes, std::error_code error)
+  {
+    std::lock_guard<std::mutex> const lock (mutex_);
+    writes_before_failure_ = writes;
+    delayed_write_error_ = error;
+  }
+
+  void
   disconnect ()
   {
     std::lock_guard<std::mutex> const lock (mutex_);
@@ -199,6 +207,17 @@ protected:
         complete (std::move (handler), error, 0);
         return;
       }
+    if (delayed_write_error_)
+      {
+        if (writes_before_failure_ == 0)
+          {
+            std::error_code const error = delayed_write_error_;
+            delayed_write_error_ = std::error_code ();
+            complete (std::move (handler), error, 0);
+            return;
+          }
+        --writes_before_failure_;
+      }
     std::size_t const count = write_chunk_ == 0
                                   ? data.size ()
                                   : std::min (write_chunk_, data.size ());
@@ -266,6 +285,8 @@ private:
   std::error_code open_error_;
   std::error_code read_error_;
   std::error_code write_error_;
+  std::error_code delayed_write_error_;
+  std::size_t writes_before_failure_ = 0;
 };
 
 mock_stream_control::mock_stream_control (
@@ -296,6 +317,13 @@ void
 mock_stream_control::fail_next_write (std::error_code error)
 {
   impl_->fail_next_write (error);
+}
+
+void
+mock_stream_control::fail_write_after (std::size_t writes,
+                                       std::error_code error)
+{
+  impl_->fail_write_after (writes, error);
 }
 
 void

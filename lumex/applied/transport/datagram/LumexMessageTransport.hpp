@@ -45,7 +45,9 @@
  * @details One receive returns one message and one send writes one. A
  * message carries the report ID of a HID device explicitly (0 for a device
  * without numbered reports and for every other transport). The
- * implementation (`message_impl`) runs every operation on its strand.
+ * implementation (`message_impl`) runs every operation on its strand. The
+ * implementation counts every operation (`statistics ()`, with
+ * `messages_received` / `messages_sent` in place of `reads` / `writes`).
  */
 #ifndef LUMEX_APPLIED_TRANSPORT_DATAGRAM_MESSAGE_TRANSPORT_HPP
 #define LUMEX_APPLIED_TRANSPORT_DATAGRAM_MESSAGE_TRANSPORT_HPP
@@ -59,6 +61,8 @@
 #include <vector>
 
 #include "lumex/applied/transport/detail/LumexAsio.hpp"
+#include "lumex/applied/transport/detail/LumexCountingHandler.hpp"
+#include "lumex/applied/transport/statistics/LumexTransportStatistics.hpp"
 #include "lumex/applied/transport/stream/LumexStreamTypes.hpp"
 #include "lumex/core/expected/Expected"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
@@ -133,9 +137,51 @@ public:
     return open_.load (std::memory_order_acquire);
   }
 
-  void start_open (status_handler_t handler);
-  void start_receive (message_handler_t handler);
-  void start_send (message_t message, status_handler_t handler);
+  /// @brief The counters this transport counts in (see `statistics ()`).
+  statistics::statistics_counters &
+  counters () LUMEX_NOEXCEPT
+  {
+    return *counters_;
+  }
+
+  /// @brief The counters, for reading.
+  statistics::statistics_counters const &
+  counters () const LUMEX_NOEXCEPT
+  {
+    return *counters_;
+  }
+
+  // The start_* with a handler take the handler as the user gave it and wrap
+  // it in the counting handler before the one type erasure (see
+  // `stream::stream_impl`).
+  template <typename Handler>
+  void
+  start_open (Handler &&handler)
+  {
+    enqueue_open (status_handler_t (
+        detail::count_with (counters_, detail::open_recorder (),
+                            std::forward<Handler> (handler))));
+  }
+
+  template <typename Handler>
+  void
+  start_receive (Handler &&handler)
+  {
+    enqueue_receive (message_handler_t (
+        detail::count_with (counters_, detail::receive_recorder (),
+                            std::forward<Handler> (handler))));
+  }
+
+  template <typename Handler>
+  void
+  start_send (message_t message, Handler &&handler)
+  {
+    detail::send_recorder const recorder = { message.payload.size () };
+    enqueue_send (std::move (message),
+                  status_handler_t (detail::count_with (
+                      counters_, recorder, std::forward<Handler> (handler))));
+  }
+
   void start_cancel ();
   void start_close ();
 
@@ -159,10 +205,15 @@ protected:
 private:
   friend struct message_impl_access;
 
+  void enqueue_open (status_handler_t handler);
+  void enqueue_receive (message_handler_t handler);
+  void enqueue_send (message_t message, status_handler_t handler);
+
   executor_type executor_;
   strand_type strand_;
   std::string name_;
   std::atomic<bool> open_;
+  std::shared_ptr<statistics::statistics_counters> counters_;
 };
 
 /// @brief A message transport (see the file description).
@@ -174,7 +225,7 @@ class message_transport
     void
     operator() (Handler &&handler, std::shared_ptr<message_impl> impl) const
     {
-      impl->start_open (status_handler_t (std::forward<Handler> (handler)));
+      impl->start_open (std::forward<Handler> (handler));
     }
   };
 
@@ -184,8 +235,7 @@ class message_transport
     void
     operator() (Handler &&handler, std::shared_ptr<message_impl> impl) const
     {
-      impl->start_receive (
-          message_handler_t (std::forward<Handler> (handler)));
+      impl->start_receive (std::forward<Handler> (handler));
     }
   };
 
@@ -196,8 +246,7 @@ class message_transport
     operator() (Handler &&handler, std::shared_ptr<message_impl> impl,
                 message_t message) const
     {
-      impl->start_send (std::move (message),
-                        status_handler_t (std::forward<Handler> (handler)));
+      impl->start_send (std::move (message), std::forward<Handler> (handler));
     }
   };
 
@@ -213,6 +262,11 @@ public:
   executor_type get_executor () const LUMEX_NOEXCEPT;
   std::string const &name () const LUMEX_NOEXCEPT;
   bool is_open () const LUMEX_NOEXCEPT;
+
+  /// @brief A snapshot of the counters (any thread; no lock).
+  statistics::statistics_t statistics () const LUMEX_NOEXCEPT;
+  /// @brief Sets every counter to zero (any thread).
+  void reset_statistics () LUMEX_NOEXCEPT;
 
   /// @brief Opens within the deadline.
   status_result_t open (deadline_t deadline);

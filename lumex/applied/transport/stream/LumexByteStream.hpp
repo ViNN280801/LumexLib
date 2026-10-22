@@ -58,6 +58,10 @@
  * would wait for itself and returns `transport_errc::would_deadlock` at once.
  * That check covers `io_context`, `thread_pool` and strands of them; for
  * another executor type, do not call the synchronous API from its threads.
+ *
+ * Every operation is counted in `stream_impl`, so each transport counts the
+ * same; `byte_stream::statistics ()` returns the snapshot (see
+ * `statistics/LumexTransportStatistics.hpp`).
  */
 #ifndef LUMEX_APPLIED_TRANSPORT_STREAM_BYTE_STREAM_HPP
 #define LUMEX_APPLIED_TRANSPORT_STREAM_BYTE_STREAM_HPP
@@ -70,7 +74,9 @@
 #include <utility>
 
 #include "lumex/applied/transport/detail/LumexAsio.hpp"
+#include "lumex/applied/transport/detail/LumexCountingHandler.hpp"
 #include "lumex/applied/transport/error/LumexTransportErrc.hpp"
+#include "lumex/applied/transport/statistics/LumexTransportStatistics.hpp"
 #include "lumex/applied/transport/stream/LumexStreamTypes.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 
@@ -134,11 +140,62 @@ public:
     return open_.load (std::memory_order_acquire);
   }
 
-  // Called by byte_stream from any thread: each posts to the strand.
-  void start_open (status_handler_t handler);
-  void start_read_some (mutable_bytes_t buffer, io_handler_t handler);
-  void start_write_some (const_bytes_t data, io_handler_t handler);
-  void start_write_all (const_bytes_t data, io_handler_t handler);
+  /// @brief The counters this stream counts in (see `statistics ()`).
+  statistics::statistics_counters &
+  counters () LUMEX_NOEXCEPT
+  {
+    return *counters_;
+  }
+
+  /// @brief The counters, for reading.
+  statistics::statistics_counters const &
+  counters () const LUMEX_NOEXCEPT
+  {
+    return *counters_;
+  }
+
+  // Called by byte_stream from any thread: each posts to the strand. The
+  // start_* with a handler take the handler as the user gave it and wrap it
+  // in the counting handler before the one type erasure (a counting wrapper
+  // around an already erased handler would forward the erased handler's
+  // allocator, which the outer erasure destroys first).
+  template <typename Handler>
+  void
+  start_open (Handler &&handler)
+  {
+    enqueue_open (status_handler_t (
+        detail::count_with (counters_, detail::open_recorder (),
+                            std::forward<Handler> (handler))));
+  }
+
+  template <typename Handler>
+  void
+  start_read_some (mutable_bytes_t buffer, Handler &&handler)
+  {
+    enqueue_read_some (buffer, io_handler_t (detail::count_with (
+                                   counters_, detail::read_recorder (),
+                                   std::forward<Handler> (handler))));
+  }
+
+  template <typename Handler>
+  void
+  start_write_some (const_bytes_t data, Handler &&handler)
+  {
+    enqueue_write_some (data, io_handler_t (detail::count_with (
+                                  counters_, detail::write_recorder (),
+                                  std::forward<Handler> (handler))));
+  }
+
+  /// @brief Counts as one write, however many writes it takes.
+  template <typename Handler>
+  void
+  start_write_all (const_bytes_t data, Handler &&handler)
+  {
+    enqueue_write_all (data, io_handler_t (detail::count_with (
+                                 counters_, detail::write_recorder (),
+                                 std::forward<Handler> (handler))));
+  }
+
   void start_cancel ();
   void start_close ();
 
@@ -171,10 +228,16 @@ private:
   // The posted steps of the .cpp reach the protected members through it.
   friend struct stream_impl_access;
 
+  void enqueue_open (status_handler_t handler);
+  void enqueue_read_some (mutable_bytes_t buffer, io_handler_t handler);
+  void enqueue_write_some (const_bytes_t data, io_handler_t handler);
+  void enqueue_write_all (const_bytes_t data, io_handler_t handler);
+
   executor_type executor_;
   strand_type strand_;
   std::string name_;
   std::atomic<bool> open_;
+  std::shared_ptr<statistics::statistics_counters> counters_;
 };
 
 /// @brief A byte stream (see the file description).
@@ -188,7 +251,7 @@ class byte_stream
     void
     operator() (Handler &&handler, std::shared_ptr<stream_impl> impl) const
     {
-      impl->start_open (status_handler_t (std::forward<Handler> (handler)));
+      impl->start_open (std::forward<Handler> (handler));
     }
   };
 
@@ -199,8 +262,7 @@ class byte_stream
     operator() (Handler &&handler, std::shared_ptr<stream_impl> impl,
                 mutable_bytes_t buffer) const
     {
-      impl->start_read_some (buffer,
-                             io_handler_t (std::forward<Handler> (handler)));
+      impl->start_read_some (buffer, std::forward<Handler> (handler));
     }
   };
 
@@ -211,8 +273,7 @@ class byte_stream
     operator() (Handler &&handler, std::shared_ptr<stream_impl> impl,
                 const_bytes_t data) const
     {
-      impl->start_write_some (data,
-                              io_handler_t (std::forward<Handler> (handler)));
+      impl->start_write_some (data, std::forward<Handler> (handler));
     }
   };
 
@@ -223,8 +284,7 @@ class byte_stream
     operator() (Handler &&handler, std::shared_ptr<stream_impl> impl,
                 const_bytes_t data) const
     {
-      impl->start_write_all (data,
-                             io_handler_t (std::forward<Handler> (handler)));
+      impl->start_write_all (data, std::forward<Handler> (handler));
     }
   };
 
@@ -248,6 +308,12 @@ public:
 
   /// @brief True between a successful open and a close.
   bool is_open () const LUMEX_NOEXCEPT;
+
+  /// @brief A snapshot of the counters (any thread; no lock).
+  statistics::statistics_t statistics () const LUMEX_NOEXCEPT;
+
+  /// @brief Sets every counter to zero (any thread).
+  void reset_statistics () LUMEX_NOEXCEPT;
 
   // --- synchronous
   // -----------------------------------------------------------
