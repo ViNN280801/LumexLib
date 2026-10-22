@@ -3,6 +3,7 @@
 // time a mock stream and a mock datagram answer each style once; exit code 0
 // when every exchange returned what was fed, 1 otherwise.
 
+#include <chrono>
 #include <cstddef>
 #include <cstdint>
 #include <exception>
@@ -57,6 +58,24 @@ by_deferred (tr::stream::byte_stream &stream)
       = stream.async_read_some (tr::mutable_bytes_t (buffer), asio::deferred);
   std::size_t const bytes = std::move (read) (asio::use_future).get ();
   return bytes == 3 && buffer == reply ();
+}
+
+// A cancellation slot (asio::cancel_after) and a handler bound to a strand.
+bool
+by_cancel_after (tr::stream::io_runner &runner,
+                 tr::stream::byte_stream &stream)
+{
+  std::vector<std::uint8_t> buffer (3);
+  std::promise<std::size_t> done;
+  stream.async_read_some (
+      tr::mutable_bytes_t (buffer),
+      asio::cancel_after (
+          std::chrono::seconds (10),
+          asio::bind_executor (
+              asio::make_strand (runner.get_executor ()),
+              [&done] (std::error_code error, std::size_t bytes)
+                { done.set_value (error ? 0 : bytes); })));
+  return done.get_future ().get () == 3 && buffer == reply ();
 }
 
 #if defined(LUMEX_TRANSPORT_WITH_SPAWN)
@@ -139,6 +158,8 @@ main ()
   fine = by_future (mock.stream) && fine;
   mock.control.feed (reply ());
   fine = by_deferred (mock.stream) && fine;
+  mock.control.feed (reply ());
+  fine = by_cancel_after (runner, mock.stream) && fine;
 #if defined(LUMEX_TRANSPORT_WITH_SPAWN)
   mock.control.feed (reply ());
   fine = by_yield (runner, mock.stream) && fine;
@@ -152,7 +173,7 @@ main ()
   // The counters: the exchanges above were counted (a snapshot and a reset
   // compile and run under the strict warnings too).
   tr::statistics::statistics_t const counted = mock.stream.statistics ();
-  fine = counted.opens == 1 && counted.reads >= 3 && counted.writes >= 1
+  fine = counted.opens == 1 && counted.reads >= 4 && counted.writes >= 1
          && counted.total_errors () == 0 && fine;
   mock.stream.reset_statistics ();
   fine = mock.stream.statistics ().reads == 0 && fine;

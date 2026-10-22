@@ -48,6 +48,11 @@
  * implementation (`message_impl`) runs every operation on its strand. The
  * implementation counts every operation (`statistics ()`, with
  * `messages_received` / `messages_sent` in place of `reads` / `writes`).
+ * Per-operation cancellation follows `byte_stream` too: a terminal
+ * cancellation cancels the transport, every operation pending on it (a
+ * concurrent receive loop too), also when it arrives after the device
+ * completed the operation but before its handler ran; the timer of
+ * `asio::cancel_after` runs on the strand.
  */
 #ifndef LUMEX_APPLIED_TRANSPORT_DATAGRAM_MESSAGE_TRANSPORT_HPP
 #define LUMEX_APPLIED_TRANSPORT_DATAGRAM_MESSAGE_TRANSPORT_HPP
@@ -152,34 +157,44 @@ public:
   }
 
   // The start_* with a handler take the handler as the user gave it and wrap
-  // it in the counting handler before the one type erasure (see
-  // `stream::stream_impl`).
+  // it in the counting handler before the one type erasure, and with a
+  // cancellation slot take its cancellation (see `stream::stream_impl`).
   template <typename Handler>
   void
   start_open (Handler &&handler)
   {
-    enqueue_open (status_handler_t (
-        detail::count_with (counters_, detail::open_recorder (),
-                            std::forward<Handler> (handler))));
+    detail::operation_mark_ptr const mark
+        = detail::cancellation_mark (handler);
+    enqueue_open (status_handler_t (detail::count_with (
+                      counters_, detail::open_recorder (),
+                      std::forward<Handler> (handler), mark)),
+                  mark);
   }
 
   template <typename Handler>
   void
   start_receive (Handler &&handler)
   {
-    enqueue_receive (message_handler_t (
-        detail::count_with (counters_, detail::receive_recorder (),
-                            std::forward<Handler> (handler))));
+    detail::operation_mark_ptr const mark
+        = detail::cancellation_mark (handler);
+    enqueue_receive (message_handler_t (detail::count_with (
+                         counters_, detail::receive_recorder (),
+                         std::forward<Handler> (handler), mark)),
+                     mark);
   }
 
   template <typename Handler>
   void
   start_send (message_t message, Handler &&handler)
   {
+    detail::operation_mark_ptr const mark
+        = detail::cancellation_mark (handler);
     detail::send_recorder const recorder = { message.payload.size () };
-    enqueue_send (std::move (message),
-                  status_handler_t (detail::count_with (
-                      counters_, recorder, std::forward<Handler> (handler))));
+    enqueue_send (
+        std::move (message),
+        status_handler_t (detail::count_with (
+            counters_, recorder, std::forward<Handler> (handler), mark)),
+        mark);
   }
 
   void start_cancel ();
@@ -205,9 +220,12 @@ protected:
 private:
   friend struct message_impl_access;
 
-  void enqueue_open (status_handler_t handler);
-  void enqueue_receive (message_handler_t handler);
-  void enqueue_send (message_t message, status_handler_t handler);
+  void enqueue_open (status_handler_t handler,
+                     detail::operation_mark_ptr const &mark);
+  void enqueue_receive (message_handler_t handler,
+                        detail::operation_mark_ptr const &mark);
+  void enqueue_send (message_t message, status_handler_t handler,
+                     detail::operation_mark_ptr const &mark);
 
   executor_type executor_;
   strand_type strand_;
@@ -219,8 +237,34 @@ private:
 /// @brief A message transport (see the file description).
 class message_transport
 {
-  struct initiate_open
+  // Each initiation carries the transport's strand, which tokens such as
+  // asio::cancel_after ask for (see byte_stream).
+  struct initiate_base
   {
+    typedef transport::executor_type executor_type;
+
+    explicit initiate_base (executor_type const &executor)
+        : executor_ (executor)
+    {
+    }
+
+    executor_type
+    get_executor () const LUMEX_NOEXCEPT
+    {
+      return executor_;
+    }
+
+  private:
+    executor_type executor_;
+  };
+
+  struct initiate_open : initiate_base
+  {
+    explicit initiate_open (executor_type const &executor)
+        : initiate_base (executor)
+    {
+    }
+
     template <typename Handler>
     void
     operator() (Handler &&handler, std::shared_ptr<message_impl> impl) const
@@ -229,8 +273,13 @@ class message_transport
     }
   };
 
-  struct initiate_receive
+  struct initiate_receive : initiate_base
   {
+    explicit initiate_receive (executor_type const &executor)
+        : initiate_base (executor)
+    {
+    }
+
     template <typename Handler>
     void
     operator() (Handler &&handler, std::shared_ptr<message_impl> impl) const
@@ -239,8 +288,13 @@ class message_transport
     }
   };
 
-  struct initiate_send
+  struct initiate_send : initiate_base
   {
+    explicit initiate_send (executor_type const &executor)
+        : initiate_base (executor)
+    {
+    }
+
     template <typename Handler>
     void
     operator() (Handler &&handler, std::shared_ptr<message_impl> impl,
@@ -288,7 +342,7 @@ public:
           std::declval<std::shared_ptr<message_impl> &> ()))
   {
     return asio::async_initiate<Token, void (std::error_code)> (
-        initiate_open (), token, impl_);
+        initiate_open (impl_->strand ()), token, impl_);
   }
 
   /// @brief Receives one message; `void (std::error_code, message_t)`.
@@ -301,7 +355,7 @@ public:
           std::declval<std::shared_ptr<message_impl> &> ()))
   {
     return asio::async_initiate<Token, void (std::error_code, message_t)> (
-        initiate_receive (), token, impl_);
+        initiate_receive (impl_->strand ()), token, impl_);
   }
 
   /// @brief Sends one message; `void (std::error_code)`.
@@ -314,7 +368,7 @@ public:
           std::declval<message_t> ()))
   {
     return asio::async_initiate<Token, void (std::error_code)> (
-        initiate_send (), token, impl_, std::move (message));
+        initiate_send (impl_->strand ()), token, impl_, std::move (message));
   }
 
   /// @brief Ends the pending operations with `cancelled` (any thread).

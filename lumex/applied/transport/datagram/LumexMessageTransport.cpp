@@ -175,6 +175,70 @@ struct post_close
   }
 };
 
+// The cancellation of one operation, on the strand: nothing when the
+// operation completed since the signal (its mark is gone).
+struct post_cancel_operation
+{
+  impl_ptr impl;
+  std::weak_ptr<detail::operation_mark> operation;
+  void
+  operator() ()
+  {
+    if (!operation.expired ())
+      message_impl_access::cancel (*impl);
+  }
+};
+
+// The slot handler of the transport (see stream::stream_impl): a terminal
+// cancellation cancels the transport; partial and total are not supported.
+class terminal_cancellation
+{
+public:
+  terminal_cancellation (impl_ptr const &impl,
+                         detail::operation_mark_ptr const &operation)
+      : impl_ (impl), operation_ (operation)
+  {
+  }
+
+  void
+  operator() (asio::cancellation_type_t type)
+  {
+    if ((type & asio::cancellation_type::terminal)
+            == asio::cancellation_type::none
+        || operation_.expired ())
+      return;
+    impl_ptr const impl = impl_.lock ();
+    if (!impl)
+      return;
+    try
+      {
+        post_cancel_operation step = { impl, operation_ };
+        asio::post (impl->strand (), std::move (step));
+      }
+    catch (...)
+      {
+        // Out of memory: the operation is not cancelled.
+      }
+  }
+
+private:
+  std::weak_ptr<message_impl> impl_;
+  std::weak_ptr<detail::operation_mark> operation_;
+};
+
+template <typename Handler>
+void
+take_cancellation (impl_ptr const &impl, Handler &handler,
+                   detail::operation_mark_ptr const &mark)
+{
+  if (!mark)
+    return;
+  asio::cancellation_slot slot
+      = asio::get_associated_cancellation_slot (handler);
+  if (slot.is_connected ())
+    slot.template emplace<terminal_cancellation> (impl, mark);
+}
+
 // The state of a synchronous receive: the shared wait state and the message.
 struct message_sync_state : detail::sync_state
 {
@@ -206,26 +270,34 @@ message_impl::message_impl (executor_type const &executor, std::string name)
 message_impl::~message_impl () {}
 
 // The handlers arrive already wrapped in the counting handler (see the
-// start_* templates of the header).
+// start_* templates of the header); the slot handler goes in before the post.
 void
-message_impl::enqueue_open (status_handler_t handler)
+message_impl::enqueue_open (status_handler_t handler,
+                            detail::operation_mark_ptr const &mark)
 {
-  post_open step = { shared_from_this (), std::move (handler) };
+  impl_ptr const self = shared_from_this ();
+  take_cancellation (self, handler, mark);
+  post_open step = { self, std::move (handler) };
   asio::post (strand_, std::move (step));
 }
 
 void
-message_impl::enqueue_receive (message_handler_t handler)
+message_impl::enqueue_receive (message_handler_t handler,
+                               detail::operation_mark_ptr const &mark)
 {
-  post_receive step = { shared_from_this (), std::move (handler) };
+  impl_ptr const self = shared_from_this ();
+  take_cancellation (self, handler, mark);
+  post_receive step = { self, std::move (handler) };
   asio::post (strand_, std::move (step));
 }
 
 void
-message_impl::enqueue_send (message_t message, status_handler_t handler)
+message_impl::enqueue_send (message_t message, status_handler_t handler,
+                            detail::operation_mark_ptr const &mark)
 {
-  post_send step
-      = { shared_from_this (), std::move (message), std::move (handler) };
+  impl_ptr const self = shared_from_this ();
+  take_cancellation (self, handler, mark);
+  post_send step = { self, std::move (message), std::move (handler) };
   asio::post (strand_, std::move (step));
 }
 

@@ -48,6 +48,10 @@
  * cancellation slot, immediate executor) of the wrapped handler, so the user
  * handler still runs on its own executor and allocator. The base classes wrap
  * the handler the user gave, before it is type-erased.
+ *
+ * When the handler has a cancellation slot, the wrapper also holds the mark of
+ * the pending operation that the transport's slot handler looks at; the mark
+ * ends when the handler is called or destroyed.
  */
 #ifndef LUMEX_APPLIED_TRANSPORT_DETAIL_COUNTING_HANDLER_HPP
 #define LUMEX_APPLIED_TRANSPORT_DETAIL_COUNTING_HANDLER_HPP
@@ -75,6 +79,27 @@ namespace transport
 {
 namespace detail
 {
+/// @brief The mark of a pending operation whose handler has a cancellation
+/// slot: alive from the start until the handler is called or destroyed. The
+/// slot handler of the transport holds it weakly, so a signal emitted after
+/// the completion ends nothing.
+struct operation_mark
+{
+};
+
+typedef std::shared_ptr<operation_mark> operation_mark_ptr;
+
+/// @brief A new mark when `handler` has a connected cancellation slot, else
+/// none.
+template <typename Handler>
+operation_mark_ptr
+cancellation_mark (Handler const &handler)
+{
+  if (!asio::get_associated_cancellation_slot (handler).is_connected ())
+    return operation_mark_ptr ();
+  return std::make_shared<operation_mark> ();
+}
+
 /**
  * @brief Counts a completion through `Recorder`, then calls `Handler`.
  * @tparam Handler The wrapped handler (move-only is fine).
@@ -86,12 +111,18 @@ template <typename Handler, typename Recorder> struct counting_handler
   std::shared_ptr<statistics::statistics_counters> counters;
   Recorder recorder;
   Handler handler;
+  /// The mark of the pending operation (only with a cancellation slot).
+  operation_mark_ptr pending;
 
   template <typename... Args>
   void
   operator() (std::error_code error, Args &&...args)
   {
     recorder (*counters, error, args...);
+    // The operation is over: a signal emitted from now on must not reach the
+    // transport. The slot itself is left alone, as Asio's own operations
+    // leave it: the user may have destroyed the signal already.
+    pending.reset ();
     std::move (handler) (error, std::forward<Args> (args)...);
   }
 };
@@ -99,16 +130,16 @@ template <typename Handler, typename Recorder> struct counting_handler
 /// @brief Wraps `handler`; the result is move-only like the handler. Call it
 /// with the handler as the user gave it: wrapping before the one type erasure
 /// (`io_handler_t (count_with (...))`) keeps a single
-/// `any_completion_handler`, whose allocator is the user's own. Wrapping an
-/// erased handler would forward the erased handler's allocator, a view into an
-/// object the outer erasure destroys first.
+/// `any_completion_handler`, whose allocator is the user's own. `pending` is
+/// `cancellation_mark (handler)` (none: the slot is not watched).
 template <typename Recorder, typename Handler>
 counting_handler<Handler, Recorder>
 count_with (std::shared_ptr<statistics::statistics_counters> const &counters,
-            Recorder const &recorder, Handler handler)
+            Recorder const &recorder, Handler handler,
+            operation_mark_ptr const &pending = operation_mark_ptr ())
 {
   counting_handler<Handler, Recorder> wrapped
-      = { counters, recorder, std::move (handler) };
+      = { counters, recorder, std::move (handler), pending };
   return wrapped;
 }
 
