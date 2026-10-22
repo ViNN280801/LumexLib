@@ -48,6 +48,7 @@
 
 #include "lumex/LumexExport.hpp"
 
+#include <atomic>
 #include <chrono>
 #include <cstdint>
 #include <deque>
@@ -566,8 +567,42 @@ struct logger_applied_config_view_t
  * - Timestamped logs are created in Logger_logs/ with names
  * logger_DD.MM.YYYY-hh-mm-ss.log
  *
+ * Run-time re-read of the trigger file:
+ * - `log()` and `is_level_enabled()` check the trigger file at most once per
+ * 2 s, before the level filter (one atomic load and a clock read on every
+ * call; one thread checks, the others go on); `force_reread()` checks at once,
+ * and a `trigger_file_watcher` checks from its own thread.
+ * - A check compares the presence, modification time and size of the file
+ * with the last check; when nothing changed, nothing changes in the logger.
+ * - The file appeared: the logger reads it, opens the log as at start
+ * (header included) and is enabled. The file changed: of the level, function
+ * name mode, preset, buffering, stack trace and DESCRIBE_FRAME settings, the
+ * ones whose value in the file changed since the last read are applied
+ * (TIMESTAMPED and HINT take effect at the next open). The file disappeared:
+ * the buffer is written as at exit, a closing block is written, the log is
+ * closed (not deleted) and the logger is disabled.
+ * - A file that cannot be opened (held by an editor or a virus scanner) or
+ * a log that cannot be opened changes nothing; the next check tries again.
+ * A file that cannot be parsed (half written, malformed) changes nothing
+ * while logging is enabled and is read again at the next check; while
+ * logging is disabled it enables logging with the defaults, as at start. A
+ * file of size zero is the defaults in every format when it enables logging
+ * (at start or when it appears); while logging is enabled it is taken for an
+ * editor between truncating and rewriting the file, and changes nothing.
+ * - An editor that saves through a temporary file (write it, delete the
+ * trigger file, rename) can be caught in the gap: the check then sees the
+ * file disappear and closes the log, and the next check opens a new one
+ * (in plain mode the same name, truncated).
+ * - A value set through the API (`set_log_level`, `enable_preset`, ...) stays
+ * until the same setting changes in the trigger file: re-saving the value the
+ * file had at the last read does not override it.
+ * - Timestamped logs get a `_2`, `_3`, ... suffix when a log of the same
+ * second exists.
+ * - The singleton starts no thread of its own.
+ *
  * Thread safety:
- * - Every operation is protected by an internal mutex
+ * - Every operation is protected by an internal mutex; the flags read on the
+ * fast path (`is_level_enabled`, `get_log_level`, ...) are atomic
  * - Concurrent calls are safe
  *
  * Exceptions:
@@ -597,6 +632,9 @@ public:
    * @brief Sets the minimum log level.
    * @param level New minimum log level.
    * @note Messages below this level are not written.
+   * @note The level change callbacks are called with the new state (see
+   * `add_level_change_callback`) before the function returns. Called from a
+   * callback in the last of the 4 rounds of one change, it is ignored.
    */
   void set_log_level (LogLevel level) LUMEX_NOEXCEPT;
 
@@ -884,9 +922,10 @@ public:
    * @brief Sets the trigger-file name used to enable logging.
    * @param fileName Trigger-file name (for example, "enable_logs").
    * @note The trigger file must sit next to the executable.
-   * @note Changing the trigger-file name does not reread configuration
-   * automatically. Applying the change may require restarting
-   * of the program.
+   * @note The name takes effect at the next check of the trigger file (the
+   * lazy check, `force_reread()` or a `trigger_file_watcher`): the file of
+   * the new name is compared with the state seen at the last check and
+   * applied when it differs.
    * @note Thread-safe.
    */
   void set_trigger_file_name (std::string const &fileName) LUMEX_NOEXCEPT;
@@ -919,7 +958,99 @@ public:
    */
   logger_applied_config_view_t get_applied_config_view () const LUMEX_NOEXCEPT;
 
+  /**
+   * @brief A function told the logger's state after it changed.
+   * @param enabled Whether logging is enabled.
+   * @param level The minimum log level.
+   */
+  typedef void (*level_change_callback_t) (bool enabled, LogLevel level);
+
+  /**
+   * @brief Checks the trigger file now and applies a change.
+   * @details Waits for a check that runs in another thread, then compares
+   * the presence, modification time and size of the trigger file with the
+   * last check and, when they differ, applies the file as described for the
+   * class (appeared, changed, disappeared) and calls the level change
+   * callbacks. When nothing changed, nothing happens. A file that cannot be
+   * opened, or a log that cannot be opened, changes nothing and is tried
+   * again at the next check (the first failure goes to `std::cerr`); for a
+   * file that cannot be parsed see the class.
+   * @note Thread-safe. Called from a level change callback, it does nothing.
+   */
+  void force_reread () LUMEX_NOEXCEPT;
+
+  /**
+   * @brief Adds a level change callback (at most 8; adding one that is
+   * there already keeps one entry).
+   * @details The callback is called once with the current state before the
+   * function returns. After that, every change of the enabled state or of
+   * the level calls every callback with the new state: a check of the
+   * trigger file that applied a change (from the thread that checked) and
+   * `set_log_level()` (from its caller). Calls never overlap and come in the
+   * order of the changes. Each binary that links the static transport
+   * library adds its own callback (spec G6). A callback that changes the
+   * level with `set_log_level()` makes all callbacks hear the new state in
+   * another round; after 4 rounds of one change (callbacks that disagree)
+   * such a call is ignored, so every callback last heard the final state.
+   * @param callback The callback.
+   * @return True when the callback is registered (now or before); false for
+   * `nullptr`, when all 8 entries are taken, or when called from a
+   * callback.
+   * @note Thread-safe. A callback may log and may call `set_log_level()`;
+   * from a callback, `force_reread()`, `add_level_change_callback()` and
+   * `remove_level_change_callback()` do nothing. A callback in a module
+   * that is unloaded must be removed first.
+   */
+  bool
+  add_level_change_callback (level_change_callback_t callback) LUMEX_NOEXCEPT;
+
+  /**
+   * @brief Removes a level change callback.
+   * @details Waits for a call of the callbacks that runs in another thread:
+   * after the function returns, `callback` is not called again.
+   * @param callback The callback to remove.
+   * @return True when `callback` was registered and is removed now; false
+   * otherwise, and when called from a callback.
+   * @note Thread-safe.
+   */
+  bool remove_level_change_callback (level_change_callback_t callback)
+      LUMEX_NOEXCEPT;
+
 private:
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#endif
+  /**
+   * @brief What a check of the trigger file compares.
+   */
+  struct trigger_state_t
+  {
+    std::int64_t mtime; ///< Modification time, in units of the platform
+    std::int64_t size;  ///< Size in bytes
+    bool present;       ///< The file exists (and is not a directory)
+  };
+
+  /**
+   * @brief The settings of a trigger file that apply while the log is open,
+   * as last read (a configuration without its alignment).
+   */
+  struct file_settings_t
+  {
+    std::unordered_set<std::string> preset_components; ///< PRESET
+    std::size_t buffer_size;                           ///< BUFFER_SIZE
+    short stack_trace_max_frames;                      ///< STACKTRACE_FRAMES
+    LogLevel log_level;                                ///< LEVEL
+    FunctionNameMode func_name_mode;                   ///< FUNCNAME
+    LogLevel buffering_trigger_level;                  ///< BUFFERING_TRIGGER
+    bool show_stack_trace;                             ///< STACKTRACE
+    bool buffering_enabled;                            ///< BUFFERING
+    bool buffering_trigger_configured; ///< BUFFERING_TRIGGER is set
+    bool describe_frame;               ///< DESCRIBE_FRAME
+  };
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif
   /**
    * @brief Private constructor for the singleton.
    * @throws std::runtime_error if creating the log file fails.
@@ -940,9 +1071,10 @@ private:
 
   /**
    * @brief Builds the full log-file path.
+   * @param timestamped True for a timestamped log in Logger_logs/.
    * @return Full log-file path.
    */
-  std::string _create_log_file_path () const;
+  std::string _create_log_file_path (bool timestamped) const;
 
   /**
    * @brief Builds the path of the ordinary (overwrite) log file.
@@ -952,6 +1084,8 @@ private:
 
   /**
    * @brief Builds the path of a timestamped log file in Logger_logs/.
+   * @details A log of the same second that exists already keeps its name:
+   * the new one gets the first free suffix `_2`, `_3`, ...
    * @return Full path of the timestamped log file.
    */
   std::string _create_timestamped_log_file_path () const;
@@ -994,23 +1128,28 @@ private:
   _extract_directory_from_path (std::string const &fullPath);
 
   /**
-   * @brief Checks that the logging-enable file exists and reads
-   * the log level.
-   * @return true if the trigger file (default enable_logs) exists,
-   * false otherwise.
-   * @note Does not throw.
+   * @brief The outcome of `_try_read_config_from_path`.
    */
-  bool _is_logging_enabled_file_exists () const LUMEX_NOEXCEPT;
+  enum class config_read_t : std::uint8_t
+  {
+    ok,          ///< Read; an empty file (any format) is the defaults
+    cannot_open, ///< The file cannot be opened (missing, locked)
+    unparsable   ///< Opened, but not read or parsed (half written, malformed)
+  };
 
   /**
-   * @brief Reads configuration from the logging-enable file next to the
-   *        executable (trigger_file_name under executable_directory).
-   * @return logger_config_t with logger settings.
+   * @brief Reads a configuration file and reports a failure (the reader of
+   * `read_config_from_path`).
+   * @param[in] enableFilePath Full path of the enable/config file.
+   * @param[out] config The configuration read; defaults on failure.
+   * @return The outcome. A file of size zero is a valid configuration with
+   * the defaults in every format.
    * @throws std::runtime_error when LUMEX_LOGGER_CONFIG_FORMAT=YAML
-   *         (LumexSettingsYAML is not implemented yet). Other parse
-   *         failures yield defaults.
+   *         (LumexSettingsYAML is not implemented yet).
    */
-  logger_config_t _read_config_from_file () const;
+  static config_read_t
+  _try_read_config_from_path (std::string const &enableFilePath,
+                              logger_config_t &config);
 
   /**
    * @brief Applies one KEY/value pair onto a logger_config_t.
@@ -1210,21 +1349,110 @@ private:
   static std::unordered_set<std::string>
   _parse_preset_components (std::string const &componentsStr) LUMEX_NOEXCEPT;
 
+  /**
+   * @brief Full path of the trigger file (executable directory and
+   * `trigger_file_name`).
+   * @note The caller holds `log_mutex`, or the object is not shared yet.
+   */
+  std::string _trigger_file_path () const;
+
+  /**
+   * @brief Reads the presence, modification time and size of a file.
+   * @param path Full path of the file.
+   * @return The state; `present` is false when the file is missing or is a
+   * directory.
+   */
+  static trigger_state_t
+  _stat_trigger_file (std::string const &path) LUMEX_NOEXCEPT;
+
+  /**
+   * @brief Applies the settings of a configuration that can change while the
+   * log is open: level, function-name mode, stack trace, preset, buffering
+   * (with BUFFERING_TRIGGER) and DESCRIBE_FRAME.
+   * @param config The configuration read from the trigger file.
+   * @param previous The settings read from the file before, or `nullptr`:
+   * only the settings whose value differs from `previous` are applied (a
+   * value set through the API stays until the file changes it); `nullptr`
+   * applies all.
+   * @return True when a setting was applied.
+   * @throws std::ios_base::failure if writing the buffer that buffering off
+   * flushes fails.
+   * @note The caller holds `log_mutex`, or the object is not shared yet.
+   */
+  bool _apply_config (logger_config_t const &config,
+                      file_settings_t const *previous);
+
+  /**
+   * @brief The settings of `config` that `_apply_config` compares.
+   */
+  static file_settings_t _file_settings_of (logger_config_t const &config);
+
+  /**
+   * @brief Opens the log as at start: the file (truncated), then every
+   * setting of `config` (`_apply_config`), TIMESTAMPED, the hint file and
+   * the header.
+   * @param config The configuration read from the trigger file.
+   * @throws std::runtime_error if the log file cannot be opened; nothing is
+   * changed then.
+   * @note The caller holds `log_mutex`, or the object is not shared yet.
+   */
+  void _open_log_file (logger_config_t const &config);
+
+  /**
+   * @brief Calls the level change callbacks with the current state; calls
+   * them again (at most 4 rounds) when a callback changed the state.
+   * @param only Call only this callback, or every one for `nullptr`.
+   * @note The caller holds `reread_mutex` and marks its thread as checking.
+   */
+  void _call_level_change_callbacks (level_change_callback_t only);
+
+  /**
+   * @brief Calls the level change callbacks after an API call changed the
+   * state (takes `reread_mutex`; nothing when called from a callback, whose
+   * caller calls them again).
+   */
+  void _push_level_change () LUMEX_NOEXCEPT;
+
+  /**
+   * @brief Writes the buffer (as at exit), a closing block with `title`, the
+   * end time and the active time, and closes the log.
+   * @param title First line of the closing block.
+   * @note The caller holds `log_mutex`. Errors go to `std::cerr`.
+   */
+  void _close_log_file (char const *title) LUMEX_NOEXCEPT;
+
+  /**
+   * @brief The lazy check: runs `_check_trigger_file` when the 2 s period
+   * passed and this thread won the compare-exchange of the next check time.
+   * @note No lock is taken unless the period passed.
+   */
+  void _check_trigger_file_if_due () const LUMEX_NOEXCEPT;
+
+  /**
+   * @brief Compares the trigger file with the last check and applies a
+   * change (see `force_reread`).
+   * @param wait True to wait for a check of another thread, false to skip
+   * when one runs.
+   */
+  void _check_trigger_file (bool wait) LUMEX_NOEXCEPT;
+
 #if defined(__clang__)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpadded"
 #endif
-  std::ofstream log_file;           ///< Stream used to write the log file
-  std::string log_file_path;        ///< Log-file path
-  LogLevel current_log_level;       ///< Current minimum log level
-  mutable std::mutex log_mutex;     ///< Mutex that protects write operations
-  std::string executable_directory; ///< Executable directory
-  bool logging_enabled;             ///< Logging-enabled flag
-  FunctionNameMode function_name_mode; ///< Function-name display mode in logs
-  bool use_timestamped_logs;           ///< Timestamped-log flag
-  bool show_stack_trace;               ///< Show-stacktrace flag
-  short stack_trace_max_frames;        ///< Maximum stack-trace frames
-  mutable bool hint_shown;       ///< Flag that the hint has already been shown
+  std::ofstream log_file;    ///< Stream used to write the log file
+  std::string log_file_path; ///< Log-file path
+  std::atomic<LogLevel> current_log_level; ///< Current minimum log level
+  mutable std::mutex log_mutex;      ///< Mutex that protects write operations
+  std::string executable_directory;  ///< Executable directory
+  std::atomic<bool> logging_enabled; ///< Logging-enabled flag
+  std::atomic<FunctionNameMode>
+      function_name_mode;       ///< Function-name display mode in logs
+  bool use_timestamped_logs;    ///< Timestamped-log flag
+  bool show_stack_trace;        ///< Show-stacktrace flag
+  short stack_trace_max_frames; ///< Maximum stack-trace frames
+  mutable std::atomic<bool>
+      hint_shown;                ///< Flag that the hint has already been shown
   std::string trigger_file_name; ///< Trigger-file name used to enable logging
 
   // Log buffering
@@ -1240,12 +1468,27 @@ private:
   std::unordered_set<std::string>
       preset_components; ///< Component set used for filtering
 
-  bool describe_frame_enabled
-      = false; ///< Tree-style frame parsing (DESCRIBE_FRAME=true|1|yes)
+  std::atomic<bool> describe_frame_enabled{
+    false
+  }; ///< Tree-style frame parsing (DESCRIBE_FRAME=true|1|yes)
 
   std::chrono::system_clock::time_point
       log_file_start_time;                                 ///< Log start time
   std::chrono::system_clock::time_point log_file_end_time; ///< Log end time
+
+  // Run-time re-read of the trigger file
+  mutable std::atomic<std::int64_t>
+      next_trigger_check_ns; ///< Steady-clock time (ns) of the next lazy
+                             ///< check
+  std::mutex reread_mutex;   ///< One check or callback round at a time;
+                             ///< guards the members below
+  trigger_state_t
+      last_trigger_state; ///< The trigger file at the last check applied
+  file_settings_t last_file_settings; ///< The settings last read from the file
+  bool reread_failure_reported; ///< The current failure went to std::cerr
+  static std::size_t const kMaxLevelChangeCallbacks = 8; ///< Table size
+  level_change_callback_t level_change_callbacks
+      [kMaxLevelChangeCallbacks]; ///< Registered callbacks; null = free
 #if defined(__clang__)
 #pragma clang diagnostic pop
 #endif
