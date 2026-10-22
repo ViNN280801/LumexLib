@@ -124,6 +124,46 @@ TEST (LumexSerialPortEnumeration, EnumerateBothBluetoothFlagValues)
     EXPECT_FALSE (unfiltered_names.front ().empty ());
 }
 
+// The enumeration without the open probe (WP13 point 5): the same ports, in
+// the same order, with the same identifiers, none of them probed.
+TEST (LumexSerialPortEnumeration,
+      GivenTheEnumerationWithoutProbe_WhenListed_ThenTheSamePortsComeUnprobed)
+{
+  std::vector<serial_port_info_t> probed;
+  std::vector<serial_port_info_t> listed;
+  std::vector<serial_port_info_t> named;
+  EXPECT_NO_THROW (
+      probed = enumerate_serial_ports_detailed (std::string (), false, true));
+  EXPECT_NO_THROW (listed
+                   = enumerate_serial_ports_without_probe (false, true));
+  EXPECT_NO_THROW (named = enumerate_serial_ports_without_probe ());
+  ASSERT_EQ (listed.size (), probed.size ());
+  ASSERT_EQ (named.size (), listed.size ());
+  for (std::size_t i = 0; i < listed.size (); ++i)
+    {
+      EXPECT_EQ (listed[i].path, probed[i].path);
+      EXPECT_EQ (listed[i].state, serial_port_state::available)
+          << listed[i].path;
+      EXPECT_TRUE (listed[i].system_error.empty ()) << listed[i].path;
+      EXPECT_TRUE (listed[i].holder_process_info.empty ()) << listed[i].path;
+      EXPECT_EQ (resolve_serial_port_path (
+                     named[i].path, Constants::KSERIAL_PORT_CHANNEL_TYPE),
+                 listed[i].path);
+      // POSIX reads the USB attributes of a probed port only when it
+      // opened (or was busy); unprobed, always.
+      if (probed[i].state == serial_port_state::available
+          || probed[i].state == serial_port_state::busy)
+        {
+          EXPECT_EQ (listed[i].vid, probed[i].vid) << listed[i].path;
+          EXPECT_EQ (listed[i].pid, probed[i].pid) << listed[i].path;
+          EXPECT_EQ (listed[i].serial_number, probed[i].serial_number)
+              << listed[i].path;
+          EXPECT_EQ (listed[i].instance_id, probed[i].instance_id)
+              << listed[i].path;
+        }
+    }
+}
+
 TEST (LumexSerialPortEnumeration, FullPathFlagSelectsNameOrOpenablePath)
 {
   std::vector<serial_port_info_t> named;
