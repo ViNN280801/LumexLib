@@ -47,7 +47,9 @@
  * `LUMEX_TRANSPORT_WITH_SPAWN`). Works from C++11. The error codes are in
  * `error/LumexTransportErrc.hpp`, the log in `log/LumexTransportLog.hpp`, the
  * counters (`byte_stream::statistics ()`) in
- * `statistics/LumexTransportStatistics.hpp`.
+ * `statistics/LumexTransportStatistics.hpp`, the sessions that reconnect
+ * (`stream_session`, `message_session`), the selectors and the
+ * `device_watcher` in `session/`.
  */
 #include "datagram/LumexMessageTransport.hpp"
 
@@ -58,6 +60,13 @@
 #include "net/LumexNetTransports.hpp"
 
 #include "serial/LumexSerialStream.hpp"
+
+#include "session/LumexBasicSession.hpp"
+#include "session/LumexDeviceWatcher.hpp"
+#include "session/LumexMessageSession.hpp"
+#include "session/LumexSessionSelectors.hpp"
+#include "session/LumexSessionTypes.hpp"
+#include "session/LumexStreamSession.hpp"
 
 #include "statistics/LumexTransportStatistics.hpp"
 

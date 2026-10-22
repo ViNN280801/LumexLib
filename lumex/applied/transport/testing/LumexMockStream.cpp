@@ -105,6 +105,13 @@ public:
   }
 
   void
+  hold_next_open ()
+  {
+    std::lock_guard<std::mutex> const lock (mutex_);
+    hold_open_ = true;
+  }
+
+  void
   fail_next_read (std::error_code error)
   {
     std::lock_guard<std::mutex> const lock (mutex_);
@@ -173,6 +180,13 @@ protected:
         complete (std::move (handler), error);
         return;
       }
+    if (hold_open_)
+      {
+        hold_open_ = false;
+        pending_open_ = std::move (handler);
+        has_pending_open_ = true;
+        return;
+      }
     ++open_count_;
     disconnected_ = false;
     set_open (true);
@@ -229,6 +243,7 @@ protected:
   do_cancel () override
   {
     std::lock_guard<std::mutex> const lock (mutex_);
+    end_pending_open ();
     end_pending_read (transport_errc::cancelled);
   }
 
@@ -236,6 +251,7 @@ protected:
   do_close () override
   {
     std::lock_guard<std::mutex> const lock (mutex_);
+    end_pending_open ();
     end_pending_read (transport_errc::cancelled);
   }
 
@@ -265,6 +281,16 @@ private:
   }
 
   void
+  end_pending_open ()
+  {
+    if (!has_pending_open_)
+      return;
+    has_pending_open_ = false;
+    complete (std::move (pending_open_),
+              make_error_code (transport_errc::cancelled));
+  }
+
+  void
   end_pending_read (transport_errc reason)
   {
     if (!has_pending_read_)
@@ -279,6 +305,9 @@ private:
   mutable_bytes_t pending_buffer_;
   io_handler_t pending_handler_;
   bool has_pending_read_ = false;
+  status_handler_t pending_open_;
+  bool has_pending_open_ = false;
+  bool hold_open_ = false;
   bool disconnected_ = false;
   std::size_t write_chunk_ = 0;
   std::size_t open_count_ = 0;
@@ -305,6 +334,12 @@ void
 mock_stream_control::fail_open (std::error_code error)
 {
   impl_->fail_open (error);
+}
+
+void
+mock_stream_control::hold_next_open ()
+{
+  impl_->hold_next_open ();
 }
 
 void

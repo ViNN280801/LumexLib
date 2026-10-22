@@ -41,6 +41,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
+#include <functional>
 #include <memory>
 #include <string>
 #include <system_error>
@@ -202,6 +203,8 @@ struct open_finished
   // The permission diagnostic, built by the worker thread; empty when the
   // open did not fail on a permission or the error log was off.
   std::string permission_text;
+  // The resolve_path of the options failed: nothing was opened.
+  std::error_code resolve_error;
   void operator() ();
 };
 
@@ -210,6 +213,7 @@ struct open_worker
   serial_impl_ptr impl;
   status_handler_t handler;
   std::string path;
+  std::function<std::string ()> resolve;
   deadline_t deadline;
   void operator() ();
 };
@@ -241,9 +245,19 @@ public:
 
   void
   finish_open (status_handler_t handler, bounded::open_result_t const &result,
-               std::string const &permission_text)
+               std::string const &permission_text,
+               std::error_code const &resolve_error)
   {
     opening_ = false;
+    if (resolve_error)
+      {
+        close_requested_ = false;
+        LUMEX_TRANSPORT_LOG (error, KCOMPONENT, name ().c_str (),
+                             "no port to open: " + resolve_error.message (),
+                             log::log_bytes_t ());
+        complete (std::move (handler), resolve_error);
+        return;
+      }
     if (result.outcome != bounded::open_outcome::opened)
       {
         bool const timed_out
@@ -344,7 +358,7 @@ protected:
     open_worker worker
         = { std::static_pointer_cast<serial_stream_impl> (shared_from_this ()),
             std::move (handler), serial_open_path (name ()),
-            options_.open_deadline };
+            options_.resolve_path, options_.open_deadline };
     // The bounded open blocks up to its deadline: not on the strand.
     std::thread (std::move (worker)).detach ();
   }
@@ -397,37 +411,68 @@ private:
   bool close_requested_ = false;
 };
 
+// The port of this open: `path`, or what `resolve` finds (on this thread:
+// an enumeration may take a while).
+std::error_code
+resolve_open_path (std::function<std::string ()> const &resolve,
+                   std::string &path)
+{
+  if (!resolve)
+    return std::error_code ();
+  try
+    {
+      std::string const found = resolve ();
+      if (found.empty ())
+        return make_error_code (transport_errc::invalid_endpoint);
+      path = serial_open_path (found);
+      return std::error_code ();
+    }
+  catch (std::system_error const &failure)
+    {
+      return failure.code ()
+                 ? failure.code ()
+                 : make_error_code (transport_errc::invalid_endpoint);
+    }
+  catch (...)
+    {
+      return make_error_code (transport_errc::invalid_endpoint);
+    }
+}
+
 void
 open_worker::operator() ()
 {
-  bounded::open_result_t const result
-      = bounded::bounded_open_serial_port (path,
-                                           static_cast<std::uint32_t> (
+  std::error_code const resolve_error = resolve_open_path (resolve, path);
+  bounded::open_result_t result;
+  if (!resolve_error)
+    result = bounded::bounded_open_serial_port (path,
+                                                static_cast<std::uint32_t> (
 #if defined(_WIN32)
-                                               FILE_FLAG_OVERLAPPED
+                                                    FILE_FLAG_OVERLAPPED
 #else
-                                               0U
+                                                    0U
 #endif
-                                               ),
-                                           deadline);
+                                                    ),
+                                                deadline);
   // The diagnostic looks up the node, its owner and group (stat, getpwuid_r,
   // getgrgid_r), which may block: here, on this worker thread, and only when
   // the error record would be written.
   std::string permission_text;
-  if (result.outcome == bounded::open_outcome::failed
+  if (!resolve_error && result.outcome == bounded::open_outcome::failed
       && detail::is_permission_error (result.error_code)
       && log::log_enabled (log::log_level::error, KCOMPONENT))
     permission_text = detail::describe_permission_denied (path);
   stream::stream_impl::strand_type const strand = impl->strand ();
   open_finished finished = { std::move (impl), std::move (handler), result,
-                             std::move (permission_text) };
+                             std::move (permission_text), resolve_error };
   asio::post (strand, std::move (finished));
 }
 
 void
 open_finished::operator() ()
 {
-  impl->finish_open (std::move (handler), result, permission_text);
+  impl->finish_open (std::move (handler), result, permission_text,
+                     resolve_error);
 }
 
 void

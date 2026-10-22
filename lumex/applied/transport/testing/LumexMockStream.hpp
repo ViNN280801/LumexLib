@@ -89,6 +89,9 @@ public:
   void feed (std::vector<std::uint8_t> const &bytes);
   /// @brief The next open fails with `error`.
   void fail_open (std::error_code error);
+  /// @brief The next open does not complete until a cancel or a close ends
+  /// it with `cancelled` (a device that never answers the open).
+  void hold_next_open ();
   /// @brief The next read fails with `error`.
   void fail_next_read (std::error_code error);
   /// @brief The next write fails with `error`.
