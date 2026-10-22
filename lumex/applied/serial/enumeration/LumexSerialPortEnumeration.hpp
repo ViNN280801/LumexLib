@@ -197,6 +197,33 @@ std::vector<serial_port_info_t> enumerate_serial_ports_detailed (
     bool need_to_filter_bluetooth = false, bool need_full_path = false);
 
 /**
+ * @brief Enumerate serial ports like `enumerate_serial_ports_detailed`
+ * without opening any of them.
+ *
+ * The same sources, filter, paths and order, and the same identifiers
+ * (SetupAPI and registry on Windows, sysfs on POSIX), but no port is
+ * open-probed: `state` is `available` for every port (presence only, as for
+ * the Bluetooth ports of the detailed enumeration), and
+ * `holder_process_info` and `system_error` stay empty. For a caller that
+ * polls the port list (a hot-plug watcher) or looks a port up by its USB
+ * identity: an open of every port would pulse the modem lines of each
+ * device, collide with the open of a session, and on Windows walk the
+ * handle table for each busy port. The Windows fallback when SetupAPI
+ * lists nothing checks `COM1`..`COM255` with `QueryDosDevice`, which does
+ * not open the port either.
+ *
+ * A separate function, not a parameter of the detailed one: its exported
+ * signature stays as it is.
+ *
+ * @param need_to_filter_bluetooth As for `enumerate_serial_ports_detailed`.
+ * @param need_full_path As for `enumerate_serial_ports_detailed`.
+ */
+LUMEX_PUBLIC_API
+std::vector<serial_port_info_t>
+enumerate_serial_ports_without_probe (bool need_to_filter_bluetooth = false,
+                                      bool need_full_path = false);
+
+/**
  * @brief Enumerate serial port names only.
  * @param need_to_filter_bluetooth Forwarded to
  * `enumerate_serial_ports_detailed`.
