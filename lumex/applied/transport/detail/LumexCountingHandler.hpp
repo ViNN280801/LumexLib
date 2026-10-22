@@ -55,6 +55,7 @@
 #include <cstddef>
 #include <memory>
 #include <system_error>
+#include <type_traits>
 #include <utility>
 
 #include "lumex/applied/transport/detail/LumexAsio.hpp"
@@ -160,6 +161,24 @@ struct receive_recorder
   }
 };
 
+/**
+ * @brief True for the allocator of an already type-erased handler
+ * (`asio::any_completion_handler_allocator`): a view into the erased handler.
+ * A wrapper that is erased once more must not forward it (see the
+ * `associated_allocator` specialisation of `counting_handler`), at any depth
+ * (`bind_executor (ex, any_completion_handler (...))` forwards it too).
+ */
+template <typename Allocator>
+struct is_erased_handler_allocator : std::false_type
+{
+};
+
+template <typename T, typename... Signatures>
+struct is_erased_handler_allocator<
+    asio::any_completion_handler_allocator<T, Signatures...>> : std::true_type
+{
+};
+
 /// @brief Counts a message send by the payload size taken at the start.
 struct send_recorder
 {
@@ -206,32 +225,54 @@ struct associator<
   }
 };
 
-// An already type-erased handler (a completion token may be an
-// any_completion_handler, which Asio passes through unchanged) keeps its
-// executor and cancellation slot, but its allocator is not forwarded: it is a
-// view into the erased handler, which the outer erasure destroys before it
-// frees its own storage. The default candidate is returned instead.
-template <typename... Signatures, typename Recorder, typename DefaultCandidate>
-struct associator<associated_allocator,
-                  lumex::applied::transport::detail::counting_handler<
-                      any_completion_handler<Signatures...>, Recorder>,
-                  DefaultCandidate>
+// The allocator of the wrapped handler is forwarded unless it is the view
+// allocator of an already type-erased handler (the token was an
+// any_completion_handler, or a wrapper of one such as
+// bind_executor (ex, any_completion_handler (...))): the outer erasure would
+// free its storage through it after the inner erasure is gone. The default
+// candidate is returned instead.
+template <typename Handler, typename Recorder, typename DefaultCandidate>
+struct associator<
+    associated_allocator,
+    lumex::applied::transport::detail::counting_handler<Handler, Recorder>,
+    DefaultCandidate>
 {
-  typedef DefaultCandidate type;
+  typedef lumex::applied::transport::detail::counting_handler<Handler,
+                                                              Recorder>
+      wrapper_type;
+  typedef associated_allocator<Handler, DefaultCandidate> inner_type;
+  typedef lumex::applied::transport::detail::is_erased_handler_allocator<
+      typename inner_type::type>
+      erased;
+  typedef typename std::conditional<erased::value, DefaultCandidate,
+                                    typename inner_type::type>::type type;
 
   static type
-  get (lumex::applied::transport::detail::counting_handler<
-       any_completion_handler<Signatures...>, Recorder> const &) LUMEX_NOEXCEPT
+  get (wrapper_type const &wrapper) LUMEX_NOEXCEPT
   {
-    return type ();
+    return get_inner (wrapper, DefaultCandidate (), erased ());
   }
 
-  static DefaultCandidate const &
-  get (lumex::applied::transport::detail::counting_handler<
-           any_completion_handler<Signatures...>, Recorder> const &,
+  static type
+  get (wrapper_type const &wrapper,
        DefaultCandidate const &candidate) LUMEX_NOEXCEPT
   {
+    return get_inner (wrapper, candidate, erased ());
+  }
+
+private:
+  static type
+  get_inner (wrapper_type const &, DefaultCandidate const &candidate,
+             std::true_type) LUMEX_NOEXCEPT
+  {
     return candidate;
+  }
+
+  static type
+  get_inner (wrapper_type const &wrapper, DefaultCandidate const &candidate,
+             std::false_type) LUMEX_NOEXCEPT
+  {
+    return inner_type::get (wrapper.handler, candidate);
   }
 };
 } // namespace asio
