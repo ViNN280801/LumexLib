@@ -294,6 +294,10 @@ private:
   std::string name_;
   std::atomic<bool> open_;
   std::shared_ptr<statistics::statistics_counters> counters_;
+  // Bumped on the strand by every cancel and close: an operation of several
+  // steps (write_all) that sees it change between two steps ends with
+  // `cancelled` instead of starting its next step.
+  std::size_t cancel_epoch_;
 };
 
 /// @brief A byte stream (see the file description).
@@ -473,7 +477,9 @@ public:
   }
 
   /// @brief Writes all of `data`; `void (std::error_code, std::size_t)` with
-  /// the bytes written before an error.
+  /// the bytes written before an error. A cancel, a close or a terminal
+  /// cancellation ends it with `cancelled` and the bytes written so far, also
+  /// when it comes between two of its writes.
   template <typename Token>
   auto
   async_write_all (const_bytes_t data, Token &&token)
