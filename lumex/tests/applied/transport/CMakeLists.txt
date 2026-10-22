@@ -13,10 +13,14 @@ add_subdirectory(stream)
 
 # The module's own suites: the completion token styles through the umbrella
 # (LumexTransportTokens.cxx11, LumexTransportAwaitable.cxx20 from C++20),
-# asio::deferred and per-operation cancellation (LumexTransportDeferred,
-# -Cancellation).
+# asio::deferred, per-operation cancellation, the executor of the handler
+# (LumexTransportDeferred, -Cancellation, -OutstandingWork) and handlers that
+# keep their owner (LumexTransportHandlerCycle). CTest runs each test in a
+# process of its own; the timeout fails a test that hangs instead of blocking
+# the run.
 lumex_add_standard_suites(Transport
     MODULE transport
     LINK lumex::transport
     SOURCES LumexTransportTokenFixture.hpp
+    DISCOVER_ARGS PROPERTIES TIMEOUT 120
 )

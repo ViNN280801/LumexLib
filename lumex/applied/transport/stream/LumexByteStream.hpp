@@ -87,6 +87,15 @@
  * with several threads (or a coroutine spawned on it) would run beside that
  * timer, which Asio's `cancel_after` does not allow: bind such a handler to a
  * strand.
+ *
+ * The stream keeps no outstanding work on the executor associated with a
+ * handler (a handler that keeps its owner alive, stored by a pending
+ * operation, would keep that work forever and the destructor of its
+ * io_context would never return). An io_context that only runs the handlers
+ * (`asio::bind_executor (other, ...)`) may therefore run out of work and
+ * return from `run ()` before the handler: keep an `executor_work_guard` on
+ * it while an operation is pending. That executor must stay valid until the
+ * handler ran or was destroyed.
  */
 #ifndef LUMEX_APPLIED_TRANSPORT_STREAM_BYTE_STREAM_HPP
 #define LUMEX_APPLIED_TRANSPORT_STREAM_BYTE_STREAM_HPP

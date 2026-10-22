@@ -73,6 +73,27 @@ if (!got.has_value () && got.error () == tr::error::transport_errc::timeout)
 - Таймер `asio::cancel_after` выполняется на strand транспорта. Обработчик, привязанный к голому executor многопоточного `io_runner` (или корутина, запущенная на нем), выполнялся бы рядом с этим таймером, чего `cancel_after` в Asio не допускает: такой обработчик нужно привязать к strand (`asio::bind_executor (asio::make_strand (runner.get_executor ()), handler)`).
 - Открытие последовательного порта не прерывается ни `cancel ()`, ни терминальной отменой: оно заканчивается вместе с ограниченным открытием, самое позднее через `open_deadline`.
 
+Транспорт не держит работу (outstanding work) на executor обработчика: обработчик, который держит своего владельца и хранится в незавершенной операции, держал бы эту работу вечно, и деструктор его `io_context` не вернулся бы. Поэтому контекст, который выполняет только обработчики (`asio::bind_executor (ui, ...)`), может остаться без работы и выйти из `run ()` раньше обработчика. Если `run ()` не должен возвращаться раньше обработчика, держите на этом контексте `executor_work_guard`, пока операция не завершена. Executor обработчика должен жить, пока обработчик не выполнен или не уничтожен, поэтому его контекст объявляется раньше `io_runner` и уничтожается после него:
+
+```cpp
+asio::io_context ui;                 // контекст обработчиков: объявлен первым,
+tr::stream::io_runner runner;        // поэтому runner и его незавершенные операции
+                                     // уничтожаются раньше ui
+tr::stream::byte_stream stream = make_stream (runner.get_executor ());
+
+auto guard = asio::make_work_guard (ui);  // run () ждет обработчик
+stream.async_read_some (buffer, asio::bind_executor (ui,
+    [&guard] (std::error_code error, std::size_t bytes)
+      {
+        guard.reset ();                    // работы больше нет
+        // ...
+      }));
+ui.run ();
+
+// Неправильно: io_runner runner; asio::io_context ui; (ui уничтожается первым,
+// а завершившаяся в runner операция отправила бы обработчик в уничтоженный ui).
+```
+
 ## Ошибки
 
 `error::transport_errc`: `timeout`, `cancelled`, `closed`, `not_open`, `disconnected`, `would_deadlock`, `invalid_endpoint`, `report_too_large`, `bad_report_descriptor`, `permission_denied`. Ошибки операционной системы приходят без изменений в `std::system_category`. Собственные категории Asio никогда не выходят наружу: `operation_aborted` превращается в `cancelled`, `eof` и сброс TCP-соединения в `disconnected`, ошибка разрешения имени в `invalid_endpoint`.

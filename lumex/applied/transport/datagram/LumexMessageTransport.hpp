@@ -52,7 +52,10 @@
  * cancellation cancels the transport, every operation pending on it (a
  * concurrent receive loop too), also when it arrives after the device
  * completed the operation but before its handler ran; the timer of
- * `asio::cancel_after` runs on the strand.
+ * `asio::cancel_after` runs on the strand. As for `byte_stream`, the
+ * transport keeps no work on the executor of a handler: keep an
+ * `executor_work_guard` on a context whose `run ()` must not return before
+ * the handler.
  */
 #ifndef LUMEX_APPLIED_TRANSPORT_DATAGRAM_MESSAGE_TRANSPORT_HPP
 #define LUMEX_APPLIED_TRANSPORT_DATAGRAM_MESSAGE_TRANSPORT_HPP
