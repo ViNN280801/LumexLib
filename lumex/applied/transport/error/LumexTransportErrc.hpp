@@ -48,6 +48,12 @@
  * name. System errors pass unchanged (`std::system_category`); the codes of
  * Asio's own categories (`asio::error::operation_aborted`, `eof`, ...) are
  * translated at the boundary by `from_asio` and never reach a caller.
+ *
+ * The category maps `timeout`, `cancelled` and `permission_denied` to their
+ * portable conditions (`std::errc::timed_out`, `operation_canceled`,
+ * `permission_denied`), so `code == std::errc::permission_denied` holds for
+ * them; the other values have no equivalent and compare only with
+ * `transport_errc`.
  */
 #ifndef LUMEX_APPLIED_TRANSPORT_ERROR_ERRC_HPP
 #define LUMEX_APPLIED_TRANSPORT_ERROR_ERRC_HPP
@@ -87,7 +93,10 @@ enum class transport_errc : int
   report_too_large,
   /// The report descriptor of a HID device cannot be read.
   bad_report_descriptor,
-  /// The operating system refused access to the device.
+  /// The operating system refused access to the device node: a POSIX open
+  /// failed with `EACCES` or `EPERM`. Not produced on Windows, where
+  /// `ERROR_ACCESS_DENIED` from opening a COM port means that the port is
+  /// busy and stays a system error.
   permission_denied
 };
 

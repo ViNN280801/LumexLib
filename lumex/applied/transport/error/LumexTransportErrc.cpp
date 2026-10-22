@@ -112,6 +112,29 @@ public:
         return "unknown transport error";
       }
   }
+
+  // The portable meaning of a value, so that a caller can compare a code
+  // with std::errc without knowing the category: only where the standard
+  // condition means the same thing. The other values have no portable
+  // counterpart (closed, not_open and disconnected cover several errno
+  // values or none) and stay in this category. A code still equals the
+  // condition of its own value (make_error_condition (transport_errc)): the
+  // standard comparison also asks the condition's category.
+  std::error_condition
+  default_error_condition (int value) const LUMEX_NOEXCEPT override
+  {
+    switch (value)
+      {
+      case static_cast<int> (transport_errc::timeout):
+        return std::make_error_condition (std::errc::timed_out);
+      case static_cast<int> (transport_errc::cancelled):
+        return std::make_error_condition (std::errc::operation_canceled);
+      case static_cast<int> (transport_errc::permission_denied):
+        return std::make_error_condition (std::errc::permission_denied);
+      default:
+        return std::error_condition (value, *this);
+      }
+  }
 };
 } // namespace
 

@@ -104,6 +104,15 @@ if(LUMEX_INSTALL)
         PATTERN "LumexTransport"
         ${_transport_install_excludes}
     )
+    # The udev rules that give a Linux user access to the device nodes: the
+    # permission_denied log hint points at share/LumexLib/udev.
+    install(
+        DIRECTORY ${LumexLib_SOURCE_DIR}/lumex/examples/transport/udev/
+        DESTINATION ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/udev
+        FILES_MATCHING
+        PATTERN "*.rules"
+        PATTERN "README.md"
+    )
     # The public headers include Asio: the vendored copy goes with them.
     lumex_third_party_install(lumex_3rdparty_asio ${EXPORT_TO})
     if(LUMEX_TRANSPORT_WITH_SPAWN)
