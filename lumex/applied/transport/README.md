@@ -61,6 +61,7 @@ if (!got.has_value () && got.error () == tr::error::transport_errc::timeout)
 | --- | --- | --- |
 | Колбэк | `stream.async_read_some (buffer, [] (std::error_code e, std::size_t n) { ... })` | C++11 |
 | `std::future` | `stream.async_open (asio::use_future).get ()` | C++11 |
+| Отложенная операция | `auto op = stream.async_read_some (buffer, asio::deferred);` затем `std::move (op) (token)` | C++11 |
 | Stackful-корутина | `stream.async_read_some (buffer, yield[error])` внутри `asio::spawn` | `LUMEX_TRANSPORT_WITH_SPAWN` |
 | C++20-корутина | `co_await stream.async_read_some (buffer, asio::use_awaitable)` | C++20 |
 

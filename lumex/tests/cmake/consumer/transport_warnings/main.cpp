@@ -9,6 +9,7 @@
 #include <future>
 #include <iostream>
 #include <system_error>
+#include <utility>
 #include <vector>
 
 #include "lumex/applied/transport/LumexTransport"
@@ -44,6 +45,17 @@ by_future (tr::stream::byte_stream &stream)
       = stream.async_read_some (tr::mutable_bytes_t (buffer), asio::use_future)
             .get ();
   stream.async_write_all (tr::const_bytes_t (buffer), asio::use_future).get ();
+  return bytes == 3 && buffer == reply ();
+}
+
+// A deferred operation launched later, with a future.
+bool
+by_deferred (tr::stream::byte_stream &stream)
+{
+  std::vector<std::uint8_t> buffer (3);
+  auto read
+      = stream.async_read_some (tr::mutable_bytes_t (buffer), asio::deferred);
+  std::size_t const bytes = std::move (read) (asio::use_future).get ();
   return bytes == 3 && buffer == reply ();
 }
 
@@ -125,6 +137,8 @@ main ()
   fine = by_callback (mock.stream) && fine;
   mock.control.feed (reply ());
   fine = by_future (mock.stream) && fine;
+  mock.control.feed (reply ());
+  fine = by_deferred (mock.stream) && fine;
 #if defined(LUMEX_TRANSPORT_WITH_SPAWN)
   mock.control.feed (reply ());
   fine = by_yield (runner, mock.stream) && fine;
@@ -138,7 +152,7 @@ main ()
   // The counters: the exchanges above were counted (a snapshot and a reset
   // compile and run under the strict warnings too).
   tr::statistics::statistics_t const counted = mock.stream.statistics ();
-  fine = counted.opens == 1 && counted.reads >= 2 && counted.writes >= 1
+  fine = counted.opens == 1 && counted.reads >= 3 && counted.writes >= 1
          && counted.total_errors () == 0 && fine;
   mock.stream.reset_statistics ();
   fine = mock.stream.statistics ().reads == 0 && fine;
