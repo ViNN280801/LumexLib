@@ -8,6 +8,7 @@ add_subdirectory(error)
 add_subdirectory(log)
 add_subdirectory(net)
 add_subdirectory(serial)
+add_subdirectory(statistics)
 add_subdirectory(stream)
 
 # The module's own suites: the completion token styles through the umbrella
