@@ -141,14 +141,21 @@ struct stream_impl_access
   {
     impl.do_write_some (data, std::move (handler));
   }
+  static std::size_t
+  cancel_epoch (stream_impl const &impl)
+  {
+    return impl.cancel_epoch_;
+  }
   static void
   cancel (stream_impl &impl)
   {
+    ++impl.cancel_epoch_;
     impl.do_cancel ();
   }
   static void
   close (stream_impl &impl)
   {
+    ++impl.cancel_epoch_;
     impl.do_close ();
     impl.set_open (false);
   }
@@ -271,13 +278,16 @@ take_cancellation (impl_ptr const &impl, Handler &handler,
 
 namespace
 {
-// Writes the whole buffer with repeated write_some on the strand.
+// Writes the whole buffer with repeated write_some on the strand. A cancel
+// or close between two writes (no device write pending, so do_cancel ends
+// nothing) is seen through the cancel epoch taken at the start.
 struct write_all_op
 {
   impl_ptr impl;
   const_bytes_t data;
   std::size_t written;
   io_handler_t handler;
+  std::size_t epoch;
 
   void start ();
   void step ();
@@ -319,6 +329,7 @@ write_all_op::start ()
                                     transport_errc::not_open, written);
       return;
     }
+  epoch = stream_impl_access::cancel_epoch (*impl);
   step ();
 }
 
@@ -329,6 +340,12 @@ write_all_op::step ()
     {
       stream_impl_access::complete (*impl, std::move (handler),
                                     std::error_code (), written);
+      return;
+    }
+  if (epoch != stream_impl_access::cancel_epoch (*impl))
+    {
+      stream_impl_access::complete (*impl, std::move (handler),
+                                    transport_errc::cancelled, written);
       return;
     }
   impl_ptr const keep = impl;
@@ -351,7 +368,8 @@ struct post_write_all
 stream_impl::stream_impl (executor_type const &executor, std::string name)
     : executor_ (executor), strand_ (asio::make_strand (executor)),
       name_ (std::move (name)), open_ (false),
-      counters_ (std::make_shared<statistics::statistics_counters> ())
+      counters_ (std::make_shared<statistics::statistics_counters> ()),
+      cancel_epoch_ (0)
 {
 }
 
@@ -397,7 +415,7 @@ stream_impl::enqueue_write_all (const_bytes_t data, io_handler_t handler,
 {
   impl_ptr const self = shared_from_this ();
   take_cancellation (self, handler, mark);
-  post_write_all step = { { self, data, 0, std::move (handler) } };
+  post_write_all step = { { self, data, 0, std::move (handler), 0 } };
   asio::post (strand_, std::move (step));
 }
 
