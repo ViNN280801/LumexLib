@@ -50,7 +50,18 @@ if(NOT _text MATCHES "\nsuperproject [0-9a-f]+")
     message(FATAL_ERROR "source_revision_listing: no LumexLib commit:\n${_text}")
 endif()
 if(NOT _text MATCHES "[0-9a-f]+ CMakeRoutines")
-    message(FATAL_ERROR "source_revision_listing: no CMakeRoutines submodule:\n${_text}")
+    # Seen twice on Windows right after a reconfigure (the test took 15 s),
+    # never reproduced by hand: say what git answers now.
+    string(TIMESTAMP _git_start "%s")
+    execute_process(
+        COMMAND git -C "${LUMEX_SOURCE_DIR}" submodule status --recursive
+        RESULT_VARIABLE _git_rc
+        OUTPUT_VARIABLE _git_out
+        ERROR_VARIABLE _git_err)
+    string(TIMESTAMP _git_end "%s")
+    math(EXPR _git_seconds "${_git_end} - ${_git_start}")
+    message(FATAL_ERROR "source_revision_listing: no CMakeRoutines submodule:\n${_text}\n"
+        "git submodule status now: exit ${_git_rc} in ${_git_seconds} s\n${_git_out}\n${_git_err}")
 endif()
 if(NOT _text MATCHES "\n${_library_name}\n  size [0-9]+ bytes, sha256 [0-9a-f]+")
     message(FATAL_ERROR "source_revision_listing: ${_library_name} is not listed:\n${_text}")

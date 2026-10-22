@@ -362,8 +362,7 @@ function(lumex_add_publish_distr_target)
     if(LUMEX_GENERATE_BUILD_INFO)
         set(_build_info_args
             -Dbuild_info_utils_dir=${PROJECT_SOURCE_DIR}/CMakeRoutines/utils
-            -Dbuild_info_binary_dir=${CMAKE_BINARY_DIR}
-            -Dbuild_info_format=${LUMEX_BUILD_INFO_FORMAT})
+            -Dbuild_info_binary_dir=${CMAKE_BINARY_DIR})
     endif()
 
     add_custom_target(publish_distr ALL

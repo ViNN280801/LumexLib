@@ -381,7 +381,7 @@ if(Python3_Interpreter_FOUND AND TARGET LumexCore_utility AND TARGET LumexCore_c
                 -P ${CMAKE_CURRENT_SOURCE_DIR}/artifacts/source_revision_listing.cmake
         )
         set_tests_properties(${_ctest_name} PROPERTIES LABELS "cmake" TIMEOUT 120)
-        # The CMakeRoutines build info of a library of this tree (LumexBuildInfo).
+        # LumexLib-build-info.json over two libraries of this tree (LumexBuildInfo).
         if(LUMEX_GENERATE_BUILD_INFO)
             lumex_test_name(_ctest_name build_info_report)
             add_test(NAME ${_ctest_name}
@@ -391,6 +391,7 @@ if(Python3_Interpreter_FOUND AND TARGET LumexCore_utility AND TARGET LumexCore_c
                     -DBINARY_DIR=${CMAKE_BINARY_DIR}
                     -DWORK_DIR=${CMAKE_BINARY_DIR}/c/build_info
                     "-DLIBRARY=$<TARGET_FILE:LumexCore_utility>"
+                    "-DOTHER_LIBRARY=$<TARGET_FILE:LumexCore_contracts>"
                     -P ${CMAKE_CURRENT_SOURCE_DIR}/artifacts/library_build_info_report.cmake
             )
             set_tests_properties(${_ctest_name} PROPERTIES LABELS "cmake" TIMEOUT 180)

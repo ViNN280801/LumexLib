@@ -341,8 +341,8 @@ if(LUMEX_INSTALL)
         install(SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/cmake/InstallBinRuntime.cmake")
     endif()
 
-    # The CMakeRoutines build info of every installed library, in dev/
-    # (cmake/InstallBuildInfo.cmake).
+    # LumexLib-build-info.json at the root of the installed tree: one build
+    # report for all the installed libraries (cmake/InstallBuildInfo.cmake).
     find_package(Python3 COMPONENTS Interpreter QUIET)
     if(LUMEX_GENERATE_BUILD_INFO)
         install(CODE "
@@ -350,7 +350,6 @@ if(LUMEX_INSTALL)
             set(LUMEX_BUILD_INFO_SOURCE_DIR \"${CMAKE_CURRENT_SOURCE_DIR}\")
             set(LUMEX_BUILD_INFO_BINARY_DIR \"${CMAKE_BINARY_DIR}\")
             set(LUMEX_BUILD_INFO_PYTHON \"${Python3_EXECUTABLE}\")
-            set(LUMEX_BUILD_INFO_FORMAT \"${LUMEX_BUILD_INFO_FORMAT}\")
         ")
         install(SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/cmake/InstallBuildInfo.cmake")
     endif()

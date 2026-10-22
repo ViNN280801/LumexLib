@@ -1,7 +1,7 @@
 # GenerateBuildInfo: option default ON. The configure step writes the context
-# per Lumex library (LumexBuild); publish_distr and the install hook write the
-# report of each shipped binary (LumexBuildInfo), into Distr<Config> and the
-# packages' dev/.
+# per Lumex library (LumexBuild); publish_distr and the install hook write one
+# LumexLib-build-info.json for all the shipped libraries (LumexBuildInfo), in
+# Distr<Config> and at the root of the packages.
 
 function(_require_text path needle)
     file(READ "${LUMEX_SOURCE_DIR}/${path}" _txt)
@@ -25,10 +25,10 @@ function(_require_option_default_on name)
 endfunction()
 
 _require_option_default_on(LUMEX_GENERATE_BUILD_INFO)
-_require_text("cmake/LumexBuildInfo.cmake" "GenerateBuildInfoScript.cmake")
+_require_text("cmake/LumexBuildInfo.cmake" "write_lumex_build_info.py")
 _require_text("cmake/LumexBuildInfo.cmake" "GenerateBuildInfo.py")
 _require_text("cmake/PublishDistr.cmake" "lumex_write_build_info")
-_require_text("cmake/InstallBuildInfo.cmake" "lumex_write_build_info")
+_require_text("cmake/InstallBuildInfo.cmake" "LumexLib-build-info.json")
 _require_text("CMakeLists.txt" "cmake/InstallBuildInfo.cmake")
 
 _require_text("cmake/LumexOptions.cmake" "LUMEX_BUILD_INFO_FORMAT")
@@ -42,5 +42,5 @@ file(READ "${LUMEX_SOURCE_DIR}/cmake/LumexOptions.cmake" _opts)
 string(FIND "${_opts}" "LUMEX_BUILD_INFO_FORMAT \"json\"" _json_def)
 if(_json_def EQUAL -1)
     message(FATAL_ERROR
-        "LUMEX_BUILD_INFO_FORMAT default must be \"json\" (PublishDistr stages *.json)")
+        "LUMEX_BUILD_INFO_FORMAT default must be \"json\"")
 endif()
