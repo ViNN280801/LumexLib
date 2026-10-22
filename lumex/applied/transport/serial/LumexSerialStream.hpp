@@ -45,7 +45,9 @@
  * `O_NONBLOCK`), so an open never waits past its deadline, also for a paired
  * but absent Bluetooth port. The handle is then given to `asio::serial_port`:
  * reads and writes are overlapped (Windows) or non-blocking (POSIX), and
- * `cancel ()` and `close ()` end them from any thread. The settings are the
+ * `cancel ()` and `close ()` end them from any thread. An open in progress
+ * is not ended by `cancel ()` nor by a terminal cancellation: it ends with
+ * the bounded open, at the latest after `open_deadline`. The settings are the
  * `serial_port_settings_t` of `applied/serial`; a value the platform cannot
  * set (mark or space parity, 1.5 stop bits outside Windows, data bits outside
  * 5..8) fails the open with `std::errc::not_supported`.

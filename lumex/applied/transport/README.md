@@ -65,6 +65,14 @@ if (!got.has_value () && got.error () == tr::error::transport_errc::timeout)
 | Stackful-корутина | `stream.async_read_some (buffer, yield[error])` внутри `asio::spawn` | `LUMEX_TRANSPORT_WITH_SPAWN` |
 | C++20-корутина | `co_await stream.async_read_some (buffer, asio::use_awaitable)` | C++20 |
 
+Отмена отдельной операции идет через cancellation slot обработчика (`asio::bind_cancellation_slot`, `asio::cancel_after`, корутина). Сигнал `cancellation_type::terminal`, пока операция не завершена, отменяет транспорт так же, как `cancel ()`: все его незавершенные операции заканчиваются с `cancelled`, транспорт остается рабочим. Типы `partial` и `total` не поддерживаются и ничего не меняют (`cancellation_type::all` содержит `terminal`).
+
+- **Отменяется весь транспорт.** Терминальная отмена записи завершает и цикл чтения, который параллельно идет на том же транспорте.
+- Операция считается незавершенной, пока не выполнен ее обработчик. Сигнал, пришедший после того, как устройство завершило операцию, но до вызова обработчика, все равно отменяет остальные незавершенные операции транспорта (сама операция завершается со своим результатом). После вызова обработчика сигнал ни на что не влияет; слот остается таким, каким его оставляют операции самой Asio.
+- Как и для объектов самой Asio, сигнал подается на executor обработчика, а не одновременно с завершением операции.
+- Таймер `asio::cancel_after` выполняется на strand транспорта. Обработчик, привязанный к голому executor многопоточного `io_runner` (или корутина, запущенная на нем), выполнялся бы рядом с этим таймером, чего `cancel_after` в Asio не допускает: такой обработчик нужно привязать к strand (`asio::bind_executor (asio::make_strand (runner.get_executor ()), handler)`).
+- Открытие последовательного порта не прерывается ни `cancel ()`, ни терминальной отменой: оно заканчивается вместе с ограниченным открытием, самое позднее через `open_deadline`.
+
 ## Ошибки
 
 `error::transport_errc`: `timeout`, `cancelled`, `closed`, `not_open`, `disconnected`, `would_deadlock`, `invalid_endpoint`, `report_too_large`, `bad_report_descriptor`, `permission_denied`. Ошибки операционной системы приходят без изменений в `std::system_category`. Собственные категории Asio никогда не выходят наружу: `operation_aborted` превращается в `cancelled`, `eof` и сброс TCP-соединения в `disconnected`, ошибка разрешения имени в `invalid_endpoint`.

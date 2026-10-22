@@ -62,6 +62,31 @@
  * Every operation is counted in `stream_impl`, so each transport counts the
  * same; `byte_stream::statistics ()` returns the snapshot (see
  * `statistics/LumexTransportStatistics.hpp`).
+ *
+ * Per-operation cancellation: when the completion handler has a cancellation
+ * slot (`asio::bind_cancellation_slot`, `asio::cancel_after`, a coroutine), a
+ * `cancellation_type::terminal` emitted on it while the operation is pending
+ * cancels the stream as `cancel ()` does: every operation pending on it ends
+ * with `transport_errc::cancelled`, not only this one (terminal permits
+ * that side effect), and the stream stays usable as after `cancel ()`.
+ * `partial` and `total` alone are not supported and change nothing
+ * (`cancellation_type::all` has the terminal bit).
+ *
+ * Mind what "every pending operation" means: a terminal cancellation of a
+ * write also ends a read loop that runs concurrently on the same stream. The
+ * operation counts as pending until its handler runs, so a signal that
+ * arrives after the device completed it, but before its handler ran, still
+ * cancels the other operations pending at that moment (the operation itself
+ * completes with its result). Once the handler ran, a later signal reaches
+ * nothing; the slot is left as Asio's own operations leave it. As with
+ * Asio's objects, emit the signal on the handler's executor, not concurrently
+ * with the completion of the operation.
+ *
+ * The timer of `asio::cancel_after` runs on the stream's strand (the executor
+ * the initiations report). A handler bound to the bare executor of a runner
+ * with several threads (or a coroutine spawned on it) would run beside that
+ * timer, which Asio's `cancel_after` does not allow: bind such a handler to a
+ * strand.
  */
 #ifndef LUMEX_APPLIED_TRANSPORT_STREAM_BYTE_STREAM_HPP
 #define LUMEX_APPLIED_TRANSPORT_STREAM_BYTE_STREAM_HPP
@@ -158,32 +183,44 @@ public:
   // start_* with a handler take the handler as the user gave it and wrap it
   // in the counting handler before the one type erasure (a counting wrapper
   // around an already erased handler would forward the erased handler's
-  // allocator, which the outer erasure destroys first).
+  // allocator, which the outer erasure destroys first). With a cancellation
+  // slot, the mark tells the enqueue_* to take its cancellation.
   template <typename Handler>
   void
   start_open (Handler &&handler)
   {
-    enqueue_open (status_handler_t (
-        detail::count_with (counters_, detail::open_recorder (),
-                            std::forward<Handler> (handler))));
+    detail::operation_mark_ptr const mark
+        = detail::cancellation_mark (handler);
+    enqueue_open (status_handler_t (detail::count_with (
+                      counters_, detail::open_recorder (),
+                      std::forward<Handler> (handler), mark)),
+                  mark);
   }
 
   template <typename Handler>
   void
   start_read_some (mutable_bytes_t buffer, Handler &&handler)
   {
-    enqueue_read_some (buffer, io_handler_t (detail::count_with (
-                                   counters_, detail::read_recorder (),
-                                   std::forward<Handler> (handler))));
+    detail::operation_mark_ptr const mark
+        = detail::cancellation_mark (handler);
+    enqueue_read_some (buffer,
+                       io_handler_t (detail::count_with (
+                           counters_, detail::read_recorder (),
+                           std::forward<Handler> (handler), mark)),
+                       mark);
   }
 
   template <typename Handler>
   void
   start_write_some (const_bytes_t data, Handler &&handler)
   {
-    enqueue_write_some (data, io_handler_t (detail::count_with (
-                                  counters_, detail::write_recorder (),
-                                  std::forward<Handler> (handler))));
+    detail::operation_mark_ptr const mark
+        = detail::cancellation_mark (handler);
+    enqueue_write_some (data,
+                        io_handler_t (detail::count_with (
+                            counters_, detail::write_recorder (),
+                            std::forward<Handler> (handler), mark)),
+                        mark);
   }
 
   /// @brief Counts as one write, however many writes it takes.
@@ -191,9 +228,13 @@ public:
   void
   start_write_all (const_bytes_t data, Handler &&handler)
   {
-    enqueue_write_all (data, io_handler_t (detail::count_with (
-                                 counters_, detail::write_recorder (),
-                                 std::forward<Handler> (handler))));
+    detail::operation_mark_ptr const mark
+        = detail::cancellation_mark (handler);
+    enqueue_write_all (data,
+                       io_handler_t (detail::count_with (
+                           counters_, detail::write_recorder (),
+                           std::forward<Handler> (handler), mark)),
+                       mark);
   }
 
   void start_cancel ();
@@ -228,10 +269,16 @@ private:
   // The posted steps of the .cpp reach the protected members through it.
   friend struct stream_impl_access;
 
-  void enqueue_open (status_handler_t handler);
-  void enqueue_read_some (mutable_bytes_t buffer, io_handler_t handler);
-  void enqueue_write_some (const_bytes_t data, io_handler_t handler);
-  void enqueue_write_all (const_bytes_t data, io_handler_t handler);
+  // With a mark, each first puts the slot handler of the stream in the
+  // cancellation slot of the erased handler.
+  void enqueue_open (status_handler_t handler,
+                     detail::operation_mark_ptr const &mark);
+  void enqueue_read_some (mutable_bytes_t buffer, io_handler_t handler,
+                          detail::operation_mark_ptr const &mark);
+  void enqueue_write_some (const_bytes_t data, io_handler_t handler,
+                           detail::operation_mark_ptr const &mark);
+  void enqueue_write_all (const_bytes_t data, io_handler_t handler,
+                          detail::operation_mark_ptr const &mark);
 
   executor_type executor_;
   strand_type strand_;
@@ -244,9 +291,35 @@ private:
 class byte_stream
 {
   // The initiating functions of the asynchronous operations (declared first:
-  // the return types of the async_* members name them).
-  struct initiate_open
+  // the return types of the async_* members name them). Each carries the
+  // stream's strand, which tokens such as asio::cancel_after ask for: their
+  // timer then runs on the strand, never beside the completion.
+  struct initiate_base
   {
+    typedef transport::executor_type executor_type;
+
+    explicit initiate_base (executor_type const &executor)
+        : executor_ (executor)
+    {
+    }
+
+    executor_type
+    get_executor () const LUMEX_NOEXCEPT
+    {
+      return executor_;
+    }
+
+  private:
+    executor_type executor_;
+  };
+
+  struct initiate_open : initiate_base
+  {
+    explicit initiate_open (executor_type const &executor)
+        : initiate_base (executor)
+    {
+    }
+
     template <typename Handler>
     void
     operator() (Handler &&handler, std::shared_ptr<stream_impl> impl) const
@@ -255,8 +328,13 @@ class byte_stream
     }
   };
 
-  struct initiate_read_some
+  struct initiate_read_some : initiate_base
   {
+    explicit initiate_read_some (executor_type const &executor)
+        : initiate_base (executor)
+    {
+    }
+
     template <typename Handler>
     void
     operator() (Handler &&handler, std::shared_ptr<stream_impl> impl,
@@ -266,8 +344,13 @@ class byte_stream
     }
   };
 
-  struct initiate_write_some
+  struct initiate_write_some : initiate_base
   {
+    explicit initiate_write_some (executor_type const &executor)
+        : initiate_base (executor)
+    {
+    }
+
     template <typename Handler>
     void
     operator() (Handler &&handler, std::shared_ptr<stream_impl> impl,
@@ -277,8 +360,13 @@ class byte_stream
     }
   };
 
-  struct initiate_write_all
+  struct initiate_write_all : initiate_base
   {
+    explicit initiate_write_all (executor_type const &executor)
+        : initiate_base (executor)
+    {
+    }
+
     template <typename Handler>
     void
     operator() (Handler &&handler, std::shared_ptr<stream_impl> impl,
@@ -346,7 +434,7 @@ public:
           std::declval<std::shared_ptr<stream_impl> &> ()))
   {
     return asio::async_initiate<Token, void (std::error_code)> (
-        initiate_open (), token, impl_);
+        initiate_open (impl_->strand ()), token, impl_);
   }
 
   /// @brief Reads at least one byte; `void (std::error_code, std::size_t)`.
@@ -359,7 +447,7 @@ public:
           std::declval<std::shared_ptr<stream_impl> &> (), buffer))
   {
     return asio::async_initiate<Token, void (std::error_code, std::size_t)> (
-        initiate_read_some (), token, impl_, buffer);
+        initiate_read_some (impl_->strand ()), token, impl_, buffer);
   }
 
   /// @brief Writes at least one byte; `void (std::error_code, std::size_t)`.
@@ -372,7 +460,7 @@ public:
           std::declval<std::shared_ptr<stream_impl> &> (), data))
   {
     return asio::async_initiate<Token, void (std::error_code, std::size_t)> (
-        initiate_write_some (), token, impl_, data);
+        initiate_write_some (impl_->strand ()), token, impl_, data);
   }
 
   /// @brief Writes all of `data`; `void (std::error_code, std::size_t)` with
@@ -386,7 +474,7 @@ public:
           std::declval<std::shared_ptr<stream_impl> &> (), data))
   {
     return asio::async_initiate<Token, void (std::error_code, std::size_t)> (
-        initiate_write_all (), token, impl_, data);
+        initiate_write_all (impl_->strand ()), token, impl_, data);
   }
 
   /// @brief Ends the pending operations with `cancelled` (any thread).

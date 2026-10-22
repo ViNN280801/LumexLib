@@ -199,6 +199,74 @@ struct post_close
     stream_impl_access::close (*impl);
   }
 };
+
+// The cancellation of one operation, on the strand: nothing when the
+// operation completed since the signal (its mark is gone).
+struct post_cancel_operation
+{
+  impl_ptr impl;
+  std::weak_ptr<detail::operation_mark> operation;
+  void
+  operator() ()
+  {
+    if (!operation.expired ())
+      stream_impl_access::cancel (*impl);
+  }
+};
+
+// The handler the stream puts in the cancellation slot of an operation's
+// handler. Only a terminal cancellation is supported: it cancels the stream
+// (every pending operation), a side effect partial and total do not permit.
+// It runs on the thread that emits the signal and only posts to the strand.
+class terminal_cancellation
+{
+public:
+  terminal_cancellation (impl_ptr const &impl,
+                         detail::operation_mark_ptr const &operation)
+      : impl_ (impl), operation_ (operation)
+  {
+  }
+
+  void
+  operator() (asio::cancellation_type_t type)
+  {
+    if ((type & asio::cancellation_type::terminal)
+            == asio::cancellation_type::none
+        || operation_.expired ())
+      return;
+    impl_ptr const impl = impl_.lock ();
+    if (!impl)
+      return;
+    try
+      {
+        post_cancel_operation step = { impl, operation_ };
+        asio::post (impl->strand (), std::move (step));
+      }
+    catch (...)
+      {
+        // Out of memory: the operation is not cancelled.
+      }
+  }
+
+private:
+  std::weak_ptr<stream_impl> impl_;
+  std::weak_ptr<detail::operation_mark> operation_;
+};
+
+// Puts the stream's slot handler in the cancellation slot of the erased
+// handler (Asio chains it to the slot of the user's handler).
+template <typename Handler>
+void
+take_cancellation (impl_ptr const &impl, Handler &handler,
+                   detail::operation_mark_ptr const &mark)
+{
+  if (!mark)
+    return;
+  asio::cancellation_slot slot
+      = asio::get_associated_cancellation_slot (handler);
+  if (slot.is_connected ())
+    slot.template emplace<terminal_cancellation> (impl, mark);
+}
 } // namespace
 
 namespace
@@ -291,33 +359,45 @@ stream_impl::~stream_impl () {}
 
 // The handlers arrive already wrapped in the counting handler (see the
 // start_* templates of the header); write_all counts once, at the end,
-// however many writes it took.
+// however many writes it took. The slot handler goes in before the post, on
+// the thread that starts the operation, as Asio's own operations do.
 void
-stream_impl::enqueue_open (status_handler_t handler)
+stream_impl::enqueue_open (status_handler_t handler,
+                           detail::operation_mark_ptr const &mark)
 {
-  post_open step = { shared_from_this (), std::move (handler) };
+  impl_ptr const self = shared_from_this ();
+  take_cancellation (self, handler, mark);
+  post_open step = { self, std::move (handler) };
   asio::post (strand_, std::move (step));
 }
 
 void
-stream_impl::enqueue_read_some (mutable_bytes_t buffer, io_handler_t handler)
+stream_impl::enqueue_read_some (mutable_bytes_t buffer, io_handler_t handler,
+                                detail::operation_mark_ptr const &mark)
 {
-  post_read_some step = { shared_from_this (), buffer, std::move (handler) };
+  impl_ptr const self = shared_from_this ();
+  take_cancellation (self, handler, mark);
+  post_read_some step = { self, buffer, std::move (handler) };
   asio::post (strand_, std::move (step));
 }
 
 void
-stream_impl::enqueue_write_some (const_bytes_t data, io_handler_t handler)
+stream_impl::enqueue_write_some (const_bytes_t data, io_handler_t handler,
+                                 detail::operation_mark_ptr const &mark)
 {
-  post_write_some step = { shared_from_this (), data, std::move (handler) };
+  impl_ptr const self = shared_from_this ();
+  take_cancellation (self, handler, mark);
+  post_write_some step = { self, data, std::move (handler) };
   asio::post (strand_, std::move (step));
 }
 
 void
-stream_impl::enqueue_write_all (const_bytes_t data, io_handler_t handler)
+stream_impl::enqueue_write_all (const_bytes_t data, io_handler_t handler,
+                                detail::operation_mark_ptr const &mark)
 {
-  post_write_all step
-      = { { shared_from_this (), data, 0, std::move (handler) } };
+  impl_ptr const self = shared_from_this ();
+  take_cancellation (self, handler, mark);
+  post_write_all step = { { self, data, 0, std::move (handler) } };
   asio::post (strand_, std::move (step));
 }
 
