@@ -1,0 +1,30 @@
+# 70-lumex-uaccess.rules
+#
+# udev rule template, an alternative to 99-lumex-serial.rules: access to Lumex
+# devices for the user of the active local session, without joining a group.
+#
+# TAG+="uaccess" makes systemd-logind put an ACL for the user who sits at the
+# seat (a graphical or console login) on the device node. The file is numbered
+# below 73, because 73-seat-late.rules is the one that acts on the tag: a rule
+# numbered 73 or higher comes too late. It does not help a session without a
+# seat (ssh, a service): use 99-lumex-serial.rules there.
+#
+# The lines match the USB vendor id 16e0; a USB serial adapter with its own
+# vendor and product id needs a line of its own (README.md, "A different
+# adapter").
+#
+# Install (see README.md; the package carries the file in
+# share/LumexLib/udev):
+#          sudo cp 70-lumex-uaccess.rules /etc/udev/rules.d/
+#          sudo udevadm control --reload-rules
+#          sudo udevadm trigger
+# The device must be plugged in again if the trigger did not change its node.
+
+# Serial nodes of a USB serial adapter (FTDI, CP210x, CH340 and similar).
+SUBSYSTEM=="tty", KERNEL=="ttyUSB[0-9]*", ATTRS{idVendor}=="16e0", TAG+="uaccess"
+
+# Serial nodes of a CDC ACM device.
+SUBSYSTEM=="tty", KERNEL=="ttyACM[0-9]*", ATTRS{idVendor}=="16e0", TAG+="uaccess"
+
+# HID devices (/dev/hidrawN).
+SUBSYSTEM=="hidraw", ATTRS{idVendor}=="16e0", TAG+="uaccess"

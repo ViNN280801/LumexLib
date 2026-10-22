@@ -59,6 +59,7 @@
 #include "lumex/applied/serial/probe/detail/LumexSerialBoundedOpen.hpp"
 #include "lumex/applied/transport/detail/LumexAsio.hpp"
 #include "lumex/applied/transport/detail/LumexAsioErrors.hpp"
+#include "lumex/applied/transport/detail/LumexPermissionDiagnostics.hpp"
 #include "lumex/applied/transport/error/LumexTransportErrc.hpp"
 #include "lumex/applied/transport/log/LumexTransportLog.hpp"
 #include "lumex/applied/transport/serial/LumexSerialStream.hpp"
@@ -198,6 +199,9 @@ struct open_finished
   serial_impl_ptr impl;
   status_handler_t handler;
   bounded::open_result_t result;
+  // The permission diagnostic, built by the worker thread; empty when the
+  // open did not fail on a permission or the error log was off.
+  std::string permission_text;
   void operator() ();
 };
 
@@ -236,19 +240,27 @@ public:
   }
 
   void
-  finish_open (status_handler_t handler, bounded::open_result_t const &result)
+  finish_open (status_handler_t handler, bounded::open_result_t const &result,
+               std::string const &permission_text)
   {
     opening_ = false;
     if (result.outcome != bounded::open_outcome::opened)
       {
+        bool const timed_out
+            = result.outcome == bounded::open_outcome::timed_out;
+        // POSIX EACCES / EPERM is permission_denied; every other failure,
+        // and on Windows ERROR_ACCESS_DENIED (a busy port), stays the system
+        // error.
         std::error_code const error
-            = result.outcome == bounded::open_outcome::timed_out
-                  ? make_error_code (transport_errc::timeout)
-                  : std::error_code (result.error_code,
-                                     std::system_category ());
+            = timed_out ? make_error_code (transport_errc::timeout)
+                        : detail::open_failure_code (result.error_code);
+        // The text with the node, owner and group comes from the worker
+        // (the user database lookups must not run on the io thread).
+        std::string const &text = !permission_text.empty ()
+                                      ? permission_text
+                                      : result.system_error;
         LUMEX_TRANSPORT_LOG (error, KCOMPONENT, name ().c_str (),
-                             "open failed: " + result.system_error,
-                             log::log_bytes_t ());
+                             "open failed: " + text, log::log_bytes_t ());
         complete (std::move (handler), error);
         return;
       }
@@ -398,15 +410,24 @@ open_worker::operator() ()
 #endif
                                                ),
                                            deadline);
+  // The diagnostic looks up the node, its owner and group (stat, getpwuid_r,
+  // getgrgid_r), which may block: here, on this worker thread, and only when
+  // the error record would be written.
+  std::string permission_text;
+  if (result.outcome == bounded::open_outcome::failed
+      && detail::is_permission_error (result.error_code)
+      && log::log_enabled (log::log_level::error, KCOMPONENT))
+    permission_text = detail::describe_permission_denied (path);
   stream::stream_impl::strand_type const strand = impl->strand ();
-  open_finished finished = { std::move (impl), std::move (handler), result };
+  open_finished finished = { std::move (impl), std::move (handler), result,
+                             std::move (permission_text) };
   asio::post (strand, std::move (finished));
 }
 
 void
 open_finished::operator() ()
 {
-  impl->finish_open (std::move (handler), result);
+  impl->finish_open (std::move (handler), result, permission_text);
 }
 
 void
