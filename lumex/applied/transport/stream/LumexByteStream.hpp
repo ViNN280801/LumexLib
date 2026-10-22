@@ -333,13 +333,17 @@ public:
   // --- asynchronous
   // ----------------------------------------------------------
 
+  // The return types name every argument as the body passes it (`impl_` is
+  // an lvalue): a token such as asio::deferred keeps the argument types in
+  // the type it returns.
+
   /// @brief Opens; the token gets `void (std::error_code)`.
   template <typename Token>
   auto
   async_open (Token &&token)
       -> decltype (asio::async_initiate<Token, void (std::error_code)> (
           std::declval<initiate_open> (), token,
-          std::declval<std::shared_ptr<stream_impl>> ()))
+          std::declval<std::shared_ptr<stream_impl> &> ()))
   {
     return asio::async_initiate<Token, void (std::error_code)> (
         initiate_open (), token, impl_);
@@ -352,7 +356,7 @@ public:
       -> decltype (asio::async_initiate<Token,
                                         void (std::error_code, std::size_t)> (
           std::declval<initiate_read_some> (), token,
-          std::declval<std::shared_ptr<stream_impl>> (), buffer))
+          std::declval<std::shared_ptr<stream_impl> &> (), buffer))
   {
     return asio::async_initiate<Token, void (std::error_code, std::size_t)> (
         initiate_read_some (), token, impl_, buffer);
@@ -365,7 +369,7 @@ public:
       -> decltype (asio::async_initiate<Token,
                                         void (std::error_code, std::size_t)> (
           std::declval<initiate_write_some> (), token,
-          std::declval<std::shared_ptr<stream_impl>> (), data))
+          std::declval<std::shared_ptr<stream_impl> &> (), data))
   {
     return asio::async_initiate<Token, void (std::error_code, std::size_t)> (
         initiate_write_some (), token, impl_, data);
@@ -379,7 +383,7 @@ public:
       -> decltype (asio::async_initiate<Token,
                                         void (std::error_code, std::size_t)> (
           std::declval<initiate_write_all> (), token,
-          std::declval<std::shared_ptr<stream_impl>> (), data))
+          std::declval<std::shared_ptr<stream_impl> &> (), data))
   {
     return asio::async_initiate<Token, void (std::error_code, std::size_t)> (
         initiate_write_all (), token, impl_, data);

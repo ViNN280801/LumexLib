@@ -12,7 +12,8 @@ add_subdirectory(statistics)
 add_subdirectory(stream)
 
 # The module's own suites: the completion token styles through the umbrella
-# (LumexTransportTokens.cxx11, LumexTransportAwaitable.cxx20 from C++20).
+# (LumexTransportTokens.cxx11, LumexTransportAwaitable.cxx20 from C++20)
+# and asio::deferred (LumexTransportDeferred).
 lumex_add_standard_suites(Transport
     MODULE transport
     LINK lumex::transport

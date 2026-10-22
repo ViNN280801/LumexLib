@@ -275,13 +275,17 @@ public:
   /// @brief Sends one message within the deadline.
   status_result_t send (message_t const &message, deadline_t deadline);
 
+  // The return types name every argument as the body passes it (`impl_` is
+  // an lvalue): a token such as asio::deferred keeps the argument types in
+  // the type it returns.
+
   /// @brief Opens; `void (std::error_code)`.
   template <typename Token>
   auto
   async_open (Token &&token)
       -> decltype (asio::async_initiate<Token, void (std::error_code)> (
           std::declval<initiate_open> (), token,
-          std::declval<std::shared_ptr<message_impl>> ()))
+          std::declval<std::shared_ptr<message_impl> &> ()))
   {
     return asio::async_initiate<Token, void (std::error_code)> (
         initiate_open (), token, impl_);
@@ -294,7 +298,7 @@ public:
       -> decltype (asio::async_initiate<Token,
                                         void (std::error_code, message_t)> (
           std::declval<initiate_receive> (), token,
-          std::declval<std::shared_ptr<message_impl>> ()))
+          std::declval<std::shared_ptr<message_impl> &> ()))
   {
     return asio::async_initiate<Token, void (std::error_code, message_t)> (
         initiate_receive (), token, impl_);
@@ -306,7 +310,7 @@ public:
   async_send (message_t message, Token &&token)
       -> decltype (asio::async_initiate<Token, void (std::error_code)> (
           std::declval<initiate_send> (), token,
-          std::declval<std::shared_ptr<message_impl>> (),
+          std::declval<std::shared_ptr<message_impl> &> (),
           std::declval<message_t> ()))
   {
     return asio::async_initiate<Token, void (std::error_code)> (
