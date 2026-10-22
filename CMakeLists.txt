@@ -341,11 +341,24 @@ if(LUMEX_INSTALL)
         install(SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/cmake/InstallBinRuntime.cmake")
     endif()
 
+    # The CMakeRoutines build info of every installed library, in dev/
+    # (cmake/InstallBuildInfo.cmake).
+    find_package(Python3 COMPONENTS Interpreter QUIET)
+    if(LUMEX_GENERATE_BUILD_INFO)
+        install(CODE "
+            set(LUMEX_BUILD_INFO_UTILS_DIR \"${CMAKE_CURRENT_SOURCE_DIR}/CMakeRoutines/utils\")
+            set(LUMEX_BUILD_INFO_SOURCE_DIR \"${CMAKE_CURRENT_SOURCE_DIR}\")
+            set(LUMEX_BUILD_INFO_BINARY_DIR \"${CMAKE_BINARY_DIR}\")
+            set(LUMEX_BUILD_INFO_PYTHON \"${Python3_EXECUTABLE}\")
+            set(LUMEX_BUILD_INFO_FORMAT \"${LUMEX_BUILD_INFO_FORMAT}\")
+        ")
+        install(SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/cmake/InstallBuildInfo.cmake")
+    endif()
+
     # LumexLib-source-revision.rev at the root of the installed tree: the
     # commits it was built from and the symbol keys of the installed libraries
     # (cmake/InstallSourceRevision.cmake). After the runtime hook, so the
     # listing covers every DLL that ships.
-    find_package(Python3 COMPONENTS Interpreter QUIET)
     install(CODE "
         set(LUMEX_SOURCE_REVISION_PYTHON \"${Python3_EXECUTABLE}\")
         set(LUMEX_SOURCE_REVISION_SOURCE_DIR \"${CMAKE_CURRENT_SOURCE_DIR}\")

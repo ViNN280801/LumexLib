@@ -200,7 +200,7 @@ option(LUMEX_WERROR "Treat compiler warnings of the Lumex library targets as err
 # WarningSuppression / RecursiveSourceCollection are included from LumexBuild
 # so their commands exist; vendored gtest uses suppress_warnings when present.
 option(LUMEX_BUILD_TIMING "Prefix compile/link with cmake -E time (CMakeRoutines configure_build_timing)" OFF)
-option(LUMEX_GENERATE_BUILD_INFO "Write per-library build-info via CMakeRoutines generate_build_info_file + POST_BUILD" OFF)
+option(LUMEX_GENERATE_BUILD_INFO "Write per-library build-info via CMakeRoutines generate_build_info_file + POST_BUILD (shipped in Distr and dev/)" ON)
 set(LUMEX_BUILD_INFO_FORMAT "json" CACHE STRING
     "Build-info format when LUMEX_GENERATE_BUILD_INFO=ON: txt, json, yaml, ini")
 set_property(CACHE LUMEX_BUILD_INFO_FORMAT PROPERTY STRINGS txt json yaml ini)
