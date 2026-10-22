@@ -8,3 +8,10 @@ lumex_add_standard_suites(TransportLog
     MODULE transport
     LINK lumex::transport
 )
+
+# The adapter to the logger module is compiled only with the logger
+# (lumex/applied/transport/CMakeLists.txt), and so are its tests.
+lumex_effective_on(_transport_log_with_logger LUMEX_BUILD_LOGGER)
+if(_transport_log_with_logger)
+    add_subdirectory(adapter)
+endif()
