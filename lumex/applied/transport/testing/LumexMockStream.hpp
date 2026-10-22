@@ -44,6 +44,7 @@
  * @details The control object (`mock_stream_control`) is thread-safe: `feed`
  * makes bytes available to reads (a read blocked on an empty stream ends as
  * soon as bytes arrive), `fail_*` makes the next operation end with an error,
+ * `fail_write_after` lets some writes succeed and fails the next one,
  * `disconnect` ends the pending and later reads with `disconnected`,
  * `set_write_chunk` limits how many bytes one write takes (to exercise
  * `write_all`), `written` returns every byte the stream wrote. A read waits
@@ -92,6 +93,9 @@ public:
   void fail_next_read (std::error_code error);
   /// @brief The next write fails with `error`.
   void fail_next_write (std::error_code error);
+  /// @brief After `writes` more writes that succeed, the next write fails
+  /// with `error` (so a `write_all` in chunks fails on a later chunk).
+  void fail_write_after (std::size_t writes, std::error_code error);
   /// @brief The pending and later reads end with `disconnected`.
   void disconnect ();
   /// @brief At most `bytes` per write (0: no limit, the default).

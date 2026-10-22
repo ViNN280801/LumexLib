@@ -48,6 +48,7 @@
 #include "lumex/applied/transport/detail/LumexAsio.hpp"
 #include "lumex/applied/transport/detail/LumexSyncWait.hpp"
 #include "lumex/applied/transport/error/LumexTransportErrc.hpp"
+#include "lumex/applied/transport/statistics/LumexTransportStatistics.hpp"
 #include "lumex/applied/transport/stream/LumexByteStream.hpp"
 
 #if defined(__clang__)
@@ -281,35 +282,39 @@ struct post_write_all
 
 stream_impl::stream_impl (executor_type const &executor, std::string name)
     : executor_ (executor), strand_ (asio::make_strand (executor)),
-      name_ (std::move (name)), open_ (false)
+      name_ (std::move (name)), open_ (false),
+      counters_ (std::make_shared<statistics::statistics_counters> ())
 {
 }
 
 stream_impl::~stream_impl () {}
 
+// The handlers arrive already wrapped in the counting handler (see the
+// start_* templates of the header); write_all counts once, at the end,
+// however many writes it took.
 void
-stream_impl::start_open (status_handler_t handler)
+stream_impl::enqueue_open (status_handler_t handler)
 {
   post_open step = { shared_from_this (), std::move (handler) };
   asio::post (strand_, std::move (step));
 }
 
 void
-stream_impl::start_read_some (mutable_bytes_t buffer, io_handler_t handler)
+stream_impl::enqueue_read_some (mutable_bytes_t buffer, io_handler_t handler)
 {
   post_read_some step = { shared_from_this (), buffer, std::move (handler) };
   asio::post (strand_, std::move (step));
 }
 
 void
-stream_impl::start_write_some (const_bytes_t data, io_handler_t handler)
+stream_impl::enqueue_write_some (const_bytes_t data, io_handler_t handler)
 {
   post_write_some step = { shared_from_this (), data, std::move (handler) };
   asio::post (strand_, std::move (step));
 }
 
 void
-stream_impl::start_write_all (const_bytes_t data, io_handler_t handler)
+stream_impl::enqueue_write_all (const_bytes_t data, io_handler_t handler)
 {
   post_write_all step
       = { { shared_from_this (), data, 0, std::move (handler) } };
@@ -395,6 +400,21 @@ byte_stream::is_open () const LUMEX_NOEXCEPT
   return impl_ && impl_->is_open ();
 }
 
+statistics::statistics_t
+byte_stream::statistics () const LUMEX_NOEXCEPT
+{
+  if (!impl_)
+    return statistics::statistics_t ();
+  return impl_->counters ().snapshot ();
+}
+
+void
+byte_stream::reset_statistics () LUMEX_NOEXCEPT
+{
+  if (impl_)
+    impl_->counters ().reset ();
+}
+
 void
 byte_stream::cancel () LUMEX_NOEXCEPT
 {
@@ -423,12 +443,18 @@ status_result_t
 byte_stream::open (deadline_t deadline)
 {
   if (detail::runs_on (impl_->executor ()))
-    return status_result_t (lumex::core::expected::result::unexpect,
-                            make_error_code (transport_errc::would_deadlock));
+    {
+      impl_->counters ().add_error (
+          make_error_code (transport_errc::would_deadlock));
+      return status_result_t (
+          lumex::core::expected::result::unexpect,
+          make_error_code (transport_errc::would_deadlock));
+    }
   std::shared_ptr<detail::sync_state> const state
       = std::make_shared<detail::sync_state> ();
-  impl_->start_open (status_handler_t (detail::sync_status_handler{ state }));
-  std::error_code const error = detail::wait (*state, deadline, *this).error;
+  impl_->start_open (detail::sync_status_handler{ state });
+  std::error_code const error
+      = detail::wait (*state, deadline, *this, impl_->counters ()).error;
   if (error)
     return status_result_t (lumex::core::expected::result::unexpect, error);
   return status_result_t ();
@@ -438,13 +464,17 @@ io_result_t
 byte_stream::read_some (mutable_bytes_t buffer, deadline_t deadline)
 {
   if (detail::runs_on (impl_->executor ()))
-    return io_result_t (lumex::core::expected::result::unexpect,
-                        make_error_code (transport_errc::would_deadlock));
+    {
+      impl_->counters ().add_error (
+          make_error_code (transport_errc::would_deadlock));
+      return io_result_t (lumex::core::expected::result::unexpect,
+                          make_error_code (transport_errc::would_deadlock));
+    }
   std::shared_ptr<detail::sync_state> const state
       = std::make_shared<detail::sync_state> ();
-  impl_->start_read_some (buffer,
-                          io_handler_t (detail::sync_io_handler{ state }));
-  detail::sync_outcome const outcome = detail::wait (*state, deadline, *this);
+  impl_->start_read_some (buffer, detail::sync_io_handler{ state });
+  detail::sync_outcome const outcome
+      = detail::wait (*state, deadline, *this, impl_->counters ());
   if (outcome.error)
     return io_result_t (lumex::core::expected::result::unexpect,
                         outcome.error);
@@ -455,13 +485,17 @@ io_result_t
 byte_stream::write_some (const_bytes_t data, deadline_t deadline)
 {
   if (detail::runs_on (impl_->executor ()))
-    return io_result_t (lumex::core::expected::result::unexpect,
-                        make_error_code (transport_errc::would_deadlock));
+    {
+      impl_->counters ().add_error (
+          make_error_code (transport_errc::would_deadlock));
+      return io_result_t (lumex::core::expected::result::unexpect,
+                          make_error_code (transport_errc::would_deadlock));
+    }
   std::shared_ptr<detail::sync_state> const state
       = std::make_shared<detail::sync_state> ();
-  impl_->start_write_some (data,
-                           io_handler_t (detail::sync_io_handler{ state }));
-  detail::sync_outcome const outcome = detail::wait (*state, deadline, *this);
+  impl_->start_write_some (data, detail::sync_io_handler{ state });
+  detail::sync_outcome const outcome
+      = detail::wait (*state, deadline, *this, impl_->counters ());
   if (outcome.error)
     return io_result_t (lumex::core::expected::result::unexpect,
                         outcome.error);
@@ -472,13 +506,18 @@ status_result_t
 byte_stream::write_all (const_bytes_t data, deadline_t deadline)
 {
   if (detail::runs_on (impl_->executor ()))
-    return status_result_t (lumex::core::expected::result::unexpect,
-                            make_error_code (transport_errc::would_deadlock));
+    {
+      impl_->counters ().add_error (
+          make_error_code (transport_errc::would_deadlock));
+      return status_result_t (
+          lumex::core::expected::result::unexpect,
+          make_error_code (transport_errc::would_deadlock));
+    }
   std::shared_ptr<detail::sync_state> const state
       = std::make_shared<detail::sync_state> ();
-  impl_->start_write_all (data,
-                          io_handler_t (detail::sync_io_handler{ state }));
-  std::error_code const error = detail::wait (*state, deadline, *this).error;
+  impl_->start_write_all (data, detail::sync_io_handler{ state });
+  std::error_code const error
+      = detail::wait (*state, deadline, *this, impl_->counters ()).error;
   if (error)
     return status_result_t (lumex::core::expected::result::unexpect, error);
   return status_result_t ();

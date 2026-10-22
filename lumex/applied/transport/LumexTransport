@@ -45,7 +45,9 @@
  * @details Link <tt>%lumex::transport</tt> (always a static library; it links
  * <tt>%lumex::serial</tt> and the vendored Asio, and Boost.Context with
  * `LUMEX_TRANSPORT_WITH_SPAWN`). Works from C++11. The error codes are in
- * `error/LumexTransportErrc.hpp`, the log in `log/LumexTransportLog.hpp`.
+ * `error/LumexTransportErrc.hpp`, the log in `log/LumexTransportLog.hpp`, the
+ * counters (`byte_stream::statistics ()`) in
+ * `statistics/LumexTransportStatistics.hpp`.
  */
 #include "datagram/LumexMessageTransport.hpp"
 
@@ -56,6 +58,8 @@
 #include "net/LumexNetTransports.hpp"
 
 #include "serial/LumexSerialStream.hpp"
+
+#include "statistics/LumexTransportStatistics.hpp"
 
 #include "stream/LumexByteStream.hpp"
 #include "stream/LumexIoRunner.hpp"

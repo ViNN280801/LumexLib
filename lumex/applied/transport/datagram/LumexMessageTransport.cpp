@@ -47,6 +47,7 @@
 #include "lumex/applied/transport/detail/LumexAsio.hpp"
 #include "lumex/applied/transport/detail/LumexSyncWait.hpp"
 #include "lumex/applied/transport/error/LumexTransportErrc.hpp"
+#include "lumex/applied/transport/statistics/LumexTransportStatistics.hpp"
 
 #if defined(__clang__)
 // The library's clang-cl set: -Wall there is -Weverything (as in the other
@@ -197,28 +198,31 @@ struct sync_message_handler
 
 message_impl::message_impl (executor_type const &executor, std::string name)
     : executor_ (executor), strand_ (asio::make_strand (executor)),
-      name_ (std::move (name)), open_ (false)
+      name_ (std::move (name)), open_ (false),
+      counters_ (std::make_shared<statistics::statistics_counters> ())
 {
 }
 
 message_impl::~message_impl () {}
 
+// The handlers arrive already wrapped in the counting handler (see the
+// start_* templates of the header).
 void
-message_impl::start_open (status_handler_t handler)
+message_impl::enqueue_open (status_handler_t handler)
 {
   post_open step = { shared_from_this (), std::move (handler) };
   asio::post (strand_, std::move (step));
 }
 
 void
-message_impl::start_receive (message_handler_t handler)
+message_impl::enqueue_receive (message_handler_t handler)
 {
   post_receive step = { shared_from_this (), std::move (handler) };
   asio::post (strand_, std::move (step));
 }
 
 void
-message_impl::start_send (message_t message, status_handler_t handler)
+message_impl::enqueue_send (message_t message, status_handler_t handler)
 {
   post_send step
       = { shared_from_this (), std::move (message), std::move (handler) };
@@ -299,6 +303,21 @@ message_transport::is_open () const LUMEX_NOEXCEPT
   return impl_ && impl_->is_open ();
 }
 
+statistics::statistics_t
+message_transport::statistics () const LUMEX_NOEXCEPT
+{
+  if (!impl_)
+    return statistics::statistics_t ();
+  return impl_->counters ().snapshot ();
+}
+
+void
+message_transport::reset_statistics () LUMEX_NOEXCEPT
+{
+  if (impl_)
+    impl_->counters ().reset ();
+}
+
 void
 message_transport::cancel () LUMEX_NOEXCEPT
 {
@@ -327,12 +346,18 @@ status_result_t
 message_transport::open (deadline_t deadline)
 {
   if (detail::runs_on (impl_->executor ()))
-    return status_result_t (lumex::core::expected::result::unexpect,
-                            make_error_code (transport_errc::would_deadlock));
+    {
+      impl_->counters ().add_error (
+          make_error_code (transport_errc::would_deadlock));
+      return status_result_t (
+          lumex::core::expected::result::unexpect,
+          make_error_code (transport_errc::would_deadlock));
+    }
   std::shared_ptr<detail::sync_state> const state
       = std::make_shared<detail::sync_state> ();
-  impl_->start_open (status_handler_t (detail::sync_status_handler{ state }));
-  std::error_code const error = detail::wait (*state, deadline, *this).error;
+  impl_->start_open (detail::sync_status_handler{ state });
+  std::error_code const error
+      = detail::wait (*state, deadline, *this, impl_->counters ()).error;
   if (error)
     return status_result_t (lumex::core::expected::result::unexpect, error);
   return status_result_t ();
@@ -342,12 +367,18 @@ message_result_t
 message_transport::receive (deadline_t deadline)
 {
   if (detail::runs_on (impl_->executor ()))
-    return message_result_t (lumex::core::expected::result::unexpect,
-                             make_error_code (transport_errc::would_deadlock));
+    {
+      impl_->counters ().add_error (
+          make_error_code (transport_errc::would_deadlock));
+      return message_result_t (
+          lumex::core::expected::result::unexpect,
+          make_error_code (transport_errc::would_deadlock));
+    }
   std::shared_ptr<message_sync_state> const state
       = std::make_shared<message_sync_state> ();
-  impl_->start_receive (message_handler_t (sync_message_handler{ state }));
-  std::error_code const error = detail::wait (*state, deadline, *this).error;
+  impl_->start_receive (sync_message_handler{ state });
+  std::error_code const error
+      = detail::wait (*state, deadline, *this, impl_->counters ()).error;
   if (error)
     return message_result_t (lumex::core::expected::result::unexpect, error);
   std::lock_guard<std::mutex> const lock (state->mutex);
@@ -358,13 +389,18 @@ status_result_t
 message_transport::send (message_t const &message, deadline_t deadline)
 {
   if (detail::runs_on (impl_->executor ()))
-    return status_result_t (lumex::core::expected::result::unexpect,
-                            make_error_code (transport_errc::would_deadlock));
+    {
+      impl_->counters ().add_error (
+          make_error_code (transport_errc::would_deadlock));
+      return status_result_t (
+          lumex::core::expected::result::unexpect,
+          make_error_code (transport_errc::would_deadlock));
+    }
   std::shared_ptr<detail::sync_state> const state
       = std::make_shared<detail::sync_state> ();
-  impl_->start_send (message,
-                     status_handler_t (detail::sync_status_handler{ state }));
-  std::error_code const error = detail::wait (*state, deadline, *this).error;
+  impl_->start_send (message, detail::sync_status_handler{ state });
+  std::error_code const error
+      = detail::wait (*state, deadline, *this, impl_->counters ()).error;
   if (error)
     return status_result_t (lumex::core::expected::result::unexpect, error);
   return status_result_t ();
