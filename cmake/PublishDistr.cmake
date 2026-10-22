@@ -10,6 +10,10 @@
 #   bin_dir              - REQUIRED. Directory that holds built Lumex DLLs/SOs
 #   distr_dir            - REQUIRED. Destination folder (Distr<Config>)
 #   copy_runtime_script  - OPTIONAL. Path to CopyRuntimeDependencies.cmake
+#   python_exe           - OPTIONAL. Python 3 for LumexLib-source-revision.rev.
+#   source_dir           - OPTIONAL. The LumexLib checkout (with python_exe:
+#                          the folder gets LumexLib-source-revision.rev, the
+#                          commits and the symbol keys of what it holds).
 #   cxx_compiler         - OPTIONAL. The C++ compiler that built the libraries.
 #                          On ELF hosts every staged compiler runtime is
 #                          replaced with the file this compiler links against
@@ -195,4 +199,13 @@ if(UNIX AND NOT APPLE AND cxx_compiler)
       endif()
     endif()
   endforeach()
+endif()
+
+# Last, over the final content of the folder: the commits it was built from
+# and the symbol keys of every library (the .pdb / .debug files sit beside
+# them). cmake/LumexSourceRevision.cmake.
+if(python_exe AND source_dir)
+  include("${CMAKE_CURRENT_LIST_DIR}/LumexSourceRevision.cmake")
+  lumex_write_source_revision("${python_exe}" "${source_dir}"
+    "${distr_dir}/LumexLib-source-revision.rev" "${distr_dir}" "${distr_dir}")
 endif()

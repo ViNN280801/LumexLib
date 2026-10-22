@@ -355,10 +355,15 @@ function(lumex_add_publish_distr_target)
         set(_bin_dir "${LUMEX_BIN_DIR}")
     endif()
 
+    # The interpreter of LumexLib-source-revision.rev (cmake/PublishDistr.cmake).
+    find_package(Python3 COMPONENTS Interpreter QUIET)
+
     add_custom_target(publish_distr ALL
         COMMAND ${CMAKE_COMMAND}
             -Dbin_dir=${_bin_dir}
             -Ddistr_dir=${_distr_dir}
+            -Dpython_exe=${Python3_EXECUTABLE}
+            -Dsource_dir=${PROJECT_SOURCE_DIR}
             -Dcopy_runtime_script=${PROJECT_SOURCE_DIR}/CMakeRoutines/deployment/CopyRuntimeDependencies.cmake
             -Dcxx_compiler=${CMAKE_CXX_COMPILER}
             -P ${PROJECT_SOURCE_DIR}/cmake/PublishDistr.cmake
