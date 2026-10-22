@@ -45,7 +45,10 @@
  * @details Link <tt>%lumex::logger</tt> (compiled library). Works from C++11.
  * The format of the trigger file is chosen when LumexLib is configured
  * (`LUMEX_LOGGER_CONFIG_FORMAT`: plain text, INI, JSON or XML; YAML is
- * reserved). The umbrella includes `logger/LumexLogger.hpp`.
+ * reserved). The umbrella includes `logger/LumexLogger.hpp` and
+ * `logger/LumexTriggerFileWatcher.hpp` (the thread that re-reads the trigger
+ * file periodically).
  * @see @ref Logger
  */
 #include "logger/LumexLogger.hpp"
+#include "logger/LumexTriggerFileWatcher.hpp"

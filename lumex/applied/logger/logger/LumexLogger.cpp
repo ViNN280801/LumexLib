@@ -47,6 +47,7 @@
 #include <fstream>
 #include <iomanip>
 #include <iostream>
+#include <limits>
 #include <memory>
 #include <mutex>
 #include <sstream>
@@ -1082,6 +1083,76 @@ file_hint_about_logger ()
 std::size_t const logger_config_t::kBufferSize;
 short const logger_config_t::kMaxStackTraceFrames;
 
+namespace
+{
+/// The period of the lazy check of the trigger file: 2 s.
+LUMEX_CONSTEXPR std::int64_t kTriggerCheckPeriodNs
+    = static_cast<std::int64_t> (2000) * static_cast<std::int64_t> (1000000);
+
+/// A modification time no file has: the trigger file was not read at start,
+/// so the first check reads it again.
+LUMEX_CONSTEXPR std::int64_t kUnreadTriggerTime
+    = (std::numeric_limits<std::int64_t>::min) ();
+
+/**
+ * @brief The steady clock in nanoseconds, for the time of the next lazy
+ * check.
+ */
+std::int64_t
+steady_now_ns () LUMEX_NOEXCEPT
+{
+  return static_cast<std::int64_t> (
+      std::chrono::duration_cast<std::chrono::nanoseconds> (
+          std::chrono::steady_clock::now ().time_since_epoch ())
+          .count ());
+}
+
+/**
+ * @brief True in the thread that runs a check of the trigger file (it holds
+ * reread_mutex): a level change callback that logs must not start the lazy
+ * check, which would lock that mutex again.
+ */
+thread_local bool t_checking_trigger_file = false;
+
+/**
+ * @brief True in the thread that runs the last round of level change
+ * callbacks for one change: a set_log_level () of a callback is ignored
+ * there, so every callback last hears the final state.
+ */
+thread_local bool t_final_callback_round = false;
+
+/**
+ * @brief Marks the current thread as the one that checks.
+ */
+class checking_trigger_file_scope
+{
+public:
+  checking_trigger_file_scope () LUMEX_NOEXCEPT
+  {
+    t_checking_trigger_file = true;
+  }
+  ~checking_trigger_file_scope () { t_checking_trigger_file = false; }
+  checking_trigger_file_scope (checking_trigger_file_scope const &) = delete;
+  checking_trigger_file_scope &operator= (checking_trigger_file_scope const &)
+      = delete;
+};
+
+/**
+ * @brief The name of a function-name mode in the log header.
+ */
+char const *
+function_name_mode_name (FunctionNameMode mode) LUMEX_NOEXCEPT
+{
+  if (mode == FunctionNameMode::SHORT)
+    return "SHORT";
+  if (mode == FunctionNameMode::FULL)
+    return "FULL";
+  if (mode == FunctionNameMode::NORMAL)
+    return "NORMAL";
+  return "NONE";
+}
+} // namespace
+
 LumexLogger::LumexLogger ()
     : current_log_level (LogLevel::LEVEL_INFO), logging_enabled (false),
       function_name_mode (FunctionNameMode::FULL),
@@ -1090,159 +1161,37 @@ LumexLogger::LumexLogger ()
       hint_shown (false), trigger_file_name (kDefaultTriggerFileName),
       buffering_enabled (false), buffer_size (logger_config_t::kBufferSize),
       buffering_trigger_configured (false),
-      buffering_trigger_level (LogLevel::LEVEL_WARNING), preset_enabled (false)
+      buffering_trigger_level (LogLevel::LEVEL_WARNING),
+      preset_enabled (false),
+      next_trigger_check_ns (steady_now_ns () + kTriggerCheckPeriodNs),
+      last_trigger_state (),
+      last_file_settings (_file_settings_of (logger_config_t ())),
+      reread_failure_reported (false), level_change_callbacks ()
 {
   try
     {
       executable_directory = _get_executable_directory ();
 
-      // Check whether the logging-enable file exists
-      logging_enabled = _is_logging_enabled_file_exists ();
-      if (!logging_enabled)
+      // The state the first check compares with, taken before the
+      // configuration is read: a change in between is seen by that check.
+      std::string const path = _trigger_file_path ();
+      last_trigger_state = _stat_trigger_file (path);
+      if (!last_trigger_state.present)
         {
           // Logging is disabled; do not create a log file
           return;
         }
 
       // Read configuration from the file (log level, function-name
-      // mode, timestamped logs, stacktrace, preset)
-      auto config = _read_config_from_file ();
-      current_log_level = config.log_level;
-      function_name_mode = config.func_name_mode;
-      use_timestamped_logs = config.use_timestamped_logs;
-      show_stack_trace = config.show_stack_trace;
-      stack_trace_max_frames = config.stack_trace_max_frames;
-
-      // Apply the preset from configuration if it is set
-      if (!config.preset_components.empty ())
-        {
-          preset_enabled = true;
-          preset_components = config.preset_components;
-        }
-
-      describe_frame_enabled = config.describe_frame;
-
-      // Apply buffering settings from configuration
-      if (config.buffering_enabled)
-        {
-          enable_buffering (config.buffer_size);
-        }
-      else
-        {
-          buffering_enabled = false;
-          buffer_size = logger_config_t::kBufferSize;
-        }
-      buffering_trigger_configured = config.buffering_trigger_configured;
-      buffering_trigger_level = config.buffering_trigger_level;
-
-      // Helper-file management
-      std::string hintFilePath = executable_directory;
-      if (!hintFilePath.empty ()
-          && hintFilePath[hintFilePath.length () - 1] != LOGGER_FILE_SEPARATOR)
-        hintFilePath += LOGGER_FILE_SEPARATOR;
-      hintFilePath += kHintFileName;
-
-      if (config.create_hint_file)
-        {
-          // Create or update the helper file
-          try
-            {
-              std::ofstream hintFile (hintFilePath,
-                                      std::ios::out | std::ios::trunc);
-              if (hintFile.is_open ())
-                {
-                  hintFile << get_hint_file_content ();
-                  hintFile.close ();
-                }
-            }
-          catch (...) // NOLINT(bugprone-empty-catch)
-            {
-              // Ignore helper-file creation errors
-            }
-        }
-      else
-        {
-          // Remove the helper file if it exists
-          try
-            {
-              std::ifstream testFile (hintFilePath);
-              if (testFile.good ())
-                {
-                  testFile.close ();
-                  std::remove (
-                      hintFilePath
-                          .c_str ()); // NOLINT(cppcoreguidelines-owning-memory)
-                }
-            }
-          catch (...) // NOLINT(bugprone-empty-catch)
-            {
-              // Ignore helper-file deletion errors
-            }
-        }
-
-      log_file_path = _create_log_file_path ();
-
-      // Open the file for writing, overwriting existing contents
-      log_file.open (log_file_path, std::ios::out | std::ios::trunc);
-      if (!log_file.is_open ())
-        {
-          std::string errorMsg = "Cannot open log file: ";
-          errorMsg.reserve (errorMsg.length () + log_file_path.length ());
-          errorMsg += log_file_path;
-          throw std::runtime_error (errorMsg);
-        }
-
-      // Write the log header
-      log_file << "=== Log start of the program ===\n";
-      log_file_start_time = std::chrono::system_clock::now ();
-      log_file << "Time start: " << _format_timestamp () << '\n';
-      log_file << "Path to executable file: " << executable_directory << '\n';
-      log_file << "Logging enabled by file: " << trigger_file_name << '\n';
-      log_file << "Log level from trigger-file: "
-               << log_level_to_string (current_log_level) << '\n';
-      std::string funcModeStr = "NONE";
-      if (function_name_mode == FunctionNameMode::SHORT)
-        funcModeStr = "SHORT";
-      else if (function_name_mode == FunctionNameMode::FULL)
-        funcModeStr = "FULL";
-      else if (function_name_mode == FunctionNameMode::NORMAL)
-        funcModeStr = "NORMAL";
-      log_file << "Function name mode: " << funcModeStr << '\n';
-      log_file << "Show stacktrace: " << (show_stack_trace ? "YES" : "NO")
-               << '\n';
-      log_file << "Stacktrace max frames: "
-               << static_cast<int> (stack_trace_max_frames) << '\n';
-      log_file << "Buffering enabled: " << (buffering_enabled ? "YES" : "NO")
-               << '\n';
-      log_file << "Describe frame (tree breakdown): "
-               << (describe_frame_enabled ? "YES" : "NO") << '\n';
-      if (buffering_enabled)
-        {
-          log_file << "Buffer size: " << static_cast<int> (buffer_size)
-                   << " entries\n";
-          if (buffering_trigger_configured)
-            log_file
-                << "Buffering trigger: "
-                << _level_to_string (buffering_trigger_level)
-                << " (dump only on this level or higher, no flush on exit)\n";
-        }
-      log_file << "Preset enabled: " << (preset_enabled ? "YES" : "NO")
-               << '\n';
-      if (preset_enabled && !preset_components.empty ())
-        {
-          log_file << "Preset components: ";
-          bool first = true;
-          for (auto const &component : preset_components)
-            {
-              if (!first)
-                log_file << ", ";
-              log_file << component;
-              first = false;
-            }
-          log_file << '\n';
-        }
-      log_file << "==================================\n";
-      log_file.flush ();
+      // mode, timestamped logs, stacktrace, preset). A file that cannot be
+      // read starts the logger with the defaults, as before; the first check
+      // reads it again.
+      logger_config_t config;
+      if (_try_read_config_from_path (path, config) != config_read_t::ok)
+        last_trigger_state.mtime = kUnreadTriggerTime;
+      _open_log_file (config);
+      last_file_settings = _file_settings_of (config);
+      logging_enabled.store (true);
     }
   catch (std::exception const &e)
     {
@@ -1254,45 +1203,554 @@ LumexLogger::LumexLogger ()
 
 LumexLogger::~LumexLogger ()
 {
-  if (logging_enabled && log_file.is_open ())
+  try
     {
+      std::lock_guard<std::mutex> lock (log_mutex);
+      if (logging_enabled.load () && log_file.is_open ())
+        _close_log_file ("=== End of the program ============");
+    }
+  catch (...)
+    {
+      std::cerr << "Warning: Unknown error during logger cleanup\n";
+    }
+}
+
+LumexLogger::file_settings_t
+LumexLogger::_file_settings_of (logger_config_t const &config)
+{
+  file_settings_t settings;
+  settings.preset_components = config.preset_components;
+  settings.buffer_size = config.buffer_size;
+  settings.stack_trace_max_frames = config.stack_trace_max_frames;
+  settings.log_level = config.log_level;
+  settings.func_name_mode = config.func_name_mode;
+  settings.buffering_trigger_level = config.buffering_trigger_level;
+  settings.show_stack_trace = config.show_stack_trace;
+  settings.buffering_enabled = config.buffering_enabled;
+  settings.buffering_trigger_configured = config.buffering_trigger_configured;
+  settings.describe_frame = config.describe_frame;
+  return settings;
+}
+
+bool
+LumexLogger::_apply_config (logger_config_t const &config,
+                            file_settings_t const *previous)
+{
+  bool applied = false;
+  if (previous == nullptr || config.log_level != previous->log_level)
+    {
+      current_log_level.store (config.log_level);
+      applied = true;
+    }
+  if (previous == nullptr || config.func_name_mode != previous->func_name_mode)
+    {
+      function_name_mode.store (config.func_name_mode);
+      applied = true;
+    }
+  if (previous == nullptr
+      || config.show_stack_trace != previous->show_stack_trace)
+    {
+      show_stack_trace = config.show_stack_trace;
+      applied = true;
+    }
+  if (previous == nullptr
+      || config.stack_trace_max_frames != previous->stack_trace_max_frames)
+    {
+      stack_trace_max_frames = config.stack_trace_max_frames;
+      applied = true;
+    }
+
+  // The preset of the file; a file without one switches it off
+  if (previous == nullptr
+      || config.preset_components != previous->preset_components)
+    {
+      preset_enabled = !config.preset_components.empty ();
+      preset_components = config.preset_components;
+      applied = true;
+    }
+
+  if (previous == nullptr || config.describe_frame != previous->describe_frame)
+    {
+      describe_frame_enabled.store (config.describe_frame);
+      applied = true;
+    }
+
+  // Buffering as enable_buffering () and disable_buffering () set it (the
+  // caller holds the lock they would take)
+  if (previous == nullptr
+      || config.buffering_enabled != previous->buffering_enabled
+      || config.buffer_size != previous->buffer_size)
+    {
+      if (config.buffering_enabled)
+        {
+          buffering_enabled = true;
+          buffer_size = (config.buffer_size > 0)
+                            ? config.buffer_size
+                            : logger_config_t::kBufferSize;
+          if (log_buffer.size () > buffer_size)
+            {
+              std::size_t const elementsToRemove
+                  = log_buffer.size () - buffer_size;
+              log_buffer.erase (
+                  log_buffer.begin (),
+                  log_buffer.begin ()
+                      + static_cast<ptrdiff_t> (elementsToRemove));
+            }
+        }
+      else
+        {
+          if (!log_buffer.empty ())
+            _flush_buffer ();
+          log_buffer.clear ();
+          buffering_enabled = false;
+          buffer_size = logger_config_t::kBufferSize;
+        }
+      applied = true;
+    }
+  if (previous == nullptr
+      || config.buffering_trigger_configured
+             != previous->buffering_trigger_configured
+      || config.buffering_trigger_level != previous->buffering_trigger_level)
+    {
+      buffering_trigger_configured = config.buffering_trigger_configured;
+      buffering_trigger_level = config.buffering_trigger_level;
+      applied = true;
+    }
+  return applied;
+}
+
+void
+LumexLogger::_open_log_file (logger_config_t const &config)
+{
+  // The file first: when it cannot be opened, nothing changes
+  std::string const path = _create_log_file_path (config.use_timestamped_logs);
+
+  // Open the file for writing, overwriting existing contents
+  log_file.open (path, std::ios::out | std::ios::trunc);
+  if (!log_file.is_open ())
+    {
+      std::string errorMsg = "Cannot open log file: ";
+      errorMsg.reserve (errorMsg.length () + path.length ());
+      errorMsg += path;
+      throw std::runtime_error (errorMsg);
+    }
+  log_file_path = path;
+  use_timestamped_logs = config.use_timestamped_logs;
+  (void)_apply_config (config, nullptr);
+
+  // Helper-file management
+  std::string hintFilePath = executable_directory;
+  if (!hintFilePath.empty ()
+      && hintFilePath[hintFilePath.length () - 1] != LOGGER_FILE_SEPARATOR)
+    hintFilePath += LOGGER_FILE_SEPARATOR;
+  hintFilePath += kHintFileName;
+
+  if (config.create_hint_file)
+    {
+      // Create or update the helper file
       try
         {
-          std::lock_guard<std::mutex> lock (log_mutex);
-
-          // Flush the buffer on exit only if BUFFERING_TRIGGER is not set
-          // (previous behavior)
-          if (buffering_enabled && !log_buffer.empty ()
-              && !buffering_trigger_configured)
-            _flush_buffer ();
-
-          log_file << "=== End of the program ============" << '\n';
-          log_file_end_time = std::chrono::system_clock::now ();
-          log_file << "Time end: " << _format_timestamp () << '\n';
-
-          auto activeTime = log_file_end_time - log_file_start_time;
-          auto activeSeconds
-              = std::chrono::duration_cast<std::chrono::seconds> (activeTime);
-          auto activeMs
-              = std::chrono::duration_cast<std::chrono::milliseconds> (
-                    activeTime)
-                % std::chrono::seconds (1);
-          log_file << "Active time: " << activeSeconds.count () << "."
-                   << std::setfill ('0') << std::setw (3) << activeMs.count ()
-                   << " seconds\n";
-          log_file << "===================================" << '\n';
-          log_file.flush ();
-          log_file.close ();
+          std::ofstream hintFile (hintFilePath,
+                                  std::ios::out | std::ios::trunc);
+          if (hintFile.is_open ())
+            {
+              hintFile << get_hint_file_content ();
+              hintFile.close ();
+            }
         }
-      catch (std::exception const &e)
+      catch (...) // NOLINT(bugprone-empty-catch)
         {
-          std::cerr << "Warning: LumexLogger cleanup error: " << e.what ()
-                    << '\n';
+          // Ignore helper-file creation errors
         }
-      catch (...)
+    }
+  else
+    {
+      // Remove the helper file if it exists
+      try
         {
-          std::cerr << "Warning: Unknown error during logger cleanup\n";
+          std::ifstream testFile (hintFilePath);
+          if (testFile.good ())
+            {
+              testFile.close ();
+              std::remove (
+                  hintFilePath
+                      .c_str ()); // NOLINT(cppcoreguidelines-owning-memory)
+            }
         }
+      catch (...) // NOLINT(bugprone-empty-catch)
+        {
+          // Ignore helper-file deletion errors
+        }
+    }
+
+  // Write the log header
+  log_file << "=== Log start of the program ===\n";
+  log_file_start_time = std::chrono::system_clock::now ();
+  log_file << "Time start: " << _format_timestamp () << '\n';
+  log_file << "Path to executable file: " << executable_directory << '\n';
+  log_file << "Logging enabled by file: " << trigger_file_name << '\n';
+  log_file << "Log level from trigger-file: "
+           << log_level_to_string (current_log_level.load ()) << '\n';
+  log_file << "Function name mode: "
+           << function_name_mode_name (function_name_mode.load ()) << '\n';
+  log_file << "Show stacktrace: " << (show_stack_trace ? "YES" : "NO") << '\n';
+  log_file << "Stacktrace max frames: "
+           << static_cast<int> (stack_trace_max_frames) << '\n';
+  log_file << "Buffering enabled: " << (buffering_enabled ? "YES" : "NO")
+           << '\n';
+  log_file << "Describe frame (tree breakdown): "
+           << (describe_frame_enabled.load () ? "YES" : "NO") << '\n';
+  if (buffering_enabled)
+    {
+      log_file << "Buffer size: " << static_cast<int> (buffer_size)
+               << " entries\n";
+      if (buffering_trigger_configured)
+        log_file << "Buffering trigger: "
+                 << _level_to_string (buffering_trigger_level)
+                 << " (dump only on this level or higher, no flush on exit)\n";
+    }
+  log_file << "Preset enabled: " << (preset_enabled ? "YES" : "NO") << '\n';
+  if (preset_enabled && !preset_components.empty ())
+    {
+      log_file << "Preset components: ";
+      bool first = true;
+      for (auto const &component : preset_components)
+        {
+          if (!first)
+            log_file << ", ";
+          log_file << component;
+          first = false;
+        }
+      log_file << '\n';
+    }
+  log_file << "==================================\n";
+  log_file.flush ();
+}
+
+void
+LumexLogger::_close_log_file (char const *title) LUMEX_NOEXCEPT
+{
+  try
+    {
+      // Flush the buffer on exit only if BUFFERING_TRIGGER is not set
+      // (previous behavior)
+      if (buffering_enabled && !log_buffer.empty ()
+          && !buffering_trigger_configured)
+        _flush_buffer ();
+      log_buffer.clear ();
+
+      log_file << title << '\n';
+      log_file_end_time = std::chrono::system_clock::now ();
+      log_file << "Time end: " << _format_timestamp () << '\n';
+
+      auto activeTime = log_file_end_time - log_file_start_time;
+      auto activeSeconds
+          = std::chrono::duration_cast<std::chrono::seconds> (activeTime);
+      auto activeMs
+          = std::chrono::duration_cast<std::chrono::milliseconds> (activeTime)
+            % std::chrono::seconds (1);
+      log_file << "Active time: " << activeSeconds.count () << "."
+               << std::setfill ('0') << std::setw (3) << activeMs.count ()
+               << " seconds\n";
+      log_file << "===================================" << '\n';
+      log_file.flush ();
+    }
+  catch (std::exception const &e)
+    {
+      std::cerr << "Warning: LumexLogger cleanup error: " << e.what () << '\n';
+    }
+  catch (...)
+    {
+      std::cerr << "Warning: Unknown error during logger cleanup\n";
+    }
+  try
+    {
+      log_file.close ();
+    }
+  catch (...) // NOLINT(bugprone-empty-catch)
+    {
+      // The stream is closed or unusable either way
+    }
+}
+
+void
+LumexLogger::_check_trigger_file_if_due () const LUMEX_NOEXCEPT
+{
+  std::int64_t const now = steady_now_ns ();
+  std::int64_t due = next_trigger_check_ns.load ();
+  if (now < due)
+    return;
+
+  // A level change callback that logs: its thread already checks.
+  if (t_checking_trigger_file)
+    return;
+
+  // One thread wins the period and checks; the others go on at once.
+  if (!next_trigger_check_ns.compare_exchange_strong (
+          due, now + kTriggerCheckPeriodNs))
+    return;
+
+  // The singleton is never a const object (get_instance () returns a
+  // non-const static); the const of is_level_enabled () promises the caller
+  // that nothing it configured changes, which a check keeps.
+  // NOLINTNEXTLINE(cppcoreguidelines-pro-type-const-cast)
+  const_cast<LumexLogger *> (this)->_check_trigger_file (false);
+}
+
+void
+LumexLogger::_check_trigger_file (bool wait) LUMEX_NOEXCEPT
+{
+  // A level change callback of this thread runs: it holds the check.
+  if (t_checking_trigger_file)
+    return;
+
+  std::unique_lock<std::mutex> check (reread_mutex, std::defer_lock);
+  std::string failure;
+  try
+    {
+      if (wait)
+        check.lock ();
+      else if (!check.try_lock ())
+        return; // another thread checks right now
+      checking_trigger_file_scope const checking;
+
+      std::string path;
+      {
+        std::lock_guard<std::mutex> lock (log_mutex);
+        path = _trigger_file_path ();
+      }
+
+      trigger_state_t const state = _stat_trigger_file (path);
+      if (state.present == last_trigger_state.present
+          && state.mtime == last_trigger_state.mtime
+          && state.size == last_trigger_state.size)
+        return; // nothing changed: nothing changes
+
+      // Read before the lock: the file I/O does not hold up the writers.
+      // - A file that cannot be opened (held by an editor or a virus
+      //   scanner) changes nothing; its state is not recorded, so the next
+      //   check reads it again.
+      // - A file that cannot be parsed (half written, malformed) changes
+      //   nothing while logging is enabled, and is read again at the next
+      //   check. While logging is disabled it enables logging with the
+      //   defaults, as at start, and its state is recorded as unread, so the
+      //   next check reads it again.
+      logger_config_t config;
+      config_read_t read = config_read_t::ok;
+      if (state.present)
+        read = _try_read_config_from_path (path, config);
+      if (read == config_read_t::cannot_open)
+        {
+          failure = "cannot open " + path + "; trying again";
+          throw std::runtime_error (failure);
+        }
+      // An empty file while logging is enabled is an editor between the
+      // truncation and the text: like a half-written one. Empty means the
+      // defaults only when logging is enabled by it (appearance or start).
+      bool const caughtEmpty = state.present && state.size == 0
+                               && read == config_read_t::ok
+                               && logging_enabled.load ();
+      if (read == config_read_t::unparsable || caughtEmpty)
+        {
+          if (logging_enabled.load ())
+            {
+              failure = (caughtEmpty ? "empty: " : "cannot parse ") + path
+                        + "; the settings stay, trying again";
+              throw std::runtime_error (failure);
+            }
+          config = logger_config_t ();
+        }
+
+      bool applied = false;
+      {
+        std::lock_guard<std::mutex> lock (log_mutex);
+        bool const wasEnabled = logging_enabled.load ();
+        if (!state.present)
+          {
+            if (wasEnabled)
+              {
+                // A log () that waits for the lock sees the flag and returns
+                logging_enabled.store (false);
+                if (log_file.is_open ())
+                  _close_log_file ("=== Logging disabled: the trigger file "
+                                   "was removed ===");
+                log_file_path.clear ();
+                // A removed trigger file is a choice: no hint on stdout
+                hint_shown.store (true);
+                applied = true;
+              }
+          }
+        else if (!wasEnabled)
+          {
+            // Throws when the log cannot be opened: nothing is changed and
+            // the state is not recorded, so the next check opens again.
+            _open_log_file (config);
+            logging_enabled.store (true);
+            applied = true;
+          }
+        else
+          {
+            // Only what the file changed: a touch keeps the API's values.
+            applied = _apply_config (config, &last_file_settings);
+            if (applied && log_file.is_open ())
+              {
+                log_file << "[" << _format_timestamp () << "] "
+                         << "=== Trigger file re-read, log level: "
+                         << log_level_to_string (current_log_level.load ())
+                         << " ===\n";
+                log_file.flush ();
+              }
+          }
+      }
+
+      last_trigger_state = state;
+      if (read == config_read_t::unparsable)
+        last_trigger_state.mtime = kUnreadTriggerTime;
+      if (state.present)
+        last_file_settings = _file_settings_of (config);
+      reread_failure_reported = false;
+      if (applied)
+        _call_level_change_callbacks (nullptr);
+      return;
+    }
+  catch (std::exception const &e)
+    {
+      if (failure.empty ())
+        failure = e.what ();
+    }
+  catch (...)
+    {
+      failure = "unknown error";
+    }
+
+  // One message per failure, not one per retry
+  if (check.owns_lock () && !reread_failure_reported)
+    {
+      reread_failure_reported = true;
+      std::cerr << "LumexLogger: trigger file re-read error: " << failure
+                << '\n';
+    }
+}
+
+void
+LumexLogger::force_reread () LUMEX_NOEXCEPT
+{
+  _check_trigger_file (true);
+}
+
+void
+LumexLogger::_call_level_change_callbacks (level_change_callback_t only)
+{
+  // A callback may change the state (set_log_level): the callbacks then hear
+  // the final state too, in at most 4 rounds. In the last round a callback
+  // can no longer change the level (two callbacks that disagree), so the
+  // state every callback heard last is the final one.
+  LUMEX_CONSTEXPR int kRounds = 4;
+  for (int round = 0; round < kRounds; ++round)
+    {
+      bool const last = round == kRounds - 1;
+      t_final_callback_round = last;
+      bool const enabled = logging_enabled.load ();
+      LogLevel const level = current_log_level.load ();
+      for (std::size_t index = 0; index < kMaxLevelChangeCallbacks; ++index)
+        {
+          level_change_callback_t const callback
+              = level_change_callbacks[index];
+          if (callback == nullptr || (only != nullptr && callback != only))
+            continue;
+          try
+            {
+              callback (enabled, level);
+            }
+          catch (...) // NOLINT(bugprone-empty-catch)
+            {
+              // A throwing callback does not keep the others from the state
+            }
+        }
+      t_final_callback_round = false;
+      if (last
+          || (enabled == logging_enabled.load ()
+              && level == current_log_level.load ()))
+        return;
+      only = nullptr;
+    }
+}
+
+void
+LumexLogger::_push_level_change () LUMEX_NOEXCEPT
+{
+  // From a callback of this thread: the round that called it calls the
+  // callbacks again with the new state.
+  if (t_checking_trigger_file)
+    return;
+  try
+    {
+      std::lock_guard<std::mutex> check (reread_mutex);
+      checking_trigger_file_scope const checking;
+      _call_level_change_callbacks (nullptr);
+    }
+  catch (...) // NOLINT(bugprone-empty-catch)
+    {
+      // The mutex failed: the callbacks hear the next change
+    }
+}
+
+bool
+LumexLogger::add_level_change_callback (level_change_callback_t callback)
+    LUMEX_NOEXCEPT
+{
+  if (callback == nullptr || t_checking_trigger_file)
+    return false;
+  try
+    {
+      std::lock_guard<std::mutex> check (reread_mutex);
+      checking_trigger_file_scope const checking;
+      std::size_t freeIndex = kMaxLevelChangeCallbacks;
+      bool present = false;
+      for (std::size_t index = 0; index < kMaxLevelChangeCallbacks; ++index)
+        {
+          if (level_change_callbacks[index] == callback)
+            present = true;
+          else if (level_change_callbacks[index] == nullptr
+                   && freeIndex == kMaxLevelChangeCallbacks)
+            freeIndex = index;
+        }
+      if (!present)
+        {
+          if (freeIndex == kMaxLevelChangeCallbacks)
+            return false; // every entry is taken
+          level_change_callbacks[freeIndex] = callback;
+        }
+      _call_level_change_callbacks (callback);
+      return true;
+    }
+  catch (...)
+    {
+      return false;
+    }
+}
+
+bool
+LumexLogger::remove_level_change_callback (level_change_callback_t callback)
+    LUMEX_NOEXCEPT
+{
+  if (callback == nullptr || t_checking_trigger_file)
+    return false;
+  try
+    {
+      // Under the mutex: a round of calls in another thread ends first
+      std::lock_guard<std::mutex> check (reread_mutex);
+      for (std::size_t index = 0; index < kMaxLevelChangeCallbacks; ++index)
+        if (level_change_callbacks[index] == callback)
+          {
+            level_change_callbacks[index] = nullptr;
+            return true;
+          }
+      return false;
+    }
+  catch (...)
+    {
+      return false;
     }
 }
 
@@ -1306,33 +1764,45 @@ LumexLogger::get_instance ()
 void
 LumexLogger::set_log_level (LogLevel level) LUMEX_NOEXCEPT
 {
-  std::lock_guard<std::mutex> lock (log_mutex);
-  current_log_level = level;
+  // From a callback in the last round of a change: ignored (see
+  // _call_level_change_callbacks)
+  if (t_final_callback_round)
+    return;
+  {
+    std::lock_guard<std::mutex> lock (log_mutex);
+    current_log_level.store (level);
+  }
+  // After log_mutex: the callbacks may log
+  _push_level_change ();
 }
 
 LogLevel
 LumexLogger::get_log_level () const LUMEX_NOEXCEPT
 {
-  return current_log_level;
+  return current_log_level.load ();
 }
 
 void
 LumexLogger::log (LogLevel level, std::string const &message)
 {
-  if (!logging_enabled)
+  // Before the level filter, so a filtered call still checks
+  _check_trigger_file_if_due ();
+
+  if (!logging_enabled.load ())
     {
       // Show the hint once if logging is disabled but someone
       // tries to log
-      if (!hint_shown)
-        {
-          hint_shown = true;
-          print_logger_hint ();
-        }
+      if (!hint_shown.exchange (true))
+        print_logger_hint ();
       return;
     }
 
   std::lock_guard<std::mutex> lock (log_mutex);
-  if (static_cast<uint8_t> (level) >= static_cast<uint8_t> (current_log_level))
+  // The trigger file may have disappeared while this thread waited
+  if (!logging_enabled.load ())
+    return;
+  if (static_cast<uint8_t> (level)
+      >= static_cast<uint8_t> (current_log_level.load ()))
     {
       // The buffer-flush trigger depends only on level; the preset does not
       // affect buffering
@@ -1466,39 +1936,43 @@ LumexLogger::log (LogLevel level, std::string const &message)
 bool
 LumexLogger::is_level_enabled (LogLevel level) const LUMEX_NOEXCEPT
 {
-  if (!logging_enabled)
+  // Before the level filter, so a filtered call still checks
+  _check_trigger_file_if_due ();
+
+  if (!logging_enabled.load ())
     return false;
   return static_cast<uint8_t> (level)
-         >= static_cast<uint8_t> (current_log_level);
+         >= static_cast<uint8_t> (current_log_level.load ());
 }
 
 bool
 LumexLogger::is_describe_frame_enabled () const LUMEX_NOEXCEPT
 {
-  return describe_frame_enabled;
+  return describe_frame_enabled.load ();
 }
 
 bool
 LumexLogger::is_logging_enabled () const LUMEX_NOEXCEPT
 {
-  return logging_enabled;
+  return logging_enabled.load ();
 }
 
 FunctionNameMode
 LumexLogger::get_function_name_mode () const LUMEX_NOEXCEPT
 {
-  return function_name_mode;
+  return function_name_mode.load ();
 }
 
 bool
 LumexLogger::should_show_function_name () const LUMEX_NOEXCEPT
 {
-  return function_name_mode != FunctionNameMode::NONE;
+  return function_name_mode.load () != FunctionNameMode::NONE;
 }
 
 std::string
 LumexLogger::get_log_file_path () const LUMEX_NOEXCEPT
 {
+  std::lock_guard<std::mutex> lock (log_mutex);
   return log_file_path;
 }
 
@@ -1520,7 +1994,7 @@ LumexLogger::
 void
 LumexLogger::flush ()
 {
-  if (!logging_enabled)
+  if (!logging_enabled.load ())
     return;
 
   std::lock_guard<std::mutex> lock (log_mutex);
@@ -1589,12 +2063,14 @@ LumexLogger::set_buffer_size (std::size_t bufferSize) LUMEX_NOEXCEPT
 bool
 LumexLogger::is_buffering_enabled () const LUMEX_NOEXCEPT
 {
+  std::lock_guard<std::mutex> lock (log_mutex);
   return buffering_enabled;
 }
 
 std::size_t
 LumexLogger::get_buffer_size () const LUMEX_NOEXCEPT
 {
+  std::lock_guard<std::mutex> lock (log_mutex);
   return buffer_size;
 }
 
@@ -1627,6 +2103,7 @@ LumexLogger::set_preset_components (
 bool
 LumexLogger::is_preset_enabled () const LUMEX_NOEXCEPT
 {
+  std::lock_guard<std::mutex> lock (log_mutex);
   return preset_enabled;
 }
 
@@ -1770,9 +2247,9 @@ LumexLogger::_get_executable_directory () const
 // cppcoreguidelines-pro-type-reinterpret-cast)
 
 std::string
-LumexLogger::_create_log_file_path () const
+LumexLogger::_create_log_file_path (bool timestamped) const
 {
-  if (use_timestamped_logs)
+  if (timestamped)
     return _create_timestamped_log_file_path ();
   return _create_single_log_file_path ();
 }
@@ -1815,12 +2292,21 @@ LumexLogger::_create_timestamped_log_file_path () const
   // Append a path separator to the directory
   logDir += LOGGER_FILE_SEPARATOR;
 
-  // Generate a timestamped file name
-  std::string timestamp = _format_timestamp_for_filename ();
-  std::string filename
-      = kDefaultLogFilePrefix + std::string ("_") + timestamp + ".log";
-
-  std::string fullPath = logDir + filename;
+  // Generate a timestamped file name; a log of the same second that exists
+  // already (the trigger file came back within it) keeps its name, the new
+  // one takes the first free suffix _2, _3, ...
+  std::string const stem = logDir + kDefaultLogFilePrefix + "_"
+                           + _format_timestamp_for_filename ();
+  std::string fullPath = stem + ".log";
+  LUMEX_CONSTEXPR int kMaxSameSecondLogs = 1000;
+  for (int index = 2; index <= kMaxSameSecondLogs; ++index)
+    {
+      std::ifstream existing (fullPath);
+      if (!existing.is_open ())
+        break;
+      existing.close ();
+      fullPath = stem + "_" + std::to_string (index) + ".log";
+    }
 
   // Extra check: try to create a test file to verify
   // access rights
@@ -1986,56 +2472,80 @@ LumexLogger::_extract_directory_from_path (std::string const &fullPath)
   return directory;
 }
 
-bool
-LumexLogger::_is_logging_enabled_file_exists () const LUMEX_NOEXCEPT
-{
-  try
-    {
-      std::string enableFilePath = executable_directory;
-
-      // Append a path separator if missing
-      if (!enableFilePath.empty ()
-          && enableFilePath[enableFilePath.length () - 1]
-                 != LOGGER_FILE_SEPARATOR)
-        enableFilePath += LOGGER_FILE_SEPARATOR;
-
-      enableFilePath += trigger_file_name;
-
-      // Check whether the file exists
-#if defined(_WIN32) || defined(_WIN64)
-      DWORD attributes = GetFileAttributesA (enableFilePath.c_str ());
-      return (attributes != INVALID_FILE_ATTRIBUTES
-              && (attributes & FILE_ATTRIBUTE_DIRECTORY) == 0);
-#else
-      // Unix-like systems: use access()
-      return (access (enableFilePath.c_str (), F_OK) == 0);
-#endif
-    }
-  catch (...)
-    {
-      // On any error, treat logging as disabled
-      return false;
-    }
-}
-
-logger_config_t
-LumexLogger::_read_config_from_file () const
+std::string
+LumexLogger::_trigger_file_path () const
 {
   std::string enableFilePath = executable_directory;
 
+  // Append a path separator if missing
   if (!enableFilePath.empty ()
       && enableFilePath[enableFilePath.length () - 1] != LOGGER_FILE_SEPARATOR)
     enableFilePath += LOGGER_FILE_SEPARATOR;
 
   enableFilePath += trigger_file_name;
-  return read_config_from_path (enableFilePath);
+  return enableFilePath;
+}
+
+LumexLogger::trigger_state_t
+LumexLogger::_stat_trigger_file (std::string const &path) LUMEX_NOEXCEPT
+{
+  trigger_state_t state = { 0, 0, false };
+#if defined(_WIN32) || defined(_WIN64)
+  // The write time in 100 ns units: a rewrite within the same second is seen
+  WIN32_FILE_ATTRIBUTE_DATA fileData{};
+  if (GetFileAttributesExA (path.c_str (), GetFileExInfoStandard, &fileData)
+          != 0
+      && (fileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
+    {
+      state.present = true;
+      state.mtime = static_cast<std::int64_t> (
+          (static_cast<std::uint64_t> (fileData.ftLastWriteTime.dwHighDateTime)
+           << 32U)
+          | fileData.ftLastWriteTime.dwLowDateTime);
+      state.size = static_cast<std::int64_t> (
+          (static_cast<std::uint64_t> (fileData.nFileSizeHigh) << 32U)
+          | fileData.nFileSizeLow);
+    }
+#else
+  struct stat fileStat{};
+  if (stat (path.c_str (), &fileStat) == 0 && !S_ISDIR (fileStat.st_mode))
+    {
+      LUMEX_CONSTEXPR std::int64_t kNsPerSecond = 1000000000;
+      state.present = true;
+#if defined(__APPLE__)
+      state.mtime
+          = static_cast<std::int64_t> (fileStat.st_mtimespec.tv_sec)
+                * kNsPerSecond
+            + static_cast<std::int64_t> (fileStat.st_mtimespec.tv_nsec);
+#elif defined(__linux__)
+      state.mtime
+          = static_cast<std::int64_t> (fileStat.st_mtim.tv_sec) * kNsPerSecond
+            + static_cast<std::int64_t> (fileStat.st_mtim.tv_nsec);
+#else
+      state.mtime
+          = static_cast<std::int64_t> (fileStat.st_mtime) * kNsPerSecond;
+#endif
+      state.size = static_cast<std::int64_t> (fileStat.st_size);
+    }
+#endif
+  return state;
 }
 
 logger_config_t
-LumexLogger::
-    read_config_from_path ( // NOLINT(readability-function-cognitive-complexity)
-        std::string const &enableFilePath)
+LumexLogger::read_config_from_path (std::string const &enableFilePath)
 {
+  logger_config_t config;
+  if (_try_read_config_from_path (enableFilePath, config) != config_read_t::ok)
+    return logger_config_t{};
+  return config;
+}
+
+LumexLogger::config_read_t
+LumexLogger::
+    _try_read_config_from_path ( // NOLINT(readability-function-cognitive-complexity)
+        std::string const &enableFilePath, logger_config_t &config)
+{
+  config = logger_config_t{};
 #if defined(LUMEX_LOGGER_CONFIG_FORMAT_YAML)
   (void)enableFilePath;
   throw std::runtime_error (
@@ -2045,18 +2555,27 @@ LumexLogger::
 #else
   try
     {
+      // A file that cannot be opened (missing, held without sharing) is not
+      // a configuration; one of size zero is the defaults in every format
+      // (the hint says: create the trigger file).
+      {
+        std::ifstream probe (enableFilePath, std::ios::in | std::ios::binary);
+        if (!probe.is_open ())
+          return config_read_t::cannot_open;
+        if (probe.peek () == std::ifstream::traits_type::eof ())
+          return probe.bad () ? config_read_t::unparsable : config_read_t::ok;
+      }
 #if defined(LUMEX_LOGGER_CONFIG_FORMAT_XML)
       ::lumex::xml::document::XmlDocument document;
       ::lumex::xml::text::xml_parse_result_t const result
           = document.load_file (enableFilePath.c_str ());
       if (!result)
-        return logger_config_t{};
+        return config_read_t::unparsable;
 
       ::lumex::xml::node::XmlNode const root = document.child ("logger");
       if (!root)
-        return logger_config_t{};
+        return config_read_t::unparsable;
 
-      logger_config_t config;
       char const *const keys[]
           = { "LEVEL",       "FUNCNAME",          "TIMESTAMPED",
               "STACKTRACE",  "STACKTRACE_FRAMES", "HINT",
@@ -2072,13 +2591,12 @@ LumexLogger::
           if (value != nullptr && value[0] != '\0')
             _apply_logger_config_key (config, key, value);
         }
-      return config;
+      return config_read_t::ok;
 #elif defined(LUMEX_LOGGER_CONFIG_FORMAT_INI)
       ::lumex::applied::settings::ini::LumexSettingsINI ini;
       if (!ini.load (enableFilePath))
-        return logger_config_t{};
+        return config_read_t::unparsable;
 
-      logger_config_t config;
       char const *const kLoggerSection = "logger";
       char const *const keys[]
           = { "LEVEL",       "FUNCNAME",          "TIMESTAMPED",
@@ -2091,11 +2609,11 @@ LumexLogger::
           if (!value.empty ())
             _apply_logger_config_key (config, key, value);
         }
-      return config;
+      return config_read_t::ok;
 #elif defined(LUMEX_LOGGER_CONFIG_FORMAT_JSON)
       std::ifstream file (enableFilePath);
       if (!file.is_open ())
-        return logger_config_t{};
+        return config_read_t::cannot_open;
 
       nlohmann::json root;
       file >> root;
@@ -2106,9 +2624,8 @@ LumexLogger::
         obj = &root["logger"];
 
       if (!obj->is_object ())
-        return logger_config_t{};
+        return config_read_t::unparsable;
 
-      logger_config_t config;
       for (auto const &item : obj->items ())
         {
           if (!item.value ().is_string () && !item.value ().is_number ()
@@ -2129,13 +2646,12 @@ LumexLogger::
 
           _apply_logger_config_key (config, item.key (), value);
         }
-      return config;
+      return config_read_t::ok;
 #else
       std::ifstream file (enableFilePath);
       if (!file.is_open ())
-        return logger_config_t{};
+        return config_read_t::cannot_open;
 
-      logger_config_t config;
       int oldFormatLineNumber = 0;
       std::string line;
       while (std::getline (file, line))
@@ -2233,12 +2749,14 @@ LumexLogger::
             }
         }
 
-      return config;
+      // A read error (not the end of the file) is a failure too
+      return file.bad () ? config_read_t::unparsable : config_read_t::ok;
 #endif
     }
   catch (...)
     {
-      return logger_config_t{};
+      config = logger_config_t{};
+      return config_read_t::unparsable;
     }
 #endif
 }
@@ -2449,7 +2967,7 @@ LumexLogger::_check_log_size_limits () const LUMEX_NOEXCEPT
 {
   try
     {
-      if (!logging_enabled || log_file_path.empty ())
+      if (!logging_enabled.load () || log_file_path.empty ())
         return true;
 
       // Get free disk space
@@ -2705,7 +3223,7 @@ LumexLogger::_can_write_log (std::size_t messageSize) const LUMEX_NOEXCEPT
 {
   try
     {
-      if (!logging_enabled)
+      if (!logging_enabled.load ())
         return false;
 
       // Check the current limits
