@@ -135,6 +135,14 @@ main ()
 #endif
   fine = datagram_round (runner) && fine;
 
+  // The counters: the exchanges above were counted (a snapshot and a reset
+  // compile and run under the strict warnings too).
+  tr::statistics::statistics_t const counted = mock.stream.statistics ();
+  fine = counted.opens == 1 && counted.reads >= 2 && counted.writes >= 1
+         && counted.total_errors () == 0 && fine;
+  mock.stream.reset_statistics ();
+  fine = mock.stream.statistics ().reads == 0 && fine;
+
   std::cout << "transport_warnings: " << (fine ? "fine" : "FAILED") << '\n';
   return fine ? 0 : 1;
 }
