@@ -4,6 +4,7 @@
 # source directory, each with one suite per standard of the module
 # (lumex/tests/LumexTestStandards.cmake).
 add_subdirectory(datagram)
+add_subdirectory(detail)
 add_subdirectory(error)
 add_subdirectory(log)
 add_subdirectory(net)

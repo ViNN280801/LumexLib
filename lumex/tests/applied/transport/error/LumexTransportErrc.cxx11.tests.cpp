@@ -92,6 +92,65 @@ TEST (LumexTransportErrcTest, GivenACodeOfThisBinary_WhenChecked_ThenItMatches)
 }
 
 TEST (LumexTransportErrcTest,
+      GivenPermissionDenied_WhenComparedWithTheStandardCondition_ThenItMatches)
+{
+  std::error_code const code = transport_errc::permission_denied;
+  EXPECT_TRUE (code == std::errc::permission_denied);
+  EXPECT_TRUE (std::errc::permission_denied == code);
+  EXPECT_FALSE (code == std::errc::timed_out);
+  EXPECT_TRUE (transport_category ().default_error_condition (
+                   static_cast<int> (transport_errc::permission_denied))
+               == std::errc::permission_denied);
+}
+
+TEST (
+    LumexTransportErrcTest,
+    GivenTimeoutAndCancelled_WhenComparedWithTheStandardConditions_ThenTheyMatch)
+{
+  std::error_code const timeout = transport_errc::timeout;
+  std::error_code const cancelled = transport_errc::cancelled;
+  EXPECT_TRUE (timeout == std::errc::timed_out);
+  EXPECT_FALSE (timeout == std::errc::operation_canceled);
+  EXPECT_TRUE (cancelled == std::errc::operation_canceled);
+  EXPECT_FALSE (cancelled == std::errc::timed_out);
+}
+
+TEST (
+    LumexTransportErrcTest,
+    GivenValuesWithoutAPortableMeaning_WhenCompared_ThenNoStandardConditionMatches)
+{
+  std::errc const standard[]
+      = { std::errc::permission_denied,  std::errc::timed_out,
+          std::errc::operation_canceled, std::errc::not_connected,
+          std::errc::connection_reset,   std::errc::bad_file_descriptor,
+          std::errc::invalid_argument };
+  transport_errc const unmapped[] = { transport_errc::closed,
+                                      transport_errc::not_open,
+                                      transport_errc::disconnected,
+                                      transport_errc::would_deadlock,
+                                      transport_errc::invalid_endpoint,
+                                      transport_errc::report_too_large,
+                                      transport_errc::bad_report_descriptor };
+  for (transport_errc value : unmapped)
+    for (std::errc condition : standard)
+      EXPECT_FALSE (std::error_code (value) == condition)
+          << std::error_code (value).message ();
+}
+
+TEST (LumexTransportErrcTest,
+      GivenACode_WhenComparedWithTheConditionOfItsOwnValue_ThenOnlyThatMatches)
+{
+  for (transport_errc first : kEveryValue)
+    for (transport_errc second : kEveryValue)
+      {
+        std::error_code const code = first;
+        std::error_condition const condition = make_error_condition (second);
+        EXPECT_EQ (code == condition, first == second);
+        EXPECT_EQ (condition == code, first == second);
+      }
+}
+
+TEST (LumexTransportErrcTest,
       GivenACodeOfAnotherBinary_WhenChecked_ThenOnlyTheHelperMatches)
 {
   static other_binary_category const other;
