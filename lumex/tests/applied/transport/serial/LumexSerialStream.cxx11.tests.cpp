@@ -1,11 +1,18 @@
 // The serial stream (lumex/applied/transport/serial): the open of a port that
 // does not exist, the path of a COM name, the settings a platform cannot
-// apply, and, with a real port named in LUMEX_TEST_SERIAL_PORT (skipped
+// apply, the path resolver that finds the port at each open on the open's
+// worker thread, and, with a real port named in LUMEX_TEST_SERIAL_PORT
+// (skipped
 // without it), the regression of a blocked synchronous read that close () from
 // another thread must end within 200 ms (the DChannel StopDataExchange hang).
 
+#include <atomic>
 #include <chrono>
 #include <cstdlib>
+#include <future>
+#include <memory>
+#include <mutex>
+#include <stdexcept>
 #include <string>
 #include <system_error>
 #include <thread>
@@ -13,6 +20,8 @@
 
 #include <gtest/gtest.h>
 
+#include "lumex/applied/transport/detail/LumexAsio.hpp"
+#include "lumex/applied/transport/detail/LumexSyncWait.hpp"
 #include "lumex/applied/transport/error/LumexTransportErrc.hpp"
 #include "lumex/applied/transport/serial/LumexSerialStream.hpp"
 #include "lumex/applied/transport/stream/LumexIoRunner.hpp"
@@ -73,6 +82,89 @@ TEST (LumexSerialStreamTest,
   EXPECT_FALSE (result.error () == transport_errc::timeout);
   EXPECT_TRUE (result.error ().category () == std::system_category ());
   EXPECT_FALSE (stream.is_open ());
+}
+
+// The error the open of `stream` ends with (empty on success).
+std::error_code
+open_error (tr::stream::byte_stream &stream)
+{
+  std::future<void> opened = stream.async_open (asio::use_future);
+  try
+    {
+      opened.get ();
+      return std::error_code ();
+    }
+  catch (std::system_error const &failure)
+    {
+      return failure.code ();
+    }
+}
+
+// REVIEW13 point 5: the resolver runs at each open, on the open's worker
+// thread (not where the stream was made, not on its executor).
+TEST (
+    LumexSerialStreamTest,
+    GivenAPathResolver_WhenOpened_ThenItRunsOnTheWorkerAndItsResultDecidesThePort)
+{
+  tr::stream::io_runner runner;
+  tr::executor_type const executor = runner.get_executor ();
+  std::shared_ptr<std::mutex> const mutex = std::make_shared<std::mutex> ();
+  std::shared_ptr<std::vector<std::thread::id>> const threads
+      = std::make_shared<std::vector<std::thread::id>> ();
+  std::shared_ptr<std::vector<bool>> const on_executor
+      = std::make_shared<std::vector<bool>> ();
+  std::shared_ptr<std::string> const answer = std::make_shared<std::string> ();
+  serial_stream_options_t options;
+  options.path = "USB VID 16E0";
+  options.resolve_path = [mutex, threads, on_executor, answer, executor] ()
+    {
+      std::lock_guard<std::mutex> const lock (*mutex);
+      threads->push_back (std::this_thread::get_id ());
+      on_executor->push_back (tr::detail::runs_on (executor));
+      return *answer;
+    };
+  tr::stream::byte_stream stream
+      = tr::serial::make_serial_stream (runner.get_executor (), options);
+  EXPECT_EQ (stream.name (), "USB VID 16E0");
+  // No port found: invalid_endpoint, nothing opened.
+  EXPECT_TRUE (open_error (stream) == transport_errc::invalid_endpoint);
+  EXPECT_FALSE (stream.is_open ());
+  // A port that is not there: the open tries it.
+  {
+    std::lock_guard<std::mutex> const lock (*mutex);
+    *answer = missing_port ();
+  }
+  std::error_code const refused = open_error (stream);
+  EXPECT_TRUE (refused.category () == std::system_category ())
+      << refused.message ();
+  std::lock_guard<std::mutex> const lock (*mutex);
+  ASSERT_EQ (threads->size (), 2u);
+  for (std::size_t i = 0; i < threads->size (); ++i)
+    {
+      EXPECT_NE ((*threads)[i], std::this_thread::get_id ());
+      EXPECT_FALSE ((*on_executor)[i]) << "the resolver ran on the executor";
+    }
+}
+
+TEST (LumexSerialStreamTest,
+      GivenAPathResolverThatThrows_WhenOpened_ThenTheOpenFailsWithItsCode)
+{
+  tr::stream::io_runner runner;
+  serial_stream_options_t options;
+  options.path = "USB VID 16E0";
+  options.resolve_path = [] () -> std::string
+    {
+      throw std::system_error (
+          std::make_error_code (std::errc::no_such_device), "gone");
+    };
+  tr::stream::byte_stream with_code
+      = tr::serial::make_serial_stream (runner.get_executor (), options);
+  EXPECT_TRUE (open_error (with_code) == std::errc::no_such_device);
+  options.resolve_path = [] () -> std::string
+    { throw std::runtime_error ("enumeration failed"); };
+  tr::stream::byte_stream without_code
+      = tr::serial::make_serial_stream (runner.get_executor (), options);
+  EXPECT_TRUE (open_error (without_code) == transport_errc::invalid_endpoint);
 }
 
 TEST (LumexSerialStreamTest,
