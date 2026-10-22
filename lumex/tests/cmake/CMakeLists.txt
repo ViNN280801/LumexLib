@@ -381,6 +381,20 @@ if(Python3_Interpreter_FOUND AND TARGET LumexCore_utility AND TARGET LumexCore_c
                 -P ${CMAKE_CURRENT_SOURCE_DIR}/artifacts/source_revision_listing.cmake
         )
         set_tests_properties(${_ctest_name} PROPERTIES LABELS "cmake" TIMEOUT 120)
+        # The CMakeRoutines build info of a library of this tree (LumexBuildInfo).
+        if(LUMEX_GENERATE_BUILD_INFO)
+            lumex_test_name(_ctest_name build_info_report)
+            add_test(NAME ${_ctest_name}
+                COMMAND ${CMAKE_COMMAND}
+                    -DPYTHON=${Python3_EXECUTABLE}
+                    -DLUMEX_SOURCE_DIR=${LumexLib_SOURCE_DIR}
+                    -DBINARY_DIR=${CMAKE_BINARY_DIR}
+                    -DWORK_DIR=${CMAKE_BINARY_DIR}/c/build_info
+                    "-DLIBRARY=$<TARGET_FILE:LumexCore_utility>"
+                    -P ${CMAKE_CURRENT_SOURCE_DIR}/artifacts/library_build_info_report.cmake
+            )
+            set_tests_properties(${_ctest_name} PROPERTIES LABELS "cmake" TIMEOUT 180)
+        endif()
     endif()
 endif()
 # The release script builds with a Visual Studio generator: the vendored

@@ -194,9 +194,10 @@ function(lumex_apply_maximum_standard_compliance target_name)
   set_property(TARGET "${target_name}" PROPERTY LUMEX_MAX_STD_CONFIGURED TRUE)
 endfunction()
 
-# Opt-in per-library build-info (configure-time stub + POST_BUILD with
-# binary hash). Output next to TARGET_FILE so PublishDistr can stage
-# Lumex*-build-info.json when the format is json.
+# Per-library build info (LUMEX_GENERATE_BUILD_INFO, default ON): the
+# configure step writes the context and the target properties into the build
+# tree; publish_distr and the install hook write the report of each shipped
+# binary (cmake/LumexBuildInfo.cmake).
 function(lumex_apply_build_info target_name)
   if(NOT LUMEX_GENERATE_BUILD_INFO)
     return()
@@ -235,33 +236,22 @@ function(lumex_apply_build_info target_name)
   if(COMMAND save_target_properties)
     save_target_properties("${target_name}" "${_props_file}")
   endif()
-  if(COMMAND generate_build_info_file)
+  # Only the context at configure time: the report itself is written over the
+  # finished binary (below), and a configure-time report of every library
+  # would run GenerateBuildInfo.py 18 times per configure for nothing.
+  # _gbinfo_write_context_json is CMakeRoutines' own step of
+  # generate_build_info_file; the full call stays as the fallback.
+  if(COMMAND _gbinfo_write_context_json AND GBINFO_PYTHON_EXECUTABLE)
+    _gbinfo_write_context_json("${target_name}"
+      "${CMAKE_BINARY_DIR}/${target_name}-build-info-context.json")
+  elseif(COMMAND generate_build_info_file)
     generate_build_info_file("${target_name}" "${_cfg_out}")
   endif()
 
-  set(_script
-    "${_LUMEX_CMAKE_ROUTINES_UTILS_DIR}/GenerateBuildInfoScript.cmake")
-  set(_py_script
-    "${_LUMEX_CMAKE_ROUTINES_UTILS_DIR}/GenerateBuildInfo.py")
-  if(EXISTS "${_script}")
-    add_custom_command(
-      TARGET "${target_name}"
-      POST_BUILD
-      COMMAND ${CMAKE_COMMAND}
-        -Dtarget_name=${target_name}
-        -Doutput_file=$<TARGET_FILE_DIR:${target_name}>/${target_name}-build-info.${_lumex_bif_fmt}
-        -Dtarget_properties_file=${_props_file}
-        -DCMAKE_SOURCE_DIR=${PROJECT_SOURCE_DIR}
-        -DCMAKE_BINARY_DIR=${CMAKE_BINARY_DIR}
-        -Dpython_executable=${GBINFO_PYTHON_EXECUTABLE}
-        -Dpython_script=${_py_script}
-        -Dbuild_info_format=${_lumex_bif_fmt}
-        -Dtarget_binary_path=$<TARGET_FILE:${target_name}>
-        -P "${_script}"
-      COMMENT
-        "Regenerating build info (${_lumex_bif_fmt}) for ${target_name}"
-      VERBATIM)
-  endif()
+  # The report with the size, hashes and dependencies of the finished binary
+  # is written over the files that ship, by publish_distr and the install
+  # hook (cmake/LumexBuildInfo.cmake): a POST_BUILD added here would belong to
+  # the root directory, not to the target's.
 
   set_property(TARGET "${target_name}" PROPERTY
     LUMEX_BUILD_INFO_CONFIGURED TRUE)
