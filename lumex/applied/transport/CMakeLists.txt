@@ -15,6 +15,13 @@ file(GLOB_RECURSE SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
 if(NOT LUMEX_TRANSPORT_WITH_TESTING)
     list(FILTER SOURCES EXCLUDE REGEX "/testing/")
 endif()
+# The adapter to the logger module (log/adapter/: install_lumex_logger_sink,
+# lumex_logger_watch_timer) is compiled only when the logger is built. It is
+# no required edge: without the logger the transport builds as before.
+lumex_effective_on(_transport_with_logger LUMEX_BUILD_LOGGER)
+if(NOT _transport_with_logger)
+    list(FILTER SOURCES EXCLUDE REGEX "/log/adapter/")
+endif()
 
 # Always static (spec G6): the library holds Asio objects, and a static
 # library keeps the consumer's binary the only owner of its io_context and of
@@ -44,6 +51,11 @@ endif()
 if(LUMEX_TRANSPORT_WITH_TESTING)
     target_compile_definitions(${LUMEX_TRANSPORT_NAME} PUBLIC
         LUMEX_TRANSPORT_WITH_TESTING=1)
+endif()
+if(_transport_with_logger)
+    target_link_libraries(${LUMEX_TRANSPORT_NAME} PUBLIC lumex::logger)
+    target_compile_definitions(${LUMEX_TRANSPORT_NAME} PUBLIC
+        LUMEX_TRANSPORT_WITH_LOGGER=1)
 endif()
 # The lowest log level compiled in, for the library and its consumers
 # (LUMEX_TRANSPORT_LOG_MIN_LEVEL of log/LumexTransportLog.hpp: 0 trace .. 4
@@ -79,12 +91,18 @@ if(LUMEX_INSTALL)
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     )
+    # The adapter's header only with the adapter (it needs the logger).
+    set(_transport_install_excludes "")
+    if(NOT _transport_with_logger)
+        set(_transport_install_excludes PATTERN "adapter" EXCLUDE)
+    endif()
     install(
         DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/
         DESTINATION include/lumex/applied/transport
         FILES_MATCHING
         PATTERN "*.hpp"
         PATTERN "LumexTransport"
+        ${_transport_install_excludes}
     )
     # The public headers include Asio: the vendored copy goes with them.
     lumex_third_party_install(lumex_3rdparty_asio ${EXPORT_TO})

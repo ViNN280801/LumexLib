@@ -274,13 +274,17 @@ class LumexLibConan(ConanFile):
             "BOOST_ALL_NO_LIB",
             "BOOST_USE_WINFIB" if windows else "BOOST_USE_UCONTEXT",
         ]
+        # The package builds the logger, so transport has its adapter
+        # (log/adapter) and links the logger.
         transport = self._component(
             "applied_transport", "transport", ["LumexApplied_transport"],
             ["applied_serial", "core_expected", "core_span", "core_contracts",
-             "core_utility", "thirdparty_asio", "thirdparty_boost_context"],
+             "core_utility", "applied_logger", "thirdparty_asio",
+             "thirdparty_boost_context"],
         )
         transport.defines = [
-            "LUMEX_TRANSPORT_WITH_SPAWN=1", "LUMEX_TRANSPORT_WITH_TESTING=1"
+            "LUMEX_TRANSPORT_WITH_SPAWN=1", "LUMEX_TRANSPORT_WITH_TESTING=1",
+            "LUMEX_TRANSPORT_WITH_LOGGER=1",
         ]
         if windows:
             transport.defines.append("_WIN32_WINNT=0x0A00")
