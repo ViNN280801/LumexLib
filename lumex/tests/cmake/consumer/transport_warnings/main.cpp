@@ -1,9 +1,10 @@
 // Every public header of the transport and every token style in one
 // translation unit, built with strict warnings (see CMakeLists.txt). At run
-// time a mock stream and a mock datagram answer each style once; exit code 0
-// when every exchange returned what was fed, 1 otherwise. With the logger
-// adapter (LUMEX_TRANSPORT_WITH_LOGGER) the run goes through the LumexLogger
-// sink and a lumex_logger_watch_timer.
+// time a mock stream and a mock datagram answer each style once, directly and
+// through a session (stream_session, message_session); exit code 0 when every
+// exchange returned what was fed, 1 otherwise. With the logger adapter
+// (LUMEX_TRANSPORT_WITH_LOGGER) the run goes through the LumexLogger sink and
+// a lumex_logger_watch_timer.
 
 #include <chrono>
 #include <cstddef>
@@ -11,6 +12,8 @@
 #include <exception>
 #include <future>
 #include <iostream>
+#include <memory>
+#include <mutex>
 #include <system_error>
 #include <utility>
 #include <vector>
@@ -32,8 +35,9 @@ reply ()
   return std::vector<std::uint8_t> (3, std::uint8_t (0x2A));
 }
 
+template <typename Stream>
 bool
-by_callback (tr::stream::byte_stream &stream)
+by_callback (Stream &stream)
 {
   std::vector<std::uint8_t> buffer (3);
   std::promise<std::size_t> done;
@@ -43,8 +47,9 @@ by_callback (tr::stream::byte_stream &stream)
   return done.get_future ().get () == 3 && buffer == reply ();
 }
 
+template <typename Stream>
 bool
-by_future (tr::stream::byte_stream &stream)
+by_future (Stream &stream)
 {
   std::vector<std::uint8_t> buffer (3);
   std::size_t const bytes
@@ -84,8 +89,9 @@ by_cancel_after (tr::stream::io_runner &runner,
 }
 
 #if defined(LUMEX_TRANSPORT_WITH_SPAWN)
+template <typename Stream>
 bool
-by_yield (tr::stream::io_runner &runner, tr::stream::byte_stream &stream)
+by_yield (tr::stream::io_runner &runner, Stream &stream)
 {
   std::vector<std::uint8_t> buffer (3);
   std::promise<std::size_t> done;
@@ -108,8 +114,9 @@ by_yield (tr::stream::io_runner &runner, tr::stream::byte_stream &stream)
 #endif
 
 #if __cplusplus >= 202002L || (defined(_MSVC_LANG) && _MSVC_LANG >= 202002L)
+template <typename Stream>
 bool
-by_awaitable (tr::stream::io_runner &runner, tr::stream::byte_stream &stream)
+by_awaitable (tr::stream::io_runner &runner, Stream &stream)
 {
   std::vector<std::uint8_t> buffer (3);
   std::promise<std::size_t> done;
@@ -144,6 +151,89 @@ datagram_round (tr::stream::io_runner &runner)
       = mock.transport.async_receive (asio::use_future).get ();
   mock.transport.async_send (received, asio::use_future).get ();
   return received.payload == reply ();
+}
+// The mock streams a session's factory made, for the script.
+struct made_streams
+{
+  std::mutex mutex;
+  std::vector<tr::testing::mock_stream_control> controls;
+};
+
+// Every token style again through a stream_session, then a state wait and a
+// message_session round.
+bool
+session_round (tr::stream::io_runner &runner)
+{
+  std::shared_ptr<made_streams> const made = std::make_shared<made_streams> ();
+  tr::session::stream_session session (
+      runner.get_executor (),
+      [made] (tr::executor_type const &executor) -> tr::stream::byte_stream
+        {
+          tr::testing::mock_stream mock
+              = tr::testing::make_mock_stream (executor, "session");
+          std::lock_guard<std::mutex> const lock (made->mutex);
+          made->controls.push_back (mock.control);
+          return std::move (mock.stream);
+        });
+  if (!session.open (tr::deadline_t (1000)).has_value ())
+    return false;
+  tr::testing::mock_stream_control control = made->controls.back ();
+  bool fine = true;
+  control.feed (reply ());
+  fine = by_callback (session) && fine;
+  control.feed (reply ());
+  fine = by_future (session) && fine;
+#if defined(LUMEX_TRANSPORT_WITH_SPAWN)
+  control.feed (reply ());
+  fine = by_yield (runner, session) && fine;
+#endif
+#if __cplusplus >= 202002L || (defined(_MSVC_LANG) && _MSVC_LANG >= 202002L)
+  control.feed (reply ());
+  fine = by_awaitable (runner, session) && fine;
+#endif
+  // A read through asio::deferred, launched later.
+  control.feed (reply ());
+  std::vector<std::uint8_t> deferred_buffer (3);
+  auto deferred_read = session.async_read_some (
+      tr::mutable_bytes_t (deferred_buffer), asio::deferred);
+  std::promise<std::size_t> deferred_done;
+  std::move (deferred_read) (
+      [&deferred_done] (std::error_code error, std::size_t bytes)
+        { deferred_done.set_value (error ? 0 : bytes); });
+  fine = deferred_done.get_future ().get () == 3 && fine;
+  // The close ends the pending waits with cancelled (the wait from a
+  // snapshot misses no change).
+  std::promise<std::error_code> changed;
+  session.async_wait_state_change (
+      tr::session::channel_state::open,
+      [&changed] (std::error_code error, tr::session::channel_state)
+        { changed.set_value (error); });
+  tr::session::state_snapshot_t const seen = session.state_snapshot ();
+  std::promise<std::error_code> snapshot_changed;
+  session.async_wait_state_change (
+      seen, [&snapshot_changed] (std::error_code error,
+                                 tr::session::state_snapshot_t)
+        { snapshot_changed.set_value (error); });
+  session.close ();
+  fine = changed.get_future ().get () == tr::error::transport_errc::cancelled
+         && snapshot_changed.get_future ().get ()
+                == tr::error::transport_errc::cancelled
+         && session.session_statistics ().attempts == 1 && fine;
+
+  tr::session::message_session messages (
+      runner.get_executor (),
+      [] (tr::executor_type const &executor) -> tr::datagram::message_transport
+        {
+          tr::testing::mock_datagram mock
+              = tr::testing::make_mock_datagram (executor, "messages");
+          return std::move (mock.transport);
+        });
+  if (!messages.open (tr::deadline_t (1000)).has_value ())
+    return false;
+  tr::datagram::message_t message;
+  message.payload = reply ();
+  messages.async_send (message, asio::use_future).get ();
+  return fine;
 }
 } // namespace
 
@@ -181,6 +271,7 @@ main ()
   fine = by_awaitable (runner, mock.stream) && fine;
 #endif
   fine = datagram_round (runner) && fine;
+  fine = session_round (runner) && fine;
 #if defined(LUMEX_TRANSPORT_WITH_LOGGER)
   tr::log::uninstall_lumex_logger_sink ();
   fine = tr::log::get_log_sink () == nullptr && fine;

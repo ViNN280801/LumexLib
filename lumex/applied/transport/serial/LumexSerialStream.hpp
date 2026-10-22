@@ -56,6 +56,7 @@
 #define LUMEX_APPLIED_TRANSPORT_SERIAL_SERIAL_STREAM_HPP
 
 #include <chrono>
+#include <functional>
 #include <string>
 #include <system_error>
 
@@ -90,6 +91,16 @@ struct serial_stream_options_t
   /// The longest an open may take (the bounded open of the device); a
   /// synchronous `open (deadline)` may end earlier with `timeout`.
   deadline_t open_deadline = deadline_t (3000);
+  /// When set, finds the port at each open, on the open's worker thread
+  /// (not on the stream's executor): its result replaces `path` for that
+  /// open, and `path` is only the name for logs. An empty result, or a
+  /// `std::system_error` it throws, fails the open with `invalid_endpoint`
+  /// (or the error's code). For a port found through the enumeration by
+  /// its USB identity (`session::make_serial_factory`). It runs on a new
+  /// thread at each open, also concurrently with the opens of other streams:
+  /// it must be thread-safe; the open's deadline does not bound it (one that
+  /// hangs keeps its detached thread).
+  std::function<std::string ()> resolve_path;
 };
 
 /**
