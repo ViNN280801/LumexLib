@@ -340,6 +340,17 @@ if(LUMEX_INSTALL)
     if(WIN32)
         install(SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/cmake/InstallBinRuntime.cmake")
     endif()
+
+    # LumexLib-source-revision.rev at the root of the installed tree: the
+    # commits it was built from and the symbol keys of the installed libraries
+    # (cmake/InstallSourceRevision.cmake). After the runtime hook, so the
+    # listing covers every DLL that ships.
+    find_package(Python3 COMPONENTS Interpreter QUIET)
+    install(CODE "
+        set(LUMEX_SOURCE_REVISION_PYTHON \"${Python3_EXECUTABLE}\")
+        set(LUMEX_SOURCE_REVISION_SOURCE_DIR \"${CMAKE_CURRENT_SOURCE_DIR}\")
+    ")
+    install(SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/cmake/InstallSourceRevision.cmake")
 endif()
 
 # ==============================================================================

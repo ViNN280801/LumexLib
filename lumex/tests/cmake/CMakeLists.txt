@@ -356,6 +356,33 @@ if(UNIX AND NOT APPLE)
 endif()
 lumex_add_consumer_test(consumer_third_party_hidapi third_party_hidapi)
 lumex_add_consumer_test(consumer_third_party_warnings third_party_warnings)
+# LumexLib-source-revision.rev (publish_distr, the install hook) on a library
+# of this tree: commits, symbol keys, and foreign symbols told apart.
+find_package(Python3 COMPONENTS Interpreter QUIET)
+if(Python3_Interpreter_FOUND AND TARGET LumexCore_utility AND TARGET LumexCore_contracts)
+    get_target_property(_lumex_rev_type LumexCore_utility TYPE)
+    if(_lumex_rev_type STREQUAL "SHARED_LIBRARY")
+        if(MSVC)
+            set(_lumex_rev_symbols "$<TARGET_PDB_FILE:LumexCore_utility>")
+            set(_lumex_rev_other "$<TARGET_PDB_FILE:LumexCore_contracts>")
+        else()
+            set(_lumex_rev_symbols "$<TARGET_FILE:LumexCore_utility>.debug")
+            set(_lumex_rev_other "$<TARGET_FILE:LumexCore_contracts>.debug")
+        endif()
+        lumex_test_name(_ctest_name source_revision_listing)
+        add_test(NAME ${_ctest_name}
+            COMMAND ${CMAKE_COMMAND}
+                -DPYTHON=${Python3_EXECUTABLE}
+                -DLUMEX_SOURCE_DIR=${LumexLib_SOURCE_DIR}
+                -DWORK_DIR=${CMAKE_BINARY_DIR}/c/source_revision
+                "-DLIBRARY=$<TARGET_FILE:LumexCore_utility>"
+                "-DSYMBOLS=${_lumex_rev_symbols}"
+                "-DOTHER_SYMBOLS=${_lumex_rev_other}"
+                -P ${CMAKE_CURRENT_SOURCE_DIR}/artifacts/source_revision_listing.cmake
+        )
+        set_tests_properties(${_ctest_name} PROPERTIES LABELS "cmake" TIMEOUT 120)
+    endif()
+endif()
 # The release script builds with a Visual Studio generator: the vendored
 # Boost.Context must not make cl.exe warn there either (D9025).
 if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC" AND NOT MSVC_VERSION LESS 1930)
