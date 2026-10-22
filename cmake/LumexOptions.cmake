@@ -70,6 +70,10 @@ set(LUMEX_TRANSPORT_LOG_MIN_LEVEL "TRACE" CACHE STRING
 set_property(CACHE LUMEX_TRANSPORT_LOG_MIN_LEVEL PROPERTY STRINGS
     TRACE DEBUG INFO WARNING ERROR)
 option(LUMEX_TRANSPORT_WITH_TESTING "applied/transport: the public test doubles (mock streams and datagrams)" ON)
+# No option of its own: with LUMEX_BUILD_LOGGER the transport also compiles the
+# adapter to the logger (log/adapter: install_lumex_logger_sink,
+# lumex_logger_watch_timer), links lumex::logger and defines
+# LUMEX_TRANSPORT_WITH_LOGGER=1 for itself and its consumers.
 option(LUMEX_BUILD_SETTINGS "Build applied/settings" ON)
 
 # The logger compiles exactly one config reader. Changing the format requires

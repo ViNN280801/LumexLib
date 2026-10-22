@@ -1,7 +1,9 @@
 // Every public header of the transport and every token style in one
 // translation unit, built with strict warnings (see CMakeLists.txt). At run
 // time a mock stream and a mock datagram answer each style once; exit code 0
-// when every exchange returned what was fed, 1 otherwise.
+// when every exchange returned what was fed, 1 otherwise. With the logger
+// adapter (LUMEX_TRANSPORT_WITH_LOGGER) the run goes through the LumexLogger
+// sink and a lumex_logger_watch_timer.
 
 #include <chrono>
 #include <cstddef>
@@ -14,6 +16,9 @@
 #include <vector>
 
 #include "lumex/applied/transport/LumexTransport"
+#if defined(LUMEX_TRANSPORT_WITH_LOGGER)
+#include "lumex/applied/transport/log/adapter/LumexTransportLoggerAdapter.hpp"
+#endif
 #include "lumex/applied/transport/testing/LumexMockDatagram.hpp"
 #include "lumex/applied/transport/testing/LumexMockStream.hpp"
 
@@ -146,6 +151,13 @@ int
 main ()
 {
   tr::stream::io_runner runner (2);
+#if defined(LUMEX_TRANSPORT_WITH_LOGGER)
+  tr::log::install_lumex_logger_sink ();
+  tr::log::lumex_logger_watch_timer const watch (
+      runner, std::chrono::milliseconds (50));
+  if (!watch.is_running ())
+    return 1;
+#endif
   tr::testing::mock_stream mock
       = tr::testing::make_mock_stream (runner.get_executor (), "stream");
   if (!mock.stream.open (tr::deadline_t (1000)).has_value ())
@@ -169,6 +181,10 @@ main ()
   fine = by_awaitable (runner, mock.stream) && fine;
 #endif
   fine = datagram_round (runner) && fine;
+#if defined(LUMEX_TRANSPORT_WITH_LOGGER)
+  tr::log::uninstall_lumex_logger_sink ();
+  fine = tr::log::get_log_sink () == nullptr && fine;
+#endif
 
   // The counters: the exchanges above were counted (a snapshot and a reset
   // compile and run under the strict warnings too).
