@@ -38,6 +38,6 @@ TEST (LumexProtocolTest,
   EXPECT_EQ (std::string (entries[1].specification_name), "bye!");
   EXPECT_EQ (entries[1].options.timeout_ms, 50u);
   std::error_code const code
-      = lumex::core::protocol::error::protocol_errc::unknown_key;
+      = lumex::core::protocol::error::protocol_errc::unknown_frame;
   EXPECT_STREQ (code.category ().name (), "lumex.protocol");
 }

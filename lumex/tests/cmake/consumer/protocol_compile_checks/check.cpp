@@ -131,6 +131,161 @@ LUMEX_PROTOCOL_DEFINE (bad_protocol, codec, header, BAD_ROWS);
      (u16_le_<scale<std::ratio<1, 10>>, scale<std::ratio<1, 100>>>),          \
      ("level"), (), ())
 LUMEX_PROTOCOL_DEFINE (bad_protocol, codec, header, BAD_ROWS);
+#elif LUMEX_PROTOCOL_BAD_CASE == 14
+// 14: a row identifier that is a C++ keyword.
+#define BAD_ROWS(X, X_AS) X (delete, 0x01, "Erase", (), (), (), ())
+LUMEX_PROTOCOL_DEFINE (bad_protocol, codec, header, BAD_ROWS);
+
+#elif LUMEX_PROTOCOL_BAD_CASE == 15
+// 15: a row identifier that is a macro of this translation unit (not of a
+// platform header).
+#define WIDGET_CODE 5
+#define BAD_ROWS(X, X_AS) X (WIDGET_CODE, 0x01, "Code", (), (), (), ())
+LUMEX_PROTOCOL_DEFINE (bad_protocol, codec, header, BAD_ROWS);
+
+#elif LUMEX_PROTOCOL_BAD_CASE == 16
+// 16: a field group names a layout of the user's namespace that a word of
+// the vocabulary hides (stream).
+LUMEX_PROTOCOL_LAYOUT (stream, (u8_<>), ("rate"));
+#define BAD_ROWS(X, X_AS) X (PING, 0x01, "Liveness", (stream), ("s"), (), ())
+LUMEX_PROTOCOL_DEFINE (bad_protocol, codec, header, BAD_ROWS);
+
+#elif LUMEX_PROTOCOL_BAD_CASE == 17
+// 17: a reply names a word of the vocabulary (level).
+#define BAD_ROWS(X, X_AS) X (PING, 0x01, "Liveness", (), (), (level), ())
+LUMEX_PROTOCOL_DEFINE (bad_protocol, codec, header, BAD_ROWS);
+
+#elif LUMEX_PROTOCOL_BAD_CASE == 18
+// 18: a reply names a layout hidden by the row's own type (row status,
+// layout status_t).
+LUMEX_PROTOCOL_LAYOUT (status_t, (u8_<>), ("mode"));
+#define BAD_ROWS(X, X_AS) X (status, 0x01, "Status", (), (), (status_t), ())
+LUMEX_PROTOCOL_DEFINE (bad_protocol, codec, header, BAD_ROWS);
+
+#elif LUMEX_PROTOCOL_BAD_CASE == 19
+// 19: a reply that is no field, layout or reply kind.
+#define BAD_ROWS(X, X_AS) X (PING, 0x01, "Liveness", (), (), (int), ())
+LUMEX_PROTOCOL_DEFINE (bad_protocol, codec, header, BAD_ROWS);
+
+#elif LUMEX_PROTOCOL_BAD_CASE == 20
+// 20: a row of an aligned binary layout with a misplaced 2-byte field.
+struct aligned_header
+{
+  typedef ::lumex::core::protocol::layout::binary_layout<
+      ::lumex::core::protocol::layout::natural_alignment<0>>
+      layout_type;
+};
+#define BAD_ROWS(X, X_AS)                                                     \
+  X (SET, 0x01, "Set", (u8_<>, u16_le_<>), ("a", "b"), (), ())
+LUMEX_PROTOCOL_DEFINE (bad_protocol, codec, aligned_header, BAD_ROWS);
+inline void
+use_bad ()
+{
+  ::lumex::core::protocol::layout::bytes_t out;
+  (void)::lumex::core::protocol::layout::encode_request<bad_protocol,
+                                                        bad_protocol::SET_t> (
+      out, 1, 2);
+}
+
+#elif LUMEX_PROTOCOL_BAD_CASE == 21
+// 21: a floating field in a decimal fixed-width layout.
+inline void
+use_bad ()
+{
+  ::lumex::core::protocol::layout::bytes_t out;
+  (void)::lumex::core::protocol::layout::encode<
+      ::lumex::core::protocol::layout::fixed_width_text_layout<10>,
+      ::lumex::core::protocol::field::f32_le_<>> (out, 1.0f);
+}
+
+#elif LUMEX_PROTOCOL_BAD_CASE == 22
+// 22: an optional tail that is not the last field.
+LUMEX_PROTOCOL_LAYOUT (bad_layout, (optional_tail_<u8_<>>, u8_<>),
+                       ("tail", "after"));
+inline void
+use_bad ()
+{
+  (void)::lumex::core::protocol::layout::decode<
+      ::lumex::core::protocol::layout::binary_layout<>, bad_layout> (
+      ::lumex::core::protocol::layout::bytes_view_t ());
+}
+
+#elif LUMEX_PROTOCOL_BAD_CASE == 23
+// 23: the reply of a row that has none.
+LUMEX_PROTOCOL_DEFINE (good_protocol, codec, header, GOOD_ROWS);
+inline void
+use_bad ()
+{
+  (void)::lumex::core::protocol::layout::decode_reply<good_protocol,
+                                                      good_protocol::PING_t> (
+      ::lumex::core::protocol::layout::bytes_view_t ());
+}
+
+#elif LUMEX_PROTOCOL_BAD_CASE == 24
+// 24: decoding a reply kind of the dialogue with the core.
+template <typename A, typename N> struct ack_nak
+{
+  typedef ::lumex::core::protocol::dsl::reply_tag lumex_protocol_reply;
+};
+#define BAD_ROWS(X, X_AS)                                                     \
+  X (PING, 0x01, "Liveness", (), (), (ack_nak<u8_<>, u8_<>>), ())
+LUMEX_PROTOCOL_DEFINE (bad_protocol, codec, header, BAD_ROWS);
+inline void
+use_bad ()
+{
+  (void)::lumex::core::protocol::layout::decode_reply<bad_protocol,
+                                                      bad_protocol::PING_t> (
+      ::lumex::core::protocol::layout::bytes_view_t ());
+}
+
+#elif LUMEX_PROTOCOL_BAD_CASE == 25
+// 25: a request with fewer arguments than fields.
+LUMEX_PROTOCOL_DEFINE (good_protocol, codec, header, GOOD_ROWS);
+inline void
+use_bad ()
+{
+  (void)::lumex::core::protocol::layout::make_request<
+      good_protocol::SET_LEVEL_t> (1.5);
+}
+
+#elif LUMEX_PROTOCOL_BAD_CASE == 26
+// 26: two parts of a split word that share a bit.
+LUMEX_PROTOCOL_LAYOUT (bad_layout,
+                       (split_<u8_<>, bits_<u8_<>, 0, 4>, bits_<u8_<>, 3, 2>>),
+                       ("word"));
+inline void
+use_bad ()
+{
+  (void)::lumex::core::protocol::layout::decode<
+      ::lumex::core::protocol::layout::binary_layout<>, bad_layout> (
+      ::lumex::core::protocol::layout::bytes_view_t ());
+}
+
+#elif LUMEX_PROTOCOL_BAD_CASE == 27
+// 27: a fractional argument for an integer field without a scale.
+LUMEX_PROTOCOL_DEFINE (good_protocol, codec, header, GOOD_ROWS);
+inline void
+use_bad ()
+{
+  (void)::lumex::core::protocol::layout::make_request<
+      good_protocol::SET_LEVEL_t> (1.5, 2.5);
+}
+
+#elif LUMEX_PROTOCOL_BAD_CASE == 28
+// 28: a header naming a vocabulary that does not derive from the core one.
+struct lone_vocabulary
+{
+};
+struct lone_header
+{
+  typedef lone_vocabulary lumex_vocabulary;
+};
+#define BAD_ROWS(X, X_AS) X (PING, 0x01, "Liveness", (), (), (), ())
+LUMEX_PROTOCOL_DEFINE (bad_protocol, codec, lone_header, BAD_ROWS);
+
+#elif LUMEX_PROTOCOL_BAD_CASE == 29
+// 29: a layout that names itself among its fields.
+LUMEX_PROTOCOL_LAYOUT (node_t, (u8_<>, node_t), ("value", "next"));
 #endif
 } // namespace check_tables
 

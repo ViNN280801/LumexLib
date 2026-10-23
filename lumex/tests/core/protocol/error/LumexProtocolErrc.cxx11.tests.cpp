@@ -15,8 +15,9 @@ using lumex::core::protocol::error::protocol_category;
 using lumex::core::protocol::error::protocol_errc;
 
 protocol_errc const kEveryValue[]
-    = { protocol_errc::truncated, protocol_errc::trailing_bytes,
-        protocol_errc::invalid_value, protocol_errc::unknown_key };
+    = { protocol_errc::truncated,      protocol_errc::trailing_bytes,
+        protocol_errc::invalid_value,  protocol_errc::unknown_frame,
+        protocol_errc::limit_exceeded, protocol_errc::unknown_case };
 } // namespace
 
 TEST (LumexProtocolErrcTest, GivenTheCategory_WhenNamed_ThenItIsLumexProtocol)
@@ -49,7 +50,28 @@ TEST (LumexProtocolErrcTest,
   EXPECT_EQ (static_cast<int> (protocol_errc::truncated), 1);
   EXPECT_EQ (static_cast<int> (protocol_errc::trailing_bytes), 2);
   EXPECT_EQ (static_cast<int> (protocol_errc::invalid_value), 3);
-  EXPECT_EQ (static_cast<int> (protocol_errc::unknown_key), 4);
+  EXPECT_EQ (static_cast<int> (protocol_errc::unknown_frame), 4);
+  EXPECT_EQ (static_cast<int> (protocol_errc::limit_exceeded), 5);
+  EXPECT_EQ (static_cast<int> (protocol_errc::unknown_case), 6);
+}
+
+// The text of every code is part of the log lines and the reports a user
+// reads (REVIEW41 A11: a changed text went unnoticed).
+TEST (LumexProtocolErrcTest,
+      GivenEveryValue_WhenMessaged_ThenTheTextIsTheDocumentedOne)
+{
+  EXPECT_EQ (std::error_code (protocol_errc::truncated).message (),
+             "message shorter than its fields");
+  EXPECT_EQ (std::error_code (protocol_errc::trailing_bytes).message (),
+             "bytes after the last field of a message");
+  EXPECT_EQ (std::error_code (protocol_errc::invalid_value).message (),
+             "field value the field type cannot represent");
+  EXPECT_EQ (std::error_code (protocol_errc::unknown_frame).message (),
+             "frame matches no row of the protocol");
+  EXPECT_EQ (std::error_code (protocol_errc::limit_exceeded).message (),
+             "count larger than the capacity of its field");
+  EXPECT_EQ (std::error_code (protocol_errc::unknown_case).message (),
+             "discriminant matches no case of the union");
 }
 
 TEST (LumexProtocolErrcTest,

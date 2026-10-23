@@ -42,8 +42,8 @@ TEST (LumexProtocolTypeListTest,
       GivenAGroupWithCommas_WhenUnwrapped_ThenEveryElementIsAnArgument)
 {
   typedef TYPE_LIST_TEST_LIST ((a, std::ratio<1, 100>, b)) list;
-  typedef TYPE_LIST_TEST_LIST (()) empty;
-  EXPECT_EQ (dsl::list_size<empty>::value, 0u);
+  typedef TYPE_LIST_TEST_LIST (()) nothing;
+  EXPECT_EQ (dsl::list_size<nothing>::value, 0u);
   EXPECT_EQ (dsl::list_size<list>::value, 3u);
   EXPECT_TRUE (
       (std::is_same<dsl::list_at<1, list>::type, std::ratio<1, 100>>::value));

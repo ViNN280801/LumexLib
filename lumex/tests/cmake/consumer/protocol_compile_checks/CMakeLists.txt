@@ -17,6 +17,22 @@
 #  11 get_option of an option the row does not have
 #  12 accepted_in with enumerators of two enumerations
 #  13 a field with two scales
+#  14 a row identifier that is a C++ keyword (delete)
+#  15 a row identifier that is a macro of the translation unit
+#  16 a field group naming a type hidden by a vocabulary word (stream)
+#  17 a reply naming a vocabulary word (level)
+#  18 a reply naming the row's own type (row status, layout status_t)
+#  19 a reply that is no field, layout or reply kind
+#  20 a misaligned row of binary_layout<natural_alignment<0> >
+#  21 a floating field in a decimal fixed-width layout
+#  22 an optional tail that is not the last field
+#  23 the reply of a row without reply
+#  24 a reply kind of the dialogue decoded by the core
+#  25 a request with the wrong number of arguments
+#  26 two parts of a split sharing a bit
+#  27 a fractional argument for an integer field without scale
+#  28 a header vocabulary that does not derive from dsl::vocabulary
+#  29 a layout that names itself among its fields
 # The compiler's messages are matched in English. Everything runs at
 # configure time (try_compile), at C++11 (MSVC: C++14, its lowest) and C++20.
 
@@ -68,6 +84,22 @@ _lumex_case(10 "every element of a field group must be a field type")
 _lumex_case(11 "get_option of an option the row does not have")
 _lumex_case(12 "takes enumerators of one enumeration")
 _lumex_case(13 "give scale<> at most once")
+_lumex_case(14 "row identifier delete is a C\\+\\+ keyword")
+_lumex_case(15 "row identifier WIDGET_CODE is a macro in this translation unit")
+_lumex_case(16 "field group of the row PING names a word of the table vocabulary")
+_lumex_case(17 "reply of the row PING names a word of the table vocabulary")
+_lumex_case(18 "reply of the row status names the row's own type status_t")
+_lumex_case(19 "reply of the row PING is not a field, a layout or a reply kind")
+_lumex_case(20 "a 2-byte field is not at an even offset")
+_lumex_case(21 "a floating field in a decimal fixed-width layout")
+_lumex_case(22 "optional_tail_ must be the last field of its group")
+_lumex_case(23 "the row has no reply")
+_lumex_case(24 "is a reply kind of the dialogue")
+_lumex_case(25 "give one argument per field of the row")
+_lumex_case(26 "two parts of split_<Word, ...> share a bit")
+_lumex_case(27 "an integer field without scale<> takes an integer")
+_lumex_case(28 "the lumex_vocabulary of a header derives from dsl::vocabulary")
+_lumex_case(29 "a field of the layout node_t names its own type")
 
 function(_lumex_protocol_try result_var tag standard)
     try_compile(_ok "${CMAKE_BINARY_DIR}/try_${tag}"
