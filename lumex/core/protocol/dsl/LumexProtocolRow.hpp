@@ -114,26 +114,57 @@ template <typename T> struct row_voider
 
 /**
  * @brief The fields of a row or layout, in wire order.
- * @details Every element must be a field type (`field::is_field`): an
- * integer field, a layout, or a field type of the protocol layer.
+ * @details Every element is a field type (`field::is_field`): a field, a
+ * layout, or a field type of another layer; the row and layout macros check
+ * that with their own messages (`group_check`). The list is itself a group
+ * of fields: its value is `field::record<Fields...>`.
  */
 template <typename... Fields> struct field_list
 {
-  static_assert (
-      detail::row_all<
-          ::lumex::core::protocol::field::is_field<Fields>::value...>::value,
-      "LUMEX_PROTOCOL: every element of a field group must be a field type "
-      "(u8_<>, u16_le_<...>, a LUMEX_PROTOCOL_LAYOUT, ...)");
-
   /// The fields as a type list.
   typedef type_list<Fields...> types;
   /// The number of fields.
   typedef std::integral_constant<std::size_t, sizeof...(Fields)> count;
+  /// A group of fields.
+  typedef ::lumex::core::protocol::field::field_tag lumex_protocol_field;
+  /// Its codec: the record codec.
+  typedef ::lumex::core::protocol::field::group_impl<field_list>
+      lumex_field_impl;
+};
+
+/// @brief `canonical_fields<F...>::type`: the field list of a group, each
+/// vocabulary name replaced by its field (`u8_` written alone is
+/// `field::u8_<>`).
+template <typename... F> struct canonical_fields
+{
+  /// The field list.
+  typedef field_list<
+      typename ::lumex::core::protocol::field::resolve<F>::type...>
+      type;
+};
+
+/// @brief The tag a reply kind of another layer (the dialogue's
+/// `ack_nak<...>`, `two_phase<...>`) names as `lumex_protocol_reply`.
+struct reply_tag
+{
+};
+
+/// @brief Whether `T` is a reply kind (it names `lumex_protocol_reply`).
+template <typename T, typename = void> struct is_reply_kind : std::false_type
+{
+};
+
+/// @copydoc is_reply_kind
+template <typename T>
+struct is_reply_kind<
+    T, typename detail::row_voider<typename T::lumex_protocol_reply>::type>
+    : std::is_same<typename T::lumex_protocol_reply, reply_tag>
+{
 };
 
 /**
  * @brief `reply_of<...>::type`: the reply type of a reply group: `no_reply`
- * for an empty group, the type for one type.
+ * for an empty group, the type (a vocabulary name resolved) for one type.
  */
 template <typename... T> struct reply_of
 {
@@ -155,7 +186,85 @@ template <> struct reply_of<>
 template <typename T> struct reply_of<T>
 {
   /// The reply.
-  typedef T type;
+  typedef typename ::lumex::core::protocol::field::resolve<T>::type type;
+};
+
+namespace detail
+{
+// The checks of one type of a group of Owner (a row or a layout), in the
+// order the macros report them; a later check is not instantiated when an
+// earlier one fails (Owner is incomplete while it is checked).
+template <typename B>
+struct group_not : std::integral_constant<bool, !B::value>
+{
+};
+
+template <bool... B> struct group_bools
+{
+};
+
+template <bool... B>
+struct group_all
+    : std::is_same<group_bools<true, B...>, group_bools<B..., true>>
+{
+};
+
+template <typename T, template <typename> class Accept,
+          template <typename, typename> class IsWord>
+struct accept_unless_word
+    : std::conditional<IsWord<T, void>::value, std::true_type, Accept<T>>::type
+{
+};
+
+template <typename T, typename Owner, template <typename> class Accept,
+          template <typename, typename> class IsWord>
+struct group_accepts
+    : std::conditional<std::is_same<T, Owner>::value, std::true_type,
+                       accept_unless_word<T, Accept, IsWord>>::type
+{
+};
+
+template <typename T>
+struct field_accept : ::lumex::core::protocol::field::is_field<T>
+{
+};
+
+template <typename T>
+struct reply_accept
+    : std::integral_constant<
+          bool, std::is_same<T, no_reply>::value
+                    || ::lumex::core::protocol::field::is_field<T>::value
+                    || is_reply_kind<T>::value>
+{
+};
+} // namespace detail
+
+/**
+ * @brief The checks of the field or reply group of a row or layout `Owner`:
+ * `no_owner` (the group does not name the owner itself), `no_word` (no word
+ * of the vocabulary where a field belongs), `all_fields` / `all_replies`.
+ * @details `IsWord` is `is_vocabulary_word` (a parameter, so that this header
+ * does not need the vocabulary).
+ */
+template <typename Owner, template <typename, typename> class IsWord,
+          typename... T>
+struct group_check
+{
+  /// No element is the owner.
+  typedef detail::group_all<!std::is_same<T, Owner>::value...> no_owner;
+  /// No element is a word of the vocabulary.
+  typedef detail::group_all<
+      std::conditional<std::is_same<T, Owner>::value, std::true_type,
+                       detail::group_not<IsWord<T, void>>>::type::value...>
+      no_word;
+  /// Every element is a field.
+  typedef detail::group_all<
+      detail::group_accepts<T, Owner, detail::field_accept, IsWord>::value...>
+      all_fields;
+  /// Every element is a field, a layout or a reply kind.
+  typedef detail::group_all<
+      detail::group_accepts<T, Owner, detail::reply_accept, IsWord>::value...>
+      all_replies;
 };
 
 namespace detail

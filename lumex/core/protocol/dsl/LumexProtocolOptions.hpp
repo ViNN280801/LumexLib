@@ -72,6 +72,13 @@ namespace protocol
 {
 namespace dsl
 {
+/// @brief The tag a word of the table vocabulary names as
+/// `lumex_vocabulary_word` (an option type), so that the DSL can say which
+/// word hid a type of the user's namespace.
+struct vocabulary_word_tag
+{
+};
+
 /// @brief The log level a row asks for (`log_level (level::debug)`); the
 /// dialogue maps it to the level of its log.
 enum class level : std::uint8_t
@@ -130,8 +137,16 @@ struct timeout_t
 {
   /// The kind of the option.
   typedef kind::timeout option_kind;
+  /// A word of the table vocabulary (`timeout (ms)`).
+  typedef vocabulary_word_tag lumex_vocabulary_word;
   /// Milliseconds.
   std::uint32_t milliseconds;
+
+  /// @brief `timeout (ms)`.
+  LUMEX_CONSTEXPR_CTOR explicit timeout_t (std::uint32_t ms) LUMEX_NOEXCEPT
+      : milliseconds (ms)
+  {
+  }
 };
 
 /// @brief `retries (n)`: how many times the request is sent again after a
@@ -140,8 +155,16 @@ struct retries_t
 {
   /// The kind of the option.
   typedef kind::retries option_kind;
+  /// A word of the table vocabulary (`retries (n)`).
+  typedef vocabulary_word_tag lumex_vocabulary_word;
   /// Additional attempts.
   std::uint32_t count;
+
+  /// @brief `retries (n)`.
+  LUMEX_CONSTEXPR_CTOR explicit retries_t (std::uint32_t n) LUMEX_NOEXCEPT
+      : count (n)
+  {
+  }
 };
 
 /// @brief `stream (interval_ms)`: the device sends this row by itself, every
@@ -150,8 +173,16 @@ struct stream_t
 {
   /// The kind of the option.
   typedef kind::stream option_kind;
+  /// A word of the table vocabulary (`stream (interval_ms)`).
+  typedef vocabulary_word_tag lumex_vocabulary_word;
   /// The expected interval between two messages, milliseconds.
   std::uint32_t interval_ms;
+
+  /// @brief `stream (interval_ms)`.
+  LUMEX_CONSTEXPR_CTOR explicit stream_t (std::uint32_t interval)
+      LUMEX_NOEXCEPT : interval_ms (interval)
+  {
+  }
 };
 
 /// @brief `log_level (level)`: the level of the log record of this row.
@@ -159,8 +190,16 @@ struct log_level_t
 {
   /// The kind of the option.
   typedef kind::log_level option_kind;
+  /// A word of the table vocabulary (`log_level (level::debug)`).
+  typedef vocabulary_word_tag lumex_vocabulary_word;
   /// The level.
   level value;
+
+  /// @brief `log_level (level::...)`.
+  LUMEX_CONSTEXPR_CTOR explicit log_level_t (level chosen) LUMEX_NOEXCEPT
+      : value (chosen)
+  {
+  }
 };
 
 /// @brief `firmware (from, to)`: the row exists in firmware versions `from`
@@ -169,10 +208,20 @@ struct firmware_t
 {
   /// The kind of the option.
   typedef kind::firmware option_kind;
+  /// A word of the table vocabulary (`firmware (from, to)`).
+  typedef vocabulary_word_tag lumex_vocabulary_word;
   /// First version with the row.
   std::uint32_t from;
   /// Last version with the row.
   std::uint32_t to;
+
+  /// @brief `firmware (from, to)`.
+  LUMEX_CONSTEXPR_CTOR
+  firmware_t (std::uint32_t first, std::uint32_t last) LUMEX_NOEXCEPT
+      : from (first),
+        to (last)
+  {
+  }
 };
 
 /// @brief `model ("A", "B")`: the row exists in these models only.
@@ -373,7 +422,8 @@ struct option_set
       "LUMEX_PROTOCOL: a row option must be timeout (ms), retries (n), "
       "stream (interval_ms), log_level (level::...), firmware (from, to), "
       "model (\"name\", ...), accepted_in (state, ...), idempotent, "
-      "dangerous or deprecated");
+      "dangerous, deprecated, or an option type of another layer (a type "
+      "naming option_kind)");
   static_assert (
       detail::options_all<(
           std::is_same<typename detail::kind_of<T>::type, kind::flag>::value
@@ -444,6 +494,16 @@ get_option (option_set<T...> const &options) LUMEX_NOEXCEPT
   return static_cast<detail::option_slot<
       detail::index_of_kind<K, 0, T...>::value,
       typename detail::option_getter<K, T...>::type> const &> (options)
+      .value;
+}
+
+/// @brief The option at position `I` of an option set (in table order).
+template <std::size_t I, typename... T>
+LUMEX_CONSTEXPR typename detail::option_at<I, T...>::type const &
+option_value_at (option_set<T...> const &options) LUMEX_NOEXCEPT
+{
+  return static_cast<detail::option_slot<
+      I, typename detail::option_at<I, T...>::type> const &> (options)
       .value;
 }
 

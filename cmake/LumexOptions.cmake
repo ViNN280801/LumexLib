@@ -109,6 +109,7 @@ option(LUMEX_BUILD_EXAMPLES "Build the examples for the LumexLib (also implied b
 option(LUMEX_BUILD_TESTS "Build the tests for LumexCore (also compiles and runs lumex/examples)" OFF)
 option(LUMEX_BUILD_RELACY "Build the Relacy memory-order models of the split-count engine (needs LUMEX_BUILD_TESTS; uses 3rdparty/relacy, or LUMEX_RELACY_DIR when it is given)" OFF)
 option(LUMEX_BUILD_BENCHMARKS "Build the benchmarks under benchmarks/ (Release builds only make sense)" OFF)
+option(LUMEX_BUILD_FUZZERS "Build the libFuzzer targets under lumex/tests/fuzz (Clang only, needs LUMEX_BUILD_TESTS; CTest label fuzz: a short bounded run per target, not in the default run)" OFF)
 option(LUMEX_BUILD_SOAK_TESTS "Register the long soak and ThreadSanitizer runs (CTest labels soak and tsan: core/hazard_pointer and the concurrency tests of core/atomic; not in the default run; needs LUMEX_BUILD_TESTS; the soak registration of the atomic tests needs CMake 3.22 or later; LUMEX_TEST_SOAK_SECONDS sets their length)" OFF)
 
 # ==============================================================================

@@ -91,8 +91,12 @@ public:
         return "bytes after the last field of a message";
       case static_cast<int> (protocol_errc::invalid_value):
         return "field value the field type cannot represent";
-      case static_cast<int> (protocol_errc::unknown_key):
-        return "no row of the protocol has this key";
+      case static_cast<int> (protocol_errc::unknown_frame):
+        return "frame matches no row of the protocol";
+      case static_cast<int> (protocol_errc::limit_exceeded):
+        return "count larger than the capacity of its field";
+      case static_cast<int> (protocol_errc::unknown_case):
+        return "discriminant matches no case of the union";
       default:
         return "unknown protocol error";
       }

@@ -92,15 +92,39 @@
         lumex_names);                                                         \
   }
 
-#define LUMEX_PROTOCOL_DETAIL_ROW_BODY(type_, id_text_, spec_, key_, desc_,   \
-                                       fields_, names_, reply_, options_)     \
+// The checks of a field group of an owner (a row or a layout); the messages
+// name the owner.
+#define LUMEX_PROTOCOL_DETAIL_GROUP_CHECKS(owner_text_, fields_check_)        \
+  static_assert (fields_check_::no_owner::value,                              \
+                 "LUMEX_PROTOCOL: a field of the " owner_text_                \
+                 " names its own type (a layout of that name is hidden by "   \
+                 "the type the row or layout makes): rename the layout or "   \
+                 "write it with its namespace (::my_namespace::name_t)");     \
+  static_assert (fields_check_::no_word::value,                               \
+                 "LUMEX_PROTOCOL: a field group of the " owner_text_          \
+                 " names a word of the table vocabulary (an option such as "  \
+                 "stream or timeout, level, unit), which hides a type of "    \
+                 "that name of your namespace: write the type with its "      \
+                 "namespace (::my_namespace::stream) or rename it");          \
+  static_assert (fields_check_::all_fields::value,                            \
+                 "LUMEX_PROTOCOL: every element of a field group must be a "  \
+                 "field type (u8_, u16_le_<...>, a LUMEX_PROTOCOL_LAYOUT, "   \
+                 "...)")
+
+#define LUMEX_PROTOCOL_DETAIL_ROW_BODY(type_, id_text_, expanded_, spec_,     \
+                                       key_, desc_, fields_, names_, reply_,  \
+                                       options_)                              \
   struct type_                                                                \
   {                                                                           \
-    struct lumex_row : ::lumex::core::protocol::dsl::vocabulary               \
+    struct lumex_row : lumex_vocabulary                                       \
     {                                                                         \
-      typedef ::lumex::core::protocol::dsl::field_list<                       \
+      typedef ::lumex::core::protocol::dsl::type_list<                        \
           LUMEX_PP_UNWRAP fields_>                                            \
-          fields_type;                                                        \
+          raw_fields_type;                                                    \
+      typedef ::lumex::core::protocol::dsl::type_list<LUMEX_PP_UNWRAP reply_> \
+          raw_reply_type;                                                     \
+      typedef ::lumex::core::protocol::dsl::canonical_fields<                 \
+          LUMEX_PP_UNWRAP fields_>::type fields_type;                         \
       typedef ::lumex::core::protocol::dsl::reply_of<                         \
           LUMEX_PP_UNWRAP reply_>::type reply_type;                           \
       typedef decltype (::lumex::core::protocol::dsl::make_key (              \
@@ -150,22 +174,49 @@
       return lumex_row::make_options_value ();                                \
     }                                                                         \
     LUMEX_PROTOCOL_DETAIL_NAMES (names_)                                      \
+    LUMEX_PROTOCOL_DETAIL_CHECK_TEXT (id_text_, expanded_);                   \
+    typedef ::lumex::core::protocol::dsl::group_check_of<                     \
+        type_, lumex_row::raw_fields_type>                                    \
+        lumex_fields_check;                                                   \
+    typedef ::lumex::core::protocol::dsl::group_check_of<                     \
+        type_, lumex_row::raw_reply_type>                                     \
+        lumex_reply_check;                                                    \
+    LUMEX_PROTOCOL_DETAIL_GROUP_CHECKS ("row " id_text_, lumex_fields_check); \
+    static_assert (                                                           \
+        lumex_reply_check::no_owner::value,                                   \
+        "LUMEX_PROTOCOL: the reply of the row " id_text_                      \
+        " names the row's own type " id_text_ "_t (a layout of that name is " \
+        "hidden inside the row): rename the layout or write it with its "     \
+        "namespace (::my_namespace::" id_text_ "_t)");                        \
+    static_assert (                                                           \
+        lumex_reply_check::no_word::value,                                    \
+        "LUMEX_PROTOCOL: the reply of the row " id_text_                      \
+        " names a word of the table vocabulary (an option such as stream "    \
+        "or timeout, level, unit), which hides a type of that name of your "  \
+        "namespace: write the type with its namespace "                       \
+        "(::my_namespace::stream) or rename it");                             \
+    static_assert (                                                           \
+        lumex_reply_check::all_replies::value,                                \
+        "LUMEX_PROTOCOL: the reply of the row " id_text_                      \
+        " is not a field, a layout or a reply kind (a type naming "           \
+        "lumex_protocol_reply)");                                             \
     static_assert (                                                           \
         ::lumex::core::protocol::dsl::count_names (LUMEX_PP_UNWRAP names_)    \
             == fields_type::count::value,                                     \
         "LUMEX_PROTOCOL: the row " id_text_                                   \
         " has a different number of field names than fields");                \
-    LUMEX_PROTOCOL_DETAIL_CHECK_TEXT (id_text_);                              \
   };
 
 #define LUMEX_PROTOCOL_DETAIL_ROW(id_, key_, desc_, fields_, names_, reply_,  \
                                   options_)                                   \
-  LUMEX_PROTOCOL_DETAIL_ROW_BODY (id_##_t, #id_, #id_, key_, desc_, fields_,  \
-                                  names_, reply_, options_)
+  LUMEX_PROTOCOL_DETAIL_ROW_BODY (                                            \
+      id_##_t, #id_, LUMEX_PROTOCOL_DETAIL_EXPANDED (id_), #id_, key_, desc_, \
+      fields_, names_, reply_, options_)
 #define LUMEX_PROTOCOL_DETAIL_ROW_AS(id_, spec_, key_, desc_, fields_,        \
                                      names_, reply_, options_)                \
-  LUMEX_PROTOCOL_DETAIL_ROW_BODY (id_##_t, #id_, spec_, key_, desc_, fields_, \
-                                  names_, reply_, options_)
+  LUMEX_PROTOCOL_DETAIL_ROW_BODY (                                            \
+      id_##_t, #id_, LUMEX_PROTOCOL_DETAIL_EXPANDED (id_), spec_, key_,       \
+      desc_, fields_, names_, reply_, options_)
 
 // One `, typename Layer::id_t` per row, after a leading void (list_of).
 #define LUMEX_PROTOCOL_DETAIL_RESOLVE(id_, key_, desc_, fields_, names_,      \
@@ -202,6 +253,8 @@
     typedef framing_ framing_type;                                            \
     typedef header_ header_type;                                              \
     typedef base_ base_protocol;                                              \
+    typedef ::lumex::core::protocol::dsl::vocabulary_of<header_>::type        \
+        lumex_vocabulary;                                                     \
     static LUMEX_CONSTEXPR char const *                                       \
     protocol_name () LUMEX_NOEXCEPT                                           \
     {                                                                         \
@@ -239,6 +292,8 @@
     typedef framing_ framing_type;                                            \
     typedef header_ header_type;                                              \
     typedef void base_protocol;                                               \
+    typedef ::lumex::core::protocol::dsl::vocabulary_of<header_>::type        \
+        lumex_vocabulary;                                                     \
     static LUMEX_CONSTEXPR char const *                                       \
     protocol_name () LUMEX_NOEXCEPT                                           \
     {                                                                         \
@@ -286,9 +341,11 @@
   {                                                                           \
     struct lumex_row : ::lumex::core::protocol::dsl::vocabulary               \
     {                                                                         \
-      typedef ::lumex::core::protocol::dsl::field_list<                       \
+      typedef ::lumex::core::protocol::dsl::type_list<                        \
           LUMEX_PP_UNWRAP fields_>                                            \
-          fields_type;                                                        \
+          raw_fields_type;                                                    \
+      typedef ::lumex::core::protocol::dsl::canonical_fields<                 \
+          LUMEX_PP_UNWRAP fields_>::type fields_type;                         \
     };                                                                        \
     typedef ::lumex::core::protocol::field::field_tag lumex_protocol_field;   \
     typedef ::lumex::core::protocol::dsl::layout_tag lumex_protocol_layout;   \
@@ -299,6 +356,11 @@
       return #name_;                                                          \
     }                                                                         \
     LUMEX_PROTOCOL_DETAIL_NAMES (names_)                                      \
+    typedef ::lumex::core::protocol::dsl::group_check_of<                     \
+        name_, lumex_row::raw_fields_type>                                    \
+        lumex_fields_check;                                                   \
+    LUMEX_PROTOCOL_DETAIL_GROUP_CHECKS ("layout " #name_,                     \
+                                        lumex_fields_check);                  \
     static_assert (                                                           \
         ::lumex::core::protocol::dsl::count_names (LUMEX_PP_UNWRAP names_)    \
             == fields_type::count::value,                                     \
