@@ -128,12 +128,13 @@ bool runs_on (executor_type const &executor) LUMEX_NOEXCEPT;
  * @brief Waits for the operation of `state` until the deadline; then cancels
  * it through `front.cancel ()` and waits for its completion, and reports
  * `timeout` for an operation the cancel ended; that one is counted as a
- * timeout in `counters`, no longer as a cancellation.
+ * timeout in `counters` (`statistics::statistics_counters` of a transport,
+ * `framed::framed_counters` of a framed adapter: anything with
+ * `convert_cancel_to_timeout ()`), no longer as a cancellation.
  */
-template <typename Front>
+template <typename Front, typename Counters>
 sync_outcome
-wait (sync_state &state, deadline_t deadline, Front &front,
-      statistics::statistics_counters &counters)
+wait (sync_state &state, deadline_t deadline, Front &front, Counters &counters)
 {
   std::unique_lock<std::mutex> lock (state.mutex);
   bool timed_out = false;
