@@ -79,6 +79,25 @@ namespace dsl
 /// @brief The accepted states of a row, converted to 64-bit integers.
 typedef ::lumex::core::span::view::span<std::int64_t const> states_t;
 
+/**
+ * @brief An option of another layer (an option type whose kind is not one
+ * of `dsl::kind`) in the run-time entry: its name and one number.
+ * @details Such an option type gives `static char const *option_name ()`
+ * and `std::int64_t view_value () const` (the dialogue's correlation policy,
+ * rate limit or keepalive period); the core keeps its typed value on the
+ * command type and this pair in the entry, for the index and the export.
+ */
+struct extra_option_t
+{
+  /// The name of the option (`"rate_limit"`).
+  char const *name;
+  /// Its value as one number.
+  std::int64_t value;
+};
+
+/// @brief The options of other layers of a row.
+typedef ::lumex::core::span::view::span<extra_option_t const> extra_options_t;
+
 /// @brief The options of a row as plain values; a `has_*` flag tells
 /// whether the row set the option.
 struct options_view_t
@@ -111,6 +130,8 @@ struct options_view_t
   names_t models;
   /// The states of `accepted_in`, empty without it.
   states_t accepted_states;
+  /// The options of other layers, in table order, empty without them.
+  extra_options_t extra;
 };
 
 /// @brief The run-time entry of one row of a protocol.
@@ -294,6 +315,101 @@ template <typename Command> struct level_of<Command, true>
   }
 };
 
+template <typename K> struct is_core_kind : std::false_type
+{
+};
+
+template <> struct is_core_kind<kind::timeout> : std::true_type
+{
+};
+
+template <> struct is_core_kind<kind::retries> : std::true_type
+{
+};
+
+template <> struct is_core_kind<kind::stream> : std::true_type
+{
+};
+
+template <> struct is_core_kind<kind::log_level> : std::true_type
+{
+};
+
+template <> struct is_core_kind<kind::firmware> : std::true_type
+{
+};
+
+template <> struct is_core_kind<kind::model> : std::true_type
+{
+};
+
+template <> struct is_core_kind<kind::accepted_in> : std::true_type
+{
+};
+
+template <> struct is_core_kind<kind::flag> : std::true_type
+{
+};
+
+// The positions of the options of other layers among T...
+template <typename Found, std::size_t I, typename... T> struct collect_extras;
+
+template <std::size_t... K, std::size_t I>
+struct collect_extras<::lumex::core::utility::sequence::index_sequence<K...>,
+                      I>
+{
+  typedef ::lumex::core::utility::sequence::index_sequence<K...> type;
+};
+
+template <std::size_t... K, std::size_t I, typename Head, typename... Tail>
+struct collect_extras<::lumex::core::utility::sequence::index_sequence<K...>,
+                      I, Head, Tail...>
+    : std::conditional<
+          is_core_kind<typename kind_of<Head>::type>::value,
+          collect_extras<
+              ::lumex::core::utility::sequence::index_sequence<K...>, I + 1,
+              Tail...>,
+          collect_extras<
+              ::lumex::core::utility::sequence::index_sequence<K..., I>, I + 1,
+              Tail...>>::type
+{
+};
+
+template <typename Set> struct extras_of;
+
+template <typename... T> struct extras_of<option_set<T...>>
+{
+  typedef typename collect_extras<
+      ::lumex::core::utility::sequence::index_sequence<>, 0, T...>::type type;
+};
+
+template <typename Option>
+extra_option_t
+make_extra (Option const &option) LUMEX_NOEXCEPT
+{
+  extra_option_t const extra
+      = { Option::option_name (),
+          static_cast<std::int64_t> (option.view_value ()) };
+  return extra;
+}
+
+template <typename Command, typename Indices> struct extras_table;
+
+template <typename Command, std::size_t... I>
+struct extras_table<Command,
+                    ::lumex::core::utility::sequence::index_sequence<I...>>
+{
+  static extra_options_t
+  get () LUMEX_NOEXCEPT
+  {
+    // One element more than options: a row without them still has an array.
+    static extra_option_t const values[sizeof...(I) + 1]
+        = { make_extra (option_value_at<I> (Command::options ()))...,
+            extra_option_t () };
+    return extra_options_t (values, sizeof...(I));
+  }
+};
+
 template <typename Command>
 options_view_t
 make_options_view () LUMEX_NOEXCEPT
@@ -321,7 +437,9 @@ make_options_view () LUMEX_NOEXCEPT
     models_of<Command,
               command_has_option<Command, kind::model>::value>::get (),
     states_of<Command,
-              command_has_option<Command, kind::accepted_in>::value>::get ()
+              command_has_option<Command, kind::accepted_in>::value>::get (),
+    extras_table<Command, typename extras_of<
+                              typename Command::options_type>::type>::get ()
   };
   return view;
 }

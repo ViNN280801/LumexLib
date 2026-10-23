@@ -51,7 +51,11 @@
  * `dsl/LumexProtocolOptions.hpp`, the run-time entries in
  * `dsl/LumexProtocolEntry.hpp`, the collision guard in
  * `dsl/LumexProtocolPlatformMacros.hpp`, the error codes in
- * `error/LumexProtocolErrc.hpp`.
+ * `error/LumexProtocolErrc.hpp`, the field types in `field/` (integers,
+ * floating, text, bits, enumerations, arrays, tails, unions, nested
+ * messages) and the three layouts with their encoders and decoders in
+ * `layout/` (`binary_layout`, `fixed_width_text_layout`,
+ * `tokenized_text_layout`; `layout::encode_request`, `decode_reply`, ...).
  */
 #include "error/LumexProtocolErrc.hpp"
 
@@ -63,5 +67,17 @@
 #include "dsl/LumexProtocolRow.hpp"
 #include "dsl/LumexProtocolTypeList.hpp"
 #include "dsl/LumexProtocolVocabulary.hpp"
+#include "field/LumexProtocolBitFields.hpp"
+#include "field/LumexProtocolCompositeFields.hpp"
+#include "field/LumexProtocolContext.hpp"
 #include "field/LumexProtocolFieldTraits.hpp"
 #include "field/LumexProtocolIntegerFields.hpp"
+#include "field/LumexProtocolModifiers.hpp"
+#include "field/LumexProtocolNumeric.hpp"
+#include "field/LumexProtocolRecord.hpp"
+#include "field/LumexProtocolTextFields.hpp"
+#include "field/LumexProtocolValues.hpp"
+#include "layout/LumexProtocolBinaryLayout.hpp"
+#include "layout/LumexProtocolCodec.hpp"
+#include "layout/LumexProtocolLayoutBase.hpp"
+#include "layout/LumexProtocolTextLayouts.hpp"

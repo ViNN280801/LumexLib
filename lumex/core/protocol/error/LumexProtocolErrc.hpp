@@ -66,21 +66,35 @@ namespace protocol
 namespace error
 {
 /**
- * @brief Why a message of a protocol could not be encoded or decoded.
+ * @brief Why a message of a protocol could not be encoded or decoded, and
+ * (from the dialogue of `applied/transport/protocol`) why an exchange
+ * failed.
  * @details The values start at 1: a value-initialized `std::error_code` of
- * the category means success.
+ * the category means success. Two blocks keep the layers apart: 1 to 99 are
+ * the codes of the protocol core (the encoders and decoders of the fields
+ * and layouts, no I/O), 100 and up the codes of the dialogue (`timeout`,
+ * `retries_exhausted`, `nak`, `refused`, `unexpected_reply`,
+ * `not_accepted_in_state`, `link_lost`), added by the dialogue. New codes
+ * are appended to their block; the values of the existing ones never
+ * change.
  */
 enum class protocol_errc : int
 {
   /// A message ended before its last field.
   truncated = 1,
   /// Bytes were left after the last field of a message.
-  trailing_bytes,
+  trailing_bytes = 2,
   /// A field held a value its type cannot represent (a digit, an enumerator,
-  /// a range).
-  invalid_value,
-  /// No row of the protocol has the key of a message.
-  unknown_key
+  /// a range), or a value to encode does not fit its field.
+  invalid_value = 3,
+  /// A frame matches no row of the protocol (its key, or the key prefix of a
+  /// tokenized message, is not the one expected).
+  unknown_frame = 4,
+  /// A count in a message is larger than the capacity its field declares.
+  limit_exceeded = 5,
+  /// The discriminant of a union (a field or a session value) matches none
+  /// of its cases, or the session does not know the value.
+  unknown_case = 6
 };
 
 /**

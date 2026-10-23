@@ -16,17 +16,18 @@ target_include_directories(${LUMEX_PROTOCOL_NAME} PUBLIC
     $<INSTALL_INTERFACE:include>
 )
 
-# The table DSL is header-only; the error category is compiled here, so that
-# an error code made in any module of a process compares equal to the
-# enumerator (a category is compared by address). framing gives the byte
-# order of the fields and the codec type of a protocol, span the views of the
-# run-time entries, utility the keyword macros and the index sequences;
-# reflection (enumeration fields), expected (results of encode and decode)
-# and string_view are the requirements of the module in the design, declared
-# once so that the module graph does not change with each part.
+# The table DSL, the fields and the layouts are header-only; the error
+# category is compiled here, so that an error code made in any module of a
+# process compares equal to the enumerator (a category is compared by
+# address). expected gives the results of encode and decode, span the byte
+# views and the run-time entries, utility the keyword macros, the index
+# sequences and the byte order of the fields; reflection (enumeration
+# fields) and string_view are the requirements of the module in the design,
+# declared once so that the module graph does not change with each part.
+# framing is not required: a protocol names its codec as a type parameter,
+# and the framed adapters of applied/transport bring both together.
 target_link_libraries(${LUMEX_PROTOCOL_NAME} PUBLIC
     lumex::expected
-    lumex::framing
     lumex::reflection
     lumex::span
     lumex::string_view
