@@ -6,7 +6,10 @@
 // (LUMEX_TRANSPORT_WITH_LOGGER) the run goes through the LumexLogger sink and
 // a lumex_logger_watch_timer. With the framing module
 // (LUMEX_TRANSPORT_WITH_FRAMING) every token style also runs through
-// framed_stream, and framed_datagram answers a round.
+// framed_stream, and framed_datagram answers a round. With the HID transport
+// (LUMEX_TRANSPORT_WITH_HID) a synthetic descriptor is analyzed, the real
+// hidapi enumerates, and a device on a path that does not exist fails to
+// open under a hid_runtime owner object.
 
 #include <chrono>
 #include <cstddef>
@@ -433,6 +436,41 @@ session_round (tr::stream::io_runner &runner)
   messages.async_send (message, asio::use_future).get ();
   return fine;
 }
+#if defined(LUMEX_TRANSPORT_WITH_HID)
+// --- the HID transport (hid_device over hidapi)
+// ------------------------------
+bool
+hid_round (tr::stream::io_runner &runner)
+{
+  // A synthetic vendor-defined device: report 1 with 4 bytes out.
+  std::uint8_t const descriptor[]
+      = { 0x06, 0x00, 0xFF, 0x09, 0x01, 0xA1, 0x01, 0x85,
+          0x01, 0x75, 0x08, 0x95, 0x04, 0x91, 0x02, 0xC0 };
+  tr::hid::report_layout_result_t const layout
+      = tr::hid::analyze_report_descriptor (
+          tr::const_bytes_t (descriptor, sizeof descriptor));
+  bool fine = layout.has_value () && layout->numbered
+              && layout->output_size (1) == 4;
+  tr::hid::hid_runtime const runtime;
+  // Whatever is plugged in: the call runs, the result is not checked.
+  std::vector<tr::hid::hid_device_info_t> const found
+      = tr::hid::enumerate_hid_devices (tr::hid::hid_filter_t ());
+  static_cast<void> (found);
+  tr::hid::hid_options_t options;
+  options.path = "lumex-no-such-hid-device";
+  tr::hid::hid_device device
+      = tr::hid::make_hid_device (runner.get_executor (), options);
+  fine = !device.open (tr::deadline_t (2000)).has_value () && fine;
+  fine = tr::hid::opened_report_layout (device).input_reports.empty () && fine;
+  std::promise<std::error_code> sent;
+  tr::datagram::message_t message;
+  device.async_send (message, [&sent] (std::error_code error)
+                       { sent.set_value (error); });
+  fine = sent.get_future ().get () == tr::error::transport_errc::not_open
+         && fine;
+  return tr::hid::hid_runtime::shutdown (tr::deadline_t (2000)) && fine;
+}
+#endif
 } // namespace
 
 int
@@ -472,6 +510,9 @@ main ()
   fine = session_round (runner) && fine;
 #if defined(LUMEX_TRANSPORT_WITH_FRAMING)
   fine = framed_round (runner) && fine;
+#endif
+#if defined(LUMEX_TRANSPORT_WITH_HID)
+  fine = hid_round (runner) && fine;
 #endif
 #if defined(LUMEX_TRANSPORT_WITH_LOGGER)
   tr::log::uninstall_lumex_logger_sink ();

@@ -27,7 +27,8 @@ transport_errc const kEveryValue[] = { transport_errc::timeout,
                                        transport_errc::invalid_endpoint,
                                        transport_errc::report_too_large,
                                        transport_errc::bad_report_descriptor,
-                                       transport_errc::permission_denied };
+                                       transport_errc::permission_denied,
+                                       transport_errc::unknown_report_id };
 
 // A category of the same name, as another binary that links the static
 // transport library has it.

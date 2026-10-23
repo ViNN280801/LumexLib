@@ -20,6 +20,12 @@ if(_transport_tests_with_framing)
     add_subdirectory(framed)
 endif()
 
+# The HID transport is compiled only with LUMEX_TRANSPORT_WITH_HID
+# (lumex/applied/transport/CMakeLists.txt), and so are its tests.
+if(LUMEX_TRANSPORT_WITH_HID)
+    add_subdirectory(hid)
+endif()
+
 # The module's own suites: the completion token styles through the umbrella
 # (LumexTransportTokens.cxx11, LumexTransportAwaitable.cxx20 from C++20),
 # asio::deferred, per-operation cancellation, the executor of the handler
