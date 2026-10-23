@@ -79,6 +79,25 @@ TEST (LumexProtocolOptionsTest,
       static_cast<unsigned> (flags::idempotent | flags::dangerous));
 }
 
+// REVIEW41 A19: a deprecated row must not read as dangerous (a dangerous
+// row needs a confirmation in the dialogue), whatever the bit values are.
+TEST (LumexProtocolOptionsTest,
+      GivenADeprecatedRow_WhenItsFlagsAreRead_ThenItIsNotDangerous)
+{
+  EXPECT_EQ (static_cast<unsigned> (flags::idempotent), 1u);
+  EXPECT_EQ (static_cast<unsigned> (flags::dangerous), 2u);
+  EXPECT_EQ (static_cast<unsigned> (flags::deprecated), 4u);
+  unsigned const deprecated = dsl::flags_of (v1::READ_TEXT_t::options ());
+  EXPECT_NE (deprecated & flags::deprecated, 0u);
+  EXPECT_EQ (deprecated & flags::dangerous, 0u);
+  EXPECT_EQ (deprecated & flags::idempotent, 0u);
+  unsigned const dangerous = dsl::flags_of (v1::ERASE_LOG_t::options ());
+  EXPECT_EQ (dangerous & flags::deprecated, 0u);
+  auto const entries = dsl::command_entries<v1> ();
+  EXPECT_EQ (entries[4].options.flags, 4u);
+  EXPECT_EQ (entries[3].options.flags, 2u);
+}
+
 TEST (LumexProtocolOptionsTest,
       GivenARowWithoutAnOption_WhenAsked_ThenHasOptionIsFalse)
 {

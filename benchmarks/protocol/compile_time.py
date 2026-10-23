@@ -6,8 +6,10 @@ table.
 compile_time.cpp is compiled syntax-only (-fsyntax-only -O0 for GCC and
 Clang, /Zs for cl.exe and clang-cl) with BENCH_PROTOCOL_TABLE 0 (the module
 headers only), 1 (a layout of 40 scaled fields), 2 (the layout and a protocol
-of 100 rows) and 3 (as 2, plus the run-time entries and three client
-methods), at C++11 (C++14 for the cl drivers, their lowest) and C++20. The
+of 100 rows), 3 (as 2, plus the run-time entries and three client methods),
+4 (a layout of 40 fields of every field kind) and 5 (as 4, plus its encoder
+and decoder in three layouts), at C++11 (C++14 for the cl drivers, their
+lowest) and C++20. The
 wall time of every compile is measured --repeats times; the median and the
 minimum are kept. The cost of a table is its row minus row 0.
 
@@ -31,7 +33,7 @@ import time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, "..", ".."))
-TABLES = [0, 1, 2, 3]
+TABLES = [0, 1, 2, 3, 4, 5]
 STANDARDS = ["11", "20"]
 
 

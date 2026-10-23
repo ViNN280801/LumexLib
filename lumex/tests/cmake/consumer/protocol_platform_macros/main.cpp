@@ -4,8 +4,9 @@
 // elsewhere: ECHO, MIN, MAX, and major, minor on glibc). The rows with those
 // specification names are written with X_AS; the macros stay defined while
 // the module headers, the table, its layer, the entries and the client
-// methods (named by the bare identifiers) compile. The table is synthetic: an
-// invented device, no real protocol. Exit code 0 when the names read back.
+// methods (named by the bare identifiers) compile, and a row encodes and
+// decodes. The table is synthetic: an invented device, no real protocol.
+// Exit code 0 when the names and the values read back.
 
 #if defined(_WIN32)
 #include <windows.h>
@@ -139,6 +140,22 @@ check ()
     ++failures;
   if (!dsl::is_platform_macro_name ("DELETE")
       || dsl::is_platform_macro_name ("DELETE_ITEM"))
+    ++failures;
+
+  // The field and layout code works with the macros defined too.
+  namespace layout = lumex::core::protocol::layout;
+  layout::bytes_t bytes;
+  if (!layout::encode_request<platform_layer, platform_layer::WRITE_OUT_t> (
+          bytes, 3, 4)
+      || !layout::decode_request<platform_layer, platform_layer::WRITE_OUT_t> (
+          layout::bytes_view_t (bytes.data (), bytes.size ())))
+    ++failures;
+  bytes.clear ();
+  layout::reply_value_of<platform_layer::MIN_LEVEL_t>::type reply
+      = layout::reply_value_of<platform_layer::MIN_LEVEL_t>::type ();
+  if (!layout::encode_reply<platform_layer, platform_layer::MIN_LEVEL_t> (
+          bytes, reply)
+      || bytes.size () != 3)
     ++failures;
   return failures;
 }
