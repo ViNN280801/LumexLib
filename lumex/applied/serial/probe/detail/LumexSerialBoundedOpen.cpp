@@ -300,8 +300,10 @@ state_from_open_result (open_result_t const &result) LUMEX_NOEXCEPT
       || result.error_code == ERROR_SHARING_VIOLATION)
     return enumeration::serial_port_state::busy;
 #else
-  if (result.error_code == EBUSY || result.error_code == EACCES)
+  if (result.error_code == EBUSY)
     return enumeration::serial_port_state::busy;
+  if (result.error_code == EACCES || result.error_code == EPERM)
+    return enumeration::serial_port_state::denied;
 #endif
 
   return enumeration::serial_port_state::free;

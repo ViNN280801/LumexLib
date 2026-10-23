@@ -143,8 +143,8 @@ close_serial_handle (native_serial_handle_t handle) LUMEX_NOEXCEPT;
  * @brief Maps an open outcome to the enumeration state.
  * @param result Result of `bounded_open_serial_port`.
  * @return `available` for `opened`; `unresponsive` for `timed_out`; `busy`
- * for access-denied / sharing-violation / `EBUSY` / `EACCES` failures;
- * `free` otherwise.
+ * for access-denied / sharing-violation (Windows) and `EBUSY`; `denied` for
+ * `EACCES` / `EPERM` (POSIX); `free` otherwise.
  */
 LUMEX_PUBLIC_API enumeration::serial_port_state
 state_from_open_result (open_result_t const &result) LUMEX_NOEXCEPT;
