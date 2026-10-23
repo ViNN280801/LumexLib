@@ -28,6 +28,7 @@ set(LUMEX_CORE_MODULE_OPTIONS
     LUMEX_BUILD_HAZARD_POINTER
     LUMEX_BUILD_MATH
     LUMEX_BUILD_OPTIONAL
+    LUMEX_BUILD_PROTOCOL
     LUMEX_BUILD_REFLECTION
     LUMEX_BUILD_SMART_PTR
     LUMEX_BUILD_SPAN
@@ -179,6 +180,16 @@ function(lumex_check_module_dependencies)
     lumex_require_module(LUMEX_BUILD_FRAMING LUMEX_BUILD_SPAN)
     lumex_require_module(LUMEX_BUILD_FRAMING LUMEX_BUILD_UTILITY)
 
+    # string_view and reflection first: a case that switches one of them off
+    # must switch framing off too (crc links string_view), and the protocol
+    # edge it tests must still be the first to fail.
+    lumex_require_module(LUMEX_BUILD_PROTOCOL LUMEX_BUILD_STRING_VIEW)
+    lumex_require_module(LUMEX_BUILD_PROTOCOL LUMEX_BUILD_REFLECTION)
+    lumex_require_module(LUMEX_BUILD_PROTOCOL LUMEX_BUILD_SPAN)
+    lumex_require_module(LUMEX_BUILD_PROTOCOL LUMEX_BUILD_EXPECTED)
+    lumex_require_module(LUMEX_BUILD_PROTOCOL LUMEX_BUILD_FRAMING)
+    lumex_require_module(LUMEX_BUILD_PROTOCOL LUMEX_BUILD_UTILITY)
+
     lumex_require_module(LUMEX_BUILD_TRANSPORT LUMEX_BUILD_CONTRACTS)
     lumex_require_module(LUMEX_BUILD_TRANSPORT LUMEX_BUILD_EXPECTED)
     lumex_require_module(LUMEX_BUILD_TRANSPORT LUMEX_BUILD_SERIAL)
@@ -264,6 +275,7 @@ set(LUMEX_SHARED_LIBRARY_CANDIDATES
     LumexCore_number_generator
     LumexCore_math
     LumexCore_optional
+    LumexCore_protocol
     LumexCore_reflection
     LumexCore_smart_ptr
     LumexCore_span

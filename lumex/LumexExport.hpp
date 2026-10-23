@@ -42,7 +42,7 @@
  * @brief Export and linkage macros of LumexLib: `LUMEX_API`,
  * `LUMEX_PUBLIC_API`, `LUMEX_PUBLIC_C_API`, `LUMEX_UTILITY_API`,
  * `LUMEX_HAZARD_POINTER_API`, `LUMEX_CONTRACTS_API`, `LUMEX_FRAMING_API`,
- * `LUMEX_EXTERN_C_BEGIN` and `LUMEX_EXTERN_C_END`.
+ * `LUMEX_PROTOCOL_API`, `LUMEX_EXTERN_C_BEGIN` and `LUMEX_EXTERN_C_END`.
  * @details `LUMEX_API` marks a class or function of a shared library: on
  * Windows it is `dllexport` while `LUMEX_EXPORTS` is defined and `dllimport`
  * otherwise, elsewhere it gives default visibility while `LUMEX_EXPORTS` is
@@ -55,9 +55,11 @@
  * their header. `LUMEX_HAZARD_POINTER_API` marks the free functions of the
  * hazard pointer library (`LumexCore_hazard_pointer_EXPORTS`) the same way,
  * `LUMEX_CONTRACTS_API` the free functions of the contracts library
- * (`LumexCore_contracts_EXPORTS`), and `LUMEX_FRAMING_API` the error category
- * of the framing library (`LumexCore_framing_EXPORTS`). The string views are
- * header-only and have no export macro.
+ * (`LumexCore_contracts_EXPORTS`), `LUMEX_FRAMING_API` the error category
+ * of the framing library (`LumexCore_framing_EXPORTS`), and
+ * `LUMEX_PROTOCOL_API` the error category of the protocol library
+ * (`LumexCore_protocol_EXPORTS`). The string views are header-only and have
+ * no export macro.
  * `LUMEX_EXTERN_C_BEGIN` and `LUMEX_EXTERN_C_END` open and close an `extern
  * "C"` block when compiled as C++.
  */
@@ -168,6 +170,21 @@
 #define LUMEX_FRAMING_API __attribute__ ((visibility ("default")))
 #else
 #define LUMEX_FRAMING_API
+#endif
+
+// Per-module export for LumexCore_protocol, like LUMEX_FRAMING_API: the
+// library exports the error category of the protocol layer, every other DLL
+// that includes the headers imports it (one category object per process).
+#if defined(_WIN32) || defined(__CYGWIN__)
+#if defined(LumexCore_protocol_EXPORTS)
+#define LUMEX_PROTOCOL_API __declspec (dllexport)
+#else
+#define LUMEX_PROTOCOL_API __declspec (dllimport)
+#endif
+#elif defined(LumexCore_protocol_EXPORTS)
+#define LUMEX_PROTOCOL_API __attribute__ ((visibility ("default")))
+#else
+#define LUMEX_PROTOCOL_API
 #endif
 
 // Per-module export for LumexApplied_serial, like LUMEX_FRAMING_API: the
