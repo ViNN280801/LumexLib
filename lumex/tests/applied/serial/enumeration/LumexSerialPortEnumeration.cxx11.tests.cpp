@@ -226,8 +226,11 @@ TEST (LumexSerialPortEnumeration, StateFromOpenResultMapsEveryOutcome)
 #else
   result.error_code = EBUSY;
   EXPECT_EQ (state_from_open_result (result), serial_port_state::busy);
+  // A refused open is not a busy port: the user may not open the node.
   result.error_code = EACCES;
-  EXPECT_EQ (state_from_open_result (result), serial_port_state::busy);
+  EXPECT_EQ (state_from_open_result (result), serial_port_state::denied);
+  result.error_code = EPERM;
+  EXPECT_EQ (state_from_open_result (result), serial_port_state::denied);
   result.error_code = ENOENT;
 #endif
   EXPECT_EQ (state_from_open_result (result), serial_port_state::free);
@@ -237,6 +240,43 @@ TEST (LumexSerialPortEnumeration, StateToString_WhenUnresponsive_ThenToken)
 {
   EXPECT_STREQ (serial_port_state_to_string (serial_port_state::unresponsive),
                 "Unresponsive");
+}
+
+TEST (LumexSerialPortEnumeration, StateToString_WhenDenied_ThenToken)
+{
+  EXPECT_STREQ (serial_port_state_to_string (serial_port_state::denied),
+                "Denied");
+}
+
+TEST (LumexSerialPortEnumeration,
+      PrintGroups_WhenAPortIsDenied_ThenItsSectionListsItWithTheError)
+{
+  std::vector<serial_port_info_t> infos (2);
+  infos[0].path = "/dev/ttyUSB0";
+  infos[0].state = serial_port_state::denied;
+  infos[0].system_error = "Permission denied";
+  infos[1].path = "/dev/ttyUSB1";
+  infos[1].state = serial_port_state::available;
+  std::ostringstream out;
+  print_serial_ports_info (out, infos);
+  std::string const text = out.str ();
+  std::string::size_type const section
+      = text.find ("=== Ports: denied (no permission to open) ===");
+  ASSERT_NE (section, std::string::npos) << text;
+  EXPECT_NE (text.find ("/dev/ttyUSB0  Permission denied", section),
+             std::string::npos)
+      << text;
+  EXPECT_EQ (text.find ("/dev/ttyUSB1", section), std::string::npos) << text;
+}
+
+TEST (LumexSerialPortEnumeration,
+      PrintGroups_WhenNoPortIsDenied_ThenNoDeniedSection)
+{
+  std::vector<serial_port_info_t> infos (1);
+  infos[0].path = "COM3";
+  std::ostringstream out;
+  print_serial_ports_info (out, infos);
+  EXPECT_EQ (out.str ().find ("denied"), std::string::npos) << out.str ();
 }
 
 TEST (LumexSerialPortEnumeration, PrintGroupsUnresponsiveInfos)

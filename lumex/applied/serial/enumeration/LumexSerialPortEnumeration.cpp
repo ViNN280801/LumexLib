@@ -307,6 +307,8 @@ serial_port_state_to_string (serial_port_state state) LUMEX_NOEXCEPT
       return "Free";
     case serial_port_state::unresponsive:
       return "Unresponsive";
+    case serial_port_state::denied:
+      return "Denied";
     default:
       return "Unknown";
     }
@@ -905,6 +907,8 @@ enumerate_ports (std::string const &connected_port,
             }
           else
             {
+              if (info.state == serial_port_state::denied)
+                read_linux_device_attributes (name, info);
               info.system_error = opened.system_error;
             }
           result.push_back (info);
@@ -962,6 +966,8 @@ enumerate_ports (std::string const &connected_port,
                 }
               else
                 {
+                  if (info.state == serial_port_state::denied)
+                    read_linux_device_attributes (name, info);
                   info.system_error = opened.system_error;
                 }
               result.push_back (info);
