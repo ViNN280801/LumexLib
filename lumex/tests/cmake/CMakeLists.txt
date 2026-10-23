@@ -357,6 +357,19 @@ if(UNIX AND NOT APPLE)
 endif()
 lumex_add_consumer_test(consumer_third_party_hidapi third_party_hidapi)
 lumex_add_consumer_test(consumer_third_party_warnings third_party_warnings)
+# One exception-handling model per compile command of this tree (two make
+# cl.exe print D9025 and the last one wins). compile_commands.json is written
+# by the Ninja and Makefile generators of a top-level tree.
+if(MSVC AND LUMEX_IS_TOP_LEVEL AND CMAKE_EXPORT_COMPILE_COMMANDS
+   AND CMAKE_GENERATOR MATCHES "Ninja|Makefiles")
+    lumex_test_name(_ctest_name single_eh_model)
+    add_test(NAME ${_ctest_name}
+        COMMAND ${CMAKE_COMMAND}
+            -DCOMPILE_COMMANDS=${CMAKE_BINARY_DIR}/compile_commands.json
+            -P ${CMAKE_CURRENT_SOURCE_DIR}/artifacts/single_eh_model.cmake
+    )
+    set_tests_properties(${_ctest_name} PROPERTIES LABELS "cmake" TIMEOUT 60)
+endif()
 # LumexLib-source-revision.rev (publish_distr, the install hook) on a library
 # of this tree: commits, symbol keys, and foreign symbols told apart.
 find_package(Python3 COMPONENTS Interpreter QUIET)
