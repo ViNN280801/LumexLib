@@ -68,7 +68,6 @@ foreach(_edge
         "lumex_require_module(LUMEX_BUILD_PROTOCOL LUMEX_BUILD_REFLECTION)"
         "lumex_require_module(LUMEX_BUILD_PROTOCOL LUMEX_BUILD_SPAN)"
         "lumex_require_module(LUMEX_BUILD_PROTOCOL LUMEX_BUILD_EXPECTED)"
-        "lumex_require_module(LUMEX_BUILD_PROTOCOL LUMEX_BUILD_FRAMING)"
         "lumex_require_module(LUMEX_BUILD_PROTOCOL LUMEX_BUILD_UTILITY)"
         "lumex_require_module(LUMEX_BUILD_TRANSPORT LUMEX_BUILD_CONTRACTS)"
         "lumex_require_module(LUMEX_BUILD_TRANSPORT LUMEX_BUILD_EXPECTED)"

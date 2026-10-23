@@ -53,6 +53,7 @@ lumex_add_cmake_test(require_ok_xml_off)
 lumex_add_cmake_test(require_ok_xml_on_applied_off)
 lumex_add_cmake_test(require_ok_all_groups_off)
 lumex_add_cmake_test(require_ok_independents_off)
+lumex_add_cmake_test(require_ok_protocol_without_framing)
 lumex_add_cmake_test(require_ok_math_off_utility_off)
 lumex_add_cmake_test(require_ok_time_off_without_time_consumers)
 lumex_add_cmake_test(require_ok_string_off_without_string_consumers)
@@ -179,8 +180,6 @@ lumex_add_cmake_fail_test(require_fail_interprocess_without_filesystem
     "LUMEX_BUILD_INTERPROCESS is enabled but requires LUMEX_BUILD_FILESYSTEM")
 lumex_add_cmake_fail_test(require_fail_interprocess_without_reflection
     "LUMEX_BUILD_INTERPROCESS is enabled but requires LUMEX_BUILD_REFLECTION")
-lumex_add_cmake_fail_test(require_fail_protocol_without_framing
-    "LUMEX_BUILD_PROTOCOL is enabled but requires LUMEX_BUILD_FRAMING")
 lumex_add_cmake_fail_test(require_fail_protocol_without_reflection
     "LUMEX_BUILD_PROTOCOL is enabled but requires LUMEX_BUILD_REFLECTION")
 lumex_add_cmake_fail_test(require_fail_protocol_without_string_view
