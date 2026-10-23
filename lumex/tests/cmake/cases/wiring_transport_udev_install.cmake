@@ -36,3 +36,16 @@ endif()
 if(_diagnostics MATCHES "examples/transport/udev")
     message(FATAL_ERROR "the permission hint names a source-tree path")
 endif()
+
+# Others get no access to a device node (decision of 23.10.2026): a mode that
+# lets every local user open hidraw read-only hands out the device data.
+file(READ "${LUMEX_SOURCE_DIR}/${_dir}/99-lumex-serial.rules" _group_rules)
+string(REGEX MATCHALL "MODE=\"[0-7]+\"" _modes "${_group_rules}")
+if(NOT _modes)
+    message(FATAL_ERROR "99-lumex-serial.rules sets no MODE")
+endif()
+foreach(_mode IN LISTS _modes)
+    if(NOT _mode STREQUAL "MODE=\"0660\"")
+        message(FATAL_ERROR "99-lumex-serial.rules: ${_mode}, expected MODE=\"0660\"")
+    endif()
+endforeach()

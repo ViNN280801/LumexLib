@@ -5,10 +5,10 @@
 # Devices with the USB vendor id 16e0 (the line matches ATTRS{idVendor}; a
 # USB serial adapter with its own vendor and product id needs a line of its
 # own, see README.md, "A different adapter") get the group rw access on their
-# device nodes:
+# device nodes, MODE 0660 (group only, no access for others):
 #   - ttyUSB* and ttyACM* (a USB serial adapter or a CDC device) belong to the
-#     group "dialout", MODE 0660 (group only, no access for others);
-#   - hidraw* (a HID device) belongs to the group "plugdev", MODE 0664.
+#     group "dialout";
+#   - hidraw* (a HID device) belongs to the group "plugdev".
 # The user must be a member of that group (see README.md), or the rule is
 # changed to the group the user already has.
 #
@@ -29,4 +29,4 @@ SUBSYSTEM=="tty", KERNEL=="ttyUSB[0-9]*", ATTRS{idVendor}=="16e0", MODE="0660", 
 SUBSYSTEM=="tty", KERNEL=="ttyACM[0-9]*", ATTRS{idVendor}=="16e0", MODE="0660", GROUP="dialout"
 
 # HID devices (/dev/hidrawN).
-SUBSYSTEM=="hidraw", ATTRS{idVendor}=="16e0", MODE="0664", GROUP="plugdev"
+SUBSYSTEM=="hidraw", ATTRS{idVendor}=="16e0", MODE="0660", GROUP="plugdev"
