@@ -4,7 +4,9 @@
 // through a session (stream_session, message_session); exit code 0 when every
 // exchange returned what was fed, 1 otherwise. With the logger adapter
 // (LUMEX_TRANSPORT_WITH_LOGGER) the run goes through the LumexLogger sink and
-// a lumex_logger_watch_timer.
+// a lumex_logger_watch_timer. With the framing module
+// (LUMEX_TRANSPORT_WITH_FRAMING) every token style also runs through
+// framed_stream, and framed_datagram answers a round.
 
 #include <chrono>
 #include <cstddef>
@@ -24,6 +26,9 @@
 #endif
 #include "lumex/applied/transport/testing/LumexMockDatagram.hpp"
 #include "lumex/applied/transport/testing/LumexMockStream.hpp"
+#if defined(LUMEX_TRANSPORT_WITH_FRAMING)
+#include "lumex/core/framing/LumexFraming"
+#endif
 
 namespace
 {
@@ -152,6 +157,199 @@ datagram_round (tr::stream::io_runner &runner)
   mock.transport.async_send (received, asio::use_future).get ();
   return received.payload == reply ();
 }
+#if defined(LUMEX_TRANSPORT_WITH_FRAMING)
+// --- the framed adapters (framed_stream, framed_datagram) ------------------
+
+typedef lumex::core::framing::slip::slip_codec codec_t;
+typedef tr::framed::framed_stream<codec_t> link_t;
+
+std::vector<std::uint8_t>
+frame_payload ()
+{
+  return std::vector<std::uint8_t> (5, std::uint8_t (0x46));
+}
+
+std::vector<std::uint8_t>
+frame_wire ()
+{
+  std::vector<std::uint8_t> const payload = frame_payload ();
+  std::vector<std::uint8_t> wire;
+  codec_t const codec;
+  if (!codec
+           .encode (lumex::core::framing::codec::bytes_view_t (
+                        payload.data (), payload.size ()),
+                    wire)
+           .has_value ())
+    wire.clear ();
+  return wire;
+}
+
+bool
+framed_by_callback (link_t &link)
+{
+  std::promise<std::size_t> done;
+  link.async_read_frame (
+      [&done] (std::error_code error, tr::framed::frame_t frame)
+        { done.set_value (error ? 0 : frame.size ()); });
+  return done.get_future ().get () == 5;
+}
+
+bool
+framed_by_future (link_t &link)
+{
+  std::vector<std::uint8_t> const payload = frame_payload ();
+  link.async_write_frame (tr::const_bytes_t (payload), asio::use_future)
+      .get ();
+  return link.async_read_frame (asio::use_future).get () == payload;
+}
+
+bool
+framed_by_deferred (link_t &link)
+{
+  auto read = link.async_read_frame (asio::deferred);
+  return std::move (read) (asio::use_future).get () == frame_payload ();
+}
+
+bool
+framed_by_cancel_after (tr::stream::io_runner &runner, link_t &link)
+{
+  std::promise<std::size_t> done;
+  link.async_read_frame (asio::cancel_after (
+      std::chrono::seconds (10),
+      asio::bind_executor (
+          asio::make_strand (runner.get_executor ()),
+          [&done] (std::error_code error, tr::framed::frame_t frame)
+            { done.set_value (error ? 0 : frame.size ()); })));
+  return done.get_future ().get () == 5;
+}
+
+#if defined(LUMEX_TRANSPORT_WITH_SPAWN)
+bool
+framed_by_yield (tr::stream::io_runner &runner, link_t &link)
+{
+  std::promise<std::size_t> done;
+  asio::spawn (
+      runner.get_executor (),
+      [&link, &done] (asio::yield_context yield)
+        {
+          std::error_code error;
+          tr::framed::frame_t const frame
+              = link.async_read_frame (yield[error]);
+          done.set_value (error ? 0 : frame.size ());
+        },
+      [] (std::exception_ptr failure)
+        {
+          if (failure)
+            std::rethrow_exception (failure);
+        });
+  return done.get_future ().get () == 5;
+}
+#endif
+
+#if __cplusplus >= 202002L || (defined(_MSVC_LANG) && _MSVC_LANG >= 202002L)
+bool
+framed_by_awaitable (tr::stream::io_runner &runner, link_t &link)
+{
+  std::promise<std::size_t> done;
+  asio::co_spawn (
+      runner.get_executor (),
+      [&link, &done] () -> asio::awaitable<void>
+        {
+          tr::framed::frame_t const frame
+              = co_await link.async_read_frame (asio::use_awaitable);
+          done.set_value (frame.size ());
+        },
+      [] (std::exception_ptr failure)
+        {
+          if (failure)
+            std::rethrow_exception (failure);
+        });
+  return done.get_future ().get () == 5;
+}
+#endif
+
+// Every token style through framed_stream over a mock stream, the
+// synchronous calls, the statistics, and a framed_datagram round.
+bool
+framed_round (tr::stream::io_runner &runner)
+{
+  namespace codec = lumex::core::framing::codec;
+  tr::testing::mock_stream mock
+      = tr::testing::make_mock_stream (runner.get_executor (), "framed");
+  tr::framed::framed_options_t options;
+  options.queue_bound = 8;
+  link_t link = tr::framed::make_framed_stream (std::move (mock.stream),
+                                                codec_t (), options);
+  if (!link.transport ().open (tr::deadline_t (1000)).has_value ())
+    return false;
+  bool fine = true;
+  mock.control.feed (frame_wire ());
+  fine = framed_by_callback (link) && fine;
+  mock.control.feed (frame_wire ());
+  fine = framed_by_deferred (link) && fine;
+  mock.control.feed (frame_wire ());
+  fine = framed_by_cancel_after (runner, link) && fine;
+#if defined(LUMEX_TRANSPORT_WITH_SPAWN)
+  mock.control.feed (frame_wire ());
+  fine = framed_by_yield (runner, link) && fine;
+#endif
+#if __cplusplus >= 202002L || (defined(_MSVC_LANG) && _MSVC_LANG >= 202002L)
+  mock.control.feed (frame_wire ());
+  fine = framed_by_awaitable (runner, link) && fine;
+#endif
+  // The write of the future style is read back as its echo.
+  mock.control.feed (frame_wire ());
+  fine = framed_by_future (link) && fine;
+  // The synchronous API.
+  std::vector<std::uint8_t> const payload = frame_payload ();
+  fine = link.write_frame (tr::const_bytes_t (payload), tr::deadline_t (1000))
+             .has_value ()
+         && fine;
+  mock.control.feed (frame_wire ());
+  tr::framed::frame_result_t const frame
+      = link.read_frame (tr::deadline_t (1000));
+  // operator* and not value (): the latter trips C4702 at /W4 in expected.
+  fine = frame.has_value () && *frame == payload && fine;
+  tr::framed::frame_result_t const none
+      = link.read_frame (tr::deadline_t (20));
+  fine = !none.has_value ()
+         && none.error () == tr::error::transport_errc::timeout && fine;
+  // A payload beyond the limit of the codec is refused and not written.
+  std::vector<std::uint8_t> const big (
+      codec::Constants::KDEFAULT_MAX_FRAME_SIZE + 1, std::uint8_t (1));
+  tr::status_result_t const refused
+      = link.write_frame (tr::const_bytes_t (big), tr::deadline_t (1000));
+  fine = !refused.has_value ()
+         && refused.error () == codec::framing_errc::payload_too_large && fine;
+  tr::framed::framed_statistics_t const counted = link.statistics ();
+  fine = counted.frames_in >= 5 && counted.frames_out == 2
+         && counted.errors_of (codec::framing_errc::payload_too_large) == 1
+         && counted.dropped_frames == 0 && link.queued_frames () == 0 && fine;
+  fine = link.transport_statistics ().total_errors () == 0 && fine;
+  link.reset_statistics ();
+  fine = link.statistics ().frames_in == 0 && fine;
+
+  tr::testing::mock_datagram datagrams
+      = tr::testing::make_mock_datagram (runner.get_executor (), "framed");
+  tr::framed::framed_datagram<codec_t> messages (
+      std::move (datagrams.transport), codec_t ());
+  if (!messages.transport ().open (tr::deadline_t (1000)).has_value ())
+    return false;
+  tr::datagram::message_t message;
+  message.payload = frame_wire ();
+  message.report_id = 2;
+  datagrams.control.deliver (message);
+  tr::datagram::message_t const got
+      = messages.async_read_frame (asio::use_future).get ();
+  fine = got.payload == payload && got.report_id == 2 && fine;
+  messages.async_write_frame (3, tr::const_bytes_t (payload), asio::use_future)
+      .get ();
+  fine = datagrams.control.sent ().size () == 1
+         && datagrams.control.sent ()[0].report_id == 3 && fine;
+  return fine;
+}
+#endif
+
 // The mock streams a session's factory made, for the script.
 struct made_streams
 {
@@ -272,6 +470,9 @@ main ()
 #endif
   fine = datagram_round (runner) && fine;
   fine = session_round (runner) && fine;
+#if defined(LUMEX_TRANSPORT_WITH_FRAMING)
+  fine = framed_round (runner) && fine;
+#endif
 #if defined(LUMEX_TRANSPORT_WITH_LOGGER)
   tr::log::uninstall_lumex_logger_sink ();
   fine = tr::log::get_log_sink () == nullptr && fine;
