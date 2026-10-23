@@ -40,7 +40,7 @@
 /**
  * @file LumexTransport
  * @brief Transport module: byte streams and message transports over Asio
- * (serial, TCP, UDP), synchronous with deadlines and asynchronous with any
+ * (serial, TCP, UDP, USB HID), synchronous with deadlines and asynchronous with any
  * completion token.
  * @details Link <tt>%lumex::transport</tt> (always a static library; it links
  * <tt>%lumex::serial</tt> and the vendored Asio, and Boost.Context with
@@ -62,6 +62,13 @@
 #include "framed/LumexFramedStatistics.hpp"
 #include "framed/LumexFramedStream.hpp"
 #include "framed/LumexFramedTypes.hpp"
+#endif
+
+// The HID transport needs hidapi (LUMEX_TRANSPORT_WITH_HID): the transport
+// library defines this macro for itself and its consumers then.
+#if defined(LUMEX_TRANSPORT_WITH_HID)
+#include "hid/LumexHidDevice.hpp"
+#include "hid/LumexHidReportDescriptor.hpp"
 #endif
 
 #include "log/LumexTransportLog.hpp"
