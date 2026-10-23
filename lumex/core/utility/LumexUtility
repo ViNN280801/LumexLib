@@ -86,6 +86,7 @@
 #include "util/LumexUtilities.hpp"
 
 #include "bit/LumexBit.hpp"
+#include "bit/LumexByteOrder.hpp"
 #include "cast/LumexCast.hpp"
 #include "mem/LumexMemRead.hpp"
 #include "ranges/LumexIteratorRange.hpp"

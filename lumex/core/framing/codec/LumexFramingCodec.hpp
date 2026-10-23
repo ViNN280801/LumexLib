@@ -87,6 +87,7 @@
 #include "lumex/core/expected/Expected"
 #include "lumex/core/framing/codec/LumexFramingErrc.hpp"
 #include "lumex/core/span/LumexSpan"
+#include "lumex/core/utility/bit/LumexByteOrder.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 
 namespace lumex
@@ -116,14 +117,10 @@ namespace Constants
 LUMEX_CONSTEXPR std::size_t KDEFAULT_MAX_FRAME_SIZE = 65536;
 } // namespace Constants
 
-/// @brief The order of the bytes of a multi-byte field on the wire.
-enum class byte_order
-{
-  /// Most significant byte first (network order).
-  big,
-  /// Least significant byte first.
-  little
-};
+/// @brief The order of the bytes of a multi-byte field on the wire (the
+/// type of `lumex/core/utility/bit/LumexByteOrder.hpp`, shared with the
+/// protocol fields): `byte_order::big`, `byte_order::little`.
+typedef ::lumex::core::utility::bit::byte_order byte_order;
 
 namespace detail
 {
