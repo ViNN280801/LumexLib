@@ -233,3 +233,28 @@ set(LUMEX_HIDAPI_DIR "" CACHE PATH
 set(LUMEX_HIDAPI_BACKEND "hidraw" CACHE STRING
     "hidapi backend on Linux and other non-Windows, non-Apple systems: hidraw (needs libudev) or libusb (needs libusb-1.0)")
 set_property(CACHE LUMEX_HIDAPI_BACKEND PROPERTY STRINGS hidraw libusb)
+
+# The HID transport (applied/transport/hid: hid_device over the vendored
+# hidapi). On by default where hidapi builds: always on Windows and Apple
+# systems; elsewhere when pkg-config finds the library of the chosen backend
+# (libudev for hidraw, libusb-1.0 for libusb). Set it ON explicitly to get the
+# backend's error message instead of a silent OFF.
+if(NOT DEFINED LUMEX_TRANSPORT_WITH_HID)
+    set(_lumex_hid_default ON)
+    if(NOT WIN32 AND NOT APPLE)
+        set(_lumex_hid_default OFF)
+        find_package(PkgConfig QUIET)
+        if(PKG_CONFIG_FOUND)
+            if(LUMEX_HIDAPI_BACKEND STREQUAL "libusb")
+                pkg_check_modules(_LUMEX_HID_PROBE QUIET libusb-1.0)
+            else()
+                pkg_check_modules(_LUMEX_HID_PROBE QUIET libudev)
+            endif()
+            if(_LUMEX_HID_PROBE_FOUND)
+                set(_lumex_hid_default ON)
+            endif()
+        endif()
+    endif()
+endif()
+option(LUMEX_TRANSPORT_WITH_HID "applied/transport: hid_device over the vendored hidapi (default ON where hidapi builds)" ${_lumex_hid_default})
+unset(_lumex_hid_default)

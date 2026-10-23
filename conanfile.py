@@ -279,6 +279,19 @@ class LumexLibConan(ConanFile):
             "BOOST_ALL_NO_LIB",
             "BOOST_USE_WINFIB" if windows else "BOOST_USE_UCONTEXT",
         ]
+        # The static hidapi library of the HID transport (the package builds
+        # it with the default backend: Windows, IOKit, or hidraw with
+        # libudev).
+        hidapi = self._component(
+            "thirdparty_hidapi", "3rdparty_hidapi", ["lumex_3rdparty_hidapi"],
+        )
+        hidapi.includedirs = ["include/lumex/3rdparty/hidapi"]
+        if windows:
+            hidapi.system_libs.extend(["setupapi", "hid", "cfgmgr32"])
+        elif self.settings.os == "Macos":  # type: ignore
+            hidapi.frameworks.extend(["IOKit", "CoreFoundation", "AppKit"])
+        else:
+            hidapi.system_libs.append("udev")
         # The package builds the logger and the framing module, so transport
         # has its logger adapter (log/adapter) and its framed adapters
         # (framed/) and links both.
@@ -286,11 +299,13 @@ class LumexLibConan(ConanFile):
             "applied_transport", "transport", ["LumexApplied_transport"],
             ["applied_serial", "core_expected", "core_span", "core_contracts",
              "core_utility", "applied_logger", "core_framing",
-             "thirdparty_asio", "thirdparty_boost_context"],
+             "thirdparty_asio", "thirdparty_boost_context",
+             "thirdparty_hidapi"],
         )
         transport.defines = [
             "LUMEX_TRANSPORT_WITH_SPAWN=1", "LUMEX_TRANSPORT_WITH_TESTING=1",
             "LUMEX_TRANSPORT_WITH_LOGGER=1", "LUMEX_TRANSPORT_WITH_FRAMING=1",
+            "LUMEX_TRANSPORT_WITH_HID=1",
         ]
         if windows:
             transport.defines.append("_WIN32_WINNT=0x0A00")

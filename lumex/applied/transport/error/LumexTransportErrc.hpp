@@ -97,14 +97,17 @@ enum class transport_errc : int
   /// failed with `EACCES` or `EPERM`. Not produced on Windows, where
   /// `ERROR_ACCESS_DENIED` from opening a COM port means that the port is
   /// busy and stays a system error.
-  permission_denied
+  permission_denied,
+  /// The HID device has no output report with the message's report ID (a
+  /// device that numbers no report has report 0 at most).
+  unknown_report_id
 };
 
 /// @brief The last enumerator of `transport_errc`. Move it to the new value
 /// whenever one is added after it: `statistics_t::errors` has one slot per
 /// value up to it, and a `static_assert` there compares against it.
 LUMEX_CONSTEXPR transport_errc KTRANSPORT_ERRC_LAST
-    = transport_errc::permission_denied;
+    = transport_errc::unknown_report_id;
 
 /// @brief The name of the category, also used by `is_transport_error`.
 LUMEX_CONSTEXPR char const *KTRANSPORT_CATEGORY_NAME = "lumex.transport";

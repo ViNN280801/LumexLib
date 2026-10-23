@@ -141,8 +141,9 @@ std::chrono::milliseconds reconnect_delay (reconnect_policy_t const &policy,
 
 /**
  * @brief True when an I/O error means the link is gone and the session
- * reconnects: every error except `cancelled`, `timeout`, `would_deadlock`
- * and `report_too_large` (which end one operation, not the link).
+ * reconnects: every error except `cancelled`, `timeout`, `would_deadlock`,
+ * `report_too_large` and `unknown_report_id` (which end one operation, not
+ * the link).
  */
 bool is_link_lost (std::error_code const &error) LUMEX_NOEXCEPT;
 

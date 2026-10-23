@@ -141,7 +141,9 @@ is_link_lost (std::error_code const &error) LUMEX_NOEXCEPT
          && !error::is_transport_error (error, transport_errc::timeout)
          && !error::is_transport_error (error, transport_errc::would_deadlock)
          && !error::is_transport_error (error,
-                                        transport_errc::report_too_large);
+                                        transport_errc::report_too_large)
+         && !error::is_transport_error (error,
+                                        transport_errc::unknown_report_id);
 }
 } // namespace session
 } // namespace transport
