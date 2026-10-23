@@ -23,6 +23,14 @@ if(NOT _transport_with_logger)
     list(FILTER SOURCES EXCLUDE REGEX "/log/adapter/")
 endif()
 
+# The framed adapters (framed/: framed_stream, framed_datagram) are compiled
+# only when the framing module is built, as the logger adapter is: no required
+# edge, the transport builds as before without framing.
+lumex_effective_on(_transport_with_framing LUMEX_BUILD_FRAMING)
+if(NOT _transport_with_framing)
+    list(FILTER SOURCES EXCLUDE REGEX "/framed/")
+endif()
+
 # Always static (spec G6): the library holds Asio objects, and a static
 # library keeps the consumer's binary the only owner of its io_context and of
 # the transport's log slot.
@@ -56,6 +64,11 @@ if(_transport_with_logger)
     target_link_libraries(${LUMEX_TRANSPORT_NAME} PUBLIC lumex::logger)
     target_compile_definitions(${LUMEX_TRANSPORT_NAME} PUBLIC
         LUMEX_TRANSPORT_WITH_LOGGER=1)
+endif()
+if(_transport_with_framing)
+    target_link_libraries(${LUMEX_TRANSPORT_NAME} PUBLIC lumex::framing)
+    target_compile_definitions(${LUMEX_TRANSPORT_NAME} PUBLIC
+        LUMEX_TRANSPORT_WITH_FRAMING=1)
 endif()
 # The lowest log level compiled in, for the library and its consumers
 # (LUMEX_TRANSPORT_LOG_MIN_LEVEL of log/LumexTransportLog.hpp: 0 trace .. 4
@@ -94,7 +107,11 @@ if(LUMEX_INSTALL)
     # The adapter's header only with the adapter (it needs the logger).
     set(_transport_install_excludes "")
     if(NOT _transport_with_logger)
-        set(_transport_install_excludes PATTERN "adapter" EXCLUDE)
+        list(APPEND _transport_install_excludes PATTERN "adapter" EXCLUDE)
+    endif()
+    # The framed adapters' headers only with the framing module.
+    if(NOT _transport_with_framing)
+        list(APPEND _transport_install_excludes PATTERN "framed" EXCLUDE)
     endif()
     install(
         DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/
