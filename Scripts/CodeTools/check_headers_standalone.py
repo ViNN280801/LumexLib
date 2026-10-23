@@ -19,7 +19,8 @@ macro. They are compiled with the macro listed in NEEDS_MACRO instead of
 alone (today: the logger config format header, whose `#error` is
 deliberate). Headers under a directory that includes a vendored library get
 that library's include directory and configuration macros, as the build
-gives them (NEEDS_THIRD_PARTY; today: applied/transport and Asio).
+gives them (NEEDS_THIRD_PARTY; today: applied/transport and Asio, and
+applied/transport/hid with hidapi too).
 
 Include directories are the parent of the scanned lumex/ directory (so
 `lumex/...` resolves) and its 3rdparty/ directory (`<nlohmann/json.hpp>`).
@@ -65,6 +66,11 @@ NEEDS_MACRO: Dict[str, Tuple[str, ...]] = {
 # library: its include directories (relative to the parent of lumex/) and the
 # macros the build defines for it (cmake/LumexAsio.cmake).
 NEEDS_THIRD_PARTY: Dict[str, Tuple[Tuple[str, ...], Tuple[str, ...]]] = {
+    # The first matching prefix wins: the HID headers before the rest.
+    "applied/transport/hid/": (
+        ("3rdparty/asio/include", "3rdparty/hidapi/hidapi"),
+        ("ASIO_STANDALONE", "ASIO_NO_DEPRECATED"),
+    ),
     "applied/transport/": (
         ("3rdparty/asio/include",),
         ("ASIO_STANDALONE", "ASIO_NO_DEPRECATED"),

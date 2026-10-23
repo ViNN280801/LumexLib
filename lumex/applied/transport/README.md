@@ -5,7 +5,7 @@
 Модуль `lumex/applied/transport` (цель `lumex::transport`, опция `LUMEX_BUILD_TRANSPORT`) дает два вида транспорта поверх Asio:
 
 - `stream::byte_stream` - поток байтов: последовательный порт (`serial::make_serial_stream`), TCP (`net::make_tcp_stream`), заглушка для тестов (`testing::make_mock_stream`);
-- `datagram::message_transport` - транспорт целых сообщений: UDP (`net::make_udp_socket`), заглушка (`testing::make_mock_datagram`); USB HID появится в фазе 3.
+- `datagram::message_transport` - транспорт целых сообщений: UDP (`net::make_udp_socket`), USB HID (`hid::make_hid_device`, с опцией `LUMEX_TRANSPORT_WITH_HID`), заглушка (`testing::make_mock_datagram`).
 
 У каждого транспорта есть синхронный API с дедлайнами и асинхронный API для любого completion token Asio. Модуль работает начиная с C++11 и подключается одним заголовком:
 
@@ -23,6 +23,8 @@
 | `LUMEX_TRANSPORT_WITH_SPAWN` | `ON` | Токен `asio::yield_context` (собирает поставляемый Boost.Context) |
 | `LUMEX_TRANSPORT_WITH_TESTING` | `ON` | Публичные заглушки `testing/` (`mock_stream`, `mock_datagram`) |
 | `LUMEX_TRANSPORT_LOG_MIN_LEVEL` | `TRACE` | Нижний уровень лога, который вообще компилируется |
+| `LUMEX_TRANSPORT_WITH_HID` | `ON`, где собирается hidapi | HID-транспорт `hid/` поверх поставляемого hidapi 0.15.0 (раздел "HID") |
+| `LUMEX_HIDAPI_BACKEND` | `hidraw` | Backend hidapi в Linux: `hidraw` (нужен libudev) или `libusb` (нужен libusb-1.0) |
 
 У адаптеров кадров (`framed/`) опции нет: с `LUMEX_BUILD_FRAMING` транспорт собирает их, подключает `lumex::framing` и определяет `LUMEX_TRANSPORT_WITH_FRAMING=1` для себя и потребителей, как делает адаптер логгера (`LUMEX_TRANSPORT_WITH_LOGGER`). Без модуля `framing` транспорт собирается как раньше, заголовки `framed/` не ставятся и не входят в `LumexTransport`.
 
@@ -98,7 +100,7 @@ ui.run ();
 
 ## Ошибки
 
-`error::transport_errc`: `timeout`, `cancelled`, `closed`, `not_open`, `disconnected`, `would_deadlock`, `invalid_endpoint`, `report_too_large`, `bad_report_descriptor`, `permission_denied`. Ошибки операционной системы приходят без изменений в `std::system_category`, с одним исключением: отказ в доступе при открытии последовательного порта в POSIX (`EACCES`, `EPERM`) становится `permission_denied` (см. раздел о правах доступа). В Windows `ERROR_ACCESS_DENIED` при открытии COM-порта обычно значит, что порт занят, поэтому остается системной ошибкой. Собственные категории Asio никогда не выходят наружу: `operation_aborted` превращается в `cancelled`, `eof` и сброс TCP-соединения в `disconnected`, ошибка разрешения имени в `invalid_endpoint`.
+`error::transport_errc`: `timeout`, `cancelled`, `closed`, `not_open`, `disconnected`, `would_deadlock`, `invalid_endpoint`, `report_too_large`, `bad_report_descriptor`, `permission_denied`, `unknown_report_id`. Ошибки операционной системы приходят без изменений в `std::system_category`, с одним исключением: отказ в доступе при открытии последовательного порта в POSIX (`EACCES`, `EPERM`) становится `permission_denied` (см. раздел о правах доступа). В Windows `ERROR_ACCESS_DENIED` при открытии COM-порта обычно значит, что порт занят, поэтому остается системной ошибкой. Собственные категории Asio никогда не выходят наружу: `operation_aborted` превращается в `cancelled`, `eof` и сброс TCP-соединения в `disconnected`, ошибка разрешения имени в `invalid_endpoint`.
 
 Значения с переносимым смыслом сравниваются и со стандартными условиями: `timeout` равен `std::errc::timed_out`, `cancelled` равен `std::errc::operation_canceled`, `permission_denied` равен `std::errc::permission_denied`. У остальных значений такого соответствия нет.
 
@@ -106,7 +108,7 @@ ui.run ();
 
 ## Лог
 
-Записи (`log::log_record_t`: уровень, компонент `transport.serial` / `transport.tcp` / `transport.udp`, экземпляр, текст, байты) уходят в слот этого бинарника. По умолчанию записи от `warning` и выше печатаются в `std::cerr`. Потребитель ставит свой приемник через `log::set_log_sink`, меняет порог `log::set_log_level` во время работы и ограничивает компоненты `log::set_component_filter`. Байты показываются через `log::format_dump` (hex и текст с именами управляющих байтов, по умолчанию не больше 256 байт). На уровне `trace` пишется каждый принятый и отправленный кусок.
+Записи (`log::log_record_t`: уровень, компонент `transport.serial` / `transport.tcp` / `transport.udp` / `transport.hid`, экземпляр, текст, байты) уходят в слот этого бинарника. По умолчанию записи от `warning` и выше печатаются в `std::cerr`. Потребитель ставит свой приемник через `log::set_log_sink`, меняет порог `log::set_log_level` во время работы и ограничивает компоненты `log::set_component_filter`. Байты показываются через `log::format_dump` (hex и текст с именами управляющих байтов, по умолчанию не больше 256 байт). На уровне `trace` пишется каждый принятый и отправленный кусок.
 
 С модулем `logger` (`LUMEX_BUILD_LOGGER`, тогда определен `LUMEX_TRANSPORT_WITH_LOGGER`) лог транспорта можно направить в файл `LumexLogger`:
 
@@ -120,7 +122,7 @@ ui.run ();
 
 ## Права доступа (Linux)
 
-Если ОС отказывает в открытии узла последовательного порта (`EACCES` / `EPERM`), открытие завершается `permission_denied`, а в лог (уровень `error`) пишется узел, его владелец, группа, режим и способ исправить. Справка строится на рабочем потоке открытия и только при включенном логе ошибок, поток ввода-вывода не обращается к базе пользователей. Шаблоны правил udev для доступа без root ставятся в `share/LumexLib/udev` (`99-lumex-serial.rules` по группе и VID `16e0`, `70-lumex-uaccess.rules` для пользователя за консолью); как их установить, описано в `README.md` рядом с ними.
+Если ОС отказывает в открытии узла последовательного порта или HID-устройства (`/dev/hidrawN`; `EACCES` / `EPERM`), открытие завершается `permission_denied`, а в лог (уровень `error`) пишется узел, его владелец, группа, режим и способ исправить. Справка строится на рабочем потоке открытия и только при включенном логе ошибок, поток ввода-вывода не обращается к базе пользователей. Шаблоны правил udev для доступа без root ставятся в `share/LumexLib/udev` (`99-lumex-serial.rules` по группе и VID `16e0`, `70-lumex-uaccess.rules` для пользователя за консолью); как их установить, описано в `README.md` рядом с ними.
 
 ## Сессии и переподключение
 
@@ -189,6 +191,35 @@ framed::frame_result_t reply = link.read_frame (tr::deadline_t (500));
 - **TCP.** Разрешение имени и подключение; `no_delay` (по умолчанию включен) и `keep_alive`. Отмена или закрытие во время открытия завершают его сразу, даже если имя еще разрешается.
 - **UDP.** Сокет, подключенный к одному адресату: один прием возвращает одну датаграмму, одна отправка пишет одну. Датаграмма длиннее `max_datagram_size` обрезается до этого размера на всех платформах (с предупреждением в логе). Отправка сообщения с ненулевым `report_id` дает `std::errc::invalid_argument`.
 
+## HID
+
+`hid::make_hid_device (executor, hid_options_t)` (опция `LUMEX_TRANSPORT_WITH_HID`, заголовок `hid/LumexHidDevice.hpp`, входит в `LumexTransport`) дает USB HID-устройство как `datagram::message_transport` (`hid::hid_device`) поверх поставляемого hidapi 0.15.0: одно сообщение - один отчет.
+
+```cpp
+namespace hid = tr::hid;
+
+hid::hid_runtime runtime;                    // в main: потоки HID присоединяются до выхода из main
+hid::hid_options_t options;
+options.vendor_id = 0x1234;                  // или options.path из enumerate_hid_devices
+options.product_id = 0x5678;
+hid::hid_device device = hid::make_hid_device (runner.get_executor (), options);
+device.open (tr::deadline_t (2000));
+
+tr::datagram::message_t request;
+request.report_id = 1;                       // выходной отчет 1; 0 у устройства без номеров
+request.payload = { 0x01, 0x02 };            // дополняется нулями до размера отчета
+device.send (request, tr::deadline_t (500));
+tr::datagram::message_result_t reply = device.receive (tr::deadline_t (500));
+```
+
+- **Поиск.** `hid::enumerate_hid_devices (hid_filter_t)` перечисляет устройства по VID, PID, серийному номеру и пути (пустое или нулевое поле подходит всем) и не открывает их, поэтому в списке есть и устройства без прав доступа. `hid_options_t::path` открывает конкретный путь; без пути открывается первое устройство, подходящее по VID, PID и серийному номеру, а если такого нет, открытие завершается с `std::errc::no_such_device`.
+- **Дескриптор и номер отчета.** При открытии транспорт читает report descriptor (`hid_get_report_descriptor`) и разбирает его (`hid::analyze_report_descriptor`, перенос `AnalyzeHidReportDescriptor` из DChannel с размерами по номерам отчетов): нумерует ли устройство отчеты и каков размер каждого входного и выходного отчета. Дескриптор, который нельзя прочитать или разобрать, дает `bad_report_descriptor`; номер отчета никогда не угадывается. Разбор строже, чем в DChannel: в дескрипторе с номерами отчет до первого `Report ID`, а также `Report ID` 0, `Pop` без `Push` и отчет больше 64 КиБ дают `bad_report_descriptor`. `message_t::report_id` явный в обе стороны: принятый отчет нумерующего устройства несет свой номер, отчет устройства без номеров приходит с 0; отправка называет выходной отчет, который у устройства есть, иначе `unknown_report_id` (у устройства без номеров есть только отчет 0). `hid::opened_report_layout (device)` показывает разбор открытого устройства.
+- **Размеры.** Отправляемый отчет дополняется нулями до размера своего выходного отчета; полезный груз длиннее отчета дает `report_too_large`, и ничего не отправляется. Принятый `payload` - отчет без номера в том виде, в каком его прислало устройство.
+- **Потоки.** hidapi блокирует, поэтому у каждого открытого устройства есть поток чтения: он вызывает `hid_read_timeout` порциями по `read_slice` (100 мс) и передает каждый отчет на strand. Флаг остановки проверяется до и после каждой порции: `close ()` останавливает поток не позже чем через одну порцию, а отчет, пришедший после остановки, отбрасывается. Дескриптор hidapi закрывает только поток чтения после своего последнего чтения. Открытие и записи выполняются на небольшом блокирующем исполнителе (не больше двух потоков), по одной записи устройства за раз, поэтому strand никогда не блокируется. Запись, которая ждет свободный поток, завершается по дедлайну синхронного вызова или `cancel ()` с `cancelled` и до hidapi не доходит; запись, застрявшая внутри hidapi (драйвер не отвечает), занимает поток, и открытия и записи других устройств ждут за ней. Пока прием не ждет, отчеты копятся в очереди на `max_queued_reports` (256); при переполнении самый старый отбрасывается с предупреждением в логе.
+- **`hid_runtime`.** Потоки принадлежат общему для модуля `hid_runtime`. Каждое открытое устройство держит на нем ссылку, а поток обслуживания присоединяет закончившиеся потоки чтения, поэтому поток никогда не ждет сам себя: устройство, последняя ссылка на которое исчезла в его же потоке чтения, только ставит флаг остановки. `hid_runtime::shutdown (deadline)` закрывает все устройства и присоединяет все потоки; возвращает `false`, если дедлайн прошел раньше (например, запись застряла в драйвере) или вызов сделан из потока самого `hid_runtime`. Вызовы из нескольких потоков (например, явный `shutdown` и деструктор объекта-владельца) выполняются по очереди, второй ждет первый в пределах своего дедлайна. Счетчик `stats ().open_devices` уменьшается, когда strand устройства выполнит закрытие, поэтому сразу после `shutdown` он может отставать. Объект-владелец `hid_runtime runtime;` в `main` делает то же при выходе из `main`, даже если устройство еще открыто. Без него при выходе из процесса оставшиеся потоки чтения получают флаг остановки во время статической деинициализации, после деструкторов статических объектов, созданных позже первого обращения к HID, и не присоединяются (после флага вызовов hidapi нет, потоки завершает ОС). Поэтому `io_runner` потребителя должен пережить открытые устройства, иначе программа вызывает `shutdown` раньше. `hid_exit` не вызывается никогда: в процессе может быть копия hidapi из DChannel.
+- **Отмена и ошибки.** Как у остальных транспортов: любой completion token, `cancel ()` и `close ()` из любого потока, отмена через слот обработчика, счетчики `statistics ()` (байты полезного груза без номера и дополнения). Запись, которая уже ушла в hidapi, завершается своим результатом (hidapi ее не отменяет), запись в очереди завершается с `cancelled`. Неудачное чтение останавливает поток чтения: ожидающий и все следующие приемы завершаются с `disconnected` до закрытия и нового открытия.
+- **Linux.** По умолчанию backend hidraw (нужен libudev, пакет `libudev-dev`); `LUMEX_HIDAPI_BACKEND=libusb` выбирает libusb-1.0. Если библиотека backend не найдена, `LUMEX_TRANSPORT_WITH_HID` по умолчанию выключена, а явное `ON` дает понятную ошибку конфигурации. Проверка hidraw на настоящих устройствах (с номерами отчетов и без них) еще не проведена.
+
 ## Соответствие DChannel
 
 Модуль закрывает транспортную часть DChannel. Код продуктов на него пока не переводится; таблица показывает, чем заменить каждую часть при переходе.
@@ -198,13 +229,13 @@ framed::frame_result_t reply = link.read_frame (tr::deadline_t (500));
 | `DCT_SERIAL_PORT`, `DCT_SERIAL_PORT_SYNC`, `Create`, `CreateSerialPort` | `serial::make_serial_stream` и `serial_stream_options_t` (оба режима DChannel дает один поток: синхронный и асинхронный API) |
 | `DCT_NET_TCP` | `net::make_tcp_stream` |
 | `DCT_NET_UDP` | `net::make_udp_socket` |
-| `DCT_USB_HID`, `SelectDevice`, `EnumerateDevices`, `GetNextDeviceName`, `GetNextSerialNumber` | `hid_device` (фаза 3); последовательные порты перечисляет `applied/serial` |
+| `DCT_USB_HID`, `SelectDevice`, `EnumerateDevices`, `GetNextDeviceName`, `GetNextSerialNumber` | `hid::make_hid_device` (`hid_device`) и `hid_options_t` (путь или VID, PID, серийный номер); `hid::enumerate_hid_devices`; последовательные порты перечисляет `applied/serial` |
 | `DCT_NAMED_PIPE_SERVER`, `DCT_NAMED_PIPE_CLIENT` | не переносятся |
 | `DCP_SIMPLE` | `byte_stream` без кодека |
 | `DCP_ASCII`, `SetFrameDelimiters` | `core/framing`: `delimiter_codec` |
 | `DCP_SLIP` | `core/framing`: `slip_codec` |
 | `DCP_TCP` (длина в первом байте) | `core/framing`: `length_prefix_codec` с `width = 1` |
-| `DCP_HID_1` | `hid_device` и кодек потребителя (фаза 3) |
+| `DCP_HID_1` | `hid_device` (номер отчета явно в `message_t::report_id`, размеры из report descriptor) и кодек потребителя для заголовка прибора |
 | `DCP_COM7BIT`, `DCP_TRANSPORT`, `DCP_UDP` | не переносятся (см. ниже) |
 | `IsOpened`, `IsConnected` | `is_open ()`; потеря связи приходит ошибкой `disconnected` |
 | `Read`, `Write` | `read_some`, `write_some`, `write_all` с дедлайном |

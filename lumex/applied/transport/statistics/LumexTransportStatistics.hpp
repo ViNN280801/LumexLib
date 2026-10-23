@@ -110,7 +110,7 @@ namespace statistics
 {
 /// @brief How many `transport_errc` values `statistics_t::errors` holds: one
 /// per value from 1 to `error::KTRANSPORT_ERRC_LAST`.
-LUMEX_CONSTEXPR std::size_t KERROR_CODE_COUNT = 10;
+LUMEX_CONSTEXPR std::size_t KERROR_CODE_COUNT = 11;
 
 static_assert (static_cast<int> (error::KTRANSPORT_ERRC_LAST)
                    == static_cast<int> (KERROR_CODE_COUNT),
