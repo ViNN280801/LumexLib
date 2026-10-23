@@ -69,6 +69,8 @@ lumex_add_cmake_test(wiring_distr)
 lumex_add_cmake_test(wiring_install_umbrellas)
 lumex_add_cmake_test(wiring_license_install)
 lumex_add_cmake_test(wiring_transport_udev_install)
+lumex_add_cmake_test(wiring_transport_framing)
+lumex_add_cmake_test(require_ok_transport_without_framing)
 lumex_add_cmake_test(publish_distr_filters)
 lumex_add_cmake_test(cpack_nsis)
 lumex_add_cmake_test(dev_artifacts)
@@ -547,6 +549,10 @@ lumex_add_consumer_test(consumer_transport_two_modules transport_two_modules)
 # Every public transport header and token style compiles without a warning in
 # a strict consumer.
 lumex_add_consumer_test(consumer_transport_warnings transport_warnings)
+# The framed adapters need the framing module and add no required edge: the
+# transport builds, runs and leaves them out with LUMEX_BUILD_FRAMING OFF.
+lumex_add_consumer_test(consumer_transport_without_framing
+    transport_without_framing)
 # The header-only modules (string, string_view, math, generators, optional, atomic, span) compile
 # from an install prefix built with LUMEX_BUILD_UTILITY OFF: the core/utility
 # headers they include are installed whatever that option says.
