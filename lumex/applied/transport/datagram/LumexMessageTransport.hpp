@@ -145,6 +145,14 @@ public:
     return open_.load (std::memory_order_acquire);
   }
 
+  /// @brief How many closes the transport has seen (any thread); see
+  /// `stream::stream_impl::connection_epoch`.
+  std::size_t
+  connection_epoch () const LUMEX_NOEXCEPT
+  {
+    return connection_epoch_.load (std::memory_order_acquire);
+  }
+
   /// @brief The counters this transport counts in (see `statistics ()`).
   statistics::statistics_counters &
   counters () LUMEX_NOEXCEPT
@@ -234,6 +242,8 @@ private:
   strand_type strand_;
   std::string name_;
   std::atomic<bool> open_;
+  // Bumped by every close (see connection_epoch).
+  std::atomic<std::size_t> connection_epoch_;
   std::shared_ptr<statistics::statistics_counters> counters_;
   // The marks of the pending operations with a cancellation slot, settled
   // by complete () (see stream::stream_impl).

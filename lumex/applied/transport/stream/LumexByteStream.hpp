@@ -174,6 +174,17 @@ public:
     return open_.load (std::memory_order_acquire);
   }
 
+  /// @brief How many closes the stream has seen (any thread). A close ends
+  /// the connection of the operations started before it; a cancel does not.
+  /// An adapter that keeps a read pending tells by it whether a cancelled
+  /// read belongs to a connection that was closed (and perhaps opened again)
+  /// meanwhile.
+  std::size_t
+  connection_epoch () const LUMEX_NOEXCEPT
+  {
+    return connection_epoch_.load (std::memory_order_acquire);
+  }
+
   /// @brief The counters this stream counts in (see `statistics ()`).
   statistics::statistics_counters &
   counters () LUMEX_NOEXCEPT
@@ -298,6 +309,8 @@ private:
   // steps (write_all) that sees it change between two steps ends with
   // `cancelled` instead of starting its next step.
   std::size_t cancel_epoch_;
+  // Bumped by every close (see connection_epoch).
+  std::atomic<std::size_t> connection_epoch_;
   // The marks of the pending operations with a cancellation slot, settled
   // by complete (): a signal emitted after that ends nothing.
   detail::mark_registry marks_;

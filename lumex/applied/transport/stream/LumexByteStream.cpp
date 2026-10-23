@@ -156,6 +156,7 @@ struct stream_impl_access
   close (stream_impl &impl)
   {
     ++impl.cancel_epoch_;
+    impl.connection_epoch_.fetch_add (1, std::memory_order_acq_rel);
     impl.do_close ();
     impl.set_open (false);
   }
@@ -380,7 +381,7 @@ stream_impl::stream_impl (executor_type const &executor, std::string name)
     : executor_ (executor), strand_ (asio::make_strand (executor)),
       name_ (std::move (name)), open_ (false),
       counters_ (std::make_shared<statistics::statistics_counters> ()),
-      cancel_epoch_ (0)
+      cancel_epoch_ (0), connection_epoch_ (0)
 {
 }
 
