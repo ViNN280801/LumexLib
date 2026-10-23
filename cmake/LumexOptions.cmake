@@ -75,6 +75,10 @@ option(LUMEX_TRANSPORT_WITH_TESTING "applied/transport: the public test doubles 
 # adapter to the logger (log/adapter: install_lumex_logger_sink,
 # lumex_logger_watch_timer), links lumex::logger and defines
 # LUMEX_TRANSPORT_WITH_LOGGER=1 for itself and its consumers.
+# The framed adapters (framed/: framed_stream, framed_datagram) are wired the
+# same way: no option of their own, no required edge. With LUMEX_BUILD_FRAMING
+# the transport compiles them, links lumex::framing and defines
+# LUMEX_TRANSPORT_WITH_FRAMING=1 for itself and its consumers.
 option(LUMEX_BUILD_SETTINGS "Build applied/settings" ON)
 
 # The logger compiles exactly one config reader. Changing the format requires
