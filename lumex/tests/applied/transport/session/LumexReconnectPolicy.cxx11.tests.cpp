@@ -106,6 +106,8 @@ TEST (
       ss::is_link_lost (make_error_code (transport_errc::would_deadlock)));
   EXPECT_FALSE (
       ss::is_link_lost (make_error_code (transport_errc::report_too_large)));
+  EXPECT_FALSE (
+      ss::is_link_lost (make_error_code (transport_errc::unknown_report_id)));
   EXPECT_TRUE (
       ss::is_link_lost (make_error_code (transport_errc::disconnected)));
   EXPECT_TRUE (ss::is_link_lost (make_error_code (transport_errc::not_open)));

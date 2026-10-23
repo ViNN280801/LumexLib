@@ -28,6 +28,8 @@ set(LUMEX_BUILD_LOGGER ON CACHE BOOL "" FORCE)
 set(LUMEX_BUILD_TRANSPORT ON CACHE BOOL "" FORCE)
 set(LUMEX_TRANSPORT_WITH_SPAWN ON CACHE BOOL "" FORCE)
 set(LUMEX_TRANSPORT_WITH_TESTING ON CACHE BOOL "" FORCE)
+# The HID transport where hidapi builds (its option's own default), so that
+# its headers and its initiations meet the strict warnings too.
 
 add_subdirectory("${LUMEX_SOURCE_DIR}" lumexlib)
 
