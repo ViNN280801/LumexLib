@@ -55,6 +55,15 @@
 
 #include "error/LumexTransportErrc.hpp"
 
+// The framed adapters need the framing module (LUMEX_BUILD_FRAMING): the
+// transport library defines this macro for itself and its consumers then.
+#if defined(LUMEX_TRANSPORT_WITH_FRAMING)
+#include "framed/LumexFramedDatagram.hpp"
+#include "framed/LumexFramedStatistics.hpp"
+#include "framed/LumexFramedStream.hpp"
+#include "framed/LumexFramedTypes.hpp"
+#endif
+
 #include "log/LumexTransportLog.hpp"
 
 #include "net/LumexNetTransports.hpp"
