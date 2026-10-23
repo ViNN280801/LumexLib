@@ -13,9 +13,9 @@ SHA-256 and the keys of each one. Windows: the symbol store key of each .exe/.dl
 (PE time stamp and image size) and the .pdb it was linked with (name, GUID, age).
 Linux: the Build ID of each ELF file (a symbolic link is listed through its target
 only) and the .debug file it names in .gnu_debuglink. And whether --symbols-dir
-holds that very .pdb (GUID and age) or .debug (Build ID). The debug symbols are
-not shipped; a crash dump records the same keys for every module, so this
-listing says which build a dump comes from and which symbols read it. Nothing in
+holds that very .pdb (GUID and age) or .debug (Build ID). A crash dump records
+the same keys for every module, so this listing says which build a dump comes
+from and which symbols read it, wherever those symbols are kept. Nothing in
 that part raises: a missing folder, a missing symbol file or an unreadable file is
 reported in the listing and the sidecar is still written.
 
@@ -311,7 +311,7 @@ def describe_binaries(binaries_dir: Path, symbols_dir: Optional[Path]) -> List[s
     Never raises; what cannot be read is said in the line of the file.
     """
     stamp = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
-    lines = ["binaries (symbol keys; the debug symbols are not shipped, a dump records the same keys)"]
+    lines = ["binaries (symbol keys; a dump records the same keys)"]
     lines.append(f"  listed {stamp} UTC")
     symbols_note = "no symbols folder given"
     if symbols_dir is not None:
