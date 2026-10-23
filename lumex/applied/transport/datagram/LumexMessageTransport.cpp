@@ -113,6 +113,7 @@ struct message_impl_access
   static void
   close (message_impl &impl)
   {
+    impl.connection_epoch_.fetch_add (1, std::memory_order_acq_rel);
     impl.do_close ();
     impl.set_open (false);
   }
@@ -271,7 +272,7 @@ struct sync_message_handler
 
 message_impl::message_impl (executor_type const &executor, std::string name)
     : executor_ (executor), strand_ (asio::make_strand (executor)),
-      name_ (std::move (name)), open_ (false),
+      name_ (std::move (name)), open_ (false), connection_epoch_ (0),
       counters_ (std::make_shared<statistics::statistics_counters> ())
 {
 }
