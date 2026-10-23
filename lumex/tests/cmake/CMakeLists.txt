@@ -179,6 +179,12 @@ lumex_add_cmake_fail_test(require_fail_interprocess_without_filesystem
     "LUMEX_BUILD_INTERPROCESS is enabled but requires LUMEX_BUILD_FILESYSTEM")
 lumex_add_cmake_fail_test(require_fail_interprocess_without_reflection
     "LUMEX_BUILD_INTERPROCESS is enabled but requires LUMEX_BUILD_REFLECTION")
+lumex_add_cmake_fail_test(require_fail_protocol_without_framing
+    "LUMEX_BUILD_PROTOCOL is enabled but requires LUMEX_BUILD_FRAMING")
+lumex_add_cmake_fail_test(require_fail_protocol_without_reflection
+    "LUMEX_BUILD_PROTOCOL is enabled but requires LUMEX_BUILD_REFLECTION")
+lumex_add_cmake_fail_test(require_fail_protocol_without_string_view
+    "LUMEX_BUILD_PROTOCOL is enabled but requires LUMEX_BUILD_STRING_VIEW")
 lumex_add_cmake_fail_test(require_fail_transport_without_serial
     "LUMEX_BUILD_TRANSPORT is enabled but requires LUMEX_BUILD_SERIAL")
 # base64, crc, exceptions and xml link the string_view module (the views their
@@ -539,6 +545,14 @@ lumex_add_consumer_test(consumer_contracts_two_modules contracts_two_modules)
 lumex_add_consumer_test(consumer_framing_two_modules framing_two_modules)
 # The header-only codecs compile without a warning in a strict consumer.
 lumex_add_consumer_test(consumer_framing_warnings framing_warnings)
+# The protocol category is one per process, like the framing one.
+lumex_add_consumer_test(consumer_protocol_two_modules protocol_two_modules)
+# Every macro and template of the protocol DSL in a strict consumer.
+lumex_add_consumer_test(consumer_protocol_warnings protocol_warnings)
+# A protocol table compiles after <windows.h> (Windows) or the usual POSIX
+# headers, with every platform macro they define still defined.
+lumex_add_consumer_test(consumer_protocol_platform_macros
+    protocol_platform_macros)
 # serial never needs transport (decision A of the transport spec).
 lumex_add_consumer_test(consumer_serial_without_transport serial_without_transport)
 # An executable and a DLL share one io_context; each has its own transport
@@ -662,6 +676,32 @@ add_test(NAME ${_ctest_name}
         -DCASE=field_names_compile_checks
         -DLUMEX_SOURCE_DIR=${LumexLib_SOURCE_DIR}
         -DWORK_DIR=${CMAKE_CURRENT_BINARY_DIR}/consumer/field_names_compile_checks
+        -DGENERATOR=${CMAKE_GENERATOR}
+        -DCXX_COMPILER=${CMAKE_CXX_COMPILER}
+        "-DCXX_FLAGS=${CMAKE_CXX_FLAGS}"
+        -DCLANG_STDLIB=${LUMEX_CLANG_STDLIB}
+        -DBUILD_TYPE=Release
+        -DCONFIGURE_ONLY=ON
+        -P ${_LUMEX_CONSUMER_RUN}
+)
+set_tests_properties(${_ctest_name} PROPERTIES
+    LABELS "cmake;consumer"
+    TIMEOUT 900
+    SKIP_REGULAR_EXPRESSION "LUMEX_CONSUMER_SKIP"
+)
+
+# Protocol DSL compile-time checks: a row or layout whose field names differ
+# in number from its fields, a row identifier that is a platform macro name
+# (DELETE without X_AS, in a table and through
+# LUMEX_PROTOCOL_CHECK_IDENTIFIERS), two reply types, an option given twice,
+# a value that is no option and a type that is no field must not compile;
+# the valid table must. Header-only: try_compile while configuring.
+lumex_test_name(_ctest_name protocol_compile_checks)
+add_test(NAME ${_ctest_name}
+    COMMAND ${CMAKE_COMMAND}
+        -DCASE=protocol_compile_checks
+        -DLUMEX_SOURCE_DIR=${LumexLib_SOURCE_DIR}
+        -DWORK_DIR=${CMAKE_CURRENT_BINARY_DIR}/consumer/protocol_compile_checks
         -DGENERATOR=${CMAKE_GENERATOR}
         -DCXX_COMPILER=${CMAKE_CXX_COMPILER}
         "-DCXX_FLAGS=${CMAKE_CXX_FLAGS}"
