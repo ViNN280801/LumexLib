@@ -192,7 +192,7 @@ class LumexLibConan(ConanFile):
         )
         self._component(
             "core_protocol", "protocol", ["LumexCore_protocol"],
-            ["core_expected", "core_framing", "core_reflection", "core_span",
+            ["core_expected", "core_reflection", "core_span",
              "core_string_view", "core_utility"],
         )
         hazard_pointer = self._component(
