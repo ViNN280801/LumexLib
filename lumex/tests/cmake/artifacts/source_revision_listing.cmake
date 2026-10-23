@@ -63,6 +63,12 @@ if(NOT _text MATCHES "[0-9a-f]+ CMakeRoutines")
     message(FATAL_ERROR "source_revision_listing: no CMakeRoutines submodule:\n${_text}\n"
         "git submodule status now: exit ${_git_rc} in ${_git_seconds} s\n${_git_out}\n${_git_err}")
 endif()
+# The listing says nothing about where the symbols are kept: the products do
+# not ship them, LumexLib ships them in dev/ (the same script in all three).
+if(NOT _text MATCHES "\nbinaries \\(symbol keys; a dump records the same keys\\)\n"
+   OR _text MATCHES "not shipped")
+    message(FATAL_ERROR "source_revision_listing: not the binaries header:\n${_text}")
+endif()
 if(NOT _text MATCHES "\n${_library_name}\n  size [0-9]+ bytes, sha256 [0-9a-f]+")
     message(FATAL_ERROR "source_revision_listing: ${_library_name} is not listed:\n${_text}")
 endif()
