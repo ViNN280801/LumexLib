@@ -50,8 +50,8 @@
  * `messages_received` / `messages_sent` in place of `reads` / `writes`).
  * Per-operation cancellation follows `byte_stream` too: a terminal
  * cancellation cancels the transport, every operation pending on it (a
- * concurrent receive loop too), also when it arrives after the device
- * completed the operation but before its handler ran; the timer of
+ * concurrent receive loop too), while the operation is pending: a signal
+ * emitted after the transport handed the result on ends nothing; the timer of
  * `asio::cancel_after` runs on the strand. As for `byte_stream`, the
  * transport keeps no work on the executor of a handler: keep an
  * `executor_work_guard` on a context whose `run ()` must not return before
@@ -235,6 +235,9 @@ private:
   std::string name_;
   std::atomic<bool> open_;
   std::shared_ptr<statistics::statistics_counters> counters_;
+  // The marks of the pending operations with a cancellation slot, settled
+  // by complete () (see stream::stream_impl).
+  detail::mark_registry marks_;
 };
 
 /// @brief A message transport (see the file description).

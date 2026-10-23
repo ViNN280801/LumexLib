@@ -2,8 +2,8 @@
 // handler (asio::bind_cancellation_slot, asio::cancel_after) on byte_stream
 // and message_transport: a terminal cancellation ends the pending operation
 // with `cancelled`, and every other operation pending on that transport (as
-// cancel () does; terminal permits it), also when the signal comes after the
-// device completed the operation but before its handler ran; partial and
+// cancel () does; terminal permits it), when the signal is emitted before
+// the transport handed the result on; partial and
 // total alone are not supported and change nothing; once the handler ran, a
 // signal emitted later reaches nothing, and the slot is left as Asio leaves
 // it (a signal destroyed while the operation is pending is never touched
@@ -12,7 +12,9 @@
 // peer that sends nothing, and asio::cancel_after on a runner with four
 // threads. Regression of the review of WP13 (TK7: nothing took the
 // cancellation) and of WP12b (cancel_after raced on a multi-threaded runner;
-// the completion cleared a slot the user may have destroyed).
+// the completion cleared a slot the user may have destroyed). Todo 163: a
+// signal emitted after the transport handed the result on (the handler still
+// waits on its own executor) ends nothing; one emitted before still acts.
 
 #include <atomic>
 #include <chrono>
@@ -29,6 +31,7 @@
 
 #include "lumex/applied/transport/datagram/LumexMessageTransport.hpp"
 #include "lumex/applied/transport/detail/LumexAsio.hpp"
+#include "lumex/applied/transport/detail/LumexCountingHandler.hpp"
 #include "lumex/applied/transport/error/LumexTransportErrc.hpp"
 #include "lumex/applied/transport/net/LumexNetTransports.hpp"
 #include "lumex/applied/transport/stream/LumexByteStream.hpp"
@@ -283,11 +286,11 @@ TEST_F (
 
 // The other order: the device completed the write, its handler still waits
 // on its own executor, and the cancellation reaches the strand first. The
-// operation is not over until its handler ran, so the terminal cancellation
-// of the stream ends the read pending there; the write still succeeds.
+// stream handed the result on before the signal (todo 163): the signal ends
+// nothing, the read pending there goes on, and the write still succeeds.
 TEST_F (
     LumexTransportCancellationTest,
-    GivenASignalAfterTheDeviceCompleted_WhenTheCancellationRunsBeforeTheHandler_ThenThePendingReadIsCancelled)
+    GivenASignalAfterTheDeviceCompleted_WhenTheCancellationRunsBeforeTheHandler_ThenThePendingReadGoesOn)
 {
   open_both ();
   seen read;
@@ -305,12 +308,149 @@ TEST_F (
   ASSERT_EQ (write.calls, 0);
   signal_.emit (asio::cancellation_type::terminal);
   settle ();
-  ASSERT_EQ (read.calls, 1);
-  EXPECT_TRUE (read.error == transport_errc::cancelled);
+  EXPECT_EQ (read.calls, 0) << "a signal after the result cancelled the read";
   handler_context.run ();
   ASSERT_EQ (write.calls, 1);
   EXPECT_FALSE (write.error);
   EXPECT_EQ (write.bytes, 3u);
+  stream_.control.feed (three ());
+  settle ();
+  ASSERT_EQ (read.calls, 1);
+  EXPECT_FALSE (read.error);
+  EXPECT_EQ (read.bytes, 3u);
+}
+
+// REVIEW163 M8: the settle of one operation leaves the mark of another
+// pending operation with its own slot alone: that operation's signal still
+// cancels the stream.
+TEST_F (
+    LumexTransportCancellationTest,
+    GivenTwoOperationsWithSlots_WhenOneCompletes_ThenTheSignalOfTheOtherStillCancels)
+{
+  open_both ();
+  seen read;
+  stream_.stream.async_read_some (
+      tr::mutable_bytes_t (buffer_),
+      asio::bind_cancellation_slot (signal_.slot (), io_recorder{ &read }));
+  asio::cancellation_signal write_signal;
+  std::vector<std::uint8_t> const data = three ();
+  seen write;
+  stream_.stream.async_write_some (
+      tr::const_bytes_t (data),
+      asio::bind_cancellation_slot (write_signal.slot (),
+                                    io_recorder{ &write }));
+  settle ();
+  ASSERT_EQ (write.calls, 1);
+  ASSERT_EQ (read.calls, 0);
+  signal_.emit (asio::cancellation_type::terminal);
+  settle ();
+  ASSERT_EQ (read.calls, 1);
+  EXPECT_TRUE (read.error == transport_errc::cancelled);
+}
+
+// The same for a message transport: the send completed, its handler waits on
+// its own executor, the signal comes now: the receive pending goes on.
+TEST_F (
+    LumexTransportCancellationTest,
+    GivenASignalAfterASendCompleted_WhenTheCancellationRunsBeforeTheHandler_ThenThePendingReceiveGoesOn)
+{
+  open_both ();
+  seen receive;
+  datagram_.transport.async_receive (message_recorder{ &receive });
+  asio::io_context handler_context;
+  seen send;
+  message_t message;
+  message.payload = three ();
+  datagram_.transport.async_send (
+      message,
+      asio::bind_cancellation_slot (
+          signal_.slot (),
+          asio::bind_executor (handler_context, status_recorder{ &send })));
+  settle ();
+  ASSERT_EQ (send.calls, 0);
+  signal_.emit (asio::cancellation_type::terminal);
+  settle ();
+  EXPECT_EQ (receive.calls, 0)
+      << "a signal after the result cancelled the receive";
+  handler_context.run ();
+  ASSERT_EQ (send.calls, 1);
+  EXPECT_FALSE (send.error);
+}
+
+// The mark (todo 163): a request acts until the transport settles the
+// operation; one made before the settle still acts; a later request acts
+// again once the step took the first; after the settle nothing acts.
+TEST (LumexTransportOperationMark,
+      GivenAPendingMark_WhenRequestedAndSettled_ThenOnlyTheEarlierRequestActs)
+{
+  namespace det = tr::detail;
+  det::operation_mark_ptr const mark
+      = std::make_shared<det::operation_mark> ();
+  std::weak_ptr<det::operation_mark> const weak (mark);
+  EXPECT_FALSE (det::take_cancellation_request (weak));
+  EXPECT_TRUE (det::request_cancellation (weak));
+  EXPECT_FALSE (det::request_cancellation (weak)) << "one step at a time";
+  EXPECT_TRUE (det::take_cancellation_request (weak));
+  EXPECT_TRUE (det::request_cancellation (weak)) << "pending again";
+
+  asio::cancellation_signal signal;
+  det::mark_registry registry;
+  registry.watch (signal.slot (), mark);
+  auto const handler
+      = asio::bind_cancellation_slot (signal.slot (), [] (std::error_code) {});
+  registry.settle (handler);
+  EXPECT_TRUE (det::take_cancellation_request (weak))
+      << "a request made before the settle acts";
+  EXPECT_FALSE (det::request_cancellation (weak)) << "settled";
+  EXPECT_FALSE (det::take_cancellation_request (weak));
+}
+
+// REVIEW163 F1: the signal of a pending operation was destroyed and a new
+// signal took its memory: the slot of the old entry equals the new one while
+// the old mark is still alive. The settle belongs to the newer operation.
+TEST (
+    LumexTransportOperationMark,
+    GivenAStaleLiveEntryWithTheSameSlot_WhenSettled_ThenTheNewerMarkIsSettled)
+{
+  namespace det = tr::detail;
+  asio::cancellation_signal signal;
+  det::mark_registry registry;
+  det::operation_mark_ptr const older
+      = std::make_shared<det::operation_mark> ();
+  det::operation_mark_ptr const newer
+      = std::make_shared<det::operation_mark> ();
+  registry.watch (signal.slot (), older);
+  registry.watch (signal.slot (), newer);
+  auto const handler
+      = asio::bind_cancellation_slot (signal.slot (), [] (std::error_code) {});
+  registry.settle (handler);
+  EXPECT_FALSE (det::request_cancellation (newer)) << "newer not settled";
+  EXPECT_TRUE (det::request_cancellation (older));
+}
+
+TEST (LumexTransportOperationMark,
+      GivenAReusedSlot_WhenSettled_ThenOnlyTheLiveMarkIsSettled)
+{
+  namespace det = tr::detail;
+  asio::cancellation_signal signal;
+  det::mark_registry registry;
+  det::operation_mark_ptr gone = std::make_shared<det::operation_mark> ();
+  registry.watch (signal.slot (), gone);
+  gone.reset ();
+  det::operation_mark_ptr const live
+      = std::make_shared<det::operation_mark> ();
+  registry.watch (signal.slot (), live);
+  auto const handler
+      = asio::bind_cancellation_slot (signal.slot (), [] (std::error_code) {});
+  registry.settle (handler);
+  EXPECT_FALSE (det::request_cancellation (live));
+  // A handler without a slot settles nothing.
+  det::operation_mark_ptr const other
+      = std::make_shared<det::operation_mark> ();
+  asio::cancellation_signal other_signal;
+  registry.watch (other_signal.slot (), other);
+  registry.settle ([] (std::error_code) {});
+  EXPECT_TRUE (det::request_cancellation (other));
 }
 
 // An operation that completes at once still takes the cancellation while it

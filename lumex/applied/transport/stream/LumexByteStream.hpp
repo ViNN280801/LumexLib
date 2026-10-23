@@ -74,13 +74,13 @@
  *
  * Mind what "every pending operation" means: a terminal cancellation of a
  * write also ends a read loop that runs concurrently on the same stream. The
- * operation counts as pending until its handler runs, so a signal that
- * arrives after the device completed it, but before its handler ran, still
- * cancels the other operations pending at that moment (the operation itself
- * completes with its result). Once the handler ran, a later signal reaches
- * nothing; the slot is left as Asio's own operations leave it. As with
- * Asio's objects, emit the signal on the handler's executor, not concurrently
- * with the completion of the operation.
+ * operation is pending until the stream hands its result on: a signal
+ * emitted after that ends nothing, also while the handler still waits on its
+ * executor; one emitted before still cancels the other operations pending
+ * when it reaches the strand, unless the handler ran first (the operation
+ * itself may complete with its result). The slot is left as Asio's own
+ * operations leave it. As with Asio's objects, emit the signal on the
+ * handler's executor.
  *
  * The timer of `asio::cancel_after` runs on the stream's strand (the executor
  * the initiations report). A handler bound to the bare executor of a runner
@@ -298,6 +298,9 @@ private:
   // steps (write_all) that sees it change between two steps ends with
   // `cancelled` instead of starting its next step.
   std::size_t cancel_epoch_;
+  // The marks of the pending operations with a cancellation slot, settled
+  // by complete (): a signal emitted after that ends nothing.
+  detail::mark_registry marks_;
 };
 
 /// @brief A byte stream (see the file description).

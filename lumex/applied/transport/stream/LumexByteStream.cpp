@@ -165,6 +165,11 @@ struct stream_impl_access
   {
     impl.complete (std::move (handler), error, bytes);
   }
+  static detail::mark_registry &
+  marks (stream_impl &impl) LUMEX_NOEXCEPT
+  {
+    return impl.marks_;
+  }
 };
 
 namespace
@@ -207,8 +212,9 @@ struct post_close
   }
 };
 
-// The cancellation of one operation, on the strand: nothing when the
-// operation completed since the signal (its mark is gone).
+// The cancellation of one operation, on the strand: nothing when its
+// handler ran since the signal (the mark is gone). A signal emitted before
+// the operation settled acts, also when the result was handed on since.
 struct post_cancel_operation
 {
   impl_ptr impl;
@@ -216,7 +222,7 @@ struct post_cancel_operation
   void
   operator() ()
   {
-    if (!operation.expired ())
+    if (detail::take_cancellation_request (operation))
       stream_impl_access::cancel (*impl);
   }
 };
@@ -224,7 +230,8 @@ struct post_cancel_operation
 // The handler the stream puts in the cancellation slot of an operation's
 // handler. Only a terminal cancellation is supported: it cancels the stream
 // (every pending operation), a side effect partial and total do not permit.
-// It runs on the thread that emits the signal and only posts to the strand.
+// It runs on the thread that emits the signal and only posts to the strand,
+// and only while the operation is pending: not once complete () settled it.
 class terminal_cancellation
 {
 public:
@@ -238,11 +245,10 @@ public:
   operator() (asio::cancellation_type_t type)
   {
     if ((type & asio::cancellation_type::terminal)
-            == asio::cancellation_type::none
-        || operation_.expired ())
+        == asio::cancellation_type::none)
       return;
     impl_ptr const impl = impl_.lock ();
-    if (!impl)
+    if (!impl || !detail::request_cancellation (operation_))
       return;
     try
       {
@@ -251,7 +257,9 @@ public:
       }
     catch (...)
       {
-        // Out of memory: the operation is not cancelled.
+        // Out of memory: the operation is not cancelled; a later signal may
+        // try again.
+        detail::take_cancellation_request (operation_);
       }
   }
 
@@ -261,7 +269,8 @@ private:
 };
 
 // Puts the stream's slot handler in the cancellation slot of the erased
-// handler (Asio chains it to the slot of the user's handler).
+// handler (Asio chains it to the slot of the user's handler), and remembers
+// the mark by that slot for complete ().
 template <typename Handler>
 void
 take_cancellation (impl_ptr const &impl, Handler &handler,
@@ -271,8 +280,10 @@ take_cancellation (impl_ptr const &impl, Handler &handler,
     return;
   asio::cancellation_slot slot
       = asio::get_associated_cancellation_slot (handler);
-  if (slot.is_connected ())
-    slot.template emplace<terminal_cancellation> (impl, mark);
+  if (!slot.is_connected ())
+    return;
+  slot.template emplace<terminal_cancellation> (impl, mark);
+  stream_impl_access::marks (*impl).watch (slot, mark);
 }
 } // namespace
 
@@ -436,9 +447,12 @@ stream_impl::start_close ()
 // Posted through the strand: asio::post then runs the handler on its own
 // associated executor (any_completion_executor cannot be posted to directly),
 // and never inside the call that started the operation.
+// The result is fixed here: the mark of the operation is settled first, so a
+// signal emitted while the handler waits on its executor ends nothing.
 void
 stream_impl::complete (status_handler_t handler, std::error_code error)
 {
+  marks_.settle (handler);
   asio::post (strand_, asio::append (std::move (handler), error));
 }
 
@@ -446,6 +460,7 @@ void
 stream_impl::complete (io_handler_t handler, std::error_code error,
                        std::size_t bytes)
 {
+  marks_.settle (handler);
   asio::post (strand_, asio::append (std::move (handler), error, bytes));
 }
 
