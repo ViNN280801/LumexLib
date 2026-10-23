@@ -1,0 +1,232 @@
+// Synthetic protocol tables of the protocol DSL tests. They describe an
+// invented device (a "widget") and invented generated rows: no real device,
+// its names, codes or values are in them.
+#ifndef LUMEX_TESTS_CORE_PROTOCOL_TEST_TABLES_HPP
+#define LUMEX_TESTS_CORE_PROTOCOL_TEST_TABLES_HPP
+
+#include <ratio>
+
+#include "lumex/core/protocol/LumexProtocol"
+
+namespace lumex_tests
+{
+namespace protocol_tables
+{
+// The states of the widget (the type of accepted_in).
+enum class widget_state
+{
+  idle,
+  measuring,
+  service
+};
+
+// Stand-ins for the codec and header types a real table names.
+struct widget_codec
+{
+};
+
+struct widget_header
+{
+};
+
+struct other_codec
+{
+};
+
+LUMEX_PROTOCOL_LAYOUT (status_t,
+                       (u8_<>, u16_le_<scale<std::ratio<1, 10>>>, u16_be_<>),
+                       ("mode", "temperature", "counter"));
+
+// clang-format off
+#define WIDGET_ROWS(X, X_AS) \
+  X (PING, 0x01, "Liveness check", (), (), (), (idempotent)) \
+  X (READ_STATUS, 0x02, "Read the status", (), (), (status_t), \
+     (timeout (200), log_level (level::trace))) \
+  X (SET_RATE, 0x03, "Set the sample rate", \
+     (u16_le_<scale<std::ratio<1, 100> > >, u8_<>), ("rate", "channel"), \
+     (status_t), \
+     (timeout (500), retries (2), \
+      accepted_in (widget_state::idle, widget_state::service))) \
+  X_AS (ERASE_LOG, "DELETE", 0x04, "Erase the log", (), (), (status_t), \
+        (dangerous, firmware (100, 199))) \
+  X_AS (READ_TEXT, "read-text", "RT", "Read a text value", (u8_<>), \
+        ("index"), (), (model ("W1", "W2"), deprecated)) \
+  X (SAMPLE, 'S', "Sample stream", (), (), (status_t), (stream (100)))
+
+#define WIDGET_V2_ROWS(X, X_AS) \
+  X (SET_RATE, 0x13, "Set the sample rate (wide)", \
+     (u16_be_<>, u8_<>, u8_<>), ("rate", "channel", "filter"), (status_t), \
+     (timeout (800))) \
+  X (CALIBRATE, 0x20, "Start a calibration", (u8_<>), ("points"), \
+     (status_t), (timeout (30000), dangerous))
+
+#define WIDGET_V3_ROWS(X, X_AS) \
+  X (PING, 0x31, "Liveness check (v3)", (), (), (), ()) \
+  X (SELF_TEST, 0x32, "Run the self test", (), (), (status_t), ())
+
+#define EMPTY_ROWS(X, X_AS)
+// clang-format on
+
+LUMEX_PROTOCOL_DEFINE (widget_v1, widget_codec, widget_header, WIDGET_ROWS);
+LUMEX_PROTOCOL_EXTEND (widget_v2, widget_v1, WIDGET_V2_ROWS);
+LUMEX_PROTOCOL_EXTEND_FRAMED (widget_v3, widget_v2, other_codec, widget_header,
+                              WIDGET_V3_ROWS);
+LUMEX_PROTOCOL_DEFINE (empty_protocol, widget_codec, widget_header,
+                       EMPTY_ROWS);
+
+// F2 of the design: a layout of 40 fields, each with a scale whose ratio has a
+// comma of its own.
+// clang-format off
+LUMEX_PROTOCOL_LAYOUT (wide_t,
+                       (u16_le_<scale<std::ratio<1, 100> > >,
+                        u16_le_<scale<std::ratio<1, 100> > >,
+                        u16_le_<scale<std::ratio<1, 100> > >,
+                        u16_le_<scale<std::ratio<1, 100> > >,
+                        u16_le_<scale<std::ratio<1, 100> > >,
+                        u16_le_<scale<std::ratio<1, 100> > >,
+                        u16_le_<scale<std::ratio<1, 100> > >,
+                        u16_le_<scale<std::ratio<1, 100> > >,
+                        u16_le_<scale<std::ratio<1, 100> > >,
+                        u16_le_<scale<std::ratio<1, 100> > >,
+                        u16_le_<scale<std::ratio<1, 100> > >,
+                        u16_le_<scale<std::ratio<1, 100> > >,
+                        u16_le_<scale<std::ratio<1, 100> > >,
+                        u16_le_<scale<std::ratio<1, 100> > >,
+                        u16_le_<scale<std::ratio<1, 100> > >,
+                        u16_le_<scale<std::ratio<1, 100> > >,
+                        u16_le_<scale<std::ratio<1, 100> > >,
+                        u16_le_<scale<std::ratio<1, 100> > >,
+                        u16_le_<scale<std::ratio<1, 100> > >,
+                        u16_le_<scale<std::ratio<1, 100> > >,
+                        u16_le_<scale<std::ratio<1, 100> > >,
+                        u16_le_<scale<std::ratio<1, 100> > >,
+                        u16_le_<scale<std::ratio<1, 100> > >,
+                        u16_le_<scale<std::ratio<1, 100> > >,
+                        u16_le_<scale<std::ratio<1, 100> > >,
+                        u16_le_<scale<std::ratio<1, 100> > >,
+                        u16_le_<scale<std::ratio<1, 100> > >,
+                        u16_le_<scale<std::ratio<1, 100> > >,
+                        u16_le_<scale<std::ratio<1, 100> > >,
+                        u16_le_<scale<std::ratio<1, 100> > >,
+                        u16_le_<scale<std::ratio<1, 100> > >,
+                        u16_le_<scale<std::ratio<1, 100> > >,
+                        u16_le_<scale<std::ratio<1, 100> > >,
+                        u16_le_<scale<std::ratio<1, 100> > >,
+                        u16_le_<scale<std::ratio<1, 100> > >,
+                        u16_le_<scale<std::ratio<1, 100> > >,
+                        u16_le_<scale<std::ratio<1, 100> > >,
+                        u16_le_<scale<std::ratio<1, 100> > >,
+                        u16_le_<scale<std::ratio<1, 100> > >,
+                        u16_le_<scale<std::ratio<1, 100> > >),
+                       ("f00", "f01", "f02", "f03", "f04", "f05", "f06", "f07", "f08", "f09", "f10", "f11", "f12", "f13", "f14", "f15", "f16", "f17", "f18", "f19", "f20", "f21", "f22", "f23", "f24", "f25", "f26", "f27", "f28", "f29", "f30", "f31", "f32", "f33", "f34", "f35", "f36", "f37", "f38", "f39"));
+
+// A list of 100 rows: no preprocessor loop over rows or fields limits it.
+#define LARGE_ROWS(X, X_AS) \
+  X (CMD_000, 0x100, "Synthetic command 0", (u8_<>, u16_le_<scale<std::ratio<1, 100> > >), ("channel", "value"), (wide_t), ()) \
+  X (CMD_001, 0x101, "Synthetic command 1", (), (), (), ()) \
+  X (CMD_002, 0x102, "Synthetic command 2", (u16_be_<>), ("value"), (), ()) \
+  X (CMD_003, 0x103, "Synthetic command 3", (u16_be_<>), ("value"), (), (timeout (103), retries (3))) \
+  X (CMD_004, 0x104, "Synthetic command 4", (u16_be_<>), ("value"), (), ()) \
+  X (CMD_005, 0x105, "Synthetic command 5", (u8_<>, u16_le_<scale<std::ratio<1, 100> > >), ("channel", "value"), (), ()) \
+  X (CMD_006, 0x106, "Synthetic command 6", (), (), (), ()) \
+  X (CMD_007, 0x107, "Synthetic command 7", (u16_be_<>), ("value"), (), (idempotent)) \
+  X (CMD_008, 0x108, "Synthetic command 8", (u16_be_<>), ("value"), (), ()) \
+  X (CMD_009, 0x109, "Synthetic command 9", (u16_be_<>), ("value"), (), ()) \
+  X (CMD_010, 0x10A, "Synthetic command 10", (u8_<>, u16_le_<scale<std::ratio<1, 100> > >), ("channel", "value"), (), ()) \
+  X (CMD_011, 0x10B, "Synthetic command 11", (), (), (), ()) \
+  X (CMD_012, 0x10C, "Synthetic command 12", (u16_be_<>), ("value"), (), ()) \
+  X (CMD_013, 0x10D, "Synthetic command 13", (u16_be_<>), ("value"), (), (timeout (113), retries (1))) \
+  X (CMD_014, 0x10E, "Synthetic command 14", (u16_be_<>), ("value"), (), ()) \
+  X (CMD_015, 0x10F, "Synthetic command 15", (u8_<>, u16_le_<scale<std::ratio<1, 100> > >), ("channel", "value"), (), ()) \
+  X (CMD_016, 0x110, "Synthetic command 16", (), (), (), ()) \
+  X (CMD_017, 0x111, "Synthetic command 17", (u16_be_<>), ("value"), (), (idempotent)) \
+  X (CMD_018, 0x112, "Synthetic command 18", (u16_be_<>), ("value"), (), ()) \
+  X (CMD_019, 0x113, "Synthetic command 19", (u16_be_<>), ("value"), (), ()) \
+  X (CMD_020, 0x114, "Synthetic command 20", (u8_<>, u16_le_<scale<std::ratio<1, 100> > >), ("channel", "value"), (), ()) \
+  X (CMD_021, 0x115, "Synthetic command 21", (), (), (), ()) \
+  X (CMD_022, 0x116, "Synthetic command 22", (u16_be_<>), ("value"), (), ()) \
+  X (CMD_023, 0x117, "Synthetic command 23", (u16_be_<>), ("value"), (), (timeout (123), retries (3))) \
+  X (CMD_024, 0x118, "Synthetic command 24", (u16_be_<>), ("value"), (), ()) \
+  X (CMD_025, 0x119, "Synthetic command 25", (u8_<>, u16_le_<scale<std::ratio<1, 100> > >), ("channel", "value"), (wide_t), ()) \
+  X (CMD_026, 0x11A, "Synthetic command 26", (), (), (), ()) \
+  X (CMD_027, 0x11B, "Synthetic command 27", (u16_be_<>), ("value"), (), (idempotent)) \
+  X (CMD_028, 0x11C, "Synthetic command 28", (u16_be_<>), ("value"), (), ()) \
+  X (CMD_029, 0x11D, "Synthetic command 29", (u16_be_<>), ("value"), (), ()) \
+  X (CMD_030, 0x11E, "Synthetic command 30", (u8_<>, u16_le_<scale<std::ratio<1, 100> > >), ("channel", "value"), (), ()) \
+  X (CMD_031, 0x11F, "Synthetic command 31", (), (), (), ()) \
+  X (CMD_032, 0x120, "Synthetic command 32", (u16_be_<>), ("value"), (), ()) \
+  X (CMD_033, 0x121, "Synthetic command 33", (u16_be_<>), ("value"), (), (timeout (133), retries (1))) \
+  X (CMD_034, 0x122, "Synthetic command 34", (u16_be_<>), ("value"), (), ()) \
+  X (CMD_035, 0x123, "Synthetic command 35", (u8_<>, u16_le_<scale<std::ratio<1, 100> > >), ("channel", "value"), (), ()) \
+  X (CMD_036, 0x124, "Synthetic command 36", (), (), (), ()) \
+  X (CMD_037, 0x125, "Synthetic command 37", (u16_be_<>), ("value"), (), (idempotent)) \
+  X (CMD_038, 0x126, "Synthetic command 38", (u16_be_<>), ("value"), (), ()) \
+  X (CMD_039, 0x127, "Synthetic command 39", (u16_be_<>), ("value"), (), ()) \
+  X (CMD_040, 0x128, "Synthetic command 40", (u8_<>, u16_le_<scale<std::ratio<1, 100> > >), ("channel", "value"), (), ()) \
+  X (CMD_041, 0x129, "Synthetic command 41", (), (), (), ()) \
+  X (CMD_042, 0x12A, "Synthetic command 42", (u16_be_<>), ("value"), (), ()) \
+  X (CMD_043, 0x12B, "Synthetic command 43", (u16_be_<>), ("value"), (), (timeout (143), retries (3))) \
+  X (CMD_044, 0x12C, "Synthetic command 44", (u16_be_<>), ("value"), (), ()) \
+  X (CMD_045, 0x12D, "Synthetic command 45", (u8_<>, u16_le_<scale<std::ratio<1, 100> > >), ("channel", "value"), (), ()) \
+  X (CMD_046, 0x12E, "Synthetic command 46", (), (), (), ()) \
+  X (CMD_047, 0x12F, "Synthetic command 47", (u16_be_<>), ("value"), (), (idempotent)) \
+  X (CMD_048, 0x130, "Synthetic command 48", (u16_be_<>), ("value"), (), ()) \
+  X (CMD_049, 0x131, "Synthetic command 49", (u16_be_<>), ("value"), (), ()) \
+  X (CMD_050, 0x132, "Synthetic command 50", (u8_<>, u16_le_<scale<std::ratio<1, 100> > >), ("channel", "value"), (wide_t), ()) \
+  X (CMD_051, 0x133, "Synthetic command 51", (), (), (), ()) \
+  X (CMD_052, 0x134, "Synthetic command 52", (u16_be_<>), ("value"), (), ()) \
+  X (CMD_053, 0x135, "Synthetic command 53", (u16_be_<>), ("value"), (), (timeout (153), retries (1))) \
+  X (CMD_054, 0x136, "Synthetic command 54", (u16_be_<>), ("value"), (), ()) \
+  X (CMD_055, 0x137, "Synthetic command 55", (u8_<>, u16_le_<scale<std::ratio<1, 100> > >), ("channel", "value"), (), ()) \
+  X (CMD_056, 0x138, "Synthetic command 56", (), (), (), ()) \
+  X (CMD_057, 0x139, "Synthetic command 57", (u16_be_<>), ("value"), (), (idempotent)) \
+  X (CMD_058, 0x13A, "Synthetic command 58", (u16_be_<>), ("value"), (), ()) \
+  X (CMD_059, 0x13B, "Synthetic command 59", (u16_be_<>), ("value"), (), ()) \
+  X (CMD_060, 0x13C, "Synthetic command 60", (u8_<>, u16_le_<scale<std::ratio<1, 100> > >), ("channel", "value"), (), ()) \
+  X (CMD_061, 0x13D, "Synthetic command 61", (), (), (), ()) \
+  X (CMD_062, 0x13E, "Synthetic command 62", (u16_be_<>), ("value"), (), ()) \
+  X (CMD_063, 0x13F, "Synthetic command 63", (u16_be_<>), ("value"), (), (timeout (163), retries (3))) \
+  X (CMD_064, 0x140, "Synthetic command 64", (u16_be_<>), ("value"), (), ()) \
+  X (CMD_065, 0x141, "Synthetic command 65", (u8_<>, u16_le_<scale<std::ratio<1, 100> > >), ("channel", "value"), (), ()) \
+  X (CMD_066, 0x142, "Synthetic command 66", (), (), (), ()) \
+  X (CMD_067, 0x143, "Synthetic command 67", (u16_be_<>), ("value"), (), (idempotent)) \
+  X (CMD_068, 0x144, "Synthetic command 68", (u16_be_<>), ("value"), (), ()) \
+  X (CMD_069, 0x145, "Synthetic command 69", (u16_be_<>), ("value"), (), ()) \
+  X (CMD_070, 0x146, "Synthetic command 70", (u8_<>, u16_le_<scale<std::ratio<1, 100> > >), ("channel", "value"), (), ()) \
+  X (CMD_071, 0x147, "Synthetic command 71", (), (), (), ()) \
+  X (CMD_072, 0x148, "Synthetic command 72", (u16_be_<>), ("value"), (), ()) \
+  X (CMD_073, 0x149, "Synthetic command 73", (u16_be_<>), ("value"), (), (timeout (173), retries (1))) \
+  X (CMD_074, 0x14A, "Synthetic command 74", (u16_be_<>), ("value"), (), ()) \
+  X (CMD_075, 0x14B, "Synthetic command 75", (u8_<>, u16_le_<scale<std::ratio<1, 100> > >), ("channel", "value"), (wide_t), ()) \
+  X (CMD_076, 0x14C, "Synthetic command 76", (), (), (), ()) \
+  X (CMD_077, 0x14D, "Synthetic command 77", (u16_be_<>), ("value"), (), (idempotent)) \
+  X (CMD_078, 0x14E, "Synthetic command 78", (u16_be_<>), ("value"), (), ()) \
+  X (CMD_079, 0x14F, "Synthetic command 79", (u16_be_<>), ("value"), (), ()) \
+  X (CMD_080, 0x150, "Synthetic command 80", (u8_<>, u16_le_<scale<std::ratio<1, 100> > >), ("channel", "value"), (), ()) \
+  X (CMD_081, 0x151, "Synthetic command 81", (), (), (), ()) \
+  X (CMD_082, 0x152, "Synthetic command 82", (u16_be_<>), ("value"), (), ()) \
+  X (CMD_083, 0x153, "Synthetic command 83", (u16_be_<>), ("value"), (), (timeout (183), retries (3))) \
+  X (CMD_084, 0x154, "Synthetic command 84", (u16_be_<>), ("value"), (), ()) \
+  X (CMD_085, 0x155, "Synthetic command 85", (u8_<>, u16_le_<scale<std::ratio<1, 100> > >), ("channel", "value"), (), ()) \
+  X (CMD_086, 0x156, "Synthetic command 86", (), (), (), ()) \
+  X (CMD_087, 0x157, "Synthetic command 87", (u16_be_<>), ("value"), (), (idempotent)) \
+  X (CMD_088, 0x158, "Synthetic command 88", (u16_be_<>), ("value"), (), ()) \
+  X (CMD_089, 0x159, "Synthetic command 89", (u16_be_<>), ("value"), (), ()) \
+  X (CMD_090, 0x15A, "Synthetic command 90", (u8_<>, u16_le_<scale<std::ratio<1, 100> > >), ("channel", "value"), (), ()) \
+  X (CMD_091, 0x15B, "Synthetic command 91", (), (), (), ()) \
+  X (CMD_092, 0x15C, "Synthetic command 92", (u16_be_<>), ("value"), (), ()) \
+  X (CMD_093, 0x15D, "Synthetic command 93", (u16_be_<>), ("value"), (), (timeout (193), retries (1))) \
+  X (CMD_094, 0x15E, "Synthetic command 94", (u16_be_<>), ("value"), (), ()) \
+  X (CMD_095, 0x15F, "Synthetic command 95", (u8_<>, u16_le_<scale<std::ratio<1, 100> > >), ("channel", "value"), (), ()) \
+  X (CMD_096, 0x160, "Synthetic command 96", (), (), (), ()) \
+  X (CMD_097, 0x161, "Synthetic command 97", (u16_be_<>), ("value"), (), (idempotent)) \
+  X (CMD_098, 0x162, "Synthetic command 98", (u16_be_<>), ("value"), (), ()) \
+  X (CMD_099, 0x163, "Synthetic command 99", (u16_be_<>), ("value"), (), ())
+// clang-format on
+
+LUMEX_PROTOCOL_DEFINE (large_protocol, widget_codec, widget_header,
+                       LARGE_ROWS);
+} // namespace protocol_tables
+} // namespace lumex_tests
+
+#endif // !LUMEX_TESTS_CORE_PROTOCOL_TEST_TABLES_HPP
