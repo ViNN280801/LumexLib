@@ -85,11 +85,9 @@
  * ends with `cancelled`). One emitted on the slot of an I/O operation
  * reaches the current transport, which cancels its pending operations as
  * its `cancel ()` does; the session keeps its link. `partial` and `total`
- * alone change nothing. A signal emitted after the handler ran has no
- * effect; one that races the completion (after the operation was settled,
- * before its handler ran) may still act, as for the transports (the
- * operation counts as pending until its handler runs: the waiter or the I/O
- * itself completes with its result, the cancel reaches the others). One
+ * alone change nothing. A signal emitted after the result was handed on
+ * has no effect, also while the handler still waits on its executor (for
+ * the I/O the transport decides, as for its own operations). One
  * emitted right after the call, before the session reached its
  * transport, still cancels (the session takes the slot at the initiation,
  * as the transports and Asio's own operations do). The initiations report the

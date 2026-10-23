@@ -116,6 +116,11 @@ struct message_impl_access
     impl.do_close ();
     impl.set_open (false);
   }
+  static detail::mark_registry &
+  marks (message_impl &impl) LUMEX_NOEXCEPT
+  {
+    return impl.marks_;
+  }
 };
 
 namespace
@@ -175,8 +180,9 @@ struct post_close
   }
 };
 
-// The cancellation of one operation, on the strand: nothing when the
-// operation completed since the signal (its mark is gone).
+// The cancellation of one operation, on the strand: nothing when its
+// handler ran since the signal (the mark is gone). A signal emitted before
+// the operation settled acts, also when the result was handed on since.
 struct post_cancel_operation
 {
   impl_ptr impl;
@@ -184,7 +190,7 @@ struct post_cancel_operation
   void
   operator() ()
   {
-    if (!operation.expired ())
+    if (detail::take_cancellation_request (operation))
       message_impl_access::cancel (*impl);
   }
 };
@@ -204,11 +210,10 @@ public:
   operator() (asio::cancellation_type_t type)
   {
     if ((type & asio::cancellation_type::terminal)
-            == asio::cancellation_type::none
-        || operation_.expired ())
+        == asio::cancellation_type::none)
       return;
     impl_ptr const impl = impl_.lock ();
-    if (!impl)
+    if (!impl || !detail::request_cancellation (operation_))
       return;
     try
       {
@@ -217,7 +222,9 @@ public:
       }
     catch (...)
       {
-        // Out of memory: the operation is not cancelled.
+        // Out of memory: the operation is not cancelled; a later signal may
+        // try again.
+        detail::take_cancellation_request (operation_);
       }
   }
 
@@ -235,8 +242,10 @@ take_cancellation (impl_ptr const &impl, Handler &handler,
     return;
   asio::cancellation_slot slot
       = asio::get_associated_cancellation_slot (handler);
-  if (slot.is_connected ())
-    slot.template emplace<terminal_cancellation> (impl, mark);
+  if (!slot.is_connected ())
+    return;
+  slot.template emplace<terminal_cancellation> (impl, mark);
+  message_impl_access::marks (*impl).watch (slot, mark);
 }
 
 // The state of a synchronous receive: the shared wait state and the message.
@@ -315,9 +324,11 @@ message_impl::start_close ()
   asio::post (strand_, std::move (step));
 }
 
+// The result is fixed here: the mark is settled first (see stream_impl).
 void
 message_impl::complete (status_handler_t handler, std::error_code error)
 {
+  marks_.settle (handler);
   asio::post (strand_, asio::append (std::move (handler), error));
 }
 
@@ -325,6 +336,7 @@ void
 message_impl::complete (message_handler_t handler, std::error_code error,
                         message_t message)
 {
+  marks_.settle (handler);
   asio::post (strand_,
               asio::append (std::move (handler), error, std::move (message)));
 }

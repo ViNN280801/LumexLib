@@ -273,26 +273,34 @@ struct open_timer_done
   }
 };
 
+// The result of a waiter is fixed here: its mark is settled first, so a
+// signal emitted while the handler waits on its executor ends nothing.
 void
 complete_state (session_core::strand_type const &strand,
+                ::lumex::applied::transport::detail::mark_registry &marks,
                 state_handler_t handler, std::error_code const &error,
                 channel_state state)
 {
+  marks.settle (handler);
   asio::post (strand, asio::append (std::move (handler), error, state));
 }
 
 void
 complete_snapshot (session_core::strand_type const &strand,
+                   ::lumex::applied::transport::detail::mark_registry &marks,
                    snapshot_handler_t handler, std::error_code const &error,
                    state_snapshot_t const &snapshot)
 {
+  marks.settle (handler);
   asio::post (strand, asio::append (std::move (handler), error, snapshot));
 }
 
 void
 complete_status (session_core::strand_type const &strand,
+                 ::lumex::applied::transport::detail::mark_registry &marks,
                  status_handler_t handler, std::error_code const &error)
 {
+  marks.settle (handler);
   asio::post (strand, asio::append (std::move (handler), error));
 }
 } // namespace
@@ -594,7 +602,7 @@ session_core::do_state_wait (channel_state seen, std::uint64_t sequence,
   state_snapshot_t const now = state_snapshot ();
   if (now.state != seen || now.sequence != sequence)
     {
-      complete_state (strand_, std::move (handler), std::error_code (),
+      complete_state (strand_, marks_, std::move (handler), std::error_code (),
                       now.state);
       return;
     }
@@ -608,8 +616,8 @@ session_core::do_snapshot_wait (std::uint64_t sequence,
   state_snapshot_t const now = state_snapshot ();
   if (now.sequence != sequence)
     {
-      complete_snapshot (strand_, std::move (handler), std::error_code (),
-                         now);
+      complete_snapshot (strand_, marks_, std::move (handler),
+                         std::error_code (), now);
       return;
     }
   snapshot_waiters_.push_back (std::move (handler));
@@ -621,7 +629,7 @@ session_core::do_open_wait (unsigned epoch, std::uint64_t id,
 {
   if (!do_start (epoch))
     {
-      complete_status (strand_, std::move (handler),
+      complete_status (strand_, marks_, std::move (handler),
                        make_error_code (transport_errc::cancelled));
       return;
     }
@@ -630,12 +638,13 @@ session_core::do_open_wait (unsigned epoch, std::uint64_t id,
   channel_state const now = state ();
   if (now == channel_state::open)
     {
-      complete_status (strand_, std::move (handler), std::error_code ());
+      complete_status (strand_, marks_, std::move (handler),
+                       std::error_code ());
       return;
     }
   if (now == channel_state::faulted)
     {
-      complete_status (strand_, std::move (handler), last_error ());
+      complete_status (strand_, marks_, std::move (handler), last_error ());
       return;
     }
   open_waiter waiter = { id, std::move (handler) };
@@ -936,13 +945,13 @@ session_core::set_state (channel_state state, std::error_code const &reason)
   std::vector<state_handler_t> waiters;
   waiters.swap (state_waiters_);
   for (std::size_t i = 0; i < waiters.size (); ++i)
-    complete_state (strand_, std::move (waiters[i]), std::error_code (),
-                    state);
+    complete_state (strand_, marks_, std::move (waiters[i]),
+                    std::error_code (), state);
   std::vector<snapshot_handler_t> snapshots;
   snapshots.swap (snapshot_waiters_);
   for (std::size_t i = 0; i < snapshots.size (); ++i)
-    complete_snapshot (strand_, std::move (snapshots[i]), std::error_code (),
-                       snapshot);
+    complete_snapshot (strand_, marks_, std::move (snapshots[i]),
+                       std::error_code (), snapshot);
 
   if (state == channel_state::open || state == channel_state::faulted
       || state == channel_state::closed)
@@ -955,7 +964,8 @@ session_core::set_state (channel_state state, std::error_code const &reason)
       std::vector<open_waiter> opens;
       opens.swap (open_waiters_);
       for (std::size_t i = 0; i < opens.size (); ++i)
-        complete_status (strand_, std::move (opens[i].handler), outcome);
+        complete_status (strand_, marks_, std::move (opens[i].handler),
+                         outcome);
     }
 
   if (!options_.on_state_change || detached_.load (std::memory_order_acquire))
@@ -1000,15 +1010,17 @@ session_core::cancel_waiters ()
   std::vector<state_handler_t> waiters;
   waiters.swap (state_waiters_);
   for (std::size_t i = 0; i < waiters.size (); ++i)
-    complete_state (strand_, std::move (waiters[i]), cancelled, now.state);
+    complete_state (strand_, marks_, std::move (waiters[i]), cancelled,
+                    now.state);
   std::vector<snapshot_handler_t> snapshots;
   snapshots.swap (snapshot_waiters_);
   for (std::size_t i = 0; i < snapshots.size (); ++i)
-    complete_snapshot (strand_, std::move (snapshots[i]), cancelled, now);
+    complete_snapshot (strand_, marks_, std::move (snapshots[i]), cancelled,
+                       now);
   std::vector<open_waiter> opens;
   opens.swap (open_waiters_);
   for (std::size_t i = 0; i < opens.size (); ++i)
-    complete_status (strand_, std::move (opens[i].handler), cancelled);
+    complete_status (strand_, marks_, std::move (opens[i].handler), cancelled);
 }
 
 double

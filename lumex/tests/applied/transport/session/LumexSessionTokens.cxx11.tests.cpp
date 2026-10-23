@@ -645,6 +645,102 @@ TEST_F (
   ASSERT_TRUE (read.wait ());
 }
 
+namespace
+{
+// Every step posted to the session strand before it has run: a state wait
+// that completes at once is posted behind them (the strand runs in order).
+void
+strand_barrier (ss::stream_session &session)
+{
+  outcome<int> passed;
+  session.async_wait_state_change (state::closed,
+                                   [&passed] (std::error_code e, state)
+                                     { passed.set (e, 0); });
+  ASSERT_TRUE (passed.wait ());
+}
+} // namespace
+
+// Todo 163: the state wait completed and its handler waits on an executor
+// nobody runs yet; the signal emitted now ends nothing (the session handed
+// the result on), the pending read goes on.
+TEST_F (
+    LumexSessionTokensTest,
+    GivenAStateWaitWhoseHandlerHasNotRun_WhenItsSlotIsEmitted_ThenAPendingReadIsNotCancelled)
+{
+  std::unique_ptr<ss::stream_session> session (new ss::stream_session (
+      runner_.get_executor (), make_stream_factory (factory_)));
+  ASSERT_TRUE (session->open (ms (2000)).has_value ());
+  std::vector<std::uint8_t> buffer (4);
+  outcome<std::size_t> read;
+  session->async_read_some (tr::mutable_bytes_t (buffer),
+                            [&read] (std::error_code e, std::size_t n)
+                              { read.set (e, n); });
+  asio::io_context later;
+  asio::cancellation_signal signal;
+  int changed = 0;
+  session->async_wait_state_change (
+      state::closed,
+      asio::bind_cancellation_slot (
+          signal.slot (),
+          asio::bind_executor (later, [&changed] (std::error_code, state)
+                                 { ++changed; })));
+  // The wait completes at once on the strand; its handler goes to `later`.
+  strand_barrier (*session);
+  ASSERT_EQ (changed, 0);
+  signal.emit (asio::cancellation_type::terminal);
+  bool const ended = read.wait (ms (300));
+  EXPECT_FALSE (ended) << "a signal after the result cancelled the session: "
+                       << read.error.message ();
+  EXPECT_TRUE (session->is_open ());
+  later.run ();
+  EXPECT_EQ (changed, 1);
+  session->close ();
+  ASSERT_TRUE (read.wait ());
+}
+
+// REVIEW163 F2: the same for a snapshot wait and an open wait.
+TEST_F (
+    LumexSessionTokensTest,
+    GivenASnapshotAndAnOpenWaitWhoseHandlersHaveNotRun_WhenTheirSlotsAreEmitted_ThenAPendingReadIsNotCancelled)
+{
+  std::unique_ptr<ss::stream_session> session (new ss::stream_session (
+      runner_.get_executor (), make_stream_factory (factory_)));
+  ASSERT_TRUE (session->open (ms (2000)).has_value ());
+  std::vector<std::uint8_t> buffer (4);
+  outcome<std::size_t> read;
+  session->async_read_some (tr::mutable_bytes_t (buffer),
+                            [&read] (std::error_code e, std::size_t n)
+                              { read.set (e, n); });
+  asio::io_context later;
+  int done = 0;
+  asio::cancellation_signal snapshot_signal;
+  // A snapshot older than the session's: the wait completes at once.
+  session->async_wait_state_change (
+      ss::state_snapshot_t (),
+      asio::bind_cancellation_slot (
+          snapshot_signal.slot (),
+          asio::bind_executor (later,
+                               [&done] (std::error_code, ss::state_snapshot_t)
+                                 { ++done; })));
+  asio::cancellation_signal open_signal;
+  // The session is open: the open wait completes at once.
+  session->async_open (asio::bind_cancellation_slot (
+      open_signal.slot (),
+      asio::bind_executor (later, [&done] (std::error_code) { ++done; })));
+  strand_barrier (*session);
+  ASSERT_EQ (done, 0);
+  snapshot_signal.emit (asio::cancellation_type::terminal);
+  open_signal.emit (asio::cancellation_type::terminal);
+  bool const ended = read.wait (ms (300));
+  EXPECT_FALSE (ended) << "a signal after the result cancelled the session: "
+                       << read.error.message ();
+  EXPECT_TRUE (session->is_open ());
+  later.run ();
+  EXPECT_EQ (done, 2);
+  session->close ();
+  ASSERT_TRUE (read.wait ());
+}
+
 // C3 (M2): a terminal cancellation emitted right after a session read is
 // called (from a handler on the session strand, so the step that starts the
 // read cannot run first) ends the read.

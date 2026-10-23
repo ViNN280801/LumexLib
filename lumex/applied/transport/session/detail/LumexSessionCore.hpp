@@ -248,12 +248,13 @@ private:
   friend struct session_core_access;
 
   // A terminal cancellation emitted on the cancellation slot of a waiter's
-  // handler while the waiter is pending (its mark lives) does what
-  // request_cancel () does (as a terminal cancellation of a transport's
-  // operation does what its cancel () does). Installed on the slot of the
-  // erased handler: the erasure puts its own cancellation state in the
-  // user's slot, which passes every cancellation type on (the canceller
-  // keeps only terminal).
+  // handler while the waiter is pending (its mark lives and is not settled)
+  // does what request_cancel () does (as a terminal cancellation of a
+  // transport's operation does what its cancel () does). Installed on the
+  // slot of the erased handler: the erasure puts its own cancellation state
+  // in the user's slot, which passes every cancellation type on (the
+  // canceller keeps only terminal). The mark is remembered by that slot and
+  // settled when the waiter's result is handed on.
   template <typename Erased>
   void
   watch_terminal_cancellation (
@@ -263,11 +264,13 @@ private:
     if (!mark)
       return;
     asio::cancellation_slot slot = erased.get_cancellation_slot ();
-    if (slot.is_connected ())
-      slot.template emplace<terminal_canceller> (
-          std::weak_ptr<session_core> (shared_from_this ()),
-          std::weak_ptr<::lumex::applied::transport::detail::operation_mark> (
-              mark));
+    if (!slot.is_connected ())
+      return;
+    slot.template emplace<terminal_canceller> (
+        std::weak_ptr<session_core> (shared_from_this ()),
+        std::weak_ptr<::lumex::applied::transport::detail::operation_mark> (
+            mark));
+    marks_.watch (slot, mark);
   }
 
   struct open_waiter
@@ -348,10 +351,13 @@ private:
   std::vector<state_handler_t> state_waiters_;
   std::vector<snapshot_handler_t> snapshot_waiters_;
   std::vector<open_waiter> open_waiters_;
+  // The marks of the waiters with a cancellation slot, settled as their
+  // result is handed on: a signal emitted after that ends nothing.
+  ::lumex::applied::transport::detail::mark_registry marks_;
 };
 /// @brief The step of a waiter's terminal cancellation, on the session
-/// strand: nothing when the waiter completed since the signal (its mark is
-/// gone).
+/// strand: nothing when the waiter's handler ran since the signal (its mark
+/// is gone); a signal emitted before the waiter settled acts.
 struct terminal_cancel_step
 {
   std::shared_ptr<session_core> core;
@@ -360,7 +366,8 @@ struct terminal_cancel_step
   void
   operator() ()
   {
-    if (!pending.expired ())
+    if (::lumex::applied::transport::detail::take_cancellation_request (
+            pending))
       core->request_cancel ();
   }
 };
@@ -369,8 +376,8 @@ struct terminal_cancel_step
  * @brief The cancellation slot handler of a session's waiter: a terminal
  * cancellation while the waiter is pending does what `request_cancel ()`
  * does (posted to the strand, checked there again); `partial` and `total`
- * alone change nothing, and a signal emitted after the waiter's handler ran
- * reaches nothing.
+ * alone change nothing, and a signal emitted after the waiter's result was
+ * handed on (settled) reaches nothing, also before its handler ran.
  */
 struct terminal_canceller
 {
@@ -385,11 +392,12 @@ struct terminal_canceller
   operator() (asio::cancellation_type type) LUMEX_NOEXCEPT
   {
     if ((type & asio::cancellation_type::terminal)
-            == asio::cancellation_type::none
-        || pending.expired ())
+        == asio::cancellation_type::none)
       return;
     std::shared_ptr<session_core> const alive = core.lock ();
-    if (!alive)
+    if (!alive
+        || !::lumex::applied::transport::detail::request_cancellation (
+            pending))
       return;
     try
       {
@@ -398,7 +406,10 @@ struct terminal_canceller
       }
     catch (...)
       {
-        // Out of memory: the waiter is not cancelled.
+        // Out of memory: the waiter is not cancelled; a later signal may try
+        // again.
+        ::lumex::applied::transport::detail::take_cancellation_request (
+            pending);
       }
   }
 

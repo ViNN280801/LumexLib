@@ -51,16 +51,22 @@
  *
  * When the handler has a cancellation slot, the wrapper also holds the mark of
  * the pending operation that the transport's slot handler looks at; the mark
- * ends when the handler is called or destroyed.
+ * ends when the handler is called or destroyed. The transport settles the
+ * mark when it hands the result on (`mark_registry`): a terminal cancellation
+ * requested after that ends nothing, even before the handler ran.
  */
 #ifndef LUMEX_APPLIED_TRANSPORT_DETAIL_COUNTING_HANDLER_HPP
 #define LUMEX_APPLIED_TRANSPORT_DETAIL_COUNTING_HANDLER_HPP
 
+#include <algorithm>
+#include <atomic>
 #include <cstddef>
 #include <memory>
+#include <mutex>
 #include <system_error>
 #include <type_traits>
 #include <utility>
+#include <vector>
 
 #include "lumex/applied/transport/detail/LumexAsio.hpp"
 #include "lumex/applied/transport/statistics/LumexTransportStatistics.hpp"
@@ -79,15 +85,176 @@ namespace transport
 {
 namespace detail
 {
-/// @brief The mark of a pending operation whose handler has a cancellation
-/// slot: alive from the start until the handler is called or destroyed. The
-/// slot handler of the transport holds it weakly, so a signal emitted after
-/// the completion ends nothing.
+/**
+ * @brief The mark of a pending operation whose handler has a cancellation
+ * slot: alive from the start until the handler is called or destroyed. The
+ * slot handler of the transport holds it weakly, so a signal emitted after
+ * the handler ran ends nothing.
+ * @details Two bits. `requested`: a terminal cancellation was emitted and its
+ * step is on its way to the strand (set by the emitting thread, cleared by
+ * the step). `settled`: the transport handed the result on, on the strand
+ * (`mark_registry::settle`); a signal emitted from then on ends nothing,
+ * although the handler may still wait on its executor. A request that came
+ * before the settle still acts: the signal was emitted while the operation
+ * was pending.
+ */
 struct operation_mark
 {
+  static int const requested = 1;
+  static int const settled = 2;
+
+  operation_mark () LUMEX_NOEXCEPT : bits (0) {}
+
+  std::atomic<int> bits;
 };
 
 typedef std::shared_ptr<operation_mark> operation_mark_ptr;
+
+/// @brief On the thread that emits: true when this call requested the
+/// cancellation of a pending operation (post its step then); false when the
+/// operation settled, its handler ran, or a request is already on its way.
+inline bool
+request_cancellation (std::weak_ptr<operation_mark> const &mark) LUMEX_NOEXCEPT
+{
+  operation_mark_ptr const live = mark.lock ();
+  if (!live)
+    return false;
+  int bits = live->bits.load (std::memory_order_acquire);
+  while ((bits & (operation_mark::requested | operation_mark::settled)) == 0)
+    if (live->bits.compare_exchange_weak (
+            bits, bits | operation_mark::requested, std::memory_order_acq_rel,
+            std::memory_order_acquire))
+      return true;
+  return false;
+}
+
+/// @brief On the strand, in the step a request posted: true when the
+/// request acts (the handler has not run); clears the request, so a later
+/// signal emitted while the operation is still pending acts again.
+inline bool
+take_cancellation_request (std::weak_ptr<operation_mark> const &mark)
+    LUMEX_NOEXCEPT
+{
+  operation_mark_ptr const live = mark.lock ();
+  if (!live)
+    return false;
+  return (live->bits.fetch_and (~operation_mark::requested,
+                                std::memory_order_acq_rel)
+          & operation_mark::requested)
+         != 0;
+}
+
+/**
+ * @brief The marks of the pending operations of one transport (or session),
+ * found again by the cancellation slot of their erased handler when the
+ * result is handed on.
+ * @details The transport only sees the erased handler at the completion; the
+ * slot of an erased handler stays where it is while the handler moves, so it
+ * names the operation. The slot is only compared, never changed (the user
+ * may emit on it at the same time). `watch` runs on the thread that starts
+ * the operation, `settle` on the strand: a mutex guards the list.
+ */
+class mark_registry
+{
+public:
+  /// @brief Remembers `mark` for the operation whose erased handler has
+  /// `slot` (nothing without a mark or a slot).
+  void
+  watch (asio::cancellation_slot const &slot, operation_mark_ptr const &mark)
+  {
+    if (!mark || !slot.is_connected ())
+      return;
+    std::lock_guard<std::mutex> const lock (mutex_);
+    drop_expired ();
+    // Two live operations never share a slot. An equal one is left by an
+    // operation whose signal the user destroyed while it was pending (the
+    // slot is the signal's memory, now reused): nobody can emit on it, and
+    // it must not take the settle of this operation.
+    entries_.erase (
+        std::remove_if (entries_.begin (), entries_.end (), same_slot (slot)),
+        entries_.end ());
+    entries_.push_back (entry (slot, mark));
+  }
+
+  /// @brief On the strand, as the result of the operation of `handler` is
+  /// handed on: its mark is settled. The slot is computed from the erased
+  /// handler's own cancellation state (an address only: the user's signal
+  /// is not read, it may be gone).
+  template <typename Handler>
+  void
+  settle (Handler const &handler) LUMEX_NOEXCEPT
+  {
+    asio::cancellation_slot const slot
+        = asio::get_associated_cancellation_slot (handler);
+    if (slot.is_connected ())
+      settle_slot (slot);
+  }
+
+private:
+  typedef std::pair<asio::cancellation_slot, std::weak_ptr<operation_mark>>
+      entry;
+
+  struct expired
+  {
+    bool
+    operator() (entry const &item) const LUMEX_NOEXCEPT
+    {
+      return item.second.expired ();
+    }
+  };
+
+  struct same_slot
+  {
+    explicit same_slot (asio::cancellation_slot const &slot) : slot_ (slot) {}
+
+    bool
+    operator() (entry const &item) const LUMEX_NOEXCEPT
+    {
+      return item.first == slot_;
+    }
+
+    asio::cancellation_slot slot_;
+  };
+
+  void
+  drop_expired () LUMEX_NOEXCEPT
+  {
+    entries_.erase (
+        std::remove_if (entries_.begin (), entries_.end (), expired ()),
+        entries_.end ());
+  }
+
+  void
+  settle_slot (asio::cancellation_slot const &slot) LUMEX_NOEXCEPT
+  {
+    try
+      {
+        std::lock_guard<std::mutex> const lock (mutex_);
+        // A slot freed with its handler may come back for a new operation:
+        // only a live mark is the operation's own.
+        for (std::vector<entry>::iterator it = entries_.begin ();
+             it != entries_.end (); ++it)
+          {
+            if (!(it->first == slot))
+              continue;
+            operation_mark_ptr const live = it->second.lock ();
+            if (!live)
+              continue;
+            live->bits.fetch_or (operation_mark::settled,
+                                 std::memory_order_acq_rel);
+            entries_.erase (it);
+            return;
+          }
+      }
+    catch (...)
+      {
+        // The mutex failed: the mark stays pending until the handler runs.
+      }
+  }
+
+  std::mutex mutex_;
+  std::vector<entry> entries_;
+};
 
 /// @brief A new mark when `handler` has a connected cancellation slot, else
 /// none.

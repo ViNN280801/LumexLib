@@ -174,7 +174,8 @@ struct io_cancel_step
  * cancellation while the operation is pending reaches the transport through
  * the session's own signal, also one emitted before the session started
  * the operation on its transport. `partial` and `total` alone change
- * nothing; after the handler ran it reaches nothing.
+ * nothing; once the transport handed the result on it reaches nothing (the
+ * transport's own slot handler decides).
  */
 struct io_canceller
 {
