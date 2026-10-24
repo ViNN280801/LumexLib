@@ -395,7 +395,31 @@ hid_device_impl::open_blocking ()
   std::error_code error;
   std::string text;
   std::string path = options_.path;
-  if (path.empty ())
+  if (options_.resolve_path)
+    {
+      try
+        {
+          path = options_.resolve_path ();
+          if (path.empty ())
+            {
+              error = make_error_code (transport_errc::invalid_endpoint);
+              text = "no HID device matches " + name ();
+            }
+        }
+      catch (std::system_error const &failure)
+        {
+          error = failure.code ()
+                      ? failure.code ()
+                      : make_error_code (transport_errc::invalid_endpoint);
+          text = std::string ("finding the device failed: ") + failure.what ();
+        }
+      catch (...)
+        {
+          error = make_error_code (transport_errc::invalid_endpoint);
+          text = "finding the device failed";
+        }
+    }
+  else if (path.empty ())
     {
       hid_filter_t filter;
       filter.vendor_id = options_.vendor_id;
