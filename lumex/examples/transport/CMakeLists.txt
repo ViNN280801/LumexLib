@@ -11,6 +11,7 @@ lumex_example_executable(
   LINK lumex::transport Threads::Threads
   REQUIRE_TARGET lumex::transport
   CXX_STANDARD 11
+  TEST_TIMEOUT 60
 )
 lumex_example_executable(
   NAME LumexTransportExampleAsync
@@ -18,4 +19,27 @@ lumex_example_executable(
   LINK lumex::transport Threads::Threads
   REQUIRE_TARGET lumex::transport
   CXX_STANDARD 11
+  TEST_TIMEOUT 60
+)
+# The framed and the HID examples show a message when the library was built
+# without the framing module or the HID transport (LUMEX_TRANSPORT_WITH_FRAMING,
+# LUMEX_TRANSPORT_WITH_HID of lumex::transport): they run anywhere.
+lumex_example_executable(
+  NAME LumexTransportExampleFramed
+  SOURCE example_transport_framed.cpp
+  LINK lumex::transport Threads::Threads
+  REQUIRE_TARGET lumex::transport
+  CXX_STANDARD 11
+  TEST_TIMEOUT 60
+)
+lumex_example_executable(
+  NAME LumexTransportExampleHid
+  SOURCE example_transport_hid.cpp
+  LINK lumex::transport Threads::Threads
+  REQUIRE_TARGET lumex::transport
+  CXX_STANDARD 11
+  TEST_TIMEOUT 60
+  # Only the count in the CTest log: the full listing names the devices of
+  # the machine, run the example by hand for it.
+  TEST_ARGS --count
 )
