@@ -306,6 +306,32 @@ public:
     return device;
   }
 
+  // The device is unplugged: the enumeration no longer lists it and its
+  // path cannot be opened (a handle already open stays valid).
+  void
+  remove (std::shared_ptr<fake_device> const &device)
+  {
+    std::lock_guard<std::mutex> const lock (mutex_);
+    for (std::size_t i = 0; i < devices_.size (); ++i)
+      if (devices_[i] == device)
+        {
+          devices_.erase (devices_.begin () + static_cast<std::ptrdiff_t> (i));
+          return;
+        }
+  }
+
+  // The device is plugged in again: listed again, under `path`.
+  void
+  plug (std::shared_ptr<fake_device> const &device, std::string const &path)
+  {
+    std::lock_guard<std::mutex> const lock (mutex_);
+    device->info.path = path;
+    for (std::size_t i = 0; i < devices_.size (); ++i)
+      if (devices_[i] == device)
+        return;
+    devices_.push_back (device);
+  }
+
   std::vector<hid::hid_device_info_t>
   enumerate (std::uint16_t vendor_id, std::uint16_t product_id) override
   {

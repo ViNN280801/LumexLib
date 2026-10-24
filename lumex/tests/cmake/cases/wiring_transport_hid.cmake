@@ -30,7 +30,7 @@ if(NOT _cmake MATCHES "if\\(LUMEX_TRANSPORT_WITH_HID\\)[ \t\r\n]*lumex_third_par
 endif()
 
 file(READ "${LUMEX_SOURCE_DIR}/lumex/applied/transport/LumexTransport" _umbrella)
-if(NOT _umbrella MATCHES "#if defined\\(LUMEX_TRANSPORT_WITH_HID\\)[ \t\r\n]*#include \"hid/LumexHidDevice.hpp\"[ \t\r\n]*#include \"hid/LumexHidReportDescriptor.hpp\"[ \t\r\n]*#endif")
+if(NOT _umbrella MATCHES "#if defined\\(LUMEX_TRANSPORT_WITH_HID\\)[ \t\r\n]*#include \"hid/LumexHidDevice.hpp\"[ \t\r\n]*#include \"hid/LumexHidReportDescriptor.hpp\"[ \t\r\n]*#include \"hid/LumexHidSelectors.hpp\"[ \t\r\n]*#endif")
     message(FATAL_ERROR "the umbrella does not include the HID headers under LUMEX_TRANSPORT_WITH_HID")
 endif()
 
@@ -40,7 +40,9 @@ if(NOT _tests MATCHES "if\\(LUMEX_TRANSPORT_WITH_HID\\)[ \t\r\n]*add_subdirector
 endif()
 
 # No transport source outside hid/ (the umbrella aside) needs the HID files:
-# the transport builds without them.
+# the transport builds without them. The device watcher watches HID selectors
+# too, so its two files include them, and only after
+# `#if defined(LUMEX_TRANSPORT_WITH_HID)`.
 file(GLOB_RECURSE _transport_files
     "${LUMEX_SOURCE_DIR}/lumex/applied/transport/*.hpp"
     "${LUMEX_SOURCE_DIR}/lumex/applied/transport/*.cpp")
@@ -50,7 +52,15 @@ foreach(_file IN LISTS _transport_files)
     endif()
     file(READ "${_file}" _text)
     if(_text MATCHES "transport/hid/")
-        message(FATAL_ERROR "${_file} includes a HID file: the transport would not build without LUMEX_TRANSPORT_WITH_HID")
+        if(NOT _file MATCHES "/transport/session/LumexDeviceWatcher\\.[ch]pp$")
+            message(FATAL_ERROR "${_file} includes a HID file: the transport would not build without LUMEX_TRANSPORT_WITH_HID")
+        endif()
+        # The first include must come after the first guard.
+        string(FIND "${_text}" "#if defined(LUMEX_TRANSPORT_WITH_HID)" _guard)
+        string(FIND "${_text}" "transport/hid/" _include)
+        if(_guard EQUAL -1 OR _guard GREATER _include)
+            message(FATAL_ERROR "${_file} includes a HID file outside #if defined(LUMEX_TRANSPORT_WITH_HID)")
+        endif()
     endif()
 endforeach()
 
