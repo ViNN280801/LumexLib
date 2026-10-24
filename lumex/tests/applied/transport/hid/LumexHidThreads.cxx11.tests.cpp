@@ -314,6 +314,15 @@ TEST_F (LumexHidThreadsTest,
   EXPECT_TRUE (
       eventually ([&transport] ()
                     { return hid::detail::stale_events (transport) == 1u; }));
+  // Reopened, the device never hands the old connection's report to a
+  // reader. The fake keeps one open flag per device: the old reader must
+  // have closed its handle first.
+  ASSERT_TRUE (device->wait_for ([&device] () { return device->closes > 0; }));
+  ASSERT_TRUE (transport.open (deadline_t (2000)).has_value ());
+  tr::datagram::message_result_t const next
+      = transport.receive (deadline_t (200));
+  ASSERT_FALSE (next.has_value ());
+  EXPECT_TRUE (next.error () == transport_errc::timeout) << next.error ();
 }
 
 TEST_F (
@@ -333,6 +342,13 @@ TEST_F (
   EXPECT_TRUE (
       eventually ([&transport] ()
                     { return hid::detail::stale_events (transport) == 1u; }));
+  // Reopened, a receive waits for a report: the old connection's failure
+  // does not end it with disconnected.
+  ASSERT_TRUE (transport.open (deadline_t (2000)).has_value ());
+  tr::datagram::message_result_t const next
+      = transport.receive (deadline_t (200));
+  ASSERT_FALSE (next.has_value ());
+  EXPECT_TRUE (next.error () == transport_errc::timeout) << next.error ();
 }
 
 TEST (LumexHidConnectionTest,
