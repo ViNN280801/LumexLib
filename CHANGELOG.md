@@ -102,6 +102,14 @@
 
 **Проверено:** TODO
 
+##### HID: селекторы, `device_watcher`, фаззинг разбора дескриптора, примеры
+
+**Файлы:** `lumex/applied/transport/hid/LumexHidSelectors.{hpp,cpp}` (новые: `hid_selector_t`, `matches`, `describe`, `find_hid_device`, `make_hid_factory`, `default_hid_enumeration`), `lumex/applied/transport/hid/LumexHidDevice.{hpp,cpp}` (`hid_options_t::resolve_path`), `lumex/applied/transport/session/LumexDeviceWatcher.{hpp,cpp}` (`watch` и `watch_presence` с `hid_selector_t`, `hid_device_event_t`, второе перечисление в конструкторе), `lumex/applied/transport/LumexTransport`, `lumex/applied/transport/README.md` (раздел "HID", "Фаззинг", таблица DChannel, примеры), `lumex/examples/transport/` (`example_transport_framed.cpp`, `example_transport_hid.cpp`), `cmake/LumexOptions.cmake` (`LUMEX_BUILD_FUZZERS`), `lumex/tests/CMakeLists.txt`, `lumex/tests/fuzz/` (новый: `CMakeLists.txt`, `transport/`), `lumex/tests/applied/transport/hid/` (новые `LumexHidSelectors`, `LumexHidWatcher`, `LumexHidFactory`; `LumexFakeHidapi.hpp`: `remove`, `plug`), `lumex/tests/cmake/cases/wiring_transport_hid.cmake`.
+
+**Суть:** `hid::hid_selector_t` называет HID-устройство по VID, PID, серийному номеру, интерфейсу, usage page и usage или по пути; `hid::make_hid_factory` дает фабрику для `message_session`, которая ищет устройство при каждом открытии (рабочий поток открытия, `invalid_endpoint`, если ничего не подошло), поэтому устройство, вернувшееся под другим путем, находится снова. `device_watcher` наблюдает HID-селекторы теми же `watch` и `watch_presence`; перечисление HID идет в том же опросе и только пока есть HID-наблюдение. Цель libFuzzer `fuzz.transport.hid_descriptor` (`LUMEX_BUILD_FUZZERS`, метка `fuzz`, Clang) проверяет `analyze_report_descriptor`: чтение за концом входа и согласованность раскладки. Примеры `example_transport_framed` (SLIP и строки поверх TCP на loopback) и `example_transport_hid` (перечисление и раскладка отчетов) запускаются в CTest без оборудования.
+
+**Проверено:** TODO
+
 ##### `LumexLib-source-revision.rev`: коммиты сборки и ключи символов каждой библиотеки
 
 **Файлы:** `Scripts/ReleaseTools/generate_git_source_revision.py` (новый, копия скрипта PeakExpertCE и PeakExpertWeb байт в байт), `cmake/LumexSourceRevision.cmake`, `cmake/InstallSourceRevision.cmake` (новые), `cmake/PublishDistr.cmake`, `cmake/LumexModules.cmake`, `CMakeLists.txt`, `lumex/tests/cmake/artifacts/source_revision_listing.cmake` (новый), `lumex/tests/cmake/CMakeLists.txt`.

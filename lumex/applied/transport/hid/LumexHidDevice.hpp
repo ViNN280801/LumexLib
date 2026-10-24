@@ -91,6 +91,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <functional>
 #include <string>
 #include <vector>
 
@@ -149,7 +150,8 @@ struct hid_filter_t
 /// @brief What `make_hid_device` opens and how.
 struct hid_options_t
 {
-  /// The platform path (`hid_device_info_t::path`). When empty, `open`
+  /// The platform path (`hid_device_info_t::path`). When empty (and
+  /// `resolve_path` is not set), `open`
   /// takes the first device of the enumeration that matches `vendor_id`,
   /// `product_id` and `serial_number` (an empty or zero field matches any)
   /// and fails with `std::errc::no_such_device` when none does.
@@ -157,6 +159,15 @@ struct hid_options_t
   std::uint16_t vendor_id = 0;
   std::uint16_t product_id = 0;
   std::string serial_number;
+  /// When set, finds the device at each open, on the open's worker thread
+  /// (not on the device's strand): its result replaces `path` for that open
+  /// (`vendor_id`, `product_id` and `serial_number` are then not looked at).
+  /// An empty result, or a `std::system_error` it throws, fails the open
+  /// with `invalid_endpoint` (or the error's code); another exception with
+  /// `invalid_endpoint`. For a device found by a `hid_selector_t`
+  /// (`make_hid_factory`). It may run on several threads at once (the
+  /// opens of other devices): it must be thread-safe.
+  std::function<std::string ()> resolve_path;
   /// The instance name in the logs; empty: the path, or `hid vvvv:pppp`.
   std::string name;
   /// The slice of the reader's `hid_read_timeout`: `close ()` ends the
@@ -168,8 +179,12 @@ struct hid_options_t
 };
 
 /// @brief The HID devices that match `filter` (the strings are compared
-/// after the conversion to UTF-8). Enumeration does not open the devices: a
-/// device the user may not open is listed too.
+/// after the conversion to UTF-8). Enumeration opens no device for use: a
+/// device the user may not open is listed too. On Windows hidapi opens each
+/// interface with zero access to read its attributes and strings, and its
+/// enumeration shares a process-wide mutex with `hid_open_path`, so a call can
+/// wait behind a slow open. hidapi on Linux and macOS returns one record per
+/// top-level usage, all with the path of the device.
 std::vector<hid_device_info_t>
 enumerate_hid_devices (hid_filter_t const &filter = hid_filter_t ());
 

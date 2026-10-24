@@ -69,6 +69,7 @@
 #if defined(LUMEX_TRANSPORT_WITH_HID)
 #include "hid/LumexHidDevice.hpp"
 #include "hid/LumexHidReportDescriptor.hpp"
+#include "hid/LumexHidSelectors.hpp"
 #endif
 
 #include "log/LumexTransportLog.hpp"
