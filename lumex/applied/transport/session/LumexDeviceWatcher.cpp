@@ -82,15 +82,103 @@ namespace
 {
 char const KWATCHER_COMPONENT[] = "transport.watcher";
 
+// `Info` is a serial_port_info_t or a hid::hid_device_info_t: both are
+// identified by their path.
+template <typename Info>
 bool
-contains (std::vector<serial_port_info_t> const &ports,
+contains (std::vector<Info> const &devices,
           std::string const &path) LUMEX_NOEXCEPT
 {
-  for (std::size_t i = 0; i < ports.size (); ++i)
-    if (ports[i].path == path)
+  for (std::size_t i = 0; i < devices.size (); ++i)
+    if (devices[i].path == path)
       return true;
   return false;
 }
+
+// What one poll changed for one selector.
+template <typename Info> struct changes
+{
+  std::vector<Info> arrived;
+  std::vector<Info> removed;
+  bool was_present = false;
+  bool is_present = false;
+};
+
+// The devices of `snapshot` that `selector` names against those it named
+// before (`present`, replaced by the new set). `matches` is found by
+// argument-dependent lookup (the serial selector's in this namespace, the
+// HID selector's in hid).
+template <typename Info, typename Selector>
+changes<Info>
+diff (Selector const &selector, std::vector<Info> const &snapshot,
+      std::vector<Info> &present)
+{
+  // One device per path: hidapi lists a path once per top-level usage, and
+  // a consumer that opens on arrival must open the path once (the first
+  // matching record stands for it).
+  std::vector<Info> now;
+  for (std::size_t i = 0; i < snapshot.size (); ++i)
+    if (matches (selector, snapshot[i]) && !contains (now, snapshot[i].path))
+      now.push_back (snapshot[i]);
+
+  changes<Info> result;
+  for (std::size_t i = 0; i < present.size (); ++i)
+    if (!contains (now, present[i].path))
+      result.removed.push_back (present[i]);
+  for (std::size_t i = 0; i < now.size (); ++i)
+    if (!contains (present, now[i].path))
+      result.arrived.push_back (now[i]);
+  result.was_present = !present.empty ();
+  result.is_present = !now.empty ();
+  present.swap (now);
+  return result;
+}
+
+std::string
+describe_selector (serial_selector_t const &selector)
+{
+  return describe (selector);
+}
+
+#if defined(LUMEX_TRANSPORT_WITH_HID)
+std::string
+describe_selector (hid::hid_selector_t const &selector)
+{
+  return hid::describe (selector);
+}
+#endif
+
+device_event_t
+make_event (device_event_kind kind, serial_port_info_t const &port)
+{
+  device_event_t event;
+  event.kind = kind;
+  event.port = port;
+  return event;
+}
+
+std::string const &
+path_of (device_event_t const &event)
+{
+  return event.port.path;
+}
+
+#if defined(LUMEX_TRANSPORT_WITH_HID)
+hid_device_event_t
+make_event (device_event_kind kind, hid::hid_device_info_t const &device)
+{
+  hid_device_event_t event;
+  event.kind = kind;
+  event.device = device;
+  return event;
+}
+
+std::string const &
+path_of (hid_device_event_t const &event)
+{
+  return event.device.path;
+}
+#endif
 } // namespace
 
 /// The implementation: every member but the atomics is used on the strand.
@@ -103,14 +191,26 @@ public:
 
   device_watcher_impl (executor_type const &executor,
                        std::chrono::milliseconds period,
-                       serial_enumeration_t enumeration)
+                       serial_enumeration_t enumeration,
+                       hid::hid_enumeration_t hid_enumeration)
       : strand_ (asio::make_strand (executor)), timer_ (strand_),
         period_ (period.count () > 0 ? period : std::chrono::milliseconds (1)),
         enumeration_ (enumeration ? std::move (enumeration)
                                   : default_serial_enumeration ()),
+#if defined(LUMEX_TRANSPORT_WITH_HID)
+        hid_enumeration_ (hid_enumeration ? std::move (hid_enumeration)
+                                          : hid::default_hid_enumeration ()),
+#endif
         stopped_ (false), next_id_ (1), polls_ (0), has_snapshot_ (false),
+#if defined(LUMEX_TRANSPORT_WITH_HID)
+        has_hid_snapshot_ (false),
+#endif
         wait_id_ (0)
   {
+#if !defined(LUMEX_TRANSPORT_WITH_HID)
+    // Without the HID transport there is nothing to list.
+    (void)hid_enumeration;
+#endif
   }
 
   void
@@ -123,16 +223,26 @@ public:
   add (serial_selector_t const &selector, device_callback_t callback,
        presence_sink_t sink)
   {
-    watch_id_t const id = next_id_.fetch_add (1, std::memory_order_relaxed);
     std::shared_ptr<entry> const added = std::make_shared<entry> ();
-    added->id = id;
     added->selector = selector;
     added->callback = std::move (callback);
     added->sink = std::move (sink);
-    std::shared_ptr<device_watcher_impl> const self = shared_from_this ();
-    asio::post (strand_, [self, added] () { self->do_add (*added); });
-    return id;
+    return post_add (added);
   }
+
+#if defined(LUMEX_TRANSPORT_WITH_HID)
+  watch_id_t
+  add (hid::hid_selector_t const &selector, hid_device_callback_t callback,
+       presence_sink_t sink)
+  {
+    std::shared_ptr<entry> const added = std::make_shared<entry> ();
+    added->is_hid = true;
+    added->hid_selector = selector;
+    added->hid_callback = std::move (callback);
+    added->sink = std::move (sink);
+    return post_add (added);
+  }
+#endif
 
   void
   remove (watch_id_t id)
@@ -171,6 +281,12 @@ private:
     presence_sink_t sink;
     std::vector<serial_port_info_t> present;
     bool reported = false;
+#if defined(LUMEX_TRANSPORT_WITH_HID)
+    bool is_hid = false;
+    hid::hid_selector_t hid_selector;
+    hid_device_callback_t hid_callback;
+    std::vector<hid::hid_device_info_t> hid_present;
+#endif
   };
 
   struct timer_done
@@ -190,12 +306,33 @@ private:
     return stopped_.load (std::memory_order_acquire);
   }
 
+  watch_id_t
+  post_add (std::shared_ptr<entry> const &added)
+  {
+    watch_id_t const id = next_id_.fetch_add (1, std::memory_order_relaxed);
+    added->id = id;
+    std::shared_ptr<device_watcher_impl> const self = shared_from_this ();
+    asio::post (strand_, [self, added] () { self->do_add (*added); });
+    return id;
+  }
+
   void
   do_add (entry const &added)
   {
     if (stopped ())
       return;
     entries_.push_back (added);
+#if defined(LUMEX_TRANSPORT_WITH_HID)
+    if (added.is_hid)
+      {
+        // The first HID watch lists the devices itself (the polls skip the
+        // HID enumeration while nobody watches it); a failed listing is
+        // retried by the next poll.
+        if (has_hid_snapshot_ || poll_hid ())
+          evaluate_hid (entries_.back ());
+        return;
+      }
+#endif
     if (has_snapshot_)
       evaluate (entries_.back ());
   }
@@ -208,15 +345,19 @@ private:
       if (it->id == id)
         {
           entries_.erase (it);
-          return;
+          break;
         }
+#if defined(LUMEX_TRANSPORT_WITH_HID)
+    // No watch left on the HID devices: the snapshot goes stale.
+    if (!has_hid_entries ())
+      has_hid_snapshot_ = false;
+#endif
   }
 
-  void
-  do_poll ()
+  // False when the enumeration threw (logged): that poll is skipped.
+  bool
+  poll_serial ()
   {
-    if (stopped ())
-      return;
     std::vector<serial_port_info_t> ports;
     try
       {
@@ -228,22 +369,85 @@ private:
                              std::string ("enumeration failed: ")
                                  + failure.what (),
                              log::log_bytes_t ());
-        schedule ();
-        return;
+        return false;
       }
     catch (...)
       {
         LUMEX_TRANSPORT_LOG (warning, KWATCHER_COMPONENT, "serial",
                              "enumeration failed", log::log_bytes_t ());
-        schedule ();
-        return;
+        return false;
       }
     ports_.swap (ports);
     has_snapshot_ = true;
+    return true;
+  }
+
+#if defined(LUMEX_TRANSPORT_WITH_HID)
+  bool
+  has_hid_entries () const LUMEX_NOEXCEPT
+  {
+    for (std::size_t i = 0; i < entries_.size (); ++i)
+      if (entries_[i].is_hid)
+        return true;
+    return false;
+  }
+
+  // As poll_serial, for the HID enumeration.
+  bool
+  poll_hid ()
+  {
+    std::vector<hid::hid_device_info_t> devices;
+    try
+      {
+        devices = hid_enumeration_ ();
+      }
+    catch (std::exception const &failure)
+      {
+        LUMEX_TRANSPORT_LOG (warning, KWATCHER_COMPONENT, "hid",
+                             std::string ("enumeration failed: ")
+                                 + failure.what (),
+                             log::log_bytes_t ());
+        return false;
+      }
+    catch (...)
+      {
+        LUMEX_TRANSPORT_LOG (warning, KWATCHER_COMPONENT, "hid",
+                             "enumeration failed", log::log_bytes_t ());
+        return false;
+      }
+    hid_devices_.swap (devices);
+    has_hid_snapshot_ = true;
+    return true;
+  }
+#endif
+
+  void
+  do_poll ()
+  {
+    if (stopped ())
+      return;
+    bool const serial_listed = poll_serial ();
+    bool hid_listed = false;
+#if defined(LUMEX_TRANSPORT_WITH_HID)
+    if (has_hid_entries ())
+      hid_listed = poll_hid ();
+#endif
     // By index: a callback cannot change entries_ (watch and unwatch post).
     for (std::size_t i = 0; i < entries_.size () && !stopped (); ++i)
-      evaluate (entries_[i]);
-    polls_.fetch_add (1, std::memory_order_acq_rel);
+      {
+#if defined(LUMEX_TRANSPORT_WITH_HID)
+        if (entries_[i].is_hid)
+          {
+            if (hid_listed)
+              evaluate_hid (entries_[i]);
+            continue;
+          }
+#endif
+        if (serial_listed)
+          evaluate (entries_[i]);
+      }
+    if (serial_listed || hid_listed)
+      polls_.fetch_add (1, std::memory_order_acq_rel);
     schedule ();
   }
 
@@ -278,43 +482,46 @@ private:
   void
   evaluate (entry &watched)
   {
-    std::vector<serial_port_info_t> now;
-    for (std::size_t i = 0; i < ports_.size (); ++i)
-      if (matches (watched.selector, ports_[i]))
-        now.push_back (ports_[i]);
+    changes<serial_port_info_t> const found
+        = diff (watched.selector, ports_, watched.present);
+    report (watched, found, watched.selector, watched.callback);
+  }
 
-    std::vector<device_event_t> events;
-    for (std::size_t i = 0; i < watched.present.size (); ++i)
-      if (!contains (now, watched.present[i].path))
-        {
-          device_event_t event;
-          event.kind = device_event_kind::removed;
-          event.port = watched.present[i];
-          events.push_back (event);
-        }
-    for (std::size_t i = 0; i < now.size (); ++i)
-      if (!contains (watched.present, now[i].path))
-        {
-          device_event_t event;
-          event.kind = device_event_kind::arrived;
-          event.port = now[i];
-          events.push_back (event);
-        }
-    bool const was_present = !watched.present.empty ();
-    bool const is_present = !now.empty ();
+#if defined(LUMEX_TRANSPORT_WITH_HID)
+  void
+  evaluate_hid (entry &watched)
+  {
+    changes<hid::hid_device_info_t> const found
+        = diff (watched.hid_selector, hid_devices_, watched.hid_present);
+    report (watched, found, watched.hid_selector, watched.hid_callback);
+  }
+#endif
+
+  template <typename Info, typename Selector, typename Callback>
+  void
+  report (entry &watched, changes<Info> const &found, Selector const &selector,
+          Callback const &callback)
+  {
     bool const first = !watched.reported;
-    watched.present.swap (now);
     watched.reported = true;
-
-    if (watched.sink && (first || was_present != is_present))
-      deliver_presence (watched, is_present);
-    if (watched.callback)
-      for (std::size_t i = 0; i < events.size () && !stopped (); ++i)
-        deliver_event (watched, events[i]);
+    if (watched.sink && (first || found.was_present != found.is_present))
+      deliver_presence (watched, describe_selector (selector),
+                        found.is_present);
+    if (!callback)
+      return;
+    for (std::size_t i = 0; i < found.removed.size () && !stopped (); ++i)
+      deliver_event (
+          callback, describe_selector (selector),
+          make_event (device_event_kind::removed, found.removed[i]));
+    for (std::size_t i = 0; i < found.arrived.size () && !stopped (); ++i)
+      deliver_event (
+          callback, describe_selector (selector),
+          make_event (device_event_kind::arrived, found.arrived[i]));
   }
 
   void
-  deliver_presence (entry const &watched, bool present)
+  deliver_presence (entry const &watched, std::string const &name,
+                    bool present)
   {
     if (stopped ())
       return;
@@ -324,29 +531,29 @@ private:
       }
     catch (...)
       {
-        LUMEX_TRANSPORT_LOG (error, KWATCHER_COMPONENT,
-                             describe (watched.selector).c_str (),
+        LUMEX_TRANSPORT_LOG (error, KWATCHER_COMPONENT, name.c_str (),
                              "presence sink threw", log::log_bytes_t ());
       }
   }
 
+  template <typename Callback, typename Event>
   void
-  deliver_event (entry const &watched, device_event_t const &event)
+  deliver_event (Callback const &callback, std::string const &name,
+                 Event const &event)
   {
-    LUMEX_TRANSPORT_LOG (
-        info, KWATCHER_COMPONENT, describe (watched.selector).c_str (),
-        std::string (event.kind == device_event_kind::arrived ? "arrived: "
-                                                              : "removed: ")
-            + event.port.path,
-        log::log_bytes_t ());
+    LUMEX_TRANSPORT_LOG (info, KWATCHER_COMPONENT, name.c_str (),
+                         std::string (event.kind == device_event_kind::arrived
+                                          ? "arrived: "
+                                          : "removed: ")
+                             + path_of (event),
+                         log::log_bytes_t ());
     try
       {
-        watched.callback (event);
+        callback (event);
       }
     catch (...)
       {
-        LUMEX_TRANSPORT_LOG (error, KWATCHER_COMPONENT,
-                             describe (watched.selector).c_str (),
+        LUMEX_TRANSPORT_LOG (error, KWATCHER_COMPONENT, name.c_str (),
                              "device callback threw", log::log_bytes_t ());
       }
   }
@@ -355,6 +562,9 @@ private:
   asio::steady_timer timer_;
   std::chrono::milliseconds period_;
   serial_enumeration_t enumeration_;
+#if defined(LUMEX_TRANSPORT_WITH_HID)
+  hid::hid_enumeration_t hid_enumeration_;
+#endif
   std::atomic<bool> stopped_;
   std::atomic<watch_id_t> next_id_;
   std::atomic<std::uint64_t> polls_;
@@ -362,14 +572,20 @@ private:
   std::vector<entry> entries_;
   std::vector<serial_port_info_t> ports_;
   bool has_snapshot_;
+#if defined(LUMEX_TRANSPORT_WITH_HID)
+  std::vector<hid::hid_device_info_t> hid_devices_;
+  bool has_hid_snapshot_;
+#endif
   unsigned wait_id_;
 };
 
 device_watcher::device_watcher (executor_type const &executor,
                                 std::chrono::milliseconds period,
-                                serial_enumeration_t enumeration)
-    : impl_ (std::make_shared<device_watcher_impl> (executor, period,
-                                                    std::move (enumeration)))
+                                serial_enumeration_t enumeration,
+                                hid::hid_enumeration_t hid_enumeration)
+    : impl_ (std::make_shared<device_watcher_impl> (
+          executor, period, std::move (enumeration),
+          std::move (hid_enumeration)))
 {
   impl_->start ();
 }
@@ -409,6 +625,26 @@ device_watcher::watch_presence (serial_selector_t const &selector,
     return 0;
   return impl_->add (selector, device_callback_t (), std::move (sink));
 }
+
+#if defined(LUMEX_TRANSPORT_WITH_HID)
+device_watcher::watch_id_t
+device_watcher::watch (hid::hid_selector_t const &selector,
+                       hid_device_callback_t callback)
+{
+  if (!impl_)
+    return 0;
+  return impl_->add (selector, std::move (callback), presence_sink_t ());
+}
+
+device_watcher::watch_id_t
+device_watcher::watch_presence (hid::hid_selector_t const &selector,
+                                presence_sink_t sink)
+{
+  if (!impl_)
+    return 0;
+  return impl_->add (selector, hid_device_callback_t (), std::move (sink));
+}
+#endif
 
 void
 device_watcher::unwatch (watch_id_t id)
