@@ -48,6 +48,7 @@ option(LUMEX_BUILD_INTERPROCESS "Build core/interprocess (an inter-process file 
 option(LUMEX_BUILD_MATH "Build core/math" ON)
 option(LUMEX_BUILD_OPTIONAL "Build core/optional" ON)
 option(LUMEX_BUILD_PROTOCOL "Build core/protocol (exchange protocols described as tables: generated command types, names, run-time entries)" ON)
+option(LUMEX_PROTOCOL_WITH_JSON "core/protocol: export_json (defines LUMEX_PROTOCOL_WITH_JSON; the consumer brings nlohmann/json 3.x, like applied/json)" ON)
 option(LUMEX_BUILD_REFLECTION "Build core/reflection" ON)
 option(LUMEX_BUILD_SMART_PTR "Build core/smart_ptr (header-only shared_ptr / weak_ptr family with the own split-count control block, from C++11)" ON)
 option(LUMEX_BUILD_SPAN "Build core/span (header-only C++11 backport of std::span)" ON)

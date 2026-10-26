@@ -271,7 +271,12 @@ enum class field_kind : std::uint8_t
   /// A message of another protocol (`nested_<...>`).
   nested,
   /// A group of fields (a layout).
-  group
+  group,
+  /// The key of an entry of a registry (`registry::registry_key_<...>`).
+  registry_key,
+  /// The value of an entry of a registry, checked against the entry
+  /// (`registry::registry_value_<...>`).
+  registry_value
 };
 
 /**

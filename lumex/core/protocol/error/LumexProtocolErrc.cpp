@@ -97,6 +97,14 @@ public:
         return "count larger than the capacity of its field";
       case static_cast<int> (protocol_errc::unknown_case):
         return "discriminant matches no case of the union";
+      case static_cast<int> (protocol_errc::access_denied):
+        return "the registry entry does not allow this access";
+      case static_cast<int> (protocol_errc::not_supported):
+        return "not available in the firmware or model of the session";
+      case static_cast<int> (protocol_errc::duplicate_key):
+        return "two entries of a table have the same key";
+      case static_cast<int> (protocol_errc::out_of_limits):
+        return "value outside the limits of the registry entry";
       default:
         return "unknown protocol error";
       }

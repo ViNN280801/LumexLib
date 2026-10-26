@@ -55,7 +55,14 @@
  * floating, text, bits, enumerations, arrays, tails, unions, nested
  * messages) and the three layouts with their encoders and decoders in
  * `layout/` (`binary_layout`, `fixed_width_text_layout`,
- * `tokenized_text_layout`; `layout::encode_request`, `decode_reply`, ...).
+ * `tokenized_text_layout`; `layout::encode_request`, `decode_reply`, ...),
+ * the parameter and register tables in `registry/` (`LUMEX_PROTOCOL_REGISTRY`,
+ * `registry_key_`, `registry_value_`, `verify_registry`), the run-time index
+ * with `describe` and the session context in `index/` (`build_index`,
+ * `protocol_index`, `session_context_t`) and the Markdown export in
+ * `export/`. `export/LumexProtocolExportJson.hpp` (`export_json`) is
+ * included on its own: it needs `LUMEX_PROTOCOL_WITH_JSON` and the
+ * consumer's nlohmann/json.
  */
 #include "error/LumexProtocolErrc.hpp"
 
@@ -67,6 +74,7 @@
 #include "dsl/LumexProtocolRow.hpp"
 #include "dsl/LumexProtocolTypeList.hpp"
 #include "dsl/LumexProtocolVocabulary.hpp"
+#include "export/LumexProtocolExportMarkdown.hpp"
 #include "field/LumexProtocolBitFields.hpp"
 #include "field/LumexProtocolCompositeFields.hpp"
 #include "field/LumexProtocolContext.hpp"
@@ -77,7 +85,16 @@
 #include "field/LumexProtocolRecord.hpp"
 #include "field/LumexProtocolTextFields.hpp"
 #include "field/LumexProtocolValues.hpp"
+#include "index/LumexProtocolDescriptor.hpp"
+#include "index/LumexProtocolFormat.hpp"
+#include "index/LumexProtocolIndex.hpp"
+#include "index/LumexProtocolKeyReader.hpp"
+#include "index/LumexProtocolSession.hpp"
 #include "layout/LumexProtocolBinaryLayout.hpp"
 #include "layout/LumexProtocolCodec.hpp"
 #include "layout/LumexProtocolLayoutBase.hpp"
 #include "layout/LumexProtocolTextLayouts.hpp"
+#include "registry/LumexProtocolRegistry.hpp"
+#include "registry/LumexProtocolRegistryFields.hpp"
+#include "registry/LumexProtocolRegistryText.hpp"
+#include "registry/LumexProtocolRegistryVerify.hpp"
