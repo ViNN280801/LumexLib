@@ -825,6 +825,31 @@ lumex_filesystem::create_directory (path const &path_arg)
 #endif
 }
 
+namespace detail
+{
+// The name to open a file stream with. The path is UTF-8; on Windows a narrow
+// name goes through the ANSI code page, so the stream gets the UTF-16 name
+// wherever the standard library takes one (an extension of the MSVC STL used
+// by cl.exe and clang-cl, and of libstdc++ with _wfopen on MinGW). Elsewhere
+// the narrow name stays: it is right on POSIX, and the only choice on another
+// Windows library.
+#if defined(LUMEX_OS_WINDOWS)                                                 \
+    && ((defined(_MSC_VER) && !defined(_LIBCPP_VERSION))                      \
+        || (defined(_GLIBCXX_HAVE__WFOPEN) && defined(_GLIBCXX_USE_WCHAR_T)))
+static std::wstring
+stream_name (path const &path_arg)
+{
+  return path_arg.wstring ();
+}
+#else
+static std::string
+stream_name (path const &path_arg)
+{
+  return path_arg.string ();
+}
+#endif
+} // namespace detail
+
 #if defined(LUMEX_OS_WINDOWS)
 namespace detail
 {
@@ -1999,7 +2024,8 @@ lumex_filesystem::replace_file_content (path const &path_arg,
                 : std::ios_base::out | std::ios_base::trunc;
 
       errno = 0;
-      std::ofstream out (temporary.c_str (), open_mode);
+      std::ofstream out (detail::stream_name (path (temporary)).c_str (),
+                         open_mode);
       if (!out.is_open ())
         return filesystem_result<void>::err (last_error ());
       created = true;
@@ -2307,7 +2333,7 @@ lumex_filesystem::is_readable (path const &path_arg)
                     << "\" does not have read permissions, returning false\n";
           return false;
         }
-      std::ifstream ifs (path_arg.c_str ());
+      std::ifstream ifs (detail::stream_name (path_arg).c_str ());
       if (!ifs.is_open () || ifs.fail ())
         {
           std::cerr << "Warning (" << LUMEX_FUNC_NAME << "): \"" << path_arg
@@ -2359,7 +2385,8 @@ lumex_filesystem::is_writable (path const &path_arg)
                     << "\" does not have write permissions, returning false\n";
           return false;
         }
-      std::ofstream ofs (path_arg.c_str (), std::ios::in | std::ios::out);
+      std::ofstream ofs (detail::stream_name (path_arg).c_str (),
+                         std::ios::in | std::ios::out);
       if (!ofs.is_open () || ofs.fail ())
         {
           std::cerr << "Warning (" << LUMEX_FUNC_NAME << "): \"" << path_arg
@@ -2396,7 +2423,7 @@ LUMEX_PUBLIC_API
 bool
 is_file_exists (std::string const &path_arg)
 {
-  std::ifstream ifs (path_arg.c_str ());
+  std::ifstream ifs (detail::stream_name (path (path_arg)).c_str ());
   return ifs.good ();
 }
 

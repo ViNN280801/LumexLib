@@ -934,3 +934,32 @@ TEST_F (LumexFilesystemUnicodeDiskTest,
     text.erase (text.size () - 1);
   EXPECT_EQ (text, absolute);
 }
+
+// The streams: std::ifstream / std::ofstream opened with the narrow name go
+// through the ANSI code page on Windows, like the ...A functions.
+TEST_F (LumexFilesystemUnicodeDiskTest,
+        GivenFileWithCyrillicName_WhenReadableAndWritable_ThenBoth)
+{
+  path const file = m_base / (std::string (kPrivetUtf8) + ".txt");
+  ASSERT_TRUE (native_create_file (file, "abc"));
+  created (file, false);
+
+  EXPECT_TRUE (lumex_filesystem::is_readable (file));
+  EXPECT_TRUE (lumex_filesystem::is_writable (file));
+  EXPECT_TRUE (lumex::core::filesystem::fs::is_file_exists (file.string ()));
+  // is_writable opens for reading and writing: the content stays.
+  EXPECT_EQ (native_file_size (file), 3);
+}
+
+TEST_F (LumexFilesystemUnicodeDiskTest,
+        GivenCyrillicName_WhenReplaceFileContent_ThenTheFileHasIt)
+{
+  path const file = m_base / (std::string (kPrivetUtf8) + kEmojiUtf8 + ".txt");
+  created (file, false);
+
+  auto const result = lumex_filesystem::replace_file_content (
+      file, "12345", lumex::core::filesystem::fs::write_mode::binary);
+
+  ASSERT_TRUE (result.success ()) << "error " << result.error_code ();
+  EXPECT_EQ (native_file_size (file), 5);
+}
