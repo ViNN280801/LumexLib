@@ -548,6 +548,9 @@ lumex_add_consumer_test(consumer_framing_warnings framing_warnings)
 lumex_add_consumer_test(consumer_protocol_two_modules protocol_two_modules)
 # Every macro and template of the protocol DSL in a strict consumer.
 lumex_add_consumer_test(consumer_protocol_warnings protocol_warnings)
+# Without LUMEX_PROTOCOL_WITH_JSON the module works without JSON, the macro is
+# not defined, and the JSON header refuses to compile with its own message.
+lumex_add_consumer_test(consumer_protocol_without_json protocol_without_json)
 # A protocol table compiles after <windows.h> (Windows) or the usual POSIX
 # headers, with every platform macro they define still defined.
 lumex_add_consumer_test(consumer_protocol_platform_macros
