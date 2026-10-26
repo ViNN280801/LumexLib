@@ -42,6 +42,16 @@ set_target_properties(${LUMEX_PROTOCOL_NAME} PROPERTIES
     CXX_EXTENSIONS OFF
 )
 
+# export_json (export/LumexProtocolExportJson.hpp) is header-only and compiles
+# against the consumer's own <nlohmann/json.hpp>, like applied/json: a compiled
+# library would pin one nlohmann version on every consumer, so no include
+# directory is propagated. The option only defines the macro that the header
+# requires; LumexLib's own tests link the vendored 3rdparty/nlohmann copy.
+if(LUMEX_PROTOCOL_WITH_JSON)
+    target_compile_definitions(${LUMEX_PROTOCOL_NAME} PUBLIC
+        LUMEX_PROTOCOL_WITH_JSON=1)
+endif()
+
 lumex_apply_library_versioning(${LUMEX_PROTOCOL_NAME} "Lumex Protocol Library")
 
 if(LUMEX_INSTALL)
