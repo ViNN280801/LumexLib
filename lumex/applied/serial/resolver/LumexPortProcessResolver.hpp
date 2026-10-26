@@ -159,6 +159,10 @@ public:
 
   /**
    * @brief Format a system error code.
+   * @details Kept for existing callers: the same as
+   * `lumex::core::utility::os::format_system_error`
+   * (`lumex/core/utility/os/LumexSystemError.hpp`), which needs no serial
+   * module.
    * @param err_code `GetLastError` on Windows, `errno` on POSIX.
    * @return Diagnostic string, or empty when `err_code == 0`.
    */

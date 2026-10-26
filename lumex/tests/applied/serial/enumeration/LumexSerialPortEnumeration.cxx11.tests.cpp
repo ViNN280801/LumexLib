@@ -1,5 +1,6 @@
 #include <cerrno>
 #include <cstddef>
+#include <initializer_list>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -8,6 +9,7 @@
 
 #include "lumex/applied/serial/LumexSerialPort"
 #include "lumex/applied/serial/probe/detail/LumexSerialBoundedOpen.hpp"
+#include "lumex/core/utility/os/LumexSystemError.hpp"
 #if defined(__clang__)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wglobal-constructors"
@@ -40,6 +42,16 @@ TEST (LumexSerialPortEnumeration, FormatSystemErrorKnownCodeMentionsNumber)
   std::string const text = port_process_resolver::format_system_error (2);
   EXPECT_FALSE (text.empty ());
   EXPECT_NE (text.find ("2"), std::string::npos);
+}
+
+TEST (LumexSerialPortEnumeration, FormatSystemErrorIsTheUtilityOne)
+{
+  // The resolver keeps the function for its callers; the text comes from
+  // core/utility.
+  for (int const code : { 0, 2, 5, 13, -1, 0x3ABCDEF1 })
+    EXPECT_EQ (port_process_resolver::format_system_error (code),
+               lumex::core::utility::os::format_system_error (code))
+        << code;
 }
 
 TEST (LumexSerialPortEnumeration, BluetoothPredicateRejectsEmptyAndUnknown)
