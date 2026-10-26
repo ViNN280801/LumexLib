@@ -269,6 +269,7 @@ if(LUMEX_INSTALL)
         LumexCore_fmt
         LumexCore_framing
         LumexCore_hazard_pointer
+        LumexCore_interprocess
         LumexCore_number_generator
         LumexCore_math
         LumexCore_optional

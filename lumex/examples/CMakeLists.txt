@@ -92,6 +92,12 @@ else()
     message(STATUS "Skipping hazard_pointer examples (LUMEX_BUILD_CORE or LUMEX_BUILD_HAZARD_POINTER is OFF)")
 endif()
 
+if(LUMEX_BUILD_CORE AND LUMEX_BUILD_INTERPROCESS)
+    add_subdirectory(interprocess)
+else()
+    message(STATUS "Skipping interprocess examples (LUMEX_BUILD_CORE or LUMEX_BUILD_INTERPROCESS is OFF)")
+endif()
+
 if(LUMEX_BUILD_CORE AND LUMEX_BUILD_REFLECTION)
     add_subdirectory(reflection)
 else()
