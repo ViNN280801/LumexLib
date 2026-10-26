@@ -11,6 +11,7 @@
 // Windows; the expectations are written with \u and \U escapes, which the
 // compiler turns into the encoding of the platform, and the tests that depend
 // on the width branch on sizeof (wchar_t).
+#include <algorithm>
 #include <clocale>
 #include <cstddef>
 #include <cstring>
@@ -700,4 +701,49 @@ TEST_F (LumexFilesystemUnicodeDiskTest,
 #endif
   ASSERT_TRUE (dir_link.success ()) << "error " << dir_link.error_code ();
   EXPECT_TRUE (native_exists (directory_link));
+}
+
+TEST_F (LumexFilesystemUnicodeDiskTest,
+        GivenCyrillicAndEmojiNames_WhenDirectoryContents_ThenTheUtf8Names)
+{
+  path const directory = m_base / kPrivetUtf8;
+  path const file = directory / (std::string (kEmojiUtf8) + ".txt");
+  path const sub = directory / kPrivetUtf8;
+  ASSERT_TRUE (native_create_directory (directory));
+  ASSERT_TRUE (native_create_file (file));
+  ASSERT_TRUE (native_create_directory (sub));
+  created (directory, true);
+  created (file, false);
+  created (sub, true);
+
+  std::vector<std::string> names;
+  for (auto const &entry : lumex_filesystem::directory_contents (directory))
+    names.push_back (entry.path ().filename ().string ());
+  std::sort (names.begin (), names.end ());
+
+  std::vector<std::string> expected;
+  expected.push_back (std::string (kEmojiUtf8) + ".txt");
+  expected.push_back (kPrivetUtf8);
+  std::sort (expected.begin (), expected.end ());
+  EXPECT_EQ (names, expected);
+}
+
+TEST_F (LumexFilesystemUnicodeDiskTest,
+        GivenCyrillicTree_WhenRemoveAll_ThenEverythingIsGone)
+{
+  path const directory = m_base / kPrivetUtf8;
+  path const sub = directory / kEmojiUtf8;
+  path const file = sub / (std::string (kPrivetUtf8) + ".txt");
+  ASSERT_TRUE (native_create_directory (directory));
+  ASSERT_TRUE (native_create_directory (sub));
+  ASSERT_TRUE (native_create_file (file));
+  created (directory, true);
+  created (sub, true);
+  created (file, false);
+
+  auto const result = lumex_filesystem::remove_all (directory);
+
+  ASSERT_TRUE (result.success ()) << "error " << result.error_code ();
+  EXPECT_EQ (result.value (), 3U);
+  EXPECT_FALSE (native_exists (directory));
 }

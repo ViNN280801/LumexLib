@@ -1433,7 +1433,7 @@ class directory_iterator::impl
 public:
 #if defined(LUMEX_OS_WINDOWS)
   HANDLE handle;
-  WIN32_FIND_DATAA data;
+  WIN32_FIND_DATAW data;
   bool first;
 #else
   DIR *dirp;
@@ -1454,7 +1454,8 @@ directory_iterator::directory_iterator (path const &path_arg)
     pattern += "/*";
   else
     pattern += "*";
-  m_impl->handle = FindFirstFileA (pattern.c_str (), &m_impl->data);
+  m_impl->handle = FindFirstFileW (
+      lumex_filesystem::to_wide_string (pattern).c_str (), &m_impl->data);
   m_impl->first = true;
   if (m_impl->handle == INVALID_HANDLE_VALUE)
     m_impl.reset ();
@@ -1523,17 +1524,18 @@ directory_iterator::operator++ ()
     }
   else
     {
-      ok_ = FindNextFileA (m_impl->handle, &m_impl->data);
+      ok_ = FindNextFileW (m_impl->handle, &m_impl->data);
     }
   while (ok_ != 0)
     {
-      std::string name (m_impl->data.cFileName);
+      std::string const name
+          = lumex_filesystem::from_wide_string (m_impl->data.cFileName);
       if (name != "." && name != "..")
         {
           m_impl->current = directory_entry (m_impl->base / path (name));
           return *this;
         }
-      ok_ = FindNextFileA (m_impl->handle, &m_impl->data);
+      ok_ = FindNextFileW (m_impl->handle, &m_impl->data);
     }
   FindClose (m_impl->handle);
   m_impl.reset ();
