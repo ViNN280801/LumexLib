@@ -173,6 +173,12 @@ lumex_add_cmake_fail_test(require_fail_framing_without_contracts
     "LUMEX_BUILD_FRAMING is enabled but requires LUMEX_BUILD_CONTRACTS")
 lumex_add_cmake_fail_test(require_fail_framing_without_expected
     "LUMEX_BUILD_FRAMING is enabled but requires LUMEX_BUILD_EXPECTED")
+lumex_add_cmake_fail_test(require_fail_interprocess_without_expected
+    "LUMEX_BUILD_INTERPROCESS is enabled but requires LUMEX_BUILD_EXPECTED")
+lumex_add_cmake_fail_test(require_fail_interprocess_without_filesystem
+    "LUMEX_BUILD_INTERPROCESS is enabled but requires LUMEX_BUILD_FILESYSTEM")
+lumex_add_cmake_fail_test(require_fail_interprocess_without_reflection
+    "LUMEX_BUILD_INTERPROCESS is enabled but requires LUMEX_BUILD_REFLECTION")
 lumex_add_cmake_fail_test(require_fail_transport_without_serial
     "LUMEX_BUILD_TRANSPORT is enabled but requires LUMEX_BUILD_SERIAL")
 # base64, crc, exceptions and xml link the string_view module (the views their

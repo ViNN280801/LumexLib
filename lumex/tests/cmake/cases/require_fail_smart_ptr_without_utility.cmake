@@ -3,6 +3,7 @@ set(LUMEX_BUILD_UTILITY OFF)
 # Every module that requires utility and is checked before smart_ptr is
 # off, so that smart_ptr is the one that fails.
 set(LUMEX_BUILD_HAZARD_POINTER OFF)
+set(LUMEX_BUILD_INTERPROCESS OFF)
 set(LUMEX_BUILD_CONTRACTS OFF)
 set(LUMEX_BUILD_CIRCULAR_BUFFER OFF)
 set(LUMEX_BUILD_EXPECTED OFF)
