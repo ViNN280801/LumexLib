@@ -79,6 +79,7 @@
 #include "numeric/LumexOrdering.hpp"
 #include "numeric/LumexSafeNumericComparator.hpp"
 #include "os/LumexCheckOS.hpp"
+#include "os/LumexSystemError.hpp"
 #include "process/LumexProcess.hpp"
 #include "sequence/LumexIndexSequence.hpp"
 #include "traits/LumexTypeTraits.hpp"

@@ -60,6 +60,7 @@
 #endif
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 #include "lumex/core/utility/os/LumexCheckOS.hpp"
+#include "lumex/core/utility/os/LumexSystemError.hpp"
 
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -169,25 +170,7 @@ public:
   std::string
   format (int err_code) const LUMEX_NOEXCEPT override
   {
-    if (err_code == 0)
-      return std::string ();
-    std::array<wchar_t, 256> buf{};
-    DWORD const len = ::FormatMessageW (
-        FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, nullptr,
-        static_cast<DWORD> (err_code),
-        MAKELANGID (LANG_NEUTRAL, SUBLANG_DEFAULT), buf.data (),
-        static_cast<DWORD> (buf.size ()), nullptr);
-    std::string msg;
-    if (len > 0)
-      {
-        std::wstring wmsg (buf.data (), static_cast<std::size_t> (len));
-        while (!wmsg.empty ()
-               && (wmsg.back () == L'\r' || wmsg.back () == L'\n'))
-          wmsg.pop_back ();
-        msg = to_utf8 (wmsg);
-      }
-    return msg.empty () ? ("error " + std::to_string (err_code))
-                        : (msg + " (" + std::to_string (err_code) + ")");
+    return lumex::core::utility::os::format_system_error (err_code);
   }
 };
 
@@ -405,12 +388,7 @@ public:
   std::string
   format (int err_code) const LUMEX_NOEXCEPT override
   {
-    if (err_code == 0)
-      return std::string ();
-    char const *text = ::strerror (err_code);
-    return text != nullptr
-               ? (std::string (text) + " (" + std::to_string (err_code) + ")")
-               : ("errno " + std::to_string (err_code));
+    return lumex::core::utility::os::format_system_error (err_code);
   }
 };
 

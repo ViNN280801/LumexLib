@@ -218,6 +218,14 @@
 
 **Проверено:** cl.exe: `serial.*` 48 из 48, новые тесты строки `"Denied"` и раздела `denied` в выводе; ветка POSIX (`EACCES` и `EPERM` дают `denied`) проверяется на Linux (todo 158).
 
+##### `format_system_error` в `core/utility`
+
+**Файлы:** `lumex/core/utility/os/LumexSystemError.hpp` (новый), `lumex/core/utility/LumexUtility`, `lumex/applied/serial/resolver/LumexPortProcessResolver.hpp`, `.cpp`, `lumex/tests/core/utility/os/LumexSystemError.cxx11.tests.cpp` (новый), `lumex/tests/applied/serial/enumeration/LumexSerialPortEnumeration.cxx11.tests.cpp`.
+
+**Суть:** текст системной ошибки по коду (`GetLastError ()` на Windows, `errno` в POSIX) был доступен только как `serial::resolver::port_process_resolver::format_system_error`, то есть требовал модуль `serial`. Теперь это `lumex::core::utility::os::format_system_error (int)`, header-only, с C++11: `"Отказано в доступе. (5)"`, `"Permission denied (13)"`, для кода без текста `"error <код>"` (Windows) или `"errno <код>"`, для 0 пустая строка. Текст Windows переводится в UTF-8 через `WideCharToMultiByte` (`utility` не зависит от `unicode`). Метод резолвера оставлен для существующих вызовов и возвращает то же самое.
+
+**Проверено:** cl.exe и clang-cl 21.1.7, `LUMEX_WERROR=ON`: `ctest -R "^(utility\.os|serial)\."` 91 из 91 на каждом компиляторе (`utility.os` на C++11, 17 и 20), `lint.*` 7 из 7. Каждый новый тест убивает свою мутацию: без снятия `\r\n`, с `CP_ACP` вместо `CP_UTF8`, без проверки пустой длины. Ветка POSIX проверяется на Linux (todo 158).
+
 ---
 
 ## [v2.0.2.0] - 2026-10-17
