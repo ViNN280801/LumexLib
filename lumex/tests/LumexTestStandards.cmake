@@ -415,6 +415,9 @@ lumex_test_standards_declare(contracts 11 14 17 20)
 lumex_test_standards_declare(framing 11 14 17 20)
 # transport: the use_awaitable token needs C++20; the other files run from C++11.
 lumex_test_standards_declare(transport 11 14 17 20)
+# interprocess: the library is C++11; its header converts a std::filesystem::path
+# from C++17 and its expected converts from std::expected at C++23.
+lumex_test_standards_declare(interprocess 11 14 17 20 23)
 
 lumex_test_standards_declare(atomic 11 17 20)
 lumex_test_standards_declare_variant(atomic lock_based 11 20)
