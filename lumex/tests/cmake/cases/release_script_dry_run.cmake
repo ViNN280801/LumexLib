@@ -123,6 +123,48 @@ if(bad_jobs_CODE EQUAL 0)
 endif()
 _expect_text("${bad_jobs_ERR}" "must be a positive number" "-j0")
 
+# A compiler without C++23 (GCC 8, MinGW 8.3: neither -std=c++23 nor
+# -std=c++2b) has its C++23 build skipped and listed, not the run failed. The
+# compiler is a wrapper of the host one that refuses both flags.
+find_program(_cc NAMES gcc cc clang)
+if(_cc)
+    set(_fake_src "${CMAKE_CURRENT_BINARY_DIR}/release_dry_run_fake_src")
+    set(_fake "${CMAKE_CURRENT_BINARY_DIR}/release_dry_run_fake")
+    file(REMOVE_RECURSE "${_fake_src}" "${_fake}")
+    foreach(_pair "g++|${_cxx}" "gcc|${_cc}")
+        string(REPLACE "|" ";" _pair "${_pair}")
+        list(GET _pair 0 _name)
+        list(GET _pair 1 _real)
+        file(WRITE "${_fake_src}/${_name}"
+            "#!/bin/sh\n"
+            "for a in \"$@\"; do\n"
+            "  case \"$a\" in -std=c++23|-std=c++2b) echo \"unrecognized $a\" >&2; exit 1 ;; esac\n"
+            "done\n"
+            "exec \"${_real}\" \"$@\"\n")
+        file(COPY "${_fake_src}/${_name}" DESTINATION "${_fake}"
+            FILE_PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE)
+    endforeach()
+    execute_process(
+        COMMAND ${_bash} ${_script} --compilers "${_fake}/g++" --output-dir ${_out_dir}
+                --dry-run --std 17,23 --no-package --color never
+        RESULT_VARIABLE skip_CODE OUTPUT_VARIABLE skip_OUT ERROR_VARIABLE skip_ERR)
+    if(NOT skip_CODE EQUAL 0)
+        message(FATAL_ERROR "--std 17,23 without C++23 exited with ${skip_CODE}:\n${skip_OUT}\n${skip_ERR}")
+    endif()
+    _expect_text("${skip_OUT}" "skipped:" "no C++23")
+    _expect_text("${skip_OUT}" "C++23 (the compiler has no such standard" "no C++23")
+    _expect_text("${skip_OUT}" "Dry run finished: 1 build(s) shown." "no C++23")
+    _expect_no_text("${skip_OUT}" "-DCMAKE_CXX_STANDARD=23" "no C++23")
+    execute_process(
+        COMMAND ${_bash} ${_script} --compilers "${_fake}/g++" --output-dir ${_out_dir}
+                --dry-run --std 23 --no-package --color never
+        RESULT_VARIABLE only_CODE OUTPUT_VARIABLE only_OUT ERROR_VARIABLE only_ERR)
+    if(only_CODE EQUAL 0)
+        message(FATAL_ERROR "--std 23 with no C++23 compiler was accepted:\n${only_OUT}")
+    endif()
+    _expect_text("${only_ERR}" "none of the compilers knows the standards of --std 23" "only C++23")
+endif()
+
 # A wrong --color is refused.
 _run(bad --dry-run --color purple)
 if(bad_CODE EQUAL 0)

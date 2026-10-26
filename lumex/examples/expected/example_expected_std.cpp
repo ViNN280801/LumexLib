@@ -4,7 +4,9 @@
 #include <iostream>
 #include <string>
 
-#if __has_include(<expected>)
+// The standard check comes first: below C++23 the MSVC STL warns that
+// <expected> is empty (STL4038).
+#if __cplusplus > 202002L && __has_include(<expected>)
 #include <expected>
 #endif
 

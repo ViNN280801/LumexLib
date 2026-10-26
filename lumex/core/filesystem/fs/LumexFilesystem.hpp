@@ -76,6 +76,19 @@
  * and copy initialization work on every platform and with every supported
  * compiler, libstdc++ 8 included, because `path` converts to `std::string`
  * only explicitly (`p.string ()`, `std::string (p)`).
+ *
+ * A path is UTF-8. On Windows every operation converts it to UTF-16 for the
+ * wide functions and refuses a path that is not valid UTF-8 (a stray byte, a
+ * truncated or overlong sequence, a surrogate): it reports
+ * `ERROR_INVALID_NAME` the way it reports any other `GetLastError ()` code,
+ * and a function that answers `bool` (`exists`, `is_directory`,
+ * `is_regular_file`, `is_readable`,
+ * ...) answers `false`. Skipping the bad bytes instead would name another
+ * file (`"aÿ" "b"` would become `"ab"`) and `remove` or `rename` would act
+ * on it. POSIX takes the bytes as they are and checks nothing: a name there
+ * is any sequence of bytes. The conversions `path::wstring ()` and
+ * `lumex_filesystem::to_wide_string ()` are not operations on a file: they
+ * skip what cannot be decoded, on every system.
  */
 #ifndef LUMEX_CORE_FILESYSTEM_FS_HPP
 #define LUMEX_CORE_FILESYSTEM_FS_HPP
@@ -1367,7 +1380,8 @@ public:
    * @param path_arg The `path_arg` object representing the directory to
    * iterate.
    * @note Initializes the iterator to point to the first entry. If the
-   * directory cannot be opened, it becomes an end iterator.
+   * directory cannot be opened, it becomes an end iterator (on Windows also
+   * when the path is not valid UTF-8).
    */
   explicit directory_iterator (path const &path_arg);
   /**
@@ -1477,6 +1491,11 @@ private:
  *          common file system operations in a cross-platform and
  * exception-safe manner. All methods return `filesystem_result` objects to
  * indicate success or failure.
+ *
+ * On Windows a path that is not valid UTF-8 is refused (see the file
+ * description): `filesystem_result` carries `ERROR_INVALID_NAME`, `bool`
+ * functions answer `false`, `directory_iterator` is an end iterator,
+ * `canonical` returns an empty path. POSIX does not check the bytes.
  */
 class LUMEX_API lumex_filesystem
 {
@@ -1485,7 +1504,8 @@ public:
   /**
    * @brief Checks if a file or directory exists at the specified path.
    * @param path_arg The `path_arg` object representing the file or directory.
-   * @return True if the file or directory exists, false otherwise.
+   * @return True if the file or directory exists, false otherwise (also on
+   * Windows for a path that is not valid UTF-8).
    */
   static bool exists (path const &path_arg);
   /**
@@ -1702,7 +1722,8 @@ public:
    * @param path_arg The `path_arg` object representing the file or directory
    * to remove.
    * @return A `filesystem_result<bool>`: `ok(true)` if removed, `ok(false)` if
-   * not found, `err` on failure.
+   * not found, `err` on failure (on Windows also a path that is not valid
+   * UTF-8: it is refused, not "not found").
    */
   static filesystem_result<bool> remove (path const &path_arg);
 
@@ -1745,7 +1766,8 @@ public:
    * @param mode Whether the temporary file is opened in text or binary mode.
    * @return A `filesystem_result<void>`: `ok()` if the target holds `content`,
    * `err(error_code)` otherwise (`errno` of the failed step, `EINVAL` for an
-   * empty path, `EIO` when the step set no `errno`). Does not throw.
+   * empty path, `EIO` when the step set no `errno`; `ERROR_INVALID_NAME` on
+   * Windows for a path that is not valid UTF-8). Does not throw.
    */
   static filesystem_result<void>
   replace_file_content (path const &path_arg, std::string const &content,
@@ -1822,11 +1844,30 @@ public:
    * (`lumex::core::unicode::convert::to_wide`; UTF-16 where `wchar_t` has 2
    * bytes, UTF-32 where it has 4). Invalid input is not an error: a byte that
    * does not start a complete UTF-8 sequence is skipped, whereas
-   * `MultiByteToWideChar` writes U+FFFD for it.
+   * `MultiByteToWideChar` writes U+FFFD for it. The operations on a path do
+   * not use this skipping on Windows: they use `to_wide_path`, which refuses
+   * such a path.
    * @param str The `std::string` to convert.
    * @return A `std::wstring` representation.
    */
   static std::wstring to_wide_string (std::string const &str);
+
+#if defined(LUMEX_OS_WINDOWS)
+  /**
+   * @brief Windows only: the wide form of a path for a Win32 call, refusing a
+   * path that is not valid UTF-8.
+   * @details The one place where this module (and `core/interprocess`) turns
+   * a path into the `wchar_t` string of a `...W` function. Valid UTF-8 is
+   * strict: no stray or truncated sequence, no overlong form, no surrogate and
+   * nothing above U+10FFFF. Unlike `to_wide_string` and `path::wstring ()` it
+   * does not skip what it cannot decode, because the skipped name is the name
+   * of another file.
+   * @param path_arg The path.
+   * @return `ok(wide)` for a valid path (an empty path gives an empty string),
+   * `err(ERROR_INVALID_NAME)` for another.
+   */
+  static filesystem_result<std::wstring> to_wide_path (path const &path_arg);
+#endif
 
   /**
    * @brief Converts a `std::wstring` to a `std::string` (UTF-8 encoded).
@@ -1851,7 +1892,8 @@ public:
   /**
    * @brief Returns the canonical (absolute, resolved) form of a path_arg.
    * @param path_arg The `path_arg` object to canonicalize.
-   * @return A canonical `path_arg` object.
+   * @return A canonical `path_arg` object; an empty one when the system
+   * cannot resolve it (on Windows also a path that is not valid UTF-8).
    */
   static path canonical (path const &path_arg);
 
@@ -2448,7 +2490,8 @@ operator/ (StdPath const &lhs, path const &rhs)
 /**
  * @brief Checks if a file exists at the specified path
  * @param path_arg Path to the file
- * @return True if the file exists, false otherwise
+ * @return True if the file exists, false otherwise (also on Windows for a path
+ * that is not valid UTF-8)
  */
 LUMEX_PUBLIC_API
 bool is_file_exists (std::string const &path_arg);

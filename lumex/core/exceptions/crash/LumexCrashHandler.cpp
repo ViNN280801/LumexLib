@@ -80,8 +80,7 @@ lumex_crash_handler::instance ()
 
 LUMEX_PUBLIC_API
 void
-lumex_crash_handler::initialize (
-    LUMEX_ATTRIBUTE_MAYBE_UNUSED std::string const &appName)
+lumex_crash_handler::initialize (std::string const &appName)
 {
   s_appName = appName.empty () ? s_defaultAppName : appName;
 

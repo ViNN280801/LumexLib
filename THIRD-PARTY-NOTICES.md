@@ -32,6 +32,18 @@ Vendored sources in `3rdparty/googletest-1.12.1/` and `3rdparty/googletest-1.18.
 
 Vendored headers in `3rdparty/relacy/relacy/` (BSD-style license, Copyright (c) 2008-2013, Dmitry S. Vyukov; the license text is in `3rdparty/relacy/LICENSE`, the source and commit in `3rdparty/relacy/README.lumex.md`). They are used only by the memory-order models of the split-count atomic smart pointers (`-DLUMEX_BUILD_RELACY=ON`, off by default) and are never installed or packaged.
 
+## Asio 1.36.0 (standalone)
+
+Vendored headers in `3rdparty/asio/include/` (Boost Software License 1.0, Copyright (c) 2003-2025 Christopher M. Kohlhoff; the license text is in `3rdparty/asio/LICENSE_1_0.txt`, the archive and its SHA-256 in `3rdparty/asio/VENDORED.md`). The headers are unmodified. They are the I/O layer of the transport module. The version and the configuration macros (`ASIO_STANDALONE`, `ASIO_NO_DEPRECATED`) are the same as DChannel's, because one process can hold both copies.
+
+## Boost.Context 1.88.0
+
+Vendored in `3rdparty/boost_context/` (Boost Software License 1.0, Copyright Oliver Kowalke and the Boost contributors; the license text is in `3rdparty/boost_context/LICENSE_1_0.txt`, the archive, its SHA-256 and the closure list in `3rdparty/boost_context/VENDORED.md` and `CLOSURE.txt`). It is the include closure of the `fiber` headers plus `libs/context/src/fiber.cpp` and the platform's `stack_traits.cpp`, unmodified. It is built only with the backends that need no assembly (Windows fibers, ucontext) and serves `asio::spawn`. No other Boost library is used.
+
+## hidapi 0.15.0
+
+Vendored sources in `3rdparty/hidapi/` (Copyright (c) 2009-2023 Alan Ott, Signal 11 Software, and the hidapi contributors). hidapi is offered under three licenses (`3rdparty/hidapi/LICENSE.txt`); LumexLib uses it under the BSD-style license in `3rdparty/hidapi/LICENSE-bsd.txt`. The archive and its SHA-256 are in `3rdparty/hidapi/VENDORED.md`. The sources are unmodified. They are the HID backend of the transport module.
+
 ## Hazard pointers (Folly, libc++ pull request 218218, libcds)
 
 The hazard pointer module (`lumex/core/hazard_pointer/`, the `lumex::hazard_pointer` target) implements the interface of the C++26 `<hazard_pointer>` (P2530R3, P3428R4). Its engine follows the design of the hazard pointer implementation in Folly (https://github.com/facebook/folly, `folly/synchronization/Hazptr*`, Apache License 2.0, Copyright (c) Meta Platforms, Inc. and affiliates): the record and retired-list structure, the reclamation thresholds and the asymmetric fence protocol; and of the libc++ pull request llvm/llvm-project#218218 by Nikita Grivin (Apache License 2.0 with LLVM exceptions): the single immortal domain, the per-thread record cache and its thread-exit handling. The memory model argument is Maged Michael's. libcds (https://github.com/khizmax/libcds, Boost Software License 1.0, Copyright (c) 2006-2018 Maxim Khizhinsky) was a reference for the scan variants and the explicit-registration alternative. No source text of these projects is copied; the code is LumexLib's own, and nothing of those licenses applies to it. The asymmetric fence protocol is not implemented yet: the engine issues the portable sequentially consistent fences on both sides.

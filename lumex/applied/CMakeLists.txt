@@ -12,3 +12,5 @@ lumex_add_subdirectory_if(LUMEX_BUILD_SETTINGS settings)
 lumex_add_subdirectory_if(LUMEX_BUILD_LOGGER logger)
 lumex_add_subdirectory_if(LUMEX_BUILD_RESOURCE_MONITOR resource_monitor)
 lumex_add_subdirectory_if(LUMEX_BUILD_SERIAL serial)
+# transport links serial (the bounded open): add it after it.
+lumex_add_subdirectory_if(LUMEX_BUILD_TRANSPORT transport)

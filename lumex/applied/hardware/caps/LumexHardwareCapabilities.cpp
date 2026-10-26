@@ -107,6 +107,35 @@ namespace hardware
 {
 namespace caps
 {
+#if defined(LUMEX_OS_WINDOWS)
+namespace
+{
+// True when the adapter shares the system memory with the CPU: integrated
+// graphics. Its dedicated memory is no sign, an integrated GPU reports the
+// firmware carve-out there (128 MB for an Intel UHD 770), and the vendor is
+// none either (Intel Arc is discrete). D3D11 answers through
+// UnifiedMemoryArchitecture of D3D11_FEATURE_D3D11_OPTIONS2 (Windows 10);
+// where the question fails, the adapter is not taken as integrated.
+bool
+is_unified_memory_adapter (IDXGIAdapter *adapter) LUMEX_NOEXCEPT
+{
+  ID3D11Device *device = nullptr;
+  if (FAILED (D3D11CreateDevice (adapter, D3D_DRIVER_TYPE_UNKNOWN, nullptr, 0,
+                                 nullptr, 0, D3D11_SDK_VERSION, &device,
+                                 nullptr, nullptr)))
+    return false;
+  D3D11_FEATURE_DATA_D3D11_OPTIONS2 options;
+  std::memset (&options, 0, sizeof (options));
+  bool const unified
+      = SUCCEEDED (device->CheckFeatureSupport (D3D11_FEATURE_D3D11_OPTIONS2,
+                                                &options, sizeof (options)))
+        && options.UnifiedMemoryArchitecture != FALSE;
+  device->Release ();
+  return unified;
+}
+} // namespace
+#endif
+
 LUMEX_PUBLIC_API
 hardware_info_t
 HardwareCapabilities::detect_hardware ()
@@ -190,12 +219,14 @@ HardwareCapabilities::detect_hardware ()
               std::string const gpu_name
                   = lumex::core::unicode::convert::to_utf8 (desc.Description);
 
-              // Check if it's not Microsoft Basic Render Driver or similar
+              // Not the Microsoft Basic Render Driver or similar, and not
+              // an integrated GPU
               if (gpu_name.find (Constants::KMICROSOFT_GPU_IDENTIFIER)
                       == std::string::npos
                   && gpu_name.find (Constants::KBASIC_GPU_IDENTIFIER)
                          == std::string::npos
-                  && desc.DedicatedVideoMemory > 0)
+                  && desc.DedicatedVideoMemory > 0
+                  && !is_unified_memory_adapter (pAdapter))
                 {
                   info.has_discrete_gpu = true;
                   info.gpu_name = gpu_name;
