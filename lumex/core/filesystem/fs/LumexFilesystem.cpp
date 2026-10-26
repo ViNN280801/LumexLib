@@ -894,8 +894,9 @@ lumex_filesystem::get_file_status_windows (path const &path_arg, bool follow)
   // GetFileAttributesEx describes the link itself and never its target, so
   // follow changes nothing here; the parameter keeps the POSIX signature.
   LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (follow);
-  BOOL ok_ = GetFileAttributesExA (path_arg.c_str (), GetFileExInfoStandard,
-                                   std::addressof (data));
+  BOOL ok_
+      = GetFileAttributesExW (path_arg.wstring ().c_str (),
+                              GetFileExInfoStandard, std::addressof (data));
   if (!static_cast<bool> (ok_))
     return filesystem_result<file_status>::err (
         static_cast<int> (GetLastError ()),
@@ -1237,9 +1238,9 @@ filesystem_result<std::uintmax_t>
 lumex_filesystem::file_size (path const &path_arg)
 {
 #if defined(LUMEX_OS_WINDOWS)
-  HANDLE hFile
-      = CreateFileA (path_arg.c_str (), GENERIC_READ, FILE_SHARE_READ, nullptr,
-                     OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+  HANDLE hFile = CreateFileW (path_arg.wstring ().c_str (), GENERIC_READ,
+                              FILE_SHARE_READ, nullptr, OPEN_EXISTING,
+                              FILE_ATTRIBUTE_NORMAL, nullptr);
   if (hFile == INVALID_HANDLE_VALUE)
     return filesystem_result<std::uintmax_t>::err (
         static_cast<int> (GetLastError ()), 0);
@@ -1269,9 +1270,9 @@ filesystem_result<std::time_t>
 lumex_filesystem::last_write_time (path const &path_arg)
 {
 #if defined(LUMEX_OS_WINDOWS)
-  HANDLE hFile
-      = CreateFileA (path_arg.c_str (), GENERIC_READ, FILE_SHARE_READ, nullptr,
-                     OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+  HANDLE hFile = CreateFileW (path_arg.wstring ().c_str (), GENERIC_READ,
+                              FILE_SHARE_READ, nullptr, OPEN_EXISTING,
+                              FILE_ATTRIBUTE_NORMAL, nullptr);
   if (hFile == INVALID_HANDLE_VALUE)
     return filesystem_result<std::time_t>::err (
         static_cast<int> (GetLastError ()), 0);
@@ -1304,9 +1305,9 @@ filesystem_result<void>
 lumex_filesystem::last_write_time (path const &path_arg, std::time_t new_time)
 {
 #if defined(LUMEX_OS_WINDOWS)
-  HANDLE hFile
-      = CreateFileA (path_arg.c_str (), GENERIC_WRITE, FILE_SHARE_WRITE,
-                     nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+  HANDLE hFile = CreateFileW (path_arg.wstring ().c_str (), GENERIC_WRITE,
+                              FILE_SHARE_WRITE, nullptr, OPEN_EXISTING,
+                              FILE_ATTRIBUTE_NORMAL, nullptr);
   if (hFile == INVALID_HANDLE_VALUE)
     return filesystem_result<void>::err (static_cast<int> (GetLastError ()));
   ULARGE_INTEGER ulInt;
@@ -1336,13 +1337,14 @@ filesystem_result<void>
 lumex_filesystem::permissions (path const &path_arg, perms prms)
 {
 #if defined(LUMEX_OS_WINDOWS)
-  DWORD attrs = GetFileAttributesA (path_arg.c_str ());
+  std::wstring const wide = path_arg.wstring ();
+  DWORD attrs = GetFileAttributesW (wide.c_str ());
   if (attrs == INVALID_FILE_ATTRIBUTES)
     return filesystem_result<void>::err (static_cast<int> (GetLastError ()));
 
   DWORD new_attrs = detail::apply_perms_to_windows_attributes (attrs, prms);
 
-  if (SetFileAttributesA (path_arg.c_str (), new_attrs) != 0)
+  if (SetFileAttributesW (wide.c_str (), new_attrs) != 0)
     return filesystem_result<void>::ok ();
   return filesystem_result<void>::err (static_cast<int> (GetLastError ()));
 #else
@@ -1358,15 +1360,28 @@ filesystem_result<path>
 lumex_filesystem::read_symlink (path const &path_arg)
 {
 #if defined(LUMEX_OS_WINDOWS)
-  std::vector<char> buf (MAX_PATH);
-  DWORD len = GetFinalPathNameByHandleA (
-      CreateFileA (path_arg.c_str (), 0, 0, nullptr, OPEN_EXISTING,
-                   FILE_FLAG_BACKUP_SEMANTICS, nullptr),
-      buf.data (), MAX_PATH, FILE_NAME_NORMALIZED);
-  if (len == 0)
+  // The handle used to be passed on unchecked and never closed: a failed open
+  // went on with INVALID_HANDLE_VALUE, a successful one leaked.
+  HANDLE const file
+      = CreateFileW (path_arg.wstring ().c_str (), 0, 0, nullptr,
+                     OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, nullptr);
+  if (file == INVALID_HANDLE_VALUE)
     return filesystem_result<path>::err (static_cast<int> (GetLastError ()),
                                          path ());
-  return filesystem_result<path>::ok (path (std::string (buf.data (), len)));
+  // The first call gives the size with the terminating zero, the second the
+  // length without it.
+  DWORD const size
+      = GetFinalPathNameByHandleW (file, nullptr, 0, FILE_NAME_NORMALIZED);
+  std::wstring buf (size, L'\0');
+  DWORD const len = size == 0 ? 0
+                              : GetFinalPathNameByHandleW (
+                                    file, &buf[0], size, FILE_NAME_NORMALIZED);
+  DWORD const error = GetLastError ();
+  CloseHandle (file);
+  if (len == 0 || len >= size)
+    return filesystem_result<path>::err (static_cast<int> (error), path ());
+  buf.resize (len);
+  return filesystem_result<path>::ok (path (from_wide_string (buf)));
 #else
   std::vector<char> buf (PATH_MAX);
   ssize_t len = readlink (path_arg.c_str (), buf.data (), buf.size () - 1);
@@ -1387,7 +1402,7 @@ lumex_filesystem::space (path const &path_arg)
   ULARGE_INTEGER totalNumberOfBytes;
   ULARGE_INTEGER totalNumberOfFreeBytes;
 
-  if (GetDiskFreeSpaceExA (path_arg.c_str (), &freeBytesAvailable,
+  if (GetDiskFreeSpaceExW (path_arg.wstring ().c_str (), &freeBytesAvailable,
                            &totalNumberOfBytes, &totalNumberOfFreeBytes)
       == 0)
     return filesystem_result<space_info>::err (
@@ -1966,8 +1981,9 @@ filesystem_result<void>
 lumex_filesystem::resize_file (path const &path_arg, std::uintmax_t new_size)
 {
 #if defined(LUMEX_OS_WINDOWS)
-  HANDLE hFile = CreateFileA (path_arg.c_str (), GENERIC_WRITE, 0, nullptr,
-                              OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+  HANDLE hFile
+      = CreateFileW (path_arg.wstring ().c_str (), GENERIC_WRITE, 0, nullptr,
+                     OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
   if (hFile == INVALID_HANDLE_VALUE)
     return filesystem_result<void>::err (static_cast<int> (GetLastError ()));
   LARGE_INTEGER lInt;

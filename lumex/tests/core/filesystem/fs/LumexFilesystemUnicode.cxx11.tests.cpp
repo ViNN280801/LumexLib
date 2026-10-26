@@ -14,6 +14,7 @@
 #include <clocale>
 #include <cstddef>
 #include <cstring>
+#include <ctime>
 #include <string>
 #include <vector>
 
@@ -307,7 +308,7 @@ protected:
   }
 
   static bool
-  native_create_file (path const &p)
+  native_create_file (path const &p, std::string const &content = "")
   {
 #if defined(_WIN32)
     HANDLE const file
@@ -315,15 +316,59 @@ protected:
                        CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
     if (file == INVALID_HANDLE_VALUE)
       return false;
+    DWORD written = 0;
+    bool const ok = content.empty ()
+                    || (WriteFile (file, content.data (),
+                                   static_cast<DWORD> (content.size ()),
+                                   &written, nullptr)
+                            != 0
+                        && written == content.size ());
     CloseHandle (file);
-    return true;
+    return ok;
 #else
     int const descriptor
         = open (p.c_str (), O_CREAT | O_WRONLY | O_TRUNC, 0644);
     if (descriptor < 0)
       return false;
+    bool const ok = content.empty ()
+                    || write (descriptor, content.data (), content.size ())
+                           == static_cast<ssize_t> (content.size ());
     close (descriptor);
-    return true;
+    return ok;
+#endif
+  }
+
+  // The size the system reports; -1 when there is no such file.
+  static long long
+  native_file_size (path const &p)
+  {
+#if defined(_WIN32)
+    WIN32_FILE_ATTRIBUTE_DATA data;
+    if (GetFileAttributesExW (p.wstring ().c_str (), GetFileExInfoStandard,
+                              &data)
+        == 0)
+      return -1;
+    return (static_cast<long long> (data.nFileSizeHigh) << 32)
+           | static_cast<long long> (data.nFileSizeLow);
+#else
+    struct stat status;
+    if (stat (p.c_str (), &status) != 0)
+      return -1;
+    return static_cast<long long> (status.st_size);
+#endif
+  }
+
+  // Whether the owner may not write the file.
+  static bool
+  native_is_read_only (path const &p)
+  {
+#if defined(_WIN32)
+    DWORD const attrs = GetFileAttributesW (p.wstring ().c_str ());
+    return attrs != INVALID_FILE_ATTRIBUTES
+           && (attrs & FILE_ATTRIBUTE_READONLY) != 0;
+#else
+    struct stat status;
+    return stat (p.c_str (), &status) == 0 && (status.st_mode & S_IWUSR) == 0;
 #endif
   }
 
@@ -350,7 +395,11 @@ private:
         if (m_created[i - 1].second)
           RemoveDirectoryW (p.wstring ().c_str ());
         else
-          DeleteFileW (p.wstring ().c_str ());
+          {
+            // DeleteFileW refuses a read-only file (the permissions case).
+            SetFileAttributesW (p.wstring ().c_str (), FILE_ATTRIBUTE_NORMAL);
+            DeleteFileW (p.wstring ().c_str ());
+          }
 #else
         if (m_created[i - 1].second)
           rmdir (p.c_str ());
@@ -421,4 +470,108 @@ TEST_F (LumexFilesystemUnicodeDiskTest,
   EXPECT_FALSE (lumex_filesystem::exists (missing));
   EXPECT_FALSE (lumex_filesystem::is_directory (missing));
   EXPECT_FALSE (lumex_filesystem::is_regular_file (missing));
+}
+
+TEST_F (LumexFilesystemUnicodeDiskTest,
+        GivenFileWithCyrillicName_WhenStatus_ThenARegularFile)
+{
+  path const file = m_base / (std::string (kPrivetUtf8) + ".txt");
+  ASSERT_TRUE (native_create_file (file));
+  created (file, false);
+
+  auto const status = lumex_filesystem::status (file);
+  auto const link_status = lumex_filesystem::symlink_status (file);
+
+  ASSERT_TRUE (status.success ()) << "error " << status.error_code ();
+  EXPECT_EQ (status.value ().type (),
+             lumex::core::filesystem::fs::file_type::regular);
+  ASSERT_TRUE (link_status.success ())
+      << "error " << link_status.error_code ();
+  EXPECT_EQ (link_status.value ().type (),
+             lumex::core::filesystem::fs::file_type::regular);
+}
+
+TEST_F (LumexFilesystemUnicodeDiskTest,
+        GivenFileWithCyrillicName_WhenFileSizeAndResize_ThenTheSystemAgrees)
+{
+  path const file = m_base / (std::string (kPrivetUtf8) + ".txt");
+  ASSERT_TRUE (native_create_file (file, "12345"));
+  created (file, false);
+
+  auto const size = lumex_filesystem::file_size (file);
+  ASSERT_TRUE (size.success ()) << "error " << size.error_code ();
+  EXPECT_EQ (size.value (), 5U);
+
+  auto const resized = lumex_filesystem::resize_file (file, 2);
+  ASSERT_TRUE (resized.success ()) << "error " << resized.error_code ();
+  EXPECT_EQ (native_file_size (file), 2);
+}
+
+TEST_F (LumexFilesystemUnicodeDiskTest,
+        GivenFileWithCyrillicName_WhenLastWriteTimeSet_ThenItReadsBack)
+{
+  path const file = m_base / (std::string (kPrivetUtf8) + ".txt");
+  ASSERT_TRUE (native_create_file (file));
+  created (file, false);
+  // 14.11.2023 22:13:20 UTC: whole seconds, far from now.
+  std::time_t const when = 1700000000;
+
+  auto const set = lumex_filesystem::last_write_time (file, when);
+  ASSERT_TRUE (set.success ()) << "error " << set.error_code ();
+  auto const got = lumex_filesystem::last_write_time (file);
+
+  ASSERT_TRUE (got.success ()) << "error " << got.error_code ();
+  EXPECT_EQ (got.value (), when);
+}
+
+TEST_F (LumexFilesystemUnicodeDiskTest,
+        GivenFileWithCyrillicName_WhenPermissionsWithoutWrite_ThenReadOnly)
+{
+  path const file = m_base / (std::string (kPrivetUtf8) + ".txt");
+  ASSERT_TRUE (native_create_file (file));
+  created (file, false);
+  using lumex::core::filesystem::fs::perms;
+
+  auto const result = lumex_filesystem::permissions (
+      file, perms::owner_read | perms::group_read | perms::others_read);
+
+  ASSERT_TRUE (result.success ()) << "error " << result.error_code ();
+  EXPECT_TRUE (native_is_read_only (file));
+}
+
+TEST_F (LumexFilesystemUnicodeDiskTest,
+        GivenCyrillicDirectory_WhenSpace_ThenTheDiskIsReported)
+{
+  path const cyrillic = m_base / kPrivetUtf8;
+  ASSERT_TRUE (native_create_directory (cyrillic));
+  created (cyrillic, true);
+
+  auto const info = lumex_filesystem::space (cyrillic);
+
+  ASSERT_TRUE (info.success ()) << "error " << info.error_code ();
+  EXPECT_GT (info.value ().capacity, 0U);
+}
+
+TEST_F (LumexFilesystemUnicodeDiskTest,
+        GivenCyrillicName_WhenReadSymlink_ThenTheNameSurvives)
+{
+  path const target = m_base / (std::string (kPrivetUtf8) + ".txt");
+  ASSERT_TRUE (native_create_file (target));
+  created (target, false);
+#if defined(_WIN32)
+  // A symbolic link needs a privilege on Windows; the function opens the path
+  // and returns the final name of what it opened, so a plain file shows the
+  // conversion as well.
+  path const link = target;
+#else
+  path const link = m_base / (std::string (kPrivetUtf8) + ".link");
+  ASSERT_EQ (symlink (target.c_str (), link.c_str ()), 0);
+  created (link, false);
+#endif
+
+  auto const result = lumex_filesystem::read_symlink (link);
+
+  ASSERT_TRUE (result.success ()) << "error " << result.error_code ();
+  EXPECT_EQ (result.value ().filename ().string (),
+             std::string (kPrivetUtf8) + ".txt");
 }
