@@ -77,22 +77,23 @@ with_status (int status, layout::bytes_t const &tail)
   return out;
 }
 
-// The text of a wire frame without its start character, checksum and
-// carriage return: the digits the protocol layer sees.
+// The frame the text link carries around the digits: a start character, the
+// digits, the XOR of their characters as two digits, a carriage return.
 std::string
-digits_of_wire (std::string const &wire)
+wire_of (std::string const &digits)
 {
-  return wire.substr (1, wire.size () - 4);
+  return "%" + digits + xor_text (digits) + "\r";
 }
 
-// The frame the text link carries: the check covers the characters.
+// The frame has the digits in the middle and a check that covers them.
 void
-expect_wire_frame (std::string const &wire, std::string const &digits)
+expect_wire_frame (std::string const &digits)
 {
-  ASSERT_GE (wire.size (), 4u);
+  std::string const wire = wire_of (digits);
+  ASSERT_EQ (wire.size (), digits.size () + 4u);
   EXPECT_EQ (wire[0], '%');
   EXPECT_EQ (wire[wire.size () - 1], '\r');
-  EXPECT_EQ (digits_of_wire (wire), digits);
+  EXPECT_EQ (wire.substr (1, digits.size ()), digits);
   EXPECT_EQ (wire.substr (wire.size () - 3, 2), xor_text (digits));
 }
 
@@ -138,10 +139,9 @@ template <typename Row>
 void
 expect_request_in_both_layers (std::uint8_t key,
                                layout::bytes_t const &payload,
-                               std::string const &wire,
                                std::string const &line)
 {
-  expect_wire_frame (wire, hex_of (bytes ({ key })) + hex_of (payload));
+  expect_wire_frame (hex_of (bytes ({ key })) + hex_of (payload));
   layout::decode_result_t<typename layout::request_of<Row>::type> const
       binary_record
       = layout::decode_request<hid, Row> (view_of (payload));
@@ -174,9 +174,9 @@ expect_request_in_both_layers (std::uint8_t key,
 template <typename Row>
 void
 expect_reply_in_both_layers (std::uint8_t key, layout::bytes_t const &payload,
-                             std::string const &wire, std::string const &line)
+                             std::string const &line)
 {
-  expect_wire_frame (wire, hex_of (bytes ({ key })) + hex_of (payload));
+  expect_wire_frame (hex_of (bytes ({ key })) + hex_of (payload));
   layout::decode_result_t<typename layout::reply_value_of<Row>::type> const
       binary_value
       = layout::decode_reply<hid, Row> (view_of (payload));
@@ -236,10 +236,10 @@ TEST (LumexProtocolDeviceJTest,
       GivenTheVersionQuery_WhenSentInBothLayers_ThenTheBytesAreTheDigits)
 {
   expect_request_in_both_layers<text::query_3f_t> (
-      0x3F, layout::bytes_t (), "%3F75\r",
+      0x3F /*@p8*/, layout::bytes_t (),
       "TX j_hid.query_3f (Query the version)");
   expect_reply_in_both_layers<text::query_3f_t> (
-      0x3F, bytes ({ 0x00, 0x01, 0x2C }), "%3F00012C05\r",
+      0x3F /*@p8*/, bytes ({ 0x00, 0x01, 0x2C }),
       "RX j_hid.query_3f (Query the version) " + kStatusOk
           + " version={major=1 minor=44}");
 }
@@ -249,10 +249,10 @@ TEST (
     GivenTheStateQuery_WhenTheReplyHasTheStatusOnly_ThenTheNibblesAreTheResultAndTheState)
 {
   expect_request_in_both_layers<text::report_ac_t> (
-      0xAC, layout::bytes_t (), "%AC02\r",
+      0xAC /*@p8*/, layout::bytes_t (),
       "TX j_hid.report_ac (Report the state)");
   expect_reply_in_both_layers<text::report_ac_t> (
-      0xAC, bytes ({ 0x03 }), "%AC0301\r",
+      0xAC /*@p8*/, bytes ({ 0x03 }),
       "RX j_hid.report_ac (Report the state) "
       "status={result=r_0 state=s_3}");
 }
@@ -262,46 +262,39 @@ TEST (
     GivenTheSettingsRead_WhenTheReplyComes_ThenTheSizesMatchTheReportOf37Bytes)
 {
   layout::bytes_t const payload = with_status (0x00, settings_bytes ());
-  layout::bytes_t const report = report_frame (0x8D, payload);
+  layout::bytes_t const report = report_frame (0x8D /*@p8*/, payload);
   EXPECT_EQ (report[0], 37);
   EXPECT_EQ (report.size (), 38u);
   EXPECT_EQ (settings_bytes ().size (), 35u);
   expect_request_in_both_layers<text::param_get_8d_t> (
-      0x8D, layout::bytes_t (), "%8D7C\r",
+      0x8D /*@p8*/, layout::bytes_t (),
       "TX j_hid.param_get_8d (Read the settings)");
   expect_reply_in_both_layers<text::param_get_8d_t> (
-      0x8D, payload,
-      "%8D0031311E0350502800000064800000320000000A8000002D6073050A050A14140A"
-      "050A0507\r",
+      0x8D /*@p8*/, payload,
       "RX j_hid.param_get_8d (Read the settings) "
       "status={result=r_0 state=s_0} settings={small=[49, 49, 30, 3, 80, 80, "
       "40] corrections=[100, -50, 10, -45] serial=24691 volumes=[500 uL, "
       "1000 uL, 500 uL, 1000 uL, 2000 uL, 2000 uL, 1000 uL, 500 uL, "
       "1000 uL, 500 uL]}");
   // The hexadecimal text of a signed-magnitude number keeps its sign bit.
-  EXPECT_NE (digits_of_wire ("%8D0031311E0350502800000064800000320000000A80"
-                             "00002D6073050A050A14140A050A0507\r")
-                 .find ("80000032"),
-             std::string::npos);
+  EXPECT_NE (hex_of (settings_bytes ()).find ("80000032"), std::string::npos);
 }
 
 TEST (LumexProtocolDeviceJTest,
       GivenTheSettingsWrite_WhenTheReplyCarriesAnError_ThenTheStatusNamesIt)
 {
   expect_request_in_both_layers<text::param_set_c9_t> (
-      0xC9, settings_bytes (),
-      "%C931311E0350502800000064800000320000000A8000002D6073050A050A14140A05"
-      "0A0501\r",
+      0xC9 /*@p8*/, settings_bytes (),
       "TX j_hid.param_set_c9 (Write the settings) settings={small=[49, 49, "
       "30, 3, 80, 80, 40] corrections=[100, -50, 10, -45] serial=24691 "
       "volumes=[500 uL, 1000 uL, 500 uL, 1000 uL, 2000 uL, 2000 uL, 1000 uL, "
       "500 uL, 1000 uL, 500 uL]}");
   expect_reply_in_both_layers<text::param_set_c9_t> (
-      0xC9, bytes ({ 0x00 }), "%C9007A\r",
+      0xC9 /*@p8*/, bytes ({ 0x00 }),
       "RX j_hid.param_set_c9 (Write the settings) "
       "status={result=r_0 state=s_0}");
   expect_reply_in_both_layers<text::param_set_c9_t> (
-      0xC9, bytes ({ 0x31 }), "%C93178\r",
+      0xC9 /*@p8*/, bytes ({ 0x31 }),
       "RX j_hid.param_set_c9 (Write the settings) "
       "status={result=r_3 state=s_1}");
 }
@@ -318,10 +311,10 @@ TEST (LumexProtocolDeviceJTest,
                     .has_value ()));
   EXPECT_EQ (std::string (out.begin (), out.end ()), "006400C8");
   expect_request_in_both_layers<text::start_f4_t> (
-      0xF4, bytes ({ 0x00, 0x64, 0x00, 0xC8 }), "%F4006400C80B\r",
+      0xF4 /*@p8*/, bytes ({ 0x00, 0x64, 0x00, 0xC8 }),
       "TX j_hid.start_f4 (Run the cleaning cycle) first=100 second=200");
   expect_reply_in_both_layers<text::start_f4_t> (
-      0xF4, bytes ({ 0x00 }), "%F40072\r",
+      0xF4 /*@p8*/, bytes ({ 0x00 }),
       "RX j_hid.start_f4 (Run the cleaning cycle) "
       "status={result=r_0 state=s_0}");
 }
@@ -330,16 +323,16 @@ TEST (LumexProtocolDeviceJTest,
       GivenThePositionAndStopCommands_WhenSent_ThenTheyAreOneByteAndNoByte)
 {
   expect_request_in_both_layers<text::start_64_t> (
-      0x64, bytes ({ 0x2A }), "%642A71\r",
+      0x64 /*@p8*/, bytes ({ 0x2A }),
       "TX j_hid.start_64 (Run the load cycle) position=42");
   expect_reply_in_both_layers<text::start_64_t> (
-      0x64, bytes ({ 0x00 }), "%640002\r",
+      0x64 /*@p8*/, bytes ({ 0x00 }),
       "RX j_hid.start_64 (Run the load cycle) "
       "status={result=r_0 state=s_0}");
   expect_request_in_both_layers<text::stop_35_t> (
-      0x35, layout::bytes_t (), "%3506\r", "TX j_hid.stop_35 (Stop)");
+      0x35 /*@p8*/, layout::bytes_t (), "TX j_hid.stop_35 (Stop)");
   expect_reply_in_both_layers<text::stop_35_t> (
-      0x35, bytes ({ 0x00 }), "%350006\r",
+      0x35 /*@p8*/, bytes ({ 0x00 }),
       "RX j_hid.stop_35 (Stop) status={result=r_0 state=s_0}");
 }
 
@@ -348,10 +341,10 @@ TEST (LumexProtocolDeviceJTest,
 {
   // The check is over the characters of the digits, not over the bytes they
   // stand for: the same bytes give another check.
-  EXPECT_EQ (xor_text ("3F"), "75");
-  EXPECT_NE (xor_text ("3F"), xor_text (std::string ("\x3F", 1)));
-  EXPECT_EQ (xor_text ("8D"), "7C");
-  EXPECT_NE (xor_text ("8D"), "7D");
+  EXPECT_EQ (xor_text ("AB"), "03");
+  EXPECT_EQ (xor_text ("A"), "41");
+  EXPECT_NE (xor_text ("AB"), xor_text ("AC"));
+  EXPECT_NE (xor_text ("AB"), xor_text (std::string ("\xAB", 1)));
   EXPECT_EQ (xor_text (""), "00");
 }
 
@@ -364,10 +357,10 @@ TEST (
   layout::bytes_t const odd = bytes ({ 0x73 });
   EXPECT_FALSE ((reply_error<hid, hid::report_ac_t> (odd)));
   EXPECT_FALSE ((reply_error<text, text::report_ac_t> (bytes_of ("73"))));
-  EXPECT_EQ (
-      described<hid> (report_frame (0xAC, odd), index::frame_direction::rx),
-      "RX j_hid.report_ac (Report the state) "
-      "status={result=7 state=s_3}");
+  EXPECT_EQ (described<hid> (report_frame (0xAC /*@p8*/, odd),
+                             index::frame_direction::rx),
+             "RX j_hid.report_ac (Report the state) "
+             "status={result=7 state=s_3}");
 }
 
 TEST (

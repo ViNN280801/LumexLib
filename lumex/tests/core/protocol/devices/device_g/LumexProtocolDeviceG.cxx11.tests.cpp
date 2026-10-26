@@ -108,11 +108,18 @@ expect_reply_round_trip (layout::bytes_t const &frame)
   EXPECT_EQ (again, payload_bytes (frame));
 }
 
+// A number as decimal text (the log shows keys and codes in decimal).
+std::string
+dec (unsigned value)
+{
+  return std::to_string (value);
+}
+
 // A frame of the family: the address, the key, the body.
 layout::bytes_t
 frame_of (std::uint8_t key, std::initializer_list<int> body)
 {
-  layout::bytes_t out = bytes ({ 0x7F, key });
+  layout::bytes_t out = bytes ({ 0x7F /*@p8z*/, key });
   layout::bytes_t const tail = bytes (body);
   out.insert (out.end (), tail.begin (), tail.end ());
   return out;
@@ -146,18 +153,19 @@ TEST (
   EXPECT_STREQ (old_built.base_name (), "");
   EXPECT_EQ (old_built.rows ().size (), 2u);
   EXPECT_TRUE (index::keys_unique<old_protocol>::value);
-  EXPECT_NE (old_built.find_integer ('S'), nullptr);
-  EXPECT_NE (old_built.find_integer ('C'), nullptr);
-  EXPECT_EQ (old_built.find_integer ('G'), nullptr);
+  EXPECT_NE (old_built.find_integer ('S' /*@text*/), nullptr);
+  EXPECT_NE (old_built.find_integer ('C' /*@text*/), nullptr);
+  EXPECT_EQ (old_built.find_integer ('Q'), nullptr);
 }
 
 TEST (
     LumexProtocolDeviceGTest,
     GivenTheIdentityReply_WhenItIsFourBytesOrMore_ThenItIsTheSerialOrTheWholeRecord)
 {
-  layout::bytes_t const serial = frame_of (0xAD, { 0x87, 0xD6, 0x12, 0x00 });
-  layout::bytes_t const record
-      = frame_of (0xAD, { 0x2B, 0x05, 0x02, 0x09, 0x1C, 0x0A, 0x0F, 0x03 });
+  layout::bytes_t const serial
+      = frame_of (0xAD /*@p8*/, { 0x87, 0xD6, 0x12, 0x00 });
+  layout::bytes_t const record = frame_of (
+      0xAD /*@p8*/, { 0x2B, 0x05, 0x02, 0x09, 0x1C, 0x0A, 0x0F, 0x03 });
   expect_reply_round_trip<device, device::query_ad_t> (serial);
   expect_reply_round_trip<device, device::query_ad_t> (record);
   EXPECT_EQ (rx<device> (serial),
@@ -167,17 +175,17 @@ TEST (
              "RX device_g.query_ad (Query the identity record) "
              "identity={type=43 sw=5 sub=2 hw=9 year=28 month=10 day=15 "
              "mask=3}");
-  EXPECT_EQ (tx<device> (frame_of (0xAD, {})),
+  EXPECT_EQ (tx<device> (frame_of (0xAD /*@p8*/, {})),
              "TX device_g.query_ad (Query the identity record)");
   // Three bytes cannot be a serial; five or seven bytes cannot be a record.
   EXPECT_TRUE ((reply_error<device, device::query_ad_t> (
-                   frame_of (0xAD, { 0x87, 0xD6, 0x12 })))
+                   frame_of (0xAD /*@p8*/, { 0x87, 0xD6, 0x12 })))
                == protocol_errc::truncated);
   EXPECT_TRUE ((reply_error<device, device::query_ad_t> (
-                   frame_of (0xAD, { 1, 2, 3, 4, 5 })))
+                   frame_of (0xAD /*@p8*/, { 1, 2, 3, 4, 5 })))
                == protocol_errc::truncated);
   EXPECT_TRUE ((reply_error<device, device::query_ad_t> (
-                   frame_of (0xAD, { 1, 2, 3, 4, 5, 6, 7, 8, 9 })))
+                   frame_of (0xAD /*@p8*/, { 1, 2, 3, 4, 5, 6, 7, 8, 9 })))
                == protocol_errc::trailing_bytes);
 }
 
@@ -188,18 +196,18 @@ TEST (LumexProtocolDeviceGTest,
   ASSERT_TRUE ((layout::encode_request<device, device::set_65_t> (
                     out, tables::power_mode::m_3f)
                     .has_value ()));
-  EXPECT_EQ (out, bytes ({ 0x3F }));
-  layout::bytes_t const on = frame_of (0x65, { 0x3F });
-  layout::bytes_t const off = frame_of (0x65, { 0x15 });
+  EXPECT_EQ (out, bytes ({ 0x3F /*@p8*/ }));
+  layout::bytes_t const on = frame_of (0x65 /*@p8*/, { 0x3F /*@p8*/ });
+  layout::bytes_t const off = frame_of (0x65 /*@p8*/, { 0x15 /*@p8*/ });
   expect_request_round_trip<device, device::set_65_t> (on);
   expect_request_round_trip<device, device::set_65_t> (off);
   EXPECT_EQ (tx<device> (on), "TX device_g.set_65 (Set the working mode) "
                               "mode=m_3f");
   EXPECT_EQ (tx<device> (off), "TX device_g.set_65 (Set the working mode) "
                                "mode=m_15");
-  EXPECT_TRUE (
-      (request_error<device, device::set_65_t> (frame_of (0x65, { 0x16 })))
-      == protocol_errc::invalid_value);
+  EXPECT_TRUE ((request_error<device, device::set_65_t> (
+                   frame_of (0x65 /*@p8*/, { 0x16 })))
+               == protocol_errc::invalid_value);
   EXPECT_TRUE (dsl::flags_of (device::set_65_t::options ())
                & dsl::row_flags::dangerous);
 }
@@ -208,21 +216,27 @@ TEST (
     LumexProtocolDeviceGTest,
     GivenTheStateByte_WhenDecoded_ThenTheEvenBitsAreRunningAndTheOddBitsAreFaults)
 {
-  layout::bytes_t const all_running = frame_of (0xD9, { 0xAD, 0x3F, 0x55 });
-  layout::bytes_t const all_fault = frame_of (0xD9, { 0xAD, 0x3F, 0xAA });
-  layout::bytes_t const mixed = frame_of (0xD9, { 0xAD, 0x3F, 0x69 });
+  layout::bytes_t const all_running
+      = frame_of (0xD9 /*@p8*/, { 0xAD /*@p8*/, 0x3F /*@p8*/, 0x55 });
+  layout::bytes_t const all_fault
+      = frame_of (0xD9 /*@p8*/, { 0xAD /*@p8*/, 0x3F /*@p8*/, 0xAA });
+  layout::bytes_t const mixed
+      = frame_of (0xD9 /*@p8*/, { 0xAD /*@p8*/, 0x3F /*@p8*/, 0x69 });
   expect_reply_round_trip<device, device::report_d9_t> (all_running);
   expect_reply_round_trip<device, device::report_d9_t> (all_fault);
   expect_reply_round_trip<device, device::report_d9_t> (mixed);
   EXPECT_EQ (rx<device> (all_running),
-             "RX device_g.report_d9 (Report the state) node=173 mode=63 "
-             "channels={running=15 fault=0}");
+             "RX device_g.report_d9 (Report the state) node="
+                 + dec (0xAD /*@p8*/) + " mode=" + dec (0x3F /*@p8*/)
+                 + " channels={running=15 fault=0}");
   EXPECT_EQ (rx<device> (all_fault),
-             "RX device_g.report_d9 (Report the state) node=173 mode=63 "
-             "channels={running=0 fault=15}");
+             "RX device_g.report_d9 (Report the state) node="
+                 + dec (0xAD /*@p8*/) + " mode=" + dec (0x3F /*@p8*/)
+                 + " channels={running=0 fault=15}");
   EXPECT_EQ (rx<device> (mixed),
-             "RX device_g.report_d9 (Report the state) node=173 mode=63 "
-             "channels={running=9 fault=6}");
+             "RX device_g.report_d9 (Report the state) node="
+                 + dec (0xAD /*@p8*/) + " mode=" + dec (0x3F /*@p8*/)
+                 + " channels={running=9 fault=6}");
   layout::decode_result_t<
       layout::reply_value_of<device::report_d9_t>::type> const decoded
       = layout::decode_reply<device, device::report_d9_t> (payload_of (mixed));
@@ -233,45 +247,47 @@ TEST (
 TEST (LumexProtocolDeviceGTest,
       GivenAnErrorAndANodeQuery_WhenEncodedAndDecoded_ThenTheyAreOneByte)
 {
-  layout::bytes_t const failure = frame_of (0x44, { 0x07 });
+  layout::bytes_t const failure = frame_of (0x44 /*@p8*/, { 0x07 });
   expect_reply_round_trip<device, device::error_44_t> (failure);
   EXPECT_EQ (rx<device> (failure), "RX device_g.error_44 (Report an error) "
                                    "reply=7");
   layout::bytes_t out;
-  ASSERT_TRUE ((layout::encode_request<device, device::query_b8_t> (out, 0xAD)
-                    .has_value ()));
-  EXPECT_EQ (out, bytes ({ 0xAD }));
-  layout::bytes_t const request = frame_of (0xB8, { 0xAD });
+  ASSERT_TRUE (
+      (layout::encode_request<device, device::query_b8_t> (out, 0xAD /*@p8*/)
+           .has_value ()));
+  EXPECT_EQ (out, bytes ({ 0xAD /*@p8*/ }));
+  layout::bytes_t const request = frame_of (0xB8 /*@p8*/, { 0xAD /*@p8*/ });
   expect_request_round_trip<device, device::query_b8_t> (request);
   EXPECT_EQ (tx<device> (request), "TX device_g.query_b8 (Query a node) "
-                                   "node=173");
+                                   "node="
+                                       + dec (0xAD /*@p8*/));
 }
 
 TEST (LumexProtocolDeviceGTest,
       GivenTheStatistics_WhenTheTypeIsRead_ThenItChoosesTheLayoutOfTheRest)
 {
-  layout::bytes_t const cpu
-      = frame_of (0xAB, { 0xAD, 0x59, 0x01, 0x40, 0xE2, 0x01, 0x00 });
+  layout::bytes_t const cpu = frame_of (
+      0xAB /*@p8*/, { 0xAD /*@p8*/, 0x59, 0x01, 0x40, 0xE2, 0x01, 0x00 });
   layout::bytes_t const stack
-      = frame_of (0xAB, { 0x65, 0x03, 0x04, 0x00, 0x02 });
+      = frame_of (0xAB /*@p8*/, { 0x65 /*@p8*/, 0x03, 0x04, 0x00, 0x02 });
   expect_reply_round_trip<device, device::report_ab_t> (cpu);
   expect_reply_round_trip<device, device::report_ab_t> (stack);
   EXPECT_EQ (rx<device> (cpu),
-             "RX device_g.report_ab (Report statistics) statistics=case 173: "
-             "{load=34.5 % switches=123456}");
+             "RX device_g.report_ab (Report statistics) statistics=case "
+                 + dec (0xAD /*@p8*/) + ": {load=34.5 % switches=123456}");
   EXPECT_EQ (rx<device> (stack),
-             "RX device_g.report_ab (Report statistics) statistics=case 101: "
-             "{task=3 priority=4 used=512}");
+             "RX device_g.report_ab (Report statistics) statistics=case "
+                 + dec (0x65 /*@p8*/) + ": {task=3 priority=4 used=512}");
   EXPECT_TRUE ((reply_error<device, device::report_ab_t> (
-                   frame_of (0xAB, { 0x99, 0x03, 0x04, 0x00, 0x02 })))
+                   frame_of (0xAB /*@p8*/, { 0x99, 0x03, 0x04, 0x00, 0x02 })))
                == protocol_errc::unknown_case);
 }
 
 TEST (LumexProtocolDeviceGTest,
       GivenTheDebugCounters_WhenDecoded_ThenTheSignedWordsKeepTheirSign)
 {
-  layout::bytes_t const frame
-      = frame_of (0x8E, { 0xFF, 0xFF, 0x2C, 0x01, 0xFF, 0x7F, 0x00, 0x80 });
+  layout::bytes_t const frame = frame_of (
+      0x8E /*@p8*/, { 0xFF, 0xFF, 0x2C, 0x01, 0xFF, 0x7F, 0x00, 0x80 });
   expect_reply_round_trip<device, device::debug_8e_t> (frame);
   EXPECT_EQ (rx<device> (frame), "RX device_g.debug_8e (Report the debug "
                                  "counters) c0=-1 c1=300 c2=32767 c3=-32768");
@@ -281,12 +297,12 @@ TEST (
     LumexProtocolDeviceGTest,
     GivenTheOlderProtocol_WhenTheGroupsAreQueriedAndSet_ThenTheLengthByteLeadsAndTheMaskIsTheArgument)
 {
-  layout::bytes_t const query = old_frame ('S', {});
-  layout::bytes_t const state = old_frame ('S', { 0x80 });
-  layout::bytes_t const both = old_frame ('C', { 0xC0 });
-  layout::bytes_t const stop = old_frame ('C', { 0x00 });
-  EXPECT_EQ (query, bytes ({ 0x01, 0x53 }));
-  EXPECT_EQ (both, bytes ({ 0x02, 0x43, 0xC0 }));
+  layout::bytes_t const query = old_frame ('S' /*@text*/, {});
+  layout::bytes_t const state = old_frame ('S' /*@text*/, { 0x80 });
+  layout::bytes_t const both = old_frame ('C' /*@text*/, { 0xC0 });
+  layout::bytes_t const stop = old_frame ('C' /*@text*/, { 0x00 });
+  EXPECT_EQ (query, bytes ({ 0x01, 'S' /*@text*/ }));
+  EXPECT_EQ (both, bytes ({ 0x02, 'C' /*@text*/, 0xC0 }));
   expect_reply_round_trip<old_protocol, old_protocol::query_53_t> (state);
   expect_request_round_trip<old_protocol, old_protocol::set_43_t> (both);
   expect_request_round_trip<old_protocol, old_protocol::set_43_t> (stop);
@@ -315,6 +331,6 @@ TEST (
     LumexProtocolDeviceGTest,
     GivenAFrameWithAKeyThatIsNoLetterOfTheTable_WhenDescribed_ThenItIsUnknown)
 {
-  EXPECT_EQ (tx<old_protocol> (old_frame ('G', {})),
-             "TX unknown key=0x47 len=2: 01 47");
+  EXPECT_EQ (tx<old_protocol> (old_frame ('Q', {})),
+             "TX unknown key=0x51 len=2: 01 51");
 }

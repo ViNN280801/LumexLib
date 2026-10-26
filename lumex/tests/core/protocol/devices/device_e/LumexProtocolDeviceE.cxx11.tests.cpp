@@ -111,24 +111,47 @@ expect_reply_round_trip (layout::bytes_t const &frame)
   EXPECT_EQ (again, payload_bytes (frame));
 }
 
+// A number as decimal text (the log shows keys and codes in decimal).
+std::string
+dec (unsigned value)
+{
+  return std::to_string (value);
+}
+
+// The bytes of a frame as the log dumps them: two upper-case digits each.
+std::string
+hexdump (layout::bytes_t const &frame)
+{
+  static char const digits[] = "0123456789ABCDEF";
+  std::string out;
+  for (std::size_t i = 0; i < frame.size (); ++i)
+    {
+      if (i != 0)
+        out += ' ';
+      out += digits[(frame[i] >> 4) & 0x0F];
+      out += digits[frame[i] & 0x0F];
+    }
+  return out;
+}
+
 // The frames of the reference vectors.
 layout::bytes_t
 query_request ()
 {
-  return bytes ({ 0x80, 0xAD });
+  return bytes ({ 0x80 /*@p8z*/, 0xAD /*@p8*/ });
 }
 
 layout::bytes_t
 query_reply ()
 {
-  return bytes ({ 0x80, 0xAD, 0x2D, 0x07, 0x03, 0x0B, 0x1D, 0x09, 0x11, 0x06,
-                  0x87, 0xD6, 0x12, 0x00 });
+  return bytes ({ 0x80 /*@p8z*/, 0xAD /*@p8*/, 0x2D, 0x07, 0x03, 0x0B, 0x1D,
+                  0x09, 0x11, 0x06, 0x87, 0xD6, 0x12, 0x00 });
 }
 
 layout::bytes_t
 mode_frame (std::initializer_list<int> body)
 {
-  layout::bytes_t out = bytes ({ 0x80, 0x65 });
+  layout::bytes_t out = bytes ({ 0x80 /*@p8z*/, 0x65 /*@p8*/ });
   layout::bytes_t const tail = bytes (body);
   out.insert (out.end (), tail.begin (), tail.end ());
   return out;
@@ -149,10 +172,10 @@ TEST (
   EXPECT_NE (built.find_name ("query_ad"), nullptr);
   EXPECT_NE (built.find_name ("param_set_cc"), nullptr);
   EXPECT_EQ (built.find_name ("query_ae"), nullptr);
-  EXPECT_EQ (built.find_integer (0x65)->entry->identifier,
+  EXPECT_EQ (built.find_integer (0x65 /*@p8*/)->entry->identifier,
              std::string ("set_65"));
-  EXPECT_EQ (built.find_integer (0x27)->is_event, true);
-  EXPECT_EQ (built.find_integer (0x65)->is_event, false);
+  EXPECT_EQ (built.find_integer (0x27 /*@p8*/)->is_event, true);
+  EXPECT_EQ (built.find_integer (0x65 /*@p8*/)->is_event, false);
   EXPECT_EQ (built.find_integer (0x66), nullptr);
 }
 
@@ -213,14 +236,14 @@ TEST (
     GivenEveryMode_WhenTheModeRequestIsRoundTripped_ThenTheLayoutOfTheModeIsKept)
 {
   layout::bytes_t const frames[] = {
-    mode_frame ({ 0xAD, 0x00, 0xE2, 0x04, 0x2C, 0x01, 0x00, 0x00 }),
-    mode_frame ({ 0x65, 0x00, 0xE2, 0x04, 0x2C, 0x01, 0x00, 0x00 }),
-    mode_frame ({ 0x3F, 0x00, 0xE2, 0x04, 0x2C, 0x01, 0x90, 0x01 }),
-    mode_frame ({ 0xD1, 0x0A, 0x64, 0x00, 0xF4, 0x01, 0x00, 0x00 }),
-    mode_frame ({ 0x2C, 0x00, 0x64, 0x00, 0xF4, 0x01, 0x58, 0x02 }),
-    mode_frame ({ 0x72, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }),
-    mode_frame ({ 0xF3, 0x00, 0x90, 0x01, 0x00, 0x00, 0x00, 0x00 }),
-    mode_frame ({ 0x15, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }),
+    mode_frame ({ 0xAD /*@p8*/, 0x00, 0xE2, 0x04, 0x2C, 0x01, 0x00, 0x00 }),
+    mode_frame ({ 0x65 /*@p8*/, 0x00, 0xE2, 0x04, 0x2C, 0x01, 0x00, 0x00 }),
+    mode_frame ({ 0x3F /*@p8*/, 0x00, 0xE2, 0x04, 0x2C, 0x01, 0x90, 0x01 }),
+    mode_frame ({ 0xD1 /*@p8*/, 0x0A, 0x64, 0x00, 0xF4, 0x01, 0x00, 0x00 }),
+    mode_frame ({ 0x2C /*@p8*/, 0x00, 0x64, 0x00, 0xF4, 0x01, 0x58, 0x02 }),
+    mode_frame ({ 0x72 /*@p8*/, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }),
+    mode_frame ({ 0xF3 /*@p8*/, 0x00, 0x90, 0x01, 0x00, 0x00, 0x00, 0x00 }),
+    mode_frame ({ 0x15 /*@p8*/, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }),
   };
   for (std::size_t i = 0; i < sizeof frames / sizeof frames[0]; ++i)
     {
@@ -233,18 +256,21 @@ TEST (
 TEST (LumexProtocolDeviceETest,
       GivenTheModes_WhenDescribed_ThenTheCaseAndTheScaledValuesAreShown)
 {
-  EXPECT_EQ (
-      tx (mode_frame ({ 0xAD, 0x00, 0xE2, 0x04, 0x2C, 0x01, 0x00, 0x00 })),
-      "TX device_e.set_65 (Set the working mode) "
-      "mode={mode=case 173: {arg=0 a=12.5 b=30 c=0}}");
-  EXPECT_EQ (
-      tx (mode_frame ({ 0xD1, 0x0A, 0x64, 0x00, 0xF4, 0x01, 0x00, 0x00 })),
-      "TX device_e.set_65 (Set the working mode) "
-      "mode={mode=case 209: {arg=10 min a=1 b=5 c=0}}");
-  EXPECT_EQ (
-      tx (mode_frame ({ 0x2C, 0x00, 0x64, 0x00, 0xF4, 0x01, 0x58, 0x02 })),
-      "TX device_e.set_65 (Set the working mode) "
-      "mode={mode=case 44: {arg=0 a=1 b=5 c=600 s}}");
+  EXPECT_EQ (tx (mode_frame (
+                 { 0xAD /*@p8*/, 0x00, 0xE2, 0x04, 0x2C, 0x01, 0x00, 0x00 })),
+             std::string (
+                 "TX device_e.set_65 (Set the working mode) mode={mode=case ")
+                 + dec (0xAD /*@p8*/) + ": {arg=0 a=12.5 b=30 c=0}}");
+  EXPECT_EQ (tx (mode_frame (
+                 { 0xD1 /*@p8*/, 0x0A, 0x64, 0x00, 0xF4, 0x01, 0x00, 0x00 })),
+             std::string (
+                 "TX device_e.set_65 (Set the working mode) mode={mode=case ")
+                 + dec (0xD1 /*@p8*/) + ": {arg=10 min a=1 b=5 c=0}}");
+  EXPECT_EQ (tx (mode_frame (
+                 { 0x2C /*@p8*/, 0x00, 0x64, 0x00, 0xF4, 0x01, 0x58, 0x02 })),
+             std::string (
+                 "TX device_e.set_65 (Set the working mode) mode={mode=case ")
+                 + dec (0x2C /*@p8*/) + ": {arg=0 a=1 b=5 c=600 s}}");
 }
 
 TEST (LumexProtocolDeviceETest,
@@ -256,7 +282,7 @@ TEST (LumexProtocolDeviceETest,
                == protocol_errc::unknown_case);
   EXPECT_NE (tx (frame).find ("[decode error:"), std::string::npos);
   layout::bytes_t const shorter
-      = mode_frame ({ 0xAD, 0x00, 0xE2, 0x04, 0x2C, 0x01, 0x00 });
+      = mode_frame ({ 0xAD /*@p8*/, 0x00, 0xE2, 0x04, 0x2C, 0x01, 0x00 });
   EXPECT_TRUE (request_error<device::set_65_t> (shorter)
                == protocol_errc::truncated);
 }
@@ -269,9 +295,9 @@ TEST (
   ASSERT_TRUE ((layout::encode_request<device, device::set_3f_t> (
                     out, tables::drive::p_65_ad, 12.5)
                     .has_value ()));
-  EXPECT_EQ (out, bytes ({ 0x65, 0xAD, 0xE2, 0x04 }));
-  layout::bytes_t const request
-      = bytes ({ 0x80, 0x3F, 0x65, 0xAD, 0xE2, 0x04 });
+  EXPECT_EQ (out, bytes ({ 0x65 /*@p8*/, 0xAD /*@p8*/, 0xE2, 0x04 }));
+  layout::bytes_t const request = bytes (
+      { 0x80 /*@p8z*/, 0x3F /*@p8*/, 0x65 /*@p8*/, 0xAD /*@p8*/, 0xE2, 0x04 });
   expect_request_round_trip<device::set_3f_t> (request);
   expect_reply_round_trip<device::set_3f_t> (request);
   EXPECT_EQ (tx (request), "TX device_e.set_3f (Write a drive parameter) "
@@ -294,7 +320,7 @@ TEST (LumexProtocolDeviceETest,
       = layout::encode_request<device, device::set_3f_t> (
           out, tables::drive::p_65_3f, 1);
   EXPECT_TRUE (read_only.has_value ());
-  EXPECT_EQ (out, bytes ({ 0x65, 0x3F, 0x01, 0x00 }));
+  EXPECT_EQ (out, bytes ({ 0x65 /*@p8*/, 0x3F /*@p8*/, 0x01, 0x00 }));
 }
 
 TEST (
@@ -305,17 +331,19 @@ TEST (
   ASSERT_TRUE ((layout::encode_request<device, device::param_get_d1_t> (
                     out, tables::drive::p_65_27)
                     .has_value ()));
-  EXPECT_EQ (out, bytes ({ 0x65, 0x27 }));
-  layout::bytes_t const request = bytes ({ 0x80, 0xD1, 0x65, 0x27 });
-  layout::bytes_t const reply = bytes ({ 0x80, 0xD1, 0x65, 0x27, 0x90, 0x01 });
+  EXPECT_EQ (out, bytes ({ 0x65 /*@p8*/, 0x27 /*@p8*/ }));
+  layout::bytes_t const request
+      = bytes ({ 0x80 /*@p8z*/, 0xD1 /*@p8*/, 0x65 /*@p8*/, 0x27 /*@p8*/ });
+  layout::bytes_t const reply = bytes (
+      { 0x80 /*@p8z*/, 0xD1 /*@p8*/, 0x65 /*@p8*/, 0x27 /*@p8*/, 0x90, 0x01 });
   expect_request_round_trip<device::param_get_d1_t> (request);
   expect_reply_round_trip<device::param_get_d1_t> (reply);
   EXPECT_EQ (tx (request), "TX device_e.param_get_d1 (Read a drive parameter) "
                            "parameter=p_65_27");
   EXPECT_EQ (rx (reply), "RX device_e.param_get_d1 (Read a drive parameter) "
                          "parameter=p_65_27 value=4");
-  layout::bytes_t const unknown
-      = bytes ({ 0x80, 0xD1, 0x65, 0x28, 0x90, 0x01 });
+  layout::bytes_t const unknown = bytes (
+      { 0x80 /*@p8z*/, 0xD1 /*@p8*/, 0x65 /*@p8*/, 0x28, 0x90, 0x01 });
   EXPECT_TRUE (reply_error<device::param_get_d1_t> (unknown)
                == protocol_errc::unknown_case);
 }
@@ -324,19 +352,23 @@ TEST (LumexProtocolDeviceETest,
       GivenTwoOrThreeValues_WhenWritten_ThenTheThirdIsATailOfTheNewerFirmware)
 {
   layout::bytes_t const two
-      = bytes ({ 0x80, 0x72, 0x65, 0xDD, 0x90, 0x01, 0x58, 0x02 });
+      = bytes ({ 0x80 /*@p8z*/, 0x72 /*@p8*/, 0x65 /*@p8*/, 0xDD /*@p8*/, 0x90,
+                 0x01, 0x58, 0x02 });
   layout::bytes_t const three
-      = bytes ({ 0x80, 0x72, 0x65, 0xDD, 0x90, 0x01, 0x58, 0x02, 0xC8, 0x00 });
+      = bytes ({ 0x80 /*@p8z*/, 0x72 /*@p8*/, 0x65 /*@p8*/, 0xDD /*@p8*/, 0x90,
+                 0x01, 0x58, 0x02, 0xC8, 0x00 });
   expect_request_round_trip<device::set_72_t> (two);
   expect_request_round_trip<device::set_72_t> (three);
-  EXPECT_EQ (tx (two), "TX device_e.set_72 (Write several values of a "
-                       "parameter) node=101 parameter=221 first=400 "
-                       "second=600 third=absent");
-  EXPECT_EQ (tx (three), "TX device_e.set_72 (Write several values of a "
-                         "parameter) node=101 parameter=221 first=400 "
-                         "second=600 third={200}");
+  std::string const head = "TX device_e.set_72 (Write several values of a "
+                           "parameter) node="
+                           + dec (0x65 /*@p8*/)
+                           + " parameter=" + dec (0xDD /*@p8*/)
+                           + " first=400 second=600 third=";
+  EXPECT_EQ (tx (two), head + "absent");
+  EXPECT_EQ (tx (three), head + "{200}");
   layout::bytes_t const half
-      = bytes ({ 0x80, 0x72, 0x65, 0xDD, 0x90, 0x01, 0x58, 0x02, 0xC8 });
+      = bytes ({ 0x80 /*@p8z*/, 0x72 /*@p8*/, 0x65 /*@p8*/, 0xDD /*@p8*/, 0x90,
+                 0x01, 0x58, 0x02, 0xC8 });
   EXPECT_TRUE (request_error<device::set_72_t> (half)
                == protocol_errc::truncated);
 }
@@ -345,10 +377,11 @@ TEST (LumexProtocolDeviceETest,
       GivenAMeasurement_WhenItHasNoTime_ThenTheOlderFirmwareIsDecoded)
 {
   layout::bytes_t const older
-      = bytes ({ 0x80, 0x27, 0x32, 0x01, 0x58, 0x02, 0xE2, 0x04, 0x10, 0x03 });
+      = bytes ({ 0x80 /*@p8z*/, 0x27 /*@p8*/, 0x32, 0x01, 0x58, 0x02, 0xE2,
+                 0x04, 0x10, 0x03 });
   layout::bytes_t const newer
-      = bytes ({ 0x80, 0x27, 0x32, 0x01, 0x58, 0x02, 0xE2, 0x04, 0x10, 0x03,
-                 0x45, 0x23, 0x01, 0x00 });
+      = bytes ({ 0x80 /*@p8z*/, 0x27 /*@p8*/, 0x32, 0x01, 0x58, 0x02, 0xE2,
+                 0x04, 0x10, 0x03, 0x45, 0x23, 0x01, 0x00 });
   expect_reply_round_trip<device::event_27_t> (older);
   expect_reply_round_trip<device::event_27_t> (newer);
   EXPECT_EQ (rx (older), "RX device_e.event_27 (Report a measurement) "
@@ -363,7 +396,8 @@ TEST (LumexProtocolDeviceETest,
       GivenTheStateByte_WhenSplit_ThenTheNibblesAreTheStateAndTheAux)
 {
   layout::bytes_t const frame
-      = bytes ({ 0x80, 0x27, 0x32, 0x01, 0x58, 0x02, 0xE2, 0x04, 0x10, 0x03 });
+      = bytes ({ 0x80 /*@p8z*/, 0x27 /*@p8*/, 0x32, 0x01, 0x58, 0x02, 0xE2,
+                 0x04, 0x10, 0x03 });
   layout::decode_result_t<
       layout::reply_value_of<device::event_27_t>::type> const decoded
       = layout::decode_reply<device, device::event_27_t> (payload_of (frame));
@@ -376,11 +410,13 @@ TEST (LumexProtocolDeviceETest,
 TEST (LumexProtocolDeviceETest,
       GivenTheManagerState_WhenReported_ThenTheEnumerationIsStrict)
 {
-  layout::bytes_t const known = bytes ({ 0x80, 0xD9, 0xF4 });
+  layout::bytes_t const known
+      = bytes ({ 0x80 /*@p8z*/, 0xD9 /*@p8*/, 0xF4 /*@p8*/ });
   expect_reply_round_trip<device::report_d9_t> (known);
   EXPECT_EQ (rx (known), "RX device_e.report_d9 (Report the manager state) "
                          "reply=st_f4");
-  layout::bytes_t const unknown = bytes ({ 0x80, 0xD9, 0x11 });
+  layout::bytes_t const unknown
+      = bytes ({ 0x80 /*@p8z*/, 0xD9 /*@p8*/, 0x01 });
   EXPECT_TRUE (reply_error<device::report_d9_t> (unknown)
                == protocol_errc::invalid_value);
   EXPECT_NE (rx (unknown).find ("[decode error:"), std::string::npos);
@@ -393,24 +429,28 @@ TEST (LumexProtocolDeviceETest,
   ASSERT_TRUE ((layout::encode_request<device, device::param_get_83_t> (
                     out, tables::service::s_nv)
                     .has_value ()));
-  EXPECT_EQ (out, bytes ({ 0x4E, 0x56 }));
+  EXPECT_EQ (out, bytes ({ 'N' /*@text*/, 'V' /*@text*/ }));
   out.clear ();
   ASSERT_TRUE ((layout::encode_request<device, device::param_set_cc_t> (
                     out, tables::service::s_nv, 6699.0)
                     .has_value ()));
-  EXPECT_EQ (out, bytes ({ 0x4E, 0x56, 0x2B, 0x1A, 0x00, 0x00 }));
+  EXPECT_EQ (out,
+             bytes ({ 'N' /*@text*/, 'V' /*@text*/, 0x2B, 0x1A, 0x00, 0x00 }));
   layout::bytes_t const write
-      = bytes ({ 0x80, 0xCC, 0x4E, 0x56, 0x2B, 0x1A, 0x00, 0x00 });
+      = bytes ({ 0x80 /*@p8z*/, 0xCC /*@p8*/, 'N' /*@text*/, 'V' /*@text*/,
+                 0x2B, 0x1A, 0x00, 0x00 });
   expect_request_round_trip<device::param_set_cc_t> (write);
   EXPECT_EQ (tx (write), "TX device_e.param_set_cc (Write a service "
                          "parameter) parameter=s_nv value=6699");
   layout::bytes_t const reply
-      = bytes ({ 0x80, 0x83, 0x4E, 0x56, 0x2B, 0x1A, 0x00, 0x00 });
+      = bytes ({ 0x80 /*@p8z*/, 0x83 /*@p8*/, 'N' /*@text*/, 'V' /*@text*/,
+                 0x2B, 0x1A, 0x00, 0x00 });
   expect_reply_round_trip<device::param_get_83_t> (reply);
   EXPECT_EQ (rx (reply), "RX device_e.param_get_83 (Read a service "
                          "parameter) parameter=s_nv value=6699");
   layout::bytes_t const other
-      = bytes ({ 0x80, 0x83, 0x4E, 0x57, 0x2B, 0x1A, 0x00, 0x00 });
+      = bytes ({ 0x80 /*@p8z*/, 0x83 /*@p8*/, 'N' /*@text*/, 'W', 0x2B, 0x1A,
+                 0x00, 0x00 });
   EXPECT_TRUE (reply_error<device::param_get_83_t> (other)
                == protocol_errc::unknown_case);
 }
@@ -423,26 +463,27 @@ TEST (LumexProtocolDeviceETest,
   std::size_t first = 0;
   std::size_t second = 0;
   EXPECT_FALSE (registry::find_duplicate_key (drive, first, second));
-  EXPECT_NE (
-      registry::find_entry (drive, registry::make_unit_param_key (0x65, 0x27)),
-      nullptr);
-  EXPECT_EQ (
-      registry::find_entry (drive, registry::make_unit_param_key (0x65, 0x28)),
-      nullptr);
-  EXPECT_EQ (
-      registry::find_entry (drive, registry::make_unit_param_key (0x3F, 0x27)),
-      nullptr);
+  EXPECT_NE (registry::find_entry (drive, registry::make_unit_param_key (
+                                              0x65 /*@p8*/, 0x27 /*@p8*/)),
+             nullptr);
+  EXPECT_EQ (registry::find_entry (
+                 drive, registry::make_unit_param_key (0x65 /*@p8*/, 0x28)),
+             nullptr);
+  EXPECT_EQ (registry::find_entry (
+                 drive, registry::make_unit_param_key (0x3F, 0x27 /*@p8*/)),
+             nullptr);
   registry::entries_t const service = tables::service::entries ();
   EXPECT_EQ (service.size (), 1u);
-  EXPECT_NE (
-      registry::find_entry (service, registry::make_mnemonic_key ("NV")),
-      nullptr);
+  EXPECT_NE (registry::find_entry (
+                 service, registry::make_mnemonic_key ("NV" /*@text*/)),
+             nullptr);
 }
 
 TEST (LumexProtocolDeviceETest,
       GivenAFrameOfAnotherAddressOrKey_WhenDescribed_ThenItIsUnknown)
 {
-  layout::bytes_t const frame = bytes ({ 0x80, 0x01, 0x02 });
-  EXPECT_EQ (rx (frame), "RX unknown key=0x01 len=3: 80 01 02");
-  EXPECT_EQ (rx (bytes ({ 0x80 })), "RX unknown len=1: 80");
+  layout::bytes_t const frame = bytes ({ 0x80 /*@p8z*/, 0x09, 0x02 });
+  EXPECT_EQ (rx (frame), "RX unknown key=0x09 len=3: " + hexdump (frame));
+  layout::bytes_t const lone = bytes ({ 0x80 /*@p8z*/ });
+  EXPECT_EQ (rx (lone), "RX unknown len=1: " + hexdump (lone));
 }

@@ -30,8 +30,8 @@ namespace registry = lumex::core::protocol::registry;
 namespace index = lumex::core::protocol::index;
 
 /// The two working modes of the device.
-LUMEX_DEFINE_REFLECTED_ENUM (power_mode, std::uint8_t, (m_15, 0x15),
-                             (m_3f, 0x3F))
+LUMEX_DEFINE_REFLECTED_ENUM (power_mode, std::uint8_t, (m_15, 0x15 /*@p8*/),
+                             (m_3f, 0x3F /*@p8*/))
 
 struct codec
 {
@@ -55,7 +55,7 @@ LUMEX_PROTOCOL_LAYOUT (identity_t, (by_length_<5, serial_t, record_t>),
 
 // clang-format off
 #define FAMILY_G_ROWS(X, X_AS) \
-  X (query_ad, 0xAD, "Query the identity record", (), (), (identity_t), \
+  X (query_ad, 0xAD /*@p8*/, "Query the identity record", (), (), (identity_t), \
      (idempotent))
 // clang-format on
 LUMEX_PROTOCOL_DEFINE (family_g, codec, family_header, FAMILY_G_ROWS);
@@ -80,19 +80,19 @@ LUMEX_PROTOCOL_LAYOUT (counters_t, (i16_le_, i16_le_, i16_le_, i16_le_),
 
 // clang-format off
 LUMEX_PROTOCOL_LAYOUT (statistics_t,
-  (union_by_<u8_, case_<0xAD, cpu_t>, case_<0x65, stack_t> >),
+  (union_by_<u8_, case_<0xAD /*@p8*/, cpu_t>, case_<0x65 /*@p8*/, stack_t> >),
   ("statistics"));
 
 #define DEVICE_G_ROWS(X, X_AS) \
-  X (set_65, 0x65, "Set the working mode", (enum_<u8_, power_mode>), \
+  X (set_65, 0x65 /*@p8*/, "Set the working mode", (enum_<u8_, power_mode>), \
      ("mode"), (), (dangerous)) \
-  X (report_d9, 0xD9, "Report the state", (), (), (state_t), \
+  X (report_d9, 0xD9 /*@p8*/, "Report the state", (), (), (state_t), \
      (stream (1000))) \
-  X (error_44, 0x44, "Report an error", (), (), (u8_), ()) \
-  X (query_b8, 0xB8, "Query a node", (u8_), ("node"), (), ()) \
-  X (report_ab, 0xAB, "Report statistics", (), (), (statistics_t), \
+  X (error_44, 0x44 /*@p8*/, "Report an error", (), (), (u8_), ()) \
+  X (query_b8, 0xB8 /*@p8*/, "Query a node", (u8_), ("node"), (), ()) \
+  X (report_ab, 0xAB /*@p8*/, "Report statistics", (), (), (statistics_t), \
      (stream (5000))) \
-  X (debug_8e, 0x8E, "Report the debug counters", (), (), \
+  X (debug_8e, 0x8E /*@p8*/, "Report the debug counters", (), (), \
      (counters_t), (stream (500)))
 // clang-format on
 LUMEX_PROTOCOL_EXTEND (device_g, family_g, DEVICE_G_ROWS);
@@ -112,9 +112,9 @@ LUMEX_PROTOCOL_LAYOUT (groups_t,
 
 // clang-format off
 #define OLD_G_ROWS(X, X_AS) \
-  X (query_53, 'S', "Query the state of the groups", (), (), \
+  X (query_53, 'S' /*@text*/, "Query the state of the groups", (), (), \
      (split_<u8_, groups_t>), (idempotent)) \
-  X (set_43, 'C', "Switch the groups", (split_<u8_, groups_t>), \
+  X (set_43, 'C' /*@text*/, "Switch the groups", (split_<u8_, groups_t>), \
      ("groups"), (), (dangerous))
 // clang-format on
 LUMEX_PROTOCOL_DEFINE (old_g, codec, old_header, OLD_G_ROWS);

@@ -30,8 +30,9 @@ namespace registry = lumex::core::protocol::registry;
 namespace index = lumex::core::protocol::index;
 
 /// What a measurement command asks the device to do.
-LUMEX_DEFINE_REFLECTED_ENUM (run_state, std::uint8_t, (c_15, 0x15),
-                             (c_ad, 0xAD), (c_65, 0x65), (c_3f, 0x3F))
+LUMEX_DEFINE_REFLECTED_ENUM (run_state, std::uint8_t, (c_15, 0x15 /*@p8*/),
+                             (c_ad, 0xAD /*@p8*/), (c_65, 0x65 /*@p8*/),
+                             (c_3f, 0x3F /*@p8*/))
 
 struct codec
 {
@@ -49,8 +50,8 @@ struct plain_header
 /// bits.
 // clang-format off
 #define WORK_PARAMS(P, P_AS) \
-  P (w_15, (0x15), "Working parameter A", (u8_), RW, (limits (0, 3))) \
-  P (w_ad, (0xAD), "Working parameter B", (u16_le_), RW, (limits (0, 1000)))
+  P (w_15, (0x15 /*@p8*/), "Working parameter A", (u8_), RW, (limits (0, 3))) \
+  P (w_ad, (0xAD /*@p8*/), "Working parameter B", (u16_le_), RW, (limits (0, 1000)))
 // clang-format on
 LUMEX_PROTOCOL_REGISTRY (work, WORK_PARAMS);
 
@@ -85,31 +86,31 @@ LUMEX_PROTOCOL_LAYOUT (
 
 // clang-format off
 #define DEVICE_I_ROWS(X, X_AS) \
-  X (query_ad, 0xAD, "Query the identity record", (), (), (info_t), \
+  X (query_ad, 0xAD /*@p8*/, "Query the identity record", (), (), (info_t), \
      (idempotent, timeout (1200), retries (2))) \
-  X (report_65, 0x65, "Report the link counters", (), (), (counters_t), \
+  X (report_65, 0x65 /*@p8*/, "Report the link counters", (), (), (counters_t), \
      (stream (1000))) \
-  X (start_3f, 0x3F, "Start or stop a run", (enum_<u8_, run_state>), \
+  X (start_3f, 0x3F /*@p8*/, "Start or stop a run", (enum_<u8_, run_state>), \
      ("state"), (), ()) \
-  X (event_72, 0x72, "Make one pulse", (), (), (pulse_t), ()) \
-  X (event_27, 0x27, "Report a measurement", (), (), (counts_t), \
+  X (event_72, 0x72 /*@p8*/, "Make one pulse", (), (), (pulse_t), ()) \
+  X (event_27, 0x27 /*@p8*/, "Report a measurement", (), (), (counts_t), \
      (stream (200))) \
-  X (set_38, 0x38, "Enable the status messages", (u8_), ("enable"), (), ()) \
-  X (query_4b, 0x4B, "Query the status", (), (), (u16_le_), (idempotent)) \
-  X (error_f8, 0xF8, "Report an error", (), (), (fault_t), ()) \
-  X (set_b2, 0xB2, "Lock the keyboard", (u8_), ("lock"), (), ()) \
-  X (query_c7, 0xC7, "Query the keyboard", (), (), (u8_), (idempotent)) \
-  X (param_get_bb, 0xBB, "Read a working parameter", \
+  X (set_38, 0x38 /*@p8*/, "Enable the status messages", (u8_), ("enable"), (), ()) \
+  X (query_4b, 0x4B /*@p8*/, "Query the status", (), (), (u16_le_), (idempotent)) \
+  X (error_f8, 0xF8 /*@p8*/, "Report an error", (), (), (fault_t), ()) \
+  X (set_b2, 0xB2 /*@p8*/, "Lock the keyboard", (u8_), ("lock"), (), ()) \
+  X (query_c7, 0xC7 /*@p8*/, "Query the keyboard", (), (), (u8_), (idempotent)) \
+  X (param_get_bb, 0xBB /*@p8*/, "Read a working parameter", \
      (registry_key_<work, u8_>), ("parameter"), (work_value_t), \
      (idempotent)) \
-  X (param_set_00, 0x00, "Write a working parameter", \
+  X (param_set_00, 0x00 /*@p8*/, "Write a working parameter", \
      (registry_key_<work, u8_>, u8_, registry_value_<work, 0, u16_le_>), \
      ("parameter", "zero", "value"), (), ()) \
-  X (query_8b, 0x8B, "Query the state of the device", (), (), (u8_), \
+  X (query_8b, 0x8B /*@p8*/, "Query the state of the device", (), (), (u8_), \
      (idempotent)) \
-  X (debug_99, 0x99, "Report the debug word", (), (), (u32_le_), \
+  X (debug_99, 0x99 /*@p8*/, "Report the debug word", (), (), (u32_le_), \
      (stream (500))) \
-  X (switch_back_7b, 0x7B, "Switch back to the other protocol", \
+  X (switch_back_7b, 0x7B /*@m8*/, "Switch back to the other protocol", \
      (u8_, u8_, u8_, u8_), ("m1", "m2", "m3", "m4"), (), (dangerous))
 // clang-format on
 LUMEX_PROTOCOL_DEFINE (device_i, codec, plain_header, DEVICE_I_ROWS);
@@ -118,7 +119,7 @@ LUMEX_PROTOCOL_DEFINE (device_i, codec, plain_header, DEVICE_I_ROWS);
 /// the frame that switches the device to the protocol above.
 // clang-format off
 #define ALT_I_ROWS(X, X_AS) \
-  X (switch_f7, 0xF7, "Switch to the main protocol", \
+  X (switch_f7, 0xF7 /*@m8*/, "Switch to the main protocol", \
      (u8_, u8_, u8_, u8_, u8_), ("m1", "m2", "m3", "m4", "end"), (), \
      (dangerous))
 // clang-format on
@@ -131,11 +132,11 @@ inline layout::bytes_t
 switch_in ()
 {
   layout::bytes_t out;
-  out.push_back (0xF7);
-  out.push_back (0xF8);
-  out.push_back (0xC9);
-  out.push_back (0xAB);
-  out.push_back (0x3E);
+  out.push_back (0xF7 /*@m8*/);
+  out.push_back (0xF8 /*@m8*/);
+  out.push_back (0xC9 /*@m8*/);
+  out.push_back (0xAB /*@m8*/);
+  out.push_back (0x3E /*@m8*/);
   out.push_back (0xC0);
   return out;
 }
@@ -145,11 +146,11 @@ inline layout::bytes_t
 switch_back ()
 {
   layout::bytes_t out;
-  out.push_back (0x7B);
-  out.push_back (0xF8);
-  out.push_back (0xC9);
-  out.push_back (0xAB);
-  out.push_back (0x3E);
+  out.push_back (0x7B /*@m8*/);
+  out.push_back (0xF8 /*@m8*/);
+  out.push_back (0xC9 /*@m8*/);
+  out.push_back (0xAB /*@m8*/);
+  out.push_back (0x3E /*@m8*/);
   return out;
 }
 
