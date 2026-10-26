@@ -17,7 +17,9 @@ using lumex::core::protocol::error::protocol_errc;
 protocol_errc const kEveryValue[]
     = { protocol_errc::truncated,      protocol_errc::trailing_bytes,
         protocol_errc::invalid_value,  protocol_errc::unknown_frame,
-        protocol_errc::limit_exceeded, protocol_errc::unknown_case };
+        protocol_errc::limit_exceeded, protocol_errc::unknown_case,
+        protocol_errc::access_denied,  protocol_errc::not_supported,
+        protocol_errc::duplicate_key,  protocol_errc::out_of_limits };
 } // namespace
 
 TEST (LumexProtocolErrcTest, GivenTheCategory_WhenNamed_ThenItIsLumexProtocol)
@@ -53,6 +55,10 @@ TEST (LumexProtocolErrcTest,
   EXPECT_EQ (static_cast<int> (protocol_errc::unknown_frame), 4);
   EXPECT_EQ (static_cast<int> (protocol_errc::limit_exceeded), 5);
   EXPECT_EQ (static_cast<int> (protocol_errc::unknown_case), 6);
+  EXPECT_EQ (static_cast<int> (protocol_errc::access_denied), 7);
+  EXPECT_EQ (static_cast<int> (protocol_errc::not_supported), 8);
+  EXPECT_EQ (static_cast<int> (protocol_errc::duplicate_key), 9);
+  EXPECT_EQ (static_cast<int> (protocol_errc::out_of_limits), 10);
 }
 
 // The text of every code is part of the log lines and the reports a user
@@ -72,6 +78,14 @@ TEST (LumexProtocolErrcTest,
              "count larger than the capacity of its field");
   EXPECT_EQ (std::error_code (protocol_errc::unknown_case).message (),
              "discriminant matches no case of the union");
+  EXPECT_EQ (std::error_code (protocol_errc::access_denied).message (),
+             "the registry entry does not allow this access");
+  EXPECT_EQ (std::error_code (protocol_errc::not_supported).message (),
+             "not available in the firmware or model of the session");
+  EXPECT_EQ (std::error_code (protocol_errc::duplicate_key).message (),
+             "two entries of a table have the same key");
+  EXPECT_EQ (std::error_code (protocol_errc::out_of_limits).message (),
+             "value outside the limits of the registry entry");
 }
 
 TEST (LumexProtocolErrcTest,

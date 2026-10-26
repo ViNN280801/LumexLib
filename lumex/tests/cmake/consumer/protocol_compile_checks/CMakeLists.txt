@@ -33,6 +33,13 @@
 #  27 a fractional argument for an integer field without scale
 #  28 a header vocabulary that does not derive from dsl::vocabulary
 #  29 a layout that names itself among its fields
+#  30 a registry key given an enumerator of another registry
+#  31 two rows with one integer key on the wire, asked for the index
+#  32 a registry row with two types
+#  33 a registry row named after a platform macro without P_AS
+#  34 a registry value given a string
+#  35 the index of a binary layer without a key width or a key reader
+#  36 a registry with a floating entry used by registry_value_
 # The compiler's messages are matched in English. Everything runs at
 # configure time (try_compile), at C++11 (MSVC: C++14, its lowest) and C++20.
 
@@ -100,6 +107,13 @@ _lumex_case(26 "two parts of split_<Word, ...> share a bit")
 _lumex_case(27 "an integer field without scale<> takes an integer")
 _lumex_case(28 "the lumex_vocabulary of a header derives from dsl::vocabulary")
 _lumex_case(29 "a field of the layout node_t names its own type")
+_lumex_case(30 "a registry_key_ takes an enumerator of its own registry")
+_lumex_case(31 "two rows of the protocol have the same integer key on the wire")
+_lumex_case(32 "the type group of a row holds exactly one field")
+_lumex_case(33 "row identifier DELETE ${_macro_regex}")
+_lumex_case(34 "a registry_value_ takes an engineering value")
+_lumex_case(35 "names the width of the key on the wire")
+_lumex_case(36 "every entry of the registry has an integer")
 
 function(_lumex_protocol_try result_var tag standard)
     try_compile(_ok "${CMAKE_BINARY_DIR}/try_${tag}"

@@ -46,6 +46,7 @@
 #include <cstdio>
 #include <cstring>
 #include <ratio>
+#include <string>
 
 #include "lumex/core/protocol/LumexProtocol"
 
@@ -59,6 +60,7 @@ struct codec
 
 struct header
 {
+  static constexpr std::size_t key_width = 4;
 };
 
 enum class phase
@@ -111,6 +113,11 @@ struct client : platform_layer::lumex_methods<client>
   }
 };
 
+// clang-format off
+#define PLATFORM_PARAMS(P, P_AS)                                                P_AS (INPUT_LEVEL, "IN", (1), "Input level", (u8_<>), RW, (limits (0, 9)))    P_AS (OUTPUT_LEVEL, "OUT", (2), "Output level", (u8_<>), W, ())
+// clang-format on
+LUMEX_PROTOCOL_REGISTRY (platform_params, PLATFORM_PARAMS);
+
 int
 check ()
 {
@@ -140,6 +147,22 @@ check ()
     ++failures;
   if (!dsl::is_platform_macro_name ("DELETE")
       || dsl::is_platform_macro_name ("DELETE_ITEM"))
+    ++failures;
+
+  // The registry, the index and the exports work with the macros defined.
+  lumex::core::protocol::index::index_result_t const built
+      = lumex::core::protocol::index::build_index<platform_layer,
+                                                  platform_params> ();
+  if (!built.has_value () || built->rows ().size () != 15
+      || built->find_name ("DELETE") == nullptr
+      || built->find_name ("MIN_LEVEL") == nullptr
+      || built->find_registry ("platform_params") == nullptr
+      || std::strcmp (platform_params::entries ()[1].specification_name, "OUT")
+             != 0)
+    ++failures;
+  else if (lumex::core::protocol::index::export_markdown (*built).find (
+               "### DELETE")
+           == std::string::npos)
     ++failures;
 
   // The field and layout code works with the macros defined too.
