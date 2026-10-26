@@ -42,6 +42,7 @@
 
 #include "LumexLoggerTriggerFile.hpp"
 #include "lumex/applied/logger/LumexLogger"
+#include "lumex/tests/support/LumexTestUtf8Files.hpp"
 
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -355,6 +356,77 @@ protected:
   LumexLogger *logger_ = nullptr;
   std::string trigger_path_;
 };
+
+// --- UTF-8 paths ------------------------------------------------------------
+
+// The logger's paths are UTF-8. A trigger file in a Cyrillic directory (the
+// trigger name is a path below the logger's directory) was not seen on
+// Windows: the narrow Win32 call and the stream read the name in the ANSI code
+// page.
+TEST_F (LumexLoggerRereadTest,
+        GivenTriggerFileInACyrillicDirectory_WhenReread_ThenTheLogIsEnabled)
+{
+  namespace files = lumex_test::utf8_files;
+  std::string const directory_name = files::cyrillic ("_logger_trigger");
+  std::string const directory
+      = trigger::path_in_logger_directory (directory_name);
+  ASSERT_TRUE (files::make_directory (directory));
+  std::string const name = directory_name + "/" + files::cyrillic (".cfg");
+  std::string const file = directory + "/" + files::cyrillic (".cfg");
+  logger_->set_trigger_file_name (name);
+
+  bool const written
+      = files::write_file (file, trigger::config_text ("debug"));
+  logger_->force_reread ();
+  bool const enabled = logger_->is_logging_enabled ();
+  LogLevel const level = logger_->get_log_level ();
+  std::string const log_path = logger_->get_log_file_path ();
+  logger_->log (LogLevel::LEVEL_DEBUG, "cyrillic-trigger-marker");
+  logger_->flush ();
+
+  files::remove_file (file);
+  logger_->force_reread ();
+  bool const closed = !logger_->is_logging_enabled ();
+  std::string log_text;
+  files::read_file (log_path, log_text);
+  trigger::remove_file (log_path);
+  files::remove_directory (directory);
+
+  ASSERT_TRUE (written);
+  EXPECT_TRUE (enabled) << "the trigger file under " << directory
+                        << " was not seen";
+  EXPECT_EQ (level, LogLevel::LEVEL_DEBUG);
+  EXPECT_NE (log_text.find ("cyrillic-trigger-marker"), std::string::npos);
+  EXPECT_NE (log_text.find (files::cyrillic (".cfg")), std::string::npos)
+      << "the log names its trigger file";
+  EXPECT_TRUE (closed);
+}
+
+#if defined(_WIN32)
+// A trigger path that is not valid UTF-8 is not a trigger file: the name of
+// the skipped bytes would be the name of another file.
+TEST_F (LumexLoggerRereadTest,
+        GivenTriggerNameThatIsNotUtf8_WhenReread_ThenNothingIsEnabled)
+{
+  namespace files = lumex_test::utf8_files;
+  std::string const other
+      = trigger::path_in_logger_directory (std::string (kTriggerName) + "_ab");
+  ASSERT_TRUE (files::write_file (other, trigger::config_text ("debug")));
+  logger_->set_trigger_file_name (std::string (kTriggerName)
+                                  + "_a\xFF"
+                                    "b");
+
+  logger_->force_reread ();
+  bool const enabled = logger_->is_logging_enabled ();
+  std::string const log_path = logger_->get_log_file_path ();
+
+  files::remove_file (other);
+  logger_->force_reread ();
+  if (!log_path.empty ())
+    trigger::remove_file (log_path);
+  EXPECT_FALSE (enabled);
+}
+#endif
 
 // --- Appear / disappear -----------------------------------------------------
 

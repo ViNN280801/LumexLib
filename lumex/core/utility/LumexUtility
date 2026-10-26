@@ -83,6 +83,7 @@
 #include "process/LumexProcess.hpp"
 #include "sequence/LumexIndexSequence.hpp"
 #include "traits/LumexTypeTraits.hpp"
+#include "util/LumexUtf8FileName.hpp"
 #include "util/LumexUtilities.hpp"
 
 #include "bit/LumexBit.hpp"

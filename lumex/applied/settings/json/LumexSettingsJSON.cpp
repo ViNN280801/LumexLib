@@ -108,7 +108,9 @@ load_keys_from_object (
 bool
 load_json_object (::nlohmann::json &root, std::string const &path)
 {
-  std::ifstream file (path.c_str ());
+  std::ifstream file;
+  lumex::core::filesystem::fs::lumex_filesystem::open_stream (
+      file, lumex::path (path));
   if (!file.is_open ())
     return false;
 
