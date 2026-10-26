@@ -14,6 +14,8 @@
 #include <algorithm>
 #include <clocale>
 #include <cstddef>
+#include <cstdio>
+#include <cstdlib>
 #include <cstring>
 #include <ctime>
 #include <string>
@@ -252,9 +254,8 @@ TEST (LumexFilesystemUnicodeTest,
 // The bug: on Windows exists, is_directory, is_regular_file and
 // create_directory passed the UTF-8 bytes of the path to the ...A functions,
 // which read them in the ANSI code page. A Cyrillic directory was created
-// under a garbled name (or not at all: U+1F600 has a byte that code page 1251
-// does not define), and a file created by another program under its real name
-// was not found. The checks below ask the system itself, through its wide
+// under a garbled name, and a file created by another program under its real
+// name was not found. The checks below ask the system itself, through its wide
 // interface on Windows and through the bytes on POSIX, so they see the name
 // the way every other program does.
 namespace
@@ -746,4 +747,190 @@ TEST_F (LumexFilesystemUnicodeDiskTest,
   ASSERT_TRUE (result.success ()) << "error " << result.error_code ();
   EXPECT_EQ (result.value (), 3U);
   EXPECT_FALSE (native_exists (directory));
+}
+
+namespace
+{
+// The absolute form of `p`, from the system itself.
+std::string
+native_absolute (path const &p)
+{
+#if defined(_WIN32)
+  std::wstring const wide = p.wstring ();
+  DWORD const size = GetFullPathNameW (wide.c_str (), 0, nullptr, nullptr);
+  std::wstring full (size, L'\0');
+  DWORD const length
+      = GetFullPathNameW (wide.c_str (), size, &full[0], nullptr);
+  full.resize (length);
+  return lumex_filesystem::from_wide_string (full);
+#else
+  char *const resolved = realpath (p.c_str (), nullptr);
+  std::string const full = resolved != nullptr ? resolved : "";
+  std::free (resolved);
+  return full;
+#endif
+}
+
+// Changes the current directory of the process and puts the old one back.
+class CurrentDirectoryGuard
+{
+public:
+  CurrentDirectoryGuard ()
+  {
+#if defined(_WIN32)
+    DWORD const size = GetCurrentDirectoryW (0, nullptr);
+    m_saved.resize (size);
+    m_saved.resize (GetCurrentDirectoryW (size, &m_saved[0]));
+#else
+    char *const current = getcwd (nullptr, 0);
+    m_saved = current != nullptr ? current : "";
+    std::free (current);
+#endif
+  }
+
+  ~CurrentDirectoryGuard ()
+  {
+#if defined(_WIN32)
+    SetCurrentDirectoryW (m_saved.c_str ());
+#else
+    if (chdir (m_saved.c_str ()) != 0)
+      std::perror ("chdir");
+#endif
+  }
+
+  CurrentDirectoryGuard (CurrentDirectoryGuard const &) = delete;
+  CurrentDirectoryGuard &operator= (CurrentDirectoryGuard const &) = delete;
+
+private:
+#if defined(_WIN32)
+  std::wstring m_saved;
+#else
+  std::string m_saved;
+#endif
+};
+
+// Sets the variable GetTempPathW (Windows: TMP) or the POSIX branch (TMPDIR)
+// reads first, and puts the old value back.
+class TemporaryVariableGuard
+{
+public:
+  explicit TemporaryVariableGuard (std::string const &value)
+  {
+#if defined(_WIN32)
+    DWORD const size = GetEnvironmentVariableW (L"TMP", nullptr, 0);
+    m_had = size != 0;
+    if (m_had)
+      {
+        m_saved.resize (size);
+        m_saved.resize (GetEnvironmentVariableW (L"TMP", &m_saved[0], size));
+      }
+    SetEnvironmentVariableW (
+        L"TMP", lumex_filesystem::to_wide_string (value).c_str ());
+#else
+    char const *const old = std::getenv ("TMPDIR");
+    m_had = old != nullptr;
+    if (m_had)
+      m_saved = old;
+    setenv ("TMPDIR", value.c_str (), 1);
+#endif
+  }
+
+  ~TemporaryVariableGuard ()
+  {
+#if defined(_WIN32)
+    SetEnvironmentVariableW (L"TMP", m_had ? m_saved.c_str () : nullptr);
+#else
+    if (m_had)
+      setenv ("TMPDIR", m_saved.c_str (), 1);
+    else
+      unsetenv ("TMPDIR");
+#endif
+  }
+
+  TemporaryVariableGuard (TemporaryVariableGuard const &) = delete;
+  TemporaryVariableGuard &operator= (TemporaryVariableGuard const &) = delete;
+
+private:
+  bool m_had;
+#if defined(_WIN32)
+  std::wstring m_saved;
+#else
+  std::string m_saved;
+#endif
+};
+} // namespace
+
+TEST_F (LumexFilesystemUnicodeDiskTest,
+        GivenCyrillicDirectory_WhenCurrentPathSetAndRead_ThenItsName)
+{
+  path const cyrillic = m_base / kPrivetUtf8;
+  ASSERT_TRUE (native_create_directory (cyrillic));
+  created (cyrillic, true);
+  std::string const expected = native_absolute (cyrillic);
+  ASSERT_FALSE (expected.empty ());
+
+  {
+    CurrentDirectoryGuard const restore;
+    auto const set = lumex_filesystem::current_path (cyrillic);
+    ASSERT_TRUE (set.success ()) << "error " << set.error_code ();
+    auto const got = lumex_filesystem::current_path ();
+    ASSERT_TRUE (got.success ()) << "error " << got.error_code ();
+    EXPECT_EQ (got.value ().string (), expected);
+  }
+}
+
+TEST_F (LumexFilesystemUnicodeDiskTest,
+        GivenCyrillicWorkingDirectory_WhenCanonical_ThenTheUtf8AbsoluteName)
+{
+  // The working directory matters: GetFullPathNameA reads the bytes of a
+  // relative path in the ANSI code page and writes them back the same way
+  // (an undefined byte maps to a C1 control and back), so the bytes of the
+  // argument survive; the working directory it puts in front comes from the
+  // system in that code page, not in UTF-8.
+  path const cyrillic = m_base / kPrivetUtf8;
+  ASSERT_TRUE (native_create_directory (cyrillic));
+  created (cyrillic, true);
+  // realpath (POSIX) resolves only a name that exists.
+  ASSERT_TRUE (native_create_file (cyrillic / "x"));
+  created (cyrillic / "x", false);
+  std::string const expected = native_absolute (cyrillic) + "/x";
+
+  path result;
+  {
+    CurrentDirectoryGuard const restore;
+#if defined(_WIN32)
+    ASSERT_NE (SetCurrentDirectoryW (cyrillic.wstring ().c_str ()), 0);
+#else
+    ASSERT_EQ (chdir (cyrillic.c_str ()), 0);
+#endif
+    result = lumex_filesystem::canonical (path ("x"));
+  }
+
+  // GetFullPathNameW writes backslashes; the expectation is built with "/".
+  std::string text = result.string ();
+  std::replace (text.begin (), text.end (), '\\', '/');
+  std::string wanted = expected;
+  std::replace (wanted.begin (), wanted.end (), '\\', '/');
+  EXPECT_EQ (text, wanted);
+}
+
+TEST_F (LumexFilesystemUnicodeDiskTest,
+        GivenCyrillicTemporaryDirectory_WhenTempDirectoryPath_ThenItsName)
+{
+  path const cyrillic = m_base / kPrivetUtf8;
+  ASSERT_TRUE (native_create_directory (cyrillic));
+  created (cyrillic, true);
+  std::string const absolute = native_absolute (cyrillic);
+  ASSERT_FALSE (absolute.empty ());
+  TemporaryVariableGuard const variable (absolute);
+
+  auto const result = lumex_filesystem::temp_directory_path ();
+
+  ASSERT_TRUE (result.success ()) << "error " << result.error_code ();
+  // GetTempPathW ends the directory with a separator; TMPDIR is returned as
+  // it is.
+  std::string text = result.value ().string ();
+  if (!text.empty () && (text.back () == '\\' || text.back () == '/'))
+    text.erase (text.size () - 1);
+  EXPECT_EQ (text, absolute);
 }
