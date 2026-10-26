@@ -94,7 +94,19 @@ enum class protocol_errc : int
   limit_exceeded = 5,
   /// The discriminant of a union (a field or a session value) matches none
   /// of its cases, or the session does not know the value.
-  unknown_case = 6
+  unknown_case = 6,
+  /// A registry entry does not allow the access (a write of a read-only
+  /// entry, a read of a write-only one).
+  access_denied = 7,
+  /// A registry entry or a row does not exist in the firmware or the model
+  /// of the session.
+  not_supported = 8,
+  /// Two rows of a protocol, or two entries of a registry, have the same
+  /// key on the wire (the index refuses the table).
+  duplicate_key = 9,
+  /// A value to write is representable but outside the limits of its
+  /// registry entry.
+  out_of_limits = 10
 };
 
 /**
