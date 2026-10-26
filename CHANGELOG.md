@@ -118,6 +118,14 @@
 
 #### Исправлено
 
+##### `LumexFilesystem`: пути не в ASCII на Windows
+
+**Файлы:** `lumex/core/filesystem/fs/LumexFilesystem.cpp`, `lumex/tests/core/filesystem/fs/LumexFilesystemUnicode.cxx11.tests.cpp`.
+
+**Суть:** `path` хранит UTF-8, а Windows-ветка передавала его байты функциям `...A`, которые читают их в кодовой странице ANSI. Каталог с кириллицей создавался под искаженным именем (или не создавался: в U+1F600 есть байт, которого нет в кодовой странице 1251), а файл, созданный другой программой под настоящим именем, не находился. `exists`, `is_directory`, `is_regular_file` и `create_directory` (а с ними `create_directories`) теперь вызывают функции `...W` с `path::wstring ()`.
+
+**Проверено:** cl.exe: новые тесты `LumexFilesystemUnicodeDiskTest` проверяют имена через интерфейс самой ОС (`GetFileAttributesW` на Windows, `stat` в POSIX); до исправления 3 из 4 падали. `filesystem.*` 312 из 312 при C++11, 17 и 20.
+
 ##### `LumexLibConfig.cmake`: модуль `framing` не входил в `lumex::Lumex`
 
 **Файлы:** `cmake/LumexLibConfig.cmake.in`, `lumex/tests/cmake/cases/wiring_package_config_modules.cmake` (новый), `lumex/tests/cmake/CMakeLists.txt`.

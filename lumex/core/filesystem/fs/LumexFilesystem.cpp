@@ -762,7 +762,9 @@ bool
 lumex_filesystem::exists (path const &path_arg)
 {
 #if defined(LUMEX_OS_WINDOWS)
-  DWORD attrs = GetFileAttributesA (path_arg.c_str ());
+  // The path is UTF-8: an ...A function would read its bytes in the ANSI code
+  // page and see another name as soon as it is not ASCII.
+  DWORD attrs = GetFileAttributesW (path_arg.wstring ().c_str ());
   return attrs != INVALID_FILE_ATTRIBUTES;
 #else
   struct stat stt;
@@ -775,7 +777,7 @@ bool
 lumex_filesystem::is_directory (path const &path_arg)
 {
 #if defined(LUMEX_OS_WINDOWS)
-  DWORD attrs = GetFileAttributesA (path_arg.c_str ());
+  DWORD attrs = GetFileAttributesW (path_arg.wstring ().c_str ());
   return attrs != INVALID_FILE_ATTRIBUTES
          && (attrs & FILE_ATTRIBUTE_DIRECTORY) != 0;
 #else
@@ -791,7 +793,7 @@ bool
 lumex_filesystem::is_regular_file (path const &path_arg)
 {
 #if defined(LUMEX_OS_WINDOWS)
-  DWORD attrs = GetFileAttributesA (path_arg.c_str ());
+  DWORD attrs = GetFileAttributesW (path_arg.wstring ().c_str ());
   return attrs != INVALID_FILE_ATTRIBUTES
          && (attrs & FILE_ATTRIBUTE_DIRECTORY) == 0
          && (attrs & FILE_ATTRIBUTE_DEVICE) == 0;
@@ -808,7 +810,7 @@ filesystem_result<bool>
 lumex_filesystem::create_directory (path const &path_arg)
 {
 #if defined(LUMEX_OS_WINDOWS)
-  if (CreateDirectoryA (path_arg.c_str (), nullptr) != 0)
+  if (CreateDirectoryW (path_arg.wstring ().c_str (), nullptr) != 0)
     return filesystem_result<bool>::ok (true);
   DWORD error = GetLastError ();
   if (error == ERROR_ALREADY_EXISTS && is_directory (path_arg))
