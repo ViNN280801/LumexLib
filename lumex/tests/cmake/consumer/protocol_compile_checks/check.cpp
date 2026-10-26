@@ -50,6 +50,21 @@ LUMEX_PROTOCOL_EXTEND (good_layer, good_protocol, GOOD_LAYER_ROWS);
 static_assert (::lumex::core::protocol::dsl::command_count<good_layer>::value
                    == 4,
                "the good layer has four rows");
+// The keys are different on a one-byte wire (the index needs them to be).
+struct good_header
+{
+  static constexpr std::size_t key_width = 1;
+};
+LUMEX_PROTOCOL_DEFINE (good_wire, codec, good_header, GOOD_ROWS);
+static_assert (::lumex::core::protocol::index::keys_unique<good_wire>::value,
+               "the keys of the good table are different on the wire");
+#define GOOD_PARAMS(P, P_AS)                                                  \
+  P (SPEED, (1), "Speed", (u8_<>), RW, (limits (0, 9)))                       \
+  P_AS (DELETE_ALL, "DELETE", ("AZ"), "Delete", (u8_<>), W, ())
+LUMEX_PROTOCOL_REGISTRY (good_registry, GOOD_PARAMS);
+static_assert (
+    ::lumex::core::protocol::registry::is_registry<good_registry>::value,
+    "the good registry is a registry");
 
 #elif LUMEX_PROTOCOL_BAD_CASE == 1
 // 1: a row with fewer field names than fields.
@@ -286,6 +301,87 @@ LUMEX_PROTOCOL_DEFINE (bad_protocol, codec, lone_header, BAD_ROWS);
 #elif LUMEX_PROTOCOL_BAD_CASE == 29
 // 29: a layout that names itself among its fields.
 LUMEX_PROTOCOL_LAYOUT (node_t, (u8_<>, node_t), ("value", "next"));
+
+#elif LUMEX_PROTOCOL_BAD_CASE == 30
+// 30: a registry key given an enumerator of another registry.
+#define FIRST_PARAMS(P, P_AS) P (SPEED, (1), "Speed", (u8_<>), RW, ())
+#define SECOND_PARAMS(P, P_AS) P (LEVEL, (1), "Level", (u8_<>), RW, ())
+LUMEX_PROTOCOL_REGISTRY (first_registry, FIRST_PARAMS);
+LUMEX_PROTOCOL_REGISTRY (second_registry, SECOND_PARAMS);
+void
+use_wrong_registry ()
+{
+  first_registry::id value = first_registry::SPEED;
+  ::lumex::core::protocol::registry::registry_key_<
+      first_registry,
+      ::lumex::core::protocol::field::u8_<>>::assign (value,
+                                                      second_registry::LEVEL);
+}
+
+#elif LUMEX_PROTOCOL_BAD_CASE == 31
+// 31: two rows with one integer key on the wire, asked for the index.
+struct narrow_header
+{
+  static constexpr std::size_t key_width = 1;
+};
+#define BAD_ROWS(X, X_AS)                                                     \
+  X (ONE, 0x01, "One", (), (), (), ())                                        \
+  X (TWO, 0x101, "Two", (), (), (), ())
+LUMEX_PROTOCOL_DEFINE (bad_protocol, codec, narrow_header, BAD_ROWS);
+void
+use_index ()
+{
+  (void)::lumex::core::protocol::index::protocol_index<bad_protocol> ();
+}
+
+#elif LUMEX_PROTOCOL_BAD_CASE == 32
+// 32: a registry row with two types.
+#define BAD_PARAMS(P, P_AS) P (SPEED, (1), "Speed", (u8_<>, u8_<>), RW, ())
+LUMEX_PROTOCOL_REGISTRY (bad_registry, BAD_PARAMS);
+
+#elif LUMEX_PROTOCOL_BAD_CASE == 33
+// 33: a registry row named after a platform macro without P_AS.
+#define BAD_PARAMS(P, P_AS) P (DELETE, (1), "Delete", (u8_<>), RW, ())
+LUMEX_PROTOCOL_REGISTRY (bad_registry, BAD_PARAMS);
+
+#elif LUMEX_PROTOCOL_BAD_CASE == 34
+// 34: a registry value given a string.
+#define VALUE_PARAMS(P, P_AS) P (SPEED, (1), "Speed", (u8_<>), RW, ())
+LUMEX_PROTOCOL_REGISTRY (value_registry, VALUE_PARAMS);
+void
+use_string_value ()
+{
+  ::lumex::core::protocol::registry::parameter_value_t value
+      = ::lumex::core::protocol::registry::parameter_value_t ();
+  ::lumex::core::protocol::registry::registry_value_<
+      value_registry, 0,
+      ::lumex::core::protocol::field::u8_<>>::assign (value, "fast");
+}
+
+#elif LUMEX_PROTOCOL_BAD_CASE == 35
+// 35: the index of a binary layer whose header names no key width and no
+// key reader (0x01 is an int, not the width of the key on the wire).
+#define BAD_ROWS(X, X_AS) X (ONE, 0x01, "One", (), (), (), ())
+LUMEX_PROTOCOL_DEFINE (bad_protocol, codec, header, BAD_ROWS);
+void
+use_unwidthed_index ()
+{
+  (void)::lumex::core::protocol::index::build_index<bad_protocol> ();
+}
+
+#elif LUMEX_PROTOCOL_BAD_CASE == 36
+// 36: a registry with a floating entry used by registry_value_.
+#define FLOAT_PARAMS(P, P_AS) P (RATIO, (1), "Ratio", (f32_le_<>), RW, ())
+LUMEX_PROTOCOL_REGISTRY (float_registry, FLOAT_PARAMS);
+void
+use_float_registry ()
+{
+  ::lumex::core::protocol::registry::parameter_value_t value
+      = ::lumex::core::protocol::registry::parameter_value_t ();
+  ::lumex::core::protocol::registry::registry_value_<
+      float_registry, 0,
+      ::lumex::core::protocol::field::i32_le_<>>::assign (value, 1.5);
+}
 #endif
 } // namespace check_tables
 

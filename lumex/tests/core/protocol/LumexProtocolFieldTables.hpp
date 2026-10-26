@@ -37,13 +37,16 @@ struct codec
 {
 };
 
+// The keys of the gauge are ints: four bytes on the wire.
 struct binary_header
 {
+  static LUMEX_CONSTEXPR std::size_t key_width = 4;
 };
 
 struct hex_header
 {
   typedef layout::fixed_width_text_layout<16> layout_type;
+  static LUMEX_CONSTEXPR std::size_t key_width = 4;
 };
 
 struct decimal_header
