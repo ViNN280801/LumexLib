@@ -15,6 +15,7 @@
 #include "lumex/core/utility/LumexUtility"
 
 #include "lumex/tests/support/LumexPerfSkip.hpp"
+#include "lumex/tests/support/LumexTestUtf8Files.hpp"
 #if defined(__clang__)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wglobal-constructors"
@@ -249,6 +250,23 @@ TEST_F (LumexTemporaryTest, CreateTempFile_WithName)
       result.value ().path ()));
   EXPECT_TRUE (lumex::core::filesystem::fs::lumex_filesystem::is_regular_file (
       result.value ().path ()));
+}
+
+// The name is UTF-8: a narrow name given to a stream is read in the ANSI code
+// page on Windows, so the file was made under a garbled name and the check
+// that it exists failed.
+TEST_F (LumexTemporaryTest, CreateTempFile_WithCyrillicName_MakesThatFile)
+{
+  namespace files = lumex_test::utf8_files;
+
+  auto result
+      = lumex_temporary::create_temp_file (files::cyrillic ("_tmp_file"));
+
+  ASSERT_TRUE (result.success ()) << "error " << result.error_code ();
+  std::string const name = result.value ().path ().string ();
+  EXPECT_NE (name.find (files::cyrillic ("_tmp_file")), std::string::npos);
+  EXPECT_TRUE (files::exists (name))
+      << "the system does not see the file under its name";
 }
 
 TEST_F (LumexTemporaryTest, CreateTempFile_WithoutName)

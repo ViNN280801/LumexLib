@@ -48,6 +48,7 @@
 #include "lumex/core/string_view/view/LumexStringView.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 #include "lumex/core/utility/macros/LumexMacros.hpp"
+#include "lumex/core/utility/util/LumexUtf8FileName.hpp"
 
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 {
@@ -435,6 +436,16 @@ private:
                                                        "] ", parts...);
   }
 
+  // The file name is UTF-8 on every platform: a narrow name given to a stream
+  // is read in the ANSI code page on Windows (Cyrillic in a path).
+  template <typename Stream>
+  static bool
+  _open (Stream &stream, std::string const &filename,
+         std::ios_base::openmode mode)
+  {
+    return lumex::core::utility::utf8_file_name::open (stream, filename, mode);
+  }
+
   static nlohmann::json
   _load_config_impl (std::string const &filename) LUMEX_NOEXCEPT
   {
@@ -446,7 +457,8 @@ private:
       }
     try
       {
-        std::ifstream json_file (filename.c_str ());
+        std::ifstream json_file;
+        _open (json_file, filename, std::ios_base::in);
         if (!json_file.is_open ())
           {
             _report (level_type::error, LUMEX_FUNCTION_NAME,
@@ -484,7 +496,8 @@ private:
       }
     try
       {
-        std::ofstream json_file (filename.c_str ());
+        std::ofstream json_file;
+        _open (json_file, filename, std::ios_base::out);
         if (!json_file.is_open ())
           {
             _report (level_type::error, LUMEX_FUNCTION_NAME,
@@ -523,7 +536,8 @@ private:
       }
     try
       {
-        std::ifstream json_file (filename.c_str ());
+        std::ifstream json_file;
+        _open (json_file, filename, std::ios_base::in);
         if (!json_file.is_open ())
           {
             _report (level_type::error, LUMEX_FUNCTION_NAME,

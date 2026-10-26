@@ -25,6 +25,7 @@
 #include "lumex/applied/json/LumexJson"
 #include "lumex/tests/applied/json/helper/LumexJsonHelperTestFixture.hpp"
 #include "lumex/tests/support/LumexPerfSkip.hpp"
+#include "lumex/tests/support/LumexTestUtf8Files.hpp"
 
 using lumex::applied::json::diagnostics::LumexJsonDiagnosticLevel;
 using lumex::applied::json::diagnostics::LumexJsonDiagnosticSlot;
@@ -1715,3 +1716,55 @@ TEST_F (LumexJsonHelperTest, GivenPublicApi_WhenInspected_ThenIsNoexcept)
                  "static-only");
   SUCCEED ();
 }
+
+// --- UTF-8 file names ---
+
+// The file name is UTF-8: a narrow name given to a stream is read in the ANSI
+// code page on Windows, so a Cyrillic directory (a user profile) was missed.
+TEST_F (LumexJsonHelperTest,
+        GivenCyrillicDirectory_WhenSaveIsJsonFileOkAndLoad_ThenTheFileIsThere)
+{
+  namespace files = lumex_test::utf8_files;
+  std::string const directory
+      = current_test_filename_ + "_" + files::cyrillic ();
+  ASSERT_TRUE (files::make_directory (directory));
+  std::string const file = directory + "/" + files::cyrillic (".json");
+  nlohmann::json const document = { { "key", "value" }, { "n", 3 } };
+
+  bool const saved = LumexJsonHelper::save_config (document, file);
+  long long const size = files::file_size (file);
+  bool const valid = LumexJsonHelper::is_json_file_ok (file);
+  nlohmann::json const loaded = LumexJsonHelper::load_config (file);
+  files::remove_file (file);
+  files::remove_directory (directory);
+
+  EXPECT_TRUE (saved);
+  EXPECT_GT (size, 0) << "the system does not see the file under its name";
+  EXPECT_TRUE (valid);
+  EXPECT_EQ (loaded, document);
+  EXPECT_EQ (count_level (LumexJsonDiagnosticLevel::error), 0U);
+}
+
+#if defined(_WIN32)
+// A name that is not valid UTF-8 is refused: the name of the skipped bytes
+// would be the name of another file.
+TEST_F (LumexJsonHelperTest,
+        GivenInvalidUtf8Name_WhenSaveConfig_ThenFalseAndNoOtherFile)
+{
+  namespace files = lumex_test::utf8_files;
+  std::string const stem = current_test_filename_ + "_ab";
+  std::string const bad = current_test_filename_
+                          + "_a\xFF"
+                            "b";
+  ASSERT_TRUE (files::remove_file (stem));
+
+  bool const saved
+      = LumexJsonHelper::save_config (nlohmann::json{ { "k", 1 } }, bad);
+  bool const other_exists = files::exists (stem);
+  files::remove_file (stem);
+
+  EXPECT_FALSE (saved);
+  EXPECT_FALSE (other_exists);
+  EXPECT_GE (count_level (LumexJsonDiagnosticLevel::error), 1U);
+}
+#endif

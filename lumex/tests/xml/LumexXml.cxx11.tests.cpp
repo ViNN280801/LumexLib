@@ -25,6 +25,7 @@
 #include "lumex/xml/xpath/utility/XPathUtils.hpp"
 
 #include "lumex/tests/support/LumexPerfSkip.hpp"
+#include "lumex/tests/support/LumexTestUtf8Files.hpp"
 #include "lumex/tests/xml/LumexXmlTestFixtures.hpp"
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -544,6 +545,35 @@ TEST_F (XmlFixture, Windows_WidePath_SaveAndLoad)
   auto pr = d2.load_file (wpath, kparse_default, xml_encoding::encoding_utf8);
   EXPECT_STREQ (d2.document_element ().child ("x").text ().get (), "y");
   std::remove ("lumex_xml_test_tmp.xml");
+}
+
+// The wide overloads open by the wide path (_wfopen_s): they used to convert
+// it to UTF-8 and call the narrow fopen_s, which reads the ANSI code page, so
+// a Cyrillic directory (a user profile) was missed.
+TEST_F (XmlFixture, Windows_WidePath_CyrillicDirectory_SaveAndLoad)
+{
+  namespace files = lumex_test::utf8_files;
+  std::string const directory = "lumex_xml_test_" + files::cyrillic ();
+  ASSERT_TRUE (files::make_directory (directory));
+  std::string const file = directory + "/" + files::cyrillic (".xml");
+  std::wstring const wide_file = files::wide (file);
+  doc.load_string ("<r><x>y</x></r>", kparse_default);
+
+  bool const saved
+      = doc.save_file (wide_file.c_str (), "	", kformat_save_file_text,
+                       xml_encoding::encoding_utf8);
+  long long const size = files::file_size (file);
+  XmlDocument d2;
+  auto const loaded = d2.load_file (wide_file.c_str (), kparse_default,
+                                    xml_encoding::encoding_utf8);
+  std::string const value = d2.document_element ().child ("x").text ().get ();
+  files::remove_file (file);
+  files::remove_directory (directory);
+
+  EXPECT_TRUE (saved);
+  EXPECT_GT (size, 0) << "the system does not see the file under its name";
+  EXPECT_TRUE (loaded);
+  EXPECT_EQ (value, "y");
 }
 #endif
 

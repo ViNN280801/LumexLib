@@ -93,6 +93,7 @@
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
 #include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
+#include "lumex/core/utility/util/LumexUtf8FileName.hpp"
 
 #if defined(LUMEX_LOGGER_CONFIG_FORMAT_INI)
 #include "lumex/applied/settings/ini/LumexSettingsINI.hpp"
@@ -147,6 +148,43 @@ namespace
 {
 // ============= Utility Functions =============
 
+// Every path of the logger is UTF-8, as everywhere in the library. On Windows
+// a narrow name is read in the ANSI code page, so a path with Cyrillic (a user
+// profile) reached another file or none: the streams, the Win32 calls and the
+// removal below take the UTF-16 form of the path, and a path that is not valid
+// UTF-8 is refused (the skipped bytes would name another file). The logger
+// does not depend on lumex::filesystem; the header-only helper of
+// lumex::utility does the conversion.
+
+/**
+ * @brief Opens a file stream by a UTF-8 path.
+ * @return true when the stream is open.
+ */
+template <typename Stream>
+bool
+open_file_stream (Stream &stream, std::string const &path,
+                  std::ios_base::openmode mode)
+{
+  return ::lumex::core::utility::utf8_file_name::open (stream, path, mode);
+}
+
+/**
+ * @brief Removes a file by a UTF-8 path (the result of std::remove: 0 on
+ * success).
+ */
+int
+remove_file (std::string const &path) LUMEX_NOEXCEPT
+{
+#ifdef LOGGER_OS_WINDOWS
+  std::wstring widePath;
+  if (!::lumex::core::utility::utf8_file_name::to_wide (path, widePath))
+    return -1;
+  return DeleteFileW (widePath.c_str ()) != 0 ? 0 : -1;
+#else
+  return std::remove (path.c_str ());
+#endif
+}
+
 /**
  * @brief Converts an integral value (an address) to a 0xHH string.
  */
@@ -171,8 +209,12 @@ get_file_size (std::string const &filePath) LUMEX_NOEXCEPT
         return -1;
 
 #ifdef LOGGER_OS_WINDOWS
+      std::wstring widePath;
+      if (!::lumex::core::utility::utf8_file_name::to_wide (filePath,
+                                                            widePath))
+        return -1;
       WIN32_FILE_ATTRIBUTE_DATA fileData{};
-      if (GetFileAttributesExA (filePath.c_str (), GetFileExInfoStandard,
+      if (GetFileAttributesExW (widePath.c_str (), GetFileExInfoStandard,
                                 &fileData)
           == 0)
         return -1;
@@ -217,21 +259,27 @@ get_free_disk_space (std::string const &path) LUMEX_NOEXCEPT
       ULARGE_INTEGER totalNumberOfBytes{};
       ULARGE_INTEGER totalNumberOfFreeBytes{};
 
-      std::wstring widePath (path.begin (), path.end ());
+      std::wstring widePath;
+      if (!::lumex::core::utility::utf8_file_name::to_wide (path, widePath))
+        return -1;
+
+      // GetDiskFreeSpaceExW takes a directory and fails for a file name
+      // (ERROR_DIRECTORY): the callers pass the log file, so ask for the
+      // directory it is in.
+      DWORD const attributes = GetFileAttributesW (widePath.c_str ());
+      if (attributes != INVALID_FILE_ATTRIBUTES
+          && (attributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
+        {
+          std::size_t const separator = widePath.find_last_of (L"\\/");
+          widePath = separator == std::wstring::npos
+                         ? std::wstring (L".")
+                         : widePath.substr (0, separator + 1);
+        }
 
       if (GetDiskFreeSpaceExW (widePath.c_str (), &freeBytesAvailable,
                                &totalNumberOfBytes, &totalNumberOfFreeBytes))
-        {
-          return static_cast<int64_t> (freeBytesAvailable.QuadPart);
-        }
-      else
-        {
-          if (GetDiskFreeSpaceExA (path.c_str (), &freeBytesAvailable,
-                                   &totalNumberOfBytes,
-                                   &totalNumberOfFreeBytes))
-            return static_cast<int64_t> (freeBytesAvailable.QuadPart);
-          return -1;
-        }
+        return static_cast<int64_t> (freeBytesAvailable.QuadPart);
+      return -1;
 #else
       struct statvfs vfs{};
       if (statvfs (path.c_str (), &vfs) == 0)
@@ -266,21 +314,28 @@ get_directory_size (std::string const &directoryPath) LUMEX_NOEXCEPT
       int64_t totalSize = 0;
 
 #ifdef LOGGER_OS_WINDOWS
-      std::string searchPath = directoryPath + "\\*";
+      std::wstring wideDirectory;
+      if (!::lumex::core::utility::utf8_file_name::to_wide (directoryPath,
+                                                            wideDirectory))
+        return -1;
+      std::wstring const searchPath = wideDirectory + L"\\*";
 
-      WIN32_FIND_DATAA findData{};
-      HANDLE hFind = FindFirstFileA (searchPath.c_str (), &findData);
+      WIN32_FIND_DATAW findData{};
+      HANDLE hFind = FindFirstFileW (searchPath.c_str (), &findData);
 
       if (hFind == INVALID_HANDLE_VALUE)
         return -1;
 
       do
         {
-          if (strcmp (findData.cFileName, ".") == 0
-              || strcmp (findData.cFileName, "..") == 0)
+          if (wcscmp (findData.cFileName, L".") == 0
+              || wcscmp (findData.cFileName, L"..") == 0)
             continue;
 
-          std::string fullPath = directoryPath + "\\" + findData.cFileName;
+          std::string fullPath
+              = directoryPath + "\\"
+                + ::lumex::core::utility::utf8_file_name::to_utf8 (
+                    findData.cFileName);
 
           if ((findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0)
             {
@@ -297,7 +352,7 @@ get_directory_size (std::string const &directoryPath) LUMEX_NOEXCEPT
               totalSize += static_cast<int64_t> (fileSize.QuadPart);
             }
         }
-      while (FindNextFileA (hFind, &findData) != 0);
+      while (FindNextFileW (hFind, &findData) != 0);
 
       FindClose (hFind);
 
@@ -636,8 +691,12 @@ _create_directory_if_not_exists (std::string const &dirPath) LUMEX_NOEXCEPT
         return false;
 
 #if defined(_WIN32) || defined(_WIN64)
-      // Windows: use CreateDirectoryA
-      BOOL result = CreateDirectoryA (dirPath.c_str (), nullptr);
+      // Windows: use CreateDirectoryW (the path is UTF-8)
+      std::wstring wideDirPath;
+      if (!::lumex::core::utility::utf8_file_name::to_wide (dirPath,
+                                                            wideDirPath))
+        return false;
+      BOOL result = CreateDirectoryW (wideDirPath.c_str (), nullptr);
       if (result != 0)
         {
           // Directory created successfully
@@ -651,7 +710,7 @@ _create_directory_if_not_exists (std::string const &dirPath) LUMEX_NOEXCEPT
         {
           // Directory already exists; verify it really is a
           // directory
-          DWORD attributes = GetFileAttributesA (dirPath.c_str ());
+          DWORD attributes = GetFileAttributesW (wideDirPath.c_str ());
           bool isDir = (attributes != INVALID_FILE_ATTRIBUTES
                         && (attributes & FILE_ATTRIBUTE_DIRECTORY) != 0);
 
@@ -660,11 +719,11 @@ _create_directory_if_not_exists (std::string const &dirPath) LUMEX_NOEXCEPT
               // Check directory access by trying to create
               // a test file
               std::string testFile = dirPath + "\\test_write_access.tmp";
-              std::ofstream testStream (testFile, std::ios::out);
-              if (testStream.is_open ())
+              std::ofstream testStream;
+              if (open_file_stream (testStream, testFile, std::ios::out))
                 {
                   testStream.close ();
-                  std::remove (testFile.c_str ());
+                  remove_file (testFile);
                   return true;
                 }
 
@@ -1326,8 +1385,7 @@ LumexLogger::_open_log_file (logger_config_t const &config)
   std::string const path = _create_log_file_path (config.use_timestamped_logs);
 
   // Open the file for writing, overwriting existing contents
-  log_file.open (path, std::ios::out | std::ios::trunc);
-  if (!log_file.is_open ())
+  if (!open_file_stream (log_file, path, std::ios::out | std::ios::trunc))
     {
       std::string errorMsg = "Cannot open log file: ";
       errorMsg.reserve (errorMsg.length () + path.length ());
@@ -1350,9 +1408,9 @@ LumexLogger::_open_log_file (logger_config_t const &config)
       // Create or update the helper file
       try
         {
-          std::ofstream hintFile (hintFilePath,
-                                  std::ios::out | std::ios::trunc);
-          if (hintFile.is_open ())
+          std::ofstream hintFile;
+          if (open_file_stream (hintFile, hintFilePath,
+                                std::ios::out | std::ios::trunc))
             {
               hintFile << get_hint_file_content ();
               hintFile.close ();
@@ -1368,13 +1426,12 @@ LumexLogger::_open_log_file (logger_config_t const &config)
       // Remove the helper file if it exists
       try
         {
-          std::ifstream testFile (hintFilePath);
+          std::ifstream testFile;
+          open_file_stream (testFile, hintFilePath, std::ios::in);
           if (testFile.good ())
             {
               testFile.close ();
-              std::remove (
-                  hintFilePath
-                      .c_str ()); // NOLINT(cppcoreguidelines-owning-memory)
+              remove_file (hintFilePath);
             }
         }
       catch (...) // NOLINT(bugprone-empty-catch)
@@ -2182,7 +2239,9 @@ LumexLogger::_get_executable_directory () const
 {
 #if defined(_WIN32) || defined(_WIN64)
   // Windows: use GetModuleFileName to get the DLL/EXE path
-  char path[LOGGER_MAX_PATH];
+  // The wide function: the narrow one gives the ANSI code page, and every
+  // path of the logger is UTF-8.
+  wchar_t path[LOGGER_MAX_PATH];
   HMODULE hModule = nullptr;
 
   // Try to get a handle to the current module
@@ -2190,13 +2249,15 @@ LumexLogger::_get_executable_directory () const
                               | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
                           reinterpret_cast<LPCSTR> (this), &hModule))
     {
-      if (GetModuleFileNameA (hModule, path, LOGGER_MAX_PATH) > 0)
-        return _extract_directory_from_path (path);
+      if (GetModuleFileNameW (hModule, path, LOGGER_MAX_PATH) > 0)
+        return _extract_directory_from_path (
+            ::lumex::core::utility::utf8_file_name::to_utf8 (path));
     }
 
   // Fallback: use GetModuleFileName with nullptr
-  if (GetModuleFileNameA (nullptr, path, LOGGER_MAX_PATH) > 0)
-    return _extract_directory_from_path (path);
+  if (GetModuleFileNameW (nullptr, path, LOGGER_MAX_PATH) > 0)
+    return _extract_directory_from_path (
+        ::lumex::core::utility::utf8_file_name::to_utf8 (path));
 
   throw std::runtime_error ("Can't get executable directory on Windows");
 
@@ -2301,8 +2362,8 @@ LumexLogger::_create_timestamped_log_file_path () const
   LUMEX_CONSTEXPR int kMaxSameSecondLogs = 1000;
   for (int index = 2; index <= kMaxSameSecondLogs; ++index)
     {
-      std::ifstream existing (fullPath);
-      if (!existing.is_open ())
+      std::ifstream existing;
+      if (!open_file_stream (existing, fullPath, std::ios::in))
         break;
       existing.close ();
       fullPath = stem + "_" + std::to_string (index) + ".log";
@@ -2310,8 +2371,8 @@ LumexLogger::_create_timestamped_log_file_path () const
 
   // Extra check: try to create a test file to verify
   // access rights
-  std::ofstream testFile (fullPath, std::ios::out | std::ios::app);
-  if (!testFile.is_open ())
+  std::ofstream testFile;
+  if (!open_file_stream (testFile, fullPath, std::ios::out | std::ios::app))
     {
       // If a file cannot be created in the timestamped directory, fall back to
       // the ordinary file
@@ -2321,7 +2382,7 @@ LumexLogger::_create_timestamped_log_file_path () const
   testFile.close ();
 
   // Delete the test file
-  std::remove (fullPath.c_str ());
+  remove_file (fullPath);
 
   return fullPath;
 }
@@ -2492,9 +2553,12 @@ LumexLogger::_stat_trigger_file (std::string const &path) LUMEX_NOEXCEPT
   trigger_state_t state = { 0, 0, false };
 #if defined(_WIN32) || defined(_WIN64)
   // The write time in 100 ns units: a rewrite within the same second is seen
+  std::wstring widePath;
   WIN32_FILE_ATTRIBUTE_DATA fileData{};
-  if (GetFileAttributesExA (path.c_str (), GetFileExInfoStandard, &fileData)
-          != 0
+  if (::lumex::core::utility::utf8_file_name::to_wide (path, widePath)
+      && GetFileAttributesExW (widePath.c_str (), GetFileExInfoStandard,
+                               &fileData)
+             != 0
       && (fileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
     {
       state.present = true;
@@ -2559,16 +2623,27 @@ LumexLogger::
       // a configuration; one of size zero is the defaults in every format
       // (the hint says: create the trigger file).
       {
-        std::ifstream probe (enableFilePath, std::ios::in | std::ios::binary);
-        if (!probe.is_open ())
+        std::ifstream probe;
+        if (!open_file_stream (probe, enableFilePath,
+                               std::ios::in | std::ios::binary))
           return config_read_t::cannot_open;
         if (probe.peek () == std::ifstream::traits_type::eof ())
           return probe.bad () ? config_read_t::unparsable : config_read_t::ok;
       }
 #if defined(LUMEX_LOGGER_CONFIG_FORMAT_XML)
       ::lumex::xml::document::XmlDocument document;
+#if defined(LOGGER_OS_WINDOWS)
+      // The wide overload: the narrow one reads the path in the ANSI code
+      // page (the path was checked to be valid UTF-8 by the probe above).
+      std::wstring wideConfigPath;
+      ::lumex::core::utility::utf8_file_name::to_wide (enableFilePath,
+                                                       wideConfigPath);
+      ::lumex::xml::text::xml_parse_result_t const result
+          = document.load_file (wideConfigPath.c_str ());
+#else
       ::lumex::xml::text::xml_parse_result_t const result
           = document.load_file (enableFilePath.c_str ());
+#endif
       if (!result)
         return config_read_t::unparsable;
 
@@ -2611,8 +2686,8 @@ LumexLogger::
         }
       return config_read_t::ok;
 #elif defined(LUMEX_LOGGER_CONFIG_FORMAT_JSON)
-      std::ifstream file (enableFilePath);
-      if (!file.is_open ())
+      std::ifstream file;
+      if (!open_file_stream (file, enableFilePath, std::ios::in))
         return config_read_t::cannot_open;
 
       nlohmann::json root;
@@ -2648,8 +2723,8 @@ LumexLogger::
         }
       return config_read_t::ok;
 #else
-      std::ifstream file (enableFilePath);
-      if (!file.is_open ())
+      std::ifstream file;
+      if (!open_file_stream (file, enableFilePath, std::ios::in))
         return config_read_t::cannot_open;
 
       int oldFormatLineNumber = 0;
@@ -3084,7 +3159,9 @@ LumexLogger::_cleanup_old_logs (std::string const &logPath,
           // This is a file - just clear it
           if (currentSize > targetSize)
             {
-              std::ofstream file (logPath, std::ios::out | std::ios::trunc);
+              std::ofstream file;
+              open_file_stream (file, logPath,
+                                std::ios::out | std::ios::trunc);
               return file.good ();
             }
           return true;
@@ -3107,7 +3184,7 @@ LumexLogger::_cleanup_old_logs (std::string const &logPath,
           if (fileSize > 0)
             {
               // Delete the file
-              if (std::remove (filePair.first.c_str ()) == 0)
+              if (remove_file (filePair.first) == 0)
                 totalSize -= fileSize;
             }
         }
@@ -3135,23 +3212,32 @@ LumexLogger::_get_log_files_sorted_by_time (std::string const &directoryPath)
 
 #if defined(_WIN32) || defined(_WIN64)
       // Windows: use FindFirstFile/FindNextFile
-      std::string searchPath = directoryPath + "\\*";
+      std::wstring wideDirectory;
+      std::wstring const searchPath
+          = ::lumex::core::utility::utf8_file_name::to_wide (directoryPath,
+                                                             wideDirectory)
+                ? wideDirectory + L"\\*"
+                : std::wstring ();
 
-      WIN32_FIND_DATAA findData{};
-      HANDLE hFind = FindFirstFileA (searchPath.c_str (), &findData);
+      WIN32_FIND_DATAW findData{};
+      HANDLE hFind = searchPath.empty ()
+                         ? INVALID_HANDLE_VALUE
+                         : FindFirstFileW (searchPath.c_str (), &findData);
 
       if (hFind != INVALID_HANDLE_VALUE)
         {
           do
             {
-              if (strcmp (findData.cFileName, ".") != 0
-                  && strcmp (findData.cFileName, "..") != 0)
+              if (wcscmp (findData.cFileName, L".") != 0
+                  && wcscmp (findData.cFileName, L"..") != 0)
                 {
                   if ((findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
                       == 0U)
                     {
                       std::string fullPath
-                          = directoryPath + "\\" + findData.cFileName;
+                          = directoryPath + "\\"
+                            + ::lumex::core::utility::utf8_file_name::to_utf8 (
+                                findData.cFileName);
 
                       // Get the file creation time
                       FILETIME creationTime = findData.ftCreationTime;
@@ -3173,7 +3259,7 @@ LumexLogger::_get_log_files_sorted_by_time (std::string const &directoryPath)
                     }
                 }
             }
-          while (FindNextFileA (hFind, &findData) != 0);
+          while (FindNextFileW (hFind, &findData) != 0);
 
           FindClose (hFind);
         }

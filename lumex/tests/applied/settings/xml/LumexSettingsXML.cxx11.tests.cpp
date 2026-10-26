@@ -13,6 +13,7 @@
 #include "lumex/applied/settings/LumexSettings"
 #include "lumex/core/filesystem/LumexFilesystem"
 #include "lumex/core/utility/LumexUtility"
+#include "lumex/tests/support/LumexTestUtf8Files.hpp"
 #if defined(__clang__)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wglobal-constructors"
@@ -214,6 +215,31 @@ TEST_F (LumexSettingsXMLTest,
 }
 
 #if defined(LUMEX_SETTINGS_WITH_XML)
+
+// The path is UTF-8: the narrow `load_file` of the XML module reads it in the
+// ANSI code page on Windows, so a Cyrillic directory (a user profile) was
+// missed.
+TEST_F (LumexSettingsXMLTest,
+        GivenCyrillicPath_WhenIsXmlValidAndLoad_ThenTheFileIsRead)
+{
+  namespace files = lumex_test::utf8_files;
+  std::string const directory = _test_dir.string () + "/" + files::cyrillic ();
+  ASSERT_TRUE (files::make_directory (directory));
+  std::string const file = directory + "/" + files::cyrillic (".xml");
+  ASSERT_TRUE (files::write_file (
+      file, "<settings><pump><flow>1.5</flow></pump></settings>"));
+
+  bool const valid = LumexSettingsXML::is_xml_valid (file);
+  LumexSettingsXML xml_settings;
+  bool const loaded = xml_settings.load (file);
+  std::string const flow = xml_settings.get ("pump", "flow");
+  files::remove_file (file);
+  files::remove_directory (directory);
+
+  EXPECT_TRUE (valid);
+  EXPECT_TRUE (loaded);
+  EXPECT_EQ (flow, "1.5");
+}
 
 TEST_F (LumexSettingsXMLTest, GivenMissingFile_WhenIsXmlValid_ThenReturnsFalse)
 {

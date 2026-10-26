@@ -14,6 +14,7 @@
 #include "lumex/applied/settings/LumexSettings"
 #include "lumex/core/filesystem/LumexFilesystem"
 #include "lumex/core/utility/LumexUtility"
+#include "lumex/tests/support/LumexTestUtf8Files.hpp"
 #if defined(__clang__)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wglobal-constructors"
@@ -252,6 +253,29 @@ TEST_F (LumexSettingsJSONTest,
 }
 
 #if defined(LUMEX_SETTINGS_WITH_JSON)
+
+// The path is UTF-8: a narrow name given to a stream is read in the ANSI code
+// page on Windows, so a Cyrillic directory (a user profile) was missed.
+TEST_F (LumexSettingsJSONTest,
+        GivenCyrillicPath_WhenIsJsonValidAndLoad_ThenTheFileIsRead)
+{
+  namespace files = lumex_test::utf8_files;
+  std::string const directory = _test_dir.string () + "/" + files::cyrillic ();
+  ASSERT_TRUE (files::make_directory (directory));
+  std::string const file = directory + "/" + files::cyrillic (".json");
+  ASSERT_TRUE (files::write_file (file, "{\"pump\": {\"flow\": \"1.5\"}}"));
+
+  bool const valid = LumexSettingsJSON::is_json_valid (file);
+  LumexSettingsJSON json_settings;
+  bool const loaded = json_settings.load (file);
+  std::string const flow = json_settings.get ("pump", "flow");
+  files::remove_file (file);
+  files::remove_directory (directory);
+
+  EXPECT_TRUE (valid);
+  EXPECT_TRUE (loaded);
+  EXPECT_EQ (flow, "1.5");
+}
 
 TEST_F (LumexSettingsJSONTest,
         GivenMissingFile_WhenIsJsonValid_ThenReturnsFalse)

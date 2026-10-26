@@ -677,12 +677,14 @@ close_file (FILE *file)
   fclose (file); // NOLINT(cppcoreguidelines-owning-memory)
 }
 
-#if (defined(__MINGW32__)                                                     \
-     && (!defined(__STRICT_ANSI__) || defined(__MINGW64_VERSION_MAJOR)))
+#if defined(_WIN32)
+// Windows: the wide path goes to the wide function. The narrow fopen reads the
+// bytes in the ANSI code page, so the UTF-8 fallback below cannot open a
+// Cyrillic path there.
 inline FILE *
 open_file_wide (const wchar_t *path, const wchar_t *mode)
 {
-#if defined(MSVC) && MSVC >= 1400
+#if defined(_MSC_VER)
   FILE *file = nullptr;
   return _wfopen_s (&file, path, mode) == 0 ? file : nullptr;
 #else
@@ -715,19 +717,8 @@ open_file_wide (
     mode_ascii[i] = static_cast<char> (
         mode[i]); // NOLINT(cppcoreguidelines-pro-bounds-constant-array-index)
 
-  FILE *result = nullptr;
-
-#ifdef _WIN32
-  // Use fopen_s on Windows for secure file opening
-  if (fopen_s (
-          &result, path_utf8.c_str (),
-          mode_ascii) // NOLINT(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
-      != 0)
-    result = nullptr; // Ensure result is null on error
-#else
-  // Use standard fopen on other platforms
-  result = std::fopen (path_utf8.c_str (), mode_ascii);
-#endif
+  // Not Windows (the branch above takes it): the standard function.
+  FILE *result = std::fopen (path_utf8.c_str (), mode_ascii);
 
   return result;
 }

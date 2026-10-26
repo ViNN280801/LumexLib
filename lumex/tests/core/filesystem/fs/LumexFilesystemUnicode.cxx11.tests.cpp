@@ -15,12 +15,14 @@
 // compiler turns into the encoding of the platform, and the tests that depend
 // on the width branch on sizeof (wchar_t).
 #include <algorithm>
+#include <cerrno>
 #include <clocale>
 #include <cstddef>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
+#include <fstream>
 #include <string>
 #include <vector>
 
@@ -971,6 +973,118 @@ TEST_F (LumexFilesystemUnicodeDiskTest,
   ASSERT_TRUE (result.success ()) << "error " << result.error_code ();
   EXPECT_EQ (native_file_size (file), 5);
 }
+
+// open_stream gives a stream the name of a UTF-8 path: the UTF-16 name on
+// Windows, where a narrow name is read in the ANSI code page. The other
+// modules that open files (settings, logging, temporary, resource_monitor)
+// call it.
+TEST_F (LumexFilesystemUnicodeDiskTest,
+        GivenCyrillicDirectory_WhenStreamsOpenedByPath_ThenTheyWriteAndRead)
+{
+  path const dir = m_base / kPrivetUtf8;
+  ASSERT_TRUE (native_create_directory (dir));
+  created (dir, true);
+  path const file = dir / (std::string (kPrivetUtf8) + kEmojiUtf8 + ".txt");
+  created (file, false);
+
+  {
+    std::ofstream out;
+    auto const opened = lumex_filesystem::open_stream (out, file);
+    ASSERT_TRUE (opened.success ()) << "error " << opened.error_code ();
+    ASSERT_TRUE (out.is_open ());
+    out << "abc";
+  }
+  // The system sees the file under the name asked for, not a garbled one.
+  EXPECT_EQ (native_file_size (file), 3);
+
+  std::ifstream in;
+  auto const opened_in = lumex_filesystem::open_stream (in, file);
+  ASSERT_TRUE (opened_in.success ()) << "error " << opened_in.error_code ();
+  std::string text;
+  in >> text;
+  EXPECT_EQ (text, "abc");
+
+  std::fstream both;
+  auto const opened_both = lumex_filesystem::open_stream (
+      both, file, std::ios_base::in | std::ios_base::out | std::ios_base::app);
+  ASSERT_TRUE (opened_both.success ())
+      << "error " << opened_both.error_code ();
+  both << "def";
+  both.close ();
+  EXPECT_EQ (native_file_size (file), 6);
+}
+
+TEST_F (LumexFilesystemUnicodeDiskTest,
+        GivenMissingFile_WhenStreamOpenedForReading_ThenErrorAndFailbit)
+{
+  std::ifstream in;
+  auto const opened = lumex_filesystem::open_stream (
+      in, m_base / (std::string (kPrivetUtf8) + "_missing.txt"));
+
+  EXPECT_FALSE (opened.success ());
+  EXPECT_EQ (opened.error_code (), ENOENT) << "the errno of the open";
+  EXPECT_FALSE (in.is_open ());
+  EXPECT_TRUE (in.fail ());
+}
+
+TEST_F (LumexFilesystemUnicodeDiskTest,
+        GivenOpenStream_WhenOpenedAgain_ThenBusyAndFailbit)
+{
+  path const first = m_base / (std::string (kPrivetUtf8) + "_first.txt");
+  path const second = m_base / (std::string (kPrivetUtf8) + "_second.txt");
+  ASSERT_TRUE (native_create_file (first, "a"));
+  ASSERT_TRUE (native_create_file (second, "b"));
+  created (first, false);
+  created (second, false);
+  std::ifstream in;
+  ASSERT_TRUE (lumex_filesystem::open_stream (in, first).success ());
+
+  auto const again = lumex_filesystem::open_stream (in, second);
+
+  EXPECT_FALSE (again.success ());
+  EXPECT_EQ (again.error_code (), EBUSY);
+  EXPECT_TRUE (in.fail ());
+  EXPECT_TRUE (in.is_open ()) << "the stream stays on its first file";
+}
+
+TEST_F (LumexFilesystemUnicodeDiskTest,
+        GivenOpenModeBinary_WhenStreamOpenedByPath_ThenTheModeIsKept)
+{
+  path const file = m_base / (std::string (kPrivetUtf8) + ".bin");
+  created (file, false);
+  {
+    std::ofstream out;
+    ASSERT_TRUE (lumex_filesystem::open_stream (
+                     out, file, std::ios_base::out | std::ios_base::binary)
+                     .success ());
+    out << "a\nb";
+  }
+  // In binary mode a newline is one byte on Windows too.
+  EXPECT_EQ (native_file_size (file), 3);
+}
+
+#if defined(_WIN32)
+// A path that is not valid UTF-8 is refused, as the other operations do: the
+// name of the skipped bytes would be the name of another file.
+TEST_F (LumexFilesystemUnicodeDiskTest,
+        GivenInvalidUtf8_WhenStreamOpenedByPath_ThenInvalidNameAndNoFile)
+{
+  path const bad (m_base.string ()
+                  + "/a\xFF"
+                    "b.txt");
+  path const other = m_base / "ab.txt";
+
+  std::ofstream out;
+  auto const opened = lumex_filesystem::open_stream (out, bad);
+
+  EXPECT_FALSE (opened.success ());
+  EXPECT_EQ (opened.error_code (), static_cast<int> (ERROR_INVALID_NAME));
+  EXPECT_FALSE (out.is_open ());
+  EXPECT_TRUE (out.fail ()) << "a refusal sets failbit like any failed open";
+  EXPECT_FALSE (static_cast<bool> (out));
+  EXPECT_FALSE (native_exists (other)) << "the skipped name was created";
+}
+#endif
 
 #if defined(_WIN32)
 // to_wide_path is the one place where an operation turns a path into a wide
