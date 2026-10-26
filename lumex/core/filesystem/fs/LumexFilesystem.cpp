@@ -1083,7 +1083,8 @@ filesystem_result<void>
 lumex_filesystem::copy_file (path const &from, path const &to_)
 {
 #if defined(LUMEX_OS_WINDOWS)
-  if (CopyFileA (from.c_str (), to_.c_str (), FALSE) != 0)
+  if (CopyFileW (from.wstring ().c_str (), to_.wstring ().c_str (), FALSE)
+      != 0)
     return filesystem_result<void>::ok ();
   return filesystem_result<void>::err (static_cast<int> (GetLastError ()));
 #else
@@ -1123,11 +1124,12 @@ lumex_filesystem::copy_symlink (path const &from, path const &to_)
 {
 #if defined(LUMEX_OS_WINDOWS)
   // Windows requires knowing if link is file or dir
-  DWORD attrs = GetFileAttributesA (from.c_str ());
+  std::wstring const from_wide = from.wstring ();
+  DWORD attrs = GetFileAttributesW (from_wide.c_str ());
   if (attrs == INVALID_FILE_ATTRIBUTES)
     return filesystem_result<void>::err (static_cast<int> (GetLastError ()));
   bool isDir = (attrs & FILE_ATTRIBUTE_DIRECTORY) != 0;
-  if (CreateSymbolicLinkA (to_.c_str (), from.c_str (),
+  if (CreateSymbolicLinkW (to_.wstring ().c_str (), from_wide.c_str (),
                            isDir ? SYMBOLIC_LINK_FLAG_DIRECTORY : 0)
       != 0)
     return filesystem_result<void>::ok ();
@@ -1171,22 +1173,23 @@ lumex_filesystem::remove (path const &path_arg)
   // before DeleteFile/RemoveDirectory. Without that, remove_all fails after
   // permissions(..., owner_read) and leaves a leftover tree that poisons the
   // next gtest_discover_tests process for the same case.
-  DWORD attrs = GetFileAttributesA (path_arg.c_str ());
+  std::wstring const wide = path_arg.wstring ();
+  DWORD attrs = GetFileAttributesW (wide.c_str ());
   if (attrs != INVALID_FILE_ATTRIBUTES
       && (attrs & FILE_ATTRIBUTE_READONLY) != 0U)
     {
-      SetFileAttributesA (path_arg.c_str (),
+      SetFileAttributesW (wide.c_str (),
                           attrs
                               & static_cast<DWORD> (~FILE_ATTRIBUTE_READONLY));
     }
   if (is_directory (path_arg))
     {
-      if (RemoveDirectoryA (path_arg.c_str ()) != 0)
+      if (RemoveDirectoryW (wide.c_str ()) != 0)
         return filesystem_result<bool>::ok (true);
     }
   else
     {
-      if (DeleteFileA (path_arg.c_str ()) != 0)
+      if (DeleteFileW (wide.c_str ()) != 0)
         return filesystem_result<bool>::ok (true);
     }
   // Return false with the last Windows error if removal failed.
@@ -1781,13 +1784,14 @@ filesystem_result<void>
 lumex_filesystem::create_symlink (path const &target, path const &link)
 {
 #if defined(LUMEX_OS_WINDOWS)
-  // On Windows, CreateSymbolicLinkA requires admin rights for files, and needs
+  // On Windows, CreateSymbolicLinkW requires admin rights for files, and needs
   // to know if target is a dir
-  DWORD attrs = GetFileAttributesA (target.c_str ());
+  std::wstring const target_wide = target.wstring ();
+  DWORD attrs = GetFileAttributesW (target_wide.c_str ());
   if (attrs == INVALID_FILE_ATTRIBUTES)
     return filesystem_result<void>::err (static_cast<int> (GetLastError ()));
   bool isDir = (attrs & FILE_ATTRIBUTE_DIRECTORY) != 0;
-  if (CreateSymbolicLinkA (link.c_str (), target.c_str (),
+  if (CreateSymbolicLinkW (link.wstring ().c_str (), target_wide.c_str (),
                            isDir ? SYMBOLIC_LINK_FLAG_DIRECTORY : 0)
       != 0)
     return filesystem_result<void>::ok ();
@@ -1806,7 +1810,8 @@ lumex_filesystem::create_directory_symlink (path const &target,
 {
 #if defined(LUMEX_OS_WINDOWS)
   // Always create as directory symlink
-  if (CreateSymbolicLinkA (link.c_str (), target.c_str (),
+  if (CreateSymbolicLinkW (link.wstring ().c_str (),
+                           target.wstring ().c_str (),
                            SYMBOLIC_LINK_FLAG_DIRECTORY)
       != 0)
     return filesystem_result<void>::ok ();
@@ -1896,7 +1901,8 @@ filesystem_result<void>
 lumex_filesystem::rename (path const &from, path const &to_)
 {
 #if defined(LUMEX_OS_WINDOWS)
-  if (MoveFileExA (from.c_str (), to_.c_str (), MOVEFILE_REPLACE_EXISTING)
+  if (MoveFileExW (from.wstring ().c_str (), to_.wstring ().c_str (),
+                   MOVEFILE_REPLACE_EXISTING)
       != 0)
     return filesystem_result<void>::ok ();
   return filesystem_result<void>::err (static_cast<int> (GetLastError ()));
@@ -2010,7 +2016,7 @@ lumex_filesystem::move_file (path const &from, path const &to_path)
 {
 #if defined(LUMEX_OS_WINDOWS)
   // Try native MoveFileEx with overwrite
-  if (MoveFileExA (from.c_str (), to_path.c_str (),
+  if (MoveFileExW (from.wstring ().c_str (), to_path.wstring ().c_str (),
                    MOVEFILE_REPLACE_EXISTING | MOVEFILE_COPY_ALLOWED
                        | MOVEFILE_WRITE_THROUGH)
       != 0)
@@ -2070,7 +2076,7 @@ lumex_filesystem::move_directory (path const &from, path const &to_path)
     }
 
 #if defined(LUMEX_OS_WINDOWS)
-  if (MoveFileExA (from.c_str (), to_path.c_str (),
+  if (MoveFileExW (from.wstring ().c_str (), to_path.wstring ().c_str (),
                    MOVEFILE_COPY_ALLOWED | MOVEFILE_WRITE_THROUGH)
       != 0)
     return filesystem_result<void>::ok ();

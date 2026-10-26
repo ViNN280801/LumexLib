@@ -338,6 +338,19 @@ protected:
 #endif
   }
 
+  // Asks the system whether there is anything under the name `p`.
+  static bool
+  native_exists (path const &p)
+  {
+#if defined(_WIN32)
+    return GetFileAttributesW (p.wstring ().c_str ())
+           != INVALID_FILE_ATTRIBUTES;
+#else
+    struct stat status;
+    return lstat (p.c_str (), &status) == 0;
+#endif
+  }
+
   // The size the system reports; -1 when there is no such file.
   static long long
   native_file_size (path const &p)
@@ -574,4 +587,117 @@ TEST_F (LumexFilesystemUnicodeDiskTest,
   ASSERT_TRUE (result.success ()) << "error " << result.error_code ();
   EXPECT_EQ (result.value ().filename ().string (),
              std::string (kPrivetUtf8) + ".txt");
+}
+
+TEST_F (LumexFilesystemUnicodeDiskTest,
+        GivenCyrillicFile_WhenCopyFile_ThenTheCopyHasItsNameAndContent)
+{
+  path const from = m_base / (std::string (kPrivetUtf8) + ".txt");
+  path const to = m_base / (std::string (kPrivetUtf8) + kEmojiUtf8 + ".txt");
+  ASSERT_TRUE (native_create_file (from, "abc"));
+  created (from, false);
+  created (to, false);
+
+  auto const result = lumex_filesystem::copy_file (from, to);
+
+  ASSERT_TRUE (result.success ()) << "error " << result.error_code ();
+  EXPECT_EQ (native_file_size (to), 3);
+  EXPECT_EQ (native_file_size (from), 3);
+}
+
+TEST_F (LumexFilesystemUnicodeDiskTest,
+        GivenCyrillicFile_WhenRenameAndMoveFile_ThenOnlyTheNewNameExists)
+{
+  path const first = m_base / (std::string (kPrivetUtf8) + "1.txt");
+  path const second = m_base / (std::string (kPrivetUtf8) + "2.txt");
+  path const third = m_base / (std::string (kPrivetUtf8) + "3.txt");
+  ASSERT_TRUE (native_create_file (first));
+  created (first, false);
+  created (second, false);
+  created (third, false);
+
+  auto const renamed = lumex_filesystem::rename (first, second);
+  ASSERT_TRUE (renamed.success ()) << "error " << renamed.error_code ();
+  EXPECT_FALSE (native_exists (first));
+  EXPECT_TRUE (native_exists (second));
+
+  auto const moved = lumex_filesystem::move_file (second, third);
+  ASSERT_TRUE (moved.success ()) << "error " << moved.error_code ();
+  EXPECT_FALSE (native_exists (second));
+  EXPECT_TRUE (native_exists (third));
+}
+
+TEST_F (LumexFilesystemUnicodeDiskTest,
+        GivenCyrillicDirectory_WhenMoveDirectory_ThenOnlyTheNewNameExists)
+{
+  path const from = m_base / kPrivetUtf8;
+  path const to = m_base / (std::string (kPrivetUtf8) + kEmojiUtf8);
+  ASSERT_TRUE (native_create_directory (from));
+  created (from, true);
+  created (to, true);
+
+  auto const result = lumex_filesystem::move_directory (from, to);
+
+  ASSERT_TRUE (result.success ()) << "error " << result.error_code ();
+  EXPECT_FALSE (native_exists (from));
+  EXPECT_TRUE (native_is_directory (to));
+}
+
+TEST_F (LumexFilesystemUnicodeDiskTest,
+        GivenCyrillicFileAndDirectory_WhenRemove_ThenTheyAreGone)
+{
+  path const file = m_base / (std::string (kPrivetUtf8) + ".txt");
+  path const directory = m_base / kPrivetUtf8;
+  ASSERT_TRUE (native_create_file (file));
+  ASSERT_TRUE (native_create_directory (directory));
+  created (file, false);
+  created (directory, true);
+
+  auto const file_removed = lumex_filesystem::remove (file);
+  auto const directory_removed = lumex_filesystem::remove (directory);
+
+  ASSERT_TRUE (file_removed.success ())
+      << "error " << file_removed.error_code ();
+  EXPECT_TRUE (file_removed.value ());
+  EXPECT_FALSE (native_exists (file));
+  ASSERT_TRUE (directory_removed.success ())
+      << "error " << directory_removed.error_code ();
+  EXPECT_TRUE (directory_removed.value ());
+  EXPECT_FALSE (native_exists (directory));
+}
+
+TEST_F (LumexFilesystemUnicodeDiskTest,
+        GivenCyrillicTarget_WhenCreateSymlink_ThenTheLinkHasItsName)
+{
+  path const target = m_base / (std::string (kPrivetUtf8) + ".txt");
+  path const link = m_base / (std::string (kPrivetUtf8) + ".link");
+  path const directory = m_base / kPrivetUtf8;
+  path const directory_link = m_base / (std::string (kPrivetUtf8) + ".dir");
+  ASSERT_TRUE (native_create_file (target));
+  ASSERT_TRUE (native_create_directory (directory));
+  created (target, false);
+  created (directory, true);
+
+  auto const file_link = lumex_filesystem::create_symlink (target, link);
+#if defined(_WIN32)
+  // Without Developer Mode or the privilege, Windows refuses any link: the
+  // conversion is then not reachable on this machine.
+  if (!file_link.success ()
+      && file_link.error_code () == ERROR_PRIVILEGE_NOT_HELD)
+    GTEST_SKIP () << "symbolic links need SeCreateSymbolicLinkPrivilege";
+#endif
+  created (link, false);
+  ASSERT_TRUE (file_link.success ()) << "error " << file_link.error_code ();
+  EXPECT_TRUE (native_exists (link));
+
+  auto const dir_link
+      = lumex_filesystem::create_directory_symlink (directory, directory_link);
+  // A directory link is removed as a directory on Windows, as a file on POSIX.
+#if defined(_WIN32)
+  created (directory_link, true);
+#else
+  created (directory_link, false);
+#endif
+  ASSERT_TRUE (dir_link.success ()) << "error " << dir_link.error_code ();
+  EXPECT_TRUE (native_exists (directory_link));
 }
