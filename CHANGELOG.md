@@ -122,9 +122,9 @@
 
 **Файлы:** `lumex/core/filesystem/fs/LumexFilesystem.cpp`, `lumex/tests/core/filesystem/fs/LumexFilesystemUnicode.cxx11.tests.cpp`.
 
-**Суть:** `path` хранит UTF-8, а Windows-ветка передавала его байты функциям `...A`, которые читают их в кодовой странице ANSI. Каталог с кириллицей создавался под искаженным именем (или не создавался: в U+1F600 есть байт, которого нет в кодовой странице 1251), а файл, созданный другой программой под настоящим именем, не находился. `exists`, `is_directory`, `is_regular_file` и `create_directory` (а с ними `create_directories`) теперь вызывают функции `...W` с `path::wstring ()`.
+**Суть:** `path` хранит UTF-8, а Windows-ветка передавала его байты функциям `...A`, которые читают их в кодовой странице ANSI. Каталог с кириллицей создавался под искаженным именем (или не создавался: в U+1F600 есть байт, которого нет в кодовой странице 1251), а файл, созданный другой программой под настоящим именем, не находился. `exists`, `is_directory`, `is_regular_file` и `create_directory` (а с ними `create_directories`) теперь вызывают функции `...W` с `path::wstring ()`, как и `status`, `symlink_status`, `file_size`, `resize_file`, `last_write_time`, `permissions`, `space` и `read_symlink`. `read_symlink` больше не теряет дескриптор файла (он не закрывался, а при ошибке открытия `INVALID_HANDLE_VALUE` передавался дальше) и не ограничен `MAX_PATH`.
 
-**Проверено:** cl.exe: новые тесты `LumexFilesystemUnicodeDiskTest` проверяют имена через интерфейс самой ОС (`GetFileAttributesW` на Windows, `stat` в POSIX); до исправления 3 из 4 падали. `filesystem.*` 312 из 312 при C++11, 17 и 20.
+**Проверено:** cl.exe: новые тесты `LumexFilesystemUnicodeDiskTest` проверяют имена через интерфейс самой ОС (`GetFileAttributesW` на Windows, `stat` в POSIX); до исправления 9 из 10 падали (десятый проверяет, что несуществующее имя не найдено). `filesystem.*` 330 из 330 при C++11, 17 и 20.
 
 ##### `LumexLibConfig.cmake`: модуль `framing` не входил в `lumex::Lumex`
 
