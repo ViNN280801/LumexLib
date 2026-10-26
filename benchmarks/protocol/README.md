@@ -24,7 +24,17 @@ and clang-cl, `-fsyntax-only -O0` for GCC and Clang) with
   sign-magnitude, text, bits, masks, splits, enumerations, arrays, counts,
   unions, a session union, a nested message, an optional tail);
 - 5: as 4, plus its encoder and decoder in the binary, hexadecimal
-  fixed-width and tokenized layouts.
+  fixed-width and tokenized layouts;
+- 6: the largest test table of a device (`lumex/tests/core/protocol/devices/
+  device_b`, which includes the family table of device A it extends: 36 row
+  definitions in ten protocol layers, five registries, layouts with unions,
+  splits and optional tails; the protocols of these tables were intentionally altered
+  for NDA reasons);
+- 7: as 6, plus the run-time index of six of these layers with their
+  registries (those of device B but the aligned variant of the family table,
+  which is only checked for its alignment, and the family table;
+  `index::build_index`: entries, field descriptors and the describe functions
+  of every row).
 
 Each variant is compiled `--repeats` times at C++11 (C++14 for the cl
 drivers, their lowest) and C++20; the median and the minimum are kept in
@@ -37,16 +47,24 @@ python compile_time.py --compiler "cl=cl" --compiler "clang-cl=clang-cl" --repea
 ## Results
 
 Windows 10, MSVC 19.51 (Visual Studio 18) and clang-cl 21.1.7, median of 5,
-milliseconds (23.10.2026, with the field types and the layouts):
+milliseconds (26.10.2026, with the registries, the index and the exports;
+the machine was slower than at the earlier runs: the headers alone took 300
+and 315 ms at C++14 on 23.10.2026):
 
-| Toolchain | Standard | Headers | + 40-field layout | + 100 rows | + entries, methods | 40 fields of every kind | + encode and decode, 3 layouts |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| cl.exe | C++14 | 300 | 309 | 431 | 518 | 343 | 494 |
-| cl.exe | C++20 | 557 | 565 | 701 | 807 | 598 | 780 |
-| clang-cl | C++14 | 315 | 316 | 361 | 383 | 332 | 404 |
-| clang-cl | C++20 | 491 | 494 | 540 | 581 | 518 | 580 |
+| Toolchain | Standard | Headers | + 40-field layout | + 100 rows | + entries, methods | 40 fields of every kind | + encode and decode, 3 layouts | device table | + its index |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| cl.exe | C++14 | 465 | 475 | 606 | 701 | 510 | 670 | 702 | 1281 |
+| cl.exe | C++20 | 838 | 874 | 958 | 1073 | 855 | 1044 | 1031 | 1616 |
+| clang-cl | C++14 | 412 | 414 | 460 | 493 | 423 | 501 | 485 | 723 |
+| clang-cl | C++20 | 646 | 653 | 706 | 735 | 666 | 737 | 727 | 980 |
 
-The headers cost about 20 ms more on cl.exe than with the DSL core alone
+The largest device table costs 237 ms (cl.exe) and 73 ms (clang-cl) over the
+headers at C++14, much more than its 36 rows at the rate of the 100-row table
+(about 50 and 17 ms): its layouts (unions, splits, tails), registries and
+layers make the rest; indexing six of its layers (every row gets its field descriptors and
+describe functions) costs another 579 and 238 ms, the price a translation
+unit pays once when it builds the index of a protocol. Measured on 23.10.2026,
+before the registries and the index: the headers cost about 20 ms more on cl.exe than with the DSL core alone
 (282 and 541 ms; clang-cl unchanged, 319 and 491 ms). A 100-row table costs
 about 131 ms (cl.exe) and 46 ms (clang-cl) over the headers, against 50 and 35
 ms before: about half of the increase is the check of every row identifier
