@@ -262,8 +262,15 @@ foreach(_dir IN LISTS _dirs)
     endif()
     list(APPEND _seen_keys "${_key}")
 
-    # The test tree follows the source tree.
-    if(NOT IS_DIRECTORY "${LUMEX_SOURCE_DIR}/lumex/${_rel}")
+    # The test tree follows the source tree. The test tables of the researched
+    # devices (core/protocol/devices/device_<x>) are the one exception: they
+    # test no source directory of their own, they drive the public headers of
+    # core/protocol with altered device protocols.
+    set(_device_tables FALSE)
+    if(_rel MATCHES "^core/protocol/devices/[A-Za-z0-9_]+$")
+        set(_device_tables TRUE)
+    endif()
+    if(NOT _device_tables AND NOT IS_DIRECTORY "${LUMEX_SOURCE_DIR}/lumex/${_rel}")
         string(APPEND _errors
             "  lumex/tests/${_rel}: there is no lumex/${_rel}; a test directory "
             "has the path of the source directory it tests\n")
@@ -276,8 +283,16 @@ foreach(_dir IN LISTS _dirs)
         string(APPEND _errors "  lumex/tests/${_rel}: its parent has no CMakeLists.txt\n")
     else()
         _read_code(_parent_code "${_parent}/CMakeLists.txt")
-        if(NOT _parent_code MATCHES
+        set(_parent_adds FALSE)
+        if(_parent_code MATCHES
            "(add_subdirectory[ \t]*\\(|lumex_add_subdirectory_if[ \t]*\\([A-Za-z0-9_]+[ \t]+)${_name}[ \t]*\\)")
+            set(_parent_adds TRUE)
+        elseif(_device_tables AND _parent_code MATCHES
+               "add_subdirectory[ \t]*\\([ \t]*\\$\\{[A-Za-z0-9_]+\\}[ \t]*\\)")
+            # devices/CMakeLists.txt adds every device directory in a loop.
+            set(_parent_adds TRUE)
+        endif()
+        if(NOT _parent_adds)
             string(APPEND _errors
                 "  lumex/tests/${_rel}: the CMakeLists.txt of its parent does "
                 "not add_subdirectory (${_name})\n")
