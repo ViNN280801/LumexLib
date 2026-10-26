@@ -183,8 +183,10 @@ interprocess_lock::try_acquire (path_t const &file, std::string const &payload)
     }
 
   std::unique_ptr<impl> state (new impl ());
-  // 0666 before the umask, like any file a program creates: every user who
-  // runs the program must be able to take the same lock.
+  // 0666 before the umask, like any file a program creates. The mode of the
+  // file that is made follows the umask (0644 under the usual 022), so another
+  // user takes the same lock only through a shared directory and a group or a
+  // umask that let them open the file for writing: nothing here widens it.
   state->descriptor = open (file.c_str (), O_CREAT | O_RDWR | O_CLOEXEC, 0666);
   if (state->descriptor < 0)
     return acquire_result_t (unexpect, failure (errno));

@@ -763,8 +763,12 @@ lumex_filesystem::exists (path const &path_arg)
 {
 #if defined(LUMEX_OS_WINDOWS)
   // The path is UTF-8: an ...A function would read its bytes in the ANSI code
-  // page and see another name as soon as it is not ASCII.
-  DWORD attrs = GetFileAttributesW (path_arg.wstring ().c_str ());
+  // page and see another name as soon as it is not ASCII. A path that is not
+  // UTF-8 names nothing.
+  filesystem_result<std::wstring> const wide = to_wide_path (path_arg);
+  if (!wide.success ())
+    return false;
+  DWORD attrs = GetFileAttributesW (wide.value ().c_str ());
   return attrs != INVALID_FILE_ATTRIBUTES;
 #else
   struct stat stt;
@@ -777,7 +781,10 @@ bool
 lumex_filesystem::is_directory (path const &path_arg)
 {
 #if defined(LUMEX_OS_WINDOWS)
-  DWORD attrs = GetFileAttributesW (path_arg.wstring ().c_str ());
+  filesystem_result<std::wstring> const wide = to_wide_path (path_arg);
+  if (!wide.success ())
+    return false;
+  DWORD attrs = GetFileAttributesW (wide.value ().c_str ());
   return attrs != INVALID_FILE_ATTRIBUTES
          && (attrs & FILE_ATTRIBUTE_DIRECTORY) != 0;
 #else
@@ -793,7 +800,10 @@ bool
 lumex_filesystem::is_regular_file (path const &path_arg)
 {
 #if defined(LUMEX_OS_WINDOWS)
-  DWORD attrs = GetFileAttributesW (path_arg.wstring ().c_str ());
+  filesystem_result<std::wstring> const wide = to_wide_path (path_arg);
+  if (!wide.success ())
+    return false;
+  DWORD attrs = GetFileAttributesW (wide.value ().c_str ());
   return attrs != INVALID_FILE_ATTRIBUTES
          && (attrs & FILE_ATTRIBUTE_DIRECTORY) == 0
          && (attrs & FILE_ATTRIBUTE_DEVICE) == 0;
@@ -810,7 +820,10 @@ filesystem_result<bool>
 lumex_filesystem::create_directory (path const &path_arg)
 {
 #if defined(LUMEX_OS_WINDOWS)
-  if (CreateDirectoryW (path_arg.wstring ().c_str (), nullptr) != 0)
+  filesystem_result<std::wstring> const wide = to_wide_path (path_arg);
+  if (!wide.success ())
+    return filesystem_result<bool>::err (wide.error_code (), false);
+  if (CreateDirectoryW (wide.value ().c_str (), nullptr) != 0)
     return filesystem_result<bool>::ok (true);
   DWORD error = GetLastError ();
   if (error == ERROR_ALREADY_EXISTS && is_directory (path_arg))
@@ -832,14 +845,26 @@ namespace detail
 // wherever the standard library takes one (an extension of the MSVC STL used
 // by cl.exe and clang-cl, and of libstdc++ with _wfopen on MinGW). Elsewhere
 // the narrow name stays: it is right on POSIX, and the only choice on another
-// Windows library.
+// Windows library. On Windows a path that is not valid UTF-8 gives an empty
+// name, which no stream opens (the name of the skipped bytes would be the name
+// of another file); the callers that report an error check the path before.
 #if defined(LUMEX_OS_WINDOWS)                                                 \
     && ((defined(_MSC_VER) && !defined(_LIBCPP_VERSION))                      \
         || (defined(_GLIBCXX_HAVE__WFOPEN) && defined(_GLIBCXX_USE_WCHAR_T)))
 static std::wstring
 stream_name (path const &path_arg)
 {
-  return path_arg.wstring ();
+  filesystem_result<std::wstring> const wide
+      = lumex_filesystem::to_wide_path (path_arg);
+  return wide.success () ? wide.value () : std::wstring ();
+}
+#elif defined(LUMEX_OS_WINDOWS)
+static std::string
+stream_name (path const &path_arg)
+{
+  return lumex_filesystem::to_wide_path (path_arg).success ()
+             ? path_arg.string ()
+             : std::string ();
 }
 #else
 static std::string
@@ -909,7 +934,10 @@ filesystem_result<void>
 lumex_filesystem::current_path (path const &path_arg)
 {
 #if defined(LUMEX_OS_WINDOWS)
-  if (SetCurrentDirectoryW (path_arg.wstring ().c_str ()) != 0)
+  filesystem_result<std::wstring> const wide = to_wide_path (path_arg);
+  if (!wide.success ())
+    return filesystem_result<void>::err (wide.error_code ());
+  if (SetCurrentDirectoryW (wide.value ().c_str ()) != 0)
     return filesystem_result<void>::ok ();
   return filesystem_result<void>::err (static_cast<int> (GetLastError ()));
 #else
@@ -954,9 +982,12 @@ lumex_filesystem::get_file_status_windows (path const &path_arg, bool follow)
   // GetFileAttributesEx describes the link itself and never its target, so
   // follow changes nothing here; the parameter keeps the POSIX signature.
   LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (follow);
-  BOOL ok_
-      = GetFileAttributesExW (path_arg.wstring ().c_str (),
-                              GetFileExInfoStandard, std::addressof (data));
+  filesystem_result<std::wstring> const wide = to_wide_path (path_arg);
+  if (!wide.success ())
+    return filesystem_result<file_status>::err (
+        wide.error_code (), file_status (file_type::not_found));
+  BOOL ok_ = GetFileAttributesExW (
+      wide.value ().c_str (), GetFileExInfoStandard, std::addressof (data));
   if (!static_cast<bool> (ok_))
     return filesystem_result<file_status>::err (
         static_cast<int> (GetLastError ()),
@@ -1143,7 +1174,13 @@ filesystem_result<void>
 lumex_filesystem::copy_file (path const &from, path const &to_)
 {
 #if defined(LUMEX_OS_WINDOWS)
-  if (CopyFileW (from.wstring ().c_str (), to_.wstring ().c_str (), FALSE)
+  filesystem_result<std::wstring> const wide_from = to_wide_path (from);
+  if (!wide_from.success ())
+    return filesystem_result<void>::err (wide_from.error_code ());
+  filesystem_result<std::wstring> const wide_to = to_wide_path (to_);
+  if (!wide_to.success ())
+    return filesystem_result<void>::err (wide_to.error_code ());
+  if (CopyFileW (wide_from.value ().c_str (), wide_to.value ().c_str (), FALSE)
       != 0)
     return filesystem_result<void>::ok ();
   return filesystem_result<void>::err (static_cast<int> (GetLastError ()));
@@ -1184,12 +1221,18 @@ lumex_filesystem::copy_symlink (path const &from, path const &to_)
 {
 #if defined(LUMEX_OS_WINDOWS)
   // Windows requires knowing if link is file or dir
-  std::wstring const from_wide = from.wstring ();
-  DWORD attrs = GetFileAttributesW (from_wide.c_str ());
+  filesystem_result<std::wstring> const from_wide = to_wide_path (from);
+  if (!from_wide.success ())
+    return filesystem_result<void>::err (from_wide.error_code ());
+  filesystem_result<std::wstring> const to_wide = to_wide_path (to_);
+  if (!to_wide.success ())
+    return filesystem_result<void>::err (to_wide.error_code ());
+  DWORD attrs = GetFileAttributesW (from_wide.value ().c_str ());
   if (attrs == INVALID_FILE_ATTRIBUTES)
     return filesystem_result<void>::err (static_cast<int> (GetLastError ()));
   bool isDir = (attrs & FILE_ATTRIBUTE_DIRECTORY) != 0;
-  if (CreateSymbolicLinkW (to_.wstring ().c_str (), from_wide.c_str (),
+  if (CreateSymbolicLinkW (to_wide.value ().c_str (),
+                           from_wide.value ().c_str (),
                            isDir ? SYMBOLIC_LINK_FLAG_DIRECTORY : 0)
       != 0)
     return filesystem_result<void>::ok ();
@@ -1224,6 +1267,12 @@ LUMEX_PUBLIC_API
 filesystem_result<bool>
 lumex_filesystem::remove (path const &path_arg)
 {
+#if defined(LUMEX_OS_WINDOWS)
+  // Before exists (): a path that is not UTF-8 is refused, not "not found".
+  filesystem_result<std::wstring> const wide = to_wide_path (path_arg);
+  if (!wide.success ())
+    return filesystem_result<bool>::err (wide.error_code (), false);
+#endif
   // If file doesn't exist, return success with false
   if (!exists (path_arg))
     return filesystem_result<bool>::ok (false);
@@ -1233,23 +1282,22 @@ lumex_filesystem::remove (path const &path_arg)
   // before DeleteFile/RemoveDirectory. Without that, remove_all fails after
   // permissions(..., owner_read) and leaves a leftover tree that poisons the
   // next gtest_discover_tests process for the same case.
-  std::wstring const wide = path_arg.wstring ();
-  DWORD attrs = GetFileAttributesW (wide.c_str ());
+  DWORD attrs = GetFileAttributesW (wide.value ().c_str ());
   if (attrs != INVALID_FILE_ATTRIBUTES
       && (attrs & FILE_ATTRIBUTE_READONLY) != 0U)
     {
-      SetFileAttributesW (wide.c_str (),
+      SetFileAttributesW (wide.value ().c_str (),
                           attrs
                               & static_cast<DWORD> (~FILE_ATTRIBUTE_READONLY));
     }
   if (is_directory (path_arg))
     {
-      if (RemoveDirectoryW (wide.c_str ()) != 0)
+      if (RemoveDirectoryW (wide.value ().c_str ()) != 0)
         return filesystem_result<bool>::ok (true);
     }
   else
     {
-      if (DeleteFileW (wide.c_str ()) != 0)
+      if (DeleteFileW (wide.value ().c_str ()) != 0)
         return filesystem_result<bool>::ok (true);
     }
   // Return false with the last Windows error if removal failed.
@@ -1275,6 +1323,13 @@ LUMEX_PUBLIC_API
 filesystem_result<std::uintmax_t>
 lumex_filesystem::remove_all (path const &path_arg)
 {
+#if defined(LUMEX_OS_WINDOWS)
+  // Before exists (): a path that is not UTF-8 is refused, not "not found".
+  filesystem_result<std::wstring> const wide = to_wide_path (path_arg);
+  if (!wide.success ())
+    return filesystem_result<std::uintmax_t>::err (
+        wide.error_code (), static_cast<std::uintmax_t> (0));
+#endif
   if (!exists (path_arg))
     return filesystem_result<std::uintmax_t>::ok (
         static_cast<std::uintmax_t> (0));
@@ -1301,9 +1356,12 @@ filesystem_result<std::uintmax_t>
 lumex_filesystem::file_size (path const &path_arg)
 {
 #if defined(LUMEX_OS_WINDOWS)
-  HANDLE hFile = CreateFileW (path_arg.wstring ().c_str (), GENERIC_READ,
-                              FILE_SHARE_READ, nullptr, OPEN_EXISTING,
-                              FILE_ATTRIBUTE_NORMAL, nullptr);
+  filesystem_result<std::wstring> const wide = to_wide_path (path_arg);
+  if (!wide.success ())
+    return filesystem_result<std::uintmax_t>::err (wide.error_code (), 0);
+  HANDLE hFile
+      = CreateFileW (wide.value ().c_str (), GENERIC_READ, FILE_SHARE_READ,
+                     nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
   if (hFile == INVALID_HANDLE_VALUE)
     return filesystem_result<std::uintmax_t>::err (
         static_cast<int> (GetLastError ()), 0);
@@ -1333,9 +1391,12 @@ filesystem_result<std::time_t>
 lumex_filesystem::last_write_time (path const &path_arg)
 {
 #if defined(LUMEX_OS_WINDOWS)
-  HANDLE hFile = CreateFileW (path_arg.wstring ().c_str (), GENERIC_READ,
-                              FILE_SHARE_READ, nullptr, OPEN_EXISTING,
-                              FILE_ATTRIBUTE_NORMAL, nullptr);
+  filesystem_result<std::wstring> const wide = to_wide_path (path_arg);
+  if (!wide.success ())
+    return filesystem_result<std::time_t>::err (wide.error_code (), 0);
+  HANDLE hFile
+      = CreateFileW (wide.value ().c_str (), GENERIC_READ, FILE_SHARE_READ,
+                     nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
   if (hFile == INVALID_HANDLE_VALUE)
     return filesystem_result<std::time_t>::err (
         static_cast<int> (GetLastError ()), 0);
@@ -1368,9 +1429,12 @@ filesystem_result<void>
 lumex_filesystem::last_write_time (path const &path_arg, std::time_t new_time)
 {
 #if defined(LUMEX_OS_WINDOWS)
-  HANDLE hFile = CreateFileW (path_arg.wstring ().c_str (), GENERIC_WRITE,
-                              FILE_SHARE_WRITE, nullptr, OPEN_EXISTING,
-                              FILE_ATTRIBUTE_NORMAL, nullptr);
+  filesystem_result<std::wstring> const wide = to_wide_path (path_arg);
+  if (!wide.success ())
+    return filesystem_result<void>::err (wide.error_code ());
+  HANDLE hFile
+      = CreateFileW (wide.value ().c_str (), GENERIC_WRITE, FILE_SHARE_WRITE,
+                     nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
   if (hFile == INVALID_HANDLE_VALUE)
     return filesystem_result<void>::err (static_cast<int> (GetLastError ()));
   ULARGE_INTEGER ulInt;
@@ -1400,14 +1464,16 @@ filesystem_result<void>
 lumex_filesystem::permissions (path const &path_arg, perms prms)
 {
 #if defined(LUMEX_OS_WINDOWS)
-  std::wstring const wide = path_arg.wstring ();
-  DWORD attrs = GetFileAttributesW (wide.c_str ());
+  filesystem_result<std::wstring> const wide = to_wide_path (path_arg);
+  if (!wide.success ())
+    return filesystem_result<void>::err (wide.error_code ());
+  DWORD attrs = GetFileAttributesW (wide.value ().c_str ());
   if (attrs == INVALID_FILE_ATTRIBUTES)
     return filesystem_result<void>::err (static_cast<int> (GetLastError ()));
 
   DWORD new_attrs = detail::apply_perms_to_windows_attributes (attrs, prms);
 
-  if (SetFileAttributesW (wide.c_str (), new_attrs) != 0)
+  if (SetFileAttributesW (wide.value ().c_str (), new_attrs) != 0)
     return filesystem_result<void>::ok ();
   return filesystem_result<void>::err (static_cast<int> (GetLastError ()));
 #else
@@ -1425,9 +1491,12 @@ lumex_filesystem::read_symlink (path const &path_arg)
 #if defined(LUMEX_OS_WINDOWS)
   // The handle used to be passed on unchecked and never closed: a failed open
   // went on with INVALID_HANDLE_VALUE, a successful one leaked.
+  filesystem_result<std::wstring> const wide = to_wide_path (path_arg);
+  if (!wide.success ())
+    return filesystem_result<path>::err (wide.error_code (), path ());
   HANDLE const file
-      = CreateFileW (path_arg.wstring ().c_str (), 0, 0, nullptr,
-                     OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, nullptr);
+      = CreateFileW (wide.value ().c_str (), 0, 0, nullptr, OPEN_EXISTING,
+                     FILE_FLAG_BACKUP_SEMANTICS, nullptr);
   if (file == INVALID_HANDLE_VALUE)
     return filesystem_result<path>::err (static_cast<int> (GetLastError ()),
                                          path ());
@@ -1465,7 +1534,11 @@ lumex_filesystem::space (path const &path_arg)
   ULARGE_INTEGER totalNumberOfBytes;
   ULARGE_INTEGER totalNumberOfFreeBytes;
 
-  if (GetDiskFreeSpaceExW (path_arg.wstring ().c_str (), &freeBytesAvailable,
+  filesystem_result<std::wstring> const wide = to_wide_path (path_arg);
+  if (!wide.success ())
+    return filesystem_result<space_info>::err (wide.error_code (),
+                                               space_info ());
+  if (GetDiskFreeSpaceExW (wide.value ().c_str (), &freeBytesAvailable,
                            &totalNumberOfBytes, &totalNumberOfFreeBytes)
       == 0)
     return filesystem_result<space_info>::err (
@@ -1532,8 +1605,10 @@ directory_iterator::directory_iterator (path const &path_arg)
     pattern += "/*";
   else
     pattern += "*";
-  m_impl->handle = FindFirstFileW (
-      lumex_filesystem::to_wide_string (pattern).c_str (), &m_impl->data);
+  filesystem_result<std::wstring> const wide
+      = lumex_filesystem::to_wide_path (path (pattern));
+  if (wide.success ())
+    m_impl->handle = FindFirstFileW (wide.value ().c_str (), &m_impl->data);
   m_impl->first = true;
   if (m_impl->handle == INVALID_HANDLE_VALUE)
     m_impl.reset ();
@@ -1864,12 +1939,18 @@ lumex_filesystem::create_symlink (path const &target, path const &link)
 #if defined(LUMEX_OS_WINDOWS)
   // On Windows, CreateSymbolicLinkW requires admin rights for files, and needs
   // to know if target is a dir
-  std::wstring const target_wide = target.wstring ();
-  DWORD attrs = GetFileAttributesW (target_wide.c_str ());
+  filesystem_result<std::wstring> const target_wide = to_wide_path (target);
+  if (!target_wide.success ())
+    return filesystem_result<void>::err (target_wide.error_code ());
+  filesystem_result<std::wstring> const link_wide = to_wide_path (link);
+  if (!link_wide.success ())
+    return filesystem_result<void>::err (link_wide.error_code ());
+  DWORD attrs = GetFileAttributesW (target_wide.value ().c_str ());
   if (attrs == INVALID_FILE_ATTRIBUTES)
     return filesystem_result<void>::err (static_cast<int> (GetLastError ()));
   bool isDir = (attrs & FILE_ATTRIBUTE_DIRECTORY) != 0;
-  if (CreateSymbolicLinkW (link.wstring ().c_str (), target_wide.c_str (),
+  if (CreateSymbolicLinkW (link_wide.value ().c_str (),
+                           target_wide.value ().c_str (),
                            isDir ? SYMBOLIC_LINK_FLAG_DIRECTORY : 0)
       != 0)
     return filesystem_result<void>::ok ();
@@ -1888,8 +1969,14 @@ lumex_filesystem::create_directory_symlink (path const &target,
 {
 #if defined(LUMEX_OS_WINDOWS)
   // Always create as directory symlink
-  if (CreateSymbolicLinkW (link.wstring ().c_str (),
-                           target.wstring ().c_str (),
+  filesystem_result<std::wstring> const target_wide = to_wide_path (target);
+  if (!target_wide.success ())
+    return filesystem_result<void>::err (target_wide.error_code ());
+  filesystem_result<std::wstring> const link_wide = to_wide_path (link);
+  if (!link_wide.success ())
+    return filesystem_result<void>::err (link_wide.error_code ());
+  if (CreateSymbolicLinkW (link_wide.value ().c_str (),
+                           target_wide.value ().c_str (),
                            SYMBOLIC_LINK_FLAG_DIRECTORY)
       != 0)
     return filesystem_result<void>::ok ();
@@ -1906,7 +1993,10 @@ path
 lumex_filesystem::canonical (path const &path_arg)
 {
 #if defined(LUMEX_OS_WINDOWS)
-  std::wstring const wide = path_arg.wstring ();
+  filesystem_result<std::wstring> const checked = to_wide_path (path_arg);
+  if (!checked.success ())
+    return path ();
+  std::wstring const &wide = checked.value ();
   std::wstring full;
   if (!detail::read_wide_text (
           [&wide] (DWORD size, wchar_t *buffer)
@@ -1983,7 +2073,13 @@ filesystem_result<void>
 lumex_filesystem::rename (path const &from, path const &to_)
 {
 #if defined(LUMEX_OS_WINDOWS)
-  if (MoveFileExW (from.wstring ().c_str (), to_.wstring ().c_str (),
+  filesystem_result<std::wstring> const wide_from = to_wide_path (from);
+  if (!wide_from.success ())
+    return filesystem_result<void>::err (wide_from.error_code ());
+  filesystem_result<std::wstring> const wide_to = to_wide_path (to_);
+  if (!wide_to.success ())
+    return filesystem_result<void>::err (wide_to.error_code ());
+  if (MoveFileExW (wide_from.value ().c_str (), wide_to.value ().c_str (),
                    MOVEFILE_REPLACE_EXISTING)
       != 0)
     return filesystem_result<void>::ok ();
@@ -2012,6 +2108,13 @@ lumex_filesystem::replace_file_content (path const &path_arg,
   std::string temporary;
   try
     {
+#if defined(LUMEX_OS_WINDOWS)
+      // The temporary file has the name of the path and an ASCII suffix, so
+      // one check covers both.
+      filesystem_result<std::wstring> const wide = to_wide_path (path_arg);
+      if (!wide.success ())
+        return filesystem_result<void>::err (wide.error_code ());
+#endif
       path const parent = path_arg.parent_path ();
       if (!parent.empty () && !exists (parent))
         create_directories (parent);
@@ -2070,8 +2173,11 @@ filesystem_result<void>
 lumex_filesystem::resize_file (path const &path_arg, std::uintmax_t new_size)
 {
 #if defined(LUMEX_OS_WINDOWS)
+  filesystem_result<std::wstring> const wide = to_wide_path (path_arg);
+  if (!wide.success ())
+    return filesystem_result<void>::err (wide.error_code ());
   HANDLE hFile
-      = CreateFileW (path_arg.wstring ().c_str (), GENERIC_WRITE, 0, nullptr,
+      = CreateFileW (wide.value ().c_str (), GENERIC_WRITE, 0, nullptr,
                      OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
   if (hFile == INVALID_HANDLE_VALUE)
     return filesystem_result<void>::err (static_cast<int> (GetLastError ()));
@@ -2099,7 +2205,13 @@ lumex_filesystem::move_file (path const &from, path const &to_path)
 {
 #if defined(LUMEX_OS_WINDOWS)
   // Try native MoveFileEx with overwrite
-  if (MoveFileExW (from.wstring ().c_str (), to_path.wstring ().c_str (),
+  filesystem_result<std::wstring> const wide_from = to_wide_path (from);
+  if (!wide_from.success ())
+    return filesystem_result<void>::err (wide_from.error_code ());
+  filesystem_result<std::wstring> const wide_to = to_wide_path (to_path);
+  if (!wide_to.success ())
+    return filesystem_result<void>::err (wide_to.error_code ());
+  if (MoveFileExW (wide_from.value ().c_str (), wide_to.value ().c_str (),
                    MOVEFILE_REPLACE_EXISTING | MOVEFILE_COPY_ALLOWED
                        | MOVEFILE_WRITE_THROUGH)
       != 0)
@@ -2142,6 +2254,16 @@ LUMEX_PUBLIC_API
 filesystem_result<void>
 lumex_filesystem::move_directory (path const &from, path const &to_path)
 {
+#if defined(LUMEX_OS_WINDOWS)
+  // Before the validation: a path that is not UTF-8 is refused, whatever the
+  // directories are.
+  filesystem_result<std::wstring> const wide_from = to_wide_path (from);
+  if (!wide_from.success ())
+    return filesystem_result<void>::err (wide_from.error_code ());
+  filesystem_result<std::wstring> const wide_to = to_wide_path (to_path);
+  if (!wide_to.success ())
+    return filesystem_result<void>::err (wide_to.error_code ());
+#endif
   // Basic validation
   if (!is_directory (from))
     return filesystem_result<void>::err (ENOTDIR);
@@ -2159,7 +2281,7 @@ lumex_filesystem::move_directory (path const &from, path const &to_path)
     }
 
 #if defined(LUMEX_OS_WINDOWS)
-  if (MoveFileExW (from.wstring ().c_str (), to_path.wstring ().c_str (),
+  if (MoveFileExW (wide_from.value ().c_str (), wide_to.value ().c_str (),
                    MOVEFILE_COPY_ALLOWED | MOVEFILE_WRITE_THROUGH)
       != 0)
     return filesystem_result<void>::ok ();
@@ -2210,6 +2332,76 @@ lumex_filesystem::to_wide_string (std::string const &str)
   // does not start a complete UTF-8 sequence is skipped.
   return unicode::convert::to_wide (str);
 }
+
+#if defined(LUMEX_OS_WINDOWS)
+namespace detail
+{
+// Whether `text` is valid UTF-8 by Unicode table 3-7: a lead byte C2..F4, the
+// right number of continuation bytes, the second one within the range of its
+// lead (no overlong form behind E0 and F0, no surrogate behind ED, nothing
+// above U+10FFFF behind F4).
+static bool
+is_valid_utf8 (std::string const &text) LUMEX_NOEXCEPT
+{
+  std::size_t const size = text.size ();
+  std::size_t index = 0;
+  while (index < size)
+    {
+      unsigned char const lead = static_cast<unsigned char> (text[index]);
+      if (lead < 0x80)
+        {
+          ++index;
+          continue;
+        }
+      std::size_t length = 0;
+      unsigned char second_low = 0x80;
+      unsigned char second_high = 0xBF;
+      if (lead >= 0xC2 && lead <= 0xDF)
+        length = 2;
+      else if (lead >= 0xE0 && lead <= 0xEF)
+        {
+          length = 3;
+          if (lead == 0xE0)
+            second_low = 0xA0;
+          else if (lead == 0xED)
+            second_high = 0x9F;
+        }
+      else if (lead >= 0xF0 && lead <= 0xF4)
+        {
+          length = 4;
+          if (lead == 0xF0)
+            second_low = 0x90;
+          else if (lead == 0xF4)
+            second_high = 0x8F;
+        }
+      else
+        return false; // a continuation byte, C0, C1, or F5..FF
+      if (size - index < length)
+        return false;
+      unsigned char const second
+          = static_cast<unsigned char> (text[index + 1]);
+      if (second < second_low || second > second_high)
+        return false;
+      for (std::size_t k = 2; k < length; ++k)
+        if ((static_cast<unsigned char> (text[index + k]) & 0xC0U) != 0x80U)
+          return false;
+      index += length;
+    }
+  return true;
+}
+} // namespace detail
+
+LUMEX_PUBLIC_API
+filesystem_result<std::wstring>
+lumex_filesystem::to_wide_path (path const &path_arg)
+{
+  if (!detail::is_valid_utf8 (path_arg.native ()))
+    return filesystem_result<std::wstring>::err (
+        static_cast<int> (ERROR_INVALID_NAME), std::wstring ());
+  return filesystem_result<std::wstring>::ok (
+      lumex_filesystem::to_wide_string (path_arg.native ()));
+}
+#endif
 
 LUMEX_PUBLIC_API
 std::string
@@ -2265,10 +2457,16 @@ lumex_filesystem::lock_directory (path const &path_arg)
     {
 #if defined(LUMEX_OS_WINDOWS)
       static HANDLE s_dirHandle = INVALID_HANDLE_VALUE;
-      s_dirHandle = CreateFileW (
-          path_arg.wstring ().c_str (), GENERIC_READ,
-          FILE_SHARE_READ | FILE_SHARE_WRITE, // without FILE_SHARE_DELETE
-          nullptr, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, nullptr);
+      filesystem_result<std::wstring> const wide = to_wide_path (path_arg);
+      s_dirHandle
+          = !wide.success ()
+                ? INVALID_HANDLE_VALUE
+                : CreateFileW (
+                      wide.value ().c_str (), GENERIC_READ,
+                      FILE_SHARE_READ
+                          | FILE_SHARE_WRITE, // without FILE_SHARE_DELETE
+                      nullptr, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS,
+                      nullptr);
       if (s_dirHandle == INVALID_HANDLE_VALUE)
         std::cerr << "Warning: cannot lock \"" << path_arg << "\" directory\n";
 #else

@@ -58,10 +58,18 @@
  *   in this process does not release it (a `fcntl` record lock would be
  *   released; that is why it is not used).
  *
- * The file is never deleted: deleting a file another process has open would
- * let two processes lock two different files of the same name. The lock is
- * advisory: it protects against programs that take the same lock, not against
- * any program that opens the file.
+ * The file is never deleted by the class: deleting a file another process has
+ * open would let two processes lock two different files of the same name. A
+ * program can still unlink it while it is held on POSIX (another process then
+ * creates and locks a new file of the same name); on Windows the handle does
+ * not share deletion, so the system refuses. The lock is advisory: it
+ * protects against programs that take the same lock, not against any program
+ * that opens the file. On POSIX the mode of the new file follows the umask
+ * (0666 before it), so users of one lock need a shared directory and a group
+ * or a umask that let them write the file. `flock` over NFS is emulated with
+ * `fcntl` record locks by the Linux client, so there the lock is released when
+ * the process closes any descriptor of the file, the caveat of `fcntl` that
+ * `flock` avoids on a local file system.
  *
  * An object is not shared between threads; the class itself keeps no global
  * state.
@@ -109,7 +117,9 @@ class LUMEX_INTERPROCESS_API interprocess_lock
 {
 public:
   /// @brief The path type: UTF-8 on every system (converted to UTF-16 on
-  /// Windows); converts from `std::filesystem::path` from C++17.
+  /// Windows, where a path that is not valid UTF-8 is refused with
+  /// `io_error` and `ERROR_INVALID_NAME`; POSIX takes the bytes as they are);
+  /// converts from `std::filesystem::path` from C++17.
   using path_t = lumex::core::filesystem::fs::path;
   /// @brief The result of `try_acquire`: the lock, or why there is none.
   using acquire_result_t
@@ -127,7 +137,8 @@ public:
    * @param payload What the holder writes into the file (for example its
    * process ID and a time as JSON); empty leaves the file empty.
    * @return The lock, or `lock_error::busy` when another open file holds it,
-   * `access_denied` or `io_error` when the file cannot be used.
+   * `access_denied` or `io_error` when the file cannot be used (a directory in
+   * place of the file is `io_error` on both systems).
    */
   static acquire_result_t try_acquire (path_t const &file,
                                        std::string const &payload

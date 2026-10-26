@@ -79,7 +79,8 @@ namespace lock
  * another `interprocess_lock` of this process on the same file).
  * `access_denied`: the user may not create or open the directory or the file.
  * `io_error`: anything else (no such file for `read_payload`, a full disk, a
- * path the system refuses). `to_string ()` returns the enumerator name
+ * path the system refuses, a directory in place of the file, on Windows a
+ * path that is not valid UTF-8). `to_string ()` returns the enumerator name
  * (`"busy"`); `lumex::core::fmt` formats it by name as well.
  */
 LUMEX_DEFINE_REFLECTED_ENUM (lock_error, std::uint8_t, (busy), (access_denied),

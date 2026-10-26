@@ -31,7 +31,7 @@ Failures are values, never exceptions: `lock_failure_t { kind, system_code }`. `
 | --- | --- | --- |
 | `busy` | another open file holds the lock: another process, or another `interprocess_lock` of this process on the same file | `ERROR_LOCK_VIOLATION`, `ERROR_SHARING_VIOLATION`; `EWOULDBLOCK` |
 | `access_denied` | the user may not create or open the directory or the file | `ERROR_ACCESS_DENIED`; `EACCES`, `EPERM`, `EROFS` |
-| `io_error` | anything else: no such file (`read_payload`), a full disk, a path the system refuses, a directory in place of the file | the number of the system |
+| `io_error` | anything else: no such file (`read_payload`), a full disk, a path the system refuses, a directory in place of the file (the same kind on both systems), on Windows a path that is not valid UTF-8 | the number of the system: `ERROR_ACCESS_DENIED` (Windows) or `EISDIR` (POSIX) for a directory, `ERROR_INVALID_NAME` for invalid UTF-8 |
 
 The number of the system travels for the log; its text does not (on Windows it is in the ANSI code page).
 
@@ -46,10 +46,12 @@ The number of the system travels for the log; its text does not (on Windows it i
 
 - The locked byte lies far behind the data: a range locked through one handle cannot be read through another, and `read_payload` must read while the lock is held.
 - `flock`, not `fcntl`: a `fcntl` record lock belongs to the process and is released when the process closes any descriptor of the file (a log reader, a backup tool in the same process). A `flock` lock belongs to the open file.
-- The file is never deleted. Deleting a file that another process has open would let two processes lock two different files of the same name.
+- The class never deletes the file. Deleting a file that another process has open would let two processes lock two different files of the same name. A program can still unlink it while it is held on POSIX: another process then creates and locks a new file of the same name, and both believe they hold the lock. On Windows the handle does not share deletion, so the system refuses.
+- The file mode on POSIX is 0666 before the umask: the file follows the umask (0644 under the usual 022). Another user takes the same lock only through a shared directory and a group or a umask that let them open the file for writing; the code does not widen the mode.
+- `flock` over NFS is emulated with `fcntl` record locks by the Linux client. There the lock is released when the process closes any descriptor of the file, the caveat that `flock` avoids on a local file system. Keep the lock files on a local file system.
 - The lock is advisory: it protects against programs that take the same lock, not against a program that just opens the file.
 - On Windows the system releases the lock of a process that ended without unlocking soon, but not always at once: a program that starts right after such an end may retry a few times (the tests retry for up to 5 s).
-- Paths are UTF-8 (`lumex::core::filesystem::fs::path`) and go to the wide functions of Windows, so a data directory under a profile with a Cyrillic name works. From C++17 a `std::filesystem::path` converts.
+- Paths are UTF-8 (`lumex::core::filesystem::fs::path`) and go to the wide functions of Windows, so a data directory under a profile with a Cyrillic name works. From C++17 a `std::filesystem::path` converts. A path that is not valid UTF-8 is refused on Windows (`io_error`, `system_code` `ERROR_INVALID_NAME`, also for `read_payload`), because the skipped bytes would name another file; POSIX takes the bytes as they are and checks nothing.
 
 ## Building
 

@@ -184,6 +184,14 @@ interprocess_lock::try_acquire (path_t const &file, std::string const &payload)
   using lumex::core::expected::result::unexpect;
   using lumex::core::filesystem::fs::lumex_filesystem;
 
+  // The skipped bytes of a path that is not UTF-8 would name another file, so
+  // such a path is refused (ERROR_INVALID_NAME, kind io_error) before anything
+  // is created.
+  auto const wide = lumex_filesystem::to_wide_path (file);
+  if (!wide.success ())
+    return acquire_result_t (
+        unexpect, failure (static_cast<DWORD> (wide.error_code ())));
+
   path_t const parent = file.parent_path ();
   if (!parent.empty ())
     {
@@ -197,11 +205,20 @@ interprocess_lock::try_acquire (path_t const &file, std::string const &payload)
   // Read and write sharing: another try_acquire must reach LockFileEx (and get
   // busy), and read_payload must open the file while the lock is held.
   state->handle
-      = CreateFileW (file.wstring ().c_str (), GENERIC_READ | GENERIC_WRITE,
+      = CreateFileW (wide.value ().c_str (), GENERIC_READ | GENERIC_WRITE,
                      FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr, OPEN_ALWAYS,
                      FILE_ATTRIBUTE_NORMAL, nullptr);
   if (state->handle == INVALID_HANDLE_VALUE)
-    return acquire_result_t (unexpect, failure (GetLastError ()));
+    {
+      DWORD const code = GetLastError ();
+      lock_failure_t result = failure (code);
+      // A directory in place of the file: CreateFileW says ERROR_ACCESS_DENIED
+      // where POSIX says EISDIR. It is not a permission problem: io_error on
+      // both systems, with the number of the system kept.
+      if (code == ERROR_ACCESS_DENIED && lumex_filesystem::is_directory (file))
+        result.kind = lock_error::io_error;
+      return acquire_result_t (unexpect, result);
+    }
 
   OVERLAPPED range = locked_range ();
   if (LockFileEx (state->handle,
@@ -222,9 +239,16 @@ interprocess_lock::payload_result_t
 interprocess_lock::read_payload (path_t const &file)
 {
   using lumex::core::expected::result::unexpect;
+  using lumex::core::filesystem::fs::lumex_filesystem;
+
+  // A path that is not UTF-8 is refused, as in try_acquire.
+  auto const wide = lumex_filesystem::to_wide_path (file);
+  if (!wide.success ())
+    return payload_result_t (
+        unexpect, failure (static_cast<DWORD> (wide.error_code ())));
 
   HANDLE const handle
-      = CreateFileW (file.wstring ().c_str (), GENERIC_READ,
+      = CreateFileW (wide.value ().c_str (), GENERIC_READ,
                      FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
                      nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
   if (handle == INVALID_HANDLE_VALUE)
