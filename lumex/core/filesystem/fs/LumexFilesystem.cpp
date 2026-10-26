@@ -1431,13 +1431,31 @@ lumex_filesystem::space (path const &path_arg)
 class directory_iterator::impl
 {
 public:
+  impl () = default;
+  impl (impl const &) = delete;
+  impl &operator= (impl const &) = delete;
+
+  // The search is closed when the last iterator that shares it goes away,
+  // whether it reached the end or not (it used to be closed only at the end,
+  // so an iterator dropped before it kept the handle until the process ended).
+  ~impl ()
+  {
 #if defined(LUMEX_OS_WINDOWS)
-  HANDLE handle;
-  WIN32_FIND_DATAW data;
-  bool first;
+    if (handle != INVALID_HANDLE_VALUE)
+      FindClose (handle);
 #else
-  DIR *dirp;
-  struct dirent *entry;
+    if (dirp != nullptr)
+      closedir (dirp);
+#endif
+  }
+
+#if defined(LUMEX_OS_WINDOWS)
+  HANDLE handle = INVALID_HANDLE_VALUE;
+  WIN32_FIND_DATAW data;
+  bool first = true;
+#else
+  DIR *dirp = nullptr;
+  struct dirent *entry = nullptr;
 #endif
   path base;
   directory_entry current;
@@ -1537,7 +1555,6 @@ directory_iterator::operator++ ()
         }
       ok_ = FindNextFileW (m_impl->handle, &m_impl->data);
     }
-  FindClose (m_impl->handle);
   m_impl.reset ();
 #else
   while ((m_impl->entry = readdir (m_impl->dirp)) != nullptr)
@@ -1549,7 +1566,6 @@ directory_iterator::operator++ ()
           return *this;
         }
     }
-  closedir (m_impl->dirp);
   m_impl.reset ();
 #endif
   return *this;
