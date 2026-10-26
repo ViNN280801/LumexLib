@@ -825,17 +825,52 @@ lumex_filesystem::create_directory (path const &path_arg)
 #endif
 }
 
+#if defined(LUMEX_OS_WINDOWS)
+namespace detail
+{
+// Reads a text from a Windows function of the GetCurrentDirectoryW family:
+// `fill (size, buffer)` returns the length without the terminating zero, the
+// size it needs (with the zero) when `size` is too small, or 0 on a failure.
+// The needed size may grow between two calls (another thread changes the
+// current directory), so a few rounds are allowed. On a failure the error is
+// in GetLastError.
+template <typename Fill>
+static bool
+read_wide_text (Fill fill, std::wstring &text)
+{
+  std::wstring buffer (MAX_PATH, L'\0');
+  for (int round = 0; round < 4; ++round)
+    {
+      DWORD const length
+          = fill (static_cast<DWORD> (buffer.size ()), &buffer[0]);
+      if (length == 0)
+        return false;
+      if (length < buffer.size ())
+        {
+          buffer.resize (length);
+          text.swap (buffer);
+          return true;
+        }
+      buffer.resize (length);
+    }
+  SetLastError (ERROR_INSUFFICIENT_BUFFER);
+  return false;
+}
+} // namespace detail
+#endif
+
 LUMEX_PUBLIC_API
 filesystem_result<path>
 lumex_filesystem::current_path ()
 {
 #if defined(LUMEX_OS_WINDOWS)
-  std::array<char, MAX_PATH> buffer;
-  DWORD result = GetCurrentDirectoryA (MAX_PATH, buffer.data ());
-  if (result == 0 || result > MAX_PATH)
+  std::wstring directory;
+  if (!detail::read_wide_text (
+          [] (DWORD size, wchar_t *buffer)
+            { return GetCurrentDirectoryW (size, buffer); }, directory))
     return filesystem_result<path>::err (static_cast<int> (GetLastError ()),
                                          path ());
-  return filesystem_result<path>::ok (path (buffer.data ()));
+  return filesystem_result<path>::ok (path (from_wide_string (directory)));
 #else
   std::array<char, PATH_MAX> buffer;
   if (getcwd (buffer.data (), PATH_MAX) != nullptr)
@@ -849,7 +884,7 @@ filesystem_result<void>
 lumex_filesystem::current_path (path const &path_arg)
 {
 #if defined(LUMEX_OS_WINDOWS)
-  if (SetCurrentDirectoryA (path_arg.c_str ()) != 0)
+  if (SetCurrentDirectoryW (path_arg.wstring ().c_str ()) != 0)
     return filesystem_result<void>::ok ();
   return filesystem_result<void>::err (static_cast<int> (GetLastError ()));
 #else
@@ -1846,12 +1881,16 @@ path
 lumex_filesystem::canonical (path const &path_arg)
 {
 #if defined(LUMEX_OS_WINDOWS)
-  std::array<char, MAX_PATH> buf;
-  DWORD len
-      = GetFullPathNameA (path_arg.c_str (), MAX_PATH, buf.data (), nullptr);
-  if (len == 0 || len > MAX_PATH)
+  std::wstring const wide = path_arg.wstring ();
+  std::wstring full;
+  if (!detail::read_wide_text (
+          [&wide] (DWORD size, wchar_t *buffer)
+            {
+              return GetFullPathNameW (wide.c_str (), size, buffer, nullptr);
+            },
+          full))
     return path ();
-  return path (buf.data ());
+  return path (from_wide_string (full));
 #else
   std::array<char, PATH_MAX> buf;
   if (realpath (path_arg.c_str (), buf.data ()) == nullptr)
@@ -2122,12 +2161,13 @@ filesystem_result<path>
 lumex_filesystem::temp_directory_path ()
 {
 #if defined(LUMEX_OS_WINDOWS)
-  char buf[MAX_PATH];
-  DWORD len = GetTempPathA (MAX_PATH, buf);
-  if (len == 0 || len > MAX_PATH)
+  std::wstring directory;
+  if (!detail::read_wide_text ([] (DWORD size, wchar_t *buffer)
+                                 { return GetTempPathW (size, buffer); },
+                               directory))
     return filesystem_result<path>::err (static_cast<int> (GetLastError ()),
                                          path ());
-  return filesystem_result<path>::ok (path (buf));
+  return filesystem_result<path>::ok (path (from_wide_string (directory)));
 #else
   const char *tmp = getenv ("TMPDIR");
   if (!tmp)
