@@ -126,6 +126,14 @@
 
 **Проверено:** cl.exe: новые тесты `LumexFilesystemUnicodeDiskTest` проверяют имена через интерфейс самой ОС (`GetFileAttributesW` на Windows, `stat` в POSIX); до исправления 16 из 17 падали (семнадцатый проверяет, что несуществующее имя не найдено). `filesystem.*` 351 из 351 при C++11, 17 и 20; тест символических ссылок пропускается без привилегии `SeCreateSymbolicLinkPrivilege` (так было на машине проверки, ветка `CreateSymbolicLinkW` там не выполнялась).
 
+##### `directory_iterator`: итератор, брошенный до конца, держал каталог открытым
+
+**Файлы:** `lumex/core/filesystem/fs/LumexFilesystem.cpp`, `lumex/tests/core/filesystem/fs/LumexFilesystem.cxx11.tests.cpp`.
+
+**Суть:** `FindClose` (Windows) и `closedir` (POSIX) вызывались только при достижении конца перебора, поэтому итератор, оставленный раньше (выход из цикла, исключение), держал дескриптор каталога до конца процесса. Теперь поиск закрывает деструктор общего состояния, когда уходит последняя копия итератора.
+
+**Проверено:** cl.exe: новый тест `Filesystem_DirectoryIterator_DroppedEarly_ThenItsHandleIsClosed` считает дескрипторы процесса (`GetProcessHandleCount`, в POSIX `/proc/self/fd` или `/dev/fd`) до и после 64 брошенных итераторов; до исправления их стало на 64 больше. `filesystem.*` 354 из 354 при C++11, 17 и 20.
+
 ##### `LumexLibConfig.cmake`: модуль `framing` не входил в `lumex::Lumex`
 
 **Файлы:** `cmake/LumexLibConfig.cmake.in`, `lumex/tests/cmake/cases/wiring_package_config_modules.cmake` (новый), `lumex/tests/cmake/CMakeLists.txt`.
