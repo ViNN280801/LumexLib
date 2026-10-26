@@ -26,6 +26,7 @@ set(LUMEX_CORE_MODULE_OPTIONS
     LUMEX_BUILD_FRAMING
     LUMEX_BUILD_GENERATORS
     LUMEX_BUILD_HAZARD_POINTER
+    LUMEX_BUILD_INTERPROCESS
     LUMEX_BUILD_MATH
     LUMEX_BUILD_OPTIONAL
     LUMEX_BUILD_REFLECTION
@@ -179,6 +180,11 @@ function(lumex_check_module_dependencies)
     lumex_require_module(LUMEX_BUILD_FRAMING LUMEX_BUILD_SPAN)
     lumex_require_module(LUMEX_BUILD_FRAMING LUMEX_BUILD_UTILITY)
 
+    lumex_require_module(LUMEX_BUILD_INTERPROCESS LUMEX_BUILD_EXPECTED)
+    lumex_require_module(LUMEX_BUILD_INTERPROCESS LUMEX_BUILD_FILESYSTEM)
+    lumex_require_module(LUMEX_BUILD_INTERPROCESS LUMEX_BUILD_REFLECTION)
+    lumex_require_module(LUMEX_BUILD_INTERPROCESS LUMEX_BUILD_UTILITY)
+
     lumex_require_module(LUMEX_BUILD_TRANSPORT LUMEX_BUILD_CONTRACTS)
     lumex_require_module(LUMEX_BUILD_TRANSPORT LUMEX_BUILD_EXPECTED)
     lumex_require_module(LUMEX_BUILD_TRANSPORT LUMEX_BUILD_SERIAL)
@@ -261,6 +267,7 @@ set(LUMEX_SHARED_LIBRARY_CANDIDATES
     LumexCore_fmt
     LumexCore_framing
     LumexCore_hazard_pointer
+    LumexCore_interprocess
     LumexCore_number_generator
     LumexCore_math
     LumexCore_optional

@@ -31,5 +31,7 @@ lumex_add_subdirectory_if(LUMEX_BUILD_ENVIRONMENT environment)
 lumex_add_subdirectory_if(LUMEX_BUILD_TIME time)
 lumex_add_subdirectory_if(LUMEX_BUILD_FILESYSTEM filesystem)
 lumex_add_subdirectory_if(LUMEX_BUILD_REFLECTION reflection)
+# interprocess links expected, filesystem, reflection and utility: add it after them.
+lumex_add_subdirectory_if(LUMEX_BUILD_INTERPROCESS interprocess)
 lumex_add_subdirectory_if(LUMEX_BUILD_TEMPORARY temporary)
 lumex_add_subdirectory_if(LUMEX_BUILD_EXCEPTIONS exceptions)
