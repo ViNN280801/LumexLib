@@ -130,7 +130,8 @@ public:
    * @param fallback Any callable taking `Args...` and returning something
    * convertible to `Result`. Its exceptions propagate to the caller.
    * @param args The arguments for the installed function or for `fallback`.
-   * @return What the called function returned.
+   * Returns what the called function returned (not a return command:
+   * `Result` may be `void`, and clang's -Wdocumentation rejects one there).
    */
   template <typename Fallback>
   static Result

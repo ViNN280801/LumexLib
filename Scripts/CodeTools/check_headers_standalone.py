@@ -17,7 +17,9 @@ reported.
 Some headers refuse to compile until the build selects a configuration
 macro. They are compiled with the macro listed in NEEDS_MACRO instead of
 alone (today: the logger config format header, whose `#error` is
-deliberate).
+deliberate). Headers under a directory that includes a vendored library get
+that library's include directory and configuration macros, as the build
+gives them (NEEDS_THIRD_PARTY; today: applied/transport and Asio).
 
 Include directories are the parent of the scanned lumex/ directory (so
 `lumex/...` resolves) and its 3rdparty/ directory (`<nlohmann/json.hpp>`).
@@ -56,6 +58,16 @@ SKIPPED_DIR_NAMES = {"3rdparty"}
 NEEDS_MACRO: Dict[str, Tuple[str, ...]] = {
     "applied/logger/config/LumexLoggerConfigFormat.hpp": (
         "LUMEX_LOGGER_CONFIG_FORMAT_PLAIN_TEXT",
+    ),
+}
+
+# Directory prefixes (relative to lumex/) whose headers include a vendored
+# library: its include directories (relative to the parent of lumex/) and the
+# macros the build defines for it (cmake/LumexAsio.cmake).
+NEEDS_THIRD_PARTY: Dict[str, Tuple[Tuple[str, ...], Tuple[str, ...]]] = {
+    "applied/transport/": (
+        ("3rdparty/asio/include",),
+        ("ASIO_STANDALONE", "ASIO_NO_DEPRECATED"),
     ),
 }
 
@@ -179,6 +191,14 @@ def standard_options(compiler: str, year: str, flags: Sequence[str],
     return None
 
 
+def third_party_for(relative: str) -> Tuple[Tuple[str, ...], Tuple[str, ...]]:
+    """Return the vendored include directories and macros of a header."""
+    for prefix, needs in NEEDS_THIRD_PARTY.items():
+        if relative.startswith(prefix):
+            return needs
+    return (), ()
+
+
 def build_command(compiler: str, options: Sequence[str],
                   flags: Sequence[str], includes: Sequence[Path],
                   defines: Sequence[str], source: Path) -> List[str]:
@@ -223,9 +243,13 @@ def check_header(
     source.write_text(
         '#include "lumex/{}"\n'.format(relative), encoding="utf-8"
     )
-    defines = NEEDS_MACRO.get(relative, ())
+    vendored, vendored_defines = third_party_for(relative)
+    defines = tuple(NEEDS_MACRO.get(relative, ())) + vendored_defines
+    all_includes = list(includes) + [
+        root.parent / path for path in vendored
+    ]
     command = build_command(
-        compiler, options, flags, includes, defines, source
+        compiler, options, flags, all_includes, defines, source
     )
     status, output = run_compiler(command)
     return header, status, ([] if status == 0 else first_errors(output))

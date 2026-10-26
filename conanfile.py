@@ -185,6 +185,11 @@ class LumexLibConan(ConanFile):
         )
         self._component("core_crc", "crc", ["LumexCore_crc"],
                         ["core_utility", "core_span", "core_string_view"])
+        self._component(
+            "core_framing", "framing", ["LumexCore_framing"],
+            ["core_contracts", "core_crc", "core_expected", "core_span",
+             "core_utility"],
+        )
         hazard_pointer = self._component(
             "core_hazard_pointer", "hazard_pointer",
             ["LumexCore_hazard_pointer"], ["core_utility", "core_span"],
@@ -202,6 +207,11 @@ class LumexLibConan(ConanFile):
         )
         if windows:
             filesystem.system_libs.append("shlwapi")
+        self._component(
+            "core_interprocess", "interprocess", ["LumexCore_interprocess"],
+            ["core_expected", "core_filesystem", "core_reflection",
+             "core_utility"],
+        )
         self._component("core_string_view", "string_view")
         self._component(
             "core_time", "time", ["LumexCore_time"], ["core_environment"]
@@ -251,6 +261,38 @@ class LumexLibConan(ConanFile):
         )
         if windows:
             serial.system_libs.extend(["setupapi", "advapi32"])
+        # transport is always static and brings the vendored Asio (headers)
+        # and Boost.Context (a static library for the yield_context token).
+        asio = self._component("thirdparty_asio", "3rdparty_asio")
+        asio.includedirs = ["include/lumex/3rdparty/asio"]
+        asio.defines = ["ASIO_STANDALONE", "ASIO_NO_DEPRECATED"]
+        if windows:
+            asio.system_libs.extend(["ws2_32", "mswsock"])
+        else:
+            asio.system_libs.append("pthread")
+        boost_context = self._component(
+            "thirdparty_boost_context", "3rdparty_boost_context",
+            ["lumex_3rdparty_boost_context"],
+        )
+        boost_context.includedirs = ["include/lumex/3rdparty/boost_context"]
+        boost_context.defines = [
+            "BOOST_ALL_NO_LIB",
+            "BOOST_USE_WINFIB" if windows else "BOOST_USE_UCONTEXT",
+        ]
+        # The package builds the logger, so transport has its adapter
+        # (log/adapter) and links the logger.
+        transport = self._component(
+            "applied_transport", "transport", ["LumexApplied_transport"],
+            ["applied_serial", "core_expected", "core_span", "core_contracts",
+             "core_utility", "applied_logger", "thirdparty_asio",
+             "thirdparty_boost_context"],
+        )
+        transport.defines = [
+            "LUMEX_TRANSPORT_WITH_SPAWN=1", "LUMEX_TRANSPORT_WITH_TESTING=1",
+            "LUMEX_TRANSPORT_WITH_LOGGER=1",
+        ]
+        if windows:
+            transport.defines.append("_WIN32_WINNT=0x0A00")
         settings = self._component(
             "applied_settings", "settings", ["LumexApplied_settings"],
             ["core_filesystem", "applied_logging", "core_time", "xml"],

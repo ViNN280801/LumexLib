@@ -108,6 +108,13 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 include(cmake/LumexOptions.cmake)
 include(cmake/LumexModules.cmake)
 include(cmake/LumexNlohmannJson.cmake)
+# Third-party code of the transport layer: the files only define
+# lumex_setup_asio / lumex_setup_boost_context / lumex_setup_hidapi; no target
+# exists until a module (or a consumer) calls them.
+include(cmake/LumexThirdParty.cmake)
+include(cmake/LumexAsio.cmake)
+include(cmake/LumexBoostContext.cmake)
+include(cmake/LumexHidapi.cmake)
 lumex_check_module_dependencies()
 
 string(TOUPPER "${LUMEX_OPTIMIZATION_LEVEL}" _LUMEX_OPTIMIZATION_LEVEL)
@@ -260,7 +267,9 @@ if(LUMEX_INSTALL)
         LumexCore_expected
         LumexCore_filesystem
         LumexCore_fmt
+        LumexCore_framing
         LumexCore_hazard_pointer
+        LumexCore_interprocess
         LumexCore_number_generator
         LumexCore_math
         LumexCore_optional
@@ -283,6 +292,7 @@ if(LUMEX_INSTALL)
         LumexApplied_resource_monitor
         LumexApplied_serial
         LumexApplied_settings
+        LumexApplied_transport
     )
 
     lumex_install_export_if_any(LumexXmlTargets LumexXmlTargets.cmake
@@ -331,6 +341,29 @@ if(LUMEX_INSTALL)
     if(WIN32)
         install(SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/cmake/InstallBinRuntime.cmake")
     endif()
+
+    # LumexLib-build-info.json at the root of the installed tree: one build
+    # report for all the installed libraries (cmake/InstallBuildInfo.cmake).
+    find_package(Python3 COMPONENTS Interpreter QUIET)
+    if(LUMEX_GENERATE_BUILD_INFO)
+        install(CODE "
+            set(LUMEX_BUILD_INFO_UTILS_DIR \"${CMAKE_CURRENT_SOURCE_DIR}/CMakeRoutines/utils\")
+            set(LUMEX_BUILD_INFO_SOURCE_DIR \"${CMAKE_CURRENT_SOURCE_DIR}\")
+            set(LUMEX_BUILD_INFO_BINARY_DIR \"${CMAKE_BINARY_DIR}\")
+            set(LUMEX_BUILD_INFO_PYTHON \"${Python3_EXECUTABLE}\")
+        ")
+        install(SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/cmake/InstallBuildInfo.cmake")
+    endif()
+
+    # LumexLib-source-revision.rev at the root of the installed tree: the
+    # commits it was built from and the symbol keys of the installed libraries
+    # (cmake/InstallSourceRevision.cmake). After the runtime hook, so the
+    # listing covers every DLL that ships.
+    install(CODE "
+        set(LUMEX_SOURCE_REVISION_PYTHON \"${Python3_EXECUTABLE}\")
+        set(LUMEX_SOURCE_REVISION_SOURCE_DIR \"${CMAKE_CURRENT_SOURCE_DIR}\")
+    ")
+    install(SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/cmake/InstallSourceRevision.cmake")
 endif()
 
 # ==============================================================================

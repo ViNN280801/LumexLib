@@ -23,8 +23,10 @@ set(LUMEX_CORE_MODULE_OPTIONS
     LUMEX_BUILD_EXPECTED
     LUMEX_BUILD_FILESYSTEM
     LUMEX_BUILD_FMT
+    LUMEX_BUILD_FRAMING
     LUMEX_BUILD_GENERATORS
     LUMEX_BUILD_HAZARD_POINTER
+    LUMEX_BUILD_INTERPROCESS
     LUMEX_BUILD_MATH
     LUMEX_BUILD_OPTIONAL
     LUMEX_BUILD_REFLECTION
@@ -46,6 +48,7 @@ set(LUMEX_APPLIED_MODULE_OPTIONS
     LUMEX_BUILD_RESOURCE_MONITOR
     LUMEX_BUILD_SERIAL
     LUMEX_BUILD_SETTINGS
+    LUMEX_BUILD_TRANSPORT
 )
 
 function(lumex_module_group out_var opt_var)
@@ -171,6 +174,23 @@ function(lumex_check_module_dependencies)
 
     lumex_require_module(LUMEX_BUILD_CONTRACTS LUMEX_BUILD_UTILITY)
 
+    lumex_require_module(LUMEX_BUILD_FRAMING LUMEX_BUILD_CONTRACTS)
+    lumex_require_module(LUMEX_BUILD_FRAMING LUMEX_BUILD_CRC)
+    lumex_require_module(LUMEX_BUILD_FRAMING LUMEX_BUILD_EXPECTED)
+    lumex_require_module(LUMEX_BUILD_FRAMING LUMEX_BUILD_SPAN)
+    lumex_require_module(LUMEX_BUILD_FRAMING LUMEX_BUILD_UTILITY)
+
+    lumex_require_module(LUMEX_BUILD_INTERPROCESS LUMEX_BUILD_EXPECTED)
+    lumex_require_module(LUMEX_BUILD_INTERPROCESS LUMEX_BUILD_FILESYSTEM)
+    lumex_require_module(LUMEX_BUILD_INTERPROCESS LUMEX_BUILD_REFLECTION)
+    lumex_require_module(LUMEX_BUILD_INTERPROCESS LUMEX_BUILD_UTILITY)
+
+    lumex_require_module(LUMEX_BUILD_TRANSPORT LUMEX_BUILD_CONTRACTS)
+    lumex_require_module(LUMEX_BUILD_TRANSPORT LUMEX_BUILD_EXPECTED)
+    lumex_require_module(LUMEX_BUILD_TRANSPORT LUMEX_BUILD_SERIAL)
+    lumex_require_module(LUMEX_BUILD_TRANSPORT LUMEX_BUILD_SPAN)
+    lumex_require_module(LUMEX_BUILD_TRANSPORT LUMEX_BUILD_UTILITY)
+
     string(TOUPPER "${LUMEX_CONTRACTS_SEMANTIC}" _contracts_semantic)
     set(_contracts_semantics IGNORE OBSERVE ENFORCE QUICK_ENFORCE P2900)
     if(NOT _contracts_semantic IN_LIST _contracts_semantics)
@@ -245,7 +265,9 @@ set(LUMEX_SHARED_LIBRARY_CANDIDATES
     LumexCore_expected
     LumexCore_filesystem
     LumexCore_fmt
+    LumexCore_framing
     LumexCore_hazard_pointer
+    LumexCore_interprocess
     LumexCore_number_generator
     LumexCore_math
     LumexCore_optional
@@ -340,10 +362,23 @@ function(lumex_add_publish_distr_target)
         set(_bin_dir "${LUMEX_BIN_DIR}")
     endif()
 
+    # The interpreter of LumexLib-source-revision.rev and of the build info
+    # (cmake/PublishDistr.cmake).
+    find_package(Python3 COMPONENTS Interpreter QUIET)
+    set(_build_info_args)
+    if(LUMEX_GENERATE_BUILD_INFO)
+        set(_build_info_args
+            -Dbuild_info_utils_dir=${PROJECT_SOURCE_DIR}/CMakeRoutines/utils
+            -Dbuild_info_binary_dir=${CMAKE_BINARY_DIR})
+    endif()
+
     add_custom_target(publish_distr ALL
         COMMAND ${CMAKE_COMMAND}
             -Dbin_dir=${_bin_dir}
             -Ddistr_dir=${_distr_dir}
+            -Dpython_exe=${Python3_EXECUTABLE}
+            -Dsource_dir=${PROJECT_SOURCE_DIR}
+            ${_build_info_args}
             -Dcopy_runtime_script=${PROJECT_SOURCE_DIR}/CMakeRoutines/deployment/CopyRuntimeDependencies.cmake
             -Dcxx_compiler=${CMAKE_CXX_COMPILER}
             -P ${PROJECT_SOURCE_DIR}/cmake/PublishDistr.cmake

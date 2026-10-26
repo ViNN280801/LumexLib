@@ -85,7 +85,8 @@
 #include <ostream>
 #include <type_traits>
 #include <utility>
-#if defined(__has_include)
+// Before C++20 the MSVC STL warns that <compare> is empty (STL4038).
+#if __cplusplus > 201703L && defined(__has_include)
 #if __has_include(<compare>)
 #include <compare>
 #endif

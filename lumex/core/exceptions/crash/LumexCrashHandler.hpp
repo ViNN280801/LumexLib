@@ -125,8 +125,7 @@ public:
    * Creates the crash dump directory and sets up platform-specific crash
    * handlers.
    */
-  void initialize (LUMEX_ATTRIBUTE_MAYBE_UNUSED std::string const &appName
-                   = s_defaultAppName);
+  void initialize (std::string const &appName = s_defaultAppName);
 
 #if defined(LUMEX_OS_WINDOWS)
   /**

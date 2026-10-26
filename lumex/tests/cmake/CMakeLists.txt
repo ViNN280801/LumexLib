@@ -68,6 +68,7 @@ lumex_add_cmake_test(wiring_subdirs)
 lumex_add_cmake_test(wiring_distr)
 lumex_add_cmake_test(wiring_install_umbrellas)
 lumex_add_cmake_test(wiring_license_install)
+lumex_add_cmake_test(wiring_transport_udev_install)
 lumex_add_cmake_test(publish_distr_filters)
 lumex_add_cmake_test(cpack_nsis)
 lumex_add_cmake_test(dev_artifacts)
@@ -99,6 +100,8 @@ lumex_add_cmake_test(wiring_max_standard_compliance)
 lumex_add_cmake_test(wiring_werror)
 lumex_add_cmake_test(wiring_install_dirs_order)
 lumex_add_cmake_test(lint_msvc_pragmas_script)
+lumex_add_cmake_test(lint_std_header_guards_script)
+lumex_add_cmake_test(wiring_package_config_modules)
 lumex_add_cmake_test(lint_headers_standalone_script)
 lumex_add_cmake_test(release_diagnostics_script)
 lumex_add_cmake_test(release_script_options)
@@ -164,6 +167,20 @@ lumex_add_cmake_fail_test(require_fail_base64_without_utility
     "LUMEX_BUILD_BASE64 is enabled but requires LUMEX_BUILD_UTILITY")
 lumex_add_cmake_fail_test(require_fail_crc_without_utility
     "LUMEX_BUILD_CRC is enabled but requires LUMEX_BUILD_UTILITY")
+lumex_add_cmake_fail_test(require_fail_framing_without_crc
+    "LUMEX_BUILD_FRAMING is enabled but requires LUMEX_BUILD_CRC")
+lumex_add_cmake_fail_test(require_fail_framing_without_contracts
+    "LUMEX_BUILD_FRAMING is enabled but requires LUMEX_BUILD_CONTRACTS")
+lumex_add_cmake_fail_test(require_fail_framing_without_expected
+    "LUMEX_BUILD_FRAMING is enabled but requires LUMEX_BUILD_EXPECTED")
+lumex_add_cmake_fail_test(require_fail_interprocess_without_expected
+    "LUMEX_BUILD_INTERPROCESS is enabled but requires LUMEX_BUILD_EXPECTED")
+lumex_add_cmake_fail_test(require_fail_interprocess_without_filesystem
+    "LUMEX_BUILD_INTERPROCESS is enabled but requires LUMEX_BUILD_FILESYSTEM")
+lumex_add_cmake_fail_test(require_fail_interprocess_without_reflection
+    "LUMEX_BUILD_INTERPROCESS is enabled but requires LUMEX_BUILD_REFLECTION")
+lumex_add_cmake_fail_test(require_fail_transport_without_serial
+    "LUMEX_BUILD_TRANSPORT is enabled but requires LUMEX_BUILD_SERIAL")
 # base64, crc, exceptions and xml link the string_view module (the views their
 # string overloads take below C++17). Each case switches the modules checked
 # before it off, so that the module under test is the one that fails.
@@ -320,6 +337,111 @@ lumex_add_consumer_test(consumer_reflection_umbrella_field_reflection_on
 # __cplusplus in Lumex headers (the INTERFACE flag of every module target).
 lumex_add_consumer_test(consumer_cplusplus_macro cplusplus_macro)
 
+# Third-party code of the transport layer (cmake/LumexAsio.cmake,
+# cmake/LumexBoostContext.cmake, cmake/LumexHidapi.cmake): the vendored copies
+# build and run, the version pins and the override hold, an existing consumer
+# target is reused, a strict consumer sees no warning from them, and two copies
+# coexist in one process the way DChannel and LumexLib do.
+lumex_add_consumer_test(consumer_third_party_asio_cxx11 third_party_asio
+    -DFIXTURE_CXX_STANDARD=11)
+lumex_add_consumer_test(consumer_third_party_asio_cxx20 third_party_asio
+    -DFIXTURE_CXX_STANDARD=20)
+lumex_add_consumer_test(consumer_third_party_asio_override third_party_asio
+    -DFIXTURE_CXX_STANDARD=11
+    "-DLUMEX_ASIO_DIR=${LumexLib_SOURCE_DIR}/3rdparty/asio/include")
+lumex_add_consumer_test(consumer_third_party_asio_wrong_version
+    third_party_asio_wrong_version)
+lumex_test_name(_lumex_wrong_asio consumer_third_party_asio_wrong_version)
+set_tests_properties(${_lumex_wrong_asio} PROPERTIES
+    PASS_REGULAR_EXPRESSION "LumexLib needs Asio 103600")
+lumex_add_consumer_test(consumer_third_party_reuse third_party_reuse)
+lumex_add_consumer_test(consumer_third_party_boost_context third_party_boost_context)
+if(UNIX AND NOT APPLE)
+    # The ucontext backend under AddressSanitizer (BOOST_USE_ASAN).
+    lumex_add_consumer_test(consumer_third_party_boost_context_asan
+        third_party_boost_context -DLUMEX_USE_ASAN=ON)
+endif()
+lumex_add_consumer_test(consumer_third_party_hidapi third_party_hidapi)
+lumex_add_consumer_test(consumer_third_party_warnings third_party_warnings)
+# One exception-handling model per compile command of this tree (two make
+# cl.exe print D9025 and the last one wins). compile_commands.json is written
+# by the Ninja and Makefile generators of a top-level tree.
+if(MSVC AND LUMEX_IS_TOP_LEVEL AND CMAKE_EXPORT_COMPILE_COMMANDS
+   AND CMAKE_GENERATOR MATCHES "Ninja|Makefiles")
+    lumex_test_name(_ctest_name single_eh_model)
+    add_test(NAME ${_ctest_name}
+        COMMAND ${CMAKE_COMMAND}
+            -DCOMPILE_COMMANDS=${CMAKE_BINARY_DIR}/compile_commands.json
+            -P ${CMAKE_CURRENT_SOURCE_DIR}/artifacts/single_eh_model.cmake
+    )
+    set_tests_properties(${_ctest_name} PROPERTIES LABELS "cmake" TIMEOUT 60)
+endif()
+# LumexLib-source-revision.rev (publish_distr, the install hook) on a library
+# of this tree: commits, symbol keys, and foreign symbols told apart.
+find_package(Python3 COMPONENTS Interpreter QUIET)
+if(Python3_Interpreter_FOUND AND TARGET LumexCore_utility AND TARGET LumexCore_contracts)
+    get_target_property(_lumex_rev_type LumexCore_utility TYPE)
+    if(_lumex_rev_type STREQUAL "SHARED_LIBRARY")
+        if(MSVC)
+            set(_lumex_rev_symbols "$<TARGET_PDB_FILE:LumexCore_utility>")
+            set(_lumex_rev_other "$<TARGET_PDB_FILE:LumexCore_contracts>")
+        else()
+            set(_lumex_rev_symbols "$<TARGET_FILE:LumexCore_utility>.debug")
+            set(_lumex_rev_other "$<TARGET_FILE:LumexCore_contracts>.debug")
+        endif()
+        lumex_test_name(_ctest_name source_revision_listing)
+        add_test(NAME ${_ctest_name}
+            COMMAND ${CMAKE_COMMAND}
+                -DPYTHON=${Python3_EXECUTABLE}
+                -DLUMEX_SOURCE_DIR=${LumexLib_SOURCE_DIR}
+                -DWORK_DIR=${CMAKE_BINARY_DIR}/c/source_revision
+                "-DLIBRARY=$<TARGET_FILE:LumexCore_utility>"
+                "-DSYMBOLS=${_lumex_rev_symbols}"
+                "-DOTHER_SYMBOLS=${_lumex_rev_other}"
+                -P ${CMAKE_CURRENT_SOURCE_DIR}/artifacts/source_revision_listing.cmake
+        )
+        set_tests_properties(${_ctest_name} PROPERTIES LABELS "cmake" TIMEOUT 120)
+        # LumexLib-build-info.json over two libraries of this tree (LumexBuildInfo).
+        if(LUMEX_GENERATE_BUILD_INFO)
+            lumex_test_name(_ctest_name build_info_report)
+            add_test(NAME ${_ctest_name}
+                COMMAND ${CMAKE_COMMAND}
+                    -DPYTHON=${Python3_EXECUTABLE}
+                    -DLUMEX_SOURCE_DIR=${LumexLib_SOURCE_DIR}
+                    -DBINARY_DIR=${CMAKE_BINARY_DIR}
+                    -DWORK_DIR=${CMAKE_BINARY_DIR}/c/build_info
+                    "-DLIBRARY=$<TARGET_FILE:LumexCore_utility>"
+                    "-DOTHER_LIBRARY=$<TARGET_FILE:LumexCore_contracts>"
+                    -P ${CMAKE_CURRENT_SOURCE_DIR}/artifacts/library_build_info_report.cmake
+            )
+            set_tests_properties(${_ctest_name} PROPERTIES LABELS "cmake" TIMEOUT 180)
+        endif()
+    endif()
+endif()
+# The release script builds with a Visual Studio generator: the vendored
+# Boost.Context must not make cl.exe warn there either (D9025).
+if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC" AND NOT MSVC_VERSION LESS 1930)
+    if(MSVC_VERSION LESS 1950)
+        set(_lumex_vs_generator "Visual Studio 17 2022")
+    else()
+        set(_lumex_vs_generator "Visual Studio 18 2026")
+    endif()
+    lumex_test_name(_ctest_name consumer_third_party_vs_generator)
+    add_test(NAME ${_ctest_name}
+        COMMAND ${CMAKE_COMMAND}
+            -DLUMEX_SOURCE_DIR=${LumexLib_SOURCE_DIR}
+            -DWORK_DIR=${CMAKE_BINARY_DIR}/c/vs_gen
+            "-DVS_GENERATOR=${_lumex_vs_generator}"
+            -P ${CMAKE_CURRENT_SOURCE_DIR}/consumer/third_party_vs_generator.cmake
+    )
+    set_tests_properties(${_ctest_name} PROPERTIES
+        LABELS "cmake;consumer"
+        TIMEOUT 900
+        RUN_SERIAL TRUE
+    )
+endif()
+lumex_add_consumer_test(consumer_third_party_coexistence third_party_coexistence)
+
 # expected without exceptions: value () terminates, no try block remains. The
 # real -fno-exceptions build at C++11 and C++20 (GCC, Clang; skipped on MSVC),
 # and the macro LUMEX_EXPECTED_HAS_EXCEPTIONS=0 with exceptions on at C++17
@@ -412,6 +534,19 @@ foreach(_semantic IN ITEMS ignore observe enforce quick_enforce p2900)
         contracts_build_semantic -DSEMANTIC=${_semantic})
 endforeach()
 lumex_add_consumer_test(consumer_contracts_two_modules contracts_two_modules)
+# The framing error category is one per process: an error code made in a DLL
+# equals the enumerator in the executable.
+lumex_add_consumer_test(consumer_framing_two_modules framing_two_modules)
+# The header-only codecs compile without a warning in a strict consumer.
+lumex_add_consumer_test(consumer_framing_warnings framing_warnings)
+# serial never needs transport (decision A of the transport spec).
+lumex_add_consumer_test(consumer_serial_without_transport serial_without_transport)
+# An executable and a DLL share one io_context; each has its own transport
+# category and log slot, and is_transport_error matches across them (G6).
+lumex_add_consumer_test(consumer_transport_two_modules transport_two_modules)
+# Every public transport header and token style compiles without a warning in
+# a strict consumer.
+lumex_add_consumer_test(consumer_transport_warnings transport_warnings)
 # The header-only modules (string, string_view, math, generators, optional, atomic, span) compile
 # from an install prefix built with LUMEX_BUILD_UTILITY OFF: the core/utility
 # headers they include are installed whatever that option says.

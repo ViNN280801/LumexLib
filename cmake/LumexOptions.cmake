@@ -41,8 +41,10 @@ option(LUMEX_BUILD_EXCEPTIONS "Build core/exceptions" ON)
 option(LUMEX_BUILD_EXPECTED "Build core/expected" ON)
 option(LUMEX_BUILD_FILESYSTEM "Build core/filesystem" ON)
 option(LUMEX_BUILD_FMT "Build core/fmt (std::format-style formatting)" ON)
+option(LUMEX_BUILD_FRAMING "Build core/framing (frame codecs: SLIP, COBS, delimiter, length prefix, header, Modbus RTU, stages)" ON)
 option(LUMEX_BUILD_GENERATORS "Build core/generators" ON)
 option(LUMEX_BUILD_HAZARD_POINTER "Build core/hazard_pointer (hazard pointers from C++11, the interface of C++26 <hazard_pointer>)" ON)
+option(LUMEX_BUILD_INTERPROCESS "Build core/interprocess (an inter-process file lock released by the system when its process ends)" ON)
 option(LUMEX_BUILD_MATH "Build core/math" ON)
 option(LUMEX_BUILD_OPTIONAL "Build core/optional" ON)
 option(LUMEX_BUILD_REFLECTION "Build core/reflection" ON)
@@ -62,6 +64,17 @@ option(LUMEX_BUILD_LOGGER "Build applied/logger" ON)
 option(LUMEX_BUILD_LOGGING "Build applied/logging" ON)
 option(LUMEX_BUILD_RESOURCE_MONITOR "Build applied/resource_monitor" ON)
 option(LUMEX_BUILD_SERIAL "Build applied/serial" ON)
+option(LUMEX_BUILD_TRANSPORT "Build applied/transport (byte streams and message transports over the vendored Asio: serial, TCP, UDP; always a static library)" ON)
+option(LUMEX_TRANSPORT_WITH_SPAWN "applied/transport: the asio::yield_context completion token (builds the vendored Boost.Context)" ON)
+set(LUMEX_TRANSPORT_LOG_MIN_LEVEL "TRACE" CACHE STRING
+    "applied/transport: the lowest log level compiled in (TRACE, DEBUG, INFO, WARNING, ERROR)")
+set_property(CACHE LUMEX_TRANSPORT_LOG_MIN_LEVEL PROPERTY STRINGS
+    TRACE DEBUG INFO WARNING ERROR)
+option(LUMEX_TRANSPORT_WITH_TESTING "applied/transport: the public test doubles (mock streams and datagrams)" ON)
+# No option of its own: with LUMEX_BUILD_LOGGER the transport also compiles the
+# adapter to the logger (log/adapter: install_lumex_logger_sink,
+# lumex_logger_watch_timer), links lumex::logger and defines
+# LUMEX_TRANSPORT_WITH_LOGGER=1 for itself and its consumers.
 option(LUMEX_BUILD_SETTINGS "Build applied/settings" ON)
 
 # The logger compiles exactly one config reader. Changing the format requires
@@ -192,7 +205,27 @@ option(LUMEX_WERROR "Treat compiler warnings of the Lumex library targets as err
 # WarningSuppression / RecursiveSourceCollection are included from LumexBuild
 # so their commands exist; vendored gtest uses suppress_warnings when present.
 option(LUMEX_BUILD_TIMING "Prefix compile/link with cmake -E time (CMakeRoutines configure_build_timing)" OFF)
-option(LUMEX_GENERATE_BUILD_INFO "Write per-library build-info via CMakeRoutines generate_build_info_file + POST_BUILD" OFF)
+option(LUMEX_GENERATE_BUILD_INFO "Write LumexLib-build-info.json, one CMakeRoutines build report for all the libraries (Distr and the package root)" ON)
 set(LUMEX_BUILD_INFO_FORMAT "json" CACHE STRING
-    "Build-info format when LUMEX_GENERATE_BUILD_INFO=ON: txt, json, yaml, ini")
+    "Format of the CMake-native per-target report CMakeRoutines writes into the build tree when no Python 3.8+ is found (LumexLib-build-info.json is always JSON): txt, json, yaml, ini")
 set_property(CACHE LUMEX_BUILD_INFO_FORMAT PROPERTY STRINGS txt json yaml ini)
+
+# ==============================================================================
+# THIRD-PARTY CODE OF THE TRANSPORT LAYER (cmake/LumexAsio.cmake,
+# cmake/LumexBoostContext.cmake, cmake/LumexHidapi.cmake)
+# ==============================================================================
+# Vendored under 3rdparty/ (Asio 1.36.0, Boost.Context 1.88.0, hidapi 0.15.0).
+# An empty directory option means the vendored copy. A consumer that already
+# ships one of these libraries points the option at its own source tree, which
+# must have the same version (checked at configure time): a process that loads
+# DChannel holds a second copy of Asio and hidapi, and both copies must be
+# identical. The vendored targets build with every warning off.
+set(LUMEX_ASIO_DIR "" CACHE PATH
+    "Asio include directory (the one that contains asio.hpp); empty = 3rdparty/asio/include")
+set(LUMEX_BOOST_CONTEXT_DIR "" CACHE PATH
+    "Boost source root with boost/context and libs/context/src; empty = 3rdparty/boost_context")
+set(LUMEX_HIDAPI_DIR "" CACHE PATH
+    "hidapi source root (hidapi/hidapi.h, windows/, linux/, libusb/, mac/); empty = 3rdparty/hidapi")
+set(LUMEX_HIDAPI_BACKEND "hidraw" CACHE STRING
+    "hidapi backend on Linux and other non-Windows, non-Apple systems: hidraw (needs libudev) or libusb (needs libusb-1.0)")
+set_property(CACHE LUMEX_HIDAPI_BACKEND PROPERTY STRINGS hidraw libusb)

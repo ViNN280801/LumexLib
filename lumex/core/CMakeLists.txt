@@ -24,10 +24,14 @@ lumex_add_subdirectory_if(LUMEX_BUILD_STRING string)
 lumex_add_subdirectory_if(LUMEX_BUILD_FMT fmt)
 lumex_add_subdirectory_if(LUMEX_BUILD_BASE64 base64)
 lumex_add_subdirectory_if(LUMEX_BUILD_CRC crc)
+# framing links contracts, crc, expected, span and utility: add it after them.
+lumex_add_subdirectory_if(LUMEX_BUILD_FRAMING framing)
 lumex_add_subdirectory_if(LUMEX_BUILD_ENVIRONMENT environment)
 # time PUBLIC-links environment (measure_time env gate); add after it.
 lumex_add_subdirectory_if(LUMEX_BUILD_TIME time)
 lumex_add_subdirectory_if(LUMEX_BUILD_FILESYSTEM filesystem)
 lumex_add_subdirectory_if(LUMEX_BUILD_REFLECTION reflection)
+# interprocess links expected, filesystem, reflection and utility: add it after them.
+lumex_add_subdirectory_if(LUMEX_BUILD_INTERPROCESS interprocess)
 lumex_add_subdirectory_if(LUMEX_BUILD_TEMPORARY temporary)
 lumex_add_subdirectory_if(LUMEX_BUILD_EXCEPTIONS exceptions)

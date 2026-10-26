@@ -8,6 +8,7 @@
 #include <limits>
 #include <random>
 #include <sstream>
+#include <stdexcept>
 #include <string>
 #include <thread>
 #include <vector>
@@ -17,6 +18,18 @@
 #include "lumex/core/filesystem/LumexFilesystem"
 #include "lumex/core/utility/os/LumexCheckOS.hpp"
 #include "lumex/core/utility/process/LumexProcess.hpp"
+
+#if defined(_WIN32)
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include <windows.h>
+#else
+#include <dirent.h>
+#endif
 
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -696,6 +709,89 @@ TEST_F (LumexFilesystemTest, Filesystem_DirectoryIterator_WorksCorrectly)
   EXPECT_EQ (found_files[1], "file2.txt");
 }
 
+namespace
+{
+// The handles (Windows) or descriptors (POSIX, through /proc/self/fd or
+// /dev/fd) the process holds now; -1 when the system does not tell.
+long
+open_handle_count ()
+{
+#if defined(_WIN32)
+  DWORD count = 0;
+  if (GetProcessHandleCount (GetCurrentProcess (), &count) == 0)
+    return -1;
+  return static_cast<long> (count);
+#else
+  char const *const names[] = { "/proc/self/fd", "/dev/fd" };
+  for (char const *name : names)
+    {
+      DIR *const directory = opendir (name);
+      if (directory == nullptr)
+        continue;
+      long count = 0;
+      while (readdir (directory) != nullptr)
+        ++count;
+      closedir (directory);
+      return count;
+    }
+  return -1;
+#endif
+}
+} // namespace
+
+// The bug: FindClose / closedir ran only when the iterator reached the end, so
+// an iterator dropped before it (a break out of the loop, an exception) kept
+// its directory handle until the process ended.
+TEST_F (LumexFilesystemTest,
+        Filesystem_DirectoryIterator_DroppedEarly_ThenItsHandleIsClosed)
+{
+  create_test_file (test_dir / "file1.txt");
+  create_test_file (test_dir / "file2.txt");
+  // One iterator first, so that whatever the system opens once per process
+  // for a directory search is already open before counting.
+  {
+    lumex::directory_iterator warm_up (test_dir);
+  }
+  long const before = open_handle_count ();
+  if (before < 0)
+    GTEST_SKIP () << "the system does not report open handles";
+
+  for (int i = 0; i < 64; ++i)
+    {
+      lumex::directory_iterator it (test_dir);
+      ASSERT_NE (it, lumex::directory_iterator ());
+      // Dropped here, one entry before the end.
+    }
+
+  EXPECT_LT (open_handle_count () - before, 64);
+}
+
+// The bug: read_symlink opened the path and never closed the handle. Windows
+// opens any path (a regular file too), so the case needs no symbolic link and
+// no privilege; POSIX has no handle to close (readlink), and the case passes.
+TEST_F (LumexFilesystemTest,
+        Filesystem_ReadSymlink_Repeated_ThenItsHandleIsClosed)
+{
+  lumex::path const file = test_dir / "file1.txt";
+  create_test_file (file);
+  // Whatever the system opens once per process for this call is open before
+  // counting.
+  auto const first = lumex_filesystem::read_symlink (file);
+#if defined(_WIN32)
+  ASSERT_TRUE (first.success ()) << "error " << first.error_code ();
+#else
+  (void)first;
+#endif
+  long const before = open_handle_count ();
+  if (before < 0)
+    GTEST_SKIP () << "the system does not report open handles";
+
+  for (int i = 0; i < 64; ++i)
+    lumex_filesystem::read_symlink (file);
+
+  EXPECT_LT (open_handle_count () - before, 16);
+}
+
 TEST_F (LumexFilesystemTest, Filesystem_DirectoryPaths_ReturnsAllEntries)
 {
   create_test_directory (test_dir / "subdir1");
@@ -1137,4 +1233,27 @@ TEST_F (LumexFilesystemTest, DirectoryEntry_Comparison_WorksCorrectly)
   // Note: Comparison order might vary depending on path string comparison
   // Just verify they are different
   EXPECT_TRUE (entry1 != entry3);
+}
+
+// The reserved device names of Windows, in any case, are refused whole; a
+// longer name that starts with one is a valid name. Elsewhere none is
+// reserved.
+TEST (LumexFilesystemNames, ReservedNames_WhenChecked_ThenRefusedOnWindowsOnly)
+{
+  namespace fs = lumex::core::filesystem::fs;
+  char const *const reserved[]
+      = { "CON", "con", "Prn", "AUX", "NUL", "COM1", "com9", "LPT1", "LPT9" };
+  for (char const *name : reserved)
+    {
+#if defined(LUMEX_OS_WINDOWS)
+      EXPECT_THROW (fs::check_name (name), std::invalid_argument) << name;
+      EXPECT_EQ (fs::sanitize_name (name, "dflt"), "dflt_file") << name;
+#else
+      EXPECT_NO_THROW (fs::check_name (name)) << name;
+#endif
+    }
+  char const *const valid[]
+      = { "CONSOLE", "COM10", "LPT", "nul2", "aux_file" };
+  for (char const *name : valid)
+    EXPECT_NO_THROW (fs::check_name (name)) << name;
 }

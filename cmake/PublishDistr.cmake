@@ -10,6 +10,15 @@
 #   bin_dir              - REQUIRED. Directory that holds built Lumex DLLs/SOs
 #   distr_dir            - REQUIRED. Destination folder (Distr<Config>)
 #   copy_runtime_script  - OPTIONAL. Path to CopyRuntimeDependencies.cmake
+#   python_exe           - OPTIONAL. Python 3 for LumexLib-source-revision.rev.
+#   source_dir           - OPTIONAL. The LumexLib checkout (with python_exe:
+#                          the folder gets LumexLib-source-revision.rev, the
+#                          commits and the symbol keys of what it holds).
+#   build_info_utils_dir, build_info_binary_dir
+#                        - OPTIONAL (LUMEX_GENERATE_BUILD_INFO). With
+#                          python_exe and source_dir: LumexLib-build-info.json,
+#                          one build report for all the libraries
+#                          (cmake/LumexBuildInfo.cmake).
 #   cxx_compiler         - OPTIONAL. The C++ compiler that built the libraries.
 #                          On ELF hosts every staged compiler runtime is
 #                          replaced with the file this compiler links against
@@ -58,14 +67,12 @@ if(WIN32)
   file(GLOB _cands
     "${bin_dir}/Lumex*.dll"
     "${bin_dir}/Lumex*.pdb"
-    "${bin_dir}/Lumex*-build-info.json"
   )
 else()
   file(GLOB _cands
     "${bin_dir}/libLumex*.so"
     "${bin_dir}/libLumex*.so.*"
     "${bin_dir}/libLumex*.dylib"
-    "${bin_dir}/Lumex*-build-info.json"
     "${bin_dir}/libLumex*.debug"
   )
 endif()
@@ -195,4 +202,24 @@ if(UNIX AND NOT APPLE AND cxx_compiler)
       endif()
     endif()
   endforeach()
+endif()
+
+# One build report for all the libraries that ship
+# (cmake/LumexBuildInfo.cmake).
+if(build_info_utils_dir AND build_info_binary_dir AND python_exe AND source_dir)
+  include("${CMAKE_CURRENT_LIST_DIR}/LumexBuildInfo.cmake")
+  file(GLOB _lumex_bi_files
+    "${distr_dir}/Lumex*.dll" "${distr_dir}/libLumex*.so*" "${distr_dir}/libLumex*.dylib")
+  lumex_write_build_info("${build_info_utils_dir}" "${source_dir}"
+    "${build_info_binary_dir}" "${python_exe}"
+    "${distr_dir}/LumexLib-build-info.json" ${_lumex_bi_files})
+endif()
+
+# Last, over the final content of the folder: the commits it was built from
+# and the symbol keys of every library (the .pdb / .debug files sit beside
+# them). cmake/LumexSourceRevision.cmake.
+if(python_exe AND source_dir)
+  include("${CMAKE_CURRENT_LIST_DIR}/LumexSourceRevision.cmake")
+  lumex_write_source_revision("${python_exe}" "${source_dir}"
+    "${distr_dir}/LumexLib-source-revision.rev" "${distr_dir}" "${distr_dir}")
 endif()

@@ -194,9 +194,10 @@ function(lumex_apply_maximum_standard_compliance target_name)
   set_property(TARGET "${target_name}" PROPERTY LUMEX_MAX_STD_CONFIGURED TRUE)
 endfunction()
 
-# Opt-in per-library build-info (configure-time stub + POST_BUILD with
-# binary hash). Output next to TARGET_FILE so PublishDistr can stage
-# Lumex*-build-info.json when the format is json.
+# Per-library build info (LUMEX_GENERATE_BUILD_INFO, default ON): the
+# configure step writes the context and the target properties into the build
+# tree; publish_distr and the install hook write the report of each shipped
+# binary (cmake/LumexBuildInfo.cmake).
 function(lumex_apply_build_info target_name)
   if(NOT LUMEX_GENERATE_BUILD_INFO)
     return()
@@ -235,33 +236,22 @@ function(lumex_apply_build_info target_name)
   if(COMMAND save_target_properties)
     save_target_properties("${target_name}" "${_props_file}")
   endif()
-  if(COMMAND generate_build_info_file)
+  # Only the context at configure time: the report itself is written over the
+  # finished binary (below), and a configure-time report of every library
+  # would run GenerateBuildInfo.py 18 times per configure for nothing.
+  # _gbinfo_write_context_json is CMakeRoutines' own step of
+  # generate_build_info_file; the full call stays as the fallback.
+  if(COMMAND _gbinfo_write_context_json AND GBINFO_PYTHON_EXECUTABLE)
+    _gbinfo_write_context_json("${target_name}"
+      "${CMAKE_BINARY_DIR}/${target_name}-build-info-context.json")
+  elseif(COMMAND generate_build_info_file)
     generate_build_info_file("${target_name}" "${_cfg_out}")
   endif()
 
-  set(_script
-    "${_LUMEX_CMAKE_ROUTINES_UTILS_DIR}/GenerateBuildInfoScript.cmake")
-  set(_py_script
-    "${_LUMEX_CMAKE_ROUTINES_UTILS_DIR}/GenerateBuildInfo.py")
-  if(EXISTS "${_script}")
-    add_custom_command(
-      TARGET "${target_name}"
-      POST_BUILD
-      COMMAND ${CMAKE_COMMAND}
-        -Dtarget_name=${target_name}
-        -Doutput_file=$<TARGET_FILE_DIR:${target_name}>/${target_name}-build-info.${_lumex_bif_fmt}
-        -Dtarget_properties_file=${_props_file}
-        -DCMAKE_SOURCE_DIR=${PROJECT_SOURCE_DIR}
-        -DCMAKE_BINARY_DIR=${CMAKE_BINARY_DIR}
-        -Dpython_executable=${GBINFO_PYTHON_EXECUTABLE}
-        -Dpython_script=${_py_script}
-        -Dbuild_info_format=${_lumex_bif_fmt}
-        -Dtarget_binary_path=$<TARGET_FILE:${target_name}>
-        -P "${_script}"
-      COMMENT
-        "Regenerating build info (${_lumex_bif_fmt}) for ${target_name}"
-      VERBATIM)
-  endif()
+  # The report with the size, hashes and dependencies of the finished binary
+  # is written over the files that ship, by publish_distr and the install
+  # hook (cmake/LumexBuildInfo.cmake): a POST_BUILD added here would belong to
+  # the root directory, not to the target's.
 
   set_property(TARGET "${target_name}" PROPERTY
     LUMEX_BUILD_INFO_CONFIGURED TRUE)
@@ -287,7 +277,10 @@ function(lumex_configure_target target_name)
     return()
   endif()
 
+  # lumex_3rdparty_*: vendored third-party code (cmake/LumexThirdParty.cmake),
+  # built with every warning off; it never gets WARNINGS HIGH.
   if(target_name MATCHES "^lumex_gtest"
+      OR target_name MATCHES "^lumex_3rdparty_"
       OR target_name MATCHES "^compile_commands"
       OR target_name STREQUAL "publish_distr"
       OR target_name STREQUAL "generate_documentation"
@@ -396,8 +389,10 @@ function(lumex_configure_target target_name)
 
   # C4251: std members in dllexport classes (Logger, Timer). Pimpl is out
   # of scope; clients never need those members' layout to be exported.
-  # /EHa must be last on the LumexExceptionsCxx<std>Tests suites so HIGH's
-  # /EHsc does not win (MSVC C4535 on _set_se_translator).
+  # /EHa must be the only EH model of every exceptions suite
+  # (LumexExceptionsCxx<std>Tests and LumexExceptions<Dir>Cxx<std>Tests of
+  # crash/, exception/, stacktrace/) so HIGH's /EHsc does not win (MSVC
+  # D9025, C4535 on _set_se_translator).
   if(MSVC)
     target_compile_options("${target_name}" PRIVATE /wd4251)
     # /external:* is an MSVC cl.exe feature. clang-cl ignores
@@ -407,7 +402,7 @@ function(lumex_configure_target target_name)
         /external:W0
         /external:anglebrackets)
     endif()
-    if(target_name MATCHES "^LumexExceptionsCxx[0-9]+Tests$")
+    if(target_name MATCHES "^LumexExceptions([A-Z][a-z]+)?Cxx[0-9]+Tests$")
       # HIGH injects /EHsc as a target option. Replace it so /EHa is the
       # only EH model (MSVC D9025 + C4535 on _set_se_translator).
       get_target_property(_lumex_eh_opts "${target_name}" COMPILE_OPTIONS)
@@ -492,4 +487,14 @@ function(lumex_configure_all_compiled_targets)
       endif()
     endforeach()
   endif()
+
+  # The compiled vendored third-party targets were created before the tree
+  # recorded its -stdlib= choice (above, in lumex_configure_target); give them
+  # the same library now. Their sanitizer flags were applied when they were
+  # created (lumex_third_party_finish).
+  foreach(_t lumex_3rdparty_boost_context lumex_3rdparty_hidapi)
+    if(TARGET "${_t}")
+      lumex_third_party_apply_stdlib("${_t}")
+    endif()
+  endforeach()
 endfunction()

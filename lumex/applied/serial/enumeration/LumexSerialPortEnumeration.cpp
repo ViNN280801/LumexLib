@@ -307,6 +307,8 @@ serial_port_state_to_string (serial_port_state state) LUMEX_NOEXCEPT
       return "Free";
     case serial_port_state::unresponsive:
       return "Unresponsive";
+    case serial_port_state::denied:
+      return "Denied";
     default:
       return "Unknown";
     }
@@ -430,10 +432,13 @@ is_bluetooth_enumerated_port (std::string const &port_name) LUMEX_NOEXCEPT
 #endif
 }
 
+namespace
+{
+// Both enumerations: `open_probe` false lists the ports without opening any.
 std::vector<serial_port_info_t>
-enumerate_serial_ports_detailed (std::string const &connected_port,
-                                 bool need_to_filter_bluetooth,
-                                 bool need_full_path)
+enumerate_ports (std::string const &connected_port,
+                 bool need_to_filter_bluetooth, bool need_full_path,
+                 bool open_probe)
 {
   std::vector<serial_port_info_t> result;
 
@@ -722,8 +727,9 @@ enumerate_serial_ports_detailed (std::string const &connected_port,
       // is off; opening a paired-and-disconnected device blocks in the
       // radio stack, so they are classified from SetupAPI presence only.
       // Every other port is open-probed through the bounded open, which
-      // never waits past the probe deadline.
-      if (starts_with (info.bus_info, "BTH"))
+      // never waits past the probe deadline, unless the caller asked for no
+      // probe.
+      if (!open_probe || starts_with (info.bus_info, "BTH"))
         {
           info.state = serial_port_state::available;
           continue;
@@ -782,6 +788,22 @@ enumerate_serial_ports_detailed (std::string const &connected_port,
         {
           std::string port_name = "COM" + std::to_string (i);
           std::string const open_path = path_for_open (port_name);
+          if (!open_probe)
+            {
+              // The DOS device name exists for a present port; asking for
+              // it does not open the port.
+              std::array<char, 512> target{};
+              if (::QueryDosDeviceA (port_name.c_str (), target.data (),
+                                     static_cast<DWORD> (target.size ()))
+                  != 0)
+                {
+                  serial_port_info_t info;
+                  info.path = need_full_path ? open_path : port_name;
+                  info.state = serial_port_state::available;
+                  result.push_back (info);
+                }
+              continue;
+            }
           open_result_t const opened = bounded_open_serial_port (
               open_path, 0U,
               std::chrono::milliseconds (
@@ -857,6 +879,13 @@ enumerate_serial_ports_detailed (std::string const &connected_port,
 
           serial_port_info_t info;
           info.path = need_full_path ? dev_path : name;
+          if (!open_probe)
+            {
+              info.state = serial_port_state::available;
+              read_linux_device_attributes (name, info);
+              result.push_back (info);
+              continue;
+            }
           open_result_t const opened = bounded_open_serial_port (
               dev_path, 0U,
               std::chrono::milliseconds (
@@ -878,6 +907,8 @@ enumerate_serial_ports_detailed (std::string const &connected_port,
             }
           else
             {
+              if (info.state == serial_port_state::denied)
+                read_linux_device_attributes (name, info);
               info.system_error = opened.system_error;
             }
           result.push_back (info);
@@ -907,6 +938,13 @@ enumerate_serial_ports_detailed (std::string const &connected_port,
 
               serial_port_info_t info;
               info.path = need_full_path ? dev_path : name;
+              if (!open_probe)
+                {
+                  info.state = serial_port_state::available;
+                  read_linux_device_attributes (name, info);
+                  result.push_back (info);
+                  continue;
+                }
               open_result_t const opened = bounded_open_serial_port (
                   dev_path, 0U,
                   std::chrono::milliseconds (
@@ -928,6 +966,8 @@ enumerate_serial_ports_detailed (std::string const &connected_port,
                 }
               else
                 {
+                  if (info.state == serial_port_state::denied)
+                    read_linux_device_attributes (name, info);
                   info.system_error = opened.system_error;
                 }
               result.push_back (info);
@@ -942,6 +982,24 @@ enumerate_serial_ports_detailed (std::string const &connected_port,
 #endif
 
   return result;
+}
+} // namespace
+
+std::vector<serial_port_info_t>
+enumerate_serial_ports_detailed (std::string const &connected_port,
+                                 bool need_to_filter_bluetooth,
+                                 bool need_full_path)
+{
+  return enumerate_ports (connected_port, need_to_filter_bluetooth,
+                          need_full_path, true);
+}
+
+std::vector<serial_port_info_t>
+enumerate_serial_ports_without_probe (bool need_to_filter_bluetooth,
+                                      bool need_full_path)
+{
+  return enumerate_ports (std::string (), need_to_filter_bluetooth,
+                          need_full_path, false);
 }
 
 std::vector<std::string>

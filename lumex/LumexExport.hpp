@@ -41,8 +41,9 @@
  * @file LumexExport.hpp
  * @brief Export and linkage macros of LumexLib: `LUMEX_API`,
  * `LUMEX_PUBLIC_API`, `LUMEX_PUBLIC_C_API`, `LUMEX_UTILITY_API`,
- * `LUMEX_HAZARD_POINTER_API`, `LUMEX_CONTRACTS_API`, `LUMEX_EXTERN_C_BEGIN`
- * and `LUMEX_EXTERN_C_END`.
+ * `LUMEX_HAZARD_POINTER_API`, `LUMEX_CONTRACTS_API`, `LUMEX_FRAMING_API`,
+ * `LUMEX_INTERPROCESS_API`,
+ * `LUMEX_EXTERN_C_BEGIN` and `LUMEX_EXTERN_C_END`.
  * @details `LUMEX_API` marks a class or function of a shared library: on
  * Windows it is `dllexport` while `LUMEX_EXPORTS` is defined and `dllimport`
  * otherwise, elsewhere it gives default visibility while `LUMEX_EXPORTS` is
@@ -54,9 +55,12 @@
  * static data members are not exported again by every library that includes
  * their header. `LUMEX_HAZARD_POINTER_API` marks the free functions of the
  * hazard pointer library (`LumexCore_hazard_pointer_EXPORTS`) the same way,
- * and `LUMEX_CONTRACTS_API` the free functions of the contracts library
- * (`LumexCore_contracts_EXPORTS`). The string views are header-only and have
- * no export macro.
+ * `LUMEX_CONTRACTS_API` the free functions of the contracts library
+ * (`LumexCore_contracts_EXPORTS`), `LUMEX_FRAMING_API` the error category
+ * of the framing library (`LumexCore_framing_EXPORTS`), and
+ * `LUMEX_INTERPROCESS_API` the inter-process lock of the interprocess library
+ * (`LumexCore_interprocess_EXPORTS`). The string views are
+ * header-only and have no export macro.
  * `LUMEX_EXTERN_C_BEGIN` and `LUMEX_EXTERN_C_END` open and close an `extern
  * "C"` block when compiled as C++.
  */
@@ -150,6 +154,54 @@
 #define LUMEX_CONTRACTS_API __attribute__ ((visibility ("default")))
 #else
 #define LUMEX_CONTRACTS_API
+#endif
+
+// Per-module export for LumexCore_interprocess, like LUMEX_CONTRACTS_API: the
+// library exports the class interprocess_lock, every other DLL that includes
+// the header imports it. The lock owns an operating-system handle, so it is
+// compiled into one library only.
+#if defined(_WIN32) || defined(__CYGWIN__)
+#if defined(LumexCore_interprocess_EXPORTS)
+#define LUMEX_INTERPROCESS_API __declspec (dllexport)
+#else
+#define LUMEX_INTERPROCESS_API __declspec (dllimport)
+#endif
+#elif defined(LumexCore_interprocess_EXPORTS)
+#define LUMEX_INTERPROCESS_API __attribute__ ((visibility ("default")))
+#else
+#define LUMEX_INTERPROCESS_API
+#endif
+
+// Per-module export for LumexCore_framing, like LUMEX_CONTRACTS_API: the
+// library exports the error category of the frame codecs, every other DLL that
+// includes the headers imports it. A std::error_category is compared by
+// address, so an error code made in one DLL equals the enumerator in another
+// only while the category object lives in this library alone.
+#if defined(_WIN32) || defined(__CYGWIN__)
+#if defined(LumexCore_framing_EXPORTS)
+#define LUMEX_FRAMING_API __declspec (dllexport)
+#else
+#define LUMEX_FRAMING_API __declspec (dllimport)
+#endif
+#elif defined(LumexCore_framing_EXPORTS)
+#define LUMEX_FRAMING_API __attribute__ ((visibility ("default")))
+#else
+#define LUMEX_FRAMING_API
+#endif
+
+// Per-module export for LumexApplied_serial, like LUMEX_FRAMING_API: the
+// internal API that the transport library (a different, static library)
+// calls, the bounded open of a port and the close of its handle.
+#if defined(_WIN32) || defined(__CYGWIN__)
+#if defined(LumexApplied_serial_EXPORTS)
+#define LUMEX_SERIAL_API __declspec (dllexport)
+#else
+#define LUMEX_SERIAL_API __declspec (dllimport)
+#endif
+#elif defined(LumexApplied_serial_EXPORTS)
+#define LUMEX_SERIAL_API __attribute__ ((visibility ("default")))
+#else
+#define LUMEX_SERIAL_API
 #endif
 
 #ifdef LUMEX_IMPLEMENTATION

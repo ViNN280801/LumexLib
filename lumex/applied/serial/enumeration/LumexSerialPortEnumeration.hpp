@@ -103,25 +103,29 @@ namespace enumeration
  * @brief Result of an open-probe performed during enumeration.
  *
  * - `available`: open succeeded and the handle was closed immediately.
- * - `busy`: `ERROR_ACCESS_DENIED` / `ERROR_SHARING_VIOLATION` / `EBUSY` /
- *   `EACCES`.
+ * - `busy`: `ERROR_ACCESS_DENIED` / `ERROR_SHARING_VIOLATION` / `EBUSY`
+ *   (on Windows a denied open means another process holds the port).
  * - `free`: the device is absent or another error occurred.
  * - `unresponsive`: the bounded open did not return within the probe
  *   deadline; the port is likely a virtual or unresponsive device and its
  *   `system_error` carries the timeout text.
+ * - `denied`: POSIX only, `EACCES` / `EPERM`: the device is present but the
+ *   user may not open its node (group `dialout` or a udev rule, see the
+ *   transport's `share/LumexLib/udev`); `system_error` carries the text.
  */
 enum class serial_port_state
 {
   free,
   busy,
   available,
-  unresponsive
+  unresponsive,
+  denied
 };
 
 /**
  * @brief Convert `state` to a stable ASCII token.
- * @return `"Available"`, `"Busy"`, `"Free"`, `"Unresponsive"`, or
- * `"Unknown"`.
+ * @return `"Available"`, `"Busy"`, `"Free"`, `"Unresponsive"`, `"Denied"`,
+ * or `"Unknown"`.
  */
 LUMEX_ATTRIBUTE_NODISCARD (
     "Serial port state string is required for logging and diagnostics.")
@@ -197,6 +201,33 @@ std::vector<serial_port_info_t> enumerate_serial_ports_detailed (
     bool need_to_filter_bluetooth = false, bool need_full_path = false);
 
 /**
+ * @brief Enumerate serial ports like `enumerate_serial_ports_detailed`
+ * without opening any of them.
+ *
+ * The same sources, filter, paths and order, and the same identifiers
+ * (SetupAPI and registry on Windows, sysfs on POSIX), but no port is
+ * open-probed: `state` is `available` for every port (presence only, as for
+ * the Bluetooth ports of the detailed enumeration), and
+ * `holder_process_info` and `system_error` stay empty. For a caller that
+ * polls the port list (a hot-plug watcher) or looks a port up by its USB
+ * identity: an open of every port would pulse the modem lines of each
+ * device, collide with the open of a session, and on Windows walk the
+ * handle table for each busy port. The Windows fallback when SetupAPI
+ * lists nothing checks `COM1`..`COM255` with `QueryDosDevice`, which does
+ * not open the port either.
+ *
+ * A separate function, not a parameter of the detailed one: its exported
+ * signature stays as it is.
+ *
+ * @param need_to_filter_bluetooth As for `enumerate_serial_ports_detailed`.
+ * @param need_full_path As for `enumerate_serial_ports_detailed`.
+ */
+LUMEX_PUBLIC_API
+std::vector<serial_port_info_t>
+enumerate_serial_ports_without_probe (bool need_to_filter_bluetooth = false,
+                                      bool need_full_path = false);
+
+/**
  * @brief Enumerate serial port names only.
  * @param need_to_filter_bluetooth Forwarded to
  * `enumerate_serial_ports_detailed`.
@@ -224,9 +255,9 @@ is_bluetooth_enumerated_port (std::string const &port_name) LUMEX_NOEXCEPT;
 /**
  * @brief Write a grouped port table to `os`.
  *
- * Sections: available, busy, unresponsive, free. Busy rows append
- * `holder_process_info` when it is non-empty; unresponsive rows append
- * `system_error`.
+ * Sections: available, busy, unresponsive, denied (only when a port is
+ * denied), free. Busy rows append `holder_process_info` when it is
+ * non-empty; unresponsive and denied rows append `system_error`.
  */
 template <typename CharT, typename Traits>
 void print_serial_ports_info (std::basic_ostream<CharT, Traits> &os,
@@ -241,6 +272,7 @@ print_serial_ports_info (std::basic_ostream<CharT, Traits> &os,
   std::vector<serial_port_info_t const *> by_busy;
   std::vector<serial_port_info_t const *> by_available;
   std::vector<serial_port_info_t const *> by_unresponsive;
+  std::vector<serial_port_info_t const *> by_denied;
 
   for (std::vector<serial_port_info_t>::const_iterator it = infos.begin ();
        it != infos.end (); ++it)
@@ -251,6 +283,8 @@ print_serial_ports_info (std::basic_ostream<CharT, Traits> &os,
         by_busy.push_back (&(*it));
       else if (it->state == serial_port_state::unresponsive)
         by_unresponsive.push_back (&(*it));
+      else if (it->state == serial_port_state::denied)
+        by_denied.push_back (&(*it));
       else
         by_available.push_back (&(*it));
     }
@@ -298,6 +332,19 @@ print_serial_ports_info (std::basic_ostream<CharT, Traits> &os,
   for (std::size_t i = 0; i < by_unresponsive.size (); ++i)
     {
       serial_port_info_t const &info = *by_unresponsive[i];
+      os << "  " << info.path.c_str ();
+      if (!info.friendly_name.empty ())
+        os << "  [" << info.friendly_name.c_str () << "]";
+      if (!info.system_error.empty ())
+        os << "  " << info.system_error.c_str ();
+      os << "\n";
+    }
+
+  if (!by_denied.empty ())
+    os << "\n=== Ports: denied (no permission to open) ===\n";
+  for (std::size_t i = 0; i < by_denied.size (); ++i)
+    {
+      serial_port_info_t const &info = *by_denied[i];
       os << "  " << info.path.c_str ();
       if (!info.friendly_name.empty ())
         os << "  [" << info.friendly_name.c_str () << "]";
