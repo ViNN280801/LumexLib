@@ -5,8 +5,27 @@
 // 100-row protocol of the tests), 3 (as 2, plus the run-time entries of all
 // 100 rows and the client methods of three of them), 4 (a layout of 40
 // fields with every field kind, bench_protocol_fields.hpp) or 5 (as 4, plus
-// its encoder and decoder in the binary, hexadecimal and tokenized layouts).
+// its encoder and decoder in the binary, hexadecimal and tokenized layouts),
+// 6 (the largest test table of a device, device B of
+// lumex/tests/core/protocol/devices with the family table of device A it
+// extends: ten protocol layers, five registries) or 7 (as 6, plus the
+// run-time index of six of these layers with their registries: those of
+// device B but the aligned variant of the family table, which is only
+// checked for its alignment, and the family table).
 #include <cstddef>
+
+// Tables 6 and 7 are measured against the headers alone (table 0).
+#if BENCH_PROTOCOL_TABLE >= 6
+#if BENCH_PROTOCOL_TABLE == 6
+#define BENCH_DEVICE_TABLE 6
+#else
+#define BENCH_DEVICE_TABLE 7
+#endif
+#undef BENCH_PROTOCOL_TABLE
+#define BENCH_PROTOCOL_TABLE 0
+#else
+#define BENCH_DEVICE_TABLE 0
+#endif
 
 // Tables 4 and 5 are measured against the headers alone (table 0).
 #if BENCH_PROTOCOL_TABLE >= 4
@@ -25,6 +44,10 @@
 
 #if BENCH_FIELDS_TABLE >= 4
 #include "benchmarks/protocol/bench_protocol_fields.hpp"
+#endif
+
+#if BENCH_DEVICE_TABLE >= 6
+#include "lumex/tests/core/protocol/devices/device_b/LumexProtocolDeviceB.hpp"
 #endif
 
 #if BENCH_PROTOCOL_TABLE >= 3
@@ -100,6 +123,28 @@ main ()
   result += bench_fields::round_trip<
       lumex::core::protocol::layout::tokenized_text_layout<','>> (value,
                                                                   context);
+#endif
+#if BENCH_DEVICE_TABLE >= 6
+  result += lumex::core::protocol::dsl::command_count<
+      lumex_tests::device_b::device_b2>::value;
+  result += lumex::core::protocol::dsl::command_count<
+      lumex_tests::device_b::device_b1>::value;
+#endif
+#if BENCH_DEVICE_TABLE >= 7
+  {
+    namespace index = lumex::core::protocol::index;
+    namespace b = lumex_tests::device_b;
+    result += index::build_index<b::device_b2, b::b2_work, b::b2_service,
+                                 b::b2_floating> ()
+                  .has_value ();
+    result += index::build_index<b::device_b2_m2> ().has_value ();
+    result += index::build_index<b::b2_system> ().has_value ();
+    result += index::build_index<b::device_b1, b::b1_params_unique> ()
+                  .has_value ();
+    result += index::build_index<b::device_b1_rx> ().has_value ();
+    result
+        += index::build_index<lumex_tests::device_a::family_a> ().has_value ();
+  }
 #endif
   return static_cast<int> (result % 2);
 }
