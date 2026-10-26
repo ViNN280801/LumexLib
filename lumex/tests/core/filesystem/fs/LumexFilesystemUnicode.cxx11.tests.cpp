@@ -17,6 +17,20 @@
 #include <string>
 #include <vector>
 
+#if defined(_WIN32)
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include <windows.h>
+#else
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#endif
+
 #include <gtest/gtest.h>
 
 #include "lumex/core/filesystem/LumexFilesystem"
@@ -229,4 +243,182 @@ TEST (LumexFilesystemUnicodeTest,
                  mixed_utf8 ());
     }
   EXPECT_GE (applied, 1U);
+}
+
+// --- Names on disk ---------------------------------------------------------
+//
+// The bug: on Windows exists, is_directory, is_regular_file and
+// create_directory passed the UTF-8 bytes of the path to the ...A functions,
+// which read them in the ANSI code page. A Cyrillic directory was created
+// under a garbled name (or not at all: U+1F600 has a byte that code page 1251
+// does not define), and a file created by another program under its real name
+// was not found. The checks below ask the system itself, through its wide
+// interface on Windows and through the bytes on POSIX, so they see the name
+// the way every other program does.
+namespace
+{
+class LumexFilesystemUnicodeDiskTest : public ::testing::Test
+{
+protected:
+  void
+  SetUp () override
+  {
+    // One directory per case: gtest_discover_tests runs every case in its
+    // own process, and a leftover of another case must not be seen. Its name
+    // is ASCII, so creating it does not depend on the fix under test. It may
+    // stay from a run that ended before TearDown (or from the ...A functions,
+    // which left garbled names in it that TearDown does not know).
+    m_base = path (
+        std::string ("lumex_fs_unicode_")
+        + ::testing::UnitTest::GetInstance ()->current_test_info ()->name ());
+    ASSERT_TRUE (native_create_directory (m_base)
+                 || native_is_directory (m_base));
+    m_created.push_back (std::make_pair (m_base, true));
+  }
+
+  void
+  TearDown () override
+  {
+    remove_tree ();
+  }
+
+  // Asks the system whether `p` is a directory.
+  static bool
+  native_is_directory (path const &p)
+  {
+#if defined(_WIN32)
+    DWORD const attrs = GetFileAttributesW (p.wstring ().c_str ());
+    return attrs != INVALID_FILE_ATTRIBUTES
+           && (attrs & FILE_ATTRIBUTE_DIRECTORY) != 0;
+#else
+    struct stat status;
+    return stat (p.c_str (), &status) == 0 && S_ISDIR (status.st_mode);
+#endif
+  }
+
+  static bool
+  native_create_directory (path const &p)
+  {
+#if defined(_WIN32)
+    return CreateDirectoryW (p.wstring ().c_str (), nullptr) != 0;
+#else
+    return mkdir (p.c_str (), 0755) == 0;
+#endif
+  }
+
+  static bool
+  native_create_file (path const &p)
+  {
+#if defined(_WIN32)
+    HANDLE const file
+        = CreateFileW (p.wstring ().c_str (), GENERIC_WRITE, 0, nullptr,
+                       CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
+    if (file == INVALID_HANDLE_VALUE)
+      return false;
+    CloseHandle (file);
+    return true;
+#else
+    int const descriptor
+        = open (p.c_str (), O_CREAT | O_WRONLY | O_TRUNC, 0644);
+    if (descriptor < 0)
+      return false;
+    close (descriptor);
+    return true;
+#endif
+  }
+
+  // Remembers a file (false) or a directory (true) for TearDown, which removes
+  // them in reverse order.
+  void
+  created (path const &p, bool directory)
+  {
+    m_created.push_back (std::make_pair (p, directory));
+  }
+
+  path m_base;
+
+private:
+  // Removes what the case made, deepest first, through the system: remove_all
+  // of the module still goes through the ...A functions on Windows.
+  void
+  remove_tree ()
+  {
+    for (std::size_t i = m_created.size (); i > 0; --i)
+      {
+        path const &p = m_created[i - 1].first;
+#if defined(_WIN32)
+        if (m_created[i - 1].second)
+          RemoveDirectoryW (p.wstring ().c_str ());
+        else
+          DeleteFileW (p.wstring ().c_str ());
+#else
+        if (m_created[i - 1].second)
+          rmdir (p.c_str ());
+        else
+          unlink (p.c_str ());
+#endif
+      }
+    m_created.clear ();
+  }
+
+  std::vector<std::pair<path, bool>> m_created;
+};
+} // namespace
+
+TEST_F (
+    LumexFilesystemUnicodeDiskTest,
+    GivenCyrillicAndEmojiDirectories_WhenCreateDirectories_ThenTheSystemSeesTheirNames)
+{
+  path const cyrillic = m_base / kPrivetUtf8;
+  path const emoji = cyrillic / kEmojiUtf8;
+  // Both directories are made by the call; TearDown removes them even when an
+  // expectation fails.
+  created (cyrillic, true);
+  created (emoji, true);
+
+  auto const result = lumex_filesystem::create_directories (emoji);
+
+  ASSERT_TRUE (result.success ()) << "error " << result.error_code ();
+  EXPECT_TRUE (result.value ());
+  EXPECT_TRUE (native_is_directory (cyrillic));
+  EXPECT_TRUE (native_is_directory (emoji));
+  EXPECT_TRUE (lumex_filesystem::exists (emoji));
+  EXPECT_TRUE (lumex_filesystem::is_directory (emoji));
+}
+
+TEST_F (
+    LumexFilesystemUnicodeDiskTest,
+    GivenExistingCyrillicDirectory_WhenCreateDirectory_ThenSuccessWithoutCreating)
+{
+  path const cyrillic = m_base / kPrivetUtf8;
+  ASSERT_TRUE (native_create_directory (cyrillic));
+  created (cyrillic, true);
+
+  auto const result = lumex_filesystem::create_directory (cyrillic);
+
+  // ERROR_ALREADY_EXISTS is not an error when the name is a directory.
+  ASSERT_TRUE (result.success ()) << "error " << result.error_code ();
+  EXPECT_FALSE (result.value ());
+}
+
+TEST_F (LumexFilesystemUnicodeDiskTest,
+        GivenFileWithCyrillicName_WhenQueried_ThenItExistsAsARegularFile)
+{
+  path const file = m_base / (std::string (kPrivetUtf8) + ".txt");
+  ASSERT_TRUE (native_create_file (file));
+  created (file, false);
+
+  EXPECT_TRUE (lumex_filesystem::exists (file));
+  EXPECT_TRUE (lumex_filesystem::is_regular_file (file));
+  EXPECT_FALSE (lumex_filesystem::is_directory (file));
+}
+
+TEST_F (LumexFilesystemUnicodeDiskTest,
+        GivenMissingCyrillicName_WhenQueried_ThenItDoesNotExist)
+{
+  path const missing = m_base / kPrivetUtf8;
+
+  EXPECT_FALSE (lumex_filesystem::exists (missing));
+  EXPECT_FALSE (lumex_filesystem::is_directory (missing));
+  EXPECT_FALSE (lumex_filesystem::is_regular_file (missing));
 }
