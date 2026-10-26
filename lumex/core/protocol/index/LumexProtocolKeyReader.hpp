@@ -335,11 +335,20 @@ template <typename Head, typename... Tail> struct widest_key<Head, Tail...>
     return key_type_width<typename Head::key_type>::get ();
   }
 
+  // The width of the rest is computed once: evaluating it in both arms of
+  // the comparison doubled the steps per row (2^n for n rows), and a table
+  // of about twenty rows ran into the constexpr step limit of the compiler.
   static LUMEX_CONSTEXPR std::size_t
   get () LUMEX_NOEXCEPT
   {
-    return own () > widest_key<Tail...>::get () ? own ()
-                                                : widest_key<Tail...>::get ();
+    return larger (own (), widest_key<Tail...>::get ());
+  }
+
+private:
+  static LUMEX_CONSTEXPR std::size_t
+  larger (std::size_t first, std::size_t second) LUMEX_NOEXCEPT
+  {
+    return first > second ? first : second;
   }
 };
 

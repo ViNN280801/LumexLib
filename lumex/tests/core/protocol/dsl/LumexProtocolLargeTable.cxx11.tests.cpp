@@ -35,6 +35,20 @@ TEST (LumexProtocolLargeTableTest,
   EXPECT_EQ (dsl::command_entries<large> ().size (), 100u);
 }
 
+TEST (
+    LumexProtocolLargeTableTest,
+    GivenARowListOf100RowsAndAHeaderWithoutAWidth_WhenTheKeyWidthIsAsked_ThenTheWidestKeyIsFound)
+{
+  // The widest key of the table, found at compile time in steps linear in
+  // the number of rows (the constexpr step limit stopped it at about twenty
+  // rows before).
+  static_assert (lumex::core::protocol::index::key_width_of<large>::value
+                     == sizeof (int),
+                 "the keys of the large table are int");
+  EXPECT_EQ (lumex::core::protocol::index::key_width_of<large>::value,
+             sizeof (int));
+}
+
 TEST (LumexProtocolLargeTableTest,
       GivenARowListOf100Rows_WhenListed_ThenEveryRowKeepsItsPosition)
 {
