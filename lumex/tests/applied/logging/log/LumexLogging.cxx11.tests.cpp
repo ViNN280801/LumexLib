@@ -22,6 +22,7 @@
 #include "lumex/core/time/LumexTime"
 
 #include "lumex/tests/support/LumexPerfSkip.hpp"
+#include "lumex/tests/support/LumexTestUtf8Files.hpp"
 
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -701,6 +702,51 @@ TEST_F (LumexLoggingTest,
   ASSERT_TRUE (
       lumex::core::filesystem::fs::lumex_filesystem::exists (logFile));
   // Cannot check s_launchTimestamp.empty() directly as it's private.
+}
+
+// The file name is UTF-8: a narrow name given to a stream is read in the ANSI
+// code page on Windows, so the log was written under a garbled name.
+TEST_F (LumexLoggingTest,
+        GivenCyrillicFileName_WhenToFile_ThenTheSystemSeesTheFile)
+{
+  namespace files = lumex_test::utf8_files;
+  std::string const filename = files::cyrillic ("_log");
+
+  bool const written = LumexLogging::to_file (
+      filename.c_str (), lumex::applied::logging::log::LumexLogLevel::Info,
+      "CyrillicName", "Cyrillic marker.", false);
+
+  std::string const path
+      = (LumexLogging::get_logs_directory () / lumex::path (filename + ".log"))
+            .string ();
+  std::string content;
+  bool const read = files::read_file (path, content);
+  EXPECT_TRUE (written);
+  EXPECT_TRUE (read) << "the system does not see " << path;
+  EXPECT_NE (content.find ("Cyrillic marker."), std::string::npos);
+}
+
+TEST_F (LumexLoggingTest,
+        GivenCyrillicAppName_WhenToFile_ThenTheLogIsInThatDirectory)
+{
+  namespace files = lumex_test::utf8_files;
+  LumexLogging::set_app_name (files::cyrillic ("_app_") + _appName);
+
+  bool const written = LumexLogging::to_file (
+      "in_cyrillic_directory",
+      lumex::applied::logging::log::LumexLogLevel::Info, "CyrillicDir",
+      "Directory marker.", false);
+
+  lumex::path const logs = LumexLogging::get_logs_directory ();
+  std::string content;
+  bool const read = files::read_file (
+      (logs / lumex::path ("in_cyrillic_directory.log")).string (), content);
+  files::remove_file (
+      (logs / lumex::path ("in_cyrillic_directory.log")).string ());
+  lumex::core::filesystem::fs::lumex_filesystem::remove_all (logs);
+  EXPECT_TRUE (written);
+  EXPECT_TRUE (read);
+  EXPECT_NE (content.find ("Directory marker."), std::string::npos);
 }
 
 TEST_F (LumexLoggingTest,

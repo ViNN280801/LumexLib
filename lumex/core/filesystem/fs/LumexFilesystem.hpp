@@ -124,6 +124,8 @@
 
 #include <cstdint> // std::uintmax_t, std::int8_t, std::uint16_t
 #include <ctime>   // std::time_t
+#include <ios>     // std::ios_base::openmode
+#include <iosfwd>  // std::ifstream, std::ofstream, std::fstream
 #include <memory>  // std::shared_ptr
 #include <ostream> // std::ostream
 #include <string>  // std::string, std::wstring
@@ -2027,6 +2029,51 @@ public:
   {
     return is_writable (path (path_str));
   }
+
+  /**
+   * @brief Opens a file stream by a UTF-8 path.
+   * @details The path is UTF-8 on every platform, as everywhere in this
+   * module. A narrow file name given to a stream is read in the ANSI code
+   * page on Windows, so a path with Cyrillic (a user profile) opens another
+   * file or none. Use these functions instead of `stream.open (name)` for a
+   * name that is a `lumex::path` or any UTF-8 text. Where the name goes to the
+   * standard library as it is:
+   * - Windows with the MSVC library (cl.exe, clang-cl), with libstdc++ that
+   *   has `_wfopen` (MinGW) and with libc++ that defines
+   *   `_LIBCPP_HAS_OPEN_WITH_WCHAR`: the strict UTF-16 name, a `wchar_t`
+   *   overload of `open`.
+   * - Windows with another library: the narrow name (the library has no wide
+   *   overload), checked to be valid UTF-8 first.
+   * - POSIX: the bytes of the path (the file system takes them as they are).
+   *
+   * On Windows a path that is not valid UTF-8 is refused with
+   * `ERROR_INVALID_NAME` (as `to_wide_path` does): the name of the skipped
+   * bytes would be the name of another file. The stream gets `failbit` then,
+   * as after any failed `open`.
+   * @param stream The stream to open. A stream that is already open is a
+   * failure (`EBUSY`, `failbit`), and it stays open on its old file.
+   * @param path_arg The UTF-8 path.
+   * @param mode The open mode; the default is that of the stream's own
+   * constructor (`in`, `out` or `in | out`).
+   * @return `ok()` when the stream is open; otherwise `err(code)`: `errno` of
+   * the failed open (`EIO` when it set none), `EBUSY` for a stream that is
+   * open, or `ERROR_INVALID_NAME` on Windows for an invalid path. The stream
+   * has `failbit` set on every failure.
+   */
+  static filesystem_result<void>
+  open_stream (std::ifstream &stream, path const &path_arg,
+               std::ios_base::openmode mode = std::ios_base::in);
+
+  /// @copydoc open_stream(std::ifstream&,path const&,std::ios_base::openmode)
+  static filesystem_result<void>
+  open_stream (std::ofstream &stream, path const &path_arg,
+               std::ios_base::openmode mode = std::ios_base::out);
+
+  /// @copydoc open_stream(std::ifstream&,path const&,std::ios_base::openmode)
+  static filesystem_result<void>
+  open_stream (std::fstream &stream, path const &path_arg,
+               std::ios_base::openmode mode
+               = std::ios_base::in | std::ios_base::out);
 
   /**
    * @brief Check if a file is both readable and writable by the current

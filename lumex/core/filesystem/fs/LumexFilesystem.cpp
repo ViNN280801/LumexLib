@@ -67,6 +67,7 @@
 #include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 #include "lumex/core/utility/macros/LumexConstantMacros.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
+#include "lumex/core/utility/util/LumexUtf8FileName.hpp"
 
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -843,14 +844,13 @@ namespace detail
 // The name to open a file stream with. The path is UTF-8; on Windows a narrow
 // name goes through the ANSI code page, so the stream gets the UTF-16 name
 // wherever the standard library takes one (an extension of the MSVC STL used
-// by cl.exe and clang-cl, and of libstdc++ with _wfopen on MinGW). Elsewhere
+// by cl.exe and clang-cl, of libstdc++ with _wfopen on MinGW, and of libc++
+// with _LIBCPP_HAS_OPEN_WITH_WCHAR; LUMEX_UTF8_FILE_NAME_WIDE_OPEN). Elsewhere
 // the narrow name stays: it is right on POSIX, and the only choice on another
 // Windows library. On Windows a path that is not valid UTF-8 gives an empty
 // name, which no stream opens (the name of the skipped bytes would be the name
 // of another file); the callers that report an error check the path before.
-#if defined(LUMEX_OS_WINDOWS)                                                 \
-    && ((defined(_MSC_VER) && !defined(_LIBCPP_VERSION))                      \
-        || (defined(_GLIBCXX_HAVE__WFOPEN) && defined(_GLIBCXX_USE_WCHAR_T)))
+#if LUMEX_UTF8_FILE_NAME_WIDE_OPEN
 static std::wstring
 stream_name (path const &path_arg)
 {
@@ -2336,58 +2336,15 @@ lumex_filesystem::to_wide_string (std::string const &str)
 #if defined(LUMEX_OS_WINDOWS)
 namespace detail
 {
-// Whether `text` is valid UTF-8 by Unicode table 3-7: a lead byte C2..F4, the
-// right number of continuation bytes, the second one within the range of its
-// lead (no overlong form behind E0 and F0, no surrogate behind ED, nothing
-// above U+10FFFF behind F4).
+// Whether `text` is valid UTF-8 by Unicode table 3-7 (no overlong form, no
+// surrogate, nothing above U+10FFFF): the one validator of the library,
+// `utf8_file_name::is_valid` of the utility module (a module this one
+// requires). The strict conversion beside it cannot be `unicode::convert`:
+// that skips what it cannot decode, and `unicode` requires `utility`.
 static bool
 is_valid_utf8 (std::string const &text) LUMEX_NOEXCEPT
 {
-  std::size_t const size = text.size ();
-  std::size_t index = 0;
-  while (index < size)
-    {
-      unsigned char const lead = static_cast<unsigned char> (text[index]);
-      if (lead < 0x80)
-        {
-          ++index;
-          continue;
-        }
-      std::size_t length = 0;
-      unsigned char second_low = 0x80;
-      unsigned char second_high = 0xBF;
-      if (lead >= 0xC2 && lead <= 0xDF)
-        length = 2;
-      else if (lead >= 0xE0 && lead <= 0xEF)
-        {
-          length = 3;
-          if (lead == 0xE0)
-            second_low = 0xA0;
-          else if (lead == 0xED)
-            second_high = 0x9F;
-        }
-      else if (lead >= 0xF0 && lead <= 0xF4)
-        {
-          length = 4;
-          if (lead == 0xF0)
-            second_low = 0x90;
-          else if (lead == 0xF4)
-            second_high = 0x8F;
-        }
-      else
-        return false; // a continuation byte, C0, C1, or F5..FF
-      if (size - index < length)
-        return false;
-      unsigned char const second
-          = static_cast<unsigned char> (text[index + 1]);
-      if (second < second_low || second > second_high)
-        return false;
-      for (std::size_t k = 2; k < length; ++k)
-        if ((static_cast<unsigned char> (text[index + k]) & 0xC0U) != 0x80U)
-          return false;
-      index += length;
-    }
-  return true;
+  return lumex::core::utility::utf8_file_name::is_valid (text);
 }
 } // namespace detail
 
@@ -2604,6 +2561,72 @@ lumex_filesystem::is_writable (path const &path_arg)
       std::cerr << "Unknown exception in is_writable. Returning false.\n";
       return false;
     }
+}
+
+namespace detail
+{
+// Opens `stream` by the UTF-8 path; the three public overloads differ by the
+// stream type only. See `lumex_filesystem::open_stream`.
+template <typename Stream>
+static filesystem_result<void>
+open_stream_impl (Stream &stream, path const &path_arg,
+                  std::ios_base::openmode mode)
+{
+#if defined(LUMEX_OS_WINDOWS)
+  // One check here; the conversion of the name is in `utf8_file_name::open`.
+  if (!detail::is_valid_utf8 (path_arg.native ()))
+    {
+      stream.setstate (std::ios_base::failbit);
+      return filesystem_result<void>::err (
+          static_cast<int> (ERROR_INVALID_NAME));
+    }
+#endif
+  // `open` on an open stream fails (failbit) and leaves it open: that is a
+  // failure of this call, not a success.
+  if (stream.is_open ())
+    {
+      stream.setstate (std::ios_base::failbit);
+      return filesystem_result<void>::err (EBUSY);
+    }
+  try
+    {
+      errno = 0;
+      if (lumex::core::utility::utf8_file_name::open (
+              stream, path_arg.native (), mode))
+        return filesystem_result<void>::ok ();
+      return filesystem_result<void>::err (errno != 0 ? errno : EIO);
+    }
+  catch (...)
+    {
+      // A stream with an exception mask throws from `open`; the result API
+      // reports it instead.
+      return filesystem_result<void>::err (errno != 0 ? errno : EIO);
+    }
+}
+} // namespace detail
+
+LUMEX_PUBLIC_API
+filesystem_result<void>
+lumex_filesystem::open_stream (std::ifstream &stream, path const &path_arg,
+                               std::ios_base::openmode mode)
+{
+  return detail::open_stream_impl (stream, path_arg, mode);
+}
+
+LUMEX_PUBLIC_API
+filesystem_result<void>
+lumex_filesystem::open_stream (std::ofstream &stream, path const &path_arg,
+                               std::ios_base::openmode mode)
+{
+  return detail::open_stream_impl (stream, path_arg, mode);
+}
+
+LUMEX_PUBLIC_API
+filesystem_result<void>
+lumex_filesystem::open_stream (std::fstream &stream, path const &path_arg,
+                               std::ios_base::openmode mode)
+{
+  return detail::open_stream_impl (stream, path_arg, mode);
 }
 
 LUMEX_PUBLIC_API

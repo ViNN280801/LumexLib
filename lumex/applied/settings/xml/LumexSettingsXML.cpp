@@ -62,6 +62,26 @@ namespace xml
 #if defined(LUMEX_SETTINGS_WITH_XML)
 namespace
 {
+// Loads the document from a UTF-8 path. On Windows the narrow `load_file`
+// reads the path in the ANSI code page, so a Cyrillic directory (a user
+// profile) was missed: the wide overload takes the strict UTF-16 form of the
+// path, and a path that is not valid UTF-8 is refused.
+bool
+load_utf8_file (::lumex::xml::document::XmlDocument &document,
+                std::string const &path)
+{
+#if defined(_WIN32)
+  lumex::core::filesystem::fs::filesystem_result<std::wstring> const wide
+      = lumex::core::filesystem::fs::lumex_filesystem::to_wide_path (
+          lumex::path (path));
+  if (!wide.success ())
+    return false;
+  return static_cast<bool> (document.load_file (wide.value ().c_str ()));
+#else
+  return static_cast<bool> (document.load_file (path.c_str ()));
+#endif
+}
+
 bool
 has_element_child (::lumex::xml::node::XmlNode const &node)
 {
@@ -119,9 +139,7 @@ LumexSettingsXML::is_xml_valid (std::string const &path)
     return false;
 
   ::lumex::xml::document::XmlDocument document;
-  ::lumex::xml::text::xml_parse_result_t const result
-      = document.load_file (path.c_str ());
-  if (!result)
+  if (!load_utf8_file (document, path))
     return false;
   return static_cast<bool> (document.document_element ());
 #endif
@@ -145,9 +163,7 @@ LumexSettingsXML::_load_with_parser (std::string const &path)
   return false;
 #else
   ::lumex::xml::document::XmlDocument document;
-  ::lumex::xml::text::xml_parse_result_t const result
-      = document.load_file (path.c_str ());
-  if (!result)
+  if (!load_utf8_file (document, path))
     return false;
 
   ::lumex::xml::node::XmlNode const root = document.document_element ();

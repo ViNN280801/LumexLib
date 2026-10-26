@@ -44,8 +44,8 @@
 #include <sstream>
 
 #if defined(_WIN32)
-#include <windows.h>
 #include <process.h>
+#include <windows.h>
 #elif defined(__unix__) || defined(__APPLE__)
 #include <sys/types.h>
 #include <unistd.h>
@@ -355,7 +355,8 @@ lumex_temporary::create_temp_file (std::string const &name)
       if (!lumex_filesystem::exists (temp_file_path))
         {
           // Create the file
-          std::ofstream file (temp_file_path.c_str ());
+          std::ofstream file;
+          lumex_filesystem::open_stream (file, temp_file_path);
           if (file.is_open ())
             {
               file.close ();
