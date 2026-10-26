@@ -23,6 +23,7 @@
 #else
 #include <cerrno>
 #include <csignal>
+#include <dirent.h>
 #include <fcntl.h>
 #include <sys/types.h>
 #include <sys/wait.h>
@@ -406,7 +407,9 @@ TEST_F (
       = lk::interprocess_lock::try_acquire (m_file);
 
   ASSERT_FALSE (lock.has_value ());
-  EXPECT_NE (lock.error ().kind, lk::lock_error::busy);
+  // The same kind on both systems, as the README table says: Windows answers
+  // ERROR_ACCESS_DENIED for a directory, POSIX EISDIR.
+  EXPECT_EQ (lock.error ().kind, lk::lock_error::io_error);
   EXPECT_NE (lock.error ().system_code, 0);
 }
 
@@ -427,6 +430,137 @@ TEST_F (
   EXPECT_NE (lock.error ().kind, lk::lock_error::busy);
   EXPECT_NE (lock.error ().system_code, 0);
 }
+
+namespace
+{
+// The handles (Windows) or descriptors (Linux, through /proc/self/fd) the
+// process holds now; -1 when the system does not tell.
+long
+open_handle_count ()
+{
+#if defined(_WIN32)
+  DWORD count = 0;
+  if (GetProcessHandleCount (GetCurrentProcess (), &count) == 0)
+    return -1;
+  return static_cast<long> (count);
+#elif defined(__linux__)
+  DIR *const directory = opendir ("/proc/self/fd");
+  if (directory == nullptr)
+    return -1;
+  long count = 0;
+  while (readdir (directory) != nullptr)
+    ++count;
+  closedir (directory);
+  return count;
+#else
+  return -1;
+#endif
+}
+
+std::string
+bad_ab ()
+{
+  return std::string ("a\xFF") + "b";
+}
+} // namespace
+
+// The leak a mutant leaves unseen otherwise: the handle (descriptor) of a lock
+// that is released, of a try_acquire that finds the file busy, and of a
+// read_payload stays open, and no other case notices.
+TEST_F (LumexInterprocessLockTest,
+        GivenManyAcquireAndReleaseCycles_WhenCounted_ThenNoHandleIsLeft)
+{
+  // One round first: whatever the system opens once per process is open
+  // before counting.
+  {
+    auto warm_up = lk::interprocess_lock::try_acquire (m_file, "p");
+    ASSERT_TRUE (warm_up.has_value ());
+    lk::interprocess_lock::read_payload (m_file);
+  }
+  long const before = open_handle_count ();
+  if (before < 0)
+    GTEST_SKIP () << "the system does not report open handles";
+
+  for (int i = 0; i < 100; ++i)
+    {
+      auto lock = lk::interprocess_lock::try_acquire (m_file, "payload");
+      ASSERT_TRUE (lock.has_value ());
+      EXPECT_FALSE (lk::interprocess_lock::try_acquire (m_file).has_value ());
+      EXPECT_TRUE (lk::interprocess_lock::read_payload (m_file).has_value ());
+      if (i % 2 == 0)
+        lock.value ().release ();
+    }
+
+  // A leak is one per cycle at least: 100.
+  EXPECT_LT (open_handle_count () - before, 16);
+}
+
+#if defined(_WIN32)
+// The bug: the bytes that are not UTF-8 were skipped on the way to Windows,
+// so the lock of "a\xFF" "b" was the lock of the file "ab".
+TEST_F (
+    LumexInterprocessLockTest,
+    GivenInvalidUtf8Name_WhenTryAcquire_ThenRefusedAndTheOtherFileIsNotLocked)
+{
+  path const plain = m_base / "ab";
+  path const bad = m_base / bad_ab ();
+  auto held = lk::interprocess_lock::try_acquire (plain, "plain");
+  ASSERT_TRUE (held.has_value ());
+
+  auto const lock = lk::interprocess_lock::try_acquire (bad, "bad");
+
+  ASSERT_FALSE (lock.has_value ());
+  // Not busy: it is not the file "ab".
+  EXPECT_EQ (lock.error ().kind, lk::lock_error::io_error);
+  EXPECT_EQ (lock.error ().system_code, ERROR_INVALID_NAME);
+  EXPECT_EQ (lk::interprocess_lock::read_payload (plain).value (), "plain");
+}
+
+TEST_F (
+    LumexInterprocessLockTest,
+    GivenInvalidUtf8Directory_WhenTryAcquire_ThenRefusedAndNoDirectoryIsMade)
+{
+  path const bad = m_base / (std::string ("d\xFF") + "e") / "device_a.lock";
+
+  auto const lock = lk::interprocess_lock::try_acquire (bad, "bad");
+
+  ASSERT_FALSE (lock.has_value ());
+  EXPECT_EQ (lock.error ().kind, lk::lock_error::io_error);
+  EXPECT_EQ (lock.error ().system_code, ERROR_INVALID_NAME);
+  EXPECT_FALSE (lumex_filesystem::exists (m_base / "de"));
+}
+
+TEST_F (
+    LumexInterprocessLockTest,
+    GivenInvalidUtf8Name_WhenReadPayload_ThenRefusedAndTheOtherFileIsNotRead)
+{
+  auto held = lk::interprocess_lock::try_acquire (m_base / "ab", "plain");
+  ASSERT_TRUE (held.has_value ());
+
+  auto const payload
+      = lk::interprocess_lock::read_payload (m_base / bad_ab ());
+
+  ASSERT_FALSE (payload.has_value ());
+  EXPECT_EQ (payload.error ().kind, lk::lock_error::io_error);
+  EXPECT_EQ (payload.error ().system_code, ERROR_INVALID_NAME);
+}
+#else
+// POSIX takes the bytes of a name as they are: there is no check.
+TEST_F (LumexInterprocessLockTest,
+        GivenNameThatIsNotUtf8_OnPosix_WhenTryAcquire_ThenItIsAnotherFile)
+{
+  path const plain = m_base / "ab";
+  path const bad = m_base / bad_ab ();
+  auto held = lk::interprocess_lock::try_acquire (plain, "plain");
+  ASSERT_TRUE (held.has_value ());
+
+  auto const lock = lk::interprocess_lock::try_acquire (bad, "bad");
+
+  ASSERT_TRUE (lock.has_value ());
+  EXPECT_EQ (lk::interprocess_lock::read_payload (bad).value (), "bad");
+  EXPECT_EQ (lk::interprocess_lock::read_payload (plain).value (), "plain");
+}
+#endif
 
 // The reason flock is used and not fcntl: a fcntl record lock belongs to the
 // process and goes away when the process closes any descriptor of the file

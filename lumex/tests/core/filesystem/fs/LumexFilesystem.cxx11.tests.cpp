@@ -766,6 +766,32 @@ TEST_F (LumexFilesystemTest,
   EXPECT_LT (open_handle_count () - before, 64);
 }
 
+// The bug: read_symlink opened the path and never closed the handle. Windows
+// opens any path (a regular file too), so the case needs no symbolic link and
+// no privilege; POSIX has no handle to close (readlink), and the case passes.
+TEST_F (LumexFilesystemTest,
+        Filesystem_ReadSymlink_Repeated_ThenItsHandleIsClosed)
+{
+  lumex::path const file = test_dir / "file1.txt";
+  create_test_file (file);
+  // Whatever the system opens once per process for this call is open before
+  // counting.
+  auto const first = lumex_filesystem::read_symlink (file);
+#if defined(_WIN32)
+  ASSERT_TRUE (first.success ()) << "error " << first.error_code ();
+#else
+  (void)first;
+#endif
+  long const before = open_handle_count ();
+  if (before < 0)
+    GTEST_SKIP () << "the system does not report open handles";
+
+  for (int i = 0; i < 64; ++i)
+    lumex_filesystem::read_symlink (file);
+
+  EXPECT_LT (open_handle_count () - before, 16);
+}
+
 TEST_F (LumexFilesystemTest, Filesystem_DirectoryPaths_ReturnsAllEntries)
 {
   create_test_directory (test_dir / "subdir1");

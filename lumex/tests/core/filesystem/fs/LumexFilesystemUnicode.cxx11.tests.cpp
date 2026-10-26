@@ -5,7 +5,10 @@
 // and to_utf8: the same on every platform and in every C locale. They used to
 // call mbstowcs and wcstombs on POSIX, which depend on the C locale, so a
 // UTF-8 path gave an empty string in the "C" locale. Invalid input is skipped
-// (WideCharToMultiByte and MultiByteToWideChar write U+FFFD instead).
+// (WideCharToMultiByte and MultiByteToWideChar write U+FFFD instead). An
+// operation on a file does not use that skipping: on Windows it refuses a path
+// that is not valid UTF-8 (lumex_filesystem::to_wide_path), because the
+// skipped name is the name of another file.
 //
 // A wchar_t is 4 bytes wide (UTF-32) on Linux and 2 bytes (UTF-16) on
 // Windows; the expectations are written with \u and \U escapes, which the
@@ -196,6 +199,9 @@ TEST (LumexFilesystemUnicodeTest,
   EXPECT_TRUE (path ().wstring ().empty ());
 }
 
+// The public conversion keeps skipping (see the file description); the
+// operations on a file do not use it for a path that is not UTF-8, they refuse
+// it on Windows (LumexFilesystemInvalidUtf8Test below).
 TEST (LumexFilesystemUnicodeTest,
       GivenInvalidBytesInPath_WhenWstring_ThenSkippedNotEmpty)
 {
@@ -398,8 +404,10 @@ protected:
   path m_base;
 
 private:
-  // Removes what the case made, deepest first, through the system: remove_all
-  // of the module still goes through the ...A functions on Windows.
+  // Removes what the case made, deepest first, through the system and not
+  // through remove_all of the module: a case that fails may leave a name the
+  // module would not find, and the cleanup must not depend on the code under
+  // test.
   void
   remove_tree ()
   {
@@ -963,3 +971,410 @@ TEST_F (LumexFilesystemUnicodeDiskTest,
   ASSERT_TRUE (result.success ()) << "error " << result.error_code ();
   EXPECT_EQ (native_file_size (file), 5);
 }
+
+#if defined(_WIN32)
+// to_wide_path is the one place where an operation turns a path into a wide
+// string: strict UTF-8 (Unicode table 3-7), the error ERROR_INVALID_NAME.
+TEST (LumexFilesystemWidePathTest,
+      GivenValidUtf8_WhenToWidePath_ThenTheSameAsToWideString)
+{
+  std::vector<std::string> const valid = {
+    "",
+    "dir/file.txt",
+    kPrivetUtf8,
+    mixed_utf8 (),
+    "\xC2\x80",         // U+0080, the lowest two-byte code point
+    "\xDF\xBF",         // U+07FF
+    "\xE0\xA0\x80",     // U+0800, the lowest three-byte code point
+    "\xED\x9F\xBF",     // U+D7FF, just below the surrogates
+    "\xEE\x80\x80",     // U+E000, just above the surrogates
+    "\xEF\xBF\xBF",     // U+FFFF
+    "\xF0\x90\x80\x80", // U+10000, the lowest four-byte code point
+    "\xF4\x8F\xBF\xBF", // U+10FFFF, the highest
+  };
+  for (std::string const &text : valid)
+    {
+      SCOPED_TRACE (text);
+      auto const wide = lumex_filesystem::to_wide_path (path (text));
+      ASSERT_TRUE (wide.success ()) << "error " << wide.error_code ();
+      EXPECT_EQ (wide.value (), lumex_filesystem::to_wide_string (text));
+    }
+}
+
+TEST (LumexFilesystemWidePathTest,
+      GivenInvalidUtf8_WhenToWidePath_ThenInvalidNameAndNoString)
+{
+  std::vector<std::string> const invalid = {
+    "\x80",             // a continuation byte alone
+    "\xBF",             //
+    "\xC0\x80",         // overlong U+0000
+    "\xC1\xBF",         // overlong U+007F
+    "\xE0\x80\x80",     // overlong U+0000
+    "\xE0\x9F\xBF",     // overlong U+07FF
+    "\xF0\x80\x80\x80", // overlong U+0000
+    "\xF0\x8F\xBF\xBF", // overlong U+FFFF
+    "\xED\xA0\x80",     // the surrogate U+D800
+    "\xED\xBF\xBF",     // the surrogate U+DFFF
+    "\xF4\x90\x80\x80", // U+110000, above the range
+    "\xF5\x80\x80\x80", // a lead byte that never occurs
+    "\xFE",             //
+    "\xFF",             //
+    "\xC3",             // cut short
+    "\xE2\x82",         // cut short
+    "\xF0\x9F\x98",     // cut short
+    "a\xC3"
+    "(", // a lead byte and an ASCII byte
+    "\xE2\x82"
+    "A", // a continuation byte missing
+    "\xF0\x9F\x98"
+    "A",            //
+    "\xE2\x28\xA1", // a bad second byte
+    "dir/"
+    "a\xFF"
+    "b.txt", // the byte in a name
+  };
+  for (std::string const &text : invalid)
+    {
+      SCOPED_TRACE (text);
+      auto const wide = lumex_filesystem::to_wide_path (path (text));
+      EXPECT_FALSE (wide.success ());
+      EXPECT_EQ (wide.error_code (), static_cast<int> (ERROR_INVALID_NAME));
+      EXPECT_TRUE (wide.value ().empty ());
+    }
+}
+#endif
+
+// --- Invalid UTF-8 in a path -----------------------------------------------
+//
+// The bug: to_wide_string (and path::wstring) skip a byte that is not UTF-8,
+// so on Windows "a\xFF" "b" reached the file "ab": exists answered for it,
+// remove, rename and the others acted on it. Every operation refuses such a
+// path on Windows with ERROR_INVALID_NAME (a bool function answers false);
+// POSIX takes the bytes as they are. "ab" and "xy" below are the files the
+// skipped names would reach.
+namespace
+{
+std::string
+bad_ab ()
+{
+  return std::string ("a\xFF") + "b";
+}
+
+std::string
+bad_xy ()
+{
+  return std::string ("x\xFF") + "y";
+}
+
+class LumexFilesystemInvalidUtf8Test : public LumexFilesystemUnicodeDiskTest
+{
+protected:
+  void
+  SetUp () override
+  {
+    LumexFilesystemUnicodeDiskTest::SetUp ();
+    m_plain = m_base / "ab";
+    m_bad = m_base / bad_ab ();
+    m_other_plain = m_base / "xy";
+    m_other_bad = m_base / bad_xy ();
+    ASSERT_TRUE (native_create_file (m_plain, "x"));
+  }
+
+  void
+  TearDown () override
+  {
+    // Whatever a failing case left under ASCII names, a directory included.
+    lumex_filesystem::remove_all (m_base);
+    LumexFilesystemUnicodeDiskTest::TearDown ();
+  }
+
+  // Whether "ab" is still what SetUp made, and "xy" is still not there.
+  void
+  expect_untouched () const
+  {
+    EXPECT_EQ (native_file_size (m_plain), 1);
+    EXPECT_FALSE (native_exists (m_other_plain));
+  }
+
+  path m_plain;
+  path m_bad;
+  path m_other_plain;
+  path m_other_bad;
+};
+} // namespace
+
+#if defined(_WIN32)
+namespace
+{
+int const kInvalidName = ERROR_INVALID_NAME;
+}
+
+TEST_F (LumexFilesystemInvalidUtf8Test,
+        GivenInvalidUtf8Path_WhenQueried_ThenNothingIsFound)
+{
+  EXPECT_FALSE (lumex_filesystem::exists (m_bad));
+  EXPECT_FALSE (lumex_filesystem::is_directory (m_bad));
+  EXPECT_FALSE (lumex_filesystem::is_regular_file (m_bad));
+  EXPECT_FALSE (lumex_filesystem::is_empty (m_bad));
+  EXPECT_FALSE (lumex_filesystem::is_symlink (m_bad));
+  EXPECT_TRUE (lumex_filesystem::exists (m_plain));
+}
+
+TEST_F (LumexFilesystemInvalidUtf8Test,
+        GivenInvalidUtf8Path_WhenStatus_ThenTheErrorAndNoSuchFile)
+{
+  auto const status = lumex_filesystem::status (m_bad);
+  auto const link_status = lumex_filesystem::symlink_status (m_bad);
+
+  EXPECT_FALSE (status.success ());
+  EXPECT_EQ (status.error_code (), kInvalidName);
+  EXPECT_EQ (status.value ().type (),
+             lumex::core::filesystem::fs::file_type::not_found);
+  EXPECT_FALSE (link_status.success ());
+  EXPECT_EQ (link_status.error_code (), kInvalidName);
+}
+
+TEST_F (LumexFilesystemInvalidUtf8Test,
+        GivenInvalidUtf8Path_WhenFileAttributesAreRead_ThenTheError)
+{
+  auto const size = lumex_filesystem::file_size (m_bad);
+  auto const time = lumex_filesystem::last_write_time (m_bad);
+  auto const space = lumex_filesystem::space (m_bad);
+  auto const target = lumex_filesystem::read_symlink (m_bad);
+
+  EXPECT_EQ (size.error_code (), kInvalidName);
+  EXPECT_EQ (time.error_code (), kInvalidName);
+  EXPECT_EQ (space.error_code (), kInvalidName);
+  EXPECT_EQ (target.error_code (), kInvalidName);
+  EXPECT_TRUE (target.value ().empty ());
+  // canonical has no way to report: it returns an empty path.
+  EXPECT_TRUE (lumex_filesystem::canonical (m_bad).empty ());
+}
+
+TEST_F (LumexFilesystemInvalidUtf8Test,
+        GivenInvalidUtf8Path_WhenAttributesAreChanged_ThenTheErrorAndNoChange)
+{
+  auto const resized = lumex_filesystem::resize_file (m_bad, 0);
+  auto const timed = lumex_filesystem::last_write_time (m_bad, 0);
+  auto const permitted = lumex_filesystem::permissions (
+      m_bad, lumex::core::filesystem::fs::perms::owner_read);
+
+  EXPECT_EQ (resized.error_code (), kInvalidName);
+  EXPECT_EQ (timed.error_code (), kInvalidName);
+  EXPECT_EQ (permitted.error_code (), kInvalidName);
+  // "ab" kept its size, its time and its write permission.
+  EXPECT_EQ (native_file_size (m_plain), 1);
+  EXPECT_FALSE (native_is_read_only (m_plain));
+  EXPECT_GT (lumex_filesystem::last_write_time (m_plain).value (), 1000);
+}
+
+TEST_F (LumexFilesystemInvalidUtf8Test,
+        GivenInvalidUtf8Path_WhenCreated_ThenTheErrorAndNothingIsMade)
+{
+  auto const directory = lumex_filesystem::create_directory (m_other_bad);
+  auto const nested
+      = lumex_filesystem::create_directories (m_other_bad / "child");
+  auto const same = lumex_filesystem::create_directories (m_other_bad);
+
+  EXPECT_FALSE (directory.success ());
+  EXPECT_EQ (directory.error_code (), kInvalidName);
+  EXPECT_FALSE (nested.success ());
+  EXPECT_EQ (nested.error_code (), kInvalidName);
+  EXPECT_FALSE (same.success ());
+  EXPECT_EQ (same.error_code (), kInvalidName);
+  expect_untouched ();
+}
+
+TEST_F (LumexFilesystemInvalidUtf8Test,
+        GivenInvalidUtf8Path_WhenRemoved_ThenTheErrorAndTheOtherFileStays)
+{
+  auto const removed = lumex_filesystem::remove (m_bad);
+  auto const removed_all = lumex_filesystem::remove_all (m_bad);
+
+  // Not "false, nothing there": the call refused.
+  EXPECT_FALSE (removed.success ());
+  EXPECT_EQ (removed.error_code (), kInvalidName);
+  EXPECT_FALSE (removed_all.success ());
+  EXPECT_EQ (removed_all.error_code (), kInvalidName);
+  EXPECT_TRUE (native_exists (m_plain));
+}
+
+TEST_F (LumexFilesystemInvalidUtf8Test,
+        GivenInvalidUtf8Path_WhenRenamedOrMoved_ThenTheErrorAndNothingMoves)
+{
+  path const target = m_base / "target";
+  path const source_directory = m_base / "source_directory";
+  ASSERT_TRUE (native_create_directory (source_directory));
+
+  // The bad name as the source, and as the target.
+  auto const from_bad = lumex_filesystem::rename (m_bad, target);
+  auto const to_bad = lumex_filesystem::rename (m_plain, m_other_bad);
+  auto const move_from_bad = lumex_filesystem::move_file (m_bad, target);
+  auto const move_to_bad = lumex_filesystem::move_file (m_plain, m_other_bad);
+  auto const directory_from_bad
+      = lumex_filesystem::move_directory (m_bad, target);
+  auto const directory_to_bad
+      = lumex_filesystem::move_directory (source_directory, m_other_bad);
+
+  EXPECT_EQ (from_bad.error_code (), kInvalidName);
+  EXPECT_EQ (to_bad.error_code (), kInvalidName);
+  EXPECT_EQ (move_from_bad.error_code (), kInvalidName);
+  EXPECT_EQ (move_to_bad.error_code (), kInvalidName);
+  EXPECT_EQ (directory_from_bad.error_code (), kInvalidName);
+  EXPECT_EQ (directory_to_bad.error_code (), kInvalidName);
+  EXPECT_EQ (native_file_size (m_plain), 1);
+  EXPECT_FALSE (native_exists (target));
+  EXPECT_FALSE (native_exists (m_other_plain));
+}
+
+TEST_F (LumexFilesystemInvalidUtf8Test,
+        GivenInvalidUtf8Path_WhenCopied_ThenTheErrorAndNothingIsCopied)
+{
+  path const target = m_base / "target";
+  path const source_directory = m_base / "source_directory";
+  ASSERT_TRUE (native_create_directory (source_directory));
+
+  auto const file_from_bad = lumex_filesystem::copy_file (m_bad, target);
+  auto const file_to_bad = lumex_filesystem::copy_file (m_plain, m_other_bad);
+  auto const copy_from_bad = lumex_filesystem::copy (m_bad, target);
+  auto const copy_to_bad = lumex_filesystem::copy (m_plain, m_other_bad);
+  // A directory as the source: its copy is made first.
+  auto const directory_to_bad
+      = lumex_filesystem::copy (source_directory, m_other_bad);
+
+  EXPECT_EQ (file_from_bad.error_code (), kInvalidName);
+  EXPECT_EQ (file_to_bad.error_code (), kInvalidName);
+  EXPECT_EQ (copy_from_bad.error_code (), kInvalidName);
+  EXPECT_EQ (copy_to_bad.error_code (), kInvalidName);
+  EXPECT_EQ (directory_to_bad.error_code (), kInvalidName);
+  EXPECT_FALSE (native_exists (target));
+  EXPECT_FALSE (native_exists (m_other_plain));
+}
+
+TEST_F (LumexFilesystemInvalidUtf8Test,
+        GivenInvalidUtf8Path_WhenSymlinkIsMade_ThenTheErrorAndNoLink)
+{
+  // The check comes before the system call, so no privilege is needed.
+  auto const to_bad = lumex_filesystem::create_symlink (m_plain, m_other_bad);
+  auto const from_bad
+      = lumex_filesystem::create_symlink (m_bad, m_other_plain);
+  auto const directory_to_bad
+      = lumex_filesystem::create_directory_symlink (m_base, m_other_bad);
+  auto const directory_from_bad
+      = lumex_filesystem::create_directory_symlink (m_bad, m_other_plain);
+  auto const copied_to_bad
+      = lumex_filesystem::copy_symlink (m_plain, m_other_bad);
+  auto const copied_from_bad
+      = lumex_filesystem::copy_symlink (m_bad, m_other_plain);
+
+  EXPECT_EQ (to_bad.error_code (), kInvalidName);
+  EXPECT_EQ (from_bad.error_code (), kInvalidName);
+  EXPECT_EQ (directory_to_bad.error_code (), kInvalidName);
+  EXPECT_EQ (directory_from_bad.error_code (), kInvalidName);
+  EXPECT_EQ (copied_to_bad.error_code (), kInvalidName);
+  EXPECT_EQ (copied_from_bad.error_code (), kInvalidName);
+  expect_untouched ();
+}
+
+TEST_F (LumexFilesystemInvalidUtf8Test,
+        GivenDirectoryWithInvalidUtf8Name_WhenIterated_ThenNoEntries)
+{
+  path const plain_directory = m_base / "de";
+  ASSERT_TRUE (native_create_directory (plain_directory));
+  ASSERT_TRUE (native_create_file (plain_directory / "inside.txt"));
+  path const bad_directory = m_base / (std::string ("d\xFF") + "e");
+
+  lumex::directory_iterator it (bad_directory);
+
+  // The iterator of the skipped name would have listed "de".
+  EXPECT_EQ (it, lumex::directory_iterator ());
+  EXPECT_TRUE (lumex_filesystem::directory_contents (bad_directory).empty ());
+  EXPECT_TRUE (
+      lumex_filesystem::directory_paths (bad_directory).value ().empty ());
+  EXPECT_NE (lumex::directory_iterator (plain_directory),
+             lumex::directory_iterator ());
+}
+
+TEST_F (LumexFilesystemInvalidUtf8Test,
+        GivenInvalidUtf8Path_WhenOpenedAsAStream_ThenNotOpened)
+{
+  ASSERT_TRUE (lumex_filesystem::is_readable (m_plain));
+
+  EXPECT_FALSE (lumex_filesystem::is_readable (m_bad));
+  EXPECT_FALSE (lumex_filesystem::is_writable (m_bad));
+  EXPECT_FALSE (lumex_filesystem::is_accessible (m_bad));
+  // The stream is opened by the name alone: no exists () before it.
+  EXPECT_TRUE (
+      lumex::core::filesystem::fs::is_file_exists (m_plain.string ()));
+  EXPECT_FALSE (lumex::core::filesystem::fs::is_file_exists (m_bad.string ()));
+}
+
+TEST_F (
+    LumexFilesystemInvalidUtf8Test,
+    GivenInvalidUtf8Path_WhenReplaceFileContent_ThenTheErrorAndNothingWritten)
+{
+  auto const result = lumex_filesystem::replace_file_content (
+      m_bad, "12345", lumex::core::filesystem::fs::write_mode::binary);
+  auto const other = lumex_filesystem::replace_file_content (
+      m_other_bad, "12345", lumex::core::filesystem::fs::write_mode::binary);
+
+  EXPECT_FALSE (result.success ());
+  EXPECT_EQ (result.error_code (), kInvalidName);
+  EXPECT_EQ (other.error_code (), kInvalidName);
+  // "ab" was not replaced, and "xy" was not made.
+  expect_untouched ();
+}
+
+TEST_F (
+    LumexFilesystemInvalidUtf8Test,
+    GivenInvalidUtf8Path_WhenCurrentPathIsSet_ThenTheErrorAndTheDirectoryStays)
+{
+  path const plain_directory = m_base / "de";
+  ASSERT_TRUE (native_create_directory (plain_directory));
+  path const bad_directory = m_base / (std::string ("d\xFF") + "e");
+  CurrentDirectoryGuard const restore;
+  std::string const before
+      = lumex_filesystem::current_path ().value ().string ();
+
+  auto const result = lumex_filesystem::current_path (bad_directory);
+
+  EXPECT_FALSE (result.success ());
+  EXPECT_EQ (result.error_code (), kInvalidName);
+  EXPECT_EQ (lumex_filesystem::current_path ().value ().string (), before);
+}
+
+TEST_F (LumexFilesystemInvalidUtf8Test,
+        GivenInvalidUtf8Path_WhenWstringOrToWideString_ThenTheByteIsSkipped)
+{
+  // The public conversions keep their contract: the byte is skipped. Only the
+  // operations on a path refuse it.
+  EXPECT_EQ (m_bad.wstring (), m_plain.wstring ());
+  EXPECT_EQ (lumex_filesystem::to_wide_string (bad_ab ()),
+             std::wstring (L"ab"));
+}
+#else
+TEST_F (LumexFilesystemInvalidUtf8Test,
+        GivenInvalidUtf8Name_OnPosix_WhenUsed_ThenTheBytesAreTakenAsTheyAre)
+{
+  ASSERT_TRUE (native_create_file (m_bad, "123"));
+  created (m_bad, false);
+
+  EXPECT_TRUE (lumex_filesystem::exists (m_bad));
+  EXPECT_TRUE (lumex_filesystem::is_regular_file (m_bad));
+  EXPECT_EQ (lumex_filesystem::file_size (m_bad).value (), 3U);
+  EXPECT_TRUE (lumex_filesystem::is_readable (m_bad));
+  // The file "ab" is another file.
+  EXPECT_EQ (native_file_size (m_plain), 1);
+
+  auto const renamed = lumex_filesystem::rename (m_bad, m_other_bad);
+  created (m_other_bad, false);
+  ASSERT_TRUE (renamed.success ()) << "error " << renamed.error_code ();
+  EXPECT_FALSE (native_exists (m_bad));
+  EXPECT_TRUE (native_exists (m_other_bad));
+
+  auto const removed = lumex_filesystem::remove (m_other_bad);
+  EXPECT_TRUE (removed.success ());
+  EXPECT_TRUE (removed.value ());
+  EXPECT_TRUE (native_exists (m_plain));
+}
+#endif
