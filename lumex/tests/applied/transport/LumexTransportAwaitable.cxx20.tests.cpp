@@ -23,6 +23,7 @@ namespace tr = lumex::applied::transport;
 TEST_P (LumexTransportTokenTest,
         GivenUseAwaitable_WhenOpenWriteAndRead_ThenTheReplyArrives)
 {
+#if defined(ASIO_HAS_CO_AWAIT)
   tr::stream::byte_stream &stream = this->stream ();
   std::vector<std::uint8_t> const request = ping ();
   std::vector<std::uint8_t> reply (request.size ());
@@ -50,12 +51,16 @@ TEST_P (LumexTransportTokenTest,
         });
   done.get_future ().get ();
   EXPECT_EQ (reply, request);
+#else
+  GTEST_SKIP () << "the toolchain has no coroutines (ASIO_HAS_CO_AWAIT)";
+#endif
 }
 
 TEST (
     LumexTransportAwaitableCancellation,
     GivenAnAwaitedReadWithCancelAfter_WhenTheTimeoutPasses_ThenItEndsCancelled)
 {
+#if defined(ASIO_HAS_CO_AWAIT)
   tr::stream::io_runner runner (1);
   tr::testing::mock_stream mock
       = tr::testing::make_mock_stream (runner.get_executor (), "awaited");
@@ -76,4 +81,7 @@ TEST (
   ASSERT_EQ (result.wait_for (std::chrono::seconds (5)),
              std::future_status::ready);
   EXPECT_TRUE (result.get () == tr::error::transport_errc::cancelled);
+#else
+  GTEST_SKIP () << "the toolchain has no coroutines (ASIO_HAS_CO_AWAIT)";
+#endif
 }

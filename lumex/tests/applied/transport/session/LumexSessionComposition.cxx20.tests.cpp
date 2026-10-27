@@ -16,9 +16,13 @@
 #include <vector>
 
 // The experimental parts of the vendored Asio (a system include directory,
-// as for LumexAsio.hpp).
+// as for LumexAsio.hpp); awaitable_operators.hpp does not compile without
+// coroutines.
+#include <asio/detail/config.hpp>
+#if defined(ASIO_HAS_CO_AWAIT)
 #include <asio/experimental/awaitable_operators.hpp>
 #include <asio/experimental/parallel_group.hpp>
+#endif
 #include <gtest/gtest.h>
 
 #include "LumexSessionTestSupport.hpp"
@@ -29,7 +33,9 @@
 namespace
 {
 using namespace lumex_session_test;
+#if defined(ASIO_HAS_CO_AWAIT)
 using namespace asio::experimental::awaitable_operators;
+#endif
 using tr::error::transport_errc;
 typedef ss::channel_state state;
 
@@ -49,6 +55,7 @@ TEST_F (
     LumexSessionCompositionTest,
     GivenASessionReadOrAnImmediateOperation_WhenAwaited_ThenTheReadIsCancelledAndTheOrReturns)
 {
+#if defined(ASIO_HAS_CO_AWAIT)
   ss::stream_session session (runner_.get_executor (),
                               make_stream_factory (factory_));
   ASSERT_TRUE (session.open (ms (2000)).has_value ());
@@ -69,6 +76,9 @@ TEST_F (
       << "the || waits for the session read for ever";
   EXPECT_EQ (result.get (), 1u);
   EXPECT_EQ (session.state (), state::open);
+#else
+  GTEST_SKIP () << "the toolchain has no coroutines (ASIO_HAS_CO_AWAIT)";
+#endif
 }
 
 // A2: || with a timer that fires first.
@@ -76,6 +86,7 @@ TEST_F (
     LumexSessionCompositionTest,
     GivenASessionReadOrATimer_WhenTheTimerFiresFirst_ThenTheReadIsCancelled)
 {
+#if defined(ASIO_HAS_CO_AWAIT)
   ss::stream_session session (runner_.get_executor (),
                               make_stream_factory (factory_));
   ASSERT_TRUE (session.open (ms (2000)).has_value ());
@@ -96,6 +107,9 @@ TEST_F (
   ASSERT_EQ (result.wait_for (std::chrono::seconds (2)),
              std::future_status::ready);
   EXPECT_EQ (result.get (), 1u);
+#else
+  GTEST_SKIP () << "the toolchain has no coroutines (ASIO_HAS_CO_AWAIT)";
+#endif
 }
 
 // A3: asio::cancel_after on a read and on a state wait.
@@ -103,6 +117,7 @@ TEST_F (
     LumexSessionCompositionTest,
     GivenCancelAfterOnASessionReadAndAStateWait_WhenTheyExpire_ThenBothEndCancelled)
 {
+#if defined(ASIO_HAS_CO_AWAIT)
   ss::stream_session session (runner_.get_executor (),
                               make_stream_factory (factory_));
   ASSERT_TRUE (session.open (ms (2000)).has_value ());
@@ -128,6 +143,9 @@ TEST_F (
              std::future_status::ready);
   EXPECT_EQ (result.get (), 3);
   EXPECT_EQ (session.state (), state::open);
+#else
+  GTEST_SKIP () << "the toolchain has no coroutines (ASIO_HAS_CO_AWAIT)";
+#endif
 }
 
 // A4: a parallel_group of a read and a timer, wait_for_one.
@@ -135,6 +153,7 @@ TEST_F (
     LumexSessionCompositionTest,
     GivenAParallelGroupOfASessionReadAndATimer_WhenWaitingForOne_ThenTheReadIsCancelled)
 {
+#if defined(ASIO_HAS_CO_AWAIT)
   ss::stream_session session (runner_.get_executor (),
                               make_stream_factory (factory_));
   ASSERT_TRUE (session.open (ms (2000)).has_value ());
@@ -153,4 +172,7 @@ TEST_F (
   std::future<std::error_code> f = read_error.get_future ();
   ASSERT_EQ (f.wait_for (std::chrono::seconds (2)), std::future_status::ready);
   EXPECT_TRUE (f.get () == transport_errc::cancelled);
+#else
+  GTEST_SKIP () << "the toolchain has no coroutines (ASIO_HAS_CO_AWAIT)";
+#endif
 }
