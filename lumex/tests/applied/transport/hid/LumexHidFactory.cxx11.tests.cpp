@@ -92,14 +92,12 @@ protected:
 
   std::shared_ptr<fake_device>
   plug (std::string const &path, std::uint16_t product = KPRODUCT,
-        int interface_number = 0, std::uint16_t usage_page = 0)
+        int interface_number = 0, std::uint16_t usage_page = 0,
+        std::uint16_t usage = 0)
   {
-    std::shared_ptr<fake_device> const device
-        = seam_->add (path, KVENDOR, product, "S1",
-                      lumex_fake_hidapi::unnumbered_descriptor (8, 8));
-    device->info.interface_number = interface_number;
-    device->info.usage_page = usage_page;
-    return device;
+    return seam_->add (path, KVENDOR, product, "S1",
+                       lumex_fake_hidapi::unnumbered_descriptor (8, 8),
+                       interface_number, usage_page, usage);
   }
 
   // The enumeration over the fake seam, counting its calls and noting the

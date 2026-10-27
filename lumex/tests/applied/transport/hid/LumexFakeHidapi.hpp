@@ -292,14 +292,20 @@ public:
   std::shared_ptr<fake_device>
   add (std::string const &path, std::uint16_t vendor_id,
        std::uint16_t product_id, std::string const &serial,
-       bytes const &descriptor)
+       bytes const &descriptor, int interface_number = -1,
+       std::uint16_t usage_page = 0, std::uint16_t usage = 0)
   {
+    // The whole record is filled before the device is listed: a watcher
+    // thread copies it as soon as the lock is released.
     std::shared_ptr<fake_device> const device
         = std::make_shared<fake_device> ();
     device->info.path = path;
     device->info.vendor_id = vendor_id;
     device->info.product_id = product_id;
     device->info.serial_number = serial;
+    device->info.interface_number = interface_number;
+    device->info.usage_page = usage_page;
+    device->info.usage = usage;
     device->descriptor = descriptor;
     std::lock_guard<std::mutex> const lock (mutex_);
     devices_.push_back (device);
