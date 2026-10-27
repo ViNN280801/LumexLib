@@ -13,6 +13,7 @@
 
 #include "lumex/tests/core/exceptions/exception/LumexExceptionTestFixtures.hpp"
 #include "lumex/tests/support/LumexPerfSkip.hpp"
+#include "lumex/tests/support/LumexTestCyrillicCopy.hpp"
 
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -394,3 +395,48 @@ TEST_F (LumexExceptionTest,
   std::string output = capture.get_output ();
   EXPECT_TRUE (output.find ("[Unknown exception]") != std::string::npos);
 }
+
+#if defined(_WIN32)
+// The crash report goes to `crashes` next to the executable. The path is
+// UTF-8: the narrow stream read it in the ANSI code page, so with the program
+// under a Cyrillic directory the report was lost. The child is this test
+// executable, copied into such a directory.
+TEST (LumexExceptionCyrillicExeTest, ChildWritesACrashReport)
+{
+  if (!lumex_test::cyrillic_copy::is_child ())
+    GTEST_SKIP () << "runs only as the child of the test below";
+  lumex_base_exception ex ("cyrillic-exe-crash-marker");
+  ex.to_crash_report ();
+}
+
+TEST (
+    LumexExceptionCyrillicExeTest,
+    GivenExecutableInACyrillicDirectory_WhenToCrashReport_ThenTheReportIsThere)
+{
+  namespace copy = lumex_test::cyrillic_copy;
+  namespace files = lumex_test::utf8_files;
+  if (copy::is_child ())
+    GTEST_SKIP () << "the child runs the test above";
+  std::string directory;
+  ASSERT_TRUE (copy::make_copy ("_exceptions", directory));
+
+  int const code = copy::run (
+      directory, "LumexExceptionCyrillicExeTest.ChildWritesACrashReport");
+
+  std::string text;
+  std::vector<std::string> const reports
+      = copy::entries (directory + "/crashes");
+  for (std::size_t i = 0; i < reports.size (); ++i)
+    {
+      std::string content;
+      if (files::read_file (directory + "/crashes/" + reports[i], content))
+        text += content;
+    }
+  copy::remove_tree (directory);
+
+  EXPECT_EQ (code, 0);
+  EXPECT_FALSE (reports.empty ())
+      << "no crash report in the Cyrillic directory";
+  EXPECT_NE (text.find ("cyrillic-exe-crash-marker"), std::string::npos);
+}
+#endif

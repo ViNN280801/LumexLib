@@ -23,6 +23,7 @@
 #include "lumex/core/filesystem/LumexFilesystem"
 #include "lumex/core/utility/LumexUtility"
 #include "lumex/tests/support/LumexPerfSkip.hpp"
+#include "lumex/tests/support/LumexTestUtf8Files.hpp"
 #if defined(__clang__)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wglobal-constructors"
@@ -197,6 +198,31 @@ protected:
     return normalized_content1 == normalized_content2;
   }
 };
+
+// --- UTF-8 paths -----------------------------------------------------------
+
+// The path is UTF-8: a narrow name given to a stream is read in the ANSI code
+// page on Windows, so a Cyrillic directory (a user profile) was missed.
+TEST_F (LumexSettingsINITest,
+        GivenCyrillicPath_WhenIsIniValidAndLoad_ThenTheFileIsRead)
+{
+  namespace files = lumex_test::utf8_files;
+  std::string const directory = _test_dir.string () + "/" + files::cyrillic ();
+  ASSERT_TRUE (files::make_directory (directory));
+  std::string const file = directory + "/" + files::cyrillic (".ini");
+  ASSERT_TRUE (files::write_file (file, "[pump]\nflow=1.5\n"));
+
+  bool const valid = LumexSettingsINI::is_ini_valid (file);
+  LumexSettingsINI ini_settings;
+  bool const loaded = ini_settings.load (file);
+  std::string const flow = ini_settings.get ("pump", "flow");
+  files::remove_file (file);
+  files::remove_directory (directory);
+
+  EXPECT_TRUE (valid);
+  EXPECT_TRUE (loaded);
+  EXPECT_EQ (flow, "1.5");
+}
 
 // --- is_ini_valid() Tests --------------------------------------------------
 

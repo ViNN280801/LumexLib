@@ -295,7 +295,9 @@ LumexLogging::to_file (char const *filename, LumexLogLevel level,
         }
 
       lumex::path logFile = lumex::path (logPath) / lumex::path (fullFilename);
-      std::ofstream file (logFile.c_str (), std::ios::app);
+      std::ofstream file;
+      lumex::core::filesystem::fs::lumex_filesystem::open_stream (
+          file, logFile, std::ios::app);
       if (!file.is_open ())
         {
           std::cerr << "Failed to open log file: " << logFile << "\n";

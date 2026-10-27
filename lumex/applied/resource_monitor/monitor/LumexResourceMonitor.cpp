@@ -265,7 +265,9 @@ worker_loop (std::string const &logFilePath,
              std::chrono::milliseconds interval,
              process::watch_list_t const &watchList)
 {
-  std::ofstream out (logFilePath, std::ios::out | std::ios::app);
+  std::ofstream out;
+  lumex::core::filesystem::fs::lumex_filesystem::open_stream (
+      out, lumex::path (logFilePath), std::ios::out | std::ios::app);
   if (!out)
     {
       lumError (lumex::applied::resource_monitor::monitor::KMODULE_NAME,
