@@ -139,7 +139,10 @@ lumex_base_exception::to_crash_report () const
 
   // 6. Append to the file safely
   std::lock_guard<std::mutex> lock (s_fileMutex);
-  std::ofstream file (s_reportFile.c_str (), std::ios::app);
+  // The report path is UTF-8 (the exe directory may hold Cyrillic).
+  std::ofstream file;
+  lumex::core::filesystem::fs::lumex_filesystem::open_stream (
+      file, lumex::path (s_reportFile), std::ios::app);
   file << oss.str ();
   file.flush (); // Ensure data is written to disk immediately
 }

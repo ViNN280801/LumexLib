@@ -111,7 +111,9 @@ LumexSettingsINI::is_ini_valid (std::string const &path)
   if (!lumex::core::filesystem::fs::lumex_filesystem::is_readable (path))
     return false;
 
-  std::ifstream file (path.c_str ());
+  std::ifstream file;
+  lumex::core::filesystem::fs::lumex_filesystem::open_stream (
+      file, lumex::path (path));
   if (!file.is_open ())
     return false;
 
@@ -172,7 +174,9 @@ LUMEX_PUBLIC_API
 bool
 LumexSettingsINI::_load_with_parser (std::string const &path)
 {
-  std::ifstream file (path.c_str ());
+  std::ifstream file;
+  lumex::core::filesystem::fs::lumex_filesystem::open_stream (
+      file, lumex::path (path));
   if (!file.is_open ())
     return false;
 

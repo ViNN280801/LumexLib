@@ -15,6 +15,7 @@
 
 #include "lumex/applied/resource_monitor/LumexResourceMonitor"
 #include "lumex/core/filesystem/LumexFilesystem"
+#include "lumex/tests/support/LumexTestUtf8Files.hpp"
 #if defined(__clang__)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wglobal-constructors"
@@ -124,6 +125,38 @@ TEST_F (LumexResourceMonitorTest, StartIfEnabledCreatesTheLogDirectory)
                                           std::chrono::milliseconds (50));
 
   EXPECT_TRUE (lumex::filesystem::exists (nestedDir));
+}
+
+// The log directory is UTF-8: a narrow name given to a stream is read in the
+// ANSI code page on Windows, so the sampler could not open its log under a
+// Cyrillic directory (a user profile) and quit without a line.
+TEST_F (LumexResourceMonitorTest, ASamplerLogsUnderACyrillicDirectory)
+{
+  namespace files = lumex_test::utf8_files;
+  scratchDir = make_scratch_dir (files::cyrillic ());
+  ASSERT_TRUE (files::exists (scratchDir.string ()));
+
+  LumexResourceMonitor::start_if_enabled (scratchDir.string (),
+                                          std::chrono::milliseconds (100));
+
+  // The sampler first waits out its startup pause (2 s).
+  std::string text;
+  auto const until
+      = std::chrono::steady_clock::now () + std::chrono::seconds (8);
+  while (text.find ("%/100%") == std::string::npos
+         && std::chrono::steady_clock::now () < until)
+    {
+      std::this_thread::sleep_for (std::chrono::milliseconds (100));
+      for (lumex::directory_iterator it (scratchDir), end; it != end; ++it)
+        if (it->is_regular_file ())
+          {
+            std::string content;
+            if (files::read_file (it->path ().string (), content))
+              text += content;
+          }
+    }
+  EXPECT_NE (text.find ("%/100%"), std::string::npos);
+  EXPECT_NE (text.find ("Gb/"), std::string::npos);
 }
 
 TEST_F (LumexResourceMonitorTest, SecondStartWhileRunningIsIgnored)
