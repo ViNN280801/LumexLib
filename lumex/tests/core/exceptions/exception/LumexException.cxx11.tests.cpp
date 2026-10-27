@@ -14,6 +14,7 @@
 #include "lumex/tests/core/exceptions/exception/LumexExceptionTestFixtures.hpp"
 #include "lumex/tests/support/LumexPerfSkip.hpp"
 #include "lumex/tests/support/LumexTestCyrillicCopy.hpp"
+#include "lumex/tests/support/LumexTestNarrowSkip.hpp"
 
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -403,6 +404,7 @@ TEST_F (LumexExceptionTest,
 // executable, copied into such a directory.
 TEST (LumexExceptionCyrillicExeTest, ChildWritesACrashReport)
 {
+  LUMEX_TEST_SKIP_WITHOUT_NARROW_UTF8_NAMES ();
   if (!lumex_test::cyrillic_copy::is_child ())
     GTEST_SKIP () << "runs only as the child of the test below";
   lumex_base_exception ex ("cyrillic-exe-crash-marker");
@@ -413,6 +415,7 @@ TEST (
     LumexExceptionCyrillicExeTest,
     GivenExecutableInACyrillicDirectory_WhenToCrashReport_ThenTheReportIsThere)
 {
+  LUMEX_TEST_SKIP_WITHOUT_NARROW_UTF8_NAMES ();
   namespace copy = lumex_test::cyrillic_copy;
   namespace files = lumex_test::utf8_files;
   if (copy::is_child ())

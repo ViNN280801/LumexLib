@@ -25,6 +25,7 @@
 #include "lumex/applied/json/LumexJson"
 #include "lumex/tests/applied/json/helper/LumexJsonHelperTestFixture.hpp"
 #include "lumex/tests/support/LumexPerfSkip.hpp"
+#include "lumex/tests/support/LumexTestNarrowSkip.hpp"
 #include "lumex/tests/support/LumexTestUtf8Files.hpp"
 
 using lumex::applied::json::diagnostics::LumexJsonDiagnosticLevel;
@@ -1724,6 +1725,7 @@ TEST_F (LumexJsonHelperTest, GivenPublicApi_WhenInspected_ThenIsNoexcept)
 TEST_F (LumexJsonHelperTest,
         GivenCyrillicDirectory_WhenSaveIsJsonFileOkAndLoad_ThenTheFileIsThere)
 {
+  LUMEX_TEST_SKIP_WITHOUT_NARROW_UTF8_NAMES ();
   namespace files = lumex_test::utf8_files;
   std::string const directory
       = current_test_filename_ + "_" + files::cyrillic ();

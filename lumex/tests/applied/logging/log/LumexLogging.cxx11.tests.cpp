@@ -22,6 +22,7 @@
 #include "lumex/core/time/LumexTime"
 
 #include "lumex/tests/support/LumexPerfSkip.hpp"
+#include "lumex/tests/support/LumexTestNarrowSkip.hpp"
 #include "lumex/tests/support/LumexTestUtf8Files.hpp"
 
 #if defined(__clang__)
@@ -709,6 +710,7 @@ TEST_F (LumexLoggingTest,
 TEST_F (LumexLoggingTest,
         GivenCyrillicFileName_WhenToFile_ThenTheSystemSeesTheFile)
 {
+  LUMEX_TEST_SKIP_WITHOUT_NARROW_UTF8_NAMES ();
   namespace files = lumex_test::utf8_files;
   std::string const filename = files::cyrillic ("_log");
 
@@ -729,6 +731,7 @@ TEST_F (LumexLoggingTest,
 TEST_F (LumexLoggingTest,
         GivenCyrillicAppName_WhenToFile_ThenTheLogIsInThatDirectory)
 {
+  LUMEX_TEST_SKIP_WITHOUT_NARROW_UTF8_NAMES ();
   namespace files = lumex_test::utf8_files;
   LumexLogging::set_app_name (files::cyrillic ("_app_") + _appName);
 

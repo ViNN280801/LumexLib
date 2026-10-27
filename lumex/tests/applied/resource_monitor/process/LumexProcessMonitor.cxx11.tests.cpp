@@ -21,6 +21,9 @@
 #include "lumex/applied/resource_monitor/LumexResourceMonitor"
 #include "lumex/core/filesystem/LumexFilesystem"
 #include "lumex/core/optional/LumexOptional"
+#if defined(_WIN32)
+#include "lumex/tests/support/LumexTestCyrillicCopy.hpp"
+#endif
 
 using namespace lumex::applied::resource_monitor::process;
 
@@ -41,13 +44,29 @@ burn_cpu (std::chrono::milliseconds duration)
 }
 
 #if defined(_WIN32)
+// The wide API and a real UTF-16 to UTF-8 conversion: GetModuleFileNameA
+// returns the ANSI code page text, which is not what the monitor reports
+// (UTF-8) for a program with a non-ASCII name or directory.
 std::string
 own_executable_name ()
 {
-  char buffer[MAX_PATH * 4];
-  DWORD const length = GetModuleFileNameA (
-      nullptr, buffer, static_cast<DWORD> (sizeof (buffer)));
-  return lumex::path (std::string (buffer, length)).filename ().string ();
+  std::wstring buffer (MAX_PATH, L'\0');
+  for (;;)
+    {
+      DWORD const length = GetModuleFileNameW (
+          nullptr, &buffer[0], static_cast<DWORD> (buffer.size ()));
+      if (length == 0)
+        return std::string ();
+      if (length < buffer.size ())
+        {
+          buffer.resize (length);
+          break;
+        }
+      buffer.resize (buffer.size () * 2);
+    }
+  return lumex::path (lumex::filesystem::from_wide_string (buffer))
+      .filename ()
+      .string ();
 }
 #else
 std::string
@@ -76,6 +95,44 @@ usage_of (process_id_t pid, double cpu, std::uint64_t resident,
   return usage;
 }
 } // namespace
+
+#if defined(_WIN32)
+// A program with a Cyrillic file name, in a directory with a Cyrillic name:
+// the child below runs in a copy of this binary made so. The monitor names the
+// process in UTF-8; own_executable_name () read the ANSI code page text
+// (GetModuleFileNameA) and did not match. The copy is made with the wide API.
+TEST (LumexProcessMonitorTest, ChildSamplesItself)
+{
+  if (!lumex_test::cyrillic_copy::is_child ())
+    GTEST_SKIP () << "runs only as the child of the test below";
+  LumexProcessMonitor monitor;
+  LumexProcessMonitor::result_t const usage
+      = monitor.sample (LumexProcessMonitor::current_process_id ());
+  ASSERT_TRUE (usage.has_value ());
+  std::string const own = own_executable_name ();
+  EXPECT_EQ (usage->name, own);
+  // Not vacuous: the name is the Cyrillic one the parent gave to the copy.
+  EXPECT_EQ (own, lumex_test::utf8_files::cyrillic (".exe"));
+}
+
+TEST (
+    LumexProcessMonitorTest,
+    GivenBinaryWithCyrillicNameInCyrillicDirectory_WhenItSamplesItself_ThenTheNameMatches)
+{
+  namespace copy = lumex_test::cyrillic_copy;
+  if (copy::is_child ())
+    GTEST_SKIP () << "the child runs the test above";
+  std::string directory;
+  std::string const name = lumex_test::utf8_files::cyrillic (".exe");
+  ASSERT_TRUE (copy::make_copy ("_monitor", directory, name));
+
+  int const code = copy::run (
+      directory, "LumexProcessMonitorTest.ChildSamplesItself", "", name);
+
+  copy::remove_tree (directory);
+  EXPECT_EQ (code, 0);
+}
+#endif
 
 TEST (LumexProcessMonitorTest, FirstSampleOfAProcessHasNoCpuShareYet)
 {
