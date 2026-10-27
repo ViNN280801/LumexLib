@@ -130,6 +130,7 @@
 #include "lumex/core/utility/os/LumexCheckOS.hpp"
 #include "lumex/core/utility/ranges/LumexIteratorRange.hpp"
 #include "lumex/core/utility/traits/LumexTypeTraits.hpp"
+#include "lumex/core/utility/util/LumexUtf8FileName.hpp"
 
 // Forward declarations
 
@@ -153,11 +154,11 @@
 
 #include <aclapi.h>
 #include <dbghelp.h>
-#include <shlwapi.h>
 #include <direct.h>
 #include <io.h>
 #include <process.h>
 #include <sddl.h>
+#include <shlwapi.h>
 #include <tchar.h>
 #include <wincrypt.h>
 
@@ -1117,7 +1118,12 @@ public:
    * Also sets up C++ exception handling.
    *
    * @param dumpDirectory Optional directory path for dump files.
-   *                      If empty, uses executable directory.
+   *                      If empty, uses "dumps" in the executable directory
+   *                      (the working directory when the executable path
+   *                      cannot be obtained). On Windows an executable path
+   *                      that is not valid UTF-16 cannot be named in UTF-8:
+   *                      the call then throws `std::runtime_error` instead of
+   *                      putting the dumps in another directory.
    * @param dumpType Type of dump to generate (defaults to platform-specific)
    * @param handleExceptions Whether to handle unhandled C++ exceptions
    * (default: true)
@@ -1729,13 +1735,18 @@ private:
   // Utility functions
   static std::string _generate_dump_filename (std::string const &prefix);
   static std::string _generate_dump_filename (DumpType dumpType);
-  static std::string _get_executable_directory () noexcept;
+  static std::string _get_executable_directory (bool &refused) noexcept;
+  static std::string _directory_of_path (std::string const &path) noexcept;
+  static bool _default_dump_directory (std::string &directory) noexcept;
   static void _log_message (std::string const &message, bool isError = false);
 
   // Helper functions to reduce code duplication
 #if LUMEX_OS_IS_WINDOWS()
   static std::string _convert_wide_string_to_narrow (
       std::wstring const &wideStr) noexcept; // only for Windows
+  static bool _convert_narrow_string_to_wide (
+      std::string const &narrowStr,
+      std::wstring &wideStr) noexcept; // only for Windows
 #endif
   static void _log_dump_creation_success (std::string const &filename,
                                           size_t size,
@@ -2040,9 +2051,11 @@ core_dump_generator::initialize (std::string const &dumpDirectory,
                                  DumpType dumpType, bool handleExceptions)
 {
   dump_configuration config = dump_factory::create_configuration (dumpType);
-  config.set_directory (dumpDirectory.empty ()
-                            ? _get_executable_directory () + "/dumps"
-                            : dumpDirectory);
+  std::string directory = dumpDirectory;
+  if (directory.empty () && !_default_dump_directory (directory))
+    throw std::runtime_error (
+        "No dump directory: the executable path cannot be named");
+  config.set_directory (directory);
   initialize (config, handleExceptions);
 }
 
@@ -2073,9 +2086,11 @@ core_dump_generator::initialize (dump_configuration const &config,
       s_currentConfig = config;
 
       // Set dump directory
-      s_dumpDirectory = config.get_directory ().empty ()
-                            ? _get_executable_directory () + "/dumps"
-                            : config.get_directory ();
+      s_dumpDirectory = config.get_directory ();
+      if (s_dumpDirectory.empty ()
+          && !_default_dump_directory (s_dumpDirectory))
+        throw std::runtime_error (
+            "No dump directory: the executable path cannot be named");
 
       // Validate and sanitize directory path
       s_dumpDirectory = _sanitize_path (s_dumpDirectory);
@@ -2883,12 +2898,22 @@ core_dump_generator::_windows_exception_handler (
         else
           sanitizedTimeStr += '_';
 
+      // The directory is UTF-8 and may be non-ASCII: a real conversion, not
+      // a byte by byte widening (which turns every byte of a Cyrillic letter
+      // into a letter of its own and names another directory). The time and
+      // the dump type are ASCII only (sanitized above and a fixed table).
+      std::wstring wDumpDirectory;
+      if (!_convert_narrow_string_to_wide (s_dumpDirectory, wDumpDirectory))
+        {
+          _log_message ("Dump directory is not valid UTF-8", true);
+          return EXCEPTION_EXECUTE_HANDLER;
+        }
       std::wstring wTimeStr (sanitizedTimeStr.begin (),
                              sanitizedTimeStr.end ());
       std::wstring wDumpTypeStr (dumpTypeStr.begin (), dumpTypeStr.end ());
       std::wstringstream wss;
-      wss << s_dumpDirectory.c_str () << L"\\" << wDumpTypeStr << L"_"
-          << wTimeStr << L".dmp";
+      wss << wDumpDirectory << L"\\" << wDumpTypeStr << L"_" << wTimeStr
+          << L".dmp";
 
       std::wstring filename = wss.str ();
 
@@ -3091,8 +3116,13 @@ core_dump_generator::_create_windows_dump (std::string const &filename,
 {
   try
     {
-      // Convert string to wide string for Windows API
-      std::wstring wfilename (filename.begin (), filename.end ());
+      // Convert string to wide string for Windows API (UTF-8 to UTF-16)
+      std::wstring wfilename;
+      if (!_convert_narrow_string_to_wide (filename, wfilename))
+        {
+          _log_message ("Dump file name is not valid UTF-8", true);
+          return false;
+        }
 
       // Create security attributes for proper file access
       SECURITY_ATTRIBUTES sa = {};
@@ -4014,33 +4044,44 @@ core_dump_generator::_generate_core_dump ()
 
 // Helper functions to reduce code duplication
 #if LUMEX_OS_IS_WINDOWS()
-// The one hand-written wide to UTF-8 conversion that stays: the module
-// core/unicode (`to_utf8`) requires this module (its assert and byte swap
-// headers), so a header of this module cannot include it without a cycle in
-// the module graph. An unpaired surrogate becomes U+FFFD here, whereas
-// `unicode::convert::to_utf8` skips it; the text is a dump file name.
+// Wide text to UTF-8 (the dump file name and the executable path) through
+// `utility::utf8_file_name::from_wide`, which is strict: an unpaired surrogate
+// is refused (empty result), because the text is a path and a replacement
+// character would name another file. (core/unicode requires this module, so
+// it cannot be used from here.)
 inline std::string
 core_dump_generator::_convert_wide_string_to_narrow (
     std::wstring const &wideStr) noexcept
 {
   try
     {
-      int size = WideCharToMultiByte (CP_UTF8, 0, wideStr.c_str (), -1,
-                                      nullptr, 0, nullptr, nullptr);
-      if (size <= 0)
+      std::string narrowStr;
+      if (!utf8_file_name::from_wide (wideStr, narrowStr))
         return "";
-
-      std::string narrowStr (static_cast<std::size_t> (size - 1), 0);
-      int result = WideCharToMultiByte (CP_UTF8, 0, wideStr.c_str (), -1,
-                                        &narrowStr[0], size, nullptr, nullptr);
-      if (result == 0)
-        return "";
-
       return narrowStr;
     }
   catch (...)
     {
       return "";
+    }
+}
+
+// The inverse, for every path that reaches a wide Win32 function. Strict:
+// text that is not valid UTF-8 is refused (false), never repaired, because
+// a skipped or replaced byte names another directory or file. The old
+// `std::wstring (s.begin (), s.end ())` turned each byte of a Cyrillic
+// letter into a character of its own.
+inline bool
+core_dump_generator::_convert_narrow_string_to_wide (
+    std::string const &narrowStr, std::wstring &wideStr) noexcept
+{
+  try
+    {
+      return utf8_file_name::to_wide (narrowStr, wideStr);
+    }
+  catch (...)
+    {
+      return false;
     }
 }
 #endif
@@ -4081,7 +4122,12 @@ core_dump_generator::_create_file_atomically (
     {
 #if LUMEX_OS_IS_WINDOWS()
       // On Windows, use CreateFileW with CREATE_NEW to ensure atomic creation
-      std::wstring wfilename (filename.begin (), filename.end ());
+      std::wstring wfilename;
+      if (!_convert_narrow_string_to_wide (filename, wfilename))
+        {
+          _log_message ("File name is not valid UTF-8", true);
+          return false;
+        }
       HANDLE hFile
           = CreateFileW (wfilename.c_str (), GENERIC_WRITE, 0, nullptr,
                          CREATE_NEW, FILE_ATTRIBUTE_NORMAL, nullptr);
@@ -4150,7 +4196,12 @@ core_dump_generator::_create_directory_atomically (
     {
 #if LUMEX_OS_IS_WINDOWS()
       // On Windows, use CreateDirectoryW
-      std::wstring wpath (path.begin (), path.end ());
+      std::wstring wpath;
+      if (!_convert_narrow_string_to_wide (path, wpath))
+        {
+          _log_message ("Directory name is not valid UTF-8", true);
+          return false;
+        }
       if (CreateDirectoryW (wpath.c_str (), nullptr))
         return true;
 
@@ -4235,25 +4286,50 @@ core_dump_generator::_generate_dump_filename (DumpType dumpType)
 }
 
 inline std::string
-core_dump_generator::_get_executable_directory () noexcept
+core_dump_generator::_get_executable_directory (bool &refused) noexcept
 {
+  refused = false;
   try
     {
 #if LUMEX_OS_IS_WINDOWS()
-      std::array<char, MAX_PATH> buffer{};
-      DWORD length = GetModuleFileNameA (nullptr, buffer.data (),
-                                         static_cast<DWORD> (buffer.size ()));
+      // The wide API with a buffer that grows (a path longer than MAX_PATH is
+      // not cut), then UTF-8: GetModuleFileNameA returns the ANSI code page
+      // of the process and turns a Cyrillic directory into '?'.
+      std::wstring wideExePath (MAX_PATH, L'\0');
+      DWORD length = 0;
+      for (;;)
+        {
+          length
+              = GetModuleFileNameW (nullptr, &wideExePath[0],
+                                    static_cast<DWORD> (wideExePath.size ()));
+          if (length == 0 || length < wideExePath.size ())
+            break;
+          if (wideExePath.size () >= 32768)
+            {
+              length = 0;
+              break;
+            }
+          wideExePath.resize (wideExePath.size () * 2);
+        }
       if (length == 0)
         {
           _log_message ("Failed to get executable path", true);
           return ".";
         }
+      wideExePath.resize (length);
 
-      std::string exePath (buffer.data (), length);
-      size_t lastSlash = exePath.find_last_of ("\\/");
-      if (lastSlash != std::string::npos)
-        return exePath.substr (0, lastSlash);
-      return ".";
+      std::string exePath = _convert_wide_string_to_narrow (wideExePath);
+      if (exePath.empty ())
+        {
+          // Refused, not failed: the path cannot be named in UTF-8, and "."
+          // would put the dumps in whatever the working directory is. The
+          // flag, not an empty result (an executable in the root directory
+          // has an empty directory part), tells the caller.
+          _log_message ("Executable path is not valid UTF-16", true);
+          refused = true;
+          return std::string ();
+        }
+      return _directory_of_path (exePath);
 
 #elif (LUMEX_OS_IS_UNIX() || LUMEX_OS_IS_ANDROID())
       std::array<char, PATH_MAX> buffer{};
@@ -4271,10 +4347,7 @@ core_dump_generator::_get_executable_directory () noexcept
       // readlink returns -1 or the non-negative number of bytes written.
       buffer[static_cast<std::size_t> (length)] = '\0';
       std::string exePath (buffer.data ());
-      size_t lastSlash = exePath.find_last_of ('/');
-      if (lastSlash != std::string::npos)
-        return exePath.substr (0, lastSlash);
-      return ".";
+      return _directory_of_path (exePath);
 #endif
     }
   catch (std::exception const &exc)
@@ -4289,6 +4362,52 @@ core_dump_generator::_get_executable_directory () noexcept
       _log_message ("Unknown exception in _getExecutableDirectory", true);
       return ".";
     }
+}
+
+// The directory part of an executable path: everything before the last
+// separator (empty for an executable in the root directory, which is a valid
+// answer), or "." when the path has no separator.
+inline std::string
+core_dump_generator::_directory_of_path (std::string const &path) noexcept
+{
+  try
+    {
+#if LUMEX_OS_IS_WINDOWS()
+      size_t const lastSlash = path.find_last_of ("\\/");
+#else
+      size_t const lastSlash = path.find_last_of ('/');
+#endif
+      if (lastSlash != std::string::npos)
+        return path.substr (0, lastSlash);
+      return ".";
+    }
+  catch (...)
+    {
+      return ".";
+    }
+}
+
+// "<executable directory>/dumps". Returns false (and leaves `directory`
+// empty) only when the executable path was refused (Windows, not valid
+// UTF-16); "." is used when the path cannot be obtained or has no separator.
+inline bool
+core_dump_generator::_default_dump_directory (std::string &directory) noexcept
+{
+  bool refused = false;
+  std::string result;
+  try
+    {
+      std::string const executable = _get_executable_directory (refused);
+      if (!refused)
+        result = executable + "/dumps";
+    }
+  catch (...)
+    {
+      refused = true;
+      result = std::string ();
+    }
+  directory.swap (result);
+  return !refused;
 }
 
 // dump_factory implementation
@@ -5421,7 +5540,9 @@ core_dump_generator::_create_directory_recursive (
 
 #if LUMEX_OS_IS_WINDOWS()
       // Windows implementation using CreateDirectory
-      std::wstring wpath (path.begin (), path.end ());
+      std::wstring wpath;
+      if (!_convert_narrow_string_to_wide (path, wpath))
+        return false; // not valid UTF-8: never create another directory
 
       // Check if directory already exists
       DWORD attributes = GetFileAttributesW (wpath.c_str ());

@@ -42,6 +42,7 @@
 
 #include "LumexStacktrace.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
+#include "lumex/core/utility/util/LumexUtf8FileName.hpp"
 
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -184,21 +185,27 @@ resolve_symbol_info (void *address, std::string &function_name,
       function_name = addr_str;
     }
 
-  // Get line info
-  IMAGEHLP_LINE64 line_info = {};
-  line_info.SizeOfStruct = sizeof (IMAGEHLP_LINE64);
+  // Get line info. The wide forms: the ANSI ones return the source path and
+  // the module name in the ANSI code page, and a non-ASCII build directory
+  // (a user profile) came out as '?'. The text is shown to a person, so an
+  // unpaired surrogate becomes U+FFFD (`utf8_file_name::to_utf8`).
+  IMAGEHLP_LINEW64 line_info = {};
+  line_info.SizeOfStruct = sizeof (IMAGEHLP_LINEW64);
   DWORD line_displacement = 0;
 
-  if (SymGetLineFromAddr64 (process, reinterpret_cast<DWORD64> (address),
-                            &line_displacement, &line_info)
+  if (SymGetLineFromAddrW64 (process, reinterpret_cast<DWORD64> (address),
+                             &line_displacement, &line_info)
       == TRUE)
     {
-      source_file = line_info.FileName;
+      std::string const file_utf8
+          = ::lumex::core::utility::utf8_file_name::to_utf8 (
+              line_info.FileName);
+      source_file = file_utf8;
       line_number = line_info.LineNumber;
 
       // Append to function name for complete description
       function_name += " at ";
-      function_name += line_info.FileName;
+      function_name += file_utf8;
       function_name += ":";
       function_name += std::to_string (line_info.LineNumber);
     }
@@ -208,15 +215,16 @@ resolve_symbol_info (void *address, std::string &function_name,
       line_number = 0;
 
       // Add module info to description
-      IMAGEHLP_MODULE64 module_info = {};
-      module_info.SizeOfStruct = sizeof (IMAGEHLP_MODULE64);
+      IMAGEHLP_MODULEW64 module_info = {};
+      module_info.SizeOfStruct = sizeof (IMAGEHLP_MODULEW64);
 
-      if (SymGetModuleInfo64 (process, reinterpret_cast<DWORD64> (address),
-                              &module_info)
+      if (SymGetModuleInfoW64 (process, reinterpret_cast<DWORD64> (address),
+                               &module_info)
           == TRUE)
         {
           function_name += " in ";
-          function_name += module_info.ModuleName;
+          function_name += ::lumex::core::utility::utf8_file_name::to_utf8 (
+              module_info.ModuleName);
         }
     }
 
