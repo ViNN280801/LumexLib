@@ -21,6 +21,9 @@
 #include "lumex/applied/resource_monitor/LumexResourceMonitor"
 #include "lumex/core/filesystem/LumexFilesystem"
 #include "lumex/core/optional/LumexOptional"
+#if defined(_WIN32)
+#include "lumex/tests/support/LumexTestNonAsciiDirectory.hpp"
+#endif
 
 using namespace lumex::applied::resource_monitor::process;
 
@@ -41,13 +44,29 @@ burn_cpu (std::chrono::milliseconds duration)
 }
 
 #if defined(_WIN32)
+// The wide API and a real UTF-16 to UTF-8 conversion: GetModuleFileNameA
+// returns the ANSI code page text, which is not what the monitor reports
+// (UTF-8) for a program with a non-ASCII name or directory.
 std::string
 own_executable_name ()
 {
-  char buffer[MAX_PATH * 4];
-  DWORD const length = GetModuleFileNameA (
-      nullptr, buffer, static_cast<DWORD> (sizeof (buffer)));
-  return lumex::path (std::string (buffer, length)).filename ().string ();
+  std::wstring buffer (MAX_PATH, L'\0');
+  for (;;)
+    {
+      DWORD const length = GetModuleFileNameW (
+          nullptr, &buffer[0], static_cast<DWORD> (buffer.size ()));
+      if (length == 0)
+        return std::string ();
+      if (length < buffer.size ())
+        {
+          buffer.resize (length);
+          break;
+        }
+      buffer.resize (buffer.size () * 2);
+    }
+  return lumex::path (lumex::filesystem::from_wide_string (buffer))
+      .filename ()
+      .string ();
 }
 #else
 std::string
@@ -76,6 +95,50 @@ usage_of (process_id_t pid, double cpu, std::uint64_t resident,
   return usage;
 }
 } // namespace
+
+#if defined(_WIN32)
+// A program with a Cyrillic file name, in a directory with a Cyrillic name:
+// the child below runs in a copy of this binary made so. The monitor names the
+// process in UTF-8; own_executable_name () read the ANSI code page text
+// (GetModuleFileNameA) and did not match. The copy is made with the wide API.
+TEST (LumexProcessMonitorTest, DISABLED_ChildSamplesItself)
+{
+  if (lumex_test::non_ascii::child_result_path ().empty ())
+    GTEST_SKIP () << "started without a result file";
+  LumexProcessMonitor monitor;
+  LumexProcessMonitor::result_t const usage
+      = monitor.sample (LumexProcessMonitor::current_process_id ());
+  ASSERT_TRUE (usage.has_value ());
+  std::string const own = own_executable_name ();
+  EXPECT_EQ (usage->name, own);
+  // Not vacuous: the name holds a UTF-8 lead byte of Cyrillic (0xD0 or 0xD1).
+  EXPECT_NE (own.find_first_of ("\xD0\xD1"), std::string::npos) << own;
+  EXPECT_TRUE (
+      lumex_test::non_ascii::write_child_result (own.data (), own.size ()));
+}
+
+TEST (
+    LumexProcessMonitorTest,
+    GivenBinaryWithCyrillicNameInCyrillicDirectory_WhenItSamplesItself_ThenTheNameMatches)
+{
+  lumex_test::non_ascii::workspace space;
+  ASSERT_TRUE (space.ok ());
+  std::wstring const name = L"\u0422\u0435\u0441\u0442.exe";
+  std::wstring const binary = space.copy_binary (name);
+  ASSERT_FALSE (binary.empty ());
+
+  DWORD const code = space.run (
+      binary,
+      L"--gtest_filter=LumexProcessMonitorTest.DISABLED_ChildSamplesItself "
+      L"--gtest_also_run_disabled_tests");
+
+  EXPECT_EQ (code, 0u) << space.child_log ();
+  std::string reported;
+  ASSERT_TRUE (
+      lumex_test::non_ascii::read_bytes (space.result_file (), reported));
+  EXPECT_EQ (reported, lumex_test::non_ascii::utf8_of (name));
+}
+#endif
 
 TEST (LumexProcessMonitorTest, FirstSampleOfAProcessHasNoCpuShareYet)
 {

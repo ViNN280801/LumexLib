@@ -40,7 +40,9 @@
 #define LUMEX_IMPLEMENTATION
 #include <algorithm> // std::transform
 #include <cctype>    // std::tolower
+#include <climits>   // INT_MAX
 #include <cstdlib>   // std::malloc, std::free
+#include <string>    // std::wstring
 
 #include "LumexEnvironment.hpp"
 
@@ -53,6 +55,53 @@ namespace environment
 namespace env
 {
 #if defined(LUMEX_OS_WINDOWS)
+namespace
+{
+/// Strict UTF-8 to UTF-16: false for an ill-formed sequence, which is
+/// refused and never repaired (a skipped byte would name another variable).
+/// This module may not use core/unicode (it depends on utility only), so the
+/// conversion is the Win32 one.
+bool
+utf8_to_wide (char const *text, std::wstring &wide)
+{
+  wide.clear ();
+  std::size_t const length = std::strlen (text);
+  if (length == 0)
+    return true;
+  if (length > static_cast<std::size_t> (INT_MAX))
+    return false;
+  int const size = MultiByteToWideChar (CP_UTF8, MB_ERR_INVALID_CHARS, text,
+                                        static_cast<int> (length), nullptr, 0);
+  if (size <= 0)
+    return false;
+  wide.resize (static_cast<std::size_t> (size));
+  return MultiByteToWideChar (CP_UTF8, MB_ERR_INVALID_CHARS, text,
+                              static_cast<int> (length), &wide[0], size)
+         == size;
+}
+
+/// Strict UTF-16 to UTF-8: false for an unpaired surrogate.
+bool
+wide_to_utf8 (wchar_t const *text, std::size_t length, std::string &utf8)
+{
+  utf8.clear ();
+  if (length == 0)
+    return true;
+  if (length > static_cast<std::size_t> (INT_MAX))
+    return false;
+  int const size = WideCharToMultiByte (CP_UTF8, WC_ERR_INVALID_CHARS, text,
+                                        static_cast<int> (length), nullptr, 0,
+                                        nullptr, nullptr);
+  if (size <= 0)
+    return false;
+  utf8.resize (static_cast<std::size_t> (size));
+  return WideCharToMultiByte (CP_UTF8, WC_ERR_INVALID_CHARS, text,
+                              static_cast<int> (length), &utf8[0], size,
+                              nullptr, nullptr)
+         == size;
+}
+} // namespace
+
 LUMEX_PUBLIC_API
 lumex_environment::EnvResult
 lumex_environment::windows_environment_strategy::get_variable (
@@ -63,53 +112,54 @@ lumex_environment::windows_environment_strategy::get_variable (
              == '\0') // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
     return { ERROR_INVALID_PARAMETER };
 
-#if !defined(__MINGW32__)
-  // First try _dupenv_s for security (preferred on Windows). MinGW's default
-  // C runtime has no _dupenv_s, so it goes straight to the Windows API below,
-  // which returns the same values.
-  char *buffer = nullptr;
-  std::size_t buffer_size = 0;
-  errno_t result = _dupenv_s (std::addressof (buffer),
-                              std::addressof (buffer_size), name);
-
-  if (result == 0 && buffer != nullptr)
+  // The wide API only: _dupenv_s and GetEnvironmentVariableA hand out the
+  // text in the ANSI code page of the process, so a Cyrillic value came back
+  // as '?' or as bytes that are not UTF-8. The name and the value are UTF-8
+  // here.
+  try
     {
-      // RAII wrapper for automatic cleanup
-      std::unique_ptr<char, decltype (&free)> smart_buffer (
-          buffer, std::addressof (free));
-      return EnvResult (string_type (buffer));
-    }
-#endif
+      std::wstring wide_name;
+      if (!utf8_to_wide (name, wide_name))
+        return { ERROR_INVALID_NAME };
 
-  // Fallback to GetEnvironmentVariableA
-  DWORD size = GetEnvironmentVariableA (name, nullptr, 0);
-  if (size == 0)
-    {
-      DWORD error = GetLastError ();
-      if (error == ERROR_SUCCESS)
-        { // Variable exists but is empty
-          return EnvResult (
-              string_type ("")); // Return successful result with empty string
+      DWORD size = GetEnvironmentVariableW (wide_name.c_str (), nullptr, 0);
+      if (size == 0)
+        {
+          DWORD error = GetLastError ();
+          if (error == ERROR_SUCCESS)
+            { // Variable exists but is empty
+              return EnvResult (string_type ("")); // Return successful result
+                                                   // with empty string
+            }
+          return { static_cast<int> (error) }; // True error (e.g., not found)
         }
-      return { static_cast<int> (error) }; // True error (e.g., not found)
+
+      if (size > MAX_ENV_BUFFER_SIZE)
+        return { ERROR_BUFFER_OVERFLOW };
+
+      // malloc and free, not new (std::nothrow) and delete[]: a libstdc++
+      // before GCC 9 does not route the nothrow forms to a replaced operator
+      // new, while delete[] always reaches a replaced operator delete.
+      std::unique_ptr<wchar_t, void (*) (void *)> win_buffer (
+          static_cast<wchar_t *> (std::malloc (size * sizeof (wchar_t))),
+          &std::free);
+      if (!win_buffer)
+        return { ERROR_NOT_ENOUGH_MEMORY };
+
+      DWORD actual_size = GetEnvironmentVariableW (wide_name.c_str (),
+                                                   win_buffer.get (), size);
+      if (actual_size == 0 || actual_size >= size)
+        return { static_cast<int> (GetLastError ()) };
+
+      string_type value;
+      if (!wide_to_utf8 (win_buffer.get (), actual_size, value))
+        return { ERROR_NO_UNICODE_TRANSLATION };
+      return EnvResult (std::move (value));
     }
-
-  if (size > MAX_ENV_BUFFER_SIZE)
-    return { ERROR_BUFFER_OVERFLOW };
-
-  // malloc and free, not new (std::nothrow) and delete[]: a libstdc++ before
-  // GCC 9 does not route the nothrow forms to a replaced operator new, while
-  // delete[] always reaches a replaced operator delete.
-  std::unique_ptr<char, void (*) (void *)> win_buffer (
-      static_cast<char *> (std::malloc (size)), &std::free);
-  if (!win_buffer)
-    return { ERROR_NOT_ENOUGH_MEMORY };
-
-  DWORD actual_size = GetEnvironmentVariableA (name, win_buffer.get (), size);
-  if (actual_size == 0 || actual_size >= size)
-    return { static_cast<int> (GetLastError ()) };
-
-  return EnvResult (string_type (win_buffer.get (), actual_size));
+  catch (...)
+    {
+      return { ERROR_NOT_ENOUGH_MEMORY };
+    }
 }
 
 LUMEX_PUBLIC_API
@@ -119,7 +169,23 @@ lumex_environment::windows_environment_strategy::set_variable (
 {
   if (name == nullptr || name[0] == '\0')
     return false; // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
-  return SetEnvironmentVariableA (name, value) != 0;
+  try
+    {
+      std::wstring wide_name;
+      std::wstring wide_value;
+      if (!utf8_to_wide (name, wide_name))
+        return false;
+      if (value != nullptr && !utf8_to_wide (value, wide_value))
+        return false;
+      return SetEnvironmentVariableW (wide_name.c_str (),
+                                      value == nullptr ? nullptr
+                                                       : wide_value.c_str ())
+             != 0;
+    }
+  catch (...)
+    {
+      return false;
+    }
 }
 
 LUMEX_PUBLIC_API
@@ -129,7 +195,17 @@ lumex_environment::windows_environment_strategy::unset_variable (
 {
   if (name == nullptr || name[0] == '\0')
     return false; // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
-  return SetEnvironmentVariableA (name, nullptr) != 0;
+  try
+    {
+      std::wstring wide_name;
+      if (!utf8_to_wide (name, wide_name))
+        return false;
+      return SetEnvironmentVariableW (wide_name.c_str (), nullptr) != 0;
+    }
+  catch (...)
+    {
+      return false;
+    }
 }
 
 #else

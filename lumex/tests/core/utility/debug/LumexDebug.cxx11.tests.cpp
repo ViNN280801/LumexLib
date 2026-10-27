@@ -19,6 +19,7 @@
 
 #include "lumex/core/utility/debug/LumexDebug.hpp"
 #include "lumex/tests/support/LumexPerfSkip.hpp"
+#include "lumex/tests/support/LumexTestNonAsciiDirectory.hpp"
 #if defined(__clang__)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wglobal-constructors"
@@ -441,6 +442,95 @@ TEST (LumexDebugTest,
 
   EXPECT_FALSE (trace.empty ());
   EXPECT_FALSE (stand_in.started ()) << trace;
+}
+#endif
+
+#if defined(_WIN32)
+// --- Non-ASCII executable directory (Windows) ----------------------------
+// GetModuleFileNameA returns the ANSI code page text of the path, so the PDB
+// search path of a program in a Cyrillic folder was a string of '?'. The
+// children are copies of this binary started from such a folder.
+
+TEST (LumexDebugTest,
+      GivenCyrillicText_WhenWideToUtf8_ThenUtf8BytesAreReturned)
+{
+  EXPECT_EQ (lumex::core::utility::debug::Detail::wide_to_utf8 (
+                 L"\u041F\u0440\u0438\u0432\u0435\u0442 a\u00FFb"),
+             "\xD0\x9F\xD1\x80\xD0\xB8\xD0\xB2\xD0\xB5\xD1\x82 a\xC3\xBF"
+             "b");
+  EXPECT_EQ (lumex::core::utility::debug::Detail::wide_to_utf8 (nullptr), "");
+  EXPECT_EQ (lumex::core::utility::debug::Detail::wide_to_utf8 (L""), "");
+}
+
+// Child: reports the PDB search directory as the raw UTF-16 code units. Never
+// runs by itself (DISABLED_), the next test starts it.
+TEST (LumexDebugTest, DISABLED_ChildReportsExeDirectory)
+{
+  std::wstring const directory
+      = lumex::core::utility::debug::Detail::get_exe_directory ();
+  if (lumex_test::non_ascii::child_result_path ().empty ())
+    GTEST_SKIP () << "started without a result file";
+  EXPECT_TRUE (lumex_test::non_ascii::write_child_result (
+      directory.data (), directory.size () * sizeof (wchar_t)));
+}
+
+// Child: a stack trace taken in the Cyrillic folder.
+TEST (LumexDebugTest, DISABLED_ChildCapturesStackTrace)
+{
+  if (lumex_test::non_ascii::child_result_path ().empty ())
+    GTEST_SKIP () << "started without a result file";
+  std::string const trace
+      = lumex::core::utility::debug::capture_stack_trace (0, 16);
+  EXPECT_TRUE (lumex_test::non_ascii::write_child_result (trace.data (),
+                                                          trace.size ()));
+}
+
+TEST (
+    LumexDebugTest,
+    GivenBinaryInCyrillicDirectory_WhenGetExeDirectory_ThenTheDirectoryIsReturned)
+{
+  lumex_test::non_ascii::workspace space;
+  ASSERT_TRUE (space.ok ());
+  std::wstring const binary = space.copy_binary ();
+  ASSERT_FALSE (binary.empty ());
+
+  DWORD const code = space.run (
+      binary,
+      L"--gtest_filter=LumexDebugTest.DISABLED_ChildReportsExeDirectory "
+      L"--gtest_also_run_disabled_tests");
+
+  ASSERT_EQ (code, 0u) << space.child_log ();
+  std::string bytes;
+  ASSERT_TRUE (
+      lumex_test::non_ascii::read_bytes (space.result_file (), bytes));
+  ASSERT_EQ (bytes.size () % sizeof (wchar_t), 0u);
+  std::wstring const reported (
+      reinterpret_cast<wchar_t const *> (bytes.data ()),
+      bytes.size () / sizeof (wchar_t));
+  EXPECT_EQ (reported, space.directory () + L"\\");
+}
+
+TEST (
+    LumexDebugTest,
+    GivenBinaryInCyrillicDirectory_WhenCaptureStackTrace_ThenSymbolsAreInitialized)
+{
+  lumex_test::non_ascii::workspace space;
+  ASSERT_TRUE (space.ok ());
+  std::wstring const binary = space.copy_binary ();
+  ASSERT_FALSE (binary.empty ());
+
+  DWORD const code = space.run (
+      binary,
+      L"--gtest_filter=LumexDebugTest.DISABLED_ChildCapturesStackTrace "
+      L"--gtest_also_run_disabled_tests");
+
+  ASSERT_EQ (code, 0u) << space.child_log ();
+  std::string trace;
+  ASSERT_TRUE (
+      lumex_test::non_ascii::read_bytes (space.result_file (), trace));
+  EXPECT_FALSE (trace.empty ());
+  EXPECT_EQ (trace.find ("SymInitialize failed"), std::string::npos) << trace;
+  EXPECT_NE (trace.find ("  #0"), std::string::npos) << trace;
 }
 #endif
 

@@ -176,8 +176,15 @@ lumex_crash_handler::_notify_and_log (std::string const &errorMessage)
 
   // On Windows, show a message box
 #if defined(LUMEX_OS_WINDOWS)
-  MessageBoxA (nullptr, errorMessage.c_str (), "Application Crash",
-               MB_OK | MB_ICONERROR);
+  // The wide box: the text is UTF-8 (it can name a path or hold an exception
+  // text), and the ANSI box shows it in the ANSI code page. It is a message
+  // for a person, so a byte that is not UTF-8 is skipped by the conversion
+  // instead of cancelling the box.
+  MessageBoxW (nullptr,
+               lumex::core::filesystem::fs::lumex_filesystem::to_wide_string (
+                   errorMessage)
+                   .c_str (),
+               L"Application Crash", MB_OK | MB_ICONERROR);
 #endif
 }
 

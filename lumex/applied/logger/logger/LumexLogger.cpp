@@ -2181,21 +2181,62 @@ std::string
 LumexLogger::_get_executable_directory () const
 {
 #if defined(_WIN32) || defined(_WIN64)
-  // Windows: use GetModuleFileName to get the DLL/EXE path
-  char path[LOGGER_MAX_PATH];
+  // Windows: use GetModuleFileNameW to get the DLL/EXE path. The wide API:
+  // the ANSI one returns the path in the ANSI code page of the process and
+  // turns a Cyrillic directory into '?' (the trigger file and the log were
+  // then looked for in a directory that does not exist). The buffer grows,
+  // so a path longer than MAX_PATH is not cut, and the result is UTF-8 like
+  // every other path of the logger. The conversion is the Win32 one: this
+  // module has no dependency on core/unicode.
+  struct module_path
+  {
+    static bool
+    get (HMODULE module, std::string &utf8)
+    {
+      std::wstring wide (MAX_PATH, L'\0');
+      for (;;)
+        {
+          DWORD const length = GetModuleFileNameW (
+              module, &wide[0], static_cast<DWORD> (wide.size ()));
+          if (length == 0)
+            return false;
+          if (length < wide.size ())
+            {
+              wide.resize (length);
+              break;
+            }
+          if (wide.size () >= 32768)
+            return false;
+          wide.resize (wide.size () * 2);
+        }
+      // Strict: an unpaired surrogate is refused, never replaced.
+      int const size = WideCharToMultiByte (
+          CP_UTF8, WC_ERR_INVALID_CHARS, wide.data (),
+          static_cast<int> (wide.size ()), nullptr, 0, nullptr, nullptr);
+      if (size <= 0)
+        return false;
+      utf8.assign (static_cast<std::size_t> (size), '\0');
+      return WideCharToMultiByte (CP_UTF8, WC_ERR_INVALID_CHARS, wide.data (),
+                                  static_cast<int> (wide.size ()), &utf8[0],
+                                  size, nullptr, nullptr)
+             == size;
+    }
+  };
+
+  std::string path;
   HMODULE hModule = nullptr;
 
   // Try to get a handle to the current module
-  if (GetModuleHandleExA (GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS
+  if (GetModuleHandleExW (GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS
                               | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
-                          reinterpret_cast<LPCSTR> (this), &hModule))
+                          reinterpret_cast<LPCWSTR> (this), &hModule))
     {
-      if (GetModuleFileNameA (hModule, path, LOGGER_MAX_PATH) > 0)
+      if (module_path::get (hModule, path))
         return _extract_directory_from_path (path);
     }
 
-  // Fallback: use GetModuleFileName with nullptr
-  if (GetModuleFileNameA (nullptr, path, LOGGER_MAX_PATH) > 0)
+  // Fallback: use GetModuleFileNameW with nullptr
+  if (module_path::get (nullptr, path))
     return _extract_directory_from_path (path);
 
   throw std::runtime_error ("Can't get executable directory on Windows");

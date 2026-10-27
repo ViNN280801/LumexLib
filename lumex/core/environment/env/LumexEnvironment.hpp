@@ -79,7 +79,7 @@
 
 #include "lumex/LumexExport.hpp"
 
-#include <cstdlib> // _dupenv_s, free (Windows)
+#include <cstdlib> // free (Windows)
 #include <cstring> // std::strlen, std::strcpy
 #include <memory>  // std::unique_ptr, std::addressof
 #include <mutex>   // std::mutex, std::lock_guard
@@ -87,7 +87,7 @@
 #include <utility>
 
 #if defined(_WIN32)
-#include <windows.h> // GetEnvironmentVariableA/W
+#include <windows.h> // GetEnvironmentVariableW
 #endif
 
 #include "lumex/core/utility/LumexUtility"
@@ -121,8 +121,8 @@ namespace env
  * singleton instance.
  *
  * @note This class adheres to C++11 standard and uses appropriate
- * platform-specific APIs for optimal performance and security (e.g., _dupenv_s
- * on Windows).
+ * platform-specific APIs for optimal performance (the wide Win32 functions on
+ * Windows, so that names and values are UTF-8 there as well).
  *
  * @par Example
  * The snippet below shows the intended use.
@@ -315,7 +315,11 @@ private:
    * @brief Windows-specific implementation of the environment_strategy.
    * @details This class provides the concrete implementation for environment
    *          variable operations on Windows, utilizing Win32 API functions
-   *          like `_dupenv_s` and `SetEnvironmentVariableA`.
+   *          like `GetEnvironmentVariableW` and `SetEnvironmentVariableW`.
+   *          Names and values are UTF-8: they are converted to UTF-16 for the
+   *          call (a name or a value that is not valid UTF-8 is refused)
+   *          and the value is converted back, so Cyrillic text survives
+   *          whatever the ANSI code page of the process is.
    * @note This class inherits from `environment_strategy` to provide a
    * polymorphic interface.
    */
@@ -331,8 +335,7 @@ private:
      * operation status.
      * @throws Nothing, all errors are encapsulated in the EnvResult's
      * error_code.
-     * @note Prioritizes `_dupenv_s` for security, falls back to
-     * `GetEnvironmentVariableA`.
+     * @note Uses `GetEnvironmentVariableW`; the value is returned as UTF-8.
      */
     EnvResult get_variable (char const *name) const override;
 
@@ -346,7 +349,8 @@ private:
      * @return True if the variable was successfully set/updated, false
      * otherwise.
      * @note Does not throw.
-     * @note Internally uses `SetEnvironmentVariableA`.
+     * @note Internally uses `SetEnvironmentVariableW`; `name` and `value` are
+     * UTF-8.
      */
     bool set_variable (char const *name, char const *value) const override;
 
@@ -356,7 +360,7 @@ private:
      * variable to unset.
      * @return True if the variable was successfully unset, false otherwise.
      * @note Does not throw.
-     * @note Internally calls `SetEnvironmentVariableA` with a `nullptr` value.
+     * @note Internally calls `SetEnvironmentVariableW` with a `nullptr` value.
      */
     bool unset_variable (char const *name) const override;
   };
@@ -582,7 +586,7 @@ public:
    * @details This method allows setting new environment variables or modifying
    * existing ones. On POSIX systems, it attempts to use `setenv` if available
    * (C++11 + POSIX.1-2001), falling back to `putenv` for broader
-   * compatibility. On Windows, it uses `SetEnvironmentVariableA`. A mutex
+   * compatibility. On Windows, it uses `SetEnvironmentVariableW`. A mutex
    * ensures thread-safety.
    * @param name The null-terminated C-string name of the environment variable
    * to set. Must not be `nullptr` or an empty string.
