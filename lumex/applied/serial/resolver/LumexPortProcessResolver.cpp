@@ -61,6 +61,7 @@
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 #include "lumex/core/utility/os/LumexCheckOS.hpp"
 #include "lumex/core/utility/os/LumexSystemError.hpp"
+#include "lumex/core/utility/util/LumexUtf8FileName.hpp"
 
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -330,16 +331,38 @@ public:
                                          FALSE, ent.ProcessId);
                 if (process != nullptr)
                   {
-                    DWORD const k_exe_path_buf_size = 512;
-                    std::array<char, 512> exe_path{};
-                    DWORD size = k_exe_path_buf_size;
-                    if (::QueryFullProcessImageNameA (process, 0,
-                                                      exe_path.data (), &size)
-                            != 0
-                        && size > 0)
+                    // The wide API and UTF-8: the ANSI one returns the path
+                    // in the ANSI code page and turns a non-ASCII program
+                    // directory into '?'. The buffer grows up to the 32767
+                    // characters of a Windows path.
+                    std::wstring wide_exe_path (512, wchar_t ());
+                    for (;;)
                       {
-                        result.exe_path.assign (
-                            exe_path.data (), static_cast<std::size_t> (size));
+                        DWORD size
+                            = static_cast<DWORD> (wide_exe_path.size ());
+                        if (::QueryFullProcessImageNameW (
+                                process, 0, &wide_exe_path[0], &size)
+                            != 0)
+                          {
+                            wide_exe_path.resize (
+                                static_cast<std::size_t> (size));
+                            break;
+                          }
+                        if (::GetLastError () != ERROR_INSUFFICIENT_BUFFER
+                            || wide_exe_path.size () >= 32768)
+                          {
+                            wide_exe_path.clear ();
+                            break;
+                          }
+                        wide_exe_path.resize (wide_exe_path.size () * 2);
+                      }
+                    // Strict: a path with a lone surrogate is refused (an
+                    // empty path, the name falls back to the PID) instead of
+                    // being reported without the unit.
+                    if (!wide_exe_path.empty ()
+                        && ::lumex::core::utility::utf8_file_name::from_wide (
+                            wide_exe_path, result.exe_path))
+                      {
                         std::size_t const last
                             = result.exe_path.find_last_of ("/\\");
                         result.exe_name
