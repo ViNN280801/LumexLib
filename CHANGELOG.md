@@ -262,6 +262,14 @@
 
 **Проверено:** новый `cmake.single_eh_model` читает `compile_commands.json` дерева и требует одну модель исключений в каждой команде компиляции: до исправления 17 команд из 2046 (cl.exe) и из 2102 (clang-cl), после ни одной; полная пересборка 17 объектов без D9025; `exceptions.*` 160 из 160 (cl.exe).
 
+##### `LumexApplied_logger` линкуется с `Threads::Threads`
+
+**Файлы:** `lumex/applied/logger/CMakeLists.txt`, `conanfile.py`, `lumex/tests/cmake/cases/wiring_posix_system_libraries.cmake`.
+
+**Суть:** `trigger_file_watcher` запускает `std::thread` внутри библиотеки, а встроенный в заголовок идентификатор потока вызывает `pthread_self` у потребителя. До glibc 2.34 эти функции живут в libpthread, поэтому `LumexLoggerExample`, `LumexLoggerMacros` и `LumexLoggerConfigFormats` не собирались (`undefined reference to pthread_create`). Теперь `Threads::Threads` входит в публичные зависимости `lumex::logger`, а компонент Conan `applied_logger` получил `pthread`.
+
+**Проверено:** GCC 13.2 и glibc 2.28: все четыре примера логгера собираются и проходят; `cmake.wiring_posix_system_libraries` проверяет зависимость в CMake и в рецепте Conan (без исправления падает).
+
 #### Изменено
 
 ##### `serial_port_state::denied`: отказ в доступе при пробном открытии в POSIX

@@ -38,6 +38,13 @@ _require_regex("lumex/core/exceptions/CMakeLists.txt"
 _require_regex("lumex/applied/logger/CMakeLists.txt"
     "target_link_libraries\\(\\$\\{LUMEX_LOGGER_NAME\\} PRIVATE \\$\\{CMAKE_DL_LIBS\\}\\)"
     "the logger library does not link CMAKE_DL_LIBS")
+# The logger starts a std::thread (the trigger file watcher) inside the
+# library, and its headers read the thread id inline: every consumer needs
+# libpthread on its link line (the logger examples failed with undefined
+# pthread_create and pthread_join on glibc 2.28).
+_require_regex("lumex/applied/logger/CMakeLists.txt"
+    "find_package\\(Threads REQUIRED\\)[^T]*target_link_libraries\\(\\$\\{LUMEX_LOGGER_NAME\\} PUBLIC Threads::Threads\\)"
+    "Threads::Threads is not a PUBLIC dependency of the logger library")
 
 # The package config must find Threads before it imports the targets that
 # name Threads::Threads in their link interface.
@@ -58,6 +65,7 @@ _require_text("conanfile.py" "utility.system_libs.append(\"pthread\")")
 _require_text("conanfile.py" "utility.system_libs.append(\"dl\")")
 _require_text("conanfile.py" "exceptions.system_libs.append(\"dl\")")
 _require_text("conanfile.py" "logger.system_libs.append(\"dl\")")
+_require_text("conanfile.py" "logger.system_libs.append(\"pthread\")")
 
 # An example that starts std::thread itself must link Threads::Threads (the
 # logger workflow failed with undefined pthread_create on glibc 2.28), and
