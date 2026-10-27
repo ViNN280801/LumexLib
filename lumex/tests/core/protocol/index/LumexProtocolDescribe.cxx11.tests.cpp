@@ -20,6 +20,7 @@ namespace gauge_tables = lumex_tests::field_tables;
 namespace index = lumex::core::protocol::index;
 namespace field = lumex::core::protocol::field;
 namespace layout = lumex::core::protocol::layout;
+namespace registry = lumex::core::protocol::registry;
 using tables::bytes_of;
 using tables::view_of;
 
@@ -35,6 +36,22 @@ LUMEX_PROTOCOL_LAYOUT (
 // clang-format on
 LUMEX_PROTOCOL_DEFINE (probe_protocol, tables::codec, tables::widget_header,
                        PROBE_ROWS);
+
+// A registry with an entry of an enumeration type next to a number, and a
+// generic command that writes and reads them.
+// clang-format off
+#define SETTING_PARAMS(P, P_AS) \
+  P (MODE, (0x30), "Mode of the widget", \
+     (enum_<u8_, tables::widget_mode>), RW, ()) \
+  P (COUNT, (0x31), "Count", (u8_), RW, ())
+#define SETTING_ROWS(X, X_AS) \
+  X (SET_SETTING, 0x50, "Write a setting", \
+     (registry_key_<settings, u8_>, registry_value_<settings, 0, u8_>), \
+     ("parameter", "value"), (), ())
+// clang-format on
+LUMEX_PROTOCOL_REGISTRY (settings, SETTING_PARAMS);
+LUMEX_PROTOCOL_DEFINE (setting_protocol, tables::codec, tables::widget_header,
+                       SETTING_ROWS);
 
 std::vector<std::uint8_t>
 bytes (std::initializer_list<int> values)
@@ -143,6 +160,46 @@ TEST (
   layout::bytes_t const reply = bytes ({ 0x21, 0x12, 0x2B, 0xFE, 0xFF, 0xFF });
   EXPECT_EQ (describe_rx (reply), "RX widget.GET_PARAMETER (Read a parameter) "
                                   "parameter=OFFSET value=-4.69");
+}
+
+TEST (
+    LumexProtocolDescribeTest,
+    GivenAGenericCommandWithAnEnumerationEntry_WhenDescribed_ThenTheValueIsTheEnumeratorName)
+{
+  index::index_result_t const &result
+      = index::protocol_index<setting_protocol> ();
+  ASSERT_TRUE (result.has_value ());
+  index::protocol_index_t const &settings_index = *result;
+  layout::bytes_t const hold = bytes ({ 0x50, 0x30, 0x02 });
+  EXPECT_EQ (
+      settings_index.describe (view_of (hold), index::frame_direction::tx),
+      "TX setting_protocol.SET_SETTING (Write a setting) "
+      "parameter=MODE value=hold");
+  index::describe_options_t options;
+  options.show_raw = true;
+  EXPECT_EQ (settings_index.describe (
+                 view_of (hold), index::frame_direction::tx, nullptr, options),
+             "TX setting_protocol.SET_SETTING (Write a setting) "
+             "parameter=MODE value=hold (raw 2)");
+  // A value that is no enumerator stays a number.
+  layout::bytes_t const unnamed = bytes ({ 0x50, 0x30, 0x07 });
+  EXPECT_EQ (
+      settings_index.describe (view_of (unnamed), index::frame_direction::tx),
+      "TX setting_protocol.SET_SETTING (Write a setting) "
+      "parameter=MODE value=7");
+  // An entry of another type is not named.
+  layout::bytes_t const count = bytes ({ 0x50, 0x31, 0x02 });
+  EXPECT_EQ (
+      settings_index.describe (view_of (count), index::frame_direction::tx),
+      "TX setting_protocol.SET_SETTING (Write a setting) "
+      "parameter=COUNT value=2");
+  // The name comes from the entry, not from the frame.
+  registry::entries_t const entries = settings::entries ();
+  ASSERT_EQ (entries.size (), 2u);
+  ASSERT_NE (entries.data ()[0].value_name, nullptr);
+  EXPECT_STREQ (entries.data ()[0].value_name (1), "run");
+  EXPECT_EQ (entries.data ()[0].value_name (9), nullptr);
+  EXPECT_EQ (entries.data ()[1].value_name, nullptr);
 }
 
 TEST (
