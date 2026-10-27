@@ -6,7 +6,7 @@
 // again, the same bytes), the row the run-time index finds for a frame, and
 // the start of the fields in a frame.
 //
-// The comments of the form /*@rule*/ right after a literal in the device
+// The comments of the form /*@r..*/ right after a literal in the device
 // files name the rule by which that value was altered; they carry no value.
 #ifndef LUMEX_TESTS_CORE_PROTOCOL_DEVICES_SUPPORT_HPP
 #define LUMEX_TESTS_CORE_PROTOCOL_DEVICES_SUPPORT_HPP

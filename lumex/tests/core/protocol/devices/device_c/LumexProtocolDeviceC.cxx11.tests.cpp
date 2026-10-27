@@ -86,33 +86,33 @@ TEST (LumexProtocolDeviceCTest,
       GivenAParameterWrite_WhenAnswered_ThenTheAnswerIsAChangeReport)
 {
   bytes_t const set = request_frame<device_c, device_c::param_set_fa_t> (
-      display (0xFA /*@p8*/), 500, c_int::sensitivity);
-  EXPECT_EQ (set, bytes ({ kAddress, 0x72 /*@p8*/, 0x00, 0xFA /*@p8*/, 0xF4,
-                           0x01, 0xF4 /*@p8*/ }));
+      display (0xFA /*@r04*/), 450, c_int::sensitivity);
+  EXPECT_EQ (set, bytes ({ kAddress, 0x72 /*@r04*/, 0x00, 0xFA /*@r04*/, 0xC2,
+                           0x01, 0xF4 /*@r04*/ }));
   EXPECT_TRUE (dev::finds<device_c::param_set_fa_t> (
       dev::index_of<device_c> (), set, 4));
   bytes_t const get = request_frame<device_c, device_c::param_get_f4_t> (
-      display (0xF4 /*@p8*/), c_int::sensitivity);
-  EXPECT_EQ (get, bytes ({ kAddress, 0x72 /*@p8*/, 0x00, 0xF4 /*@p8*/,
-                           0xF4 /*@p8*/ }));
+      display (0xF4 /*@r04*/), c_int::sensitivity);
+  EXPECT_EQ (get, bytes ({ kAddress, 0x72 /*@r04*/, 0x00, 0xF4 /*@r04*/,
+                           0xF4 /*@r04*/ }));
   bytes_t const change
-      = bytes ({ kAddress, 0x35 /*@p8*/, 0xF4, 0x01, 0xF4 /*@p8*/ });
+      = bytes ({ kAddress, 0x35 /*@r04*/, 0xC2, 0x01, 0xF4 /*@r04*/ });
   index::protocol_index_t const &rx = dev::index_of<device_c_rx> ();
   EXPECT_TRUE (dev::finds<device_c::report_35_t> (rx, change, 2));
   layout::decode_result_t<
       layout::reply_value_of<device_c::report_35_t>::type> const changed
       = reply_of<device_c::report_35_t> (change);
   ASSERT_TRUE (changed.has_value ());
-  EXPECT_EQ (field::get<0> (*changed), 500);
+  EXPECT_EQ (field::get<0> (*changed), 450);
   EXPECT_TRUE (field::get<1> (*changed) == c_int::sensitivity);
   EXPECT_EQ (rx.describe (dev::view_of (change), index::frame_direction::rx),
-             "RX device_c_rx.report_35 (16-bit parameter changed) value=500 "
+             "RX device_c_rx.report_35 (16-bit parameter changed) value=450 "
              "parameter=sensitivity");
   EXPECT_TRUE ((dev::request_round_trip<device_c, device_c::param_set_fa_t> (
       tail_of (set, 4))));
   // A number the 16-bit table does not have.
   EXPECT_FALSE ((reply_of<device_c::report_35_t> (bytes (
-                     { kAddress, 0x35 /*@p8*/, 0x00, 0x00, 0xD9 /*@p8*/ })))
+                     { kAddress, 0x35 /*@r04*/, 0x00, 0x00, 0xD9 /*@r04*/ })))
                     .has_value ());
 }
 
@@ -120,10 +120,10 @@ TEST (LumexProtocolDeviceCTest,
       GivenTheLongAndFloatingParameters_WhenRoundTripped_ThenTheBytesAgree)
 {
   bytes_t const get_long = request_frame<device_c, device_c::param_get_4b_t> (
-      display (0x4B /*@p8*/), c_long::serial);
-  EXPECT_EQ (tail_of (get_long, 3), bytes ({ 0x4B /*@p8*/, 0x72 /*@p8*/ }));
+      display (0x4B /*@r04*/), c_long::serial);
+  EXPECT_EQ (tail_of (get_long, 3), bytes ({ 0x4B /*@r04*/, 0x72 /*@r04*/ }));
   bytes_t const serial = bytes (
-      { kAddress, 0x38 /*@p8*/, 0x40, 0xE2, 0x01, 0x00, 0x72 /*@p8*/ });
+      { kAddress, 0x38 /*@r04*/, 0x40, 0xE2, 0x01, 0x00, 0x72 /*@r04*/ });
   layout::decode_result_t<
       layout::reply_value_of<device_c::report_38_t>::type> const number
       = reply_of<device_c::report_38_t> (serial);
@@ -132,14 +132,14 @@ TEST (LumexProtocolDeviceCTest,
   EXPECT_TRUE (field::get<1> (*number) == c_long::serial);
 
   bytes_t const set_real = request_frame<device_c, device_c::param_set_47_t> (
-      display (0x47 /*@p8*/), 350.5f, c_real::target);
+      display (0x47 /*@r04*/), 350.5f, c_real::target);
   EXPECT_EQ (tail_of (set_real, 4),
-             bytes ({ 0x00, 0x40, 0xAF, 0x43, 0xD9 /*@p8*/ }));
+             bytes ({ 0x00, 0x40, 0xAF, 0x43, 0xD9 /*@r04*/ }));
   bytes_t const get_real = request_frame<device_c, device_c::param_get_44_t> (
-      display (0x44 /*@p8*/), c_real::excitation);
-  EXPECT_EQ (tail_of (get_real, 4), bytes ({ 0xF3 /*@p8*/ }));
+      display (0x44 /*@r04*/), c_real::excitation);
+  EXPECT_EQ (tail_of (get_real, 4), bytes ({ 0xF3 /*@r04*/ }));
   bytes_t const current = bytes (
-      { kAddress, 0xE0 /*@p8*/, 0x00, 0x40, 0xAF, 0x43, 0xF3 /*@p8*/ });
+      { kAddress, 0xE0 /*@r04*/, 0x00, 0x40, 0xAF, 0x43, 0xF3 /*@r04*/ });
   layout::decode_result_t<
       layout::reply_value_of<device_c::report_e0_t>::type> const wavelength
       = reply_of<device_c::report_e0_t> (current);
@@ -149,15 +149,15 @@ TEST (LumexProtocolDeviceCTest,
   EXPECT_TRUE ((dev::reply_round_trip<device_c_rx, device_c_rx::report_e0_t> (
       tail_of (current, 2))));
   EXPECT_TRUE ((dev::request_round_trip<device_c, device_c::param_set_67_t> (
-      bytes ({ 0x40, 0xE2, 0x01, 0x00, 0x65 /*@p8*/ }))));
+      bytes ({ 0x40, 0xE2, 0x01, 0x00, 0x65 /*@r04*/ }))));
 }
 
 TEST (LumexProtocolDeviceCTest,
       GivenTheMeasurement_WhenDecoded_ThenTheTimeIsA24BitInteger)
 {
   bytes_t const frame = bytes (
-      { kAddress, 0xDD /*@p8*/, 0xE8, 0x03, 0xFE, 0xFF, 0xB8, 0x0B, 0x01, 0x05,
-        0x01, 0x8F /*@p8*/, 0x64, 0x00, 0xC8, 0x00, 0x45, 0x23, 0x01 });
+      { kAddress, 0xDD /*@r04*/, 0xE8, 0x03, 0xFE, 0xFF, 0xB8, 0x0B, 0x01,
+        0x05, 0x01, 0x8F /*@r04*/, 0x64, 0x00, 0xC8, 0x00, 0x45, 0x23, 0x01 });
   EXPECT_EQ (frame.size () - 2u, 17u);
   layout::decode_result_t<
       layout::reply_value_of<device_c::stream_dd_t>::type> const measured
@@ -184,12 +184,12 @@ TEST (LumexProtocolDeviceCTest,
       GivenTheSimpleRequests_WhenEncoded_ThenTheBytesAreTheReference)
 {
   index::protocol_index_t const &tx = dev::index_of<device_c> ();
-  bytes_t const reset
-      = request_frame<device_c, device_c::reset_ad_t> (display (0xAD /*@p8*/));
+  bytes_t const reset = request_frame<device_c, device_c::reset_ad_t> (
+      display (0xAD /*@r04*/));
   EXPECT_TRUE (dev::finds<device_c::reset_ad_t> (tx, reset, 4));
   // Key 0x1C released (the high bit).
   bytes_t const key
-      = bytes ({ kAddress, 0x72 /*@p8*/, 0x00, 0x65 /*@p8*/, 0x9C });
+      = bytes ({ kAddress, 0x72 /*@r04*/, 0x00, 0x65 /*@r04*/, 0x9C });
   layout::decode_result_t<layout::request_of<device_c::set_65_t>::type> const
       press
       = layout::decode_request<device_c, device_c::set_65_t> (
@@ -198,23 +198,31 @@ TEST (LumexProtocolDeviceCTest,
   EXPECT_EQ (field::get<0> (field::get<0> (*press).parts), 0x1Cu);
   EXPECT_TRUE (field::get<1> (field::get<0> (*press).parts));
   EXPECT_TRUE (dev::finds<device_c::set_65_t> (tx, key, 4));
+  // Key 0x41 released: the key code takes all seven low bits.
+  layout::decode_result_t<layout::request_of<device_c::set_65_t>::type> const
+      high
+      = layout::decode_request<device_c, device_c::set_65_t> (
+          dev::view_of (bytes ({ 0xC1 })));
+  ASSERT_TRUE (high.has_value ());
+  EXPECT_EQ (field::get<0> (field::get<0> (*high).parts), 0x41u);
+  EXPECT_TRUE (field::get<1> (field::get<0> (*high).parts));
 
   EXPECT_EQ (
-      (request_frame<device_c, device_c::start_83_t> (display (0x83 /*@p8*/),
+      (request_frame<device_c, device_c::start_83_t> (display (0x83 /*@r04*/),
                                                       0, 1)),
-      bytes ({ kAddress, 0x72 /*@p8*/, 0x00, 0x83 /*@p8*/, 0x00, 0x01 }));
+      bytes ({ kAddress, 0x72 /*@r04*/, 0x00, 0x83 /*@r04*/, 0x00, 0x01 }));
   EXPECT_EQ ((request_frame<device_c, device_c::stop_cc_t> (
-                 display (0xCC /*@p8*/), 0)),
-             bytes ({ kAddress, 0x72 /*@p8*/, 0x00, 0xCC /*@p8*/, 0x00 }));
+                 display (0xCC /*@r04*/), 0)),
+             bytes ({ kAddress, 0x72 /*@r04*/, 0x00, 0xCC /*@r04*/, 0x00 }));
   EXPECT_TRUE (dev::finds<device_c::stop_0f_t> (
       tx,
-      request_frame<device_c, device_c::stop_0f_t> (display (0x0F /*@p8*/)),
+      request_frame<device_c, device_c::stop_0f_t> (display (0x0F /*@r04*/)),
       4));
   EXPECT_EQ ((request_frame<device_c, device_c::stream_af_t> (
-                 display (0xAF /*@p8*/), 0xDD /*@p8*/, 1)),
-             bytes ({ kAddress, 0x72 /*@p8*/, 0x00, 0xAF /*@p8*/, 0xDD /*@p8*/,
-                      0x01 }));
-  bytes_t const stopped = bytes ({ kAddress, 0x87 /*@p8*/, 0x2C, 0x01 });
+                 display (0xAF /*@r04*/), 0xDD /*@r04*/, 1)),
+             bytes ({ kAddress, 0x72 /*@r04*/, 0x00, 0xAF /*@r04*/,
+                      0xDD /*@r04*/, 0x01 }));
+  bytes_t const stopped = bytes ({ kAddress, 0x87 /*@r04*/, 0x2C, 0x01 });
   layout::decode_result_t<
       layout::reply_value_of<device_c::report_87_t>::type> const steps
       = reply_of<device_c::report_87_t> (stopped);
@@ -226,18 +234,18 @@ TEST (LumexProtocolDeviceCTest,
       GivenAMemoryBlock_WhenWrittenAndRead_ThenTheSizeCountsTheData)
 {
   bytes_t const write
-      = bytes ({ kAddress, 0xFA /*@p8*/, 0x00, 0x8D /*@p8*/, 0x04, 0x00, 0x10,
-                 0x00, 0x11, 0x22, 0x33, 0x44 });
+      = bytes ({ kAddress, 0xFA /*@r04*/, 0x00, 0x8D /*@r04*/, 0x04, 0x00,
+                 0x10, 0x00, 0x11, 0x22, 0x33, 0x44 });
   EXPECT_TRUE (
       dev::finds<device_c::write_8d_t> (dev::index_of<device_c> (), write, 4));
   EXPECT_TRUE ((dev::request_round_trip<device_c, device_c::write_8d_t> (
       tail_of (write, 4))));
   bytes_t const read = request_frame<device_c, device_c::query_c9_t> (
-      old_header (kAddress, c::process::memory, 0x00, 0xC9 /*@p8*/), 4, 0,
+      old_header (kAddress, c::process::memory, 0x00, 0xC9 /*@r04*/), 4, 0,
       0x10);
-  EXPECT_EQ (read, bytes ({ kAddress, 0xFA /*@p8*/, 0x00, 0xC9 /*@p8*/, 0x04,
+  EXPECT_EQ (read, bytes ({ kAddress, 0xFA /*@r04*/, 0x00, 0xC9 /*@r04*/, 0x04,
                             0x00, 0x10, 0x00 }));
-  bytes_t const block = bytes ({ kAddress, 0xBC /*@p8*/, 0x04, 0x00, 0x10,
+  bytes_t const block = bytes ({ kAddress, 0xBC /*@r04*/, 0x04, 0x00, 0x10,
                                  0x00, 0x11, 0x22, 0x33, 0x44 });
   layout::decode_result_t<
       layout::reply_value_of<device_c::report_bc_t>::type> const data
@@ -257,18 +265,18 @@ TEST (LumexProtocolDeviceCTest,
       GivenAnAccessoryCommand_WhenSentThroughTheBus_ThenItIsNestedInTheMessage)
 {
   bytes_t inner;
-  ASSERT_TRUE ((layout::encode_request<c_i2c, c_i2c::set_j_t> (
-                    inner, 400.0, 0x19 /*@pair8*/))
+  ASSERT_TRUE ((layout::encode_request<c_i2c, c_i2c::command_b_t> (
+                    inner, 400.0, 0x19 /*@r26*/))
                    .has_value ());
   field::nested_value<char> command;
-  command.key = 'J' /*@text*/;
+  command.key = 'Z' /*@r11*/;
   command.payload = dev::view_of (inner);
   bytes_t const frame = request_frame<device_c, device_c::write_8e_t> (
-      old_header (kAddress, c::process::bus, 0x00, 0x8E /*@p8*/), 4, 0, 20,
-      0x18 /*@pair8*/, 3, command);
-  EXPECT_EQ (frame, bytes ({ kAddress, 0x27 /*@p8*/, 0x00, 0x8E /*@p8*/, 0x04,
-                             0x00, 0x14, 0x18 /*@pair8*/, 0x03, 'J' /*@text*/,
-                             0xA0, 0x0F, 0x19 /*@pair8*/ }));
+      old_header (kAddress, c::process::bus, 0x00, 0x8E /*@r04*/), 4, 0, 20,
+      0x18 /*@r26*/, 3, command);
+  EXPECT_EQ (frame, bytes ({ kAddress, 0x27 /*@r04*/, 0x00, 0x8E /*@r04*/,
+                             0x04, 0x00, 0x14, 0x18 /*@r26*/, 0x03,
+                             'Z' /*@r11*/, 0xA0, 0x0F, 0x19 /*@r26*/ }));
   // The nested message is a view into the buffer: keep it alive.
   bytes_t const fields = tail_of (frame, 4);
   layout::decode_result_t<layout::request_of<device_c::write_8e_t>::type> const
@@ -276,36 +284,36 @@ TEST (LumexProtocolDeviceCTest,
       = layout::decode_request<device_c, device_c::write_8e_t> (
           dev::view_of (fields));
   ASSERT_TRUE (transaction.has_value ());
-  layout::decode_result_t<layout::request_of<c_i2c::set_j_t>::type> const
-      wavelength
-      = layout::decode_nested<c_i2c, c_i2c::set_j_t> (
+  layout::decode_result_t<layout::request_of<c_i2c::command_b_t>::type> const
+      value_b
+      = layout::decode_nested<c_i2c, c_i2c::command_b_t> (
           field::get<5> (*transaction));
-  ASSERT_TRUE (wavelength.has_value ());
-  EXPECT_DOUBLE_EQ (field::get<0> (*wavelength).value (), 400.0);
-  EXPECT_EQ (field::get<1> (*wavelength), 0x19u /*@pair8*/);
-  EXPECT_TRUE ((layout::decode_nested<c_i2c, c_i2c::query_v_t> (
+  ASSERT_TRUE (value_b.has_value ());
+  EXPECT_DOUBLE_EQ (field::get<0> (*value_b).value (), 400.0);
+  EXPECT_EQ (field::get<1> (*value_b), 0x19u /*@r26*/);
+  EXPECT_TRUE ((layout::decode_nested<c_i2c, c_i2c::command_a_t> (
                     field::get<5> (*transaction)))
                    .error ()
                == error::protocol_errc::unknown_frame);
 
-  bytes_t const state_read = bytes ({ 0x03, 0x05, 0x02, 0x18 /*@pair8*/, 0x01,
-                                      'V' /*@text*/, 0x19 /*@pair8*/ });
+  bytes_t const state_read = bytes (
+      { 0x03, 0x05, 0x02, 0x18 /*@r26*/, 0x01, 'C' /*@r11*/, 0x19 /*@r26*/ });
   EXPECT_TRUE (
       (dev::request_round_trip<device_c, device_c::write_8e_t> (state_read)));
   // The read address of the accessory is its address with the low bit set.
   EXPECT_EQ (state_read[6], state_read[3] | 1);
 
   bytes_t const result
-      = bytes ({ kAddress, 0x7B /*@p8*/, 0x80, 0x00, 0x02, 0x18 /*@pair8*/,
-                 0x01, 'V' /*@text*/, 0x10, 0x20, 0x30 });
+      = bytes ({ kAddress, 0x7B /*@r04*/, 0x80, 0x00, 0x02, 0x18 /*@r26*/,
+                 0x01, 'C' /*@r11*/, 0x10, 0x20, 0x30 });
   layout::decode_result_t<
       layout::reply_value_of<device_c::report_7b_t>::type> const answer
       = reply_of<device_c::report_7b_t> (result);
   ASSERT_TRUE (answer.has_value ());
   EXPECT_TRUE (field::get<1> (field::get<0> (*answer).parts));
   EXPECT_FALSE (field::get<1> (field::get<1> (*answer).parts));
-  EXPECT_EQ (field::get<3> (*answer), 0x18u /*@pair8*/);
-  EXPECT_EQ (field::get<5> (*answer), 'V' /*@text*/);
+  EXPECT_EQ (field::get<3> (*answer), 0x18u /*@r26*/);
+  EXPECT_EQ (field::get<5> (*answer), 'C' /*@r11*/);
   EXPECT_EQ (field::get<6> (*answer).size (), 3u);
   EXPECT_TRUE ((dev::reply_round_trip<device_c_rx, device_c_rx::report_7b_t> (
       tail_of (result, 2))));

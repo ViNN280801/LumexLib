@@ -37,61 +37,20 @@ using l::l_replies;
 using l::l_requests;
 
 // The stop command as the host writes it.
-bytes_t const kStop = bytes ({ 0x01, 0x06, 0x2C, 0xC8 /*@q16:be2*/, 0x55,
-                               0x90 /*@q16:be2*/, 0x98, 0x3F /*@crc16hi*/ });
+bytes_t const kStop = bytes ({ 0x01, 0x06, 0x2C, 0xC8 /*@r42*/, 0x55,
+                               0x90 /*@r42*/, 0x98, 0x3F /*@r24*/ });
 
 // The state reply: 23 registers.
-bytes_t const kState = bytes ({ 0x01,
-                                0x03,
-                                0x2E,
-                                0x66,
-                                0xF4 /*@v16:be2*/,
-                                0x2C,
-                                0x4E /*@v16:be2*/,
-                                0x75,
-                                0xF9 /*@v16:be2*/,
-                                0x75,
-                                0xF9 /*@v16:be2*/,
-                                0x75,
-                                0xF9 /*@v16:be2*/,
-                                0x75,
-                                0xF9 /*@v16:be2*/,
-                                0x75,
-                                0xF9 /*@v16:be2*/,
-                                0x75,
-                                0xF9 /*@v16:be2*/,
-                                0x66,
-                                0xF4 /*@v16:be2*/,
-                                0xD8,
-                                0x67 /*@v16:be2*/,
-                                0x75,
-                                0xF9 /*@v16:be2*/,
-                                0x75,
-                                0xF9 /*@v16:be2*/,
-                                0x75,
-                                0xF9 /*@v16:be2*/,
-                                0x75,
-                                0xF9 /*@v16:be2*/,
-                                0x75,
-                                0xF9 /*@v16:be2*/,
-                                0x75,
-                                0xF9 /*@v16:be2*/,
-                                0x75,
-                                0xF9 /*@v16:be2*/,
-                                0x75,
-                                0xF9 /*@v16:be2*/,
-                                0x75,
-                                0xF9 /*@v16:be2*/,
-                                0x75,
-                                0xF9 /*@v16:be2*/,
-                                0xC0,
-                                0x37 /*@v16:be2*/,
-                                0x75,
-                                0xF9 /*@v16:be2*/,
-                                0x7E,
-                                0x47 /*@v16:be2*/,
-                                0x51,
-                                0xCF /*@crc16hi*/ });
+bytes_t const kState
+    = bytes ({ 0x01,          0x03, 0x2E,          0x66, 0xF4 /*@r51*/, 0x2C,
+               0x4E /*@r51*/, 0x75, 0xF9 /*@r51*/, 0x75, 0xF9 /*@r51*/, 0x75,
+               0xF9 /*@r51*/, 0x75, 0xF9 /*@r51*/, 0x75, 0xF9 /*@r51*/, 0x75,
+               0xF9 /*@r51*/, 0x66, 0xF4 /*@r51*/, 0xD8, 0x67 /*@r51*/, 0x75,
+               0xF9 /*@r51*/, 0x75, 0xF9 /*@r51*/, 0x75, 0xF9 /*@r51*/, 0x75,
+               0xF9 /*@r51*/, 0x75, 0xF9 /*@r51*/, 0x75, 0xF9 /*@r51*/, 0x75,
+               0xF9 /*@r51*/, 0x75, 0xF9 /*@r51*/, 0x75, 0xF9 /*@r51*/, 0x75,
+               0xF9 /*@r51*/, 0xC0, 0x37 /*@r51*/, 0x75, 0xF9 /*@r51*/, 0x7E,
+               0x47 /*@r51*/, 0x51, 0xCF /*@r24*/ });
 
 // The frame of a payload with the check of device L.
 bytes_t
@@ -165,21 +124,20 @@ TEST (
           dev::view_of (tail_of (received.payloads[0], 2)));
   ASSERT_TRUE (decoded.has_value ());
   EXPECT_TRUE (field::get<0> (*decoded) == l_registers::command);
-  EXPECT_EQ (field::get<1> (*decoded).raw, 0x5590 /*@q16*/);
+  EXPECT_EQ (field::get<1> (*decoded).raw, 0x5590 /*@r09*/);
   EXPECT_EQ (
       dev::index_of<l_requests> ().describe (
           dev::view_of (received.payloads[0]), index::frame_direction::tx),
       "TX l_requests.set_06 (Write a register) register=command "
       "value="
-          + dev::dec (0x5590 /*@q16*/));
+          + dev::dec (0x5590 /*@r09*/));
 }
 
 TEST (LumexProtocolDeviceLTest,
       GivenTheCheckLowByteFirst_WhenTheDeviceReadsIt_ThenTheFrameIsRefused)
 {
-  bytes_t const swapped
-      = bytes ({ 0x01, 0x06, 0x2C, 0xC8 /*@q16:be2*/, 0x55, 0x90 /*@q16:be2*/,
-                 0x3F, 0x98 /*@crc16lo*/ });
+  bytes_t const swapped = bytes ({ 0x01, 0x06, 0x2C, 0xC8 /*@r42*/, 0x55,
+                                   0x90 /*@r42*/, 0x3F, 0x98 /*@r35*/ });
   received_t const received = unframed (swapped, true);
   EXPECT_TRUE (received.payloads.empty ());
   // The codec drops a byte at a time to find the next frame: one error per
@@ -200,14 +158,14 @@ TEST (LumexProtocolDeviceLTest,
       = layout::decode_reply<l_replies, l_replies::report_032e_t> (
           dev::view_of (tail_of (payload, 3)));
   ASSERT_TRUE (state.has_value ());
-  EXPECT_EQ (field::get<0> (*state), 0x66F4u /*@v16*/);
-  EXPECT_EQ (field::get<1> (*state), 0x2C4Eu /*@v16*/);
-  EXPECT_EQ (field::get<5> (*state), 0x66F4u /*@v16*/);
-  EXPECT_EQ (field::get<6> (*state), 0xD867u /*@v16*/);
+  EXPECT_EQ (field::get<0> (*state), 0x66F4u /*@r13*/);
+  EXPECT_EQ (field::get<1> (*state), 0x2C4Eu /*@r13*/);
+  EXPECT_EQ (field::get<5> (*state), 0x66F4u /*@r13*/);
+  EXPECT_EQ (field::get<6> (*state), 0xD867u /*@r13*/);
   EXPECT_EQ (field::get<13> (*state),
-             (0x75F9u /*@v16*/ << 16) | 0xC037u /*@v16*/);
+             (0x75F9u /*@r13*/ << 16) | 0xC037u /*@r13*/);
   EXPECT_EQ (field::get<14> (*state),
-             (0x75F9u /*@v16*/ << 16) | 0x7E47u /*@v16*/);
+             (0x75F9u /*@r13*/ << 16) | 0x7E47u /*@r13*/);
   EXPECT_TRUE ((dev::reply_round_trip<l_replies, l_replies::report_032e_t> (
       tail_of (payload, 3))));
   EXPECT_EQ (framed (payload), kState);
@@ -224,19 +182,18 @@ TEST (LumexProtocolDeviceLTest,
       GivenTheOtherRequests_WhenEncoded_ThenTheFramesAreTheReference)
 {
   EXPECT_EQ (framed (request<l_requests::set_06_t> (
-                 0x06, l_registers::tray_temperature, 25.0)),
-             bytes ({ 0x01, 0x06, 0x23, 0x3B /*@q16:be2*/, 0x00, 0xFA, 0xC0,
-                      0x73 /*@crc16hi*/ }));
+                 0x06, l_registers::tray_temperature, 24.5)),
+             bytes ({ 0x01, 0x06, 0x23, 0x3B /*@r42*/, 0x00, 0xF5, 0xC4,
+                      0x33 /*@r24*/ }));
   EXPECT_EQ (
       framed (request<l_requests::query_03_t> (0x03, l_registers::state, 23)),
-      bytes ({ 0x01, 0x03, 0x10, 0x00, 0x00, 0x17, 0x04, 0x01 /*@crc16hi*/ }));
+      bytes ({ 0x01, 0x03, 0x10, 0x00, 0x00, 0x17, 0x04, 0x01 /*@r24*/ }));
   std::vector<std::uint16_t> const injection{ 1, 7, 0, 125, 50 };
   bytes_t const block = request<l_requests::set_10_t> (
       0x10, l_registers::inject_mode, 5, 10, injection);
-  bytes_t const frame
-      = bytes ({ 0x01, 0x10, 0xF6, 0x7E /*@q16:be2*/, 0x00, 0x05, 0x0A, 0x00,
-                 0x01, 0x00, 0x07, 0x00, 0x00, 0x00, 0x7D, 0x00, 0x32, 0x5D,
-                 0x63 /*@crc16hi*/ });
+  bytes_t const frame = bytes (
+      { 0x01, 0x10, 0xF6, 0x7E /*@r42*/, 0x00, 0x05, 0x0A, 0x00, 0x01, 0x00,
+        0x07, 0x00, 0x00, 0x00, 0x7D, 0x00, 0x32, 0x5D, 0x63 /*@r24*/ });
   EXPECT_EQ (framed (block), frame);
   received_t const received = unframed (frame, true);
   ASSERT_EQ (received.payloads.size (), 1u);

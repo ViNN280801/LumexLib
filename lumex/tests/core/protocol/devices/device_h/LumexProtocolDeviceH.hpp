@@ -7,8 +7,8 @@
 // information otherwise) and have two parameters more. The measurement and
 // the fast scan carry scaled values; the state of the main unit is a byte
 // of mode flags; the packets of the internal bus carry, in their data, a
-// status message with a character key (h_can: the lamp and the
-// monochromator, nested), whose state byte also holds two limit flags.
+// status message with a character key (h_can: two messages, nested),
+// one of them with a state byte that also holds two limit flags.
 #ifndef LUMEX_TESTS_CORE_PROTOCOL_DEVICES_DEVICE_H_HPP
 #define LUMEX_TESTS_CORE_PROTOCOL_DEVICES_DEVICE_H_HPP
 
@@ -30,37 +30,38 @@ namespace registry = lumex::core::protocol::registry;
 using device_a::codec;
 
 /// The addresses of models h1 and h2 (h3 and h4 share the one of h2).
-std::uint8_t const kAddressH1 = 0x9F /*@p8z*/;
-std::uint8_t const kAddressH2 = 0xB1 /*@p8z*/;
+std::uint8_t const kAddressH1 = 0x9F /*@r31*/;
+std::uint8_t const kAddressH2 = 0xB1 /*@r31*/;
 
 /// Who controls device H.
-LUMEX_DEFINE_REFLECTED_ENUM (control, std::uint8_t, (keyboard, 0xAD /*@p8*/),
-                             (host, 0x65 /*@p8*/))
+LUMEX_DEFINE_REFLECTED_ENUM (control, std::uint8_t, (keyboard, 0xAD /*@r04*/),
+                             (host, 0x65 /*@r04*/))
 
-/// The state of the monochromator (the low six bits of its state byte).
-LUMEX_DEFINE_REFLECTED_ENUM (mono_state, std::uint8_t, (ready, 0), (moving, 1),
-                             (searching, 2), (testing, 3), (calibrating, 4))
+/// The state of status message A (the low six bits of its state byte).
+LUMEX_DEFINE_REFLECTED_ENUM (drive_state, std::uint8_t, (ready, 0),
+                             (moving, 1), (searching, 2), (testing, 3),
+                             (calibrating, 4))
 
 // The work parameters of the units of device H.
 // clang-format off
 #define DEVICE_H_WORK(P, P_AS) \
-  P (reset_density, (unit_param (0x65 /*@p8*/, 0xAD /*@p8*/)), \
+  P (reset_density, (unit_param (0x65 /*@r04*/, 0xAD /*@r04*/)), \
      "Zero the optical density", (i16_le_), W, ()) \
-  P (frequency, (unit_param (0x65 /*@p8*/, 0x65 /*@p8*/)), \
+  P (frequency, (unit_param (0x65 /*@r04*/, 0x65 /*@r04*/)), \
      "Measurement frequency", (i16_le_<unit::hertz>), RW, \
      (limits (1, 50))) \
-  P (target_wavelength, (unit_param (0x3F /*@p8*/, 0xAD /*@p8*/)), \
+  P (target_wavelength, (unit_param (0x3F /*@r04*/, 0xAD /*@r04*/)), \
      "Target wavelength", (i16_le_<unit::nanometer>), RW, \
      (limits (190, 800))) \
-  P (target_step, (unit_param (0x3F /*@p8*/, 0x65 /*@p8*/)), \
+  P (target_step, (unit_param (0x3F /*@r04*/, 0x65 /*@r04*/)), \
      "Target step", (i16_le_<unit::step>), RW, ()) \
-  P (motor_speed, (unit_param (0x3F /*@p8*/, 0x3F /*@p8*/)), \
+  P (motor_speed, (unit_param (0x3F /*@r04*/, 0x3F /*@r04*/)), \
      "Motor speed", (i16_le_), RW, (model ("h3", "h4"))) \
-  P (fast_scan, (unit_param (0x3F /*@p8*/, 0x72 /*@p8*/)), \
+  P (fast_scan, (unit_param (0x3F /*@r04*/, 0x72 /*@r04*/)), \
      "Fast scan data", (i16_le_), RW, (model ("h3", "h4"))) \
-  P (lamp_mode, (unit_param (0xD1 /*@p8*/, 0xAD /*@p8*/)), "Lamp mode", \
+  P (lamp_mode, (unit_param (0xD1 /*@r04*/, 0xAD /*@r04*/)), "Lamp mode", \
      (i16_le_), RW, (limits (0, 1))) \
-  P (lamp_test, (unit_param (0xD1 /*@p8*/, 0x65 /*@p8*/)), "Lamp test", \
+  P (lamp_test, (unit_param (0xD1 /*@r04*/, 0x65 /*@r04*/)), "Lamp test", \
      (i16_le_), RW, (limits (0, 1)))
 // clang-format on
 LUMEX_PROTOCOL_REGISTRY (h_work, DEVICE_H_WORK);
@@ -101,7 +102,7 @@ LUMEX_PROTOCOL_LAYOUT (mode_flags_t,
                         "valve"));
 LUMEX_PROTOCOL_LAYOUT (main_state_t, (split_<u8_, mode_flags_t>), ("mode"));
 LUMEX_PROTOCOL_LAYOUT (unit_state_t,
-                       (union_by_<u8_, case_<0xAD /*@p8*/, main_state_t>>),
+                       (union_by_<u8_, case_<0xAD /*@r04*/, main_state_t>>),
                        ("unit"));
 
 // A packet of the internal bus: identifier, type, length, eight data bytes
@@ -112,8 +113,8 @@ LUMEX_PROTOCOL_LAYOUT (bus_packet_t,
                        ("identifier", "type", "length", "data", "time"));
 
 // h_can: the status messages inside the data of a bus packet.
-LUMEX_PROTOCOL_LAYOUT (mono_flags_t,
-                       (bits_<u8_, 0, 6, mono_state>, bits_<u8_, 6, 1, bool>,
+LUMEX_PROTOCOL_LAYOUT (drive_flags_t,
+                       (bits_<u8_, 0, 6, drive_state>, bits_<u8_, 6, 1, bool>,
                         bits_<u8_, 7, 1, bool>),
                        ("state", "low_limit", "high_limit"));
 
@@ -124,10 +125,10 @@ struct status_header
 
 // clang-format off
 #define DEVICE_H_CAN_ROWS(X, X_AS) \
-  X (report_n, 'N' /*@text*/, "State of the monochromator", \
-     (split_<u8_, mono_flags_t>, u8_, i16_le_<unit::step>, \
-      i16_le_<unit::step>), ("state", "motor", "target", "current"), (), ()) \
-  X (report_q, 'Q' /*@text*/, "State of the lamp", (array_<u8_, 6>), \
+  X (status_a, 'Q' /*@r11*/, "Status message A", \
+     (split_<u8_, drive_flags_t>, u8_, i16_le_<unit::step>, \
+      i16_le_<unit::step>), ("state", "second", "target", "current"), (), ()) \
+  X (status_b, 'N' /*@r11*/, "Status message B", (array_<u8_, 6>), \
      ("state"), (), ())
 // clang-format on
 LUMEX_PROTOCOL_DEFINE (h_can, codec, status_header, DEVICE_H_CAN_ROWS);
@@ -138,23 +139,23 @@ LUMEX_PROTOCOL_LAYOUT (status_data_t, (u8_, nested_<h_can, char_>),
 
 // clang-format off
 #define DEVICE_H_ROWS(X, X_AS) \
-  X (query_ad, 0xAD /*@p8*/, "Instrument information", (), (), (info_t), \
+  X (query_ad, 0xAD /*@r04*/, "Instrument information", (), (), (info_t), \
      (idempotent, timeout (1000))) \
-  X (set_65, 0x65 /*@p8*/, "Control mode", (enum_<u8_, control>), \
+  X (set_65, 0x65 /*@r04*/, "Control mode", (enum_<u8_, control>), \
      ("control"), (enum_<u8_, control>), (timeout (1000))) \
-  X (param_set_3f, 0x3F /*@p8*/, "Work parameter of a unit", \
+  X (param_set_3f, 0x3F /*@r04*/, "Work parameter of a unit", \
      (registry_key_<h_work, u8_, u8_>, registry_value_<h_work, 0, i16_le_>), \
      ("parameter", "value"), (work_value_t), (timeout (1000))) \
-  X (param_get_d1, 0xD1 /*@p8*/, "Read a work parameter of a unit", \
+  X (param_get_d1, 0xD1 /*@r04*/, "Read a work parameter of a unit", \
      (registry_key_<h_work, u8_, u8_>), ("parameter"), (work_value_t), \
      (idempotent, timeout (1000))) \
-  X (stream_27, 0x27 /*@p8*/, "Measurement result", (), (), \
+  X (stream_27, 0x27 /*@r04*/, "Measurement result", (), (), \
      (h_measurement_t), (stream (100))) \
-  X (stream_fa, 0xFA /*@p8*/, "Fast scan result", (), (), (scan_t), \
+  X (stream_fa, 0xFA /*@r04*/, "Fast scan result", (), (), (scan_t), \
      (stream (100))) \
-  X (report_d9, 0xD9 /*@p8*/, "State of a unit", (), (), (unit_state_t), \
+  X (report_d9, 0xD9 /*@r04*/, "State of a unit", (), (), (unit_state_t), \
      (stream (1000))) \
-  X (report_41, 0x41 /*@p8*/, "Packet of the internal bus", (), (), \
+  X (report_41, 0x41 /*@r04*/, "Packet of the internal bus", (), (), \
      (bus_packet_t), (log_level (level::trace)))
 // clang-format on
 

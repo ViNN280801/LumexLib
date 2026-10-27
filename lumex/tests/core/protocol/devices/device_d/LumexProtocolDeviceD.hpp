@@ -30,34 +30,34 @@ namespace registry = lumex::core::protocol::registry;
 using device_a::codec;
 
 /// The address of device D in the device network.
-std::uint8_t const kAddress = 0x7D /*@p8z*/;
+std::uint8_t const kAddress = 0x7D /*@r31*/;
 
 /// The logical units of device D.
 namespace unit_of
 {
-std::uint8_t const main_controller = 0xAD /*@p8*/;
-std::uint8_t const measurement = 0x65 /*@p8*/;
-std::uint8_t const excitation = 0x3F /*@p8*/;
-std::uint8_t const emission = 0xD1 /*@p8*/;
-std::uint8_t const detector = 0x72 /*@p8*/;
-std::uint8_t const filter = 0x2C /*@p8*/;
-std::uint8_t const accessory = 0xDD /*@p8*/;
+std::uint8_t const main_controller = 0xAD /*@r04*/;
+std::uint8_t const measurement = 0x65 /*@r04*/;
+std::uint8_t const excitation = 0x3F /*@r04*/;
+std::uint8_t const emission = 0xD1 /*@r04*/;
+std::uint8_t const detector = 0x72 /*@r04*/;
+std::uint8_t const filter = 0x2C /*@r04*/;
+std::uint8_t const accessory = 0xDD /*@r04*/;
 } // namespace unit_of
 
 // Parameter 1 of four units: four parameters.
 // clang-format off
 #define DEVICE_D_WORK(P, P_AS) \
-  P (measurement_mode, (unit_param (0x65 /*@p8*/, 0xAD /*@p8*/)), \
+  P (measurement_mode, (unit_param (0x65 /*@r04*/, 0xAD /*@r04*/)), \
      "Measurement mode", (i16_le_), RW, (limits (0, 7))) \
-  P (excitation_target, (unit_param (0x3F /*@p8*/, 0xAD /*@p8*/)), \
+  P (excitation_target, (unit_param (0x3F /*@r04*/, 0xAD /*@r04*/)), \
      "Target excitation wavelength", \
      (i16_le_<scale<std::ratio<1, 10> >, unit::nanometer>), RW, \
      (limits (200, 900))) \
-  P (emission_target, (unit_param (0xD1 /*@p8*/, 0xAD /*@p8*/)), \
+  P (emission_target, (unit_param (0xD1 /*@r04*/, 0xAD /*@r04*/)), \
      "Target emission wavelength", \
      (i16_le_<scale<std::ratio<1, 10> >, unit::nanometer>), RW, \
      (limits (200, 900))) \
-  P (detector_sensitivity, (unit_param (0x72 /*@p8*/, 0xAD /*@p8*/)), \
+  P (detector_sensitivity, (unit_param (0x72 /*@r04*/, 0xAD /*@r04*/)), \
      "Detector sensitivity", (i16_le_), RW, (limits (0, 1000)))
 // Service parameters by two letters (examples of the format).
 #define DEVICE_D_SERVICE(P, P_AS) \
@@ -89,27 +89,27 @@ LUMEX_PROTOCOL_LAYOUT (statistics_t, (u8_, array_<u16_le_, 10>),
 
 // clang-format off
 #define DEVICE_D_ROWS(X, X_AS) \
-  X (query_ad, 0xAD /*@p8*/, "Instrument information", (), (), (info_t), \
+  X (query_ad, 0xAD /*@r04*/, "Instrument information", (), (), (info_t), \
      (idempotent, timeout (1000))) \
-  X (param_set_3f, 0x3F /*@p8*/, "Work parameter of a unit", \
+  X (param_set_3f, 0x3F /*@r04*/, "Work parameter of a unit", \
      (registry_key_<d_work, u8_, u8_>, registry_value_<d_work, 0, i16_le_>), \
      ("parameter", "value"), (work_value_t), (timeout (1000))) \
-  X (param_get_d1, 0xD1 /*@p8*/, "Read a work parameter of a unit", \
+  X (param_get_d1, 0xD1 /*@r04*/, "Read a work parameter of a unit", \
      (registry_key_<d_work, u8_, u8_>), ("parameter"), (work_value_t), \
      (idempotent, timeout (1000))) \
-  X (param_set_72, 0x72 /*@p8*/, "Several values of a work parameter", \
+  X (param_set_72, 0x72 /*@r04*/, "Several values of a work parameter", \
      (registry_key_<d_work, u8_, u8_>, i16_le_, i16_le_, \
       optional_tail_<i16_le_>), \
      ("parameter", "first", "second", "third"), (), (timeout (1000))) \
-  X (param_get_83, 0x83 /*@p8*/, "Read a service parameter", \
+  X (param_get_83, 0x83 /*@r04*/, "Read a service parameter", \
      (registry_key_<d_service, text_<2> >), ("parameter"), \
      (service_value_t), (idempotent)) \
-  X (param_set_cc, 0xCC /*@p8*/, "Service parameter", \
+  X (param_set_cc, 0xCC /*@r04*/, "Service parameter", \
      (registry_key_<d_service, text_<2> >, i32_le_), ("parameter", "value"), \
      (service_value_t), (dangerous)) \
-  X (query_b8, 0xB8 /*@p8*/, "Information of an internal node", (u8_), \
+  X (query_b8, 0xB8 /*@r04*/, "Information of an internal node", (u8_), \
      ("node"), (), ()) \
-  X (set_64, 0x64 /*@p8*/, "Trace of the internal bus", (u8_), \
+  X (set_64, 0x64 /*@r04*/, "Trace of the internal bus", (u8_), \
      ("enable"), (), ())
 #define DEVICE_D_SYSTEM_ROWS(X, X_AS) \
   X (keepalive_00, 0x00, "System message of the link", (), (), \

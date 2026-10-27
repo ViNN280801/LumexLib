@@ -236,10 +236,10 @@ TEST (LumexProtocolDeviceJTest,
       GivenTheVersionQuery_WhenSentInBothLayers_ThenTheBytesAreTheDigits)
 {
   expect_request_in_both_layers<text::query_3f_t> (
-      0x3F /*@p8*/, layout::bytes_t (),
+      0x3F /*@r04*/, layout::bytes_t (),
       "TX j_hid.query_3f (Query the version)");
   expect_reply_in_both_layers<text::query_3f_t> (
-      0x3F /*@p8*/, bytes ({ 0x00, 0x01, 0x2C }),
+      0x3F /*@r04*/, bytes ({ 0x00, 0x01, 0x2C }),
       "RX j_hid.query_3f (Query the version) " + kStatusOk
           + " version={major=1 minor=44}");
 }
@@ -249,10 +249,10 @@ TEST (
     GivenTheStateQuery_WhenTheReplyHasTheStatusOnly_ThenTheNibblesAreTheResultAndTheState)
 {
   expect_request_in_both_layers<text::report_ac_t> (
-      0xAC /*@p8*/, layout::bytes_t (),
+      0xAC /*@r04*/, layout::bytes_t (),
       "TX j_hid.report_ac (Report the state)");
   expect_reply_in_both_layers<text::report_ac_t> (
-      0xAC /*@p8*/, bytes ({ 0x03 }),
+      0xAC /*@r04*/, bytes ({ 0x03 }),
       "RX j_hid.report_ac (Report the state) "
       "status={result=r_0 state=s_3}");
 }
@@ -262,15 +262,15 @@ TEST (
     GivenTheSettingsRead_WhenTheReplyComes_ThenTheSizesMatchTheReportOf37Bytes)
 {
   layout::bytes_t const payload = with_status (0x00, settings_bytes ());
-  layout::bytes_t const report = report_frame (0x8D /*@p8*/, payload);
+  layout::bytes_t const report = report_frame (0x8D /*@r04*/, payload);
   EXPECT_EQ (report[0], 37);
   EXPECT_EQ (report.size (), 38u);
   EXPECT_EQ (settings_bytes ().size (), 35u);
   expect_request_in_both_layers<text::param_get_8d_t> (
-      0x8D /*@p8*/, layout::bytes_t (),
+      0x8D /*@r04*/, layout::bytes_t (),
       "TX j_hid.param_get_8d (Read the settings)");
   expect_reply_in_both_layers<text::param_get_8d_t> (
-      0x8D /*@p8*/, payload,
+      0x8D /*@r04*/, payload,
       "RX j_hid.param_get_8d (Read the settings) "
       "status={result=r_0 state=s_0} settings={small=[49, 49, 30, 3, 80, 80, "
       "40] corrections=[100, -50, 10, -45] serial=24691 volumes=[500 uL, "
@@ -284,17 +284,17 @@ TEST (LumexProtocolDeviceJTest,
       GivenTheSettingsWrite_WhenTheReplyCarriesAnError_ThenTheStatusNamesIt)
 {
   expect_request_in_both_layers<text::param_set_c9_t> (
-      0xC9 /*@p8*/, settings_bytes (),
+      0xC9 /*@r04*/, settings_bytes (),
       "TX j_hid.param_set_c9 (Write the settings) settings={small=[49, 49, "
       "30, 3, 80, 80, 40] corrections=[100, -50, 10, -45] serial=24691 "
       "volumes=[500 uL, 1000 uL, 500 uL, 1000 uL, 2000 uL, 2000 uL, 1000 uL, "
       "500 uL, 1000 uL, 500 uL]}");
   expect_reply_in_both_layers<text::param_set_c9_t> (
-      0xC9 /*@p8*/, bytes ({ 0x00 }),
+      0xC9 /*@r04*/, bytes ({ 0x00 }),
       "RX j_hid.param_set_c9 (Write the settings) "
       "status={result=r_0 state=s_0}");
   expect_reply_in_both_layers<text::param_set_c9_t> (
-      0xC9 /*@p8*/, bytes ({ 0x31 }),
+      0xC9 /*@r04*/, bytes ({ 0x31 }),
       "RX j_hid.param_set_c9 (Write the settings) "
       "status={result=r_3 state=s_1}");
 }
@@ -311,10 +311,10 @@ TEST (LumexProtocolDeviceJTest,
                     .has_value ()));
   EXPECT_EQ (std::string (out.begin (), out.end ()), "006400C8");
   expect_request_in_both_layers<text::start_f4_t> (
-      0xF4 /*@p8*/, bytes ({ 0x00, 0x64, 0x00, 0xC8 }),
+      0xF4 /*@r04*/, bytes ({ 0x00, 0x64, 0x00, 0xC8 }),
       "TX j_hid.start_f4 (Run the cleaning cycle) first=100 second=200");
   expect_reply_in_both_layers<text::start_f4_t> (
-      0xF4 /*@p8*/, bytes ({ 0x00 }),
+      0xF4 /*@r04*/, bytes ({ 0x00 }),
       "RX j_hid.start_f4 (Run the cleaning cycle) "
       "status={result=r_0 state=s_0}");
 }
@@ -323,16 +323,16 @@ TEST (LumexProtocolDeviceJTest,
       GivenThePositionAndStopCommands_WhenSent_ThenTheyAreOneByteAndNoByte)
 {
   expect_request_in_both_layers<text::start_64_t> (
-      0x64 /*@p8*/, bytes ({ 0x2A }),
+      0x64 /*@r04*/, bytes ({ 0x2A }),
       "TX j_hid.start_64 (Run the load cycle) position=42");
   expect_reply_in_both_layers<text::start_64_t> (
-      0x64 /*@p8*/, bytes ({ 0x00 }),
+      0x64 /*@r04*/, bytes ({ 0x00 }),
       "RX j_hid.start_64 (Run the load cycle) "
       "status={result=r_0 state=s_0}");
   expect_request_in_both_layers<text::stop_35_t> (
-      0x35 /*@p8*/, layout::bytes_t (), "TX j_hid.stop_35 (Stop)");
+      0x35 /*@r04*/, layout::bytes_t (), "TX j_hid.stop_35 (Stop)");
   expect_reply_in_both_layers<text::stop_35_t> (
-      0x35 /*@p8*/, bytes ({ 0x00 }),
+      0x35 /*@r04*/, bytes ({ 0x00 }),
       "RX j_hid.stop_35 (Stop) status={result=r_0 state=s_0}");
 }
 
@@ -357,7 +357,7 @@ TEST (
   layout::bytes_t const odd = bytes ({ 0x73 });
   EXPECT_FALSE ((reply_error<hid, hid::report_ac_t> (odd)));
   EXPECT_FALSE ((reply_error<text, text::report_ac_t> (bytes_of ("73"))));
-  EXPECT_EQ (described<hid> (report_frame (0xAC /*@p8*/, odd),
+  EXPECT_EQ (described<hid> (report_frame (0xAC /*@r04*/, odd),
                              index::frame_direction::rx),
              "RX j_hid.report_ac (Report the state) "
              "status={result=7 state=s_3}");

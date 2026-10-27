@@ -62,9 +62,9 @@ LUMEX_PROTOCOL_LAYOUT (counters_t, (i16_le_, i16_le_, i16_le_, i16_le_),
 
 // clang-format off
 #define FAMILY_F_ROWS(X, X_AS) \
-  X (query_ad, 0xAD /*@p8*/, "Query the identity record", (), (), (info_t), \
+  X (query_ad, 0xAD /*@r04*/, "Query the identity record", (), (), (info_t), \
      (idempotent)) \
-  X (debug_8e, 0x8E /*@p8*/, "Report the debug counters", (), (), (counters_t), \
+  X (debug_8e, 0x8E /*@r04*/, "Report the debug counters", (), (), (counters_t), \
      (stream (500)))
 // clang-format on
 LUMEX_PROTOCOL_DEFINE (family_f, codec, family_header, FAMILY_F_ROWS);
@@ -100,11 +100,11 @@ LUMEX_PROTOCOL_LAYOUT (far_node_t, (i16_le_, u8_, u8_),
 LUMEX_PROTOCOL_LAYOUT (new_state_t,
   (u8_, u8_, temperatures_t,
    union_by_<field_<0>,
-             case_<0x15 /*@p8*/, near_node_t>,
-             case_<0xAD /*@p8*/, near_node_t>,
-             case_<0x65 /*@p8*/, far_node_t>,
-             case_<0x3F /*@p8*/, far_node_t>,
-             case_<0xD1 /*@p8*/, far_node_t> >),
+             case_<0x15 /*@r04*/, near_node_t>,
+             case_<0xAD /*@r04*/, near_node_t>,
+             case_<0x65 /*@r04*/, far_node_t>,
+             case_<0x3F /*@r04*/, far_node_t>,
+             case_<0xD1 /*@r04*/, far_node_t> >),
   ("node", "node_mode", "temperatures", "rest"));
 
 LUMEX_PROTOCOL_LAYOUT (state_t,
@@ -114,15 +114,15 @@ LUMEX_PROTOCOL_LAYOUT (state_t,
   ("state"));
 
 #define DEVICE_F_ROWS(X, X_AS) \
-  X (query_ad, 0xAD /*@p8*/, "Query the identity record", (), (), (info_swapped_t), \
+  X (query_ad, 0xAD /*@r04*/, "Query the identity record", (), (), (info_swapped_t), \
      (idempotent)) \
-  X (set_65, 0x65 /*@p8*/, "Set the working mode", \
+  X (set_65, 0x65 /*@r04*/, "Set the working mode", \
      (i16_le_, i16_le_<scale<std::ratio<1, 100> >, unit::degree_celsius>), \
      ("on", "temperature"), (), (timeout (800), retries (3))) \
-  X (report_d9, 0xD9 /*@p8*/, "Report the state", (), (), (state_t), \
+  X (report_d9, 0xD9 /*@r04*/, "Report the state", (), (), (state_t), \
      (stream (1000))) \
-  X (error_44, 0x44 /*@p8*/, "Report an error", (), (), (u8_), ()) \
-  X (query_b8, 0xB8 /*@p8*/, "Query a node", (u8_), ("node"), (), ())
+  X (error_44, 0x44 /*@r04*/, "Report an error", (), (), (u8_), ()) \
+  X (query_b8, 0xB8 /*@r04*/, "Query a node", (u8_), ("node"), (), ())
 // clang-format on
 LUMEX_PROTOCOL_EXTEND (device_f, family_f, DEVICE_F_ROWS);
 

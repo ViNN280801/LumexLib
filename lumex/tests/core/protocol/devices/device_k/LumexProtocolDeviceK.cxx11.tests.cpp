@@ -184,9 +184,8 @@ wire_of (std::string const &code, std::string const &error,
 std::string
 state_fields ()
 {
-  return std::string ("00012D0000")
-         + "7Q" /*@text*/ + "62" /*@text*/ + "010506"
-         + std::string (1, '8' /*@text*/)
+  return std::string ("00012D0000") + "7A" /*@r11*/ + "56" /*@r11*/ + "010506"
+         + std::string (1, '2' /*@r11*/)
          + "0203FF03"
            "01020304"
            "0A14"
@@ -194,81 +193,81 @@ state_fields ()
          + "01"
            "0078"
            "003C"
-         + hx (0xAD /*@p8*/) + "1200DC00E6";
+         + hx (0xAD /*@r04*/) + "1200DC00E6";
 }
 
 std::string
 stop_request ()
 {
-  return wire_of (hx (0x35 /*@p8*/), "0000", "0000", "");
+  return wire_of (hx (0x35 /*@r04*/), "0000", "0000", "");
 }
 
 std::string
 stop_reply ()
 {
-  return wire_of (hx (0x35 /*@p8*/), "0000", "0003", "");
+  return wire_of (hx (0x35 /*@r04*/), "0000", "0003", "");
 }
 
 std::string
 state_request ()
 {
-  return wire_of (hx (0xAC /*@p8*/), "0000", "0000", "");
+  return wire_of (hx (0xAC /*@r04*/), "0000", "0000", "");
 }
 
 std::string
 state_reply ()
 {
-  return wire_of (hx (0xAC /*@p8*/), "0000", "0003", state_fields ());
+  return wire_of (hx (0xAC /*@r04*/), "0000", "0003", state_fields ());
 }
 
 std::string
 clean_request ()
 {
-  return wire_of (hx (0xF4 /*@p8*/), "0000", "0000", "020064");
+  return wire_of (hx (0xF4 /*@r04*/), "0000", "0000", "020064");
 }
 
 std::string
 clean_reply ()
 {
-  return wire_of (hx (0xF4 /*@p8*/), "0000", "0002", "");
+  return wire_of (hx (0xF4 /*@r04*/), "0000", "0002", "");
 }
 
 std::string
 inject_request ()
 {
-  return wire_of (hx (0x64 /*@p8*/), "0000", "0000",
-                  "0105FFFFFF0101" + hx (0x2C /*@p8*/) + "00");
+  return wire_of (hx (0x64 /*@r04*/), "0000", "0000",
+                  "0105FFFFFF0101" + hx (0x2C /*@r04*/) + "00");
 }
 
 std::string
 inject_reply ()
 {
-  return wire_of (hx (0x64 /*@p8*/), "0000", "0003", "");
+  return wire_of (hx (0x64 /*@r04*/), "0000", "0003", "");
 }
 
 std::string
 zone_request ()
 {
-  return wire_of (hx (0xC9 /*@p8*/), "0000", "0000",
-                  "030001000000060C00000000010000DC0000");
+  return wire_of (hx (0xC9 /*@r04*/), "0000", "0000",
+                  "0B07050904010E03080D02060C0400DC0000");
 }
 
 std::string
 zone_reply ()
 {
-  return wire_of (hx (0xC9 /*@p8*/), "0000", "0000", "");
+  return wire_of (hx (0xC9 /*@r04*/), "0000", "0000", "");
 }
 
 std::string
 serial_request ()
 {
-  return wire_of (hx (0xEA /*@p8*/), "0000", "0000", "");
+  return wire_of (hx (0xEA /*@r04*/), "0000", "0000", "");
 }
 
 std::string
 serial_reply ()
 {
-  return wire_of (hx (0xEA /*@p8*/), "0000", "0000", "3C1F");
+  return wire_of (hx (0xEA /*@r04*/), "0000", "0000", "3C1F");
 }
 } // namespace
 
@@ -281,7 +280,7 @@ TEST (LumexProtocolDeviceKTest,
   EXPECT_EQ (built.rows ().size (), 6u);
   EXPECT_TRUE (index::keys_unique<device>::value);
   EXPECT_EQ (built.key_width (), 1u);
-  EXPECT_NE (built.find_integer (0xAC /*@p8*/), nullptr);
+  EXPECT_NE (built.find_integer (0xAC /*@r04*/), nullptr);
   EXPECT_EQ (built.find_integer (0x09), nullptr);
   EXPECT_NE (built.find_name ("query_ea"), nullptr);
 }
@@ -301,9 +300,9 @@ TEST (
       expect_wire_frame (wires[i]);
     }
   // A frame made from its parts has the same length field and check.
-  EXPECT_EQ (made_body (hx (0x35 /*@p8*/), "0000", "0000", ""),
+  EXPECT_EQ (made_body (hx (0x35 /*@r04*/), "0000", "0000", ""),
              body_of (stop_request ()));
-  EXPECT_EQ (made_body (hx (0xF4 /*@p8*/), "0000", "0000", "020064"),
+  EXPECT_EQ (made_body (hx (0xF4 /*@r04*/), "0000", "0000", "020064"),
              body_of (clean_request ()));
   EXPECT_EQ (xor_text ("AB"), "03");
   EXPECT_EQ (xor_text ("A"), "41");
@@ -337,9 +336,9 @@ TEST (
   EXPECT_EQ (rx (state_reply ()),
              "RX device_k.report_ac (Report the state) "
              "head={error=0 state=3 length=83} total=301 fault=0 step=\""
-             "7Q" /*@text*/ "\" last_step=\""
-             "62" /*@text*/
-             "\" method=1 positions=[5, 6] valve=v_8 slots=[2, 3, "
+             "7A" /*@r11*/ "\" last_step=\""
+             "56" /*@r11*/
+             "\" method=1 positions=[5, 6] valve=v_a slots=[2, 3, "
              "255] cycles_left=3 lines=[1, 2, 3, 4] flags=[10, 20] "
              "volume=10000 uL mode=1 times=[120 s, 60 s] zone=t_ad "
              "zone_error={high=1 low=2} temperatures=[22 degC, 23 degC]");
@@ -356,10 +355,10 @@ TEST (
       = layout::decode_reply<device, device::report_ac_t> (payload_of (frame));
   ASSERT_TRUE (decoded.has_value ());
   EXPECT_EQ (field::get<3> (*decoded).view (),
-             field::text_view ("7Q" /*@text*/));
+             field::text_view ("7A" /*@r11*/));
   EXPECT_EQ (field::get<4> (*decoded).view (),
-             field::text_view ("62" /*@text*/));
-  EXPECT_EQ (field::get<7> (*decoded), tables::valve_state::v_8);
+             field::text_view ("56" /*@r11*/));
+  EXPECT_EQ (field::get<7> (*decoded), tables::valve_state::v_a);
   // The valve character that is no state of the table, the zone state that is
   // none.
   std::string other_valve = body;
@@ -367,7 +366,7 @@ TEST (
   EXPECT_TRUE ((reply_error<device::report_ac_t> (other_valve)
                 == protocol_errc::invalid_value));
   std::string other_zone = body;
-  other_zone.replace (body.find (hx (0xAD /*@p8*/) + "1200DC"), 2, "AE");
+  other_zone.replace (body.find (hx (0xAD /*@r04*/) + "1200DC"), 2, "AE");
   EXPECT_TRUE ((reply_error<device::report_ac_t> (other_zone)
                 == protocol_errc::invalid_value));
   // The nibbles of the error byte of the zone.
@@ -390,7 +389,7 @@ TEST (LumexProtocolDeviceKTest,
              "TX device_k.start_64 (Run the load cycle) "
              "head={error=0 state=0 length=34} method=1 position=5 "
              "slots=[255, 255, 255] before=1 after=1 sync="
-                 + dec (0x2C /*@p8*/) + " zone=0");
+                 + dec (0x2C /*@r04*/) + " zone=0");
   EXPECT_EQ (rx (inject_reply ()), "RX device_k.start_64 (Run the load cycle) "
                                    "error=0 state=3 length=16");
 }
@@ -402,8 +401,8 @@ TEST (LumexProtocolDeviceKTest,
   expect_reply_round_trip<device::param_set_c9_t> (zone_reply ());
   EXPECT_EQ (tx (zone_request ()),
              "TX device_k.param_set_c9 (Write the zone settings) "
-             "head={error=0 state=0 length=52} block=[3, 0, 1, 0, 0, 0, 6, "
-             "12, 0, 0, 0, 0, 1, 0] temperature=22 degC reserved=0");
+             "head={error=0 state=0 length=52} block=[11, 7, 5, 9, 4, 1, 14, "
+             "3, 8, 13, 2, 6, 12, 4] temperature=22 degC reserved=0");
   layout::bytes_t const frame = frame_of (zone_request ());
   layout::decode_result_t<
       layout::request_of<device::param_set_c9_t>::type> const decoded
@@ -426,7 +425,7 @@ TEST (LumexProtocolDeviceKTest,
 TEST (LumexProtocolDeviceKTest,
       GivenAReplyWithAnError_WhenDescribed_ThenTheHeaderCarriesTheErrorWord)
 {
-  std::string const wire = wire_of (hx (0xAC /*@p8*/), "0012", "0003", "");
+  std::string const wire = wire_of (hx (0xAC /*@r04*/), "0012", "0003", "");
   EXPECT_EQ (tx (wire), "TX device_k.report_ac (Report the state) "
                         "head={error=18 state=3 length=16}");
 }

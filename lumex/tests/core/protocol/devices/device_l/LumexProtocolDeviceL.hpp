@@ -37,46 +37,46 @@ std::uint8_t const kSlave = 0x01;
 
 /// The values of the command register.
 LUMEX_DEFINE_REFLECTED_ENUM (l_command, std::uint16_t,
-                             (reset, 0x4159 /*@q16*/), (stop, 0x5590 /*@q16*/),
-                             (clear_alarm, 0x6D00 /*@q16*/),
-                             (inject, 0x2D18 /*@q16*/),
-                             (wash, 0xF23B /*@q16*/),
-                             (load_temperature, 0x1B43 /*@q16*/),
-                             (tray_start, 0x3F48 /*@q16*/),
-                             (tray_stop, 0x9555 /*@q16*/))
+                             (reset, 0x4159 /*@r09*/), (stop, 0x5590 /*@r09*/),
+                             (clear_alarm, 0x6D00 /*@r09*/),
+                             (inject, 0x2D18 /*@r09*/),
+                             (wash, 0xF23B /*@r09*/),
+                             (load_temperature, 0x1B43 /*@r09*/),
+                             (tray_start, 0x3F48 /*@r09*/),
+                             (tray_stop, 0x9555 /*@r09*/))
 
 // The registers of device L.
 // clang-format off
 #define DEVICE_L_REGISTERS(P, P_AS) \
-  P (command, (modbus (0x2CC8 /*@q16*/)), "Command", \
+  P (command, (modbus (0x2CC8 /*@r09*/)), "Command", \
      (enum_<u16_be_, l_command>), W, ()) \
-  P (tray_control, (modbus (0xF4A6 /*@q16*/)), "Tray temperature control", \
+  P (tray_control, (modbus (0xF4A6 /*@r09*/)), "Tray temperature control", \
      (u16_be_), RW, (limits (0, 1))) \
-  P (tray_temperature, (modbus (0x233B /*@q16*/)), "Tray temperature", \
+  P (tray_temperature, (modbus (0x233B /*@r09*/)), "Tray temperature", \
      (u16_be_<scale<std::ratio<1, 10> >, unit::degree_celsius>), RW, \
      (limits (4, 40))) \
-  P (inject_mode, (modbus (0xF67E /*@q16*/)), "Injection mode", (u16_be_), \
+  P (inject_mode, (modbus (0xF67E /*@r09*/)), "Injection mode", (u16_be_), \
      RW, (limits (0, 3))) \
-  P (sample, (modbus (0xF67F /*@q16+1*/)), "Sample number", (u16_be_), RW, \
+  P (sample, (modbus (0xF67F /*@r63*/)), "Sample number", (u16_be_), RW, \
      (limits (1, 120))) \
-  P (extraction, (modbus (0xF680 /*@q16+2*/)), "Extraction mode", \
+  P (extraction, (modbus (0xF680 /*@r66*/)), "Extraction mode", \
      (u16_be_), RW, ()) \
-  P (overflow_volume, (modbus (0xF681 /*@q16+3*/)), "Overflow volume", \
+  P (overflow_volume, (modbus (0xF681 /*@r69*/)), "Overflow volume", \
      (u16_be_<scale<std::ratio<1, 10> >, unit::microliter>), RW, ()) \
-  P (inject_volume, (modbus (0xF682 /*@q16+4*/)), "Injection volume", \
+  P (inject_volume, (modbus (0xF682 /*@r72*/)), "Injection volume", \
      (u16_be_<scale<std::ratio<1, 10> >, unit::microliter>), RW, \
      (limits (0, 100))) \
-  P (wash_a, (modbus (0x8C52 /*@q16*/)), "Wash A selected", (u16_be_), RW, \
+  P (wash_a, (modbus (0x8C52 /*@r09*/)), "Wash A selected", (u16_be_), RW, \
      (limits (0, 1))) \
-  P (wash_a_volume, (modbus (0x8C53 /*@q16+1*/)), "Wash A volume", \
+  P (wash_a_volume, (modbus (0x8C53 /*@r63*/)), "Wash A volume", \
      (u16_be_<scale<std::ratio<1, 10> >, unit::microliter>), RW, ()) \
-  P (wash_b, (modbus (0x357C /*@q16*/)), "Wash B selected", (u16_be_), RW, \
+  P (wash_b, (modbus (0x357C /*@r09*/)), "Wash B selected", (u16_be_), RW, \
      (limits (0, 1))) \
-  P (wash_b_volume, (modbus (0x357D /*@q16+1*/)), "Wash B volume", \
+  P (wash_b_volume, (modbus (0x357D /*@r63*/)), "Wash B volume", \
      (u16_be_<scale<std::ratio<1, 10> >, unit::microliter>), RW, ()) \
-  P (wash_ab, (modbus (0x4ED3 /*@q16*/)), "Wash A and B selected", \
+  P (wash_ab, (modbus (0x4ED3 /*@r09*/)), "Wash A and B selected", \
      (u16_be_), RW, (limits (0, 1))) \
-  P (wash_ab_volume, (modbus (0x4ED4 /*@q16+1*/)), "Wash A and B volume", \
+  P (wash_ab_volume, (modbus (0x4ED4 /*@r63*/)), "Wash A and B volume", \
      (u16_be_<scale<std::ratio<1, 10> >, unit::microliter>), RW, ()) \
   P (state, (modbus (0x1000)), "First register of the state block", \
      (u16_be_), R, ())

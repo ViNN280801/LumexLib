@@ -53,9 +53,9 @@ TEST (LumexProtocolDeviceDTest,
       GivenTheInformation_WhenItsLengthDiffers_ThenTheLengthChoosesTheLayout)
 {
   bytes_t const network
-      = bytes ({ kAddress, 0xAD /*@p8*/, 0x39, 0x30, 0x00, 0x00 });
+      = bytes ({ kAddress, 0xAD /*@r04*/, 0x39, 0x30, 0x00, 0x00 });
   bytes_t const usb = bytes (
-      { kAddress, 0xAD /*@p8*/, 0x21, 0x02, 0x05, 0x01, 0x19, 0x0B, 0x07 });
+      { kAddress, 0xAD /*@r04*/, 0x21, 0x02, 0x05, 0x01, 0x19, 0x0B, 0x07 });
   EXPECT_TRUE (dev::finds<device_d::query_ad_t> (dev::index_of<device_d> (),
                                                  network, 2));
   EXPECT_EQ (describe_rx (network),
@@ -83,12 +83,12 @@ TEST (LumexProtocolDeviceDTest,
                     excitation, d_work::excitation_target, 350.0))
                    .has_value ());
   EXPECT_EQ (excitation,
-             bytes ({ d::unit_of::excitation, 0xAD /*@p8*/, 0xAC, 0x0D }));
+             bytes ({ d::unit_of::excitation, 0xAD /*@r04*/, 0xAC, 0x0D }));
   bytes_t emission;
   ASSERT_TRUE ((layout::encode_request<device_d, device_d::param_set_3f_t> (
                     emission, d_work::emission_target, 450.0))
                    .has_value ());
-  EXPECT_EQ (emission, bytes ({ 0xD1 /*@p8*/, 0xAD /*@p8*/, 0x94, 0x11 }));
+  EXPECT_EQ (emission, bytes ({ 0xD1 /*@r04*/, 0xAD /*@r04*/, 0x94, 0x11 }));
   bytes_t refused;
   EXPECT_TRUE ((layout::encode_request<device_d, device_d::param_set_3f_t> (
                     refused, d_work::detector_sensitivity, 1001))
@@ -96,17 +96,18 @@ TEST (LumexProtocolDeviceDTest,
                == error::protocol_errc::out_of_limits);
   EXPECT_TRUE (dev::finds<device_d::param_set_3f_t> (
       dev::index_of<device_d> (),
-      join (bytes ({ kAddress, 0x3F /*@p8*/ }), excitation), 2));
-  EXPECT_EQ (describe_rx (join (bytes ({ kAddress, 0x3F /*@p8*/ }), emission)),
-             "RX device_d.param_set_3f (Work parameter of a unit) "
-             "parameter=emission_target value=450 nm");
+      join (bytes ({ kAddress, 0x3F /*@r04*/ }), excitation), 2));
+  EXPECT_EQ (
+      describe_rx (join (bytes ({ kAddress, 0x3F /*@r04*/ }), emission)),
+      "RX device_d.param_set_3f (Work parameter of a unit) "
+      "parameter=emission_target value=450 nm");
   EXPECT_TRUE ((dev::request_round_trip<device_d, device_d::param_get_d1_t> (
-      bytes ({ 0x65 /*@p8*/, 0xAD /*@p8*/ }))));
+      bytes ({ 0x65 /*@r04*/, 0xAD /*@r04*/ }))));
   EXPECT_TRUE ((dev::reply_round_trip<device_d, device_d::param_get_d1_t> (
-      bytes ({ 0x72 /*@p8*/, 0xAD /*@p8*/, 0xF4, 0x01 }))));
+      bytes ({ 0x72 /*@r04*/, 0xAD /*@r04*/, 0xF4, 0x01 }))));
   // Parameter 2 of the excitation unit is no entry.
   EXPECT_FALSE ((reply_of<device_d::param_get_d1_t> (
-                     bytes ({ 0x3F /*@p8*/, 0x65 /*@p8*/, 0x00, 0x00 })))
+                     bytes ({ 0x3F /*@r04*/, 0x65 /*@r04*/, 0x00, 0x00 })))
                     .has_value ());
 }
 
@@ -114,7 +115,7 @@ TEST (LumexProtocolDeviceDTest,
       GivenSeveralValues_WhenTwoOrThreeAreSent_ThenTheThirdIsAnOptionalTail)
 {
   bytes_t const two
-      = bytes ({ 0x3F /*@p8*/, 0xAD /*@p8*/, 0xAC, 0x0D, 0x94, 0x11 });
+      = bytes ({ 0x3F /*@r04*/, 0xAD /*@r04*/, 0xAC, 0x0D, 0x94, 0x11 });
   bytes_t const three = join (two, bytes ({ 0x0A, 0x00 }));
   layout::decode_result_t<
       layout::request_of<device_d::param_set_72_t>::type> const pair
@@ -154,7 +155,7 @@ TEST (LumexProtocolDeviceDTest,
              join (text_bytes ("DL"), bytes ({ 0xEC, 0xFF, 0xFF, 0xFF })));
   EXPECT_TRUE (
       (dev::reply_round_trip<device_d, device_d::param_get_83_t> (set)));
-  EXPECT_EQ (describe_rx (join (bytes ({ kAddress, 0x83 /*@p8*/ }), set)),
+  EXPECT_EQ (describe_rx (join (bytes ({ kAddress, 0x83 /*@r04*/ }), set)),
              "RX device_d.param_get_83 (Read a service parameter) "
              "parameter=dark_level value=-20");
   // Two letters the device table does not have.
@@ -169,17 +170,17 @@ TEST (LumexProtocolDeviceDTest,
   using lumex_tests::device_a::new_header;
   using lumex_tests::device_a::request_frame;
   bytes_t const node = request_frame<device_d, device_d::query_b8_t> (
-      new_header (kAddress, 0xB8 /*@p8*/), 0x65 /*@p8*/);
-  EXPECT_EQ (node, bytes ({ kAddress, 0xB8 /*@p8*/, 0x65 /*@p8*/ }));
+      new_header (kAddress, 0xB8 /*@r04*/), 0x65 /*@r04*/);
+  EXPECT_EQ (node, bytes ({ kAddress, 0xB8 /*@r04*/, 0x65 /*@r04*/ }));
   bytes_t const trace = request_frame<device_d, device_d::set_64_t> (
-      new_header (kAddress, 0x64 /*@p8*/), 1);
-  EXPECT_EQ (trace, bytes ({ kAddress, 0x64 /*@p8*/, 0x01 }));
+      new_header (kAddress, 0x64 /*@r04*/), 1);
+  EXPECT_EQ (trace, bytes ({ kAddress, 0x64 /*@r04*/, 0x01 }));
   index::protocol_index_t const &protocol = dev::index_of<device_d> ();
   EXPECT_TRUE (dev::finds<device_d::query_b8_t> (protocol, node, 2));
   EXPECT_TRUE (dev::finds<device_d::set_64_t> (protocol, trace, 2));
   // The internal bus packet of the family: a node and eight bytes.
   EXPECT_TRUE ((dev::reply_round_trip<device_d, device_d::report_41_t> (
-      bytes ({ 0x3F /*@p8*/, 1, 2, 3, 4, 5, 6, 7, 8 }))));
+      bytes ({ 0x3F /*@r04*/, 1, 2, 3, 4, 5, 6, 7, 8 }))));
   EXPECT_EQ (protocol.rows ().size (), 14u);
   index::index_result_t const built
       = index::build_index<device_d, d_work, d_service> ();

@@ -58,7 +58,7 @@ TEST (LumexProtocolDeviceATest,
   index::index_result_t const built = index::build_index<family_a> ();
   ASSERT_TRUE (built.has_value ());
   EXPECT_EQ (built->rows ().size (), 11u);
-  index::row_t const *const information = built->find_integer (0xAD /*@p8*/);
+  index::row_t const *const information = built->find_integer (0xAD /*@r04*/);
   ASSERT_TRUE (information != nullptr);
   EXPECT_EQ (information->entry->identifier, std::string ("query_ad"));
   EXPECT_TRUE (built->find_name ("report_41") != nullptr);
@@ -79,28 +79,28 @@ TEST (LumexProtocolDeviceATest,
   using lumex_tests::device_a::request_frame;
 
   bytes_t const set_parameter_frame
-      = bytes ({ kAddress, 0x3F /*@p8*/, 0x02, 0x01, 0xD4, 0xFE });
+      = bytes ({ kAddress, 0x3F /*@r04*/, 0x02, 0x01, 0xD4, 0xFE });
   EXPECT_EQ ((request_frame<family_a, set_parameter> (
-                 new_header (kAddress, 0x3F /*@p8*/), 2, 1, -300)),
+                 new_header (kAddress, 0x3F /*@r04*/), 2, 1, -300)),
              set_parameter_frame);
   bytes_t const get_parameter_frame
-      = bytes ({ kAddress, 0xD1 /*@p8*/, 0x02, 0x01 });
+      = bytes ({ kAddress, 0xD1 /*@r04*/, 0x02, 0x01 });
   EXPECT_EQ ((request_frame<family_a, get_parameter> (
-                 new_header (kAddress, 0xD1 /*@p8*/), 2, 1)),
+                 new_header (kAddress, 0xD1 /*@r04*/), 2, 1)),
              get_parameter_frame);
-  bytes_t const set_mode_frame = bytes ({ kAddress, 0x65 /*@p8*/, 0x03 });
+  bytes_t const set_mode_frame = bytes ({ kAddress, 0x65 /*@r04*/, 0x03 });
   EXPECT_EQ ((request_frame<family_a, set_mode> (
-                 new_header (kAddress, 0x65 /*@p8*/), 3)),
+                 new_header (kAddress, 0x65 /*@r04*/), 3)),
              set_mode_frame);
   bytes_t const get_service_frame
-      = bytes ({ kAddress, 0x83 /*@p8*/, 0x34, 0x12 });
+      = bytes ({ kAddress, 0x83 /*@r04*/, 0x34, 0x12 });
   EXPECT_EQ ((request_frame<family_a, get_service> (
-                 new_header (kAddress, 0x83 /*@p8*/), 0x1234)),
+                 new_header (kAddress, 0x83 /*@r04*/), 0x1234)),
              get_service_frame);
-  bytes_t const set_service_frame
-      = bytes ({ kAddress, 0xCC /*@p8*/, 0x34, 0x12, 0xF0, 0xFF, 0xFF, 0xFF });
+  bytes_t const set_service_frame = bytes (
+      { kAddress, 0xCC /*@r04*/, 0x34, 0x12, 0xF0, 0xFF, 0xFF, 0xFF });
   EXPECT_EQ ((request_frame<family_a, set_service> (
-                 new_header (kAddress, 0xCC /*@p8*/), 0x1234, -16)),
+                 new_header (kAddress, 0xCC /*@r04*/), 0x1234, -16)),
              set_service_frame);
 
   index::protocol_index_t const &family = dev::index_of<family_a> ();
@@ -123,7 +123,7 @@ TEST (LumexProtocolDeviceATest,
   index::protocol_index_t const &family = dev::index_of<family_a> ();
 
   bytes_t const info
-      = bytes ({ kAddress, 0xAD /*@p8*/, 0x21, 0x02, 0x05, 0x01, 0x19, 0x0B,
+      = bytes ({ kAddress, 0xAD /*@r04*/, 0x21, 0x02, 0x05, 0x01, 0x19, 0x0B,
                  0x07, 0x10, 0x39, 0x30, 0x00, 0x00 });
   EXPECT_TRUE (dev::finds<family_a::query_ad_t> (family, info, 2));
   layout::decode_result_t<
@@ -136,7 +136,7 @@ TEST (LumexProtocolDeviceATest,
   EXPECT_EQ (field::get<8> (*decoded_info), 12345u);
 
   bytes_t const parameter
-      = bytes ({ kAddress, 0x3F /*@p8*/, 0x02, 0x01, 0xD4, 0xFE });
+      = bytes ({ kAddress, 0x3F /*@r04*/, 0x02, 0x01, 0xD4, 0xFE });
   layout::decode_result_t<
       layout::reply_value_of<family_a::param_set_3f_t>::type> const echo
       = layout::decode_reply<family_a, family_a::param_set_3f_t> (
@@ -145,7 +145,7 @@ TEST (LumexProtocolDeviceATest,
   EXPECT_EQ (field::get<2> (*echo), -300);
 
   bytes_t const measurement
-      = bytes ({ kAddress, 0x27 /*@p8*/, 0xDC, 0x05, 0x00, 0x00, 0xD2, 0x04,
+      = bytes ({ kAddress, 0x27 /*@r04*/, 0xDC, 0x05, 0x00, 0x00, 0xD2, 0x04,
                  0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0xFF, 0xFF, 0xFF, 0x7F });
   EXPECT_TRUE (dev::finds<family_a::stream_27_t> (family, measurement, 2));
   layout::decode_result_t<
@@ -157,8 +157,16 @@ TEST (LumexProtocolDeviceATest,
   EXPECT_EQ (field::get<1> (*values), 1234);
   EXPECT_EQ (field::get<2> (*values), 65536);
   EXPECT_EQ (field::get<3> (*values), 0x7FFFFFFF);
+  // A channel below zero (the channels are signed).
+  layout::decode_result_t<
+      layout::reply_value_of<family_a::stream_27_t>::type> const negative
+      = layout::decode_reply<family_a, family_a::stream_27_t> (dev::view_of (
+          bytes ({ 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFE, 0xFF,
+                   0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00 })));
+  ASSERT_TRUE (negative.has_value ());
+  EXPECT_EQ (field::get<2> (*negative), -2);
 
-  bytes_t const error = bytes ({ kAddress, 0x44 /*@p8*/, 0x34, 0x12, 0x02,
+  bytes_t const error = bytes ({ kAddress, 0x44 /*@r04*/, 0x34, 0x12, 0x02,
                                  0x01, 0x07, 0x00, 0x00, 0x00 });
   layout::decode_result_t<
       layout::reply_value_of<family_a::error_44_t>::type> const report
@@ -170,7 +178,7 @@ TEST (LumexProtocolDeviceATest,
                == lumex_tests::device_a::severity::fatal);
   EXPECT_EQ (field::get<3> (*report), 7);
 
-  bytes_t const can = bytes ({ kAddress, 0x41 /*@p8*/, 0x08, 0x01, 0x02, 0x03,
+  bytes_t const can = bytes ({ kAddress, 0x41 /*@r04*/, 0x08, 0x01, 0x02, 0x03,
                                0x04, 0x05, 0x06, 0x07, 0x08 });
   layout::decode_result_t<
       layout::reply_value_of<family_a::report_41_t>::type> const packet
@@ -220,10 +228,10 @@ TEST (
   using lumex_tests::device_a::request_frame;
   // The display process of the firmware, attribute 0 (one process).
   bytes_t const frame = request_frame<a_old, a_old::stream_af_t> (
-      old_header (kAddress, 0x72 /*@p8*/, 0x00, 0xAF /*@p8*/), 0xD9 /*@p8*/,
+      old_header (kAddress, 0x72 /*@r04*/, 0x00, 0xAF /*@r04*/), 0xD9 /*@r04*/,
       1);
-  EXPECT_EQ (frame, bytes ({ kAddress, 0x72 /*@p8*/, 0x00, 0xAF /*@p8*/,
-                             0xD9 /*@p8*/, 0x01 }));
+  EXPECT_EQ (frame, bytes ({ kAddress, 0x72 /*@r04*/, 0x00, 0xAF /*@r04*/,
+                             0xD9 /*@r04*/, 0x01 }));
   EXPECT_TRUE (
       dev::finds<a_old::stream_af_t> (dev::index_of<a_old> (), frame, 4));
   EXPECT_TRUE ((dev::request_round_trip<a_old, a_old::stream_af_t> (
@@ -237,7 +245,7 @@ TEST (
 TEST (LumexProtocolDeviceATest,
       GivenTheStreamFormat_WhenTheSameCodeIsMatched_ThenEachLayerHasItsOwnRow)
 {
-  bytes_t const frame = bytes ({ kAddress, 0x27 /*@p8*/, 0x01 });
+  bytes_t const frame = bytes ({ kAddress, 0x27 /*@r04*/, 0x01 });
   EXPECT_TRUE (dev::finds<a_stream::stream_on_27_t> (
       dev::index_of<a_stream> (), frame, 2));
   EXPECT_TRUE (dev::finds<family_a::stream_27_t> (dev::index_of<family_a> (),
@@ -278,25 +286,25 @@ TEST (LumexProtocolDeviceATest,
 TEST (LumexProtocolDeviceATest,
       GivenFamilyFrames_WhenDescribed_ThenTheLogLinesNameRowsFieldsAndUnits)
 {
-  EXPECT_EQ (
-      describe_tx (bytes ({ kAddress, 0x3F /*@p8*/, 0x02, 0x01, 0xD4, 0xFE })),
-      "TX family_a.param_set_3f (Work parameter of a unit) unit=2 "
-      "parameter=1 value=-300");
-  EXPECT_EQ (describe_rx (bytes ({ kAddress, 0x27 /*@p8*/, 0xDC, 0x05, 0x00,
+  EXPECT_EQ (describe_tx (
+                 bytes ({ kAddress, 0x3F /*@r04*/, 0x02, 0x01, 0xD4, 0xFE })),
+             "TX family_a.param_set_3f (Work parameter of a unit) unit=2 "
+             "parameter=1 value=-300");
+  EXPECT_EQ (describe_rx (bytes ({ kAddress, 0x27 /*@r04*/, 0xDC, 0x05, 0x00,
                                    0x00, 0xD2, 0x04, 0x00, 0x00, 0x00, 0x00,
                                    0x01, 0x00, 0x10, 0x00, 0x00, 0x00 })),
              "RX family_a.stream_27 (Measurement result) time=1500 ms "
              "absorbance=1234 photo=65536 reference=16");
-  EXPECT_EQ (describe_rx (bytes ({ kAddress, 0x44 /*@p8*/, 0x34, 0x12, 0x02,
+  EXPECT_EQ (describe_rx (bytes ({ kAddress, 0x44 /*@r04*/, 0x34, 0x12, 0x02,
                                    0x01, 0x07, 0x00, 0x00, 0x00 })),
              "RX family_a.error_44 (Error report) code=4660 severity=fatal "
              "has_value=1 value=7");
   EXPECT_EQ (describe_rx (bytes ({ kAddress, 0x00 })),
              "RX unknown key=0x00 len=2: 5A 00");
-  EXPECT_EQ (describe_rx (bytes ({ kAddress, 0x27 /*@p8*/, 0xDC })),
+  EXPECT_EQ (describe_rx (bytes ({ kAddress, 0x27 /*@r04*/, 0xDC })),
              "RX family_a.stream_27 (Measurement result) [decode error: "
              "message shorter than its fields] len=3: 5A "
-                 + dev::dump (bytes ({ 0x27 /*@p8*/ })) + " DC");
+                 + dev::dump (bytes ({ 0x27 /*@r04*/ })) + " DC");
 }
 
 TEST (LumexProtocolDeviceATest,

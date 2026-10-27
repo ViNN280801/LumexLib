@@ -90,36 +90,36 @@ LUMEX_PROTOCOL_LAYOUT (old_system_t, (u8_, u8_, u16_le_, u8_, u8_, u8_),
 
 // clang-format off
 #define DEVICE_A_FAMILY_ROWS(X, X_AS) \
-  X (query_ad, 0xAD /*@p8*/, "Instrument information", (), (), (info_t), \
+  X (query_ad, 0xAD /*@r04*/, "Instrument information", (), (), (info_t), \
      (idempotent, timeout (1000))) \
-  X (set_65, 0x65 /*@p8*/, "Work mode", (u8_), ("mode"), (u8_), \
+  X (set_65, 0x65 /*@r04*/, "Work mode", (u8_), ("mode"), (u8_), \
      (timeout (1000))) \
-  X (param_set_3f, 0x3F /*@p8*/, "Work parameter of a unit", \
+  X (param_set_3f, 0x3F /*@r04*/, "Work parameter of a unit", \
      (u8_, u8_, i16_le_), ("unit", "parameter", "value"), \
      (work_parameter_t), (timeout (1000))) \
-  X (param_get_d1, 0xD1 /*@p8*/, "Read a work parameter of a unit", \
+  X (param_get_d1, 0xD1 /*@r04*/, "Read a work parameter of a unit", \
      (u8_, u8_), ("unit", "parameter"), (work_parameter_t), \
      (idempotent, timeout (1000))) \
-  X (stream_27, 0x27 /*@p8*/, "Measurement result", (), (), \
+  X (stream_27, 0x27 /*@r04*/, "Measurement result", (), (), \
      (measurement_t), (stream (100))) \
-  X (report_d9, 0xD9 /*@p8*/, "State of a unit", (), (), (unit_state_t), \
+  X (report_d9, 0xD9 /*@r04*/, "State of a unit", (), (), (unit_state_t), \
      (stream (1000))) \
-  X (error_44, 0x44 /*@p8*/, "Error report", (), (), (error_t), \
+  X (error_44, 0x44 /*@r04*/, "Error report", (), (), (error_t), \
      (log_level (level::warning))) \
-  X (event_d4, 0xD4 /*@p8*/, "Event of a unit", (), (), (event_t), ()) \
-  X (param_get_83, 0x83 /*@p8*/, "Read a service parameter", (u16_le_), \
+  X (event_d4, 0xD4 /*@r04*/, "Event of a unit", (), (), (event_t), ()) \
+  X (param_get_83, 0x83 /*@r04*/, "Read a service parameter", (u16_le_), \
      ("parameter"), (parameter_t), (idempotent)) \
-  X (param_set_cc, 0xCC /*@p8*/, "Service parameter", (u16_le_, i32_le_), \
+  X (param_set_cc, 0xCC /*@r04*/, "Service parameter", (u16_le_, i32_le_), \
      ("parameter", "value"), (parameter_t), (dangerous)) \
-  X (report_41, 0x41 /*@p8*/, "Packet of an internal node", (), (), \
+  X (report_41, 0x41 /*@r04*/, "Packet of an internal node", (), (), \
      (can_packet_t), (log_level (level::trace)))
 #define DEVICE_A_STREAM_ROWS(X, X_AS) \
-  X (stream_on_27, 0x27 /*@p8*/, "Measurement result on or off", (u8_), \
+  X (stream_on_27, 0x27 /*@r04*/, "Measurement result on or off", (u8_), \
      ("enable"), (), ()) \
-  X (stream_on_d9, 0xD9 /*@p8*/, "State of a unit on or off", (u8_), \
+  X (stream_on_d9, 0xD9 /*@r04*/, "State of a unit on or off", (u8_), \
      ("enable"), (), ())
 #define DEVICE_A_OLD_ROWS(X, X_AS) \
-  X (stream_af, 0xAF /*@p8*/, "A message on or off", (u8_, u8_), \
+  X (stream_af, 0xAF /*@r04*/, "A message on or off", (u8_, u8_), \
      ("message", "enable"), (), ())
 #define DEVICE_A_SYSTEM_ROWS(X, X_AS) \
   X (keepalive_00, 0x00, "System message of the link", (), (), \

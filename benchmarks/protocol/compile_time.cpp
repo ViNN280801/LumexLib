@@ -8,8 +8,8 @@
 // its encoder and decoder in the binary, hexadecimal and tokenized layouts),
 // 6 (the largest test table of a device, device B of
 // lumex/tests/core/protocol/devices with the family table of device A it
-// extends: seven protocol layers, five registries) or 7 (as 6, plus the
-// run-time index of every layer with its registries, describe included).
+// extends: ten protocol layers, five registries) or 7 (as 6, plus the
+// run-time index of its six indexable layers with their registries).
 #include <cstddef>
 
 // Tables 6 and 7 are measured against the headers alone (table 0).

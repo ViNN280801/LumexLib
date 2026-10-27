@@ -140,7 +140,7 @@ dec (unsigned value)
 layout::bytes_t
 frame_of (std::uint8_t key, std::initializer_list<int> body)
 {
-  layout::bytes_t out = bytes ({ 0xC3 /*@p8z*/, key });
+  layout::bytes_t out = bytes ({ 0xC3 /*@r31*/, key });
   layout::bytes_t const tail = bytes (body);
   out.insert (out.end (), tail.begin (), tail.end ());
   return out;
@@ -149,31 +149,32 @@ frame_of (std::uint8_t key, std::initializer_list<int> body)
 layout::bytes_t
 old_state ()
 {
-  return frame_of (0xD9 /*@p8*/,
+  return frame_of (0xD9 /*@r04*/,
                    { 0x02, 0x01, 0xAC, 0x0D, 0x9F, 0x0D, 0xA7, 0x08 });
 }
 
 layout::bytes_t
 old_state_with_tail ()
 {
-  return frame_of (0xD9 /*@p8*/,
+  return frame_of (0xD9 /*@r04*/,
                    { 0x02, 0x01, 0xAC, 0x0D, 0x9F, 0x0D, 0xA7, 0x08, 0x58,
-                     0x02, 0x06, 0xFF, 0x78, 0x00, 0x8A, 0xFF });
+                     0x02, 0x06, 0xFF, 0x7A, 0x00, 0x8A, 0xFF });
 }
 
 layout::bytes_t
 near_state (int valve)
 {
-  return frame_of (0xD9 /*@p8*/,
-                   { 0xAD /*@p8*/, 0x02, 0xAC, 0x0D, 0x9F, 0x0D, 0xA7, 0x08,
+  return frame_of (0xD9 /*@r04*/,
+                   { 0xAD /*@r04*/, 0x02, 0xAC, 0x0D, 0x9F, 0x0D, 0xA7, 0x08,
                      0x08, 0x07, valve, 0x00, 0x80, 0x51, 0x01, 0x00 });
 }
 
 layout::bytes_t
 far_state ()
 {
-  return frame_of (0xD9 /*@p8*/, { 0x65 /*@p8*/, 0x01, 0xAC, 0x0D, 0x9F, 0x0D,
-                                   0xA7, 0x08, 0x02, 0x01, 0x03, 0x00 });
+  return frame_of (0xD9 /*@r04*/,
+                   { 0x65 /*@r04*/, 0x01, 0xAC, 0x0D, 0x9F, 0x0D, 0xA7, 0x08,
+                     0x02, 0x01, 0x03, 0x00 });
 }
 } // namespace
 
@@ -188,8 +189,8 @@ TEST (
   EXPECT_TRUE (index::keys_unique<device>::value);
   EXPECT_EQ (dsl::command_count<family>::value, 2u);
   EXPECT_NE (built.find_name ("query_b8"), nullptr);
-  EXPECT_EQ (built.find_integer (0x8E /*@p8*/)->is_event, true);
-  EXPECT_EQ (built.find_integer (0x65 /*@p8*/)->is_event, false);
+  EXPECT_EQ (built.find_integer (0x8E /*@r04*/)->is_event, true);
+  EXPECT_EQ (built.find_integer (0x65 /*@r04*/)->is_event, false);
   EXPECT_EQ (built.find_integer (0x09), nullptr);
 }
 
@@ -200,7 +201,7 @@ TEST (
   EXPECT_FALSE ((std::is_same<device::query_ad_t, family::query_ad_t>::value));
   EXPECT_TRUE ((std::is_same<device::debug_8e_t, family::debug_8e_t>::value));
   layout::bytes_t const reply = frame_of (
-      0xAD /*@p8*/, { 0x2B, 0x03, 0x07, 0x0B, 0x1D, 0x08, 0x14, 0x05 });
+      0xAD /*@r04*/, { 0x2B, 0x03, 0x07, 0x0B, 0x1D, 0x08, 0x14, 0x05 });
   expect_reply_round_trip<device::query_ad_t> (reply);
   EXPECT_EQ (rx (reply), "RX device_f.query_ad (Query the identity record) "
                          "type=43 sub=3 sw=7 hw=11 year=29 month=8 day=20 "
@@ -213,7 +214,7 @@ TEST (
   ASSERT_TRUE (base.has_value ());
   EXPECT_EQ (field::get<1> (*base), 3);
   EXPECT_EQ (field::get<2> (*base), 7);
-  EXPECT_EQ (tx (frame_of (0xAD /*@p8*/, {})),
+  EXPECT_EQ (tx (frame_of (0xAD /*@r04*/, {})),
              "TX device_f.query_ad (Query the identity record)");
 }
 
@@ -225,7 +226,7 @@ TEST (LumexProtocolDeviceFTest,
                     .has_value ()));
   EXPECT_EQ (out, bytes ({ 0x01, 0x00, 0xAC, 0x0D }));
   layout::bytes_t const request
-      = frame_of (0x65 /*@p8*/, { 0x01, 0x00, 0xAC, 0x0D });
+      = frame_of (0x65 /*@r04*/, { 0x01, 0x00, 0xAC, 0x0D });
   expect_request_round_trip<device::set_65_t> (request);
   EXPECT_EQ (tx (request), "TX device_f.set_65 (Set the working mode) on=1 "
                            "temperature=35 degC");
@@ -258,7 +259,7 @@ TEST (
   EXPECT_EQ (rx (old_state_with_tail (), &session),
              "RX device_f.report_d9 (Report the state) state=case 0: "
              "{mode=2 state=1 temperatures={target=35 degC work=34.87 degC "
-             "room=22.15 degC} tail={600 s -250 120 -118}}");
+             "room=22.15 degC} tail={600 s -250 122 -118}}");
   layout::bytes_t half = old_state_with_tail ();
   half.pop_back ();
   EXPECT_TRUE (reply_error<device::report_d9_t> (half, &session)
@@ -274,17 +275,17 @@ TEST (LumexProtocolDeviceFTest,
   expect_reply_round_trip<device::report_d9_t> (far_state (), &session);
   EXPECT_EQ (rx (near_state (1), &session),
              "RX device_f.report_d9 (Report the state) state=case 1: {node="
-                 + dec (0xAD /*@p8*/)
+                 + dec (0xAD /*@r04*/)
                  + " node_mode=2 temperatures={target=35 degC work=34.87 "
                    "degC room=22.15 degC} rest=case "
-                 + dec (0xAD /*@p8*/)
+                 + dec (0xAD /*@r04*/)
                  + ": {mode_time=1800 s valve=1 device_time=86400 s}}");
   EXPECT_EQ (rx (far_state (), &session),
              "RX device_f.report_d9 (Report the state) state=case 1: {node="
-                 + dec (0x65 /*@p8*/)
+                 + dec (0x65 /*@r04*/)
                  + " node_mode=1 temperatures={target=35 degC work=34.87 "
                    "degC room=22.15 degC} rest=case "
-                 + dec (0x65 /*@p8*/) + ": {state=258 mode=3 error=0}}");
+                 + dec (0x65 /*@r04*/) + ": {state=258 mode=3 error=0}}");
   layout::bytes_t unknown = far_state ();
   unknown[2] = 0x99;
   EXPECT_TRUE (reply_error<device::report_d9_t> (unknown, &session)
@@ -334,7 +335,7 @@ TEST (LumexProtocolDeviceFTest,
       GivenTheDebugCounters_WhenDecoded_ThenTheSignedWordsKeepTheirExtremes)
 {
   layout::bytes_t const frame = frame_of (
-      0x8E /*@p8*/, { 0xFF, 0xFF, 0x2C, 0x01, 0xFF, 0x7F, 0x00, 0x80 });
+      0x8E /*@r04*/, { 0xFF, 0xFF, 0x2C, 0x01, 0xFF, 0x7F, 0x00, 0x80 });
   expect_reply_round_trip<device::debug_8e_t> (frame);
   EXPECT_EQ (rx (frame), "RX device_f.debug_8e (Report the debug counters) "
                          "c0=-1 c1=300 c2=32767 c3=-32768");
@@ -343,19 +344,19 @@ TEST (LumexProtocolDeviceFTest,
 TEST (LumexProtocolDeviceFTest,
       GivenAnErrorAndANodeQuery_WhenEncodedAndDecoded_ThenTheyAreOneByte)
 {
-  layout::bytes_t const failure = frame_of (0x44 /*@p8*/, { 0x07 });
+  layout::bytes_t const failure = frame_of (0x44 /*@r04*/, { 0x07 });
   expect_reply_round_trip<device::error_44_t> (failure);
   EXPECT_EQ (rx (failure), "RX device_f.error_44 (Report an error) reply=7");
   layout::bytes_t out;
   ASSERT_TRUE ((layout::encode_request<device, device::query_b8_t> (out, 2)
                     .has_value ()));
   EXPECT_EQ (out, bytes ({ 0x02 }));
-  layout::bytes_t const request = frame_of (0xB8 /*@p8*/, { 0x02 });
+  layout::bytes_t const request = frame_of (0xB8 /*@r04*/, { 0x02 });
   expect_request_round_trip<device::query_b8_t> (request);
   EXPECT_EQ (tx (request), "TX device_f.query_b8 (Query a node) node=2");
-  EXPECT_TRUE (request_error<device::query_b8_t> (frame_of (0xB8 /*@p8*/, {}))
+  EXPECT_TRUE (request_error<device::query_b8_t> (frame_of (0xB8 /*@r04*/, {}))
                == protocol_errc::truncated);
   EXPECT_TRUE (request_error<device::query_b8_t> (
-                   frame_of (0xB8 /*@p8*/, { 0x02, 0x03 }))
+                   frame_of (0xB8 /*@r04*/, { 0x02, 0x03 }))
                == protocol_errc::trailing_bytes);
 }

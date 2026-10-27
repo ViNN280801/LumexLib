@@ -98,17 +98,17 @@ LUMEX_PROTOCOL_LAYOUT (settings_reply_t,
 
 // clang-format off
 #define DEVICE_J_ROWS(X, X_AS) \
-  X (report_ac, 0xAC /*@p8*/, "Report the state", (), (), (status_t), \
+  X (report_ac, 0xAC /*@r04*/, "Report the state", (), (), (status_t), \
      (idempotent)) \
-  X (param_get_8d, 0x8D /*@p8*/, "Read the settings", (), (), (settings_reply_t), \
+  X (param_get_8d, 0x8D /*@r04*/, "Read the settings", (), (), (settings_reply_t), \
      (idempotent, timeout (6000))) \
-  X (param_set_c9, 0xC9 /*@p8*/, "Write the settings", (settings_t), ("settings"), \
+  X (param_set_c9, 0xC9 /*@r04*/, "Write the settings", (settings_t), ("settings"), \
      (status_t), (dangerous)) \
-  X (start_f4, 0xF4 /*@p8*/, "Run the cleaning cycle", (u16_be_, u16_be_), \
+  X (start_f4, 0xF4 /*@r04*/, "Run the cleaning cycle", (u16_be_, u16_be_), \
      ("first", "second"), (status_t), ()) \
-  X (start_64, 0x64 /*@p8*/, "Run the load cycle", (u8_), ("position"), (status_t), ()) \
-  X (stop_35, 0x35 /*@p8*/, "Stop", (), (), (status_t), ()) \
-  X (query_3f, 0x3F /*@p8*/, "Query the version", (), (), (version_reply_t), \
+  X (start_64, 0x64 /*@r04*/, "Run the load cycle", (u8_), ("position"), (status_t), ()) \
+  X (stop_35, 0x35 /*@r04*/, "Stop", (), (), (status_t), ()) \
+  X (query_3f, 0x3F /*@r04*/, "Query the version", (), (), (version_reply_t), \
      (idempotent))
 #define NO_ROWS(X, X_AS)
 // clang-format on

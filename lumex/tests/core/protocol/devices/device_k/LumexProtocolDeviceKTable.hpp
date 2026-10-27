@@ -31,13 +31,13 @@ namespace registry = lumex::core::protocol::registry;
 namespace index = lumex::core::protocol::index;
 
 /// The state of the valve, one character.
-LUMEX_DEFINE_REFLECTED_ENUM (valve_state, char, (v_8, '8' /*@text*/),
-                             (v_9, '9' /*@text*/), (v_0, '0' /*@text*/))
+LUMEX_DEFINE_REFLECTED_ENUM (valve_state, char, (v_a, '2' /*@r11*/),
+                             (v_b, '3' /*@r11*/), (v_c, '1' /*@r11*/))
 
 /// The state of the zone conditioning.
-LUMEX_DEFINE_REFLECTED_ENUM (zone_state, std::uint8_t, (t_15, 0x15 /*@p8*/),
-                             (t_ad, 0xAD /*@p8*/), (t_65, 0x65 /*@p8*/),
-                             (t_3f, 0x3F /*@p8*/))
+LUMEX_DEFINE_REFLECTED_ENUM (zone_state, std::uint8_t, (t_15, 0x15 /*@r04*/),
+                             (t_ad, 0xAD /*@r04*/), (t_65, 0x65 /*@r04*/),
+                             (t_3f, 0x3F /*@r04*/))
 
 struct codec
 {
@@ -89,21 +89,21 @@ LUMEX_PROTOCOL_LAYOUT (serial_reply_t, (head_t, u16_be_),
                        ("head", "serial"));
 
 #define DEVICE_K_ROWS(X, X_AS) \
-  X (report_ac, 0xAC /*@p8*/, "Report the state", (head_t), ("head"), (state_t), \
+  X (report_ac, 0xAC /*@r04*/, "Report the state", (head_t), ("head"), (state_t), \
      (idempotent, timeout (8000))) \
-  X (start_f4, 0xF4 /*@p8*/, "Run the cleaning cycle", (head_t, u8_, u16_be_), \
+  X (start_f4, 0xF4 /*@r04*/, "Run the cleaning cycle", (head_t, u8_, u16_be_), \
      ("head", "liquid", "volume"), (head_t), ()) \
-  X (start_64, 0x64 /*@p8*/, "Run the load cycle", \
+  X (start_64, 0x64 /*@r04*/, "Run the load cycle", \
      (head_t, u8_, u8_, array_<u8_, 3>, u8_, u8_, u8_, u8_), \
      ("head", "method", "position", "slots", "before", "after", "sync", \
       "zone"), \
      (head_t), ()) \
-  X (stop_35, 0x35 /*@p8*/, "Stop", (head_t), ("head"), (head_t), ()) \
-  X (param_set_c9, 0xC9 /*@p8*/, "Write the zone settings", \
+  X (stop_35, 0x35 /*@r04*/, "Stop", (head_t), ("head"), (head_t), ()) \
+  X (param_set_c9, 0xC9 /*@r04*/, "Write the zone settings", \
      (head_t, array_<u8_, 14>, \
       u16_be_<scale<std::ratio<1, 10> >, unit::degree_celsius>, u16_be_), \
      ("head", "block", "temperature", "reserved"), (head_t), (dangerous)) \
-  X (query_ea, 0xEA /*@p8*/, "Query the serial number", (head_t), ("head"), \
+  X (query_ea, 0xEA /*@r04*/, "Query the serial number", (head_t), ("head"), \
      (serial_reply_t), (idempotent))
 // clang-format on
 LUMEX_PROTOCOL_DEFINE (device_k, codec, text_header, DEVICE_K_ROWS);

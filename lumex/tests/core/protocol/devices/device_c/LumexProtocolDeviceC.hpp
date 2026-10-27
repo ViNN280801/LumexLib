@@ -31,46 +31,46 @@ namespace registry = lumex::core::protocol::registry;
 using device_a::codec;
 
 /// The address of device C in the device network.
-std::uint8_t const kAddress = 0x7D /*@p8z*/;
+std::uint8_t const kAddress = 0x7D /*@r31*/;
 
 /// The processes of the firmware (the process byte of the header).
 namespace process
 {
-std::uint8_t const display = 0x72 /*@p8*/;
-std::uint8_t const measure = 0x2C /*@p8*/;
-std::uint8_t const stepper = 0xDD /*@p8*/;
-std::uint8_t const bus = 0x27 /*@p8*/;
-std::uint8_t const memory = 0xFA /*@p8*/;
+std::uint8_t const display = 0x72 /*@r04*/;
+std::uint8_t const measure = 0x2C /*@r04*/;
+std::uint8_t const stepper = 0xDD /*@r04*/;
+std::uint8_t const bus = 0x27 /*@r04*/;
+std::uint8_t const memory = 0xFA /*@r04*/;
 } // namespace process
 
 /// The kind of a measurement.
 LUMEX_DEFINE_REFLECTED_ENUM (measurement_kind, std::uint8_t,
-                             (flash_no_background, 0x87 /*@p8*/),
-                             (flash, 0x8F /*@p8*/), (dark, 0x0B /*@p8*/))
+                             (flash_no_background, 0x87 /*@r04*/),
+                             (flash, 0x8F /*@r04*/), (dark, 0x0B /*@r04*/))
 
 // The parameters by type: 16-bit, 32-bit and floating values.
 // clang-format off
 #define DEVICE_C_INT_PARAMS(P, P_AS) \
-  P (mode_number, (0x15 /*@p8*/), "Number of the mode", (i16_le_), RW, ()) \
-  P (sensitivity, (0xF4 /*@p8*/), "Detector sensitivity", (i16_le_), RW, \
+  P (mode_number, (0x15 /*@r04*/), "Number of the mode", (i16_le_), RW, ()) \
+  P (sensitivity, (0xF4 /*@r04*/), "Detector sensitivity", (i16_le_), RW, \
      (limits (0, 1000))) \
-  P (filter, (0xF3 /*@p8*/), "Filter", (i16_le_), RW, ())
+  P (filter, (0xF3 /*@r04*/), "Filter", (i16_le_), RW, ())
 #define DEVICE_C_LONG_PARAMS(P, P_AS) \
-  P (lamp_flashes, (0x65 /*@p8*/), "Flashes of the lamp", (i32_le_), R, ()) \
-  P (lamp_hours, (0x3F /*@p8*/), "Operating time of the lamp", \
+  P (lamp_flashes, (0x65 /*@r04*/), "Flashes of the lamp", (i32_le_), R, ()) \
+  P (lamp_hours, (0x3F /*@r04*/), "Operating time of the lamp", \
      (i32_le_<unit::minute>), R, ()) \
-  P (motor_steps, (0xD1 /*@p8*/), "Steps of the motor", (i32_le_), R, ()) \
-  P (serial, (0x72 /*@p8*/), "Serial number", (i32_le_), R, ())
+  P (motor_steps, (0xD1 /*@r04*/), "Steps of the motor", (i32_le_), R, ()) \
+  P (serial, (0x72 /*@r04*/), "Serial number", (i32_le_), R, ())
 #define DEVICE_C_REAL_PARAMS(P, P_AS) \
-  P (excitation, (0xF3 /*@p8*/), "Current excitation wavelength", \
+  P (excitation, (0xF3 /*@r04*/), "Current excitation wavelength", \
      (f32_le_<unit::nanometer>), R, ()) \
-  P (target, (0xD9 /*@p8*/), "Target excitation wavelength", \
+  P (target, (0xD9 /*@r04*/), "Target excitation wavelength", \
      (f32_le_<unit::nanometer>), RW, ())
 // The same parameters in one table: a key is the type and the number.
 #define DEVICE_C_TYPED_PARAMS(P, P_AS) \
-  P (filter, (typed (1, 0xF3 /*@p8*/)), "Filter", (i16_le_), RW, ()) \
-  P (serial, (typed (2, 0x72 /*@p8*/)), "Serial number", (i32_le_), R, ()) \
-  P (excitation, (typed (3, 0xF3 /*@p8*/)), "Excitation wavelength", \
+  P (filter, (typed (1, 0xF3 /*@r04*/)), "Filter", (i16_le_), RW, ()) \
+  P (serial, (typed (2, 0x72 /*@r04*/)), "Serial number", (i32_le_), R, ()) \
+  P (excitation, (typed (3, 0xF3 /*@r04*/)), "Excitation wavelength", \
      (f32_le_<unit::nanometer>), R, ())
 // clang-format on
 LUMEX_PROTOCOL_REGISTRY (c_int, DEVICE_C_INT_PARAMS);
@@ -86,11 +86,11 @@ struct accessory_header
 
 // clang-format off
 #define DEVICE_C_I2C_ROWS(X, X_AS) \
-  X (query_v, 'V' /*@text*/, "Read the state of the accessory", (u8_), \
+  X (command_a, 'C' /*@r11*/, "Accessory command A", (u8_), \
      ("read_address"), (), ()) \
-  X (set_j, 'J' /*@text*/, "Wavelength of the accessory", \
-     (i16_le_<scale<std::ratio<1, 10> >, unit::nanometer>, u8_), \
-     ("wavelength", "read_address"), (), ())
+  X (command_b, 'Z' /*@r11*/, "Accessory command B", \
+     (i16_le_<scale<std::ratio<1, 10> > >, u8_), \
+     ("value", "read_address"), (), ())
 // clang-format on
 LUMEX_PROTOCOL_DEFINE (c_i2c, codec, accessory_header, DEVICE_C_I2C_ROWS);
 
@@ -134,54 +134,54 @@ LUMEX_PROTOCOL_LAYOUT (bus_result_t,
 
 // clang-format off
 #define DEVICE_C_ROWS(X, X_AS) \
-  X (reset_ad, 0xAD /*@p8*/, "Reset", (), (), (), (dangerous)) \
-  X (set_65, 0x65 /*@p8*/, "Key press", (split_<u8_, key_parts_t>), \
+  X (reset_ad, 0xAD /*@r04*/, "Reset", (), (), (), (dangerous)) \
+  X (set_65, 0x65 /*@r04*/, "Key press", (split_<u8_, key_parts_t>), \
      ("key"), (), ()) \
-  X (param_set_fa, 0xFA /*@p8*/, "16-bit parameter", \
+  X (param_set_fa, 0xFA /*@r04*/, "16-bit parameter", \
      (i16_le_, registry_key_<c_int, u8_>), ("value", "parameter"), (), \
-     (timeout (500), retries (3))) \
-  X (param_get_f4, 0xF4 /*@p8*/, "Read a 16-bit parameter", \
+     (timeout (400), retries (3))) \
+  X (param_get_f4, 0xF4 /*@r04*/, "Read a 16-bit parameter", \
      (registry_key_<c_int, u8_>), ("parameter"), (), \
-     (idempotent, timeout (500), retries (3))) \
-  X (report_35, 0x35 /*@p8*/, "16-bit parameter changed", (), (), \
+     (idempotent, timeout (400), retries (3))) \
+  X (report_35, 0x35 /*@r04*/, "16-bit parameter changed", (), (), \
      (int_change_t), ()) \
-  X (param_set_67, 0x67 /*@p8*/, "32-bit parameter", \
+  X (param_set_67, 0x67 /*@r04*/, "32-bit parameter", \
      (i32_le_, registry_key_<c_long, u8_>), ("value", "parameter"), (), \
-     (timeout (500), retries (3))) \
-  X (param_get_4b, 0x4B /*@p8*/, "Read a 32-bit parameter", \
+     (timeout (400), retries (3))) \
+  X (param_get_4b, 0x4B /*@r04*/, "Read a 32-bit parameter", \
      (registry_key_<c_long, u8_>), ("parameter"), (), \
-     (idempotent, timeout (500), retries (3))) \
-  X (report_38, 0x38 /*@p8*/, "32-bit parameter changed", (), (), \
+     (idempotent, timeout (400), retries (3))) \
+  X (report_38, 0x38 /*@r04*/, "32-bit parameter changed", (), (), \
      (long_change_t), ()) \
-  X (param_set_47, 0x47 /*@p8*/, "Floating parameter", \
+  X (param_set_47, 0x47 /*@r04*/, "Floating parameter", \
      (f32_le_<unit::nanometer>, registry_key_<c_real, u8_>), \
-     ("value", "parameter"), (), (timeout (500), retries (3))) \
-  X (param_get_44, 0x44 /*@p8*/, "Read a floating parameter", \
+     ("value", "parameter"), (), (timeout (400), retries (3))) \
+  X (param_get_44, 0x44 /*@r04*/, "Read a floating parameter", \
      (registry_key_<c_real, u8_>), ("parameter"), (), \
-     (idempotent, timeout (500), retries (3))) \
-  X (report_e0, 0xE0 /*@p8*/, "Floating parameter changed", (), (), \
+     (idempotent, timeout (400), retries (3))) \
+  X (report_e0, 0xE0 /*@r04*/, "Floating parameter changed", (), (), \
      (real_change_t), ()) \
-  X (stream_dd, 0xDD /*@p8*/, "Measurement", (), (), (measure_t), \
+  X (stream_dd, 0xDD /*@r04*/, "Measurement", (), (), (measure_t), \
      (stream (100))) \
-  X (start_83, 0x83 /*@p8*/, "Start the measurement", (u8_, u8_), \
+  X (start_83, 0x83 /*@r04*/, "Start the measurement", (u8_, u8_), \
      ("source", "kind"), (), ()) \
-  X (stop_cc, 0xCC /*@p8*/, "Stop the measurement", (u8_), ("source"), (), \
+  X (stop_cc, 0xCC /*@r04*/, "Stop the measurement", (u8_), ("source"), (), \
      ()) \
-  X (stop_0f, 0x0F /*@p8*/, "Abort the measurement", (), (), (), ()) \
-  X (report_87, 0x87 /*@p8*/, "Monochromator stopped", (), (), \
+  X (stop_0f, 0x0F /*@r04*/, "Abort the measurement", (), (), (), ()) \
+  X (report_87, 0x87 /*@r04*/, "Monochromator stopped", (), (), \
      (i16_le_<unit::step>), ()) \
-  X (write_8d, 0x8D /*@p8*/, "Write a memory block", (memory_block_t), \
+  X (write_8d, 0x8D /*@r04*/, "Write a memory block", (memory_block_t), \
      ("block"), (), (dangerous)) \
-  X (query_c9, 0xC9 /*@p8*/, "Read a memory block", (u8_, u8_, i16_le_), \
+  X (query_c9, 0xC9 /*@r04*/, "Read a memory block", (u8_, u8_, i16_le_), \
      ("size", "zero", "address"), (), (idempotent)) \
-  X (report_bc, 0xBC /*@p8*/, "Memory block", (), (), (memory_block_t), ()) \
-  X (write_8e, 0x8E /*@p8*/, "Transaction on the accessory bus", \
+  X (report_bc, 0xBC /*@r04*/, "Memory block", (), (), (memory_block_t), ()) \
+  X (write_8e, 0x8E /*@r04*/, "Transaction on the accessory bus", \
      (u8_, u8_, u8_, u8_, u8_, nested_<c_i2c, char_>), \
      ("write_count", "read_count", "delay", "address", "length", \
-      "command"), (), (timeout (500))) \
-  X (report_7b, 0x7B /*@p8*/, "Result of a bus transaction", (), (), \
+      "command"), (), (timeout (400))) \
+  X (report_7b, 0x7B /*@r04*/, "Result of a bus transaction", (), (), \
      (bus_result_t), ()) \
-  X (stream_af, 0xAF /*@p8*/, "A message on or off", (u8_, u8_), \
+  X (stream_af, 0xAF /*@r04*/, "A message on or off", (u8_, u8_), \
      ("message", "enable"), (), ())
 #define DEVICE_C_NO_ROWS(X, X_AS)
 // clang-format on
