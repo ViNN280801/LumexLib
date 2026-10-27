@@ -21,6 +21,7 @@ namespace hid = tr::hid;
 TEST (LumexHidDeviceAwaitableTest,
       GivenUseAwaitable_WhenOpenSendAndReceive_ThenTheReportArrives)
 {
+#if defined(ASIO_HAS_CO_AWAIT)
   tr::stream::io_runner runner (1);
   std::shared_ptr<lumex_fake_hidapi::fake_seam> const seam
       = std::make_shared<lumex_fake_hidapi::fake_seam> ();
@@ -60,4 +61,7 @@ TEST (LumexHidDeviceAwaitableTest,
              (std::vector<std::uint8_t>{ 2, 1, 2, 0, 0 }));
   transport.close ();
   EXPECT_TRUE (hid::hid_runtime::shutdown (tr::deadline_t (5000)));
+#else
+  GTEST_SKIP () << "the toolchain has no coroutines (ASIO_HAS_CO_AWAIT)";
+#endif
 }

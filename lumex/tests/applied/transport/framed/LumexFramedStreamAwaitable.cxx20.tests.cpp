@@ -20,6 +20,7 @@ using namespace lumex_framed_test;
 TEST (LumexFramedStreamAwaitable,
       GivenUseAwaitable_WhenWriteAndRead_ThenTheFrameComesBack)
 {
+#if defined(ASIO_HAS_CO_AWAIT)
   log_capture log;
   stream_rig<slip_case> rig;
   rig.open ();
@@ -43,12 +44,16 @@ TEST (LumexFramedStreamAwaitable,
             done.set_exception (failure);
         });
   EXPECT_EQ (done.get_future ().get (), payload);
+#else
+  GTEST_SKIP () << "the toolchain has no coroutines (ASIO_HAS_CO_AWAIT)";
+#endif
 }
 
 TEST (
     LumexFramedStreamAwaitable,
     GivenAnAwaitedReadWithCancelAfter_WhenTheTimeoutPasses_ThenItEndsCancelled)
 {
+#if defined(ASIO_HAS_CO_AWAIT)
   log_capture log;
   stream_rig<slip_case> rig;
   rig.open ();
@@ -66,11 +71,15 @@ TEST (
   ASSERT_EQ (result.wait_for (std::chrono::seconds (5)),
              std::future_status::ready);
   EXPECT_TRUE (result.get () == tr::error::transport_errc::cancelled);
+#else
+  GTEST_SKIP () << "the toolchain has no coroutines (ASIO_HAS_CO_AWAIT)";
+#endif
 }
 
 TEST (LumexFramedStreamAwaitable,
       GivenAnAwaitedWriteOfARefusedPayload_WhenAwaited_ThenTheErrorIsThrown)
 {
+#if defined(ASIO_HAS_CO_AWAIT)
   log_capture log;
   stream_rig<slip_case> rig;
   rig.open ();
@@ -92,4 +101,7 @@ TEST (LumexFramedStreamAwaitable,
     {
       EXPECT_TRUE (failure.code () == framing_errc::payload_too_large);
     }
+#else
+  GTEST_SKIP () << "the toolchain has no coroutines (ASIO_HAS_CO_AWAIT)";
+#endif
 }
