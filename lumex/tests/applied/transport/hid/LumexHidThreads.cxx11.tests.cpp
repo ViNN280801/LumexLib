@@ -466,6 +466,10 @@ namespace
 // The fake device of the exit test, never destroyed (threads still run at
 // exit).
 fake_device *exit_device = nullptr;
+// The reference that keeps it alive. It is never released, on purpose; held
+// by a global it stays reachable, so LeakSanitizer does not report the child
+// process of the death test at its exit.
+std::shared_ptr<fake_device> *exit_device_owner = nullptr;
 
 // Constructed before the runtime's sentinel, so destroyed after it: checks
 // that the stop flag set at static destruction ended the reader without a
@@ -520,7 +524,7 @@ exit_with_device_open ()
       = seam->add ("fake-exit", 0x1234, 0x5678, "X",
                    lumex_fake_hidapi::unnumbered_descriptor (8, 8));
   // Kept alive past exit on purpose.
-  new std::shared_ptr<fake_device> (device);
+  exit_device_owner = new std::shared_ptr<fake_device> (device);
   exit_device = device.get ();
   io_runner *const runner = new io_runner (1);
   hid::hid_options_t options;

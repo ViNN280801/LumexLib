@@ -91,6 +91,20 @@ protected:
     return *scripted_->device;
   }
 
+  // The end of a test that leaves a write on the device. The scripted
+  // device, unlike a real stream, keeps the handler of that write itself;
+  // that handler and the close a destroyed adapter queues on its strand keep
+  // the adapter, the strand and the device alive for each other when the
+  // context never runs the close (LeakSanitizer reports them). Destroying the
+  // adapter here and running the context ends the pending handlers with
+  // `cancelled` and breaks the cycle.
+  void
+  finish_with_a_write_on_the_device ()
+  {
+    link_.reset ();
+    settle ();
+  }
+
   asio::io_context context_;
   log_capture log_;
   std::unique_ptr<scripted_stream> scripted_;
@@ -294,6 +308,9 @@ TEST_F (
   EXPECT_EQ (second.calls, 0);
   EXPECT_EQ (write.calls, 0);
   EXPECT_EQ (device ().writes_pending (), 1u);
+  finish_with_a_write_on_the_device ();
+  EXPECT_EQ (second.calls, 1);
+  EXPECT_EQ (write.calls, 1);
 }
 
 // The result was handed on (the frame went to the handler), which waits on
@@ -329,6 +346,9 @@ TEST_F (
   ASSERT_EQ (first.calls, 1);
   EXPECT_FALSE (first.error);
   EXPECT_EQ (first.frame, bytes_t (1, 3));
+  finish_with_a_write_on_the_device ();
+  EXPECT_EQ (second.calls, 1);
+  EXPECT_EQ (write.calls, 1);
 }
 
 TEST_F (
