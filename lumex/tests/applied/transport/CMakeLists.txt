@@ -13,6 +13,19 @@ add_subdirectory(session)
 add_subdirectory(statistics)
 add_subdirectory(stream)
 
+# The framed adapters are compiled only with the framing module
+# (lumex/applied/transport/CMakeLists.txt), and so are their tests.
+lumex_effective_on(_transport_tests_with_framing LUMEX_BUILD_FRAMING)
+if(_transport_tests_with_framing)
+    add_subdirectory(framed)
+endif()
+
+# The HID transport is compiled only with LUMEX_TRANSPORT_WITH_HID
+# (lumex/applied/transport/CMakeLists.txt), and so are its tests.
+if(LUMEX_TRANSPORT_WITH_HID)
+    add_subdirectory(hid)
+endif()
+
 # The module's own suites: the completion token styles through the umbrella
 # (LumexTransportTokens.cxx11, LumexTransportAwaitable.cxx20 from C++20),
 # asio::deferred, per-operation cancellation, the executor of the handler

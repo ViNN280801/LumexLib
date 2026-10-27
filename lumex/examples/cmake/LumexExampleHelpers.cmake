@@ -18,6 +18,8 @@
 #     LINK lumex::base64
 #     REQUIRE_TARGET lumex::base64
 #     [CXX_STANDARD 14]
+#     [TEST_ARGS <argument>...]   # the command line of the CTest run
+#     [TEST_TIMEOUT <seconds>]    # CTest TIMEOUT of the run
 #   )
 
 # Directory of this file, recorded when a component includes it.
@@ -37,8 +39,8 @@ endfunction()
 
 function(lumex_example_executable)
   set(options)
-  set(oneValueArgs NAME SOURCE REQUIRE_TARGET CXX_STANDARD)
-  set(multiValueArgs LINK)
+  set(oneValueArgs NAME SOURCE REQUIRE_TARGET CXX_STANDARD TEST_TIMEOUT)
+  set(multiValueArgs LINK TEST_ARGS)
   cmake_parse_arguments(LEX "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
   if(NOT LEX_NAME OR NOT LEX_SOURCE OR NOT LEX_LINK)
@@ -88,11 +90,14 @@ function(lumex_example_executable)
     lumex_add_tsan_libcxx_support(${LEX_NAME})
     if(LUMEX_BUILD_TESTS)
       lumex_example_test_name(_ctest_name ${LEX_NAME})
-      add_test(NAME ${_ctest_name} COMMAND ${LEX_NAME})
+      add_test(NAME ${_ctest_name} COMMAND ${LEX_NAME} ${LEX_TEST_ARGS})
       set_tests_properties(${_ctest_name} PROPERTIES
         WORKING_DIRECTORY "$<TARGET_FILE_DIR:${LEX_NAME}>"
         LABELS "example"
       )
+      if(LEX_TEST_TIMEOUT)
+        set_tests_properties(${_ctest_name} PROPERTIES TIMEOUT ${LEX_TEST_TIMEOUT})
+      endif()
     endif()
   else()
     install(TARGETS ${LEX_NAME} DESTINATION bin)

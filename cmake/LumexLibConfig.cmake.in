@@ -122,6 +122,11 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/LumexAppliedTargets.cmake")
         add_library(lumex::3rdparty_boost_context ALIAS
             lumex::lumex_3rdparty_boost_context)
     endif()
+    # The static hidapi library of the HID transport.
+    if(TARGET lumex::lumex_3rdparty_hidapi
+       AND NOT TARGET lumex::3rdparty_hidapi)
+        add_library(lumex::3rdparty_hidapi ALIAS lumex::lumex_3rdparty_hidapi)
+    endif()
 endif()
 
 if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/LumexXmlTargets.cmake")

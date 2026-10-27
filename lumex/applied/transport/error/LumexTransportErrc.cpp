@@ -108,6 +108,8 @@ public:
         return "unreadable HID report descriptor";
       case static_cast<int> (transport_errc::permission_denied):
         return "access to the device denied";
+      case static_cast<int> (transport_errc::unknown_report_id):
+        return "no output report with this report ID";
       default:
         return "unknown transport error";
       }
