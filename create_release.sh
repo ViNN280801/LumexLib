@@ -589,7 +589,11 @@ std_tag_for() {
   esac
 }
 
-declare -a JOB_C JOB_CXX JOB_LABEL JOB_ISA JOB_STD JOB_KIND JOB_NOTE JOB_STDTAG
+# Initialised, not only declared: bash 5.0 reads a declared array without
+# elements as unset, and "set -u" stops at ${#JOB_CXX[@]} when no job was
+# added.
+JOB_C=(); JOB_CXX=(); JOB_LABEL=(); JOB_ISA=(); JOB_STD=(); JOB_KIND=()
+JOB_NOTE=(); JOB_STDTAG=()
 SKIPPED_JOBS=()
 for path in "${COMPILER_PATHS[@]}"; do
   [[ -x "$path" ]] || die "compiler '$path' does not exist or is not executable"
@@ -937,7 +941,7 @@ for i in "${!JOB_CXX[@]}"; do
   else
     extract_args=()
     [[ "${build_rc}" -eq 0 ]] || extract_args+=(--failed)
-    counts="$(python3 "${EXTRACTOR}" "${work}/build.log" --warn-out "${warn_log}" --err-out "${err_log}" "${extract_args[@]}")"
+    counts="$(python3 "${EXTRACTOR}" "${work}/build.log" --warn-out "${warn_log}" --err-out "${err_log}" ${extract_args[@]+"${extract_args[@]}"})"
     n_warn="${counts#warnings=}"; n_warn="${n_warn%% *}"
     n_err="${counts##* errors=}"
     dcolor="$(diag_color "${n_warn}" "${n_err}")"
