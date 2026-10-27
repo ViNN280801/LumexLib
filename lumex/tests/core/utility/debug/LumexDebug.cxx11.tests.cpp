@@ -19,6 +19,7 @@
 
 #include "lumex/core/utility/debug/LumexDebug.hpp"
 #include "lumex/tests/support/LumexPerfSkip.hpp"
+#include "lumex/tests/support/LumexTestCyrillicCopy.hpp"
 #if defined(__clang__)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wglobal-constructors"
@@ -441,6 +442,65 @@ TEST (LumexDebugTest,
 
   EXPECT_FALSE (trace.empty ());
   EXPECT_FALSE (stand_in.started ()) << trace;
+}
+#endif
+
+#if defined(_WIN32)
+// --- Non-ASCII executable directory (Windows) ----------------------------
+// GetModuleFileNameA returns the ANSI code page text of the path, so the PDB
+// search path of a program in a Cyrillic folder was a string of '?'. The
+// children are copies of this binary started from such a folder.
+
+TEST (LumexDebugTest,
+      GivenCyrillicText_WhenWideToUtf8_ThenUtf8BytesAreReturned)
+{
+  EXPECT_EQ (lumex::core::utility::debug::Detail::wide_to_utf8 (
+                 L"\u041F\u0440\u0438\u0432\u0435\u0442 a\u00FFb"),
+             "\xD0\x9F\xD1\x80\xD0\xB8\xD0\xB2\xD0\xB5\xD1\x82 a\xC3\xBF"
+             "b");
+  EXPECT_EQ (lumex::core::utility::debug::Detail::wide_to_utf8 (nullptr), "");
+  EXPECT_EQ (lumex::core::utility::debug::Detail::wide_to_utf8 (L""), "");
+}
+
+// Child: runs in the copy made by the next test. The PDB search directory is
+// the directory of the executable, as UTF-16 and with the trailing separator,
+// and a stack trace taken there initializes the symbol handler and lists its
+// frames. The PDB is not copied, so this does not prove that the PDB search
+// path is used (SymInitializeW against SymInitialize is not covered). Never
+// runs by itself.
+TEST (LumexDebugTest, ChildInCyrillicDirectory)
+{
+  if (!lumex_test::cyrillic_copy::is_child ())
+    GTEST_SKIP () << "runs only as the child of the test below";
+  std::wstring const directory
+      = lumex::core::utility::debug::Detail::get_exe_directory ();
+  std::wstring const self = lumex_test::cyrillic_copy::self_path ();
+  EXPECT_EQ (directory, self.substr (0, self.find_last_of (L"\\/") + 1));
+  // Not vacuous: the first letter of the directory name is a Cyrillic one.
+  EXPECT_NE (directory.find (L'\u041F'), std::wstring::npos);
+
+  std::string const trace
+      = lumex::core::utility::debug::capture_stack_trace (0, 16);
+  EXPECT_FALSE (trace.empty ());
+  EXPECT_EQ (trace.find ("SymInitialize failed"), std::string::npos) << trace;
+  EXPECT_NE (trace.find ("  #0"), std::string::npos) << trace;
+}
+
+TEST (
+    LumexDebugTest,
+    GivenBinaryInCyrillicDirectory_WhenExeDirectoryAndStackTraceAreTaken_ThenTheDirectoryIsRight)
+{
+  namespace copy = lumex_test::cyrillic_copy;
+  if (copy::is_child ())
+    GTEST_SKIP () << "the child runs the test above";
+  std::string directory;
+  ASSERT_TRUE (copy::make_copy ("_debug", directory));
+
+  int const code
+      = copy::run (directory, "LumexDebugTest.ChildInCyrillicDirectory");
+
+  copy::remove_tree (directory);
+  EXPECT_EQ (code, 0);
 }
 #endif
 

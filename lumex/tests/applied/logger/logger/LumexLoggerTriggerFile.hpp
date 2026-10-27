@@ -66,6 +66,72 @@ namespace lumex_test
 {
 namespace logger_trigger
 {
+#if defined(_WIN32)
+/**
+ * @brief UTF-8 to UTF-16 with the Win32 call, strict: false for text that is
+ * not valid UTF-8. The paths of these helpers are UTF-8 like the paths of the
+ * logger; the ANSI functions and the narrow streams read them in the ANSI code
+ * page, so a build directory with a Cyrillic name broke every test that used
+ * them. (The helper depends on the logger only, not on core/unicode.)
+ */
+inline bool
+to_wide (std::string const &utf8, std::wstring &wide)
+{
+  wide.clear ();
+  if (utf8.empty ())
+    return true;
+  int const size
+      = MultiByteToWideChar (CP_UTF8, MB_ERR_INVALID_CHARS, utf8.data (),
+                             static_cast<int> (utf8.size ()), nullptr, 0);
+  if (size <= 0)
+    return false;
+  wide.resize (static_cast<std::size_t> (size));
+  return MultiByteToWideChar (CP_UTF8, MB_ERR_INVALID_CHARS, utf8.data (),
+                              static_cast<int> (utf8.size ()), &wide[0], size)
+         == size;
+}
+
+/// UTF-16 to UTF-8 (strict); an empty string when it fails.
+inline std::string
+to_utf8 (std::wstring const &wide)
+{
+  if (wide.empty ())
+    return std::string ();
+  int const size = WideCharToMultiByte (
+      CP_UTF8, WC_ERR_INVALID_CHARS, wide.data (),
+      static_cast<int> (wide.size ()), nullptr, 0, nullptr, nullptr);
+  if (size <= 0)
+    return std::string ();
+  std::string utf8 (static_cast<std::size_t> (size), '\0');
+  WideCharToMultiByte (CP_UTF8, WC_ERR_INVALID_CHARS, wide.data (),
+                       static_cast<int> (wide.size ()), &utf8[0], size,
+                       nullptr, nullptr);
+  return utf8;
+}
+
+/// The path of a module as UTF-8 (the wide API, no MAX_PATH limit).
+inline std::string
+module_path (HMODULE module)
+{
+  std::wstring wide (MAX_PATH, L'\0');
+  for (;;)
+    {
+      DWORD const length = GetModuleFileNameW (
+          module, &wide[0], static_cast<DWORD> (wide.size ()));
+      if (length == 0)
+        return std::string ();
+      if (length < wide.size ())
+        {
+          wide.resize (length);
+          return to_utf8 (wide);
+        }
+      if (wide.size () >= 32768)
+        return std::string ();
+      wide.resize (wide.size () * 2);
+    }
+}
+#endif
+
 /// True when the compiled config format can be written by `config_text`
 /// (every format but the reserved YAML).
 inline bool
@@ -98,14 +164,18 @@ logger_directory ()
 {
 #if defined(_WIN32)
   HMODULE module = nullptr;
-  char path[MAX_PATH] = { 0 };
-  if (GetModuleHandleExA (
+  if (GetModuleHandleExW (
           GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS
               | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
-          reinterpret_cast<LPCSTR> (&::LumexLogger::get_instance ()), &module)
-      && GetModuleFileNameA (module, path, MAX_PATH) > 0)
-    return directory_of (path);
-  if (GetModuleFileNameA (nullptr, path, MAX_PATH) > 0)
+          reinterpret_cast<LPCWSTR> (&::LumexLogger::get_instance ()),
+          &module))
+    {
+      std::string const path = module_path (module);
+      if (!path.empty ())
+        return directory_of (path);
+    }
+  std::string const path = module_path (nullptr);
+  if (!path.empty ())
     return directory_of (path);
   return ".";
 #elif defined(__APPLE__)
@@ -185,6 +255,23 @@ config_text (std::string const &level, std::string const &extra = "")
 inline bool
 write_file (std::string const &path, std::string const &content)
 {
+#if defined(_WIN32)
+  std::wstring wide;
+  if (!to_wide (path, wide))
+    return false;
+  HANDLE const file = CreateFileW (
+      wide.c_str (), GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE,
+      nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
+  if (file == INVALID_HANDLE_VALUE)
+    return false;
+  DWORD written = 0;
+  BOOL const ok
+      = content.empty ()
+        || WriteFile (file, content.data (),
+                      static_cast<DWORD> (content.size ()), &written, nullptr);
+  CloseHandle (file);
+  return ok != 0 && written == content.size ();
+#else
   std::ofstream out (path.c_str (),
                      std::ios::out | std::ios::trunc | std::ios::binary);
   if (!out.is_open ())
@@ -192,32 +279,71 @@ write_file (std::string const &path, std::string const &content)
   out << content;
   out.close ();
   return !out.fail ();
+#endif
 }
 
 /// The whole content of `path`; empty when it cannot be read.
 inline std::string
 read_file (std::string const &path)
 {
+#if defined(_WIN32)
+  std::wstring wide;
+  if (!to_wide (path, wide))
+    return std::string ();
+  HANDLE const file = CreateFileW (
+      wide.c_str (), GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr,
+      OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+  if (file == INVALID_HANDLE_VALUE)
+    return std::string ();
+  std::string content;
+  char buffer[4096];
+  DWORD got = 0;
+  while (ReadFile (file, buffer, sizeof (buffer), &got, nullptr) && got > 0)
+    content.append (buffer, got);
+  CloseHandle (file);
+  return content;
+#else
   std::ifstream in (path.c_str (), std::ios::in | std::ios::binary);
   if (!in.is_open ())
     return std::string ();
   return std::string (std::istreambuf_iterator<char> (in),
                       std::istreambuf_iterator<char> ());
+#endif
 }
 
 /// True when `path` exists and can be opened for reading.
 inline bool
 file_exists (std::string const &path)
 {
+#if defined(_WIN32)
+  std::wstring wide;
+  if (!to_wide (path, wide))
+    return false;
+  HANDLE const file = CreateFileW (
+      wide.c_str (), GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr,
+      OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+  if (file == INVALID_HANDLE_VALUE)
+    return false;
+  CloseHandle (file);
+  return true;
+#else
   std::ifstream in (path.c_str ());
   return in.is_open ();
+#endif
 }
 
 /// Removes `path`; true when it is gone (or was never there).
 inline bool
 remove_file (std::string const &path)
 {
+#if defined(_WIN32)
+  std::wstring wide;
+  if (!to_wide (path, wide))
+    return false;
+  DeleteFileW (wide.c_str ());
+#else
   std::remove (path.c_str ());
+#endif
   return !file_exists (path);
 }
 
@@ -226,7 +352,9 @@ inline bool
 make_directory (std::string const &path)
 {
 #if defined(_WIN32)
-  return CreateDirectoryA (path.c_str (), nullptr) != 0;
+  std::wstring wide;
+  return to_wide (path, wide)
+         && CreateDirectoryW (wide.c_str (), nullptr) != 0;
 #else
   return mkdir (path.c_str (), 0755) == 0;
 #endif
@@ -237,7 +365,8 @@ inline bool
 remove_directory (std::string const &path)
 {
 #if defined(_WIN32)
-  return RemoveDirectoryA (path.c_str ()) != 0;
+  std::wstring wide;
+  return to_wide (path, wide) && RemoveDirectoryW (wide.c_str ()) != 0;
 #else
   return rmdir (path.c_str ()) == 0;
 #endif

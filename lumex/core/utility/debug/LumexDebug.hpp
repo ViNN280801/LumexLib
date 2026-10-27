@@ -147,6 +147,7 @@
 #include "lumex/core/string/utility/LumexStringify.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 #include "lumex/core/utility/os/LumexCheckOS.hpp"
+#include "lumex/core/utility/util/LumexUtf8FileName.hpp"
 
 namespace lumex
 {
@@ -191,20 +192,55 @@ get_dbg_help_mutex () LUMEX_NOEXCEPT
 // lumex/core/filesystem publicly depends on lumex/core/utility (see its
 // CMakeLists.txt), so utility must not depend back on filesystem - that would
 // create a circular module dependency in the build graph.
-static inline std::string
+// The path is UTF-16 end to end (GetModuleFileNameW, SymInitializeW,
+// SymSetSearchPathW): the ANSI forms turn a non-ASCII directory into '?' and
+// the PDB next to the executable is not found. The buffer grows, so a path
+// longer than MAX_PATH is not cut.
+static inline std::wstring
 get_exe_directory () LUMEX_NOEXCEPT
 {
   try
     {
-      std::array<char, 4096> buf{};
-      DWORD const len = GetModuleFileNameA (nullptr, buf.data (),
-                                            static_cast<DWORD> (buf.size ()));
-      if (len == 0 || len >= buf.size ())
+      std::wstring path (MAX_PATH, L'\0');
+      for (;;)
+        {
+          DWORD const len = GetModuleFileNameW (
+              nullptr, &path[0], static_cast<DWORD> (path.size ()));
+          if (len == 0)
+            return {};
+          if (len < path.size ())
+            {
+              path.resize (len);
+              break;
+            }
+          // len == size: truncated (ERROR_INSUFFICIENT_BUFFER), try a larger
+          // buffer up to the 32767 characters of a Windows path.
+          if (path.size () >= 32768)
+            return {};
+          path.resize (path.size () * 2);
+        }
+      std::size_t const lastSlash = path.find_last_of (L"\\/");
+      return (lastSlash != std::wstring::npos) ? path.substr (0, lastSlash + 1)
+                                               : std::wstring{};
+    }
+  catch (...)
+    {
+      return {};
+    }
+}
+
+// UTF-16 to UTF-8 for the text of a stack trace (a source path or a module
+// name from the PDB). It is shown to a person, so an unpaired surrogate
+// becomes U+FFFD instead of failing the whole line
+// (`utf8_file_name::to_utf8`).
+static inline std::string
+wide_to_utf8 (wchar_t const *text) LUMEX_NOEXCEPT
+{
+  try
+    {
+      if (text == nullptr || text[0] == L'\0')
         return {};
-      std::string path (buf.data (), len);
-      std::size_t const lastSlash = path.find_last_of ("\\/");
-      return (lastSlash != std::string::npos) ? path.substr (0, lastSlash + 1)
-                                              : std::string{};
+      return ::lumex::core::utility::utf8_file_name::to_utf8 (text);
     }
   catch (...)
     {
@@ -230,13 +266,13 @@ ensure_symbols_initialized (HANDLE process) LUMEX_NOEXCEPT
                       // (MSDN)
                       SymSetOptions (SYMOPT_LOAD_LINES | SYMOPT_UNDNAME
                                      | SYMOPT_DEFERRED_LOADS);
-                      std::string const exeDir = get_exe_directory ();
-                      char const *searchPath
+                      std::wstring const exeDir = get_exe_directory ();
+                      wchar_t const *searchPath
                           = exeDir.empty () ? nullptr : exeDir.c_str ();
-                      if (SymInitialize (process, searchPath, TRUE))
+                      if (SymInitializeW (process, searchPath, TRUE))
                         {
                           if (!exeDir.empty ())
-                            SymSetSearchPath (process, exeDir.c_str ());
+                            SymSetSearchPathW (process, exeDir.c_str ());
                           initialized.store (true, std::memory_order_release);
                         }
                     });
@@ -576,18 +612,20 @@ capture_stack_trace (int skip_frames = 1, int max_frames = 16) LUMEX_NOEXCEPT
           if (SymFromAddr (process, address, &displacement, symbol_buffer))
             {
               // Try to get line number and file name
-              IMAGEHLP_LINE64 line{};
-              line.SizeOfStruct = sizeof (IMAGEHLP_LINE64);
+              IMAGEHLP_LINEW64 line{};
+              line.SizeOfStruct = sizeof (IMAGEHLP_LINEW64);
               DWORD line_displacement = 0;
 
-              if (SymGetLineFromAddr64 (process, address, &line_displacement,
-                                        &line))
+              if (SymGetLineFromAddrW64 (process, address, &line_displacement,
+                                         &line))
                 {
-                  // Full info: function + file:line + address
+                  // Full info: function + file:line + address (the file name
+                  // is UTF-16 from the PDB, shown as UTF-8)
                   result += lumex::core::string::utility::stringify (
-                      "  #", i, ": ", symbol_buffer->Name, " (", line.FileName,
-                      ":", line.LineNumber, ") [0x",
-                      Detail::format_hex (address), "]\n");
+                      "  #", i, ": ", symbol_buffer->Name, " (",
+                      Detail::wide_to_utf8 (line.FileName), ":",
+                      line.LineNumber, ") [0x", Detail::format_hex (address),
+                      "]\n");
                 }
               else
                 {
@@ -601,13 +639,14 @@ capture_stack_trace (int skip_frames = 1, int max_frames = 16) LUMEX_NOEXCEPT
             {
               // Fallback: try SymGetModuleInfo64 for module name (e.g.
               // ntdll.dll+0x1234)
-              IMAGEHLP_MODULE64 moduleInfo{};
-              moduleInfo.SizeOfStruct = sizeof (IMAGEHLP_MODULE64);
-              if (SymGetModuleInfo64 (process, address, &moduleInfo))
+              IMAGEHLP_MODULEW64 moduleInfo{};
+              moduleInfo.SizeOfStruct = sizeof (IMAGEHLP_MODULEW64);
+              if (SymGetModuleInfoW64 (process, address, &moduleInfo))
                 {
                   DWORD64 const offset = address - moduleInfo.BaseOfImage;
                   result += lumex::core::string::utility::stringify (
-                      "  #", i, ": ", moduleInfo.ModuleName, "+0x",
+                      "  #", i, ": ",
+                      Detail::wide_to_utf8 (moduleInfo.ModuleName), "+0x",
                       Detail::format_hex (offset), " [0x",
                       Detail::format_hex (address), "]\n");
                 }

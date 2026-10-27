@@ -844,12 +844,15 @@ namespace detail
 // The name to open a file stream with. The path is UTF-8; on Windows a narrow
 // name goes through the ANSI code page, so the stream gets the UTF-16 name
 // wherever the standard library takes one (an extension of the MSVC STL used
-// by cl.exe and clang-cl, of libstdc++ with _wfopen on MinGW, and of libc++
-// with _LIBCPP_HAS_OPEN_WITH_WCHAR; LUMEX_UTF8_FILE_NAME_WIDE_OPEN). Elsewhere
-// the narrow name stays: it is right on POSIX, and the only choice on another
-// Windows library. On Windows a path that is not valid UTF-8 gives an empty
-// name, which no stream opens (the name of the skipped bytes would be the name
-// of another file); the callers that report an error check the path before.
+// by cl.exe and clang-cl, of libstdc++ of GCC 9 and later with _wfopen on
+// MinGW, and of libc++ with _LIBCPP_HAS_OPEN_WITH_WCHAR;
+// LUMEX_UTF8_FILE_NAME_WIDE_OPEN). Elsewhere the narrow name stays: it is
+// right on POSIX, and the only choice on another Windows library, where the C
+// runtime reads it in the ANSI code page: a name with a byte of 0x80 or more
+// is then refused (`narrow_name_is_faithful`) unless the process code page is
+// UTF-8. On Windows a path that is not valid UTF-8 gives an empty name, which
+// no stream opens (the name of the skipped bytes would be the name of another
+// file); the callers that report an error check the path before.
 #if LUMEX_UTF8_FILE_NAME_WIDE_OPEN
 static std::wstring
 stream_name (path const &path_arg)
@@ -863,6 +866,8 @@ static std::string
 stream_name (path const &path_arg)
 {
   return lumex_filesystem::to_wide_path (path_arg).success ()
+                 && ::lumex::core::utility::utf8_file_name::
+                     narrow_name_is_faithful (path_arg.string ())
              ? path_arg.string ()
              : std::string ();
 }
@@ -2114,6 +2119,12 @@ lumex_filesystem::replace_file_content (path const &path_arg,
       filesystem_result<std::wstring> const wide = to_wide_path (path_arg);
       if (!wide.success ())
         return filesystem_result<void>::err (wide.error_code ());
+      // The narrow stream of a library without a wide open reads the name in
+      // the ANSI code page: refused with the code of an invalid name.
+      if (!lumex::core::utility::utf8_file_name::narrow_name_is_faithful (
+              path_arg.string ()))
+        return filesystem_result<void>::err (
+            static_cast<int> (ERROR_INVALID_NAME));
 #endif
       path const parent = path_arg.parent_path ();
       if (!parent.empty () && !exists (parent))
@@ -2575,6 +2586,15 @@ open_stream_impl (Stream &stream, path const &path_arg,
 #if defined(LUMEX_OS_WINDOWS)
   // One check here; the conversion of the name is in `utf8_file_name::open`.
   if (!detail::is_valid_utf8 (path_arg.native ()))
+    {
+      stream.setstate (std::ios_base::failbit);
+      return filesystem_result<void>::err (
+          static_cast<int> (ERROR_INVALID_NAME));
+    }
+  // A library without a wide open would read the name in the ANSI code page
+  // (`narrow_name_is_faithful`): the same code as an invalid name.
+  if (!lumex::core::utility::utf8_file_name::narrow_name_is_faithful (
+          path_arg.native ()))
     {
       stream.setstate (std::ios_base::failbit);
       return filesystem_result<void>::err (

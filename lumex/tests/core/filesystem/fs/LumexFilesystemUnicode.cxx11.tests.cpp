@@ -43,6 +43,7 @@
 #include <gtest/gtest.h>
 
 #include "lumex/core/filesystem/LumexFilesystem"
+#include "lumex/tests/support/LumexTestNarrowSkip.hpp"
 
 using lumex::core::filesystem::fs::lumex_filesystem;
 using lumex::core::filesystem::fs::path;
@@ -950,6 +951,7 @@ TEST_F (LumexFilesystemUnicodeDiskTest,
 TEST_F (LumexFilesystemUnicodeDiskTest,
         GivenFileWithCyrillicName_WhenReadableAndWritable_ThenBoth)
 {
+  LUMEX_TEST_SKIP_WITHOUT_NARROW_UTF8_NAMES ();
   path const file = m_base / (std::string (kPrivetUtf8) + ".txt");
   ASSERT_TRUE (native_create_file (file, "abc"));
   created (file, false);
@@ -964,6 +966,7 @@ TEST_F (LumexFilesystemUnicodeDiskTest,
 TEST_F (LumexFilesystemUnicodeDiskTest,
         GivenCyrillicName_WhenReplaceFileContent_ThenTheFileHasIt)
 {
+  LUMEX_TEST_SKIP_WITHOUT_NARROW_UTF8_NAMES ();
   path const file = m_base / (std::string (kPrivetUtf8) + kEmojiUtf8 + ".txt");
   created (file, false);
 
@@ -981,6 +984,7 @@ TEST_F (LumexFilesystemUnicodeDiskTest,
 TEST_F (LumexFilesystemUnicodeDiskTest,
         GivenCyrillicDirectory_WhenStreamsOpenedByPath_ThenTheyWriteAndRead)
 {
+  LUMEX_TEST_SKIP_WITHOUT_NARROW_UTF8_NAMES ();
   path const dir = m_base / kPrivetUtf8;
   ASSERT_TRUE (native_create_directory (dir));
   created (dir, true);

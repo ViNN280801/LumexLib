@@ -129,11 +129,12 @@ entries (std::string const &directory)
   return names;
 }
 
-/// Removes `directory` with everything in it (the files are made writable).
+/// Removes the directory `wide_directory` (UTF-16, so an entry whose name is
+/// not valid Unicode goes too) with everything in it; the files are made
+/// writable.
 inline void
-remove_tree (std::string const &directory)
+remove_tree_wide (std::wstring const &wide_directory)
 {
-  std::wstring const wide_directory = utf8_files::wide (directory);
   WIN32_FIND_DATAW data;
   HANDLE const find
       = FindFirstFileW ((wide_directory + L"\\*").c_str (), &data);
@@ -146,7 +147,7 @@ remove_tree (std::string const &directory)
             continue;
           std::wstring const full = wide_directory + L"\\" + name;
           if ((data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0)
-            remove_tree (to_utf8 (full));
+            remove_tree_wide (full);
           else
             {
               SetFileAttributesW (full.c_str (), FILE_ATTRIBUTE_NORMAL);
@@ -159,6 +160,13 @@ remove_tree (std::string const &directory)
   RemoveDirectoryW (wide_directory.c_str ());
 }
 
+/// Removes `directory` (UTF-8) with everything in it.
+inline void
+remove_tree (std::string const &directory)
+{
+  remove_tree_wide (utf8_files::wide (directory));
+}
+
 /**
  * @brief Copies the running executable and every DLL beside it into a new
  * directory `<executable directory>/<Cyrillic><suffix>`.
@@ -166,10 +174,13 @@ remove_tree (std::string const &directory)
  * share a directory.
  * @param directory Receives the directory (UTF-8); a leftover of an earlier
  * run is removed first.
+ * @param exe_name The file name (UTF-8) of the copied executable; empty keeps
+ * the name of the running one.
  * @return true when every file was copied.
  */
 inline bool
-make_copy (std::string const &suffix, std::string &directory)
+make_copy (std::string const &suffix, std::string &directory,
+           std::string const &exe_name = std::string ())
 {
   directory = self_directory () + "/" + utf8_files::cyrillic (suffix);
   remove_tree (directory);
@@ -178,10 +189,10 @@ make_copy (std::string const &suffix, std::string &directory)
   std::wstring const self = self_path ();
   std::wstring const self_dir = self.substr (0, self.find_last_of (L"\\/"));
   std::wstring const target = utf8_files::wide (directory);
-  bool ok = CopyFileW (
-                self.c_str (),
-                (target + self.substr (self.find_last_of (L"\\/"))).c_str (),
-                FALSE)
+  std::wstring const leaf = exe_name.empty ()
+                                ? self.substr (self.find_last_of (L"\\/") + 1)
+                                : utf8_files::wide (exe_name);
+  bool ok = CopyFileW (self.c_str (), (target + L"\\" + leaf).c_str (), FALSE)
             != 0;
   WIN32_FIND_DATAW data;
   HANDLE const find = FindFirstFileW ((self_dir + L"\\*.dll").c_str (), &data);
@@ -201,18 +212,26 @@ make_copy (std::string const &suffix, std::string &directory)
 /**
  * @brief Runs the copy made by `make_copy` with `--gtest_filter=<filter>` and
  * the child variable set, in the copy's directory, and waits for it.
+ * @param arguments More command-line arguments of the child (UTF-8).
+ * @param exe_name The name given to `make_copy`; empty for the default.
  * @return the exit code of the child (0 when its tests passed), -1 when it
  * could not be started.
  */
 inline int
-run (std::string const &directory, std::string const &filter)
+run (std::string const &directory, std::string const &filter,
+     std::string const &arguments = std::string (),
+     std::string const &exe_name = std::string ())
 {
   std::wstring const self = self_path ();
   std::wstring const wide_directory = utf8_files::wide (directory);
   std::wstring const exe
-      = wide_directory + self.substr (self.find_last_of (L"\\/"));
+      = wide_directory + L"\\"
+        + (exe_name.empty () ? self.substr (self.find_last_of (L"\\/") + 1)
+                             : utf8_files::wide (exe_name));
   std::wstring command
       = L"\"" + exe + L"\" --gtest_filter=" + utf8_files::wide (filter);
+  if (!arguments.empty ())
+    command += L" " + utf8_files::wide (arguments);
   SetEnvironmentVariableW (child_variable (), L"1");
   STARTUPINFOW startup;
   ZeroMemory (&startup, sizeof (startup));
@@ -233,14 +252,15 @@ run (std::string const &directory, std::string const &filter)
   return static_cast<int> (code);
 }
 
-/// Makes the file `path` (UTF-8) `size` bytes long without writing them: a
-/// sparse file where the volume supports it. true on success.
+/// Makes the file `path` (UTF-16, so a name that is not valid Unicode can be
+/// used) `size` bytes long without writing them: a sparse file where the
+/// volume supports it. true on success.
 inline bool
-make_sparse_file (std::string const &path, long long size)
+make_sparse_file_wide (std::wstring const &path, long long size)
 {
-  HANDLE const file = CreateFileW (
-      utf8_files::wide (path).c_str (), GENERIC_READ | GENERIC_WRITE, 0,
-      nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
+  HANDLE const file
+      = CreateFileW (path.c_str (), GENERIC_READ | GENERIC_WRITE, 0, nullptr,
+                     CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
   if (file == INVALID_HANDLE_VALUE)
     return false;
   DWORD returned = 0;
@@ -252,6 +272,14 @@ make_sparse_file (std::string const &path, long long size)
                   && SetEndOfFile (file) != 0;
   CloseHandle (file);
   return ok;
+}
+
+/// Makes the file `path` (UTF-8) `size` bytes long without writing them: a
+/// sparse file where the volume supports it. true on success.
+inline bool
+make_sparse_file (std::string const &path, long long size)
+{
+  return make_sparse_file_wide (utf8_files::wide (path), size);
 }
 } // namespace cyrillic_copy
 } // namespace lumex_test
