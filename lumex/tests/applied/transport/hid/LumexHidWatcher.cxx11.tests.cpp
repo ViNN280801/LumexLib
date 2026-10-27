@@ -122,14 +122,12 @@ protected:
 
   std::shared_ptr<fake_device>
   plug (std::string const &path, std::uint16_t product = KPRODUCT,
-        int interface_number = 0, std::uint16_t usage_page = 0)
+        int interface_number = 0, std::uint16_t usage_page = 0,
+        std::uint16_t usage = 0)
   {
-    std::shared_ptr<fake_device> const device
-        = seam_->add (path, KVENDOR, product, "S1",
-                      lumex_fake_hidapi::unnumbered_descriptor (8, 8));
-    device->info.interface_number = interface_number;
-    device->info.usage_page = usage_page;
-    return device;
+    return seam_->add (path, KVENDOR, product, "S1",
+                       lumex_fake_hidapi::unnumbered_descriptor (8, 8),
+                       interface_number, usage_page, usage);
   }
 
   ss::hid_device_callback_t
@@ -493,10 +491,9 @@ TEST_F (LumexHidWatcherTest,
         GivenTwoRecordsOnOnePath_WhenWatched_ThenThePathArrivesAndGoesOnce)
 {
   // hidapi lists one record per top-level usage, all with the device's path.
-  std::shared_ptr<fake_device> const first = plug ("hid-a");
-  std::shared_ptr<fake_device> const second = plug ("hid-a");
-  first->info.usage = 1;
-  second->info.usage = 2;
+  std::shared_ptr<fake_device> const first = plug ("hid-a", KPRODUCT, 0, 0, 1);
+  std::shared_ptr<fake_device> const second
+      = plug ("hid-a", KPRODUCT, 0, 0, 2);
   std::shared_ptr<presence_log> const presence
       = std::make_shared<presence_log> ();
   std::unique_ptr<ss::device_watcher> watcher = manual_watcher ();
@@ -520,10 +517,9 @@ TEST_F (
     LumexHidWatcherTest,
     GivenTwoRecordsOnOnePath_WhenAUsageIsSelected_ThenThatRecordStandsForThePath)
 {
-  std::shared_ptr<fake_device> const first = plug ("hid-a");
-  std::shared_ptr<fake_device> const second = plug ("hid-a");
-  first->info.usage = 1;
-  second->info.usage = 2;
+  std::shared_ptr<fake_device> const first = plug ("hid-a", KPRODUCT, 0, 0, 1);
+  std::shared_ptr<fake_device> const second
+      = plug ("hid-a", KPRODUCT, 0, 0, 2);
   std::mutex mutex;
   std::vector<unsigned> usages;
   std::unique_ptr<ss::device_watcher> watcher = manual_watcher ();
