@@ -3,6 +3,7 @@
 
 #include <cstddef>
 #include <system_error>
+#include <type_traits>
 #include <vector>
 
 #include <gtest/gtest.h>
@@ -157,4 +158,16 @@ TEST (LumexFramingCodecTest,
   EXPECT_EQ (buffer.max_size (), 1u);
   EXPECT_TRUE (buffer.push (9));
   EXPECT_FALSE (buffer.push (9));
+}
+
+// The byte order of the codecs is the shared one of
+// lumex/core/utility/bit/LumexByteOrder.hpp (the protocol fields use it
+// without the framing module); the old spelling still works.
+TEST (LumexFramingCodecTest,
+      GivenTheByteOrderOfTheCodecs_WhenNamed_ThenItIsTheSharedUtilityType)
+{
+  EXPECT_TRUE ((std::is_same<codec::byte_order,
+                             lumex::core::utility::bit::byte_order>::value));
+  EXPECT_TRUE (codec::byte_order::big
+               == lumex::core::utility::bit::byte_order::big);
 }

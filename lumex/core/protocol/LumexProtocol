@@ -1,0 +1,100 @@
+/*
+ * Copyright (c) 2026 Vladislav Semykin <vladislav.semykin@gmail.com>
+ *
+ *
+ * SPDX-License-Identifier: MIT
+ *
+ * Permission is hereby granted, free of
+ * charge, to any person obtaining a copy
+ * of this software and associated
+ * documentation files (the "Software"), to deal
+ * in the Software without
+ * restriction, including without limitation the rights
+ * to use, copy,
+ * modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the
+ * Software, and to permit persons to whom the Software is
+ * furnished to do
+ * so, subject to the following conditions:
+ *
+ * The above copyright notice
+ * and this permission notice shall be included in
+ * all copies or substantial
+ * portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT
+ * WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO
+ * THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH
+ * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+/**
+ * @file LumexProtocol
+ * @brief Protocol module: an exchange protocol described once as a table,
+ * from which the library generates typed command types, names, run-time
+ * entries and the client mixin.
+ * @details Link <tt>%lumex::protocol</tt> (compiled library: it holds the
+ * error category; the DSL is header-only). Works from C++11. The table
+ * macros are in `dsl/LumexProtocolDefine.hpp` (`LUMEX_PROTOCOL_DEFINE`,
+ * `LUMEX_PROTOCOL_EXTEND`, `LUMEX_PROTOCOL_EXTEND_FRAMED`,
+ * `LUMEX_PROTOCOL_LAYOUT`), the names a table uses in
+ * `dsl/LumexProtocolVocabulary.hpp`, the options in
+ * `dsl/LumexProtocolOptions.hpp`, the run-time entries in
+ * `dsl/LumexProtocolEntry.hpp`, the collision guard in
+ * `dsl/LumexProtocolPlatformMacros.hpp`, the error codes in
+ * `error/LumexProtocolErrc.hpp`, the field types in `field/` (integers,
+ * floating, text, bits, enumerations, arrays, tails, unions, nested
+ * messages) and the three layouts with their encoders and decoders in
+ * `layout/` (`binary_layout`, `fixed_width_text_layout`,
+ * `tokenized_text_layout`; `layout::encode_request`, `decode_reply`, ...),
+ * the parameter and register tables in `registry/` (`LUMEX_PROTOCOL_REGISTRY`,
+ * `registry_key_`, `registry_value_`, `verify_registry`), the run-time index
+ * with `describe` and the session context in `index/` (`build_index`,
+ * `protocol_index`, `session_context_t`) and the Markdown export in
+ * `export/`. `export/LumexProtocolExportJson.hpp` (`export_json`) is
+ * included on its own: it needs `LUMEX_PROTOCOL_WITH_JSON` and the
+ * consumer's nlohmann/json.
+ */
+#include "error/LumexProtocolErrc.hpp"
+
+#include "dsl/LumexProtocolDefine.hpp"
+#include "dsl/LumexProtocolEntry.hpp"
+#include "dsl/LumexProtocolKey.hpp"
+#include "dsl/LumexProtocolOptions.hpp"
+#include "dsl/LumexProtocolPlatformMacros.hpp"
+#include "dsl/LumexProtocolRow.hpp"
+#include "dsl/LumexProtocolTypeList.hpp"
+#include "dsl/LumexProtocolVocabulary.hpp"
+#include "export/LumexProtocolExportMarkdown.hpp"
+#include "field/LumexProtocolBitFields.hpp"
+#include "field/LumexProtocolCompositeFields.hpp"
+#include "field/LumexProtocolContext.hpp"
+#include "field/LumexProtocolFieldTraits.hpp"
+#include "field/LumexProtocolIntegerFields.hpp"
+#include "field/LumexProtocolModifiers.hpp"
+#include "field/LumexProtocolNumeric.hpp"
+#include "field/LumexProtocolRecord.hpp"
+#include "field/LumexProtocolTextFields.hpp"
+#include "field/LumexProtocolValues.hpp"
+#include "index/LumexProtocolDescriptor.hpp"
+#include "index/LumexProtocolFormat.hpp"
+#include "index/LumexProtocolIndex.hpp"
+#include "index/LumexProtocolKeyReader.hpp"
+#include "index/LumexProtocolSession.hpp"
+#include "layout/LumexProtocolBinaryLayout.hpp"
+#include "layout/LumexProtocolCodec.hpp"
+#include "layout/LumexProtocolLayoutBase.hpp"
+#include "layout/LumexProtocolTextLayouts.hpp"
+#include "registry/LumexProtocolRegistry.hpp"
+#include "registry/LumexProtocolRegistryFields.hpp"
+#include "registry/LumexProtocolRegistryText.hpp"
+#include "registry/LumexProtocolRegistryVerify.hpp"

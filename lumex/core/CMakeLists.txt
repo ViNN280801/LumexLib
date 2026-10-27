@@ -33,5 +33,8 @@ lumex_add_subdirectory_if(LUMEX_BUILD_FILESYSTEM filesystem)
 lumex_add_subdirectory_if(LUMEX_BUILD_REFLECTION reflection)
 # interprocess links expected, filesystem, reflection and utility: add it after them.
 lumex_add_subdirectory_if(LUMEX_BUILD_INTERPROCESS interprocess)
+# protocol links expected, framing, reflection, span, string_view and utility:
+# add it after them.
+lumex_add_subdirectory_if(LUMEX_BUILD_PROTOCOL protocol)
 lumex_add_subdirectory_if(LUMEX_BUILD_TEMPORARY temporary)
 lumex_add_subdirectory_if(LUMEX_BUILD_EXCEPTIONS exceptions)
