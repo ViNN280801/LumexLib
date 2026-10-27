@@ -43,6 +43,7 @@
 
 #include "lumex/applied/serial/probe/detail/LumexSerialBoundedOpen.hpp"
 #include "lumex/applied/serial/resolver/LumexPortProcessResolver.hpp"
+#include "lumex/core/utility/util/LumexUtf8FileName.hpp"
 
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -135,16 +136,17 @@ struct shared_open_state_t
 };
 
 /**
- * @brief Worker body: one blocking `CreateFileA`.
+ * @brief Worker body: one blocking `CreateFileW`.
  * @param state Shared state to fill; owned through the `shared_ptr`.
- * @param open_path Path passed to `CreateFileA`.
- * @param open_flags `dwFlagsAndAttributes` for `CreateFileA`.
+ * @param open_path Path passed to `CreateFileW` (UTF-16, converted strictly
+ * from the UTF-8 path of the caller).
+ * @param open_flags `dwFlagsAndAttributes` for `CreateFileW`.
  */
 void
 open_port_worker (std::shared_ptr<shared_open_state_t> state,
-                  std::string open_path, std::uint32_t open_flags)
+                  std::wstring open_path, std::uint32_t open_flags)
 {
-  HANDLE const handle = ::CreateFileA (
+  HANDLE const handle = ::CreateFileW (
       open_path.c_str (), GENERIC_READ | GENERIC_WRITE, 0, nullptr,
       OPEN_EXISTING, static_cast<DWORD> (open_flags), nullptr);
 
@@ -182,10 +184,24 @@ bounded_open_serial_port (std::string const &open_path,
       return result;
     }
 
+  // The path is UTF-8 like every path of the library. A name that is not
+  // valid UTF-8 is refused: the wide API must never be given the name of
+  // skipped bytes.
+  std::wstring wide_path;
+  if (!::lumex::core::utility::utf8_file_name::to_wide (open_path, wide_path))
+    {
+      result.outcome = open_outcome::failed;
+      result.error_code = static_cast<int> (ERROR_INVALID_NAME);
+      result.system_error
+          = resolver::port_process_resolver::format_system_error (
+              result.error_code);
+      return result;
+    }
+
   std::shared_ptr<shared_open_state_t> const state
       = std::make_shared<shared_open_state_t> ();
 
-  std::thread worker (open_port_worker, state, open_path, platform_open_flags);
+  std::thread worker (open_port_worker, state, wide_path, platform_open_flags);
 
   bool completed = false;
   {

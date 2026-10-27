@@ -15,6 +15,7 @@
 
 #include "lumex/applied/resource_monitor/LumexResourceMonitor"
 #include "lumex/core/filesystem/LumexFilesystem"
+#include "lumex/tests/support/LumexTestNarrowSkip.hpp"
 #include "lumex/tests/support/LumexTestUtf8Files.hpp"
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -132,6 +133,7 @@ TEST_F (LumexResourceMonitorTest, StartIfEnabledCreatesTheLogDirectory)
 // Cyrillic directory (a user profile) and quit without a line.
 TEST_F (LumexResourceMonitorTest, ASamplerLogsUnderACyrillicDirectory)
 {
+  LUMEX_TEST_SKIP_WITHOUT_NARROW_UTF8_NAMES ();
   namespace files = lumex_test::utf8_files;
   scratchDir = make_scratch_dir (files::cyrillic ());
   ASSERT_TRUE (files::exists (scratchDir.string ()));

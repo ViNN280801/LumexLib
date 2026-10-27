@@ -14,6 +14,7 @@
 #include "lumex/applied/settings/LumexSettings"
 #include "lumex/core/filesystem/LumexFilesystem"
 #include "lumex/core/utility/LumexUtility"
+#include "lumex/tests/support/LumexTestNarrowSkip.hpp"
 #include "lumex/tests/support/LumexTestUtf8Files.hpp"
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -259,6 +260,7 @@ TEST_F (LumexSettingsJSONTest,
 TEST_F (LumexSettingsJSONTest,
         GivenCyrillicPath_WhenIsJsonValidAndLoad_ThenTheFileIsRead)
 {
+  LUMEX_TEST_SKIP_WITHOUT_NARROW_UTF8_NAMES ();
   namespace files = lumex_test::utf8_files;
   std::string const directory = _test_dir.string () + "/" + files::cyrillic ();
   ASSERT_TRUE (files::make_directory (directory));

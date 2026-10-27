@@ -332,20 +332,32 @@ get_directory_size (std::string const &directoryPath) LUMEX_NOEXCEPT
               || wcscmp (findData.cFileName, L"..") == 0)
             continue;
 
-          std::string fullPath
-              = directoryPath + "\\"
-                + ::lumex::core::utility::utf8_file_name::to_utf8 (
-                    findData.cFileName);
-
           if ((findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0)
             {
-              int64_t subDirSize = get_directory_size (fullPath);
+              // A subdirectory is entered by name, and the name must be exact
+              // (a replacement character would name another directory), so a
+              // name that is not valid UTF-16 is skipped: its size is not
+              // counted, the rest of the tree still is. (The log directory
+              // holds files; the size limit must not be switched off by one
+              // odd entry, which "unknown" would do.)
+              std::string entryName;
+              if (!::lumex::core::utility::utf8_file_name::from_wide (
+                      findData.cFileName, wcslen (findData.cFileName),
+                      entryName))
+                continue;
+              int64_t subDirSize
+                  = get_directory_size (directoryPath + "\\" + entryName);
               if (subDirSize < 0)
-                return -1;
+                {
+                  FindClose (hFind);
+                  return -1;
+                }
               totalSize += subDirSize;
             }
           else
             {
+              // A file is counted by its size from the listing, without its
+              // name: a name that cannot be converted still takes room.
               LARGE_INTEGER fileSize{};
               fileSize.LowPart = findData.nFileSizeLow;
               fileSize.HighPart = static_cast<LONG> (findData.nFileSizeHigh);
@@ -485,16 +497,21 @@ capture_stack_trace (int skip_frames = 1, int max_frames = 16) LUMEX_NOEXCEPT
           if (SymFromAddr (process, address, &displacement, symbol_buffer)
               != 0)
             {
-              IMAGEHLP_LINE64 line{};
-              line.SizeOfStruct = sizeof (IMAGEHLP_LINE64);
+              // The wide form: the ANSI one returns the source path in the
+              // ANSI code page. Shown to a person, so the conversion to
+              // UTF-8 may replace an unpaired surrogate.
+              IMAGEHLP_LINEW64 line{};
+              line.SizeOfStruct = sizeof (IMAGEHLP_LINEW64);
               DWORD line_displacement = 0;
 
-              if (SymGetLineFromAddr64 (process, address, &line_displacement,
-                                        &line)
+              if (SymGetLineFromAddrW64 (process, address, &line_displacement,
+                                         &line)
                   != 0)
                 {
                   result += logger_stringify (
-                      "  #", i, ": ", symbol_buffer->Name, " (", line.FileName,
+                      "  #", i, ": ", symbol_buffer->Name, " (",
+                      ::lumex::core::utility::utf8_file_name::to_utf8 (
+                          line.FileName),
                       ":", line.LineNumber, ") [", format_hex (address),
                       "]\n");
                 }
@@ -2238,26 +2255,54 @@ std::string
 LumexLogger::_get_executable_directory () const
 {
 #if defined(_WIN32) || defined(_WIN64)
-  // Windows: use GetModuleFileName to get the DLL/EXE path
-  // The wide function: the narrow one gives the ANSI code page, and every
-  // path of the logger is UTF-8.
-  wchar_t path[LOGGER_MAX_PATH];
+  // Windows: use GetModuleFileNameW to get the DLL/EXE path. The wide API:
+  // the ANSI one returns the path in the ANSI code page of the process and
+  // turns a Cyrillic directory into '?' (the trigger file and the log were
+  // then looked for in a directory that does not exist). The buffer grows,
+  // so a path longer than MAX_PATH is not cut, and the result is UTF-8 like
+  // every other path of the logger (the strict conversion of
+  // utf8_file_name).
+  struct module_path
+  {
+    static bool
+    get (HMODULE module, std::string &utf8)
+    {
+      std::wstring wide (MAX_PATH, L'\0');
+      for (;;)
+        {
+          DWORD const length = GetModuleFileNameW (
+              module, &wide[0], static_cast<DWORD> (wide.size ()));
+          if (length == 0)
+            return false;
+          if (length < wide.size ())
+            {
+              wide.resize (length);
+              break;
+            }
+          if (wide.size () >= 32768)
+            return false;
+          wide.resize (wide.size () * 2);
+        }
+      // Strict: an unpaired surrogate is refused, never replaced.
+      return ::lumex::core::utility::utf8_file_name::from_wide (wide, utf8);
+    }
+  };
+
+  std::string path;
   HMODULE hModule = nullptr;
 
   // Try to get a handle to the current module
-  if (GetModuleHandleExA (GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS
+  if (GetModuleHandleExW (GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS
                               | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
-                          reinterpret_cast<LPCSTR> (this), &hModule))
+                          reinterpret_cast<LPCWSTR> (this), &hModule))
     {
-      if (GetModuleFileNameW (hModule, path, LOGGER_MAX_PATH) > 0)
-        return _extract_directory_from_path (
-            ::lumex::core::utility::utf8_file_name::to_utf8 (path));
+      if (module_path::get (hModule, path))
+        return _extract_directory_from_path (path);
     }
 
-  // Fallback: use GetModuleFileName with nullptr
-  if (GetModuleFileNameW (nullptr, path, LOGGER_MAX_PATH) > 0)
-    return _extract_directory_from_path (
-        ::lumex::core::utility::utf8_file_name::to_utf8 (path));
+  // Fallback: use GetModuleFileNameW with nullptr
+  if (module_path::get (nullptr, path))
+    return _extract_directory_from_path (path);
 
   throw std::runtime_error ("Can't get executable directory on Windows");
 
@@ -3234,10 +3279,15 @@ LumexLogger::_get_log_files_sorted_by_time (std::string const &directoryPath)
                   if ((findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
                       == 0U)
                     {
-                      std::string fullPath
-                          = directoryPath + "\\"
-                            + ::lumex::core::utility::utf8_file_name::to_utf8 (
-                                findData.cFileName);
+                      // Strict: an entry whose name is not valid UTF-16 is
+                      // skipped, never listed under a repaired name (the
+                      // list feeds the removal of old logs).
+                      std::string entryName;
+                      if (!::lumex::core::utility::utf8_file_name::from_wide (
+                              findData.cFileName, wcslen (findData.cFileName),
+                              entryName))
+                        continue;
+                      std::string fullPath = directoryPath + "\\" + entryName;
 
                       // Get the file creation time
                       FILETIME creationTime = findData.ftCreationTime;

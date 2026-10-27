@@ -93,6 +93,7 @@ protected:
     env->unset_environment_variable (
         "LUMEX_SET_VAR"); // Cleanup from is_env_set tests
     env->unset_environment_variable ("LUMEX_FOUND_UNFOUND_VAR");
+    env->unset_environment_variable ("LUMEX_UTF8_VAR");
   }
 
   lumex_environment *env; // Pointer to the singleton instance
@@ -161,13 +162,6 @@ TEST_F (
     LumexEnvironmentTest,
     GivenEmptyValue_WhenSetEnvironmentVariable_ThenVariableIsEmptyButExists)
 {
-#if LUMEX_OS_WINDOWS
-  // On Windows, SetEnvironmentVariableA with an empty string actually deletes
-  // the variable This is documented Windows behavior, so we skip this test on
-  // Windows
-  GTEST_SKIP () << "Windows does not support setting environment variables to "
-                   "empty strings - they get deleted instead";
-#else
   // Setting an empty string value should succeed, and the variable should
   // exist but be empty.
   ASSERT_TRUE (env->set_environment_variable ("LUMEX_EMPTY_VAR", ""));
@@ -177,7 +171,6 @@ TEST_F (
   EXPECT_TRUE (result.success);
   EXPECT_TRUE (result);
   EXPECT_TRUE (result.value.empty ());
-#endif
 }
 
 TEST_F (LumexEnvironmentTest,
@@ -676,3 +669,161 @@ TEST_F (LumexEnvironmentTest, MemorySafety_EnvResultDestructorCalled)
   }
   SUCCEED (); // If no crash or leak detected, test passes
 }
+
+// --- Non-ASCII text (UTF-8) ---------------------------------------------
+
+namespace
+{
+// A Cyrillic word in UTF-8, as byte escapes (a u8 literal is char8_t at
+// C++20): the same bytes on every platform and in every source encoding.
+char const *const kCyrillicValue
+    = "\xD0\x9F\xD1\x80\xD0\xB8\xD0\xB2\xD0\xB5\xD1\x82"; // 6 letters
+// The same word as UTF-16, for the checks that go through the wide Win32 API:
+// the test makes its text without the converter under test.
+#if LUMEX_OS_WINDOWS
+wchar_t const *const kCyrillicValueWide
+    = L"\u041F\u0440\u0438\u0432\u0435\u0442";
+#endif
+// A variable name in Cyrillic: UTF-8 and UTF-16.
+char const *const kCyrillicName = "LUMEX_\xD0\x9F\xD0\xA2\xD0\x9E"; // PTO
+#if LUMEX_OS_WINDOWS
+wchar_t const *const kCyrillicNameWide = L"LUMEX_\u041F\u0422\u041E";
+#endif
+} // namespace
+
+TEST_F (LumexEnvironmentTest,
+        GivenCyrillicValue_WhenSetAndGet_ThenSameUtf8BytesComeBack)
+{
+  ASSERT_TRUE (
+      env->set_environment_variable ("LUMEX_UTF8_VAR", kCyrillicValue));
+
+  lumex_environment::EnvResult const result
+      = env->get_environment_variable ("LUMEX_UTF8_VAR");
+
+  ASSERT_TRUE (result.success);
+  EXPECT_EQ (result.value, kCyrillicValue);
+}
+
+TEST_F (LumexEnvironmentTest,
+        GivenCyrillicName_WhenSetAndGet_ThenTheValueComesBack)
+{
+  ASSERT_TRUE (env->set_environment_variable (kCyrillicName, "value"));
+
+  lumex_environment::EnvResult const result
+      = env->get_environment_variable (kCyrillicName);
+
+  EXPECT_TRUE (env->unset_environment_variable (kCyrillicName));
+  ASSERT_TRUE (result.success);
+  EXPECT_EQ (result.value, "value");
+  EXPECT_FALSE (env->get_environment_variable (kCyrillicName).success);
+}
+
+#if LUMEX_OS_WINDOWS
+// The ANSI functions (and _dupenv_s) return the text in the ANSI code page of
+// the process: on a Russian system Windows-1251 bytes, on others '?'. The
+// value is made through the wide API, whatever the code page is.
+TEST_F (LumexEnvironmentTest,
+        GivenValueSetThroughWideApi_WhenGet_ThenUtf8IsReturned)
+{
+  ASSERT_NE (SetEnvironmentVariableW (L"LUMEX_UTF8_VAR", kCyrillicValueWide),
+             0);
+
+  lumex_environment::EnvResult const result
+      = env->get_environment_variable ("LUMEX_UTF8_VAR");
+
+  ASSERT_TRUE (result.success);
+  EXPECT_EQ (result.value, kCyrillicValue);
+}
+
+TEST_F (LumexEnvironmentTest,
+        GivenUtf8Value_WhenSet_ThenWideApiReadsTheSameText)
+{
+  ASSERT_TRUE (
+      env->set_environment_variable ("LUMEX_UTF8_VAR", kCyrillicValue));
+
+  wchar_t buffer[64] = {};
+  DWORD const length = GetEnvironmentVariableW (
+      L"LUMEX_UTF8_VAR", buffer,
+      static_cast<DWORD> (sizeof (buffer) / sizeof (buffer[0])));
+
+  ASSERT_GT (length, 0u);
+  EXPECT_EQ (std::wstring (buffer, length), kCyrillicValueWide);
+}
+
+TEST_F (LumexEnvironmentTest,
+        GivenNameSetThroughWideApi_WhenGet_ThenTheValueIsFound)
+{
+  ASSERT_NE (SetEnvironmentVariableW (kCyrillicNameWide, L"value"), 0);
+
+  lumex_environment::EnvResult const result
+      = env->get_environment_variable (kCyrillicName);
+
+  SetEnvironmentVariableW (kCyrillicNameWide, nullptr);
+  ASSERT_TRUE (result.success);
+  EXPECT_EQ (result.value, "value");
+}
+
+// A byte that is not UTF-8 is refused; it is never skipped or replaced (that
+// would write another variable or another value).
+TEST_F (LumexEnvironmentTest,
+        GivenValueThatIsNotUtf8_WhenSet_ThenItIsRefusedAndNothingIsStored)
+{
+  EXPECT_FALSE (env->set_environment_variable ("LUMEX_UTF8_VAR", "a\xFF"
+                                                                 "b"));
+
+  EXPECT_FALSE (env->get_environment_variable ("LUMEX_UTF8_VAR").success);
+}
+
+TEST_F (LumexEnvironmentTest,
+        GivenNameThatIsNotUtf8_WhenGetOrUnset_ThenItIsRefused)
+{
+  // "LUMEX_" exists: a converter that skips the bad byte would find it
+  // (and unset it) instead of refusing.
+  ASSERT_NE (SetEnvironmentVariableW (L"LUMEX_", L"x"), 0);
+
+  lumex_environment::EnvResult const result
+      = env->get_environment_variable ("LUMEX_\xC3");
+  bool const unset = env->unset_environment_variable ("LUMEX_\xC3");
+
+  bool const still_there = GetEnvironmentVariableW (L"LUMEX_", nullptr, 0) > 0;
+  SetEnvironmentVariableW (L"LUMEX_", nullptr);
+  EXPECT_FALSE (result.success);
+  EXPECT_EQ (result.error_code, static_cast<int> (ERROR_INVALID_NAME));
+  EXPECT_FALSE (unset);
+  EXPECT_TRUE (still_there);
+}
+
+// The value is read strictly: a lone surrogate is refused, not repaired.
+TEST_F (LumexEnvironmentTest,
+        GivenValueWithLoneSurrogate_WhenGet_ThenItIsRefused)
+{
+  std::wstring value = L"a";
+  value.push_back (static_cast<wchar_t> (0xD800));
+  value += L"b";
+  ASSERT_NE (SetEnvironmentVariableW (L"LUMEX_UTF8_VAR", value.c_str ()), 0);
+
+  lumex_environment::EnvResult const result
+      = env->get_environment_variable ("LUMEX_UTF8_VAR");
+
+  EXPECT_FALSE (result.success);
+  EXPECT_EQ (result.error_code,
+             static_cast<int> (ERROR_NO_UNICODE_TRANSLATION));
+}
+
+// GetEnvironmentVariableW returns 0 for an empty value without touching
+// GetLastError: a stale error from an earlier call must not turn the empty
+// variable into a failure.
+TEST_F (LumexEnvironmentTest,
+        GivenEmptyVariableAndStaleLastError_WhenGet_ThenItIsEmptyNotAnError)
+{
+  ASSERT_NE (SetEnvironmentVariableW (L"LUMEX_UTF8_VAR", L""), 0);
+  SetLastError (ERROR_ENVVAR_NOT_FOUND);
+
+  lumex_environment::EnvResult const result
+      = env->get_environment_variable ("LUMEX_UTF8_VAR");
+
+  EXPECT_TRUE (result.success);
+  EXPECT_TRUE (result.value.empty ());
+}
+
+#endif

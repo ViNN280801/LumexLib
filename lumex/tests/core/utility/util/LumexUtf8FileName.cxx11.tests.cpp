@@ -155,10 +155,138 @@ TEST (LumexUtf8FileNameTest, GivenUnpairedSurrogate_WhenToUtf8_ThenReplacement)
                                     "x");
 }
 
+TEST (LumexUtf8FileNameTest, GivenWideText_WhenFromWide_ThenStrictUtf8)
+{
+  std::string const utf8 = "dir/\xD0\x9F\xD1\x80\xD0\xB8 \xF0\x9F\x98\x80.txt";
+  std::wstring wide;
+  ASSERT_TRUE (names::to_wide (utf8, wide));
+
+  std::string out = "left over";
+  ASSERT_TRUE (names::from_wide (wide, out));
+  EXPECT_EQ (out, utf8);
+
+  out.clear ();
+  ASSERT_TRUE (names::from_wide (wide.data (), wide.size (), out));
+  EXPECT_EQ (out, utf8);
+
+  ASSERT_TRUE (names::from_wide (L"", 0, out));
+  EXPECT_TRUE (out.empty ());
+}
+
+TEST (LumexUtf8FileNameTest, GivenUnits_WhenFromWide_ThenNulUnitIsKept)
+{
+  std::wstring wide (L"a");
+  wide.push_back (L'\0');
+  wide += L"b";
+  std::string out;
+  ASSERT_TRUE (names::from_wide (wide, out));
+  EXPECT_EQ (out, std::string ("a\0b", 3));
+}
+
+// The lenient to_utf8 repairs an unpaired surrogate; from_wide refuses it, in
+// UTF-16 and UTF-32 alike (D800 is not a scalar value in either).
+TEST (LumexUtf8FileNameTest, GivenLoneSurrogate_WhenFromWide_ThenFalseAndEmpty)
+{
+  std::wstring wide (1, static_cast<wchar_t> (0xD800));
+  wide += L"x";
+  std::string out = "left over";
+  EXPECT_FALSE (names::from_wide (wide, out));
+  EXPECT_TRUE (out.empty ()) << "a replacement would name another file";
+
+  std::wstring low (1, static_cast<wchar_t> (0xDC00));
+  EXPECT_FALSE (names::from_wide (low, out));
+  EXPECT_TRUE (out.empty ());
+
+  std::wstring trailing = L"x";
+  trailing.push_back (static_cast<wchar_t> (0xD83D));
+  EXPECT_FALSE (names::from_wide (trailing, out));
+
+  // The pointer and length form refuses it as well.
+  EXPECT_FALSE (names::from_wide (wide.data (), wide.size (), out));
+  EXPECT_TRUE (out.empty ());
+}
+
+TEST (LumexUtf8FileNameTest, GivenAstralCharacter_WhenFromWide_ThenFourBytes)
+{
+  std::wstring wide;
+  if (sizeof (wchar_t) == 2)
+    {
+      wide.push_back (static_cast<wchar_t> (0xD83D));
+      wide.push_back (static_cast<wchar_t> (0xDE00));
+    }
+  else
+    wide.push_back (static_cast<wchar_t> (0x1F600));
+  std::string out;
+  ASSERT_TRUE (names::from_wide (wide, out));
+  EXPECT_EQ (out, "\xF0\x9F\x98\x80");
+}
+
+// The ends of the surrogate ranges: U+10000 is D800 DC00 and U+10FFFF is
+// DBFF DFFF in UTF-16 (a single unit in UTF-32); both convert, in the lenient
+// and in the strict form, and the same units in the other order do not.
+TEST (LumexUtf8FileNameTest,
+      GivenFirstAndLastAstralCharacter_WhenFromWide_ThenConverted)
+{
+  std::wstring first;
+  std::wstring last;
+  if (sizeof (wchar_t) == 2)
+    {
+      first.push_back (static_cast<wchar_t> (0xD800));
+      first.push_back (static_cast<wchar_t> (0xDC00));
+      last.push_back (static_cast<wchar_t> (0xDBFF));
+      last.push_back (static_cast<wchar_t> (0xDFFF));
+    }
+  else
+    {
+      first.push_back (static_cast<wchar_t> (0x10000));
+      last.push_back (static_cast<wchar_t> (0x10FFFF));
+    }
+  std::string out;
+  ASSERT_TRUE (names::from_wide (first, out));
+  EXPECT_EQ (out, "\xF0\x90\x80\x80");
+  EXPECT_EQ (names::to_utf8 (first), "\xF0\x90\x80\x80");
+  ASSERT_TRUE (names::from_wide (last, out));
+  EXPECT_EQ (out, "\xF4\x8F\xBF\xBF");
+  EXPECT_EQ (names::to_utf8 (last), "\xF4\x8F\xBF\xBF");
+}
+
+TEST (LumexUtf8FileNameTest, GivenSwappedSurrogates_WhenFromWide_ThenFalse)
+{
+  std::wstring swapped;
+  swapped.push_back (static_cast<wchar_t> (0xDFFF));
+  swapped.push_back (static_cast<wchar_t> (0xDBFF));
+  std::string out;
+  EXPECT_FALSE (names::from_wide (swapped, out));
+  EXPECT_TRUE (out.empty ());
+}
+
+TEST (LumexUtf8FileNameTest,
+      GivenValueAboveUnicodeRange_WhenFromWide_ThenFalse)
+{
+  if (sizeof (wchar_t) == 2)
+    GTEST_SKIP () << "a value above U+10FFFF exists in UTF-32 only";
+  std::wstring wide (1, static_cast<wchar_t> (0x110000));
+  std::string out;
+  EXPECT_FALSE (names::from_wide (wide, out));
+  EXPECT_TRUE (out.empty ());
+}
+
 TEST_F (LumexUtf8FileNameDiskTest,
         GivenCyrillicDirectory_WhenStreamsOpened_ThenTheyWriteAndRead)
 {
   std::string const name = file (files::cyrillic (".txt"));
+
+  if (!names::narrow_name_is_faithful (name))
+    {
+      // The Windows build whose library has no wide open (MinGW before GCC 9)
+      // would hand the bytes to the ANSI code page and create another file:
+      // the name is refused instead, and nothing is created under any name.
+      std::ofstream refused;
+      EXPECT_FALSE (names::open (refused, name, std::ios_base::out));
+      EXPECT_TRUE (refused.fail ());
+      EXPECT_FALSE (files::exists (name));
+      return;
+    }
 
   {
     std::ofstream out;
@@ -181,6 +309,19 @@ TEST_F (LumexUtf8FileNameDiskTest,
   both << "def";
   both.close ();
   EXPECT_EQ (files::file_size (name), 6);
+}
+
+TEST (LumexUtf8FileNameTest,
+      GivenNames_WhenNarrowNameIsFaithful_ThenFollowsTheBuild)
+{
+  EXPECT_TRUE (names::narrow_name_is_faithful ("plain/ascii.txt"));
+  EXPECT_TRUE (names::narrow_name_is_faithful (""));
+#if defined(_WIN32) && !LUMEX_UTF8_FILE_NAME_WIDE_OPEN
+  EXPECT_EQ (names::narrow_name_is_faithful (files::cyrillic ()),
+             GetACP () == CP_UTF8);
+#else
+  EXPECT_TRUE (names::narrow_name_is_faithful (files::cyrillic ()));
+#endif
 }
 
 TEST_F (LumexUtf8FileNameDiskTest,
