@@ -42,6 +42,7 @@
 
 #include "LumexLoggerTriggerFile.hpp"
 #include "lumex/applied/logger/LumexLogger"
+#include "lumex/tests/support/LumexTestNarrowSkip.hpp"
 #include "lumex/tests/support/LumexTestUtf8Files.hpp"
 
 #if defined(__clang__)
@@ -366,6 +367,7 @@ protected:
 TEST_F (LumexLoggerRereadTest,
         GivenTriggerFileInACyrillicDirectory_WhenReread_ThenTheLogIsEnabled)
 {
+  LUMEX_TEST_SKIP_WITHOUT_NARROW_UTF8_NAMES ();
   namespace files = lumex_test::utf8_files;
   std::string const directory_name = files::cyrillic ("_logger_trigger");
   std::string const directory
@@ -892,8 +894,10 @@ TEST_F (
     GivenAnUnchangedTriggerFileThatIsLocked_WhenRereadAgain_ThenItIsNotRead)
 {
   enable_at ("info");
+  std::wstring wide_trigger_path;
+  ASSERT_TRUE (trigger::to_wide (trigger_path_, wide_trigger_path));
   HANDLE const locked
-      = CreateFileA (trigger_path_.c_str (), GENERIC_READ, 0, nullptr,
+      = CreateFileW (wide_trigger_path.c_str (), GENERIC_READ, 0, nullptr,
                      OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
   ASSERT_NE (locked, INVALID_HANDLE_VALUE);
   std::ostringstream captured;
@@ -915,8 +919,10 @@ TEST_F (LumexLoggerRereadTest,
   enable_at ("trace");
   write_trigger ("warning");
   // An editor or a virus scanner holds the file without sharing (review R4).
+  std::wstring wide_trigger_path;
+  ASSERT_TRUE (trigger::to_wide (trigger_path_, wide_trigger_path));
   HANDLE const locked
-      = CreateFileA (trigger_path_.c_str (), GENERIC_READ, 0, nullptr,
+      = CreateFileW (wide_trigger_path.c_str (), GENERIC_READ, 0, nullptr,
                      OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
   ASSERT_NE (locked, INVALID_HANDLE_VALUE);
   logger_->force_reread ();

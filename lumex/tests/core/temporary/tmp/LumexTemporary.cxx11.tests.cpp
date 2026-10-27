@@ -15,6 +15,7 @@
 #include "lumex/core/utility/LumexUtility"
 
 #include "lumex/tests/support/LumexPerfSkip.hpp"
+#include "lumex/tests/support/LumexTestNarrowSkip.hpp"
 #include "lumex/tests/support/LumexTestUtf8Files.hpp"
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -257,6 +258,7 @@ TEST_F (LumexTemporaryTest, CreateTempFile_WithName)
 // that it exists failed.
 TEST_F (LumexTemporaryTest, CreateTempFile_WithCyrillicName_MakesThatFile)
 {
+  LUMEX_TEST_SKIP_WITHOUT_NARROW_UTF8_NAMES ();
   namespace files = lumex_test::utf8_files;
 
   auto result
