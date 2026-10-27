@@ -331,6 +331,10 @@ class LumexLibConan(ConanFile):
             logger.system_libs.append("dbghelp")
         elif linux:
             logger.system_libs.append("dl")
+        if not windows:
+            # As CMake's Threads::Threads: the trigger file watcher starts a
+            # std::thread; glibc before 2.34 keeps pthread_create in libpthread.
+            logger.system_libs.append("pthread")
         # Header-only; compiles against the consumer's own nlohmann/json.
         self._component(
             "applied_json", "json",

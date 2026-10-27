@@ -20,6 +20,13 @@ target_include_directories(${LUMEX_LOGGER_NAME} PUBLIC
 # before glibc 2.34 (CMAKE_DL_LIBS is empty where it is part of libc).
 target_link_libraries(${LUMEX_LOGGER_NAME} PRIVATE ${CMAKE_DL_LIBS})
 
+# The trigger file watcher starts a std::thread (pthread_create and
+# pthread_join), and the inline thread id of the log prefix calls
+# pthread_self in every consumer. Before glibc 2.34 those live in libpthread,
+# so a consumer links it through the logger.
+find_package(Threads REQUIRED)
+target_link_libraries(${LUMEX_LOGGER_NAME} PUBLIC Threads::Threads)
+
 # Exactly one reader is compiled into the logger. The definition is PUBLIC so
 # consumers, tests, and examples see the same compile-time format.
 if(LUMEX_LOGGER_CONFIG_FORMAT_NORMALIZED STREQUAL "PLAIN_TEXT")
