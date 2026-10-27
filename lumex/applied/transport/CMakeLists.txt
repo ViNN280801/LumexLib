@@ -23,6 +23,23 @@ if(NOT _transport_with_logger)
     list(FILTER SOURCES EXCLUDE REGEX "/log/adapter/")
 endif()
 
+# The framed adapters (framed/: framed_stream, framed_datagram) are compiled
+# only when the framing module is built, as the logger adapter is: no required
+# edge, the transport builds as before without framing.
+lumex_effective_on(_transport_with_framing LUMEX_BUILD_FRAMING)
+if(NOT _transport_with_framing)
+    list(FILTER SOURCES EXCLUDE REGEX "/framed/")
+endif()
+
+# The HID transport (hid/: hid_device over the vendored hidapi, never
+# hid_exit) only with LUMEX_TRANSPORT_WITH_HID. lumex_setup_hidapi is a macro
+# that enables C: it runs here, in file scope.
+if(LUMEX_TRANSPORT_WITH_HID)
+    lumex_setup_hidapi()
+else()
+    list(FILTER SOURCES EXCLUDE REGEX "/hid/")
+endif()
+
 # Always static (spec G6): the library holds Asio objects, and a static
 # library keeps the consumer's binary the only owner of its io_context and of
 # the transport's log slot.
@@ -56,6 +73,18 @@ if(_transport_with_logger)
     target_link_libraries(${LUMEX_TRANSPORT_NAME} PUBLIC lumex::logger)
     target_compile_definitions(${LUMEX_TRANSPORT_NAME} PUBLIC
         LUMEX_TRANSPORT_WITH_LOGGER=1)
+endif()
+if(LUMEX_TRANSPORT_WITH_HID)
+    # No public header includes hidapi.h: the link is private (a static
+    # library still hands the hidapi objects to its consumers' link).
+    target_link_libraries(${LUMEX_TRANSPORT_NAME} PRIVATE lumex::3rdparty_hidapi)
+    target_compile_definitions(${LUMEX_TRANSPORT_NAME} PUBLIC
+        LUMEX_TRANSPORT_WITH_HID=1)
+endif()
+if(_transport_with_framing)
+    target_link_libraries(${LUMEX_TRANSPORT_NAME} PUBLIC lumex::framing)
+    target_compile_definitions(${LUMEX_TRANSPORT_NAME} PUBLIC
+        LUMEX_TRANSPORT_WITH_FRAMING=1)
 endif()
 # The lowest log level compiled in, for the library and its consumers
 # (LUMEX_TRANSPORT_LOG_MIN_LEVEL of log/LumexTransportLog.hpp: 0 trace .. 4
@@ -94,7 +123,15 @@ if(LUMEX_INSTALL)
     # The adapter's header only with the adapter (it needs the logger).
     set(_transport_install_excludes "")
     if(NOT _transport_with_logger)
-        set(_transport_install_excludes PATTERN "adapter" EXCLUDE)
+        list(APPEND _transport_install_excludes PATTERN "adapter" EXCLUDE)
+    endif()
+    # The HID headers only with the HID transport.
+    if(NOT LUMEX_TRANSPORT_WITH_HID)
+        list(APPEND _transport_install_excludes PATTERN "hid" EXCLUDE)
+    endif()
+    # The framed adapters' headers only with the framing module.
+    if(NOT _transport_with_framing)
+        list(APPEND _transport_install_excludes PATTERN "framed" EXCLUDE)
     endif()
     install(
         DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/
@@ -117,5 +154,9 @@ if(LUMEX_INSTALL)
     lumex_third_party_install(lumex_3rdparty_asio ${EXPORT_TO})
     if(LUMEX_TRANSPORT_WITH_SPAWN)
         lumex_third_party_install(lumex_3rdparty_boost_context ${EXPORT_TO})
+    endif()
+    # The static hidapi library (and its license) for the consumers' link.
+    if(LUMEX_TRANSPORT_WITH_HID)
+        lumex_third_party_install(lumex_3rdparty_hidapi ${EXPORT_TO})
     endif()
 endif()

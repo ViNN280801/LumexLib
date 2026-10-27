@@ -75,6 +75,10 @@ option(LUMEX_TRANSPORT_WITH_TESTING "applied/transport: the public test doubles 
 # adapter to the logger (log/adapter: install_lumex_logger_sink,
 # lumex_logger_watch_timer), links lumex::logger and defines
 # LUMEX_TRANSPORT_WITH_LOGGER=1 for itself and its consumers.
+# The framed adapters (framed/: framed_stream, framed_datagram) are wired the
+# same way: no option of their own, no required edge. With LUMEX_BUILD_FRAMING
+# the transport compiles them, links lumex::framing and defines
+# LUMEX_TRANSPORT_WITH_FRAMING=1 for itself and its consumers.
 option(LUMEX_BUILD_SETTINGS "Build applied/settings" ON)
 
 # The logger compiles exactly one config reader. Changing the format requires
@@ -108,6 +112,7 @@ option(LUMEX_BUILD_EXAMPLES "Build the examples for the LumexLib (also implied b
 option(LUMEX_BUILD_TESTS "Build the tests for LumexCore (also compiles and runs lumex/examples)" OFF)
 option(LUMEX_BUILD_RELACY "Build the Relacy memory-order models of the split-count engine (needs LUMEX_BUILD_TESTS; uses 3rdparty/relacy, or LUMEX_RELACY_DIR when it is given)" OFF)
 option(LUMEX_BUILD_BENCHMARKS "Build the benchmarks under benchmarks/ (Release builds only make sense)" OFF)
+option(LUMEX_BUILD_FUZZERS "Build the libFuzzer targets under lumex/tests/fuzz (Clang only, needs LUMEX_BUILD_TESTS; CTest label fuzz: a short bounded run per target, not in the default run)" OFF)
 option(LUMEX_BUILD_SOAK_TESTS "Register the long soak and ThreadSanitizer runs (CTest labels soak and tsan: core/hazard_pointer and the concurrency tests of core/atomic; not in the default run; needs LUMEX_BUILD_TESTS; the soak registration of the atomic tests needs CMake 3.22 or later; LUMEX_TEST_SOAK_SECONDS sets their length)" OFF)
 
 # ==============================================================================
@@ -229,3 +234,28 @@ set(LUMEX_HIDAPI_DIR "" CACHE PATH
 set(LUMEX_HIDAPI_BACKEND "hidraw" CACHE STRING
     "hidapi backend on Linux and other non-Windows, non-Apple systems: hidraw (needs libudev) or libusb (needs libusb-1.0)")
 set_property(CACHE LUMEX_HIDAPI_BACKEND PROPERTY STRINGS hidraw libusb)
+
+# The HID transport (applied/transport/hid: hid_device over the vendored
+# hidapi). On by default where hidapi builds: always on Windows and Apple
+# systems; elsewhere when pkg-config finds the library of the chosen backend
+# (libudev for hidraw, libusb-1.0 for libusb). Set it ON explicitly to get the
+# backend's error message instead of a silent OFF.
+if(NOT DEFINED LUMEX_TRANSPORT_WITH_HID)
+    set(_lumex_hid_default ON)
+    if(NOT WIN32 AND NOT APPLE)
+        set(_lumex_hid_default OFF)
+        find_package(PkgConfig QUIET)
+        if(PKG_CONFIG_FOUND)
+            if(LUMEX_HIDAPI_BACKEND STREQUAL "libusb")
+                pkg_check_modules(_LUMEX_HID_PROBE QUIET libusb-1.0)
+            else()
+                pkg_check_modules(_LUMEX_HID_PROBE QUIET libudev)
+            endif()
+            if(_LUMEX_HID_PROBE_FOUND)
+                set(_lumex_hid_default ON)
+            endif()
+        endif()
+    endif()
+endif()
+option(LUMEX_TRANSPORT_WITH_HID "applied/transport: hid_device over the vendored hidapi (default ON where hidapi builds)" ${_lumex_hid_default})
+unset(_lumex_hid_default)

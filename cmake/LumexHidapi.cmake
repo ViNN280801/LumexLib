@@ -49,9 +49,9 @@ function(_lumex_setup_hidapi_target)
     set(_public_includes "${_dir}/hidapi")
     set(_link "")
     if(WIN32)
-        set(_sources
-            "${_dir}/windows/hid.c"
-            "${_dir}/windows/hidapi_descriptor_reconstruct.c")
+        # hid.c includes hidapi_descriptor_reconstruct.c itself (as upstream
+        # builds it): compiling both defines its functions twice (LNK4006).
+        set(_sources "${_dir}/windows/hid.c")
         list(APPEND _public_includes "${_dir}/windows")
         # HidD_* and CM_Get_* are resolved at link time by the Windows SDK
         # import libraries (DChannel v4 found them missing from upstream's CMake).
@@ -66,7 +66,10 @@ function(_lumex_setup_hidapi_target)
         find_package(Threads REQUIRED)
         set(_sources "${_dir}/libusb/hid.c")
         list(APPEND _public_includes "${_dir}/libusb")
-        set(_link PkgConfig::LUMEX_LIBUSB Threads::Threads)
+        # An installed tree names the system libraries, not the imported
+        # targets of this configure run.
+        set(_link "$<BUILD_INTERFACE:PkgConfig::LUMEX_LIBUSB>"
+            "$<INSTALL_INTERFACE:usb-1.0>" Threads::Threads)
     elseif(LUMEX_HIDAPI_BACKEND STREQUAL "hidraw")
         find_package(PkgConfig REQUIRED)
         pkg_check_modules(LUMEX_LIBUDEV IMPORTED_TARGET libudev)
@@ -77,7 +80,8 @@ function(_lumex_setup_hidapi_target)
                 "systemd-devel on Fedora), or set LUMEX_HIDAPI_BACKEND=libusb.")
         endif()
         set(_sources "${_dir}/linux/hid.c")
-        set(_link PkgConfig::LUMEX_LIBUDEV)
+        set(_link "$<BUILD_INTERFACE:PkgConfig::LUMEX_LIBUDEV>"
+            "$<INSTALL_INTERFACE:udev>")
     else()
         message(FATAL_ERROR
             "LumexLib: LUMEX_HIDAPI_BACKEND must be hidraw or libusb, "
@@ -90,6 +94,19 @@ function(_lumex_setup_hidapi_target)
         target_include_directories(lumex_3rdparty_hidapi SYSTEM PUBLIC
             "$<BUILD_INTERFACE:${_inc}>")
     endforeach()
+    target_include_directories(lumex_3rdparty_hidapi SYSTEM PUBLIC
+        "$<INSTALL_INTERFACE:include/lumex/3rdparty/hidapi>")
+    # What lumex_third_party_install copies with the static library (the
+    # transport links it privately; its public headers never include
+    # hidapi.h): the header and the BSD license LumexLib uses hidapi under.
+    set_target_properties(lumex_3rdparty_hidapi PROPERTIES
+        INTERFACE_LUMEX_3RDPARTY_INSTALL_DIRS
+            "${_dir}/hidapi;include/lumex/3rdparty/hidapi")
+    if(EXISTS "${_dir}/LICENSE-bsd.txt")
+        set_target_properties(lumex_3rdparty_hidapi PROPERTIES
+            INTERFACE_LUMEX_3RDPARTY_LICENSE
+                "${_dir}/LICENSE-bsd.txt;include/lumex/3rdparty/hidapi")
+    endif()
     target_link_libraries(lumex_3rdparty_hidapi PUBLIC ${_link})
     lumex_third_party_quiet_includes(lumex_3rdparty_hidapi)
     lumex_third_party_finish(lumex_3rdparty_hidapi)
