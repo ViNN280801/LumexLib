@@ -190,6 +190,13 @@ class LumexLibConan(ConanFile):
             ["core_contracts", "core_crc", "core_expected", "core_span",
              "core_utility"],
         )
+        protocol = self._component(
+            "core_protocol", "protocol", ["LumexCore_protocol"],
+            ["core_expected", "core_reflection", "core_span",
+             "core_string_view", "core_utility"],
+        )
+        # export_json needs the consumer's nlohmann/json, as applied_json does.
+        protocol.defines = ["LUMEX_PROTOCOL_WITH_JSON=1"]
         hazard_pointer = self._component(
             "core_hazard_pointer", "hazard_pointer",
             ["LumexCore_hazard_pointer"], ["core_utility", "core_span"],

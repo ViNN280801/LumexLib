@@ -60,6 +60,9 @@ NEEDS_MACRO: Dict[str, Tuple[str, ...]] = {
     "applied/logger/config/LumexLoggerConfigFormat.hpp": (
         "LUMEX_LOGGER_CONFIG_FORMAT_PLAIN_TEXT",
     ),
+    "core/protocol/export/LumexProtocolExportJson.hpp": (
+        "LUMEX_PROTOCOL_WITH_JSON",
+    ),
 }
 
 # Directory prefixes (relative to lumex/) whose headers include a vendored
