@@ -84,6 +84,7 @@
 #include "lumex/core/protocol/dsl/LumexProtocolTypeList.hpp"
 #include "lumex/core/protocol/dsl/LumexProtocolVocabulary.hpp"
 #include "lumex/core/protocol/error/LumexProtocolErrc.hpp"
+#include "lumex/core/protocol/field/LumexProtocolBitFields.hpp"
 #include "lumex/core/protocol/field/LumexProtocolFieldTraits.hpp"
 #include "lumex/core/protocol/field/LumexProtocolNumeric.hpp"
 #include "lumex/core/span/LumexSpan"
@@ -340,9 +341,10 @@ struct vocabulary : ::lumex::core::protocol::dsl::vocabulary, access_words
 
   /// @brief Key: a unit and a parameter.
   static LUMEX_CONSTEXPR registry_key_t
-  unit_param (std::uint32_t unit, std::uint32_t param) LUMEX_NOEXCEPT
+  unit_param (std::uint32_t unit_number, std::uint32_t param) LUMEX_NOEXCEPT
   {
-    return make_unit_param_key (unit, param);
+    // Not `unit`: that is the unit vocabulary of the table (-Wshadow).
+    return make_unit_param_key (unit_number, param);
   }
 
   /// @brief Key: a Modbus address.
@@ -384,6 +386,13 @@ template <typename T> struct field_of<T>
   typedef typename ::lumex::core::protocol::field::resolve<T>::type type;
 };
 
+/**
+ * @brief The name of a raw value of a registry entry (see
+ * `registry_entry_t::value_name`): the enumerator, or `nullptr` for a value
+ * that is no enumerator.
+ */
+typedef char const *(*value_name_t) (std::int64_t raw);
+
 /// @brief The run-time entry of one row of a registry.
 struct registry_entry_t
 {
@@ -414,6 +423,11 @@ struct registry_entry_t
   std::uint32_t firmware_to;
   /// The models of the entry, empty without the option.
   ::lumex::core::protocol::dsl::names_t models;
+  /// For an entry of an enumeration type (`enum_<Storage, E>` with a
+  /// `LUMEX_DEFINE_REFLECTED_ENUM` `E`) the name of a raw value, which
+  /// `describe` writes in place of the number; `nullptr` for the other
+  /// entries.
+  value_name_t value_name;
 };
 
 /// @brief The run-time table of a registry.
@@ -421,6 +435,36 @@ typedef ::lumex::core::span::view::span<registry_entry_t const> entries_t;
 
 namespace detail
 {
+// The enumerator of `E` with the raw value `raw`, `nullptr` for a value that
+// is no enumerator (or an enumeration without names).
+template <typename E>
+char const *
+enumerator_name (std::int64_t raw) LUMEX_NOEXCEPT
+{
+  typedef typename std::underlying_type<E>::type underlying;
+  return ::lumex::core::protocol::field::enum_name (
+      static_cast<E> (static_cast<underlying> (raw)));
+}
+
+// The value_name of an entry whose value has the type V.
+template <typename V, bool = std::is_enum<V>::value> struct value_name_of
+{
+  static value_name_t
+  get () LUMEX_NOEXCEPT
+  {
+    return nullptr;
+  }
+};
+
+template <typename V> struct value_name_of<V, true>
+{
+  static value_name_t
+  get () LUMEX_NOEXCEPT
+  {
+    return &enumerator_name<V>;
+  }
+};
+
 template <typename Row, bool Present> struct limits_of
 {
   static LUMEX_CONSTEXPR limits_t
@@ -450,6 +494,8 @@ make_registry_entry () LUMEX_NOEXCEPT
   typedef dsl::detail::command_has_option<Row, limits_kind> has_limits;
   typedef dsl::detail::command_has_option<Row, dsl::kind::firmware>
       has_firmware;
+  typedef typename ::lumex::core::protocol::field::impl_of<
+      typename Row::field_type>::type impl;
   limits_t const limits = detail::limits_of<Row, has_limits::value>::get ();
   dsl::firmware_t const firmware
       = dsl::detail::firmware_of<Row, has_firmware::value>::get ();
@@ -458,8 +504,7 @@ make_registry_entry () LUMEX_NOEXCEPT
     Row::specification_name (),
     Row::description (),
     Row::key (),
-    ::lumex::core::protocol::field::impl_of<
-        typename Row::field_type>::type::info (),
+    impl::info (),
     Row::access (),
     has_limits::value,
     limits.lower,
@@ -468,7 +513,8 @@ make_registry_entry () LUMEX_NOEXCEPT
     firmware.from,
     firmware.to,
     dsl::detail::models_of<Row, dsl::detail::command_has_option<
-                                    Row, dsl::kind::model>::value>::get ()
+                                    Row, dsl::kind::model>::value>::get (),
+    detail::value_name_of<typename impl::value_type>::get ()
   };
   return entry;
 }

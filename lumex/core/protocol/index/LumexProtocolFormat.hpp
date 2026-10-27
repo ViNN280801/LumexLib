@@ -385,9 +385,19 @@ template <> struct leaf_value<registry::parameter_value_t, void>
   {
     if (value.entry != nullptr)
       {
-        append_scaled (out, value.engineering, value.entry->type.scale_num,
-                       value.entry->type.scale_den);
-        append_unit (out, value.entry->type.unit);
+        // An enumeration entry: the enumerator, as for an enum_ field.
+        char const *const name
+            = value.has_raw && value.entry->value_name != nullptr
+                  ? value.entry->value_name (value.raw)
+                  : nullptr;
+        if (name != nullptr)
+          out += name;
+        else
+          {
+            append_scaled (out, value.engineering, value.entry->type.scale_num,
+                           value.entry->type.scale_den);
+            append_unit (out, value.entry->type.unit);
+          }
         if (options.show_raw)
           {
             out += " (raw ";
