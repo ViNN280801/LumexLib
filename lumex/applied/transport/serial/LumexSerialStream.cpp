@@ -200,17 +200,20 @@ typedef std::shared_ptr<serial_stream_impl> serial_impl_ptr;
 // thread and may outlive the io_context, so it holds neither the
 // implementation nor a copy of its strand: the gate keeps the implementation
 // alive for the open (its handler still runs when the stream is destroyed
-// meanwhile), and the worker takes it here under the lock, only while the
-// context is not being destroyed (drop_kept_handlers closes the gate and
-// lets the implementation go under the same lock first, and Asio shuts the
-// context's services down after that).
+// meanwhile). The reference stays set until finish_open (on the strand) or
+// drop_kept_handlers (the context is being destroyed) clears it under the
+// gate's lock, so the worker is never the last owner of the implementation;
+// it copies the reference into the step it posts, and posts only while the
+// reference is set (Asio shuts the context's services down after
+// drop_kept_handlers). The single source of truth is the reference itself.
 struct open_gate
 {
   std::mutex mutex;
-  bool closed = false;
   serial_impl_ptr impl;
 };
 
+// The step on the strand. It owns the opened handle until finish_open takes
+// it over: a step that dies uncalled (the context is destroyed) closes it.
 struct open_finished
 {
   serial_impl_ptr impl;
@@ -220,6 +223,33 @@ struct open_finished
   std::string permission_text;
   // The resolve_path of the options failed: nothing was opened.
   std::error_code resolve_error;
+  // Set while the step owns result.handle.
+  bool owns_handle = false;
+
+  open_finished (serial_impl_ptr stream, bounded::open_result_t const &opened,
+                 std::string text, std::error_code const &resolve_failure)
+      : impl (std::move (stream)), result (opened),
+        permission_text (std::move (text)), resolve_error (resolve_failure),
+        owns_handle (opened.outcome == bounded::open_outcome::opened)
+  {
+  }
+  open_finished (open_finished const &) = delete;
+  open_finished &operator= (open_finished const &) = delete;
+  open_finished (open_finished &&other) LUMEX_NOEXCEPT
+      : impl (std::move (other.impl)),
+        result (std::move (other.result)),
+        permission_text (std::move (other.permission_text)),
+        resolve_error (other.resolve_error),
+        owns_handle (other.owns_handle)
+  {
+    other.owns_handle = false;
+  }
+  open_finished &operator= (open_finished &&) = delete;
+  ~open_finished ()
+  {
+    if (owns_handle)
+      bounded::close_serial_handle (result.handle);
+  }
   void operator() ();
 };
 
@@ -263,7 +293,7 @@ public:
                std::error_code const &resolve_error)
   {
     opening_ = false;
-    open_gate_.reset ();
+    release_gate ();
     status_handler_t handler (std::move (open_handler_));
     open_handler_ = nullptr;
     if (resolve_error)
@@ -428,19 +458,28 @@ protected:
   void
   drop_kept_handlers () LUMEX_NOEXCEPT override
   {
-    std::shared_ptr<open_gate> const gate (std::move (open_gate_));
-    if (gate)
-      {
-        // Not the last owner: the shutdown service holds this one for
-        // the call.
-        std::lock_guard<std::mutex> const lock (gate->mutex);
-        gate->closed = true;
-        gate->impl.reset ();
-      }
+    // Not the last owner: the shutdown service holds this one for the call.
+    release_gate ();
     status_handler_t const dropped (std::move (open_handler_));
   }
 
 private:
+  // Lets the worker's reference go (the strand, or the context's shutdown):
+  // after it the worker posts nothing and owns nothing.
+  void
+  release_gate () LUMEX_NOEXCEPT
+  {
+    std::shared_ptr<open_gate> const gate (std::move (open_gate_));
+    open_gate_.reset ();
+    if (!gate)
+      return;
+    serial_impl_ptr released;
+    {
+      std::lock_guard<std::mutex> const lock (gate->mutex);
+      released.swap (gate->impl);
+    }
+  }
+
   serial_stream_options_t options_;
   asio::serial_port port_;
   bool opening_ = false;
@@ -501,25 +540,22 @@ open_worker::operator() ()
       && detail::is_permission_error (result.error_code)
       && log::log_enabled (log::log_level::error, KCOMPONENT))
     permission_text = detail::describe_permission_denied (path);
-  // Under the gate's lock the context is not being destroyed; the
-  // implementation and the posted step die inside it too. Without a stream
-  // to take it, an opened port is closed here.
+  // Under the gate's lock the context is not being destroyed. The reference
+  // stays in the gate (the strand or the shutdown clears it): the step gets
+  // a copy and the worker keeps none. Without a reference an opened port is
+  // closed by the step that dies here.
   std::lock_guard<std::mutex> const lock (gate->mutex);
-  serial_impl_ptr const impl (std::move (gate->impl));
-  if (!impl)
-    {
-      if (result.outcome == bounded::open_outcome::opened)
-        bounded::close_serial_handle (result.handle);
-      return;
-    }
-  open_finished finished
-      = { impl, result, std::move (permission_text), resolve_error };
-  asio::post (impl->strand (), std::move (finished));
+  open_finished finished (gate->impl, result, std::move (permission_text),
+                          resolve_error);
+  if (gate->impl)
+    asio::post (gate->impl->strand (), std::move (finished));
 }
 
 void
 open_finished::operator() ()
 {
+  // finish_open closes or adopts the handle whatever the outcome.
+  owns_handle = false;
   impl->finish_open (result, permission_text, resolve_error);
 }
 
