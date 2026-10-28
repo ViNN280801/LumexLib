@@ -86,9 +86,9 @@
 #include <vector>
 
 #if defined(__linux__)
-#include <linux/perf_event.h>
 #include <pthread.h>
 #include <sched.h>
+#include <linux/perf_event.h>
 #include <sys/ioctl.h>
 #include <sys/resource.h>
 #include <sys/syscall.h>
@@ -178,22 +178,22 @@ struct latency_result_t
  */
 struct store_wait_result_t
 {
-  double median_ns;            ///< the time of one store, median
-  double p90_ns;               ///< 90th percentile
-  double p99_ns;               ///< 99th percentile
-  double p999_ns;              ///< 99.9th percentile
-  double p9999_ns;             ///< 99.99th percentile
-  double max_ns;               ///< the longest store
-  double timer_ns;             ///< median of an empty pair of clock reads
-  unsigned long long stores;   ///< timed stores
-  unsigned long long over_1ms; ///< stores that took more than 1 ms
-  unsigned long long switches; ///< involuntary context switches of the
-                               ///< writer during the timed stores
+  double median_ns;                ///< the time of one store, median
+  double p90_ns;                   ///< 90th percentile
+  double p99_ns;                   ///< 99th percentile
+  double p999_ns;                  ///< 99.9th percentile
+  double p9999_ns;                 ///< 99.99th percentile
+  double max_ns;                   ///< the longest store
+  double timer_ns;                 ///< median of an empty pair of clock reads
+  unsigned long long stores;       ///< timed stores
+  unsigned long long over_1ms;     ///< stores that took more than 1 ms
+  unsigned long long switches;     ///< involuntary context switches of the
+                                   ///< writer during the timed stores
   unsigned long long over_1ms_switched; ///< stores over 1 ms after which the
                                         ///< writer's switch count had
                                         ///< advanced since the last reading
-  bool pinned; ///< every thread was pinned as requested
-  bool valid;  ///< no reference left behind afterwards
+  bool pinned;                     ///< every thread was pinned as requested
+  bool valid;                      ///< no reference left behind afterwards
 };
 
 /**
@@ -1144,8 +1144,7 @@ measure_latency (int threads, long objects)
   return result;
 }
 
-/** Pins the calling thread to CPU `index` (modulo the CPUs); false: could not.
- */
+/** Pins the calling thread to CPU `index` (modulo the CPUs); false: could not. */
 inline bool
 pin_current_thread (int index)
 {
@@ -1156,7 +1155,8 @@ pin_current_thread (int index)
   cpu_set_t set;
   CPU_ZERO (&set);
   CPU_SET (static_cast<unsigned> (index) % cpus, &set);
-  return ::pthread_setaffinity_np (::pthread_self (), sizeof (set), &set) == 0;
+  return ::pthread_setaffinity_np (::pthread_self (), sizeof (set), &set)
+         == 0;
 #else
   (void)index;
   return false;
@@ -1318,8 +1318,8 @@ measure_store_wait (int threads, long stores, bool pin)
   using pointer_t = typename traits_t::value_type;
   pointer_t const keep_a (traits_t::make (1));
   pointer_t const keep_b (traits_t::make (2));
-  store_wait_result_t result
-      = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0u, 0u, 0u, 0u, false, false };
+  store_wait_result_t result = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0u, 0u,
+                                 0u,  0u,  false, false };
   std::vector<std::int64_t> waits;
   std::atomic<int> pin_failures (0);
   {
@@ -1335,18 +1335,10 @@ measure_store_wait (int threads, long stores, bool pin)
             = { atom, &stop, &started, t, pin, &pin_failures };
         readers.push_back (std::thread (reader));
       }
-    store_wait_writer_t<Atomic> const writer = { atom,
-                                                 &keep_a,
-                                                 &keep_b,
-                                                 &started,
-                                                 reader_count,
-                                                 stores,
-                                                 pin,
-                                                 &pin_failures,
-                                                 &waits,
-                                                 &result.timer_ns,
-                                                 &result.switches,
-                                                 &result.over_1ms_switched };
+    store_wait_writer_t<Atomic> const writer
+        = { atom,   &keep_a, &keep_b, &started,      reader_count,
+            stores, pin,     &pin_failures, &waits, &result.timer_ns,
+            &result.switches, &result.over_1ms_switched };
     std::thread writer_thread (writer);
     writer_thread.join ();
     stop.store (true);
