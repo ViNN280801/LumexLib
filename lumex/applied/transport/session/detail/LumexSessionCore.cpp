@@ -311,7 +311,7 @@ session_core::session_core (executor_type const &executor,
       options_ (std::move (options)), retry_timer_ (strand_),
       open_timer_ (strand_),
       state_word_ (make_word (channel_state::closed, 0)), stop_epoch_ (0),
-      detached_ (false), next_waiter_id_ (1), attempts_ (0),
+      detached_ (false), enlisted_ (false), next_waiter_id_ (1), attempts_ (0),
       failed_attempts_ (0), reconnects_ (0), running_ (false), run_epoch_ (0),
       generation_ (0), wait_id_ (0), attempt_ (0), opening_ (false),
       waiting_retry_ (false), parked_ (false), device_absent_ (false),
@@ -324,6 +324,27 @@ session_core::session_core (executor_type const &executor,
 }
 
 session_core::~session_core () {}
+
+// Strand data, but nothing runs the strand any more: the io_context is being
+// destroyed. The vectors are taken first and die at the end, so a handler
+// that destroys the last owner of the core finds the members empty.
+void
+session_core::drop_kept_handlers () LUMEX_NOEXCEPT
+{
+  std::vector<state_handler_t> states;
+  states.swap (state_waiters_);
+  std::vector<snapshot_handler_t> snapshots;
+  snapshots.swap (snapshot_waiters_);
+  std::vector<open_waiter> opens;
+  opens.swap (open_waiters_);
+}
+
+void
+session_core::enlist ()
+{
+  ::lumex::applied::transport::detail::enlist_keeper (enlisted_, executor_,
+                                                      shared_from_this ());
+}
 
 channel_state
 session_core::state () const LUMEX_NOEXCEPT
@@ -346,6 +367,15 @@ session_core::last_error () const
 {
   std::lock_guard<std::mutex> const lock (error_mutex_);
   return last_error_;
+}
+
+std::string
+session_core::last_error_text () const
+{
+  std::lock_guard<std::mutex> const lock (error_mutex_);
+  if (!last_error_text_.empty ())
+    return last_error_text_;
+  return last_error_ ? last_error_.message () : std::string ();
 }
 
 session_statistics_t
@@ -432,6 +462,7 @@ void
 session_core::enqueue_state_wait (channel_state seen, std::uint64_t sequence,
                                   state_handler_t handler)
 {
+  enlist ();
   post_state_wait step
       = { shared_from_this (), seen, sequence, std::move (handler) };
   asio::post (strand_, std::move (step));
@@ -441,6 +472,7 @@ void
 session_core::enqueue_snapshot_wait (std::uint64_t sequence,
                                      snapshot_handler_t handler)
 {
+  enlist ();
   post_snapshot_wait step
       = { shared_from_this (), sequence, std::move (handler) };
   asio::post (strand_, std::move (step));
@@ -449,6 +481,7 @@ session_core::enqueue_snapshot_wait (std::uint64_t sequence,
 void
 session_core::enqueue_open_wait (std::uint64_t id, status_handler_t handler)
 {
+  enlist ();
   unsigned const epoch = stop_epoch_.load (std::memory_order_acquire);
   post_open_wait step
       = { shared_from_this (), epoch, id, std::move (handler) };
@@ -755,8 +788,11 @@ session_core::attempt ()
   ++attempt_;
   attempts_.fetch_add (1, std::memory_order_relaxed);
   drop_current ();
-  // A factory that throws is a failed attempt, not a crash.
+  // A factory that throws is a failed attempt, not a crash. The code is the
+  // exception's own for a system_error, else invalid_endpoint; the text of
+  // the exception is kept for last_error_text ().
   std::error_code made;
+  std::string made_text;
   try
     {
       make_transport ();
@@ -766,26 +802,29 @@ session_core::attempt ()
       made = failure.code ();
       if (!made)
         made = make_error_code (transport_errc::invalid_endpoint);
+      made_text = failure.what ();
       LUMEX_TRANSPORT_LOG (warning, KSESSION_COMPONENT, name ().c_str (),
-                           std::string ("factory failed: ") + failure.what (),
+                           "factory failed: " + made_text,
                            log::log_bytes_t ());
     }
   catch (std::exception const &failure)
     {
       made = make_error_code (transport_errc::invalid_endpoint);
+      made_text = failure.what ();
       LUMEX_TRANSPORT_LOG (warning, KSESSION_COMPONENT, name ().c_str (),
-                           std::string ("factory failed: ") + failure.what (),
+                           "factory failed: " + made_text,
                            log::log_bytes_t ());
     }
   catch (...)
     {
       made = make_error_code (transport_errc::invalid_endpoint);
+      made_text = "the factory threw an object that is not an exception";
       LUMEX_TRANSPORT_LOG (warning, KSESSION_COMPONENT, name ().c_str (),
                            "factory failed", log::log_bytes_t ());
     }
   if (made)
     {
-      fail_attempt (made);
+      fail_attempt (made, made_text);
       return;
     }
   // A close () or cancel () (or the destruction of the session) that came
@@ -808,10 +847,11 @@ session_core::attempt ()
 }
 
 void
-session_core::fail_attempt (std::error_code const &error)
+session_core::fail_attempt (std::error_code const &error,
+                            std::string const &text)
 {
   failed_attempts_.fetch_add (1, std::memory_order_relaxed);
-  set_last_error (error);
+  set_last_error (error, text);
   LUMEX_TRANSPORT_LOG (warning, KSESSION_COMPONENT, name ().c_str (),
                        "attempt " + std::to_string (attempt_)
                            + " failed: " + error.message (),
@@ -995,10 +1035,12 @@ session_core::set_state (channel_state state, std::error_code const &reason)
 }
 
 void
-session_core::set_last_error (std::error_code const &error)
+session_core::set_last_error (std::error_code const &error,
+                              std::string const &text)
 {
   std::lock_guard<std::mutex> const lock (error_mutex_);
   last_error_ = error;
+  last_error_text_ = text;
 }
 
 void

@@ -72,6 +72,7 @@
 #include <vector>
 
 #include "lumex/applied/transport/detail/LumexAsio.hpp"
+#include "lumex/applied/transport/detail/LumexHandlerKeeper.hpp"
 #include "lumex/applied/transport/session/LumexSessionTypes.hpp"
 #include "lumex/applied/transport/session/detail/LumexSessionHandlers.hpp"
 #include "lumex/applied/transport/stream/LumexStreamTypes.hpp"
@@ -79,6 +80,11 @@
 
 #if defined(__clang__)
 #pragma clang diagnostic push
+#if __has_warning("-Wlifetime-safety-suggestions")
+// Clang 23 suggests [[clang::lifetimebound]] for every function that returns
+// or stores a parameter (a suggestion, not a finding).
+#pragma clang diagnostic ignored "-Wlifetime-safety-suggestions"
+#endif
 #pragma clang diagnostic ignored "-Wpadded"
 #endif
 
@@ -103,13 +109,15 @@ std::string const &empty_session_name () LUMEX_NOEXCEPT;
  * the transport and implements the four `*_transport` functions, which always
  * run on the strand.
  */
-class session_core : public std::enable_shared_from_this<session_core>
+class session_core
+    : public ::lumex::applied::transport::detail::handler_keeper,
+      public std::enable_shared_from_this<session_core>
 {
 public:
   using strand_type = asio::strand<executor_type>;
 
   session_core (executor_type const &executor, session_options_t options);
-  virtual ~session_core ();
+  ~session_core () override;
 
   session_core (session_core const &) = delete;
   session_core &operator= (session_core const &) = delete;
@@ -145,6 +153,11 @@ public:
   /// @brief The error of the last failed attempt or lost link (any thread).
   std::error_code last_error () const;
 
+  /// @brief The text that goes with `last_error ()` (any thread): the
+  /// message of the exception when the factory threw, else the message of
+  /// the error code.
+  std::string last_error_text () const;
+
   /// @brief The session's own counters (any thread).
   session_statistics_t session_statistics () const LUMEX_NOEXCEPT;
 
@@ -170,6 +183,10 @@ public:
   /// @brief Drops the open waiter `id` without calling it (its sync caller
   /// gave up).
   void forget_open_wait (std::uint64_t id);
+  /// @brief The `io_context` is being destroyed: the waiters die uncalled
+  /// (a waiter whose handler owns the session would otherwise keep it for
+  /// ever).
+  void drop_kept_handlers () LUMEX_NOEXCEPT override;
 
   /// @brief Completes with the state once it differs from `seen` or changed
   /// after this call (posted at once when it already did), or `cancelled` on
@@ -279,6 +296,7 @@ private:
     status_handler_t handler;
   };
 
+  void enlist ();
   void enqueue_state_wait (channel_state seen, std::uint64_t sequence,
                            state_handler_t handler);
   void enqueue_snapshot_wait (std::uint64_t sequence,
@@ -301,14 +319,16 @@ private:
 
   void begin_cycle (channel_state state, std::error_code const &reason);
   void attempt ();
-  void fail_attempt (std::error_code const &error);
+  void fail_attempt (std::error_code const &error,
+                     std::string const &text = std::string ());
   void schedule_retry (std::uint32_t failed_attempt);
   void cancel_retry ();
   void lose_link (std::error_code const &error);
   bool established () const;
   void drop_current () LUMEX_NOEXCEPT;
   void set_state (channel_state state, std::error_code const &reason);
-  void set_last_error (std::error_code const &error);
+  void set_last_error (std::error_code const &error,
+                       std::string const &text = std::string ());
   void cancel_waiters ();
   double draw_random ();
 
@@ -323,12 +343,17 @@ private:
   std::atomic<std::uint64_t> state_word_;
   std::atomic<unsigned> stop_epoch_;
   std::atomic<bool> detached_;
+  // Set when the core was enlisted for the io_context shutdown.
+  std::atomic<bool> enlisted_;
   std::atomic<std::uint64_t> next_waiter_id_;
   std::atomic<std::uint64_t> attempts_;
   std::atomic<std::uint64_t> failed_attempts_;
   std::atomic<std::uint64_t> reconnects_;
   mutable std::mutex error_mutex_;
   std::error_code last_error_;
+  // What goes with last_error_ when its code says too little (the what () of
+  // a factory that threw); empty: the message of the code.
+  std::string last_error_text_;
 
   // The strand only.
   bool running_;

@@ -5,7 +5,11 @@
 # DLL that exports its bounded open through LUMEX_SERIAL_API). The library
 # runs a TCP stream on the executor of the executable's io_runner (one
 # io_context for both binaries); the executable matches the code it returns
-# with is_transport_error and sees that each binary has its own log slot.
+# with is_transport_error and sees that each binary has its own error
+# category and log slot, on every platform (on ELF the static transport is
+# built with hidden symbols; check_exports.cmake verifies that the library
+# hands out none of them. The symbols of Asio are exported on purpose, so that
+# the one io_context works: see cmake/LumexAsio.cmake).
 
 cmake_minimum_required(VERSION 3.16)
 project(LumexTransportTwoModules LANGUAGES CXX)
@@ -42,6 +46,18 @@ add_library(transport_module SHARED module.cpp)
 target_include_directories(transport_module PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
 target_link_libraries(transport_module PRIVATE lumex::transport)
 target_compile_definitions(transport_module PRIVATE TRANSPORT_FIXTURE_BUILDING)
+
+# On ELF the shared library must not hand out the symbols of the static
+# libraries linked into it (the transport, Asio, hidapi): the transport is
+# built with hidden visibility, so each binary keeps its own copy of the
+# category, the log slot and the shutdown service, as on Windows.
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux" AND CMAKE_NM)
+    add_custom_command(TARGET transport_module POST_BUILD
+        COMMAND "${CMAKE_COMMAND}" "-DNM=${CMAKE_NM}"
+                "-DLIBRARY=$<TARGET_FILE:transport_module>"
+                -P "${CMAKE_CURRENT_SOURCE_DIR}/check_exports.cmake"
+        VERBATIM)
+endif()
 
 add_executable(transport_two_modules_consumer main.cpp)
 target_include_directories(transport_two_modules_consumer PRIVATE

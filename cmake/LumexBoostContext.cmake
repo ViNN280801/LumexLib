@@ -74,6 +74,35 @@ function(lumex_setup_boost_context)
     if(LUMEX_USE_ASAN AND _backend STREQUAL "BOOST_USE_UCONTEXT")
         target_compile_definitions(lumex_3rdparty_boost_context PUBLIC BOOST_USE_ASAN)
     endif()
+    # ThreadSanitizer does not follow swapcontext: a coroutine that migrates
+    # between the threads of an io_context crashes it with a SEGV at the end of
+    # its stack. BOOST_USE_TSAN makes the ucontext backend announce every
+    # switch (__tsan_create_fiber, __tsan_switch_to_fiber).
+    # Only where the sanitizer header has the fiber functions (GCC 10 and
+    # later, Clang 9 and later): GCC 8's libtsan has none and the vendored
+    # backend would not compile with the macro.
+    if(LUMEX_USE_TSAN AND _backend STREQUAL "BOOST_USE_UCONTEXT")
+        include(CheckCXXSourceCompiles)
+        set(_lumex_saved_required_flags "${CMAKE_REQUIRED_FLAGS}")
+        set(CMAKE_REQUIRED_FLAGS "${CMAKE_REQUIRED_FLAGS} -fsanitize=thread")
+        check_cxx_source_compiles("
+            #include <sanitizer/tsan_interface.h>
+            int main ()
+            {
+              void *fiber = __tsan_create_fiber (0);
+              __tsan_switch_to_fiber (fiber, 0);
+              __tsan_destroy_fiber (fiber);
+              return 0;
+            }" LUMEX_HAVE_TSAN_FIBERS)
+        set(CMAKE_REQUIRED_FLAGS "${_lumex_saved_required_flags}")
+        if(LUMEX_HAVE_TSAN_FIBERS)
+            target_compile_definitions(lumex_3rdparty_boost_context PUBLIC BOOST_USE_TSAN)
+        else()
+            message(STATUS "LUMEX_USE_TSAN: this compiler's ThreadSanitizer has no fiber "
+                "functions, so BOOST_USE_TSAN is off and stackful coroutines that "
+                "migrate between threads are not supported under it")
+        endif()
+    endif()
     lumex_third_party_quiet_includes(lumex_3rdparty_boost_context)
     lumex_third_party_finish(lumex_3rdparty_boost_context)
 endfunction()

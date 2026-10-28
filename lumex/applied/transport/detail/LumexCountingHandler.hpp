@@ -75,6 +75,12 @@
 #if defined(__clang__)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpadded"
+#if __has_warning("-Wthread-safety-negative")
+// With libc++ std::mutex is a capability, and -Wthread-safety-negative asks
+// every function that locks a mutex of its own object to promise that its
+// caller holds none: a policy for annotated code, not a finding here.
+#pragma clang diagnostic ignored "-Wthread-safety-negative"
+#endif
 #endif
 
 namespace lumex

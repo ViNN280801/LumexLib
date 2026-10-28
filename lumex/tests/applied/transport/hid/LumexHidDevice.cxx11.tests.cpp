@@ -9,6 +9,7 @@
 // statistics, the read failure and the report queue bound. The devices,
 // descriptors and reports are synthetic.
 
+#include <atomic>
 #include <chrono>
 #include <cstddef>
 #include <cstdint>
@@ -371,6 +372,45 @@ TEST_F (LumexHidDeviceTest,
   ASSERT_TRUE (device->wait_for ([&device] () { return device->closes > 0; }));
   EXPECT_TRUE (eventually ([] () { return runtime_idle (); }));
   EXPECT_EQ (device->calls_after_close, 0u);
+}
+
+// A pending receive whose handler owns the device: the io_context shutdown
+// drops the handler the device keeps, uncalled, and the owner dies with it.
+TEST_F (
+    LumexHidDeviceTest,
+    GivenAReceiveWhoseHandlerOwnsItsDevice_WhenTheContextDies_ThenTheHandlerIsDroppedUncalled)
+{
+  struct owner_t
+  {
+    hid::hid_device device;
+  };
+  std::shared_ptr<fake_device> const device = unnumbered ();
+  std::weak_ptr<owner_t> weak;
+  std::shared_ptr<std::atomic<int>> const calls
+      = std::make_shared<std::atomic<int>> (0);
+  {
+    std::unique_ptr<io_runner> own_runner (new io_runner (2));
+    hid::hid_options_t options;
+    options.path = "fake-unnumbered";
+    std::shared_ptr<owner_t> owner = std::make_shared<owner_t> (
+        owner_t{ hid::detail::make_hid_device_with (
+            seam_, own_runner->get_executor (), options) });
+    weak = owner;
+    ASSERT_TRUE (owner->device.open (deadline_t (2000)).has_value ());
+    owner->device.async_receive ([owner, calls] (std::error_code, message_t)
+                                   { ++*calls; });
+    // The strand ran what was posted: the receive waits in the device.
+    std::promise<void> reached;
+    asio::post (owner->device.impl ()->strand (),
+                [&reached] () { reached.set_value (); });
+    reached.get_future ().wait ();
+    owner.reset ();
+    own_runner->stop ();
+    own_runner.reset ();
+  }
+  EXPECT_TRUE (weak.expired ())
+      << "the handler the device kept outlived the io_context";
+  EXPECT_EQ (calls->load (), 0);
 }
 
 TEST_F (LumexHidDeviceTest,

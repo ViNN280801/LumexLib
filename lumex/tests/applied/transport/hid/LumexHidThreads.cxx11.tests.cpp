@@ -230,8 +230,9 @@ TEST_F (LumexHidThreadsTest,
   EXPECT_EQ (written[0][1], 4);
 }
 
-TEST_F (LumexHidThreadsTest,
-        GivenAWriteQueuedBehindStuckWrites_WhenCancelled_ThenItEndsCancelled)
+TEST_F (
+    LumexHidThreadsTest,
+    GivenAWriteQueuedBehindStuckWrites_WhenCancelled_ThenItEndsCancelledAndIsFreed)
 {
   std::shared_ptr<fake_device> const a = add ("fake-a");
   std::shared_ptr<fake_device> const b = add ("fake-b");
@@ -242,6 +243,7 @@ TEST_F (LumexHidThreadsTest,
   ASSERT_TRUE (first.open (deadline_t (2000)).has_value ());
   ASSERT_TRUE (second.open (deadline_t (2000)).has_value ());
   ASSERT_TRUE (third.open (deadline_t (2000)).has_value ());
+  std::weak_ptr<tr::datagram::message_impl> const third_impl = third.impl ();
   a->set_hold_writes (true);
   b->set_hold_writes (true);
   std::future<void> stuck_a
@@ -271,6 +273,13 @@ TEST_F (LumexHidThreadsTest,
   EXPECT_TRUE (eventually (
       [] () { return hid::hid_runtime::stats ().pending_tasks == 0; }));
   EXPECT_TRUE (c->written ().empty ());
+  // The write taken back lets go of what it pinned: the device is freed with
+  // its owner.
+  {
+    hid::hid_device const gone (std::move (third));
+  }
+  EXPECT_TRUE (
+      eventually ([&third_impl] () { return third_impl.expired (); }));
 }
 
 TEST_F (LumexHidThreadsTest,
@@ -459,6 +468,104 @@ TEST_F (LumexHidThreadsTest,
   EXPECT_TRUE (shut.get_future ().get ());
   EXPECT_TRUE (device->wait_for ([&device] () { return device->closes > 0; }));
   EXPECT_EQ (device->read_calls, 0u);
+}
+
+// A device on a context nobody runs but the test (`poll`), so that the
+// context can be destroyed while the runtime's threads still work for the
+// device.
+struct manual_device
+{
+  manual_device (std::shared_ptr<fake_seam> const &seam,
+                 std::string const &path)
+      : context (new asio::io_context)
+  {
+    hid::hid_options_t options;
+    options.path = path;
+    transport.reset (new hid::hid_device (hid::detail::make_hid_device_with (
+        seam, context->get_executor (), options)));
+    impl = transport->impl ();
+  }
+
+  std::unique_ptr<asio::io_context> context;
+  std::unique_ptr<hid::hid_device> transport;
+  std::weak_ptr<tr::datagram::message_impl> impl;
+};
+
+// The runtime's thread opens the device and the context goes meanwhile. The
+// thread posts nothing to the destroyed strand, is not the last owner of the
+// device, and closes the handle it opened.
+TEST_F (LumexHidThreadsTest,
+        GivenAnOpenInProgress_WhenTheContextIsDestroyed_ThenNothingIsPosted)
+{
+  std::shared_ptr<fake_device> const device = add ("fake-a");
+  device->set_hold_open (true);
+  manual_device held (seam_, "fake-a");
+  held.transport->async_open ([] (std::error_code)
+                                { ADD_FAILURE () << "the open handler ran"; });
+  held.context->poll ();
+  ASSERT_TRUE (
+      device->wait_for ([&device] () { return device->open_waiting; }));
+
+  held.transport.reset ();
+  held.context.reset ();
+  // The shutdown of the context let the device go: the thread holds none.
+  EXPECT_TRUE (held.impl.expired ());
+
+  device->set_hold_open (false);
+  EXPECT_TRUE (device->wait_for ([&device] () { return device->closes > 0; }));
+  EXPECT_EQ (device->read_calls, 0u);
+  EXPECT_TRUE (eventually (
+      [] () { return hid::hid_runtime::stats ().reader_threads == 0; }));
+}
+
+// The open finished and its step waits in a context that is destroyed
+// without running it: the step owns the connection, so the reader stops and
+// the handle is closed.
+TEST_F (
+    LumexHidThreadsTest,
+    GivenAPostedOpenStepThatNeverRuns_WhenTheContextIsDestroyed_ThenTheHandleIsClosed)
+{
+  std::shared_ptr<fake_device> const device = add ("fake-a");
+  manual_device held (seam_, "fake-a");
+  held.transport->async_open ([] (std::error_code)
+                                { ADD_FAILURE () << "the open handler ran"; });
+  held.context->poll ();
+  ASSERT_TRUE (device->wait_for ([&device] () { return device->opens > 0; }));
+  ASSERT_TRUE (eventually (
+      [] () { return hid::hid_runtime::stats ().pending_tasks == 0; }));
+  // The reader waits for the release finish_open gives.
+  EXPECT_EQ (hid::hid_runtime::stats ().reader_threads, 1u);
+  EXPECT_EQ (device->closes, 0u);
+
+  held.transport.reset ();
+  held.context.reset ();
+  EXPECT_TRUE (device->wait_for ([&device] () { return device->closes > 0; }));
+  EXPECT_TRUE (eventually (
+      [] () { return hid::hid_runtime::stats ().reader_threads == 0; }));
+  EXPECT_TRUE (held.impl.expired ());
+  EXPECT_EQ (device->read_calls, 0u);
+}
+
+// What the runtime's threads pin while they work for a device is let go when
+// the work ends, so a device that was opened, written to and read from is
+// freed with its owner.
+TEST_F (LumexHidThreadsTest,
+        GivenAnOpenedDevice_WhenItIsDestroyed_ThenTheImplementationIsFreed)
+{
+  std::shared_ptr<fake_device> const device = add ("fake-a");
+  std::weak_ptr<tr::datagram::message_impl> impl;
+  {
+    hid::hid_device transport = make ("fake-a");
+    impl = transport.impl ();
+    ASSERT_TRUE (transport.open (deadline_t (2000)).has_value ());
+    ASSERT_TRUE (
+        transport.send (message (0, { 1 }), deadline_t (5000)).has_value ());
+    device->push_raw ({ 0x07 });
+    ASSERT_TRUE (transport.receive (deadline_t (2000)).has_value ());
+    EXPECT_FALSE (impl.expired ());
+  }
+  EXPECT_TRUE (eventually ([&impl] () { return impl.expired (); }));
+  EXPECT_TRUE (device->wait_for ([&device] () { return device->closes > 0; }));
 }
 
 namespace

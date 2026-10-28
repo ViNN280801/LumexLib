@@ -70,6 +70,21 @@ function(lumex_third_party_apply_stdlib target)
     if(_stdlib)
         target_compile_options(${target} PRIVATE
             "$<$<COMPILE_LANGUAGE:CXX>:${_stdlib}>")
+        # A static or shared library built with libc++ hands the choice to its
+        # consumers, as the modules do (CMakeRoutines): an executable built
+        # against libstdc++ does not link with it (std::__1::system_error).
+        # The link option only for a C++ link, so a C consumer is not warned.
+        get_target_property(_type ${target} TYPE)
+        if(_type MATCHES "^(STATIC|SHARED)_LIBRARY$")
+            target_compile_options(${target} INTERFACE
+                "$<$<COMPILE_LANGUAGE:CXX>:${_stdlib}>")
+            if(CMAKE_VERSION VERSION_LESS 3.18)
+                target_link_options(${target} INTERFACE "${_stdlib}")
+            else()
+                target_link_options(${target} INTERFACE
+                    "$<$<LINK_LANGUAGE:CXX>:${_stdlib}>")
+            endif()
+        endif()
         set_property(TARGET ${target} PROPERTY LUMEX_3RDPARTY_STDLIB_DONE TRUE)
     endif()
 endfunction()

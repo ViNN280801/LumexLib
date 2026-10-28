@@ -22,6 +22,7 @@
 
 #include <gtest/gtest.h>
 
+#include "LumexFormatStdQuirks.hpp"
 #include "lumex/core/fmt/LumexFormat.hpp"
 
 #if defined(__cpp_lib_format) && __cpp_lib_format >= 201907L
@@ -146,6 +147,18 @@ compare_random_specs (std::uint64_t seed, T const &value, char const *label,
   for (int i = 0; i < count; ++i)
     {
       std::string const spec = random_spec (random, types);
+      // Not compared where the standard library of this build is known to
+      // differ from the standard (LumexFormatStdQuirks.hpp says which and
+      // why); the specification is still drawn, so the sequence of the
+      // other specifications does not move.
+      if (lumex_format_tests::std_is_known_to_differ (
+              lumex_format_tests::parse_spec (spec),
+              lumex_format_tests::kind_of<T> (),
+              lumex_format_tests::has_non_ascii (value),
+              lumex_format_tests::is_subnormal_value (value),
+              lumex_format_tests::is_non_finite_value (value),
+              lumex_format_tests::is_huge_value (value)))
+        continue;
       outcome_t const expected = with_std (spec, value);
       outcome_t const actual = with_lumex (spec, value);
       bool const same = expected.failed == actual.failed

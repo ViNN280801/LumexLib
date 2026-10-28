@@ -8,6 +8,9 @@
 
 #include <atomic>
 #include <chrono>
+#include <climits>
+#include <condition_variable>
+#include <cstddef>
 #include <cstdlib>
 #include <future>
 #include <memory>
@@ -19,6 +22,12 @@
 #include <vector>
 
 #include <gtest/gtest.h>
+
+#if defined(__linux__)
+#include <dirent.h>
+#include <fcntl.h>
+#include <unistd.h>
+#endif
 
 #include "lumex/applied/transport/detail/LumexAsio.hpp"
 #include "lumex/applied/transport/detail/LumexSyncWait.hpp"
@@ -294,3 +303,243 @@ TEST (
     }
   EXPECT_EQ (received, sent);
 }
+
+#if defined(__linux__)
+namespace
+{
+// A pseudoterminal: its slave is a port the open reaches without hardware.
+class test_pty
+{
+public:
+  test_pty () : master_ (::posix_openpt (O_RDWR | O_NOCTTY))
+  {
+    if (master_ < 0 || ::grantpt (master_) != 0 || ::unlockpt (master_) != 0)
+      return;
+    char name[256];
+    if (::ptsname_r (master_, name, sizeof name) == 0)
+      slave_ = name;
+  }
+  ~test_pty ()
+  {
+    if (master_ >= 0)
+      ::close (master_);
+  }
+
+  test_pty (test_pty const &) = delete;
+  test_pty &operator= (test_pty const &) = delete;
+
+  bool
+  ok () const
+  {
+    return !slave_.empty ();
+  }
+  std::string const &
+  slave () const
+  {
+    return slave_;
+  }
+
+private:
+  int master_;
+  std::string slave_;
+};
+
+// The descriptors of this process that lead to `path`.
+std::size_t
+descriptors_to (std::string const &path)
+{
+  std::size_t count = 0;
+  DIR *const directory = ::opendir ("/proc/self/fd");
+  if (directory == nullptr)
+    return 0;
+  while (dirent const *const entry = ::readdir (directory))
+    {
+      char target[PATH_MAX] = {};
+      std::string const link = std::string ("/proc/self/fd/") + entry->d_name;
+      ssize_t const size
+          = ::readlink (link.c_str (), target, sizeof target - 1);
+      if (size > 0 && path == target)
+        ++count;
+    }
+  ::closedir (directory);
+  return count;
+}
+
+// The path resolver of the tests below: it reports that it runs, waits for
+// `release` and answers with the port. The options and the open worker hold
+// copies of it, so its use count tells when the worker is gone.
+class blocking_resolver
+{
+public:
+  explicit blocking_resolver (std::string const &port)
+      : port_ (port), entered_ (false), released_ (false)
+  {
+  }
+
+  std::string
+  resolve ()
+  {
+    std::unique_lock<std::mutex> lock (mutex_);
+    entered_ = true;
+    changed_.notify_all ();
+    changed_.wait (lock, [this] () { return released_; });
+    return port_;
+  }
+
+  bool
+  wait_entered ()
+  {
+    std::unique_lock<std::mutex> lock (mutex_);
+    return changed_.wait_for (lock, std::chrono::seconds (5),
+                              [this] () { return entered_; });
+  }
+
+  void
+  release ()
+  {
+    std::lock_guard<std::mutex> const lock (mutex_);
+    released_ = true;
+    changed_.notify_all ();
+  }
+
+private:
+  std::string const port_;
+  std::mutex mutex_;
+  std::condition_variable changed_;
+  bool entered_;
+  bool released_;
+};
+
+// Lets the resolver go when the test leaves, whatever its checks said.
+struct release_on_exit
+{
+  blocking_resolver &resolver;
+  ~release_on_exit () { resolver.release (); }
+};
+
+template <typename Predicate>
+bool
+eventually (Predicate predicate)
+{
+  std::chrono::steady_clock::time_point const end
+      = std::chrono::steady_clock::now () + std::chrono::seconds (5);
+  while (!predicate ())
+    {
+      if (std::chrono::steady_clock::now () > end)
+        return false;
+      std::this_thread::sleep_for (std::chrono::milliseconds (2));
+    }
+  return true;
+}
+
+// A stream on a manually driven context (nothing runs it but `poll`), with
+// the resolver it opens through.
+struct open_fixture
+{
+  explicit open_fixture (std::string const &port)
+      : resolver (std::make_shared<blocking_resolver> (port)),
+        context (new asio::io_context)
+  {
+    serial_stream_options_t options;
+    options.path = "by resolver";
+    std::shared_ptr<blocking_resolver> const resolver_copy = resolver;
+    options.resolve_path
+        = [resolver_copy] () { return resolver_copy->resolve (); };
+    stream.reset (new tr::stream::byte_stream (
+        tr::serial::make_serial_stream (context->get_executor (), options)));
+    impl = (*stream).impl ();
+  }
+
+  std::shared_ptr<blocking_resolver> resolver;
+  std::unique_ptr<asio::io_context> context;
+  std::unique_ptr<tr::stream::byte_stream> stream;
+  std::weak_ptr<tr::stream::stream_impl> impl;
+};
+} // namespace
+
+// The open runs on a worker thread that may outlive the context: the context
+// goes while the worker still resolves the path, the stream too. The worker
+// then finds no stream, posts nothing and closes the port it opened.
+TEST (
+    LumexSerialStreamTest,
+    GivenAnOpenInProgress_WhenTheContextIsDestroyed_ThenTheLateDescriptorIsClosed)
+{
+  test_pty pty;
+  if (!pty.ok ())
+    GTEST_SKIP () << "no pseudoterminal";
+  std::size_t const before = descriptors_to (pty.slave ());
+  open_fixture fixture (pty.slave ());
+  release_on_exit const leave = { *fixture.resolver };
+  fixture.stream->async_open ([] (std::error_code)
+                                { ADD_FAILURE () << "the open handler ran"; });
+  fixture.context->poll ();
+  ASSERT_TRUE (fixture.resolver->wait_entered ());
+
+  fixture.stream.reset ();
+  fixture.context.reset ();
+  // The shutdown let the stream go: nothing keeps it for the worker.
+  EXPECT_TRUE (fixture.impl.expired ());
+
+  fixture.resolver->release ();
+  // Only this test holds the resolver once the worker has ended.
+  EXPECT_TRUE (eventually ([&fixture] ()
+                             { return fixture.resolver.use_count () == 1; }));
+  EXPECT_EQ (descriptors_to (pty.slave ()), before);
+}
+
+// The worker posted the step and the context never runs it again: the step
+// owns the opened port and closes it when the context destroys it.
+TEST (
+    LumexSerialStreamTest,
+    GivenAPostedOpenStepThatNeverRuns_WhenTheContextIsDestroyed_ThenNoDescriptorIsLeft)
+{
+  test_pty pty;
+  if (!pty.ok ())
+    GTEST_SKIP () << "no pseudoterminal";
+  std::size_t const before = descriptors_to (pty.slave ());
+  open_fixture fixture (pty.slave ());
+  fixture.resolver->release ();
+  fixture.stream->async_open ([] (std::error_code)
+                                { ADD_FAILURE () << "the open handler ran"; });
+  fixture.context->poll ();
+  // The stream holds one reference of the resolver (its options) and the test
+  // one; the worker's goes when it has posted its step.
+  ASSERT_TRUE (eventually ([&fixture] ()
+                             { return fixture.resolver.use_count () == 2; }));
+  ASSERT_TRUE (eventually (
+      [&pty, before] () { return descriptors_to (pty.slave ()) > before; }));
+  EXPECT_EQ (descriptors_to (pty.slave ()), before + 1);
+  // The stream, the gate and the posted step; the worker holds none.
+  EXPECT_EQ (fixture.impl.use_count (), 3);
+
+  fixture.stream.reset ();
+  fixture.context.reset ();
+  EXPECT_TRUE (fixture.impl.expired ());
+  EXPECT_EQ (descriptors_to (pty.slave ()), before);
+}
+
+// The reference the worker used lives in the gate until the open finishes:
+// finishing lets it go, so a stream that was opened and is destroyed is freed.
+TEST (LumexSerialStreamTest,
+      GivenAnOpenedStream_WhenItIsDestroyed_ThenTheImplementationIsFreed)
+{
+  test_pty pty;
+  if (!pty.ok ())
+    GTEST_SKIP () << "no pseudoterminal";
+  std::size_t const before = descriptors_to (pty.slave ());
+  tr::stream::io_runner runner;
+  std::weak_ptr<tr::stream::stream_impl> impl;
+  {
+    serial_stream_options_t options;
+    options.path = pty.slave ();
+    tr::stream::byte_stream stream
+        = tr::serial::make_serial_stream (runner.get_executor (), options);
+    impl = stream.impl ();
+    ASSERT_TRUE (open_error (stream) == std::error_code ());
+    EXPECT_TRUE (stream.is_open ());
+    EXPECT_EQ (descriptors_to (pty.slave ()), before + 1);
+  }
+  EXPECT_TRUE (eventually ([&impl] () { return impl.expired (); }));
+  EXPECT_EQ (descriptors_to (pty.slave ()), before);
+}
+#endif

@@ -950,6 +950,19 @@ public:
   std::string get_trigger_file_name () const LUMEX_NOEXCEPT;
 
   /**
+   * @brief Returns the directory the trigger file is read from (and the log
+   * is written to).
+   * @details The directory of the executable, or of the library that holds
+   * the singleton on Windows: `get_trigger_file_directory ()` plus a path
+   * separator plus `get_trigger_file_name ()` is the path of the file that
+   * switches logging on. Fixed when the singleton is created.
+   * @return Directory path as the logger uses it (UTF-8, no trailing
+   * separator unless it is a root), or "." when the logger could not tell.
+   * @note Does not throw.
+   */
+  std::string get_trigger_file_directory () const LUMEX_NOEXCEPT;
+
+  /**
    * @brief Returns a snapshot of extended configuration flags (read from
    * the trigger file).
    * @note Thread-safety: uses the internal mutex.

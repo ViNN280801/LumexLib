@@ -23,12 +23,9 @@
 #include <utility>
 #include <vector>
 
+// The umbrella alone: it brings the logger adapter (LUMEX_BUILD_LOGGER) and
+// the mocks (LUMEX_TRANSPORT_WITH_TESTING) behind their options.
 #include "lumex/applied/transport/LumexTransport"
-#if defined(LUMEX_TRANSPORT_WITH_LOGGER)
-#include "lumex/applied/transport/log/adapter/LumexTransportLoggerAdapter.hpp"
-#endif
-#include "lumex/applied/transport/testing/LumexMockDatagram.hpp"
-#include "lumex/applied/transport/testing/LumexMockStream.hpp"
 #if defined(LUMEX_TRANSPORT_WITH_FRAMING)
 #include "lumex/core/framing/LumexFraming"
 #endif
@@ -63,8 +60,10 @@ by_future (Stream &stream)
   std::size_t const bytes
       = stream.async_read_some (tr::mutable_bytes_t (buffer), asio::use_future)
             .get ();
-  stream.async_write_all (tr::const_bytes_t (buffer), asio::use_future).get ();
-  return bytes == 3 && buffer == reply ();
+  std::size_t const written
+      = stream.async_write_all (tr::const_bytes_t (buffer), asio::use_future)
+            .get ();
+  return bytes == 3 && written == buffer.size () && buffer == reply ();
 }
 
 // A deferred operation launched later, with a future.
@@ -122,6 +121,13 @@ by_yield (tr::stream::io_runner &runner, Stream &stream)
 #endif
 
 #if __cplusplus >= 202002L || (defined(_MSVC_LANG) && _MSVC_LANG >= 202002L)
+// GCC lowers the switch of a coroutine's state machine itself and reports it
+// as a switch without a default (-Wswitch-default) at the lambda: the
+// fixture's own code, not the library's.
+#if defined(__GNUC__) && !defined(__clang__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wswitch-default"
+#endif
 template <typename Stream>
 bool
 by_awaitable (tr::stream::io_runner &runner, Stream &stream)
@@ -143,6 +149,9 @@ by_awaitable (tr::stream::io_runner &runner, Stream &stream)
         });
   return done.get_future ().get () == 3 && buffer == reply ();
 }
+#if defined(__GNUC__) && !defined(__clang__)
+#pragma GCC diagnostic pop
+#endif
 #endif
 
 bool
@@ -250,6 +259,13 @@ framed_by_yield (tr::stream::io_runner &runner, link_t &link)
 #endif
 
 #if __cplusplus >= 202002L || (defined(_MSVC_LANG) && _MSVC_LANG >= 202002L)
+// GCC lowers the switch of a coroutine's state machine itself and reports it
+// as a switch without a default (-Wswitch-default) at the lambda: the
+// fixture's own code, not the library's.
+#if defined(__GNUC__) && !defined(__clang__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wswitch-default"
+#endif
 bool
 framed_by_awaitable (tr::stream::io_runner &runner, link_t &link)
 {
@@ -269,6 +285,9 @@ framed_by_awaitable (tr::stream::io_runner &runner, link_t &link)
         });
   return done.get_future ().get () == 5;
 }
+#if defined(__GNUC__) && !defined(__clang__)
+#pragma GCC diagnostic pop
+#endif
 #endif
 
 // Every token style through framed_stream over a mock stream, the

@@ -125,8 +125,16 @@ TEST (LumexFormatFloatTest, GivenHexTypeAtLimits_WhenFormat_ThenExactBits)
   EXPECT_EQ (fmt::format ("{:#a}", min), "1.p-1022");
   EXPECT_EQ (fmt::format ("{:a}", (std::numeric_limits<double>::max) ()),
              "1.fffffffffffffp+1023");
-  EXPECT_EQ (fmt::format ("{:a}", std::numeric_limits<double>::denorm_min ()),
-             "0.0000000000001p-1022");
+  // The first digit of a subnormal is unspecified in C ("%a": "nonzero if the
+  // argument is a normalized floating-point number and is otherwise
+  // unspecified"), which `to_chars (hex)` inherits: glibc's printf gives
+  // "0.0000000000001p-1022", libstdc++'s to_chars (used from C++17) gives
+  // "1p-1074". Both conform; the text must read back as the exact value.
+  double const smallest = std::numeric_limits<double>::denorm_min ();
+  std::string const subnormal = fmt::format ("{:a}", smallest);
+  EXPECT_TRUE (subnormal == "1p-1074" || subnormal == "0.0000000000001p-1022")
+      << subnormal;
+  EXPECT_EQ (std::strtod (("0x" + subnormal).c_str (), nullptr), smallest);
 }
 
 TEST (LumexFormatFloatTest, GivenPrecision_WhenFormat_ThenRoundedHalfEven)

@@ -1295,6 +1295,27 @@ struct owning_client
   std::unique_ptr<ss::stream_session> session;
 };
 
+// What a shutdown test looks at once the context is gone: the owner its
+// handler captured (it must be destroyed with the handler, which the
+// io_context shutdown only does for a handler that an execution_context
+// service of the transport drops) and how often the handler ran (never).
+struct owner_probe
+{
+  owner_probe () : calls (0) {}
+
+  std::weak_ptr<owning_client> owner;
+  std::atomic<int> calls;
+};
+
+void
+expect_owner_destroyed_uncalled (owner_probe const &probe)
+{
+  EXPECT_TRUE (probe.owner.expired ())
+      << "the handler (and the session it owns) outlived the io_context";
+  EXPECT_EQ (probe.calls.load (), 0)
+      << "the shutdown called a handler it should only destroy";
+}
+
 // Runs `body` on a thread; true when it ended within `limit`.
 bool
 ends_within (std::function<void ()> body, ms limit)
@@ -1724,8 +1745,9 @@ TEST (
     LumexSessionRegressionShutdownTest,
     GivenAnOpenWaiterThatOwnsItsSession_WhenTheRunnerStopsAndDies_ThenTheContextIsDestroyed)
 {
+  std::shared_ptr<owner_probe> const probe = std::make_shared<owner_probe> ();
   bool const ended = ends_within (
-      [] ()
+      [probe] ()
         {
           tr::stream::io_runner runner (2);
           std::shared_ptr<stream_factory_state> const factory
@@ -1733,9 +1755,11 @@ TEST (
           factory->hold_call = 1;
           std::shared_ptr<owning_client> client
               = std::make_shared<owning_client> ();
+          probe->owner = client;
           client->session.reset (new ss::stream_session (
               runner.get_executor (), make_stream_factory (factory)));
-          client->session->async_open ([client] (std::error_code) {});
+          client->session->async_open ([client, probe] (std::error_code)
+                                         { ++probe->calls; });
           client.reset ();
           std::this_thread::sleep_for (ms (100));
           runner.stop ();
@@ -1748,6 +1772,7 @@ TEST (
                 << std::endl;
       std::_Exit (3);
     }
+  expect_owner_destroyed_uncalled (*probe);
 }
 
 // H2 (N1): the same with a state waiter.
@@ -1755,20 +1780,23 @@ TEST (
     LumexSessionRegressionShutdownTest,
     GivenAStateWaiterThatOwnsItsSession_WhenTheRunnerStopsAndDies_ThenTheContextIsDestroyed)
 {
+  std::shared_ptr<owner_probe> const probe = std::make_shared<owner_probe> ();
   bool const ended = ends_within (
-      [] ()
+      [probe] ()
         {
           tr::stream::io_runner runner (2);
           std::shared_ptr<stream_factory_state> const factory
               = std::make_shared<stream_factory_state> ();
           std::shared_ptr<owning_client> client
               = std::make_shared<owning_client> ();
+          probe->owner = client;
           client->session.reset (new ss::stream_session (
               runner.get_executor (), make_stream_factory (factory)));
           client->session->open (ms (2000));
           client->session->async_wait_state_change (
               client->session->state_snapshot (),
-              [client] (std::error_code, ss::state_snapshot_t) {});
+              [client, probe] (std::error_code, ss::state_snapshot_t)
+                { ++probe->calls; });
           client.reset ();
           std::this_thread::sleep_for (ms (50));
           runner.stop ();
@@ -1781,6 +1809,44 @@ TEST (
                 << std::endl;
       std::_Exit (3);
     }
+  expect_owner_destroyed_uncalled (*probe);
+}
+
+// The same with a waiter for a channel_state (H2 waits from a snapshot).
+TEST (
+    LumexSessionRegressionShutdownTest,
+    GivenAChannelStateWaiterThatOwnsItsSession_WhenTheRunnerStopsAndDies_ThenTheContextIsDestroyed)
+{
+  std::shared_ptr<owner_probe> const probe = std::make_shared<owner_probe> ();
+  bool const ended = ends_within (
+      [probe] ()
+        {
+          tr::stream::io_runner runner (2);
+          std::shared_ptr<stream_factory_state> const factory
+              = std::make_shared<stream_factory_state> ();
+          std::shared_ptr<owning_client> client
+              = std::make_shared<owning_client> ();
+          probe->owner = client;
+          client->session.reset (new ss::stream_session (
+              runner.get_executor (), make_stream_factory (factory)));
+          client->session->open (ms (2000));
+          client->session->async_wait_state_change (
+              client->session->state (),
+              [client, probe] (std::error_code, ss::channel_state)
+                { ++probe->calls; });
+          client.reset ();
+          std::this_thread::sleep_for (ms (50));
+          runner.stop ();
+          factory->controls.clear ();
+        },
+      ms (8000));
+  if (!ended)
+    {
+      std::cout << "~io_runner (~io_context) still running after 8 s: hang"
+                << std::endl;
+      std::_Exit (3);
+    }
+  expect_owner_destroyed_uncalled (*probe);
 }
 
 // N1: the same with a read pending on a mock stream (the mock keeps the
@@ -1789,14 +1855,16 @@ TEST (
     LumexSessionRegressionShutdownTest,
     GivenAReadWhoseHandlerOwnsItsSession_WhenTheRunnerStopsAndDies_ThenTheContextIsDestroyed)
 {
+  std::shared_ptr<owner_probe> const probe = std::make_shared<owner_probe> ();
   bool const ended = ends_within (
-      [] ()
+      [probe] ()
         {
           tr::stream::io_runner runner (2);
           std::shared_ptr<stream_factory_state> const factory
               = std::make_shared<stream_factory_state> ();
           std::shared_ptr<owning_client> client
               = std::make_shared<owning_client> ();
+          probe->owner = client;
           client->session.reset (new ss::stream_session (
               runner.get_executor (), make_stream_factory (factory)));
           client->session->open (ms (2000));
@@ -1804,7 +1872,8 @@ TEST (
               = std::make_shared<std::vector<std::uint8_t>> (4);
           client->session->async_read_some (
               tr::mutable_bytes_t (*buffer),
-              [client, buffer] (std::error_code, std::size_t) {});
+              [client, buffer, probe] (std::error_code, std::size_t)
+                { ++probe->calls; });
           client.reset ();
           std::this_thread::sleep_for (ms (50));
           runner.stop ();
@@ -1817,6 +1886,7 @@ TEST (
                 << std::endl;
       std::_Exit (3);
     }
+  expect_owner_destroyed_uncalled (*probe);
 }
 
 // N3: a removal reported while a cancel () is on its way (the stop epoch

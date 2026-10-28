@@ -65,6 +65,17 @@ format string that does not match its arguments does not compile.
   built-in formatter to reuse its specification. Types with `operator<<`
   opt in through `ostream_formatter` or `streamed (value)`.
 
+## Differences from std::format
+
+- **`c` with a sign, `#` or `0` on an integer.** LumexFormat rejects
+  `{:+c}`, `{:#c}` and `{:05c}` for an integer argument. The current wording
+  of [format.string.std] allows these options for the arithmetic types other
+  than the character type and `bool`, and libstdc++ and {fmt} accept them;
+  libc++ and MSVC STL reject them, and the question is open for LWG. The
+  decision follows <https://github.com/llvm/llvm-project/issues/106136> and
+  <https://github.com/microsoft/STL/issues/4918> and will be revisited when
+  LWG decides. For a `char` argument every library rejects them.
+
 ## Examples
 
 Six programs in `lumex/examples/fmt/` show every public function, type and

@@ -86,7 +86,15 @@
  * the initiations report). A handler bound to the bare executor of a runner
  * with several threads (or a coroutine spawned on it) would run beside that
  * timer, which Asio's `cancel_after` does not allow: bind such a handler to a
- * strand.
+ * strand. For the same reason the operation itself must be started inside
+ * that strand (the associated executor of the handler, the stream's strand
+ * when it has none; Asio's own rule for `cancel_after`: the timer's handler
+ * emits on the cancellation slot that the initiation installs a handler in).
+ * Started from another thread with a deadline that can expire during the
+ * call, the two race on the slot (ThreadSanitizer reports it for Asio's own
+ * sockets alike); start it from a handler on that strand or post the call to
+ * it. A deadline of milliseconds started from a plain thread cannot fire
+ * before the call returns.
  *
  * The stream keeps no outstanding work on the executor associated with a
  * handler (a handler that keeps its owner alive, stored by a pending
@@ -109,6 +117,7 @@
 
 #include "lumex/applied/transport/detail/LumexAsio.hpp"
 #include "lumex/applied/transport/detail/LumexCountingHandler.hpp"
+#include "lumex/applied/transport/detail/LumexHandlerKeeper.hpp"
 #include "lumex/applied/transport/error/LumexTransportErrc.hpp"
 #include "lumex/applied/transport/statistics/LumexTransportStatistics.hpp"
 #include "lumex/applied/transport/stream/LumexStreamTypes.hpp"
@@ -116,6 +125,11 @@
 
 #if defined(__clang__)
 #pragma clang diagnostic push
+#if __has_warning("-Wlifetime-safety-suggestions")
+// Clang 23 suggests [[clang::lifetimebound]] for every function that returns
+// or stores a parameter (a suggestion, not a finding).
+#pragma clang diagnostic ignored "-Wlifetime-safety-suggestions"
+#endif
 #pragma clang diagnostic ignored "-Wpadded"
 #endif
 
@@ -135,13 +149,14 @@ struct stream_impl_access;
  * the strand. A `do_*` operation completes its handler exactly once through
  * `complete`, never inside the `do_*` call itself.
  */
-class stream_impl : public std::enable_shared_from_this<stream_impl>
+class stream_impl : public detail::handler_keeper,
+                    public std::enable_shared_from_this<stream_impl>
 {
 public:
   using strand_type = asio::strand<executor_type>;
 
   stream_impl (executor_type const &executor, std::string name);
-  virtual ~stream_impl ();
+  ~stream_impl () override;
 
   stream_impl (stream_impl const &) = delete;
   stream_impl &operator= (stream_impl const &) = delete;
@@ -260,6 +275,13 @@ public:
   void start_cancel ();
   void start_close ();
 
+  /// @brief Called when the `io_context` of the stream is destroyed: an
+  /// implementation that keeps a handler in a member (a pending open or read
+  /// it completes later) destroys it here WITHOUT calling it, outside any
+  /// lock of its own. Without it a handler that owns its owner leaves a cycle
+  /// the shutdown cannot break. The default keeps nothing.
+  void drop_kept_handlers () LUMEX_NOEXCEPT override;
+
 protected:
   /// @brief Opens; completes with an error or success.
   virtual void do_open (status_handler_t handler) = 0;
@@ -289,8 +311,10 @@ private:
   // The posted steps of the .cpp reach the protected members through it.
   friend struct stream_impl_access;
 
-  // With a mark, each first puts the slot handler of the stream in the
-  // cancellation slot of the erased handler.
+  // Each first enlists the implementation with the shutdown service of its
+  // io_context (once), and with a mark puts the slot handler of the stream
+  // in the cancellation slot of the erased handler.
+  void enlist ();
   void enqueue_open (status_handler_t handler,
                      detail::operation_mark_ptr const &mark);
   void enqueue_read_some (mutable_bytes_t buffer, io_handler_t handler,
@@ -304,6 +328,8 @@ private:
   strand_type strand_;
   std::string name_;
   std::atomic<bool> open_;
+  // Set when the implementation was enlisted for the io_context shutdown.
+  std::atomic<bool> enlisted_;
   std::shared_ptr<statistics::statistics_counters> counters_;
   // Bumped on the strand by every cancel and close: an operation of several
   // steps (write_all) that sees it change between two steps ends with
@@ -406,6 +432,9 @@ class byte_stream
   };
 
 public:
+  /// @brief The strand of the stream's operations.
+  using strand_type = stream_impl::strand_type;
+
   /// @brief A stream over a concrete implementation.
   explicit byte_stream (std::shared_ptr<stream_impl> impl);
 
@@ -419,6 +448,14 @@ public:
 
   /// @brief The executor the stream was given.
   executor_type get_executor () const LUMEX_NOEXCEPT;
+
+  /// @brief The strand every operation of the stream runs on (a copy).
+  /// @details Start an operation that uses `asio::cancel_after` and whose
+  /// handler has no associated executor of its own inside this strand: from
+  /// a handler that runs on it or through `asio::post (x.get_strand (),
+  /// ...)`. Asio requires it, because the timer of `cancel_after` runs on
+  /// this strand while the initiation installs the cancellation slot.
+  strand_type get_strand () const LUMEX_NOEXCEPT;
 
   /// @brief The name for logs.
   std::string const &name () const LUMEX_NOEXCEPT;

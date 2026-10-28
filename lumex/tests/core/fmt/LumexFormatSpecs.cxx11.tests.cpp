@@ -341,6 +341,30 @@ TEST (LumexFormatSpecsTest, GivenWidth_WhenFormat_ThenMinimumColumns)
   EXPECT_EQ (fmt::format ("{:2}", 12345), "12345");
 }
 
+// A decision, not an oversight: the current wording of [format.string.std]
+// allows a sign, `#` and `0` with `c` for an integer argument and libstdc++
+// and {fmt} accept them; LumexFormat rejects them like libc++ and MSVC STL
+// until LWG decides (https://github.com/llvm/llvm-project/issues/106136,
+// https://github.com/microsoft/STL/issues/4918). A character is rejected by
+// every library.
+TEST (LumexFormatSpecsTest,
+      GivenCWithSignAlternateOrZero_WhenFormat_ThenRejectedForIntegerAndChar)
+{
+  EXPECT_EQ (format_error ("{:+c}", 65), "invalid format specifier");
+  EXPECT_EQ (format_error ("{: c}", 65u), "invalid format specifier");
+  EXPECT_EQ (format_error ("{:#c}", 65), "invalid format specifier");
+  EXPECT_EQ (format_error ("{:05c}", 65),
+             "format specifier requires numeric argument");
+  EXPECT_EQ (format_error ("{:*>05c}", 65),
+             "format specifier requires numeric argument");
+  EXPECT_EQ (format_error ("{:+c}", 'A'), "invalid format specifier for char");
+  EXPECT_EQ (format_error ("{:#c}", 'A'), "invalid format specifier for char");
+  EXPECT_EQ (format_error ("{:05c}", 'A'),
+             "invalid format specifier for char");
+  // The width and the alignment alone are fine.
+  EXPECT_EQ (fmt::format ("{:*>5c}", 65), "****A");
+}
+
 TEST (LumexFormatSpecsTest, GivenWideCharacters_WhenPadded_ThenTwoColumnsEach)
 {
   // U+1F921 and CJK ideographs take two columns.
