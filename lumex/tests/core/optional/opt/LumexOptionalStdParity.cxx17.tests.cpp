@@ -584,22 +584,23 @@ TEST (LumexOptionalStdParityTest, GivenScript_WhenRun_ThenSameEventsAsStd)
   // The logs are compared event by event: name the first difference and the
   // extra events of the longer log, or a size difference tells nothing.
   if (mine.size () != theirs.size ())
-  {
-    std::size_t const common = std::min (mine.size (), theirs.size ());
-    std::size_t first = 0;
-    while (first < common && mine[first] == theirs[first])
-      ++first;
-    std::cout << "first difference at event " << first << " of " << common
-              << " common events\n";
-    for (std::size_t index = first;
-         index < std::min (common, first + 4); ++index)
-      std::cout << "  mine[" << index << "] = " << mine[index] << "\n"
-                << "  st d[" << index << "] = " << theirs[index] << "\n";
-    for (std::size_t index = common; index < mine.size (); ++index)
-      std::cout << "  mine extra[" << index << "] = " << mine[index] << "\n";
-    for (std::size_t index = common; index < theirs.size (); ++index)
-      std::cout << "  st d extra[" << index << "] = " << theirs[index] << "\n";
-  }
+    {
+      std::size_t const common = std::min (mine.size (), theirs.size ());
+      std::size_t first = 0;
+      while (first < common && mine[first] == theirs[first])
+        ++first;
+      std::cout << "first difference at event " << first << " of " << common
+                << " common events\n";
+      for (std::size_t index = first; index < std::min (common, first + 4);
+           ++index)
+        std::cout << "  mine[" << index << "] = " << mine[index] << "\n"
+                  << "  st d[" << index << "] = " << theirs[index] << "\n";
+      for (std::size_t index = common; index < mine.size (); ++index)
+        std::cout << "  mine extra[" << index << "] = " << mine[index] << "\n";
+      for (std::size_t index = common; index < theirs.size (); ++index)
+        std::cout << "  st d extra[" << index << "] = " << theirs[index]
+                  << "\n";
+    }
   ASSERT_EQ (mine.size (), theirs.size ());
   for (std::size_t index = 0; index < mine.size (); ++index)
     EXPECT_EQ (mine[index], theirs[index]) << "event " << index;

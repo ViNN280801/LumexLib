@@ -979,9 +979,8 @@ public:
     // one arm, MSVC materializes it into a temporary and copies the temporary
     // into the result (two payload copies instead of the one a copy of the
     // optional costs - the probe of the suite pins the count).
-    return m_p.m_engaged
-               ? optional (*this)
-               : optional (detail::invoke (detail::fwd<Fn> (fn)));
+    return m_p.m_engaged ? optional (*this)
+                         : optional (detail::invoke (detail::fwd<Fn> (fn)));
   }
 
   /// @brief Returns `*this` (moved) if a value is held, otherwise the result

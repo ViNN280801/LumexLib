@@ -97,9 +97,12 @@ namespace Detail
 {
 inline namespace backend_builtin
 {
-/// An unsigned 128-bit integer that may alias any object.
+/// An unsigned 128-bit integer that may alias any object. The attribute
+/// stays between the name and "=": Clang ignores it after the type.
+// clang-format off
 __extension__ using u128_alias_t __attribute__ ((may_alias))
     = unsigned __int128;
+// clang-format on
 
 /// An unsigned 128-bit integer.
 __extension__ using u128_t = unsigned __int128;

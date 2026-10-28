@@ -8,9 +8,10 @@ typedef struct
 } pair_t;
 
 typedef int value_t, *pointer_t;
-
+// clang-format off
 typedef A const const_alias_t;
 
 typedef unsigned __int128 wide_t __attribute__((may_alias));
 
 constexpr int digits = 1'000; typedef long after_digits_t;
+// clang-format on
