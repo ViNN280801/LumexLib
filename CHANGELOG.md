@@ -172,6 +172,14 @@
 
 **Проверено:** Linux (glibc 2.28), деревья с `LUMEX_WERROR=ON`, ни одной строки предупреждений: GCC 13.2, Clang 23.1 и GCC 8.3 (C++11; пример корутин как C++20, на GCC 8.3 печатает сообщение и завершается с 0), `examples.transport.*` 13 из 13 на каждом, 40 прогонов подряд на GCC 13.2 без падений; MinGW 8.3 собирает и линкует все 13; строгая компиляция каждого источника на GCC 8.3, Clang 23.1 (C++11) и GCC 13.2 (C++14, 17, 20): 0 предупреждений. Windows (cl.exe, clang-cl): TODO.
 
+##### Транспорт: `get_strand ()` у транспортов, сессий и адаптеров кадров
+
+**Файлы:** `lumex/applied/transport/stream/LumexByteStream.{hpp,cpp}`, `datagram/LumexMessageTransport.{hpp,cpp}`, `session/LumexBasicSession.hpp`, `framed/detail/LumexBasicFramed.hpp`, `README.md`, тесты `LumexTransportCancellation.cxx11`, `session/LumexSessionTokens.cxx11`, `framed/LumexFramedStreamTokens.cxx11`.
+
+**Суть:** `byte_stream`, `message_transport`, сессии и `framed_stream` / `framed_datagram` дают `get_strand ()` (и `strand_type`): strand, на котором выполняются их операции. Операцию с `asio::cancel_after` и обработчиком без своего executor начинают внутри него (`asio::post (x.get_strand (), ...)`), как требует Asio; раньше этот strand был доступен только через реализацию.
+
+**Проверено:** Linux, GCC 13: strand потока и транспорта сообщений совпадает со strand реализации, strand сессии совпадает с executor, который сообщают ее начальные функции; чтение кадра с `cancel_after`, начатое в `get_strand ()` адаптера, завершается `cancelled`; наборы `transport` (C++11, C++20), `session`, `framed`, `datagram`, `serial` (C++11) проходят. Windows не проверялось.
+
 #### Исправлено
 
 ##### `LumexFilesystem`: пути не в ASCII на Windows
@@ -285,6 +293,86 @@
 **Суть:** при пустом списке сборок (например, `--std 23` у компилятора без C++23) bash 5.0 с `set -u` падал на `${#JOB_CXX[@]}` («не заданы границы переменной»), и сообщение об ошибке не печаталось. Массивы заданий теперь инициализируются; пустой `extract_args` защищен так же, как `SKIPPED_JOBS`.
 
 **Проверено:** bash 5.0.3: `cmake.release_script_dry_run` и `cmake.release_script_options` проходят при `LC_ALL=C`, `ru_RU.UTF-8` и `en_GB.UTF-8`.
+
+##### Транспорт: статическая библиотека и hidapi не отдают символы наружу на ELF
+
+**Файлы:** `lumex/applied/transport/CMakeLists.txt`, `cmake/LumexHidapi.cmake`, `cmake/LumexAsio.cmake`, `lumex/applied/transport/README.md`, `lumex/tests/cmake/consumer/transport_two_modules/` (`CMakeLists.txt`, `check_exports.cmake`).
+
+**Суть:** статический транспорт и hidapi собираются со скрытой видимостью (`CXX_VISIBILITY_PRESET hidden`, `VISIBILITY_INLINES_HIDDEN`, `C_VISIBILITY_PRESET hidden`): EXE и `.so`, которые линкуют транспорт, имеют каждый свою категорию ошибок, свой слот лога и свою службу остановки, как на Windows. Символы Asio остаются экспортируемыми намеренно: заголовки Asio сами включают видимость по умолчанию, и статики Asio (стеки вызовов по потокам) должны быть одни на процесс, иначе общий `io_context` падает (`ASIO_DISABLE_VISIBILITY` не определяется).
+
+**Проверено:** Linux, GCC 13 и Clang 23: `cmake.consumer_transport_two_modules` проходит, исполняемый файл фикстуры 300 запусков из 300 без падений на каждом компиляторе; с определением `ASIO_DISABLE_VISIBILITY` тот же файл падал с SIGSEGV в 152 запусках из 200 (GCC 13) и в 153 из 200 (Clang 23); на базовой ревизии фикстура завершалась кодом 2 в 200 запусках из 200 (общая категория). Мутация "без скрытой видимости" дает "exports 126 symbol(s)". Windows не проверялось.
+
+##### Транспорт: остановка `io_context` уничтожает обработчики, которые держат реализации
+
+**Файлы:** `lumex/applied/transport/detail/LumexHandlerKeeper.{hpp,cpp}` (новые), `stream/LumexByteStream.{hpp,cpp}`, `datagram/LumexMessageTransport.{hpp,cpp}`, `session/detail/LumexSessionCore.{hpp,cpp}`, `framed/detail/LumexFramedHub.{hpp,cpp}`, `testing/LumexMockStream.cpp`, `testing/LumexMockDatagram.cpp`, `net/LumexNetTransports.cpp`, `hid/LumexHidDevice.cpp`, `README.md`.
+
+**Суть:** обработчик, который реализация хранит в поле и который владеет своим владельцем (захват `shared_ptr`), оставлял цикл ссылок после уничтожения `io_context`. Теперь реализации наследуют `detail::handler_keeper`, регистрируются на первой операции в службе `asio::execution_context::service`, а при остановке контекста служба вызывает `drop_kept_handlers ()`: обработчики уничтожаются без вызова. Файл подавлений LeakSanitizer и `detect_leaks=0` не нужны.
+
+**Проверено:** до исправления LeakSanitizer давал 12102 байта в 73 выделениях (`LumexTransportHandlerCycle`) и 9514 байт в 62 (`LumexSessionRegressionShutdown*`); после: 0 отчетов. GCC 13, ASan с `detect_leaks=1` на C++11, 17 и 20 (66 исполняемых файлов `transport.*` и `framing.*`), 0 отчетов (два бинарника C++11 дают только ложное `alloc-dealloc-mismatch` из-за смешения стандартов, без него чисто). Мутации (служба не регистрирует, снят сброс ожидателей сессии, читателей и записей `framed`, снят `enlist`) убиты тестами `LumexHandlerKeeper`, `LumexTransportHandlerCycle`, `LumexSessionRegressionShutdown*`, `LumexFramedHandlerCycle`.
+
+##### Транспорт: `asio::cancel_after` запускается внутри strand, TSan видит переключения корутин
+
+**Файлы:** `cmake/LumexBoostContext.cmake` (`BOOST_USE_TSAN`), `lumex/tests/applied/transport/LumexTransportCancellation.cxx11.tests.cpp`, `session/LumexSessionTokens.cxx11.tests.cpp`, `framed/LumexFramedStreamTokens.cxx11.tests.cpp`, `README.md`, `stream/LumexByteStream.hpp`, `lumex/tests/cmake/consumer/third_party_boost_context_threads/` (новый).
+
+**Суть:** гонка `cancel_after` под ThreadSanitizer воспроизводится на чистом Asio и является контрактом Asio (операцию надо начинать в strand исполнителя обработчика), библиотека не менялась, подавлений нет; тесты начинают операцию в нужном strand, документация сказала об этом. Stackful-корутины Boost.Context (ucontext), переходящие между потоками, падают в TSan без `BOOST_USE_TSAN`: макрос определяется при `LUMEX_USE_TSAN`, если в `sanitizer/tsan_interface.h` есть `__tsan_create_fiber` (GCC 10 и новее, Clang 9 и новее), иначе выводится сообщение.
+
+**Проверено:** GCC 13, TSan на C++11, 17 и 20, `setarch -R`: 66 исполняемых файлов `transport.*` и `framing.*`, 0 отчетов `WARNING: ThreadSanitizer`. Фикстура `consumer_third_party_boost_context_threads_tsan` проходит на GCC 13 и Clang 23 и пропускается (Skipped) на GCC 8.3; без `BOOST_USE_TSAN` она падает.
+
+##### Clang 23: замечания `-Wlifetime-safety*` и thread-safety в заголовках и фикстурах
+
+**Файлы:** 28 заголовков `lumex/core/**` и `lumex/applied/transport/**` (охраняемые `#pragma clang diagnostic` внутри `__has_warning`), `lumex/applied/transport/detail/LumexCountingHandler.hpp`, `cmake/LumexThirdParty.cmake`, `lumex/tests/cmake/consumer/transport_warnings/main.cpp`.
+
+**Суть:** разобраны все замечания: реальных висячих ссылок нет; `-Wlifetime-safety-suggestions` (просьбы о `[[clang::lifetimebound]]`) и ложное `-Wlifetime-safety-invalidation` (ссылка на контейнер, изменяемый собственным `push_back`) заглушены в заголовках, `-Wlifetime-safety-dangling-*` оставлены; `-Wthread-safety-negative` на libc++ заглушено в `LumexCountingHandler.hpp`; `-Wswitch-default` GCC 13 из `co_await` заглушено в самой фикстуре. Фикстуры `consumer_third_party_boost_context*` и `third_party_warnings` на Clang + libc++ линкуются: `-stdlib=libc++` передается потребителям статических и разделяемых сторонних библиотек.
+
+**Проверено:** GCC 13 и Clang 23 с `LUMEX_WERROR=ON`: 0 строк предупреждений; Clang + libc++: 23 теста `cmake.consumer_*` проходят.
+
+##### C4702 в `expected::value () const &`
+
+**Файлы:** `lumex/core/expected/result/ExpectedDetail.hpp`, `Expected.hpp`, `lumex/tests/cmake/consumer/expected_warnings/` (новый), `lumex/tests/cmake/CMakeLists.txt`.
+
+**Суть:** недостижимый операнд после `throw` в запятой убран: ветка ошибки вызывает `detail::throw_bad_expected_access_as<...>`. Фикстура `consumer_expected_warnings` собирается со строгими флагами (`/W4 /WX` на MSVC).
+
+**Проверено:** Linux, GCC 13 и Clang 23: фикстура собирается и проходит; старую форму Clang не помечает, поэтому регрессию ловит только запуск на Windows (не выполнялся).
+
+##### fmt и `stringify`: расхождения с `std::format`, нулевой указатель
+
+**Файлы:** `lumex/tests/core/fmt/LumexFormatStdQuirks.hpp` (новый), `LumexFormatStdCompare.cxx20.tests.cpp`, `LumexFormatDifferential.cxx20.tests.cpp`, `LumexFormatFloat.cxx11.tests.cpp`, `LumexFormatSpecs.cxx11.tests.cpp`, `lumex/core/fmt/LumexFormat.hpp` (комментарий), `lumex/core/fmt/README.md`, `lumex/core/string/utility/LumexStringify.hpp`, `lumex/tests/core/string/utility/LumexString.cxx11.tests.cpp`.
+
+**Суть:** для каждого расхождения решено по тексту стандарта ([format.string.std], P1868R2, P2909R4, P2510R3, `%#g`): libstdc++ <= 13 и libc++ неверны в перечисленных случаях, `LumexFormat` прав. Исключение - знак, `#` и `0` с представлением `c` для целого аргумента: действующая редакция [format.string.std] их допускает, libstdc++ и {fmt} их принимают, а `LumexFormat`, как libc++ и MSVC STL, отвергает их намеренно, пока вопрос открыт в LWG (https://github.com/llvm/llvm-project/issues/106136, https://github.com/microsoft/STL/issues/4918); решение описано в `lumex/core/fmt/README.md` (раздел "Differences from std::format") и будет пересмотрено после решения LWG. Для `char` их отвергают все; кросс-проверки пропускают только эти спецификации (libstdc++ - по `_GLIBCXX_RELEASE <= 13`, libc++ - до версии 23). `stringify` печатает нулевой указатель объекта как `0x0` на любой стандартной библиотеке (libstdc++ давала `0`, libc++ `0x0`).
+
+**Проверено:** GCC 13 (libstdc++ 13): наборы `fmt.*` и `string.*` проходят; при выключенном пропуске падают 15 проверок дифференциальных тестов; мутация нулевого указателя убита 7 проверками.
+
+##### Транспорт: усечение UDP, `LumexLogger::get_trigger_file_directory`, `last_error_text`, зонтичный заголовок
+
+**Файлы:** `lumex/applied/transport/net/LumexNetTransports.cpp`, `lumex/applied/logger/logger/LumexLogger.{hpp,cpp}`, `session/detail/LumexSessionCore.{hpp,cpp}`, `session/LumexBasicSession.hpp`, `LumexTransport`, README транспорта и логгера, тесты.
+
+**Суть:** буфер приема UDP на байт больше предела; датаграмма считается усеченной при `message_size` или при размере больше `max_datagram_size`, обрезается и пишется предупреждение (код и документация согласованы). Публичный `LumexLogger::get_trigger_file_directory ()`. `last_error_text ()` сессии хранит `what ()` исключения фабрики. `LumexTransport` включает адаптер логгера и заголовки `testing/` за своими опциями.
+
+**Проверено:** GCC 13, Clang 23, GCC 8.3: тесты проходят; мутации (буфер без `+1`, пустой каталог, очищенный текст) убиты тестами.
+
+##### Конфигурация: сообщения о Python < 3.8 и об отсутствующем libusb
+
+**Файлы:** `cmake/LumexBuildInfo.cmake`, `CMakeLists.txt`, `cmake/LumexHidDefault.cmake` (новый), `cmake/LumexOptions.cmake`, `lumex/tests/cmake/cases/configure_build_info_python.cmake`, `hid_default_decision.cmake` (новые).
+
+**Суть:** при Python старше 3.8 CMake предупреждает, что `LumexLib-build-info.json` не будет записан; `-DLUMEX_HIDAPI_BACKEND=libusb` без libusb-1.0 выводит предупреждение с причиной вместо тихого OFF.
+
+**Проверено:** реальная конфигурация на Python 3.7.3 и без libusb; наборы `cmake.*` (240 тестов) проходят на GCC 13 и Clang 23.
+
+##### Последовательный порт: поток открытия больше не трогает strand после уничтожения `io_context`
+
+**Файлы:** `lumex/applied/transport/serial/LumexSerialStream.cpp`.
+
+**Суть:** поток ограниченного открытия порта (отдельный, отсоединенный) держал копию strand потока и уничтожал ее после `asio::post`; если `io_context` к этому моменту уже уничтожался, деструктор strand обращался к освобожденной службе (ASan: heap-use-after-free, на исходной ревизии примерно в одном прогоне из восьми). Теперь поток держит только общие "ворота" с мьютексом, а ссылку на реализацию держат сами ворота: реализация живет, пока идет открытие (ее обработчик по-прежнему вызывается, даже если `byte_stream` уничтожен раньше). Поток под замком кладет копию ссылки в шаг завершения и ставит его на strand; своей ссылки он не держит и не может стать последним владельцем реализации. Ссылку в воротах снимает под тем же замком либо шаг завершения на strand, либо остановка контекста (`drop_kept_handlers`); после этого поток не касается Asio. Шаг завершения владеет открытым портом: если контекст уничтожает шаг без вызова или открывать уже некому, порт закрывается. Обработчик открытия, которое не успело закончиться до уничтожения контекста, уничтожается без вызова, как остальные удерживаемые обработчики.
+
+**Проверено:** Linux, GCC 13: наборы `transport` (C++11, 17, 20) проходят; новые тесты на pty (контекст уничтожен во время открытия; шаг открытия поставлен, но не выполнен; освобождение реализации) падают на прежнем коде и ловят пропуск снятия ссылки в `drop_kept_handlers` и закрытия порта шагом; ASan с `detect_leaks=1` и TSan: набор `serial` и новые тесты в трех параллельных копиях по 20 повторов без отчетов. Windows не проверялось.
+
+##### HID: потоки рантайма больше не трогают strand после уничтожения `io_context`
+
+**Файлы:** `lumex/applied/transport/hid/LumexHidDevice.cpp`, `LumexHidDevice.hpp`, `lumex/tests/applied/transport/hid/LumexHidThreads.cxx11.tests.cpp`.
+
+**Суть:** потоки рантайма HID (блокирующий исполнитель открытия и записи, читатели) держали реализацию устройства и ставили результат на ее strand, даже если `io_context` уже уничтожен; последней ссылкой они уничтожали strand после служб контекста (ASan: heap-use-after-free в каждом прогоне, если контекст уничтожен во время открытия). Теперь устройство закреплено "воротами" на время работы, которую рантайм ведет для него: поток ставит результат на strand только под замком ворот и только пока закрепление есть, а снимают закрепление шаги на strand или остановка контекста (`drop_kept_handlers`), но не поток рантайма. Открытие, закончившееся после остановки контекста, закрывает открытое устройство; читатель, который не нашел закрепления, завершается. Шаг завершения открытия владеет соединением: уничтоженный без вызова, он останавливает читателя, и дескриптор hidapi закрывается.
+
+**Проверено:** Linux, GCC 13: наборы `transport` (C++11, 17, 20) проходят; новые тесты (контекст уничтожен во время открытия, шаг открытия не выполнен, освобождение устройства после работы) падают на прежнем коде (первый - падением процесса) и ловят пропуск остановки читателя и снятия закрепления после открытия, записи и чтения; ASan с `detect_leaks=1` и TSan: набор `hid` и новые тесты в трех параллельных копиях по 20 повторов без отчетов. Windows не проверялось.
 
 #### Изменено
 

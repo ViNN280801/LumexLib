@@ -70,6 +70,7 @@
 
 #include "lumex/applied/transport/detail/LumexAsio.hpp"
 #include "lumex/applied/transport/detail/LumexCountingHandler.hpp"
+#include "lumex/applied/transport/detail/LumexHandlerKeeper.hpp"
 #include "lumex/applied/transport/statistics/LumexTransportStatistics.hpp"
 #include "lumex/applied/transport/stream/LumexStreamTypes.hpp"
 #include "lumex/core/expected/Expected"
@@ -77,6 +78,11 @@
 
 #if defined(__clang__)
 #pragma clang diagnostic push
+#if __has_warning("-Wlifetime-safety-suggestions")
+// Clang 23 suggests [[clang::lifetimebound]] for every function that returns
+// or stores a parameter (a suggestion, not a finding).
+#pragma clang diagnostic ignored "-Wlifetime-safety-suggestions"
+#endif
 #pragma clang diagnostic ignored "-Wpadded"
 #endif
 
@@ -110,13 +116,14 @@ struct message_impl_access;
 
 /// @brief The implementation behind a `message_transport` (the rules of
 /// `stream::stream_impl`).
-class message_impl : public std::enable_shared_from_this<message_impl>
+class message_impl : public detail::handler_keeper,
+                     public std::enable_shared_from_this<message_impl>
 {
 public:
   using strand_type = asio::strand<executor_type>;
 
   message_impl (executor_type const &executor, std::string name);
-  virtual ~message_impl ();
+  ~message_impl () override;
 
   message_impl (message_impl const &) = delete;
   message_impl &operator= (message_impl const &) = delete;
@@ -211,6 +218,12 @@ public:
   void start_cancel ();
   void start_close ();
 
+  /// @brief Called when the `io_context` of the transport is destroyed: an
+  /// implementation that keeps a handler in a member destroys it here
+  /// WITHOUT calling it, outside any lock of its own (see
+  /// `stream::stream_impl::drop_kept_handlers`). The default keeps nothing.
+  void drop_kept_handlers () LUMEX_NOEXCEPT override;
+
 protected:
   virtual void do_open (status_handler_t handler) = 0;
   virtual void do_receive (message_handler_t handler) = 0;
@@ -231,6 +244,7 @@ protected:
 private:
   friend struct message_impl_access;
 
+  void enlist ();
   void enqueue_open (status_handler_t handler,
                      detail::operation_mark_ptr const &mark);
   void enqueue_receive (message_handler_t handler,
@@ -242,6 +256,8 @@ private:
   strand_type strand_;
   std::string name_;
   std::atomic<bool> open_;
+  // Set when the implementation was enlisted for the io_context shutdown.
+  std::atomic<bool> enlisted_;
   // Bumped by every close (see connection_epoch).
   std::atomic<std::size_t> connection_epoch_;
   std::shared_ptr<statistics::statistics_counters> counters_;
@@ -321,6 +337,9 @@ class message_transport
   };
 
 public:
+  /// @brief The strand of the transport's operations.
+  using strand_type = message_impl::strand_type;
+
   explicit message_transport (std::shared_ptr<message_impl> impl);
   ~message_transport ();
 
@@ -330,6 +349,13 @@ public:
   message_transport &operator= (message_transport &&other) LUMEX_NOEXCEPT;
 
   executor_type get_executor () const LUMEX_NOEXCEPT;
+  /// @brief The strand every operation of the transport runs on (a copy).
+  /// @details Start an operation that uses `asio::cancel_after` and whose
+  /// handler has no associated executor of its own inside this strand: from
+  /// a handler that runs on it or through `asio::post (x.get_strand (),
+  /// ...)`. Asio requires it, because the timer of `cancel_after` runs on
+  /// this strand while the initiation installs the cancellation slot.
+  strand_type get_strand () const LUMEX_NOEXCEPT;
   std::string const &name () const LUMEX_NOEXCEPT;
   bool is_open () const LUMEX_NOEXCEPT;
 

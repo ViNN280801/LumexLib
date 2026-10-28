@@ -11,7 +11,16 @@
 // does not end within 5 s (its thread is then left behind); CTest runs each
 // test in a process of its own with a timeout. Every scenario waits until its
 // operation reached the implementation before it lets go.
+//
+// The destructors must also break the cycle: the io_context shutdown asks the
+// implementations that keep a handler in a member to destroy it uncalled (an
+// execution_context service of the transport), so the owner the handler
+// captured is destroyed with it. A scenario hands back a probe: the owner
+// seen through a weak pointer, and how often the handler ran. After the
+// scenario the owner must be gone and the handler must not have run
+// (LeakSanitizer sees the same: the leak of the cycle).
 
+#include <atomic>
 #include <chrono>
 #include <cstddef>
 #include <cstdint>
@@ -77,6 +86,22 @@ reach_the_device (std::shared_ptr<Impl> const &impl)
   done.wait ();
 }
 
+// What a scenario leaves behind to look at once everything is destroyed.
+struct cycle_probe
+{
+  cycle_probe ()
+      : reached (false), calls (std::make_shared<std::atomic<int>> (0))
+  {
+  }
+
+  // The scenario ran to its end (it did not stop at a failed open).
+  bool reached;
+  // The owner the handler captured.
+  std::weak_ptr<void> owner;
+  // How many times the handler ran.
+  std::shared_ptr<std::atomic<int>> calls;
+};
+
 struct stream_client
 {
   tr::testing::mock_stream mock;
@@ -101,9 +126,10 @@ enum class binding
 };
 
 // A pending mock read whose handler keeps its owner.
-void
+cycle_probe
 mock_read_cycle (binding how)
 {
+  cycle_probe probe;
   std::unique_ptr<asio::io_context> other (new asio::io_context);
   std::unique_ptr<tr::stream::io_runner> runner (
       new tr::stream::io_runner (1));
@@ -113,10 +139,12 @@ mock_read_cycle (binding how)
   std::shared_ptr<stream_client> client
       = std::make_shared<stream_client> (std::move (made));
   if (!client->mock.stream.open (tr::deadline_t (2000)).has_value ())
-    return;
+    return probe;
+  probe.owner = client;
   {
+    std::shared_ptr<std::atomic<int>> const calls = probe.calls;
     std::function<void (std::error_code, std::size_t)> const keep_owner
-        = [client] (std::error_code, std::size_t) {};
+        = [client, calls] (std::error_code, std::size_t) { ++*calls; };
     tr::mutable_bytes_t const buffer (client->buffer);
     if (how == binding::none)
       client->mock.stream.async_read_some (buffer, keep_owner);
@@ -134,12 +162,15 @@ mock_read_cycle (binding how)
   runner->stop ();
   runner.reset ();
   other.reset ();
+  probe.reached = true;
+  return probe;
 }
 
 // A pending mock receive whose handler keeps its owner.
-void
+cycle_probe
 mock_receive_cycle (binding how)
 {
+  cycle_probe probe;
   std::unique_ptr<asio::io_context> other (new asio::io_context);
   std::unique_ptr<tr::stream::io_runner> runner (
       new tr::stream::io_runner (1));
@@ -148,11 +179,14 @@ mock_receive_cycle (binding how)
   std::shared_ptr<datagram_client> client
       = std::make_shared<datagram_client> (std::move (made));
   if (!client->mock.transport.open (tr::deadline_t (2000)).has_value ())
-    return;
+    return probe;
+  probe.owner = client;
   {
+    std::shared_ptr<std::atomic<int>> const calls = probe.calls;
     std::function<void (std::error_code, tr::datagram::message_t)> const
         keep_owner
-        = [client] (std::error_code, tr::datagram::message_t) {};
+        = [client, calls] (std::error_code, tr::datagram::message_t)
+      { ++*calls; };
     if (how == binding::none)
       client->mock.transport.async_receive (keep_owner);
     else if (how == binding::runner_strand)
@@ -167,14 +201,55 @@ mock_receive_cycle (binding how)
   runner->stop ();
   runner.reset ();
   other.reset ();
+  probe.reached = true;
+  return probe;
+}
+
+// An open the mock holds (hold_next_open) whose handler keeps its owner: the
+// handler waits in the pending open of the implementation.
+cycle_probe
+mock_open_cycle (binding how)
+{
+  cycle_probe probe;
+  std::unique_ptr<asio::io_context> other (new asio::io_context);
+  std::unique_ptr<tr::stream::io_runner> runner (
+      new tr::stream::io_runner (1));
+  stream_client made
+      = { tr::testing::make_mock_stream (runner->get_executor (), "cycle"),
+          std::vector<std::uint8_t> (3) };
+  std::shared_ptr<stream_client> client
+      = std::make_shared<stream_client> (std::move (made));
+  client->mock.control.hold_next_open ();
+  probe.owner = client;
+  {
+    std::shared_ptr<std::atomic<int>> const calls = probe.calls;
+    std::function<void (std::error_code)> const keep_owner
+        = [client, calls] (std::error_code) { ++*calls; };
+    if (how == binding::none)
+      client->mock.stream.async_open (keep_owner);
+    else if (how == binding::runner_strand)
+      client->mock.stream.async_open (asio::bind_executor (
+          asio::make_strand (runner->get_executor ()), keep_owner));
+    else
+      client->mock.stream.async_open (
+          asio::bind_executor (other->get_executor (), keep_owner));
+    reach_the_device (client->mock.stream.impl ());
+  }
+  client.reset ();
+  runner->stop ();
+  runner.reset ();
+  other.reset ();
+  probe.reached = true;
+  return probe;
 }
 
 // A pending TCP open (a connect to a non-routable address of TEST-NET-1)
 // whose handler keeps its owner: the handler waits in the pending open of
 // the implementation.
-void
+cycle_probe
 tcp_open_cycle (binding how)
 {
+  cycle_probe probe;
   std::unique_ptr<asio::io_context> other (new asio::io_context);
   std::unique_ptr<tr::stream::io_runner> runner (
       new tr::stream::io_runner (1));
@@ -185,9 +260,11 @@ tcp_open_cycle (binding how)
       = { tr::net::make_tcp_stream (runner->get_executor (), options) };
   std::shared_ptr<tcp_client> client
       = std::make_shared<tcp_client> (std::move (made));
+  probe.owner = client;
   {
+    std::shared_ptr<std::atomic<int>> const calls = probe.calls;
     std::function<void (std::error_code)> const keep_owner
-        = [client] (std::error_code) {};
+        = [client, calls] (std::error_code) { ++*calls; };
     if (how == binding::none)
       client->stream.async_open (keep_owner);
     else if (how == binding::runner_strand)
@@ -203,14 +280,26 @@ tcp_open_cycle (binding how)
   runner->stop ();
   runner.reset ();
   other.reset ();
+  probe.reached = true;
+  return probe;
 }
 
 void
-expect_it_ends (void (*scenario) (binding), binding how)
+expect_it_ends (cycle_probe (*scenario) (binding), binding how)
 {
-  EXPECT_TRUE (finishes_within ([scenario, how] () { scenario (how); },
-                                std::chrono::seconds (5)))
-      << "the destructors did not return within 5 s";
+  std::shared_ptr<cycle_probe> const result = std::make_shared<cycle_probe> ();
+  bool const ended = finishes_within ([scenario, how, result] ()
+                                        { *result = scenario (how); },
+                                      std::chrono::seconds (5));
+  EXPECT_TRUE (ended) << "the destructors did not return within 5 s";
+  if (!ended)
+    return;
+  EXPECT_TRUE (result->reached) << "the scenario stopped before its end";
+  EXPECT_TRUE (result->owner.expired ())
+      << "the handler (and the owner it captured) outlived the io_context: "
+         "the shutdown did not destroy the handler the implementation kept";
+  EXPECT_EQ (result->calls->load (), 0)
+      << "the shutdown called a handler it should only destroy";
 }
 } // namespace
 
@@ -268,4 +357,18 @@ TEST (
     H7_GivenATcpOpenOnAnotherContextKeepingItsOwner_WhenAllIsDestroyed_ThenTheDestructorsReturn)
 {
   expect_it_ends (&tcp_open_cycle, binding::other_context);
+}
+
+TEST (
+    LumexTransportHandlerCycle,
+    H8_GivenAHeldMockOpenKeepingItsOwner_WhenAllIsDestroyed_ThenTheHandlerIsDroppedUncalled)
+{
+  expect_it_ends (&mock_open_cycle, binding::none);
+}
+
+TEST (
+    LumexTransportHandlerCycle,
+    H9_GivenAHeldMockOpenOnAnotherContextKeepingItsOwner_WhenAllIsDestroyed_ThenTheHandlerIsDroppedUncalled)
+{
+  expect_it_ends (&mock_open_cycle, binding::other_context);
 }

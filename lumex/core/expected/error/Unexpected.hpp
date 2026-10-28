@@ -68,6 +68,15 @@
 // ====================== unexpected class (C++23 analogue)
 // ======================
 
+#if defined(__clang__)
+#pragma clang diagnostic push
+#if __has_warning("-Wlifetime-safety-suggestions")
+// Clang 23 suggests [[clang::lifetimebound]] for every function that returns
+// or stores a parameter (a suggestion, not a finding).
+#pragma clang diagnostic ignored "-Wlifetime-safety-suggestions"
+#endif
+#endif
+
 namespace lumex
 {
 namespace core
@@ -407,5 +416,9 @@ template <typename ErrorType> unexpected (ErrorType) -> unexpected<ErrorType>;
 // a file from including both. Write
 // `lumex::core::expected::error::unexpected`; the namespace
 // `lumex::core::expected::result` has `using error::unexpected`.
+
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif
 
 #endif // !LUMEX_CORE_EXPECTED_ERROR_UNEXPECTED_HPP

@@ -871,14 +871,27 @@ cancel_after_stress (bool bind_strand, int iterations)
               std::make_shared<std::atomic<int>> (0), &doubles };
       std::future<std::error_code> ended = handler.done->get_future ();
       std::chrono::microseconds const timeout (delay (random));
-      if (bind_strand)
-        mock.stream.async_read_some (
-            tr::mutable_bytes_t (buffer),
-            asio::cancel_after (timeout,
-                                asio::bind_executor (strand, handler)));
-      else
-        mock.stream.async_read_some (tr::mutable_bytes_t (buffer),
-                                     asio::cancel_after (timeout, handler));
+      // asio::cancel_after needs the operation to be started inside a strand
+      // (its documented thread safety: the timer's handler and the
+      // initiation both touch the cancellation slot of the operation), the
+      // strand the timer's handler runs on: the associated executor of the
+      // handler, which is the stream's own strand when the handler has none.
+      // Started from this thread it races the timer; see the transport
+      // README.
+      asio::post (
+          bind_strand ? strand : mock.stream.get_strand (),
+          [&mock, &buffer, bind_strand, &strand, timeout, handler] ()
+            {
+              if (bind_strand)
+                mock.stream.async_read_some (
+                    tr::mutable_bytes_t (buffer),
+                    asio::cancel_after (
+                        timeout, asio::bind_executor (strand, handler)));
+              else
+                mock.stream.async_read_some (
+                    tr::mutable_bytes_t (buffer),
+                    asio::cancel_after (timeout, handler));
+            });
       if (ended.wait_for (std::chrono::seconds (5))
           != std::future_status::ready)
         {
@@ -926,4 +939,20 @@ TEST (
   EXPECT_EQ (result.lost, 0);
   EXPECT_EQ (result.hung, 0);
   EXPECT_EQ (result.doubles, 0);
+}
+
+// get_strand () gives the strand the operations of a stream and of a message
+// transport run on: the one to start an operation with asio::cancel_after in.
+TEST (
+    LumexTransportStrand,
+    GivenAStreamAndATransport_WhenGetStrand_ThenItIsTheStrandOfTheirOperations)
+{
+  tr::stream::io_runner runner (1);
+  tr::testing::mock_stream mock
+      = tr::testing::make_mock_stream (runner.get_executor (), "strand");
+  EXPECT_TRUE (mock.stream.get_strand () == mock.stream.impl ()->strand ());
+  tr::testing::mock_datagram datagram
+      = tr::testing::make_mock_datagram (runner.get_executor (), "strand");
+  EXPECT_TRUE (datagram.transport.get_strand ()
+               == datagram.transport.impl ()->strand ());
 }

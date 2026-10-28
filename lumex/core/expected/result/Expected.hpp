@@ -53,6 +53,11 @@
 
 #if defined(__clang__)
 #pragma clang diagnostic push
+#if __has_warning("-Wlifetime-safety-suggestions")
+// Clang 23 suggests [[clang::lifetimebound]] for every function that returns
+// or stores a parameter (a suggestion, not a finding).
+#pragma clang diagnostic ignored "-Wlifetime-safety-suggestions"
+#endif
 #pragma clang diagnostic ignored "-Wpadded"
 #pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
 #if __has_warning("-Wunsafe-buffer-usage-in-libc-call")
@@ -975,9 +980,9 @@ public:
                              "value (): ErrorType must be copy constructible");
     return m_has_value
                ? static_cast<SuccessType const &> (m_storage.m_value)
-               : (detail::throw_bad_expected_access<ErrorType> (
-                      static_cast<ErrorType const &> (m_storage.m_error)),
-                  static_cast<SuccessType const &> (m_storage.m_value));
+               : detail::throw_bad_expected_access_as<ErrorType,
+                                                      SuccessType const &> (
+                     static_cast<ErrorType const &> (m_storage.m_error));
   }
 
   /**

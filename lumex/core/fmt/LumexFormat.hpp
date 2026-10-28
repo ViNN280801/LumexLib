@@ -1023,6 +1023,13 @@ validate_specs (format_specs_t<Char> const &specs, SpecKind kind)
       if (type != Char () && type != static_cast<Char> ('c')
           && !is_integer_presentation (type))
         throw format_error ("invalid format specifier");
+      // Sign, `#` and `0` are rejected with `c`, as libc++ and MSVC STL do.
+      // The current wording of [format.string.std] allows them for an integer
+      // argument (libstdc++ and {fmt} accept them); the question is open for
+      // LWG and this follows
+      // https://github.com/llvm/llvm-project/issues/106136 and
+      // https://github.com/microsoft/STL/issues/4918. Revisit when LWG
+      // decides.
       numeric = type != static_cast<Char> ('c');
       allows_localized = numeric;
       allows_zero = numeric;

@@ -362,8 +362,15 @@ TEST (
               std::make_shared<std::atomic<int>> (0) };
       std::future<std::error_code> ended = handler.done->get_future ();
       std::chrono::microseconds const timeout (delay (random));
-      link.async_read_frame (
-          asio::cancel_after (timeout, asio::bind_executor (strand, handler)));
+      // asio::cancel_after must be started inside a strand (Asio's documented
+      // thread safety): a step of the strand the timer's handler runs on,
+      // the associated executor of the handler.
+      asio::post (strand,
+                  [&link, timeout, &strand, handler] ()
+                    {
+                      link.async_read_frame (asio::cancel_after (
+                          timeout, asio::bind_executor (strand, handler)));
+                    });
       if (ended.wait_for (std::chrono::seconds (5))
           != std::future_status::ready)
         {
@@ -396,4 +403,48 @@ TEST (
   for (std::size_t i = 0; i < got.size (); ++i)
     ASSERT_EQ (got[i], static_cast<std::uint32_t> (i)) << "position " << i;
   EXPECT_EQ (link.statistics ().dropped_frames, 0u);
+}
+
+// A read with asio::cancel_after and an unbound handler, started inside the
+// adapter's own strand (get_strand ()), ends with cancelled when no frame
+// comes.
+TEST (
+    LumexFramedStreamStrand,
+    GivenCancelAfterStartedInGetStrand_WhenNoFrameComes_ThenTheReadIsCancelled)
+{
+  tr::stream::io_runner runner (2);
+  tr::testing::mock_stream mock
+      = tr::testing::make_mock_stream (runner.get_executor (), "strand");
+  tr::framed::framed_stream<slip_case::codec_t> link (
+      std::move (mock.stream), slip_case::make (slip_case::limit ()));
+  ASSERT_TRUE (link.transport ().open (tr::deadline_t (2000)).has_value ());
+  std::shared_ptr<std::promise<std::error_code>> const done
+      = std::make_shared<std::promise<std::error_code>> ();
+  std::future<std::error_code> ended = done->get_future ();
+  asio::post (link.get_strand (),
+              [&link, done] ()
+                {
+                  link.async_read_frame (asio::cancel_after (
+                      std::chrono::milliseconds (20),
+                      [done] (std::error_code error, tr::framed::frame_t)
+                        { done->set_value (error); }));
+                });
+  ASSERT_EQ (ended.wait_for (std::chrono::seconds (5)),
+             std::future_status::ready);
+  EXPECT_TRUE (ended.get () == transport_errc::cancelled);
+}
+
+// get_strand () is the strand of the transport underneath, not a new one: a
+// handler of cancel_after must run on the strand the operations run on.
+TEST (
+    LumexFramedStreamStrand,
+    GivenAFramedStream_WhenGetStrand_ThenItIsTheStrandOfTheTransportUnderneath)
+{
+  tr::stream::io_runner runner (1);
+  tr::testing::mock_stream mock
+      = tr::testing::make_mock_stream (runner.get_executor (), "strand");
+  tr::framed::framed_stream<slip_case::codec_t> link (
+      std::move (mock.stream), slip_case::make (slip_case::limit ()));
+  EXPECT_TRUE (link.get_strand () == link.transport ().impl ()->strand ());
+  EXPECT_TRUE (link.get_strand () == link.get_strand ());
 }

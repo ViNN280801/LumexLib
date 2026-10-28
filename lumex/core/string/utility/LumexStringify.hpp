@@ -35,6 +35,12 @@
  * `traits::stream::all_streamable` below it (the same argument lists), so the
  * call can be detected with SFINAE and never fails inside the body. Below
  * C++20, `std::unique_ptr` and `std::shared_ptr` stream their raw address.
+ * A null pointer (a raw pointer other than to `char`, `signed char` and
+ * `unsigned char`, which stream as text, an empty `std::unique_ptr` or
+ * `std::shared_ptr`) is `"0x0"` with every standard library: a stream prints
+ * it as `"0"` (libstdc++), `"0x0"` (libc++) or sixteen zeros (MSVC), and
+ * `std::format` prints `"0x0"`. A non-null pointer streams as the library of
+ * the build prints it.
  *
  * What counts as streamable follows the standard library of the build, not a
  * fixed list: `wchar_t`, `char16_t`, `char32_t` and the pointers to them
@@ -53,6 +59,7 @@
 #ifndef LUMEX_CORE_STRING_UTILITY_STRINGIFY_HPP
 #define LUMEX_CORE_STRING_UTILITY_STRINGIFY_HPP
 
+#include <cstddef>
 #include <memory>
 #include <ostream>
 #include <sstream>
@@ -81,18 +88,80 @@ namespace utility
  * same text.
  */
 template <typename T, typename D>
+std::ostream &operator<< (std::ostream &ostream,
+                          std::unique_ptr<T, D> const &ptr);
+
+/** @brief Streams the raw address held by a `std::shared_ptr`. */
+template <typename T>
+std::ostream &operator<< (std::ostream &ostream,
+                          std::shared_ptr<T> const &ptr);
+
+namespace detail
+{
+/**
+ * @brief True for the pointers that stream as an address: an object pointer
+ * whose pointee is not a narrow character type (those stream as text).
+ */
+template <typename T>
+struct streams_as_address
+    : std::integral_constant<
+          bool, std::is_pointer<T>::value
+                    && !std::is_function<
+                        typename std::remove_pointer<T>::type>::value
+                    && !std::is_same<
+                        typename std::remove_cv<
+                            typename std::remove_pointer<T>::type>::type,
+                        char>::value
+                    && !std::is_same<
+                        typename std::remove_cv<
+                            typename std::remove_pointer<T>::type>::type,
+                        signed char>::value
+                    && !std::is_same<
+                        typename std::remove_cv<
+                            typename std::remove_pointer<T>::type>::type,
+                        unsigned char>::value>
+{
+};
+
+/** @brief Streams `value` as `ostream << value` does. */
+template <typename T>
+typename std::enable_if<
+    !streams_as_address<typename std::decay<T>::type>::value>::type
+stream_into (std::ostream &ostream, T &&value)
+{
+  ostream << std::forward<T> (value);
+}
+
+/**
+ * @brief Streams an address; a null one as `0x0`, whatever the standard
+ * library prints for it.
+ */
+template <typename T>
+typename std::enable_if<
+    streams_as_address<typename std::decay<T>::type>::value>::type
+stream_into (std::ostream &ostream, T &&value)
+{
+  if (value == nullptr)
+    ostream << "0x0";
+  else
+    ostream << std::forward<T> (value);
+}
+} // namespace detail
+
+template <typename T, typename D>
 std::ostream &
 operator<< (std::ostream &ostream, std::unique_ptr<T, D> const &ptr)
 {
-  return ostream << ptr.get ();
+  detail::stream_into (ostream, ptr.get ());
+  return ostream;
 }
 
-/** @brief Streams the raw address held by a `std::shared_ptr`. */
 template <typename T>
 std::ostream &
 operator<< (std::ostream &ostream, std::shared_ptr<T> const &ptr)
 {
-  return ostream << ptr.get ();
+  detail::stream_into (ostream, ptr.get ());
+  return ostream;
 }
 
 namespace detail
@@ -138,9 +207,10 @@ stringify (Args &&...args)
 {
   std::ostringstream oss;
 #if LUMEX_HAS_FOLD_EXPRESSIONS
-  ((oss << std::forward<Args> (args)), ...);
+  (detail::stream_into (oss, std::forward<Args> (args)), ...);
 #else
-  int expanded[] = { 0, ((oss << std::forward<Args> (args)), 0)... };
+  int expanded[]
+      = { 0, (detail::stream_into (oss, std::forward<Args> (args)), 0)... };
   LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (expanded);
 #endif
   return oss.str ();

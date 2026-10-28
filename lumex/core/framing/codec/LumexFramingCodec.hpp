@@ -70,6 +70,17 @@
 
 #if defined(__clang__)
 #pragma clang diagnostic push
+#if __has_warning("-Wlifetime-safety-suggestions")
+// Clang 23 suggests [[clang::lifetimebound]] for every function that returns
+// or stores a parameter (a suggestion, not a finding).
+#pragma clang diagnostic ignored "-Wlifetime-safety-suggestions"
+#endif
+#if __has_warning("-Wlifetime-safety-invalidation")
+// Clang 23 reports a reference parameter to a container as "invalidated" by
+// its own push_back, insert or reserve (a false positive: only references into
+// the container are invalidated, not the container).
+#pragma clang diagnostic ignored "-Wlifetime-safety-invalidation"
+#endif
 #pragma clang diagnostic ignored "-Wpadded"
 #pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
 #if __has_warning("-Wunsafe-buffer-usage-in-libc-call")

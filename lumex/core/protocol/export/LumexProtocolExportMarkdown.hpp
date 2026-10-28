@@ -69,6 +69,12 @@
 
 #if defined(__clang__)
 #pragma clang diagnostic push
+#if __has_warning("-Wlifetime-safety-invalidation")
+// Clang 23 reports a reference parameter to a container as "invalidated" by
+// its own push_back, insert or reserve (a false positive: only references into
+// the container are invalidated, not the container).
+#pragma clang diagnostic ignored "-Wlifetime-safety-invalidation"
+#endif
 #pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
 #pragma clang diagnostic ignored "-Wformat-nonliteral"
 #if __has_warning("-Wunsafe-buffer-usage-in-libc-call")

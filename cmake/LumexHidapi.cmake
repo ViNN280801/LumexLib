@@ -91,6 +91,12 @@ function(_lumex_setup_hidapi_target)
 
     add_library(lumex_3rdparty_hidapi STATIC ${_sources})
     add_library(lumex::3rdparty_hidapi ALIAS lumex_3rdparty_hidapi)
+    # Hidden on ELF and Mach-O (the exports of hidapi.h are empty there): a
+    # shared library that links this static library keeps its hid_* functions
+    # to itself, so another copy of hidapi in the process (the one of a second
+    # binary or of another library) never interposes with it.
+    set_target_properties(lumex_3rdparty_hidapi PROPERTIES
+        C_VISIBILITY_PRESET hidden)
     foreach(_inc IN LISTS _public_includes)
         target_include_directories(lumex_3rdparty_hidapi SYSTEM PUBLIC
             "$<BUILD_INTERFACE:${_inc}>")

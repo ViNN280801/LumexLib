@@ -18,6 +18,7 @@
 
 #include <gtest/gtest.h>
 
+#include "LumexFormatStdQuirks.hpp"
 #include "lumex/core/fmt/LumexFormat.hpp"
 
 #if defined(__cpp_lib_format) && __cpp_lib_format >= 201907L
@@ -32,6 +33,17 @@ expect_same_as_std (char const *const (&specs)[N], T value)
 {
   for (char const *spec : specs)
     {
+      // Where the standard library of this build is known to differ from the
+      // standard, the case is not compared (LumexFormatStdQuirks.hpp says
+      // which and why).
+      if (lumex_format_tests::std_is_known_to_differ (
+              lumex_format_tests::parse_spec (spec),
+              lumex_format_tests::kind_of<T> (),
+              lumex_format_tests::has_non_ascii (value),
+              lumex_format_tests::is_subnormal_value (value),
+              lumex_format_tests::is_non_finite_value (value),
+              lumex_format_tests::is_huge_value (value)))
+        continue;
       std::string const expected
           = std::vformat (spec, std::make_format_args (value));
       std::string const actual

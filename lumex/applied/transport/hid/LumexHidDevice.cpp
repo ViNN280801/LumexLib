@@ -160,6 +160,108 @@ to_message (std::vector<std::uint8_t> const &buffer, std::size_t size,
 }
 } // namespace
 
+class hid_device_impl;
+
+/// What the threads of the HID runtime (the blocking executor and the
+/// readers) share with their device. They may outlive the `io_context`, so
+/// they hold neither the implementation nor a copy of its strand: the gate
+/// pins the implementation for as long as work of the device runs on them
+/// (an open, a write, the reader), and a thread posts its step only under
+/// the gate's lock and only while the pin is set. `drop` clears the pin under
+/// the same lock when the context is being destroyed, and Asio shuts the
+/// context's services down after that, so no runtime thread touches the
+/// strand or destroys the implementation (and its strand) after the context.
+/// The pin is taken and released on the strand (or in `drop`), never on a
+/// runtime thread: the thread that runs the last release is the one that
+/// holds the step's own reference, so it is not the last owner.
+class runtime_gate
+{
+public:
+  runtime_gate () : activity_ (0) {}
+
+  runtime_gate (runtime_gate const &) = delete;
+  runtime_gate &operator= (runtime_gate const &) = delete;
+
+  /// One more piece of work of `impl` (the strand).
+  template <typename Impl>
+  void
+  pin (std::shared_ptr<Impl> const &impl)
+  {
+    std::lock_guard<std::mutex> const lock (mutex_);
+    if (activity_++ == 0)
+      impl_ = impl;
+  }
+
+  /// One piece of work ended (the strand): the last one lets the
+  /// implementation go.
+  void
+  unpin () LUMEX_NOEXCEPT
+  {
+    std::shared_ptr<hid_device_impl> released;
+    {
+      std::lock_guard<std::mutex> const lock (mutex_);
+      if (activity_ == 0)
+        return;
+      if (--activity_ == 0)
+        released.swap (impl_);
+    }
+  }
+
+  /// A runtime thread adds work that belongs to a piece it runs already
+  /// (the reader of an open); false once the context is gone. It never
+  /// becomes the last piece: the caller's own is still counted.
+  bool
+  hold () LUMEX_NOEXCEPT
+  {
+    std::lock_guard<std::mutex> const lock (mutex_);
+    if (!impl_)
+      return false;
+    ++activity_;
+    return true;
+  }
+
+  /// Takes back a `hold` that was not used; the caller's own piece is still
+  /// counted, so the pin stays.
+  void
+  unhold () LUMEX_NOEXCEPT
+  {
+    std::lock_guard<std::mutex> const lock (mutex_);
+    if (activity_ > 1)
+      --activity_;
+  }
+
+  /// The context is being destroyed.
+  void
+  drop () LUMEX_NOEXCEPT
+  {
+    std::shared_ptr<hid_device_impl> released;
+    {
+      std::lock_guard<std::mutex> const lock (mutex_);
+      activity_ = 0;
+      released.swap (impl_);
+    }
+  }
+
+  /// Posts `step` to the device's strand with the pinned implementation in
+  /// its `impl`; false (and the step dies here) when the pin is not set.
+  template <typename Step>
+  bool
+  post (Step step)
+  {
+    std::lock_guard<std::mutex> const lock (mutex_);
+    if (!impl_)
+      return false;
+    step.impl = impl_;
+    asio::post (step.impl->strand (), std::move (step));
+    return true;
+  }
+
+private:
+  std::mutex mutex_;
+  std::size_t activity_;
+  std::shared_ptr<hid_device_impl> impl_;
+};
+
 /// The implementation of a HID device: every member but layout_ is used on
 /// the strand only (see the file description of LumexHidDevice.hpp).
 class hid_device_impl final : public datagram::message_impl
@@ -169,7 +271,8 @@ public:
                    std::shared_ptr<hidapi_seam> seam,
                    hid_options_t const &options)
       : message_impl (executor, instance_name (options)),
-        seam_ (std::move (seam)), options_ (options)
+        seam_ (std::move (seam)), options_ (options),
+        gate_ (std::make_shared<runtime_gate> ())
   {
   }
 
@@ -188,24 +291,39 @@ public:
     return layout_;
   }
 
-  // The blocking part of open, on the runtime's executor.
-  void open_blocking ();
-  // One write, on the runtime's executor.
-  void write_blocking (std::shared_ptr<hid_connection> const &connection,
-                       std::vector<std::uint8_t> const &report,
-                       std::shared_ptr<std::atomic<int>> const &token);
+  // The io_context is being destroyed (no thread runs it any more): the
+  // runtime threads post no more, and the open, the receives and the queued
+  // and the running write die uncalled.
+  void
+  drop_kept_handlers () LUMEX_NOEXCEPT override
+  {
+    gate_->drop ();
+    status_handler_t const dropped_open (std::move (open_handler_));
+    status_handler_t const dropped_write (std::move (write_handler_));
+    std::deque<message_handler_t> dropped_receives;
+    dropped_receives.swap (receives_);
+    std::deque<queued_send> dropped_sends;
+    dropped_sends.swap (sends_);
+  }
+
+  std::shared_ptr<runtime_gate> const &
+  gate () const LUMEX_NOEXCEPT
+  {
+    return gate_;
+  }
+
+  /// On the strand: a piece of work of the runtime's threads has ended.
+  void
+  work_ended () LUMEX_NOEXCEPT
+  {
+    gate_->unpin ();
+  }
 
   std::size_t
   stale_events () const LUMEX_NOEXCEPT
   {
     return stale_events_.load (std::memory_order_acquire);
   }
-  // From the reader thread: one report, the end of the reads.
-  void post_report (std::shared_ptr<hid_connection> const &connection,
-                    message_t message);
-  void post_reader_failure (std::shared_ptr<hid_connection> const &connection,
-                            std::string const &text);
-
   // The steps on the strand.
   void finish_open (std::shared_ptr<hid_connection> const &connection,
                     report_layout_t const &layout, std::error_code error,
@@ -243,6 +361,9 @@ private:
 
   std::shared_ptr<hidapi_seam> const seam_;
   hid_options_t const options_;
+  // Shared with the runtime threads; pinned while work of this device runs
+  // on them.
+  std::shared_ptr<runtime_gate> const gate_;
   status_handler_t open_handler_;
   bool opening_ = false;
   bool close_requested_ = false;
@@ -268,40 +389,91 @@ private:
 
 namespace
 {
+// Owns the connection of an open that has not reached the strand yet: a step
+// that dies uncalled (the context is destroyed) tells the reader to stop, and
+// the reader closes the handle.
+class connection_guard
+{
+public:
+  connection_guard () {}
+  explicit connection_guard (std::shared_ptr<hid_connection> connection)
+      : connection_ (std::move (connection))
+  {
+  }
+  ~connection_guard ()
+  {
+    if (connection_)
+      connection_->request_stop ();
+  }
+
+  connection_guard (connection_guard const &) = delete;
+  connection_guard &operator= (connection_guard const &) = delete;
+  connection_guard (connection_guard &&other) LUMEX_NOEXCEPT
+      : connection_ (std::move (other.connection_))
+  {
+    other.connection_.reset ();
+  }
+  connection_guard &
+  operator= (connection_guard &&other) LUMEX_NOEXCEPT
+  {
+    if (this != &other)
+      {
+        if (connection_)
+          connection_->request_stop ();
+        connection_ = std::move (other.connection_);
+        other.connection_.reset ();
+      }
+    return *this;
+  }
+
+  /// The connection, which is the device's from now on.
+  std::shared_ptr<hid_connection>
+  take () LUMEX_NOEXCEPT
+  {
+    std::shared_ptr<hid_connection> taken;
+    taken.swap (connection_);
+    return taken;
+  }
+
+private:
+  std::shared_ptr<hid_connection> connection_;
+};
+
+// The tasks of the runtime's threads hold the gate and copies of what they
+// need, never the implementation (see runtime_gate).
 struct open_task
 {
-  std::shared_ptr<hid_device_impl> impl;
-  void
-  operator() () const
-  {
-    impl->open_blocking ();
-  }
+  std::shared_ptr<runtime_gate> gate;
+  std::shared_ptr<hidapi_seam> seam;
+  hid_options_t options;
+  std::string name;
+  void operator() () const;
 };
 
 struct write_task
 {
-  std::shared_ptr<hid_device_impl> impl;
+  std::shared_ptr<runtime_gate> gate;
   std::shared_ptr<hid_connection> connection;
   std::vector<std::uint8_t> report;
   std::shared_ptr<std::atomic<int>> token;
-  void
-  operator() () const
-  {
-    impl->write_blocking (connection, report, token);
-  }
+  void operator() () const;
 };
 
+// The steps carry the implementation the gate pins (set by runtime_gate::
+// post) and end the piece of work they stand for.
 struct finish_open_step
 {
   std::shared_ptr<hid_device_impl> impl;
-  std::shared_ptr<hid_connection> connection;
+  connection_guard connection;
   report_layout_t layout;
   std::error_code error;
   std::string text;
   void
   operator() ()
   {
-    impl->finish_open (connection, layout, error, text);
+    std::shared_ptr<hid_connection> const taken = connection.take ();
+    impl->finish_open (taken, layout, error, text);
+    impl->work_ended ();
   }
 };
 
@@ -314,6 +486,7 @@ struct finish_write_step
   operator() ()
   {
     impl->finish_write (error, text);
+    impl->work_ended ();
   }
 };
 
@@ -341,18 +514,58 @@ struct reader_failed_step
   }
 };
 
+// The reader's last word: the piece of work it stood for ends.
+struct reader_ended_step
+{
+  std::shared_ptr<hid_device_impl> impl;
+  void
+  operator() ()
+  {
+    impl->work_ended ();
+  }
+};
+
+// Posts reader_ended_step when the reader thread leaves its body.
+class reader_end
+{
+public:
+  explicit reader_end (std::shared_ptr<runtime_gate> const &gate)
+      : gate_ (gate)
+  {
+  }
+  ~reader_end ()
+  {
+    try
+      {
+        reader_ended_step step = { std::shared_ptr<hid_device_impl> () };
+        gate_->post (std::move (step));
+      }
+    catch (...)
+      {
+      }
+  }
+
+  reader_end (reader_end const &) = delete;
+  reader_end &operator= (reader_end const &) = delete;
+
+private:
+  std::shared_ptr<runtime_gate> const gate_;
+};
+
 // The reader thread: slices of hid_read_timeout until the stop flag; the
 // flag is checked before and after every slice, so a report that arrives
-// after the stop is dropped (a zombie read). The handle is closed
-// here, after the last read.
+// after the stop is dropped (a zombie read). The handle is closed here,
+// after the last read. A report that finds no pin (the context is gone)
+// ends the reader.
 struct reader_body
 {
   std::shared_ptr<hid_connection> connection;
-  std::weak_ptr<hid_device_impl> device;
+  std::shared_ptr<runtime_gate> gate;
 
   void
   operator() () const
   {
+    reader_end const ended (gate);
     // Released by finish_open once the connection is the device's.
     if (!connection->wait_released ())
       {
@@ -370,19 +583,20 @@ struct reader_body
         if (read < 0)
           {
             std::string const text = connection->read_error_text ();
-            if (std::shared_ptr<hid_device_impl> const owner = device.lock ())
-              owner->post_reader_failure (
-                  connection, text.empty () ? error.message () : text);
+            reader_failed_step step
+                = { std::shared_ptr<hid_device_impl> (), connection,
+                    text.empty () ? error.message () : text };
+            gate->post (std::move (step));
             break;
           }
         if (read == 0)
           continue;
-        std::shared_ptr<hid_device_impl> const owner = device.lock ();
-        if (!owner)
+        deliver_step step
+            = { std::shared_ptr<hid_device_impl> (), connection,
+                to_message (buffer, static_cast<std::size_t> (read),
+                            connection->numbered ()) };
+        if (!gate->post (std::move (step)))
           break;
-        owner->post_report (
-            connection, to_message (buffer, static_cast<std::size_t> (read),
-                                    connection->numbered ()));
       }
     connection->close_handle ();
   }
@@ -390,20 +604,36 @@ struct reader_body
 } // namespace
 
 void
-hid_device_impl::open_blocking ()
+write_task::operator() () const
+{
+  // Taken back by cancel () or close () while it waited for a thread: its
+  // handler has run already.
+  int queued = KWRITE_QUEUED;
+  if (!token->compare_exchange_strong (queued, KWRITE_STARTED,
+                                       std::memory_order_acq_rel))
+    return;
+  std::string text;
+  std::error_code const error = connection->write (report, text);
+  finish_write_step step
+      = { std::shared_ptr<hid_device_impl> (), error, text };
+  gate->post (std::move (step));
+}
+
+void
+open_task::operator() () const
 {
   std::error_code error;
   std::string text;
-  std::string path = options_.path;
-  if (options_.resolve_path)
+  std::string path = options.path;
+  if (options.resolve_path)
     {
       try
         {
-          path = options_.resolve_path ();
+          path = options.resolve_path ();
           if (path.empty ())
             {
               error = make_error_code (transport_errc::invalid_endpoint);
-              text = "no HID device matches " + name ();
+              text = "no HID device matches " + name;
             }
         }
       catch (std::system_error const &failure)
@@ -422,19 +652,19 @@ hid_device_impl::open_blocking ()
   else if (path.empty ())
     {
       hid_filter_t filter;
-      filter.vendor_id = options_.vendor_id;
-      filter.product_id = options_.product_id;
-      filter.serial_number = options_.serial_number;
+      filter.vendor_id = options.vendor_id;
+      filter.product_id = options.product_id;
+      filter.serial_number = options.serial_number;
       std::vector<hid_device_info_t> const found
-          = enumerate_hid_devices_with (*seam_, filter);
+          = enumerate_hid_devices_with (*seam, filter);
       if (found.empty ())
         {
           error = std::make_error_code (std::errc::no_such_device);
-          text = "no HID device matches " + hex4 (options_.vendor_id) + ":"
-                 + hex4 (options_.product_id)
-                 + (options_.serial_number.empty ()
+          text = "no HID device matches " + hex4 (options.vendor_id) + ":"
+                 + hex4 (options.product_id)
+                 + (options.serial_number.empty ()
                         ? std::string ()
-                        : " serial " + options_.serial_number);
+                        : " serial " + options.serial_number);
         }
       else
         path = found.front ().path;
@@ -443,7 +673,7 @@ hid_device_impl::open_blocking ()
   std::unique_ptr<hidapi_handle> handle;
   if (!error)
     {
-      handle = seam_->open_path (path, error);
+      handle = seam->open_path (path, error);
       if (!handle)
         {
           if (!error)
@@ -500,23 +730,33 @@ hid_device_impl::open_blocking ()
       connection = std::make_shared<hid_connection> (
           std::move (handle), layout.numbered,
           std::max<std::size_t> (layout.max_input_size () + 1U, 2U),
-          slice_milliseconds (options_.read_slice));
+          slice_milliseconds (options.read_slice));
       // The reader starts here, while this task counts for shutdown: an
       // open that finishes during shutdown gets no reader. It reads nothing
       // until finish_open releases it on the strand, so no report reaches
-      // the strand before the connection is the device's.
+      // the strand before the connection is the device's. The reader is a
+      // piece of work of the device: the gate counts it before the thread
+      // starts, and refuses once the context is gone.
       bool started = false;
-      try
+      bool held = gate->hold ();
+      if (!held)
+        error = make_error_code (transport_errc::closed);
+      else
         {
-          reader_body body = { connection, self () };
-          started
-              = hid_runtime_core::instance ().start_reader (connection, body);
+          try
+            {
+              reader_body body = { connection, gate };
+              started = hid_runtime_core::instance ().start_reader (connection,
+                                                                    body);
+              if (!started)
+                error = make_error_code (transport_errc::closed);
+            }
+          catch (std::system_error const &failure)
+            {
+              error = failure.code ();
+            }
           if (!started)
-            error = make_error_code (transport_errc::closed);
-        }
-      catch (std::system_error const &failure)
-        {
-          error = failure.code ();
+            gate->unhold ();
         }
       if (!started)
         {
@@ -526,8 +766,12 @@ hid_device_impl::open_blocking ()
           connection.reset ();
         }
     }
-  finish_open_step step = { self (), connection, layout, error, text };
-  asio::post (strand (), std::move (step));
+  // Posted under the gate's lock, and only while the context lives; the step
+  // owns the connection (its reader stops when the step dies uncalled).
+  finish_open_step step
+      = { std::shared_ptr<hid_device_impl> (), connection_guard (connection),
+          layout, error, text };
+  gate->post (std::move (step));
 }
 
 void
@@ -597,8 +841,17 @@ hid_device_impl::do_open (status_handler_t handler)
   opening_ = true;
   close_requested_ = false;
   open_handler_ = std::move (handler);
-  open_task task = { self () };
-  hid_runtime_core::instance ().post (task);
+  open_task task = { gate_, seam_, options_, name () };
+  gate_->pin (self ());
+  try
+    {
+      hid_runtime_core::instance ().post (task);
+    }
+  catch (...)
+    {
+      gate_->unpin ();
+      throw;
+    }
 }
 
 void
@@ -661,30 +914,21 @@ hid_device_impl::start_next_write ()
   write_handler_ = std::move (next.handler);
   write_token_ = std::make_shared<std::atomic<int>> (KWRITE_QUEUED);
   write_task task
-      = { self (), connection_, std::move (next.report), write_token_ };
+      = { gate_, connection_, std::move (next.report), write_token_ };
   sends_.pop_front ();
   LUMEX_TRANSPORT_LOG (
       trace, KCOMPONENT, name ().c_str (), "write report",
       log::log_bytes_t (task.report.data (), task.report.size ()));
-  hid_runtime_core::instance ().post (std::move (task));
-}
-
-void
-hid_device_impl::write_blocking (
-    std::shared_ptr<hid_connection> const &connection,
-    std::vector<std::uint8_t> const &report,
-    std::shared_ptr<std::atomic<int>> const &token)
-{
-  // Taken back by cancel () or close () while it waited for a thread: its
-  // handler has run already.
-  int queued = KWRITE_QUEUED;
-  if (!token->compare_exchange_strong (queued, KWRITE_STARTED,
-                                       std::memory_order_acq_rel))
-    return;
-  std::string text;
-  std::error_code const error = connection->write (report, text);
-  finish_write_step step = { self (), error, text };
-  asio::post (strand (), std::move (step));
+  gate_->pin (self ());
+  try
+    {
+      hid_runtime_core::instance ().post (std::move (task));
+    }
+  catch (...)
+    {
+      gate_->unpin ();
+      throw;
+    }
 }
 
 void
@@ -700,22 +944,6 @@ hid_device_impl::finish_write (std::error_code error, std::string const &text)
         log::log_bytes_t ());
   complete (std::move (write_handler_), error);
   start_next_write ();
-}
-
-void
-hid_device_impl::post_report (
-    std::shared_ptr<hid_connection> const &connection, message_t message)
-{
-  deliver_step step = { self (), connection, std::move (message) };
-  asio::post (strand (), std::move (step));
-}
-
-void
-hid_device_impl::post_reader_failure (
-    std::shared_ptr<hid_connection> const &connection, std::string const &text)
-{
-  reader_failed_step step = { self (), connection, text };
-  asio::post (strand (), std::move (step));
 }
 
 void
@@ -800,6 +1028,9 @@ hid_device_impl::take_back_queued_write ()
     return;
   writing_ = false;
   write_token_.reset ();
+  // Its task finds the token taken and posts nothing: the piece of work
+  // ends here.
+  gate_->unpin ();
   complete (std::move (write_handler_), transport_errc::cancelled);
 }
 

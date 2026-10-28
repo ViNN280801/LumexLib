@@ -136,6 +136,20 @@ public:
     return sent_;
   }
 
+  // The io_context is being destroyed: the pending receive dies uncalled,
+  // after the lock is released (its destructor may destroy the last owner of
+  // this transport).
+  void
+  drop_kept_handlers () LUMEX_NOEXCEPT override
+  {
+    datagram::message_handler_t receive;
+    {
+      std::lock_guard<std::mutex> const lock (mutex_);
+      receive = std::move (pending_handler_);
+      has_pending_receive_ = false;
+    }
+  }
+
 protected:
   void
   do_open (status_handler_t handler) override

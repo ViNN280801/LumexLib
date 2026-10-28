@@ -284,6 +284,22 @@ public:
     return impl_ ? impl_->executor () : executor_type ();
   }
 
+  /// @brief The strand of the session's operations.
+  using strand_type = detail::session_core::strand_type;
+
+  /// @brief The strand every operation of the session runs on (a copy).
+  /// @details Start an operation that uses `asio::cancel_after` and whose
+  /// handler has no associated executor of its own inside this strand: from
+  /// a handler that runs on it or through `asio::post (x.get_strand (),
+  /// ...)`. Asio requires it, because the timer of `cancel_after` runs on
+  /// this strand while the initiation installs the cancellation slot.
+  /// Not for a moved-from object.
+  strand_type
+  get_strand () const LUMEX_NOEXCEPT
+  {
+    return impl_->strand ();
+  }
+
   /// @brief The name for logs (`session_options_t::name`).
   std::string const &
   name () const LUMEX_NOEXCEPT
@@ -318,6 +334,17 @@ public:
   last_error () const
   {
     return impl_ ? impl_->last_error () : std::error_code ();
+  }
+
+  /// @brief The text that goes with `last_error ()`. A factory that threw
+  /// shows in `last_error ()` as the exception's own code (a
+  /// `std::system_error`) or `invalid_endpoint`; this is the `what ()` of the
+  /// exception (the factory's reason: "no device with this serial number").
+  /// For every other failure it is the message of the code.
+  std::string
+  last_error_text () const
+  {
+    return impl_ ? impl_->last_error_text () : std::string ();
   }
 
   /// @brief The counters of the transport of the last attempt (zero before

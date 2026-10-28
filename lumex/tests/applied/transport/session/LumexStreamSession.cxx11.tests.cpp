@@ -220,6 +220,61 @@ TEST_F (LumexStreamSessionTest,
                == std::make_error_code (std::errc::permission_denied));
 }
 
+// The code of a factory that threw says "invalid_endpoint" (or the code of its
+// system_error); the reason of the factory is the text of its exception.
+TEST_F (
+    LumexStreamSessionTest,
+    GivenAFactoryThatThrows_WhenTheAttemptFails_ThenTheExceptionTextIsReachable)
+{
+  ss::session_options_t options = recorded_options (recorder_);
+  options.policy.max_attempts = 1;
+  factory_->throws = 1;
+  std::unique_ptr<ss::stream_session> session = make_session (options);
+  EXPECT_EQ (session->last_error_text (), "");
+  tr::status_result_t const opened = session->open (ms (3000));
+  ASSERT_FALSE (opened.has_value ());
+  EXPECT_TRUE (session->last_error () == transport_errc::invalid_endpoint);
+  EXPECT_EQ (session->last_error_text (), "no device");
+}
+
+TEST_F (
+    LumexStreamSessionTest,
+    GivenAFactoryThatThrowsASystemError_WhenTheAttemptFails_ThenItsWhatIsReachable)
+{
+  ss::session_options_t options = recorded_options (recorder_);
+  options.policy.max_attempts = 1;
+  ss::stream_session session (
+      runner_.get_executor (),
+      [] (tr::executor_type const &) -> tr::stream::byte_stream
+        {
+          throw std::system_error (
+              std::make_error_code (std::errc::permission_denied),
+              "port is held by another program");
+        },
+      options);
+  ASSERT_FALSE (session.open (ms (3000)).has_value ());
+  EXPECT_TRUE (session.last_error ()
+               == std::make_error_code (std::errc::permission_denied));
+  EXPECT_NE (
+      session.last_error_text ().find ("port is held by another program"),
+      std::string::npos)
+      << session.last_error_text ();
+}
+
+// A failure that is not an exception keeps the message of its code.
+TEST_F (LumexStreamSessionTest,
+        GivenAnOpenThatFails_WhenTheAttemptFails_ThenTheTextIsTheCodeMessage)
+{
+  ss::session_options_t options = recorded_options (recorder_);
+  options.policy.max_attempts = 1;
+  factory_->open_failures = 1;
+  factory_->open_error = std::make_error_code (std::errc::connection_refused);
+  std::unique_ptr<ss::stream_session> session = make_session (options);
+  ASSERT_FALSE (session->open (ms (3000)).has_value ());
+  EXPECT_EQ (session->last_error_text (),
+             std::make_error_code (std::errc::connection_refused).message ());
+}
+
 TEST_F (
     LumexStreamSessionTest,
     GivenAnOpenTimeout_WhenTheOpenNeverCompletes_ThenTheAttemptFailsWithTimeoutAndIsRetried)

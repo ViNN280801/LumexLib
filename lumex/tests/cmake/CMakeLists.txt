@@ -113,6 +113,8 @@ lumex_add_cmake_test(release_script_options)
 lumex_add_cmake_test(release_script_dry_run)
 lumex_add_cmake_test(wiring_build_timing)
 lumex_add_cmake_test(wiring_generate_build_info)
+lumex_add_cmake_test(configure_build_info_python)
+lumex_add_cmake_test(hid_default_decision)
 lumex_add_cmake_test(wiring_warning_suppression)
 lumex_add_cmake_test(wiring_recursive_source_collection)
 lumex_add_cmake_test(wiring_compile_commands)
@@ -370,6 +372,23 @@ if(UNIX AND NOT APPLE)
     lumex_add_consumer_test(consumer_third_party_boost_context_asan
         third_party_boost_context -DLUMEX_USE_ASAN=ON)
 endif()
+# Coroutines that migrate between threads: the plain build, and the ucontext
+# backend under ThreadSanitizer (BOOST_USE_TSAN; a SEGV without it).
+lumex_add_consumer_test(consumer_third_party_boost_context_threads
+    third_party_boost_context_threads)
+if(UNIX AND NOT APPLE)
+    # A kernel with a wide address-space randomization (vm.mmap_rnd_bits > 28)
+    # stops a ThreadSanitizer program at start ("unexpected memory mapping"):
+    # run it with the layout fixed where setarch is there.
+    find_program(_lumex_setarch setarch)
+    set(_lumex_tsan_run_prefix "")
+    if(_lumex_setarch)
+        set(_lumex_tsan_run_prefix RUN_PREFIX "${_lumex_setarch}" "${CMAKE_HOST_SYSTEM_PROCESSOR}" -R)
+    endif()
+    lumex_add_consumer_test(consumer_third_party_boost_context_threads_tsan
+        third_party_boost_context_threads -DLUMEX_USE_TSAN=ON
+        ${_lumex_tsan_run_prefix})
+endif()
 lumex_add_consumer_test(consumer_third_party_hidapi third_party_hidapi)
 lumex_add_consumer_test(consumer_third_party_warnings third_party_warnings)
 # One exception-handling model per compile command of this tree (two make
@@ -548,6 +567,9 @@ lumex_add_consumer_test(consumer_contracts_two_modules contracts_two_modules)
 lumex_add_consumer_test(consumer_framing_two_modules framing_two_modules)
 # The header-only codecs compile without a warning in a strict consumer.
 lumex_add_consumer_test(consumer_framing_warnings framing_warnings)
+# Every observer of expected, value () of a const object included, compiles
+# without a warning in a strict consumer (cl /W4 /WX: C4702 once).
+lumex_add_consumer_test(consumer_expected_warnings expected_warnings)
 # The protocol category is one per process, like the framing one.
 lumex_add_consumer_test(consumer_protocol_two_modules protocol_two_modules)
 # Every macro and template of the protocol DSL in a strict consumer.
