@@ -302,6 +302,14 @@
 
 **Проверено:** до исправления LeakSanitizer давал 12102 байта в 73 выделениях (`LumexTransportHandlerCycle`) и 9514 байт в 62 (`LumexSessionRegressionShutdown*`); после: 0 отчетов. GCC 13, ASan с `detect_leaks=1` на C++11, 17 и 20 (66 исполняемых файлов `transport.*` и `framing.*`), 0 отчетов (два бинарника C++11 дают только ложное `alloc-dealloc-mismatch` из-за смешения стандартов, без него чисто). Мутации (служба не регистрирует, снят сброс ожидателей сессии, читателей и записей `framed`, снят `enlist`) убиты тестами `LumexHandlerKeeper`, `LumexTransportHandlerCycle`, `LumexSessionRegressionShutdown*`, `LumexFramedHandlerCycle`.
 
+##### Транспорт: `asio::cancel_after` запускается внутри strand, TSan видит переключения корутин
+
+**Файлы:** `cmake/LumexBoostContext.cmake` (`BOOST_USE_TSAN`), `lumex/tests/applied/transport/LumexTransportCancellation.cxx11.tests.cpp`, `session/LumexSessionTokens.cxx11.tests.cpp`, `framed/LumexFramedStreamTokens.cxx11.tests.cpp`, `README.md`, `stream/LumexByteStream.hpp`, `lumex/tests/cmake/consumer/third_party_boost_context_threads/` (новый).
+
+**Суть:** гонка `cancel_after` под ThreadSanitizer воспроизводится на чистом Asio и является контрактом Asio (операцию надо начинать в strand исполнителя обработчика), библиотека не менялась, подавлений нет; тесты начинают операцию в нужном strand, документация сказала об этом. Stackful-корутины Boost.Context (ucontext), переходящие между потоками, падают в TSan без `BOOST_USE_TSAN`: макрос определяется при `LUMEX_USE_TSAN`, если в `sanitizer/tsan_interface.h` есть `__tsan_create_fiber` (GCC 10 и новее, Clang 9 и новее), иначе выводится сообщение.
+
+**Проверено:** GCC 13, TSan на C++11, 17 и 20, `setarch -R`: 66 исполняемых файлов `transport.*` и `framing.*`, 0 отчетов `WARNING: ThreadSanitizer`. Фикстура `consumer_third_party_boost_context_threads_tsan` проходит на GCC 13 и Clang 23 и пропускается (Skipped) на GCC 8.3; без `BOOST_USE_TSAN` она падает.
+
 #### Изменено
 
 ##### `serial_port_state::denied`: отказ в доступе при пробном открытии в POSIX

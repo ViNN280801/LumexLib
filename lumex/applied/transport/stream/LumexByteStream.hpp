@@ -86,7 +86,15 @@
  * the initiations report). A handler bound to the bare executor of a runner
  * with several threads (or a coroutine spawned on it) would run beside that
  * timer, which Asio's `cancel_after` does not allow: bind such a handler to a
- * strand.
+ * strand. For the same reason the operation itself must be started inside
+ * that strand (the associated executor of the handler, the stream's strand
+ * when it has none; Asio's own rule for `cancel_after`: the timer's handler
+ * emits on the cancellation slot that the initiation installs a handler in).
+ * Started from another thread with a deadline that can expire during the
+ * call, the two race on the slot (ThreadSanitizer reports it for Asio's own
+ * sockets alike); start it from a handler on that strand or post the call to
+ * it. A deadline of milliseconds started from a plain thread cannot fire
+ * before the call returns.
  *
  * The stream keeps no outstanding work on the executor associated with a
  * handler (a handler that keeps its owner alive, stored by a pending
