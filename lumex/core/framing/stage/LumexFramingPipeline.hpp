@@ -142,7 +142,7 @@ template <typename Outer, typename... Stages> class pipeline
   static_assert (sizeof...(Stages) > 0, "a pipeline needs at least one stage");
 
 public:
-  typedef typename Outer::options_type options_type;
+  using options_type = typename Outer::options_type;
 
   /// @brief The outer codec with these options, default stages.
   explicit pipeline (options_type const &options = options_type ())

@@ -45,18 +45,18 @@ struct binary_header
 
 struct hex_header
 {
-  typedef layout::fixed_width_text_layout<16> layout_type;
+  using layout_type = layout::fixed_width_text_layout<16>;
   static LUMEX_CONSTEXPR std::size_t key_width = 4;
 };
 
 struct decimal_header
 {
-  typedef layout::fixed_width_text_layout<10> layout_type;
+  using layout_type = layout::fixed_width_text_layout<10>;
 };
 
 struct text_header
 {
-  typedef layout::tokenized_text_layout<','> layout_type;
+  using layout_type = layout::tokenized_text_layout<','>;
 };
 
 LUMEX_PROTOCOL_LAYOUT (point_t, (i16_le_, u8_), ("x", "flags"));

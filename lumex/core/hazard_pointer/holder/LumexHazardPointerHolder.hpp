@@ -202,7 +202,7 @@ public:
   auto protect (Source const &src,
                 Filter filter) LUMEX_NOEXCEPT->decltype (filter (src ()))
   {
-    typedef decltype (filter (src ())) pointer_type;
+    using pointer_type = decltype (filter (src ()));
     static_assert (std::is_pointer<pointer_type>::value,
                    "the filter returns a pointer");
     pointer_type ptr = filter (src ());
@@ -339,7 +339,7 @@ private:
   static void const *
   node_address (T const *ptr) LUMEX_NOEXCEPT
   {
-    typedef typename detail::protectable_impl<T>::base_type base_type;
+    using base_type = typename detail::protectable_impl<T>::base_type;
     return base_type::node_address (static_cast<base_type const *> (ptr));
   }
 

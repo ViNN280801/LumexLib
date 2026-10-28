@@ -173,7 +173,7 @@ template <std::size_t Offset = 0> struct natural_alignment
 template <typename Alignment = unaligned> struct binary_layout
 {
   /// The alignment policy.
-  typedef Alignment alignment_policy;
+  using alignment_policy = Alignment;
 
   /// @brief Whether field implementation `Impl` satisfies the policy.
   template <typename Impl> struct is_aligned : Alignment::template check<Impl>
@@ -185,11 +185,11 @@ template <typename Alignment = unaligned> struct binary_layout
   {
   public:
     /// The bits of an integer are on the wire as they are.
-    typedef std::true_type preserves_bits;
+    using preserves_bits = std::true_type;
     /// Not a tokenized text.
-    typedef std::false_type is_tokenized;
+    using is_tokenized = std::false_type;
     /// Floating fields are their IEEE 754 bytes.
-    typedef std::true_type supports_floating;
+    using supports_floating = std::true_type;
 
     /// @brief Reads `input`; `context` gives the session values.
     explicit reader (bytes_view_t input,
@@ -325,11 +325,11 @@ template <typename Alignment = unaligned> struct binary_layout
   {
   public:
     /// The bits of an integer are on the wire as they are.
-    typedef std::true_type preserves_bits;
+    using preserves_bits = std::true_type;
     /// Not a tokenized text.
-    typedef std::false_type is_tokenized;
+    using is_tokenized = std::false_type;
     /// Floating fields are their IEEE 754 bytes.
-    typedef std::true_type supports_floating;
+    using supports_floating = std::true_type;
 
     /// @brief Appends to `output`.
     explicit writer (bytes_t &output,

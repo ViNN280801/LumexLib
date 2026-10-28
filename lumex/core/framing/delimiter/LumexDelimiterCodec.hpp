@@ -91,7 +91,7 @@ struct delimiter_options_t : codec::codec_options_t
 class delimiter_codec
 {
 public:
-  typedef delimiter_options_t options_type;
+  using options_type = delimiter_options_t;
 
   /// @pre `options.max_frame_size > 0`, `options.rx_delimiter` and
   /// `options.tx_suffix` are not empty.

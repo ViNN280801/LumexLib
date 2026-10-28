@@ -30,9 +30,9 @@ using tables::bytes;
 using tables::payload_of;
 using tables::view_of;
 
-typedef tables::device_g device;
-typedef tables::family_g family;
-typedef tables::old_g old_protocol;
+using device = tables::device_g;
+using family = tables::family_g;
+using old_protocol = tables::old_g;
 
 template <typename P>
 index::protocol_index_t const &

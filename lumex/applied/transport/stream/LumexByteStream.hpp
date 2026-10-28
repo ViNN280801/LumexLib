@@ -138,7 +138,7 @@ struct stream_impl_access;
 class stream_impl : public std::enable_shared_from_this<stream_impl>
 {
 public:
-  typedef asio::strand<executor_type> strand_type;
+  using strand_type = asio::strand<executor_type>;
 
   stream_impl (executor_type const &executor, std::string name);
   virtual ~stream_impl ();
@@ -325,7 +325,7 @@ class byte_stream
   // timer then runs on the strand, never beside the completion.
   struct initiate_base
   {
-    typedef transport::executor_type executor_type;
+    using executor_type = transport::executor_type;
 
     explicit initiate_base (executor_type const &executor)
         : executor_ (executor)

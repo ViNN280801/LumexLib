@@ -75,7 +75,7 @@ namespace transport
 namespace datagram
 {
 using error::transport_errc;
-typedef std::shared_ptr<message_impl> impl_ptr;
+using impl_ptr = std::shared_ptr<message_impl>;
 
 struct message_impl_access
 {

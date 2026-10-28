@@ -40,7 +40,7 @@ template <typename Signature>
 class async_result<lumex_framed_probe::executor_probe, Signature>
 {
 public:
-  typedef void return_type;
+  using return_type = void;
 
   template <typename Initiation, typename... Args>
   static void
@@ -57,7 +57,7 @@ namespace
 using namespace lumex_framed_test;
 using tr::error::transport_errc;
 
-typedef tr::framed::framed_stream<slip_case::codec_t> link_t;
+using link_t = tr::framed::framed_stream<slip_case::codec_t>;
 
 class LumexFramedStreamCancelTest : public ::testing::Test
 {

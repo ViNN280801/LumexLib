@@ -56,18 +56,18 @@ LUMEX_DEFINE_REFLECTED_ENUM (lift, std::uint8_t, (lower, 0), (upper, 1),
 /// The fields of b2 are aligned to their size from the first field on.
 struct b2_header
 {
-  typedef registry::table_vocabulary lumex_vocabulary;
-  typedef layout::binary_layout<layout::natural_alignment<0>> layout_type;
-  typedef index::key_at<1, 1> key_reader;
+  using lumex_vocabulary = registry::table_vocabulary;
+  using layout_type = layout::binary_layout<layout::natural_alignment<0>>;
+  using key_reader = index::key_at<1, 1>;
 };
 
 /// The family table with the aligned policy (the family itself is not
 /// aligned: one of its rows puts a 4-byte field at offset 2).
 struct aligned_family_header
 {
-  typedef registry::table_vocabulary lumex_vocabulary;
-  typedef layout::binary_layout<layout::natural_alignment<0>> layout_type;
-  typedef index::key_at<1, 1> key_reader;
+  using lumex_vocabulary = registry::table_vocabulary;
+  using layout_type = layout::binary_layout<layout::natural_alignment<0>>;
+  using key_reader = index::key_at<1, 1>;
 };
 
 // The work parameters of the units of b2: (unit, parameter) keys.

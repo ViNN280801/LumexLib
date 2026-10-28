@@ -66,7 +66,7 @@ struct Params
   std::uint64_t seed;
 };
 
-typedef void (*Checker) (Params const &, lumex_test::Verdict &);
+using Checker = void (*) (Params const &, lumex_test::Verdict &);
 
 /// The probe of the address-reuse scenarios: the generation it was made for.
 class Generation

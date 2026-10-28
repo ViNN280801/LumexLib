@@ -61,7 +61,7 @@ period_of (int repetition)
 TEST (LumexSplitCountTornTest,
       GivenTornGuesses_WhenTheSemanticsTableRuns_ThenNothingChanges)
 {
-  typedef torn_policy_t<torn_tag_t<1>> policy;
+  using policy = torn_policy_t<torn_tag_t<1>>;
   for (int rep = 0; rep < 5; ++rep)
     {
       SCOPED_TRACE (period_of (rep));
@@ -78,7 +78,7 @@ TEST (
     LumexSplitCountTornTest,
     GivenTornGuesses_WhenAStrongCompareExchangeHasAnEquivalentExpected_ThenItNeverFails)
 {
-  typedef torn_policy_t<torn_tag_t<6>> policy;
+  using policy = torn_policy_t<torn_tag_t<6>>;
   sp::shared_ptr<Obj> o1 = sp::make_shared<Obj> (1);
   sp::shared_ptr<Obj> o2 = sp::make_shared<Obj> (2);
   sp::shared_ptr<int> const values[] = {
@@ -108,7 +108,7 @@ TEST (LumexSplitCountTornTest,
       GivenTornGuesses_WhenTheSharedShapeRuns_ThenTheLedgerBalances)
 {
   Watchdog const dog ("torn shared");
-  typedef torn_policy_t<torn_tag_t<2>> policy;
+  using policy = torn_policy_t<torn_tag_t<2>>;
   for_each_shape (
       [] (int threads, int rep)
         {
@@ -123,7 +123,7 @@ TEST (
     GivenTornGuesses_WhenTheSharedShapeRunsAtTheTickLimit_ThenTheLedgerBalances)
 {
   Watchdog const dog ("torn limit");
-  typedef torn_policy_t<torn_tag_t<3>, 2u, 0u> policy;
+  using policy = torn_policy_t<torn_tag_t<3>, 2u, 0u>;
   for_each_shape (
       [] (int threads, int rep)
         {
@@ -137,7 +137,7 @@ TEST (LumexSplitCountTornTest,
       GivenTornGuesses_WhenTheHolderShapeRuns_ThenTheLedgerBalances)
 {
   Watchdog const dog ("torn holder");
-  typedef torn_policy_t<torn_tag_t<4>> policy;
+  using policy = torn_policy_t<torn_tag_t<4>>;
   for_each_shape (
       [] (int threads, int rep)
         {
@@ -151,7 +151,7 @@ TEST (LumexSplitCountTornTest,
       GivenTornGuesses_WhenTheWeakShapeRuns_ThenTheLedgerBalances)
 {
   Watchdog const dog ("torn weak");
-  typedef torn_policy_t<torn_tag_t<5>, 0xFFFFFFu, 0u> policy;
+  using policy = torn_policy_t<torn_tag_t<5>, 0xFFFFFFu, 0u>;
   for_each_shape (
       [] (int threads, int rep)
         {

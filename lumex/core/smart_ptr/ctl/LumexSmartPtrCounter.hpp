@@ -123,7 +123,7 @@ class split_counter
 {
 public:
   /// The word type.
-  typedef std::uint64_t word_type;
+  using word_type = std::uint64_t;
 
   /// Largest count the 32-bit half holds before it would carry into `ext`.
   static LUMEX_CONSTEXPR word_type

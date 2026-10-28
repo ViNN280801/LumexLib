@@ -31,7 +31,7 @@ using tr::stream::io_runner;
 using tr::testing::make_mock_stream;
 using tr::testing::mock_stream;
 
-typedef std::chrono::steady_clock clock_type;
+using clock_type = std::chrono::steady_clock;
 
 std::vector<std::uint8_t>
 bytes (std::initializer_list<std::uint8_t> values)

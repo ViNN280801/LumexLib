@@ -49,7 +49,7 @@ bytes (std::initializer_list<int> values)
 // Generic commands over four registries, one per kind of key on the wire.
 struct registry_header
 {
-  typedef registry::table_vocabulary lumex_vocabulary;
+  using lumex_vocabulary = registry::table_vocabulary;
 };
 
 // clang-format off
@@ -76,7 +76,7 @@ struct registry_header
 // clang-format on
 LUMEX_PROTOCOL_DEFINE (generic, tables::codec, registry_header, GENERIC_ROWS);
 
-typedef layout::request_of<generic::SET_LAMP_t>::type lamp_request;
+using lamp_request = layout::request_of<generic::SET_LAMP_t>::type;
 } // namespace
 
 TEST (

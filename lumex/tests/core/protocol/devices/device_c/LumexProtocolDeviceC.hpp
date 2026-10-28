@@ -81,7 +81,7 @@ LUMEX_PROTOCOL_REGISTRY (c_typed, DEVICE_C_TYPED_PARAMS);
 /// c_i2c: the key of an accessory command is a character.
 struct accessory_header
 {
-  typedef index::key_at<0, 1> key_reader;
+  using key_reader = index::key_at<0, 1>;
 };
 
 // clang-format off

@@ -83,7 +83,7 @@ namespace protocol
 namespace field
 {
 /// @brief A read-only view of bytes (the type of the framing payloads).
-typedef ::lumex::core::span::view::span<std::uint8_t const> bytes_view_t;
+using bytes_view_t = ::lumex::core::span::view::span<std::uint8_t const>;
 
 /**
  * @brief A number on the wire with a fixed scale: the raw value and the
@@ -94,9 +94,9 @@ typedef ::lumex::core::span::view::span<std::uint8_t const> bytes_view_t;
 template <typename Raw, typename Ratio> struct fixed_point
 {
   /// The integer type of the raw value.
-  typedef Raw raw_type;
+  using raw_type = Raw;
   /// The scale.
-  typedef Ratio ratio;
+  using ratio = Ratio;
 
   /// The value on the wire.
   Raw raw;
@@ -269,7 +269,7 @@ template <typename T, std::size_t Max> struct bounded_array
   static_assert (Max > 0, "bounded_array<T, Max>: Max must be positive");
 
   /// The element type.
-  typedef T value_type;
+  using value_type = T;
 
   /// The elements; those after `count` are value-initialized.
   T items[Max];
@@ -406,7 +406,7 @@ template <std::size_t I, typename... T> struct nth_value;
 
 template <typename Head, typename... Tail> struct nth_value<0, Head, Tail...>
 {
-  typedef Head type;
+  using type = Head;
 };
 
 template <std::size_t I, typename Head, typename... Tail>
@@ -467,7 +467,7 @@ public:
   typename type_at<I>::type &
   emplace () LUMEX_NOEXCEPT
   {
-    typedef typename type_at<I>::type value_type;
+    using value_type = typename type_at<I>::type;
     value_type &slot = detail::alternative_at<I>::get (m_storage);
     ::new (static_cast<void *> (&slot)) value_type ();
     m_index = I;
@@ -479,7 +479,7 @@ public:
   void
   set (typename type_at<I>::type const &value) LUMEX_NOEXCEPT
   {
-    typedef typename type_at<I>::type value_type;
+    using value_type = typename type_at<I>::type;
     value_type &slot = detail::alternative_at<I>::get (m_storage);
     ::new (static_cast<void *> (&slot)) value_type (value);
     m_index = I;

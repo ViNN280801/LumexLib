@@ -64,7 +64,7 @@ template <typename Engine>
 void
 replaced_value_released (lumex_test::Verdict &verdict)
 {
-  typedef typename Engine::template shared<VNode> atom_type;
+  using atom_type = typename Engine::template shared<VNode>;
   bool const prompt = Engine::replaced_value_dies_in_call ();
   lumex_test::ObjectLedger ledger (32);
   lumex_test::ReusePool pool;
@@ -154,7 +154,7 @@ template <typename Engine>
 void
 owner_balance (Params const &p, lumex_test::Verdict &verdict)
 {
-  typedef typename Engine::template shared<VNode> atom_type;
+  using atom_type = typename Engine::template shared<VNode>;
   int const owner_count = 4;
   lumex_test::ObjectLedger ledger (64);
   lumex_test::ReusePool pool;
@@ -244,7 +244,7 @@ template <typename Engine>
 void
 shared_value_fanout (Params const &p, lumex_test::Verdict &verdict)
 {
-  typedef typename Engine::template shared<VNode> atom_type;
+  using atom_type = typename Engine::template shared<VNode>;
   int const owner_count = 3;
   int const atom_count = 7;
   lumex_test::ObjectLedger ledger (64);
@@ -333,7 +333,7 @@ template <typename Engine>
 void
 thread_churn (Params const &p, lumex_test::Verdict &verdict)
 {
-  typedef typename Engine::template shared<VNode> atom_type;
+  using atom_type = typename Engine::template shared<VNode>;
   int const waves = std::max (1, p.iterations / 4);
   lumex_test::ObjectLedger ledger (static_cast<std::size_t> (waves)
                                        * static_cast<std::size_t> (p.threads)

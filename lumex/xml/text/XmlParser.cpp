@@ -268,7 +268,7 @@ strconv_escape (char_t *s, gap &g)
   return stre;
 }
 
-typedef char_t *(*strconv_attribute_t) (char_t *, char_t);
+using strconv_attribute_t = char_t *(*)(char_t *, char_t);
 
 template <bool Escape> struct strconv_attribute_impl
 {
@@ -551,7 +551,7 @@ strconv_cdata (char_t *str, char_t endch)
     }
 }
 
-typedef char_t *(*strconv_pcdata_t) (char_t *);
+using strconv_pcdata_t = char_t *(*)(char_t *);
 
 template <bool Trim, bool Eol, bool Escape> struct strconv_pcdata_impl
 {

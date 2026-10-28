@@ -70,8 +70,8 @@ runs_on (executor_type const &executor) LUMEX_NOEXCEPT
 {
   // any_io_executor has no running_in_this_thread (): ask the concrete types
   // the library and its users create.
-  typedef asio::io_context::executor_type context_executor;
-  typedef asio::thread_pool::executor_type pool_executor;
+  using context_executor = asio::io_context::executor_type;
+  using pool_executor = asio::thread_pool::executor_type;
   if (context_executor const *const context
       = executor.target<context_executor> ())
     return context->running_in_this_thread ();

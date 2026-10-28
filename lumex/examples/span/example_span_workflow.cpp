@@ -14,7 +14,7 @@ using lumex::core::span::view::span;
 // the bytes it covers, and the rest of the buffer is handed on.
 namespace
 {
-typedef span<std::uint8_t const> bytes_view;
+using bytes_view = span<std::uint8_t const>;
 
 struct frame_t
 {

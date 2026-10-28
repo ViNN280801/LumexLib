@@ -20,11 +20,10 @@ using format_test_helpers::format_error;
 
 namespace
 {
-typedef std::chrono::time_point<std::chrono::system_clock,
-                                std::chrono::seconds>
-    sys_seconds_t;
-typedef std::chrono::duration<long long, std::ratio<86400>> days_t;
-typedef std::chrono::time_point<std::chrono::system_clock, days_t> sys_days_t;
+using sys_seconds_t
+    = std::chrono::time_point<std::chrono::system_clock, std::chrono::seconds>;
+using days_t = std::chrono::duration<long long, std::ratio<86400>>;
+using sys_days_t = std::chrono::time_point<std::chrono::system_clock, days_t>;
 
 /** 2026-09-25 13:04:05 UTC (a Friday). */
 sys_seconds_t
@@ -193,9 +192,9 @@ TEST (LumexFormatChronoTest, GivenBadDurationSpecs_WhenFormat_ThenFormatError)
 TEST (LumexFormatChronoTest, GivenTimePoint_WhenDefault_ThenDateAndTime)
 {
   EXPECT_EQ (fmt::format ("{}", sample_time ()), "2026-09-25 13:04:05");
-  typedef std::chrono::time_point<std::chrono::system_clock,
-                                  std::chrono::milliseconds>
-      sys_milliseconds_t;
+  using sys_milliseconds_t
+      = std::chrono::time_point<std::chrono::system_clock,
+                                std::chrono::milliseconds>;
   sys_milliseconds_t const with_ms
       = std::chrono::time_point_cast<std::chrono::milliseconds> (
             sample_time ())
@@ -273,9 +272,8 @@ TEST (LumexFormatChronoTest, GivenTimesBefore1970_WhenFormat_ThenFloored)
   EXPECT_EQ (
       fmt::format ("{:%F %T}", sys_seconds_t (std::chrono::seconds (-1))),
       "1969-12-31 23:59:59");
-  typedef std::chrono::time_point<std::chrono::system_clock,
-                                  std::chrono::nanoseconds>
-      sys_nanoseconds_t;
+  using sys_nanoseconds_t = std::chrono::time_point<std::chrono::system_clock,
+                                                    std::chrono::nanoseconds>;
   EXPECT_EQ (
       fmt::format ("{:%T}", sys_nanoseconds_t (std::chrono::nanoseconds (-1))),
       "23:59:59.999999999");

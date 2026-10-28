@@ -209,7 +209,7 @@ template <typename E, std::size_t Bits>
 struct part_value<E, Bits,
                   typename std::enable_if<std::is_enum<E>::value>::type>
 {
-  typedef typename std::underlying_type<E>::type underlying;
+  using underlying = typename std::underlying_type<E>::type;
 
   static E
   from (std::uint64_t bits) LUMEX_NOEXCEPT
@@ -228,11 +228,11 @@ struct part_value<E, Bits,
 // A plain integer field holding a word: the word's raw type and the bits.
 template <typename Storage> struct word_of
 {
-  typedef typename impl_of<Storage>::type impl;
+  using impl = typename impl_of<Storage>::type;
   static_assert (is_plain_integer<impl>::value,
                  "LUMEX_PROTOCOL: the word of bits_, mask_ and split_ is an "
                  "integer field without scale<> (u8_, u16_le_, ...)");
-  typedef typename impl::raw_type raw_type;
+  using raw_type = typename impl::raw_type;
   static LUMEX_CONSTEXPR std::size_t
   bits () LUMEX_NOEXCEPT
   {
@@ -247,9 +247,9 @@ template <typename Storage, std::uint64_t Mask, std::size_t Bits, typename T,
           field_kind Kind>
 struct part_impl
 {
-  typedef word_of<Storage> word;
-  typedef typename word::impl storage_impl;
-  typedef typename word::raw_type raw_type;
+  using word = word_of<Storage>;
+  using storage_impl = typename word::impl;
+  using raw_type = typename word::raw_type;
 
   static_assert (Mask != 0, "LUMEX_PROTOCOL: a part of a word has no bit");
   static_assert (fits_unsigned_bits (Mask,
@@ -257,17 +257,17 @@ struct part_impl
                  "LUMEX_PROTOCOL: a part of a word reaches past the word");
 
   /// Marks the type as a field.
-  typedef field_tag lumex_protocol_field;
+  using lumex_protocol_field = field_tag;
   /// The value.
-  typedef T value_type;
+  using value_type = T;
   /// The storage field (the word).
-  typedef Storage storage_type;
+  using storage_type = Storage;
   /// The bits of the word this part uses.
-  typedef std::integral_constant<std::uint64_t, Mask> part_mask;
+  using part_mask = std::integral_constant<std::uint64_t, Mask>;
   /// Bytes in a binary layout: the word.
-  typedef typename storage_impl::binary_size binary_size;
+  using binary_size = typename storage_impl::binary_size;
   /// The alignment of the word.
-  typedef typename storage_impl::binary_alignment binary_alignment;
+  using binary_alignment = typename storage_impl::binary_alignment;
 
   static LUMEX_CONSTEXPR field_info_t
   info () LUMEX_NOEXCEPT
@@ -338,9 +338,8 @@ struct part_impl
 
 template <typename Storage> struct default_part
 {
-  typedef
-      typename std::make_unsigned<typename word_of<Storage>::raw_type>::type
-          type;
+  using type =
+      typename std::make_unsigned<typename word_of<Storage>::raw_type>::type;
 };
 } // namespace detail
 
@@ -402,19 +401,18 @@ template <typename List> struct list_to_parts;
 template <template <typename...> class List, typename... P>
 struct list_to_parts<List<P...>>
 {
-  typedef part_list<P...> type;
+  using type = part_list<P...>;
 };
 
 template <bool OneGroup, typename... Parts> struct parts_of
 {
-  typedef part_list<Parts...> type;
+  using type = part_list<Parts...>;
 };
 
 template <typename Layout> struct parts_of<true, Layout>
 {
-  typedef
-      typename list_to_parts<typename resolve<Layout>::type::fields_type>::type
-          type;
+  using type = typename list_to_parts<
+      typename resolve<Layout>::type::fields_type>::type;
 };
 
 template <typename Part, typename = void> struct is_part : std::false_type
@@ -458,9 +456,9 @@ template <typename Word, typename... P, std::size_t... I>
 struct split_body<Word, part_list<P...>,
                   ::lumex::core::utility::sequence::index_sequence<I...>>
 {
-  typedef word_of<Word> word;
-  typedef typename word::impl word_impl;
-  typedef typename word::raw_type raw_type;
+  using word = word_of<Word>;
+  using word_impl = typename word::impl;
+  using raw_type = typename word::raw_type;
 
   static_assert (sizeof...(P) > 0, "split_: give at least one part");
   static_assert (values_all<is_part<P>::value...>::value,
@@ -478,18 +476,17 @@ struct split_body<Word, part_list<P...>,
               bit_count (impl_of<P>::type::part_mask::value)...>::value,
       "LUMEX_PROTOCOL: two parts of split_<Word, ...> share a bit");
 
-  typedef std::integral_constant<
-      std::uint64_t, mask_or<impl_of<P>::type::part_mask::value...>::value>
-      covered;
+  using covered = std::integral_constant<
+      std::uint64_t, mask_or<impl_of<P>::type::part_mask::value...>::value>;
 
   /// Marks the type as a field.
-  typedef field_tag lumex_protocol_field;
+  using lumex_protocol_field = field_tag;
   /// The value: the raw word and the parts.
-  typedef split_value<raw_type, record<P...>> value_type;
+  using value_type = split_value<raw_type, record<P...>>;
   /// Bytes in a binary layout: the word.
-  typedef typename word_impl::binary_size binary_size;
+  using binary_size = typename word_impl::binary_size;
   /// The alignment of the word.
-  typedef typename word_impl::binary_alignment binary_alignment;
+  using binary_alignment = typename word_impl::binary_alignment;
 
   static LUMEX_CONSTEXPR field_info_t
   info () LUMEX_NOEXCEPT
@@ -561,12 +558,11 @@ struct split_impl<Word, part_list<P...>>
 template <typename Word, typename... Parts> struct split_
 {
   /// Marks the type as a field.
-  typedef field_tag lumex_protocol_field;
+  using lumex_protocol_field = field_tag;
   /// The implementation.
-  typedef detail::split_impl<
+  using lumex_field_impl = detail::split_impl<
       Word, typename detail::parts_of<detail::single_group<Parts...>::value,
-                                      Parts...>::type>
-      lumex_field_impl;
+                                      Parts...>::type>;
 };
 
 /**
@@ -582,21 +578,21 @@ template <typename Storage, typename E> struct enum_
                  "enum_<Storage, E>: E must be an enumeration");
 
   /// The storage implementation.
-  typedef typename impl_of<Storage>::type storage_impl;
+  using storage_impl = typename impl_of<Storage>::type;
   /// The value of the storage.
-  typedef typename storage_impl::value_type storage_value;
+  using storage_value = typename storage_impl::value_type;
   static_assert (std::is_integral<storage_value>::value,
                  "enum_<Storage, E>: Storage must hold an integer or a "
                  "character (no scale<>)");
 
   /// Marks the type as a field.
-  typedef field_tag lumex_protocol_field;
+  using lumex_protocol_field = field_tag;
   /// The value.
-  typedef E value_type;
+  using value_type = E;
   /// Bytes in a binary layout: those of the storage.
-  typedef typename storage_impl::binary_size binary_size;
+  using binary_size = typename storage_impl::binary_size;
   /// The alignment of the storage.
-  typedef typename storage_impl::binary_alignment binary_alignment;
+  using binary_alignment = typename storage_impl::binary_alignment;
 
   /// @brief The descriptor (`order` and `binary_size` of the storage).
   static LUMEX_CONSTEXPR field_info_t
@@ -659,7 +655,7 @@ private:
   static bool
   store (E value, storage_value &stored)
   {
-    typedef typename std::underlying_type<E>::type underlying;
+    using underlying = typename std::underlying_type<E>::type;
     return storage_impl::assign (stored, static_cast<storage_value> (
                                              static_cast<underlying> (value)))
            && static_cast<underlying> (stored)

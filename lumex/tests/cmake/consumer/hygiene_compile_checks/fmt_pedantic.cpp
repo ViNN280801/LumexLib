@@ -36,8 +36,8 @@ format_integers ()
   std::string text = fmt::format ("{} {:x} {:>8}", 1, 255u, -3L);
 #if defined(__SIZEOF_INT128__)
   // The user's own spelling of the type needs the extension marker too.
-  __extension__ typedef __int128 signed_128;
-  __extension__ typedef unsigned __int128 unsigned_128;
+  __extension__ using signed_128 = __int128;
+  __extension__ using unsigned_128 = unsigned __int128;
   signed_128 const negative = -static_cast<signed_128> (170141183460469231LL);
   unsigned_128 const big = static_cast<unsigned_128> (1) << 100;
   text += fmt::format (" {} {} {:#x} {:+}", negative, big, big, negative);

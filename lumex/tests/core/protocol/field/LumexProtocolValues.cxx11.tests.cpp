@@ -86,9 +86,8 @@ TEST (LumexProtocolValuesTest,
 TEST (LumexProtocolValuesTest,
       GivenAlternatives_WhenSwitched_ThenTheIndexAndTheValueFollow)
 {
-  typedef field::alternatives<std::uint8_t, field::fixed_string<3>,
-                              std::uint64_t>
-      three;
+  using three = field::alternatives<std::uint8_t, field::fixed_string<3>,
+                                    std::uint64_t>;
   three value;
   EXPECT_EQ (value.index (), 0u);
   EXPECT_EQ (value.get<0> (), 0u);
@@ -107,7 +106,7 @@ TEST (LumexProtocolValuesTest,
 TEST (LumexProtocolValuesTest,
       GivenARecord_WhenVisited_ThenEveryFieldInOrderWithItsType)
 {
-  typedef field::record_of<tables::point_t::fields_type>::type point;
+  using point = field::record_of<tables::point_t::fields_type>::type;
   point value = point ();
   field::get<0> (value) = -3;
   field::get<1> (value) = 9;

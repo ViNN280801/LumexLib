@@ -29,7 +29,7 @@ using tables::bytes;
 using tables::payload_of;
 using tables::view_of;
 
-typedef tables::device_e device;
+using device = tables::device_e;
 
 index::protocol_index_t const &
 device_index ()
@@ -183,7 +183,7 @@ TEST (
     LumexProtocolDeviceETest,
     GivenTheFamilyLayer_WhenTheDeviceExtendsIt_ThenTheRowsAreListedInOrderAndTheStateRowIsTheDevices)
 {
-  typedef tables::family_e family;
+  using family = tables::family_e;
   EXPECT_EQ (dsl::command_count<family>::value, 2u);
   EXPECT_EQ (dsl::command_count<device>::value, 9u);
   EXPECT_TRUE ((std::is_same<device::query_ad_t, family::query_ad_t>::value));

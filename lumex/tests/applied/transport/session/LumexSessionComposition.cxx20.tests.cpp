@@ -37,7 +37,7 @@ using namespace lumex_session_test;
 using namespace asio::experimental::awaitable_operators;
 #endif
 using tr::error::transport_errc;
-typedef ss::channel_state state;
+using state = ss::channel_state;
 
 class LumexSessionCompositionTest : public ::testing::Test
 {

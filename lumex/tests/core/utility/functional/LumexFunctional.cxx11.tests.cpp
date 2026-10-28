@@ -25,8 +25,8 @@ namespace traits = lumex::core::utility::traits;
 
 namespace
 {
-typedef functional::identity identity_t;
-typedef functional::less less_t;
+using identity_t = functional::identity;
+using less_t = functional::less;
 
 /** Cannot be copied or moved: only a reference can be passed around. */
 struct pinned_t

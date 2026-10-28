@@ -28,9 +28,9 @@ namespace
 {
 namespace tr = lumex::applied::transport;
 using tr::datagram::message_t;
-typedef std::chrono::steady_clock clock_type;
-typedef std::chrono::milliseconds ms;
-typedef asio::executor_work_guard<asio::io_context::executor_type> guard_type;
+using clock_type = std::chrono::steady_clock;
+using ms = std::chrono::milliseconds;
+using guard_type = asio::executor_work_guard<asio::io_context::executor_type>;
 
 std::vector<std::uint8_t>
 three ()

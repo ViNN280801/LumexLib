@@ -25,8 +25,8 @@ using tr::deadline_t;
 using tr::error::transport_errc;
 using tr::statistics::statistics_t;
 
-typedef asio::ip::tcp tcp;
-typedef std::chrono::system_clock clock_type;
+using tcp = asio::ip::tcp;
+using clock_type = std::chrono::system_clock;
 } // namespace
 
 TEST (LumexTcpStatisticsTest,

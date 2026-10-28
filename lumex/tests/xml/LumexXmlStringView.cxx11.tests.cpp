@@ -106,7 +106,7 @@ bool (*const kEqual) (lumex_string_view, char const *) = &stringview_equal;
 // warn_unused_result warning of GCC 8 for a `void (call)` in decltype.)
 template <class T> struct void_of
 {
-  typedef void type;
+  using type = void;
 };
 template <class T, class = void> struct accepts_name : std::false_type
 {

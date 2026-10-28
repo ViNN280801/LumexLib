@@ -650,7 +650,7 @@ namespace
 /** Mimics a string view: data / size / npos / value_type. */
 struct char_view_t
 {
-  typedef char value_type;
+  using value_type = char;
   static std::size_t const npos = static_cast<std::size_t> (-1);
 
   char const *
@@ -669,7 +669,7 @@ struct char_view_t
 /** Container of chars without npos: not a string. */
 struct char_buffer_t
 {
-  typedef char value_type;
+  using value_type = char;
 
   char const *
   data () const

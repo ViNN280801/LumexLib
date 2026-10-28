@@ -36,7 +36,7 @@ namespace
 using lumex::core::atomic::dwcas::dwcas_value_t;
 using lumex::core::atomic::dwcas::dwcas_word;
 
-typedef std::chrono::steady_clock clock_type;
+using clock_type = std::chrono::steady_clock;
 
 struct options_t
 {
@@ -92,10 +92,10 @@ measure (int threads, int duration_ms, Attempt attempt)
   stop.store (true);
   for (std::size_t i = 0; i < pool.size (); ++i)
     pool[i].join ();
-  double const nanoseconds
-      = static_cast<double> (std::chrono::duration_cast<std::chrono::nanoseconds> (
-                                 clock_type::now () - begin)
-                                 .count ());
+  double const nanoseconds = static_cast<double> (
+      std::chrono::duration_cast<std::chrono::nanoseconds> (clock_type::now ()
+                                                            - begin)
+          .count ());
   return nanoseconds * threads / static_cast<double> (total.load ());
 }
 
@@ -106,7 +106,8 @@ measure_64 (int threads, int duration_ms)
   return measure (threads, duration_ms,
                   [&]
                     {
-                      std::uint64_t guess = word.load (std::memory_order_relaxed);
+                      std::uint64_t guess
+                          = word.load (std::memory_order_relaxed);
                       word.compare_exchange_strong (guess, guess + 1);
                     });
 }

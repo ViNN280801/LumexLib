@@ -97,7 +97,7 @@ struct open_done
       alive->on_opened (generation, error);
   }
 
-  typedef session_core::strand_type executor_type;
+  using executor_type = session_core::strand_type;
   executor_type
   get_executor () const LUMEX_NOEXCEPT
   {

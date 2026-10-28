@@ -22,10 +22,10 @@ namespace st = lumex::core::framing::stage;
 using fr::codec::bytes_t;
 using fr::codec::bytes_view_t;
 
-typedef st::pipeline<
-    fr::delimiter::delimiter_codec, st::prefix_char_stage<'#'>,
-    st::checksum_stage<st::xor8, st::ascii_hex_render>, st::ascii_hex_stage>
-    text_protocol;
+using text_protocol
+    = st::pipeline<fr::delimiter::delimiter_codec, st::prefix_char_stage<'#'>,
+                   st::checksum_stage<st::xor8, st::ascii_hex_render>,
+                   st::ascii_hex_stage>;
 
 int
 main ()

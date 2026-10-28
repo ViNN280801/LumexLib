@@ -43,7 +43,7 @@
  * the byte types of the interface and the helpers the codecs share.
  * @details A codec `C` turns a payload into a frame and a byte stream back
  * into payloads. It provides:
- * - `typedef ... options_type;` with at least `max_frame_size`;
+ * - `using options_type = ...;` with at least `max_frame_size`;
  * - `explicit C (options_type const &)`; invalid options are a contract
  *   violation (`LUMEX_CONTRACT_ASSERT`), never replaced by a default;
  * - `encode_result_t encode (bytes_view_t payload, bytes_t &out) const`:
@@ -99,17 +99,17 @@ namespace framing
 namespace codec
 {
 /// @brief One byte on the wire.
-typedef std::uint8_t byte_t;
+using byte_t = std::uint8_t;
 
 /// @brief A read-only view of bytes: a payload, a chunk or a frame.
-typedef lumex::core::span::view::span<byte_t const> bytes_view_t;
+using bytes_view_t = lumex::core::span::view::span<byte_t const>;
 
 /// @brief An owning byte buffer: where `encode` appends a frame.
-typedef std::vector<byte_t> bytes_t;
+using bytes_t = std::vector<byte_t>;
 
 /// @brief The result of `encode`: nothing, or why the payload was refused.
-typedef lumex::core::expected::result::expected<void, std::error_code>
-    encode_result_t;
+using encode_result_t
+    = lumex::core::expected::result::expected<void, std::error_code>;
 
 namespace Constants
 {
@@ -120,7 +120,7 @@ LUMEX_CONSTEXPR std::size_t KDEFAULT_MAX_FRAME_SIZE = 65536;
 /// @brief The order of the bytes of a multi-byte field on the wire (the
 /// type of `lumex/core/utility/bit/LumexByteOrder.hpp`, shared with the
 /// protocol fields): `byte_order::big`, `byte_order::little`.
-typedef ::lumex::core::utility::bit::byte_order byte_order;
+using byte_order = ::lumex::core::utility::bit::byte_order;
 
 namespace detail
 {

@@ -109,16 +109,16 @@ namespace protocol
 namespace layout
 {
 /// @brief A read-only view of bytes: a message to decode.
-typedef ::lumex::core::protocol::field::bytes_view_t bytes_view_t;
+using bytes_view_t = ::lumex::core::protocol::field::bytes_view_t;
 
 /// @brief An owning byte buffer: where a message is encoded (appended).
-typedef std::vector<std::uint8_t> bytes_t;
+using bytes_t = std::vector<std::uint8_t>;
 
 /// @brief The session values a decoder may read.
-typedef ::lumex::core::protocol::field::decode_context_t decode_context_t;
+using decode_context_t = ::lumex::core::protocol::field::decode_context_t;
 
 /// @brief The byte order of a multi-byte field.
-typedef ::lumex::core::protocol::field::byte_order byte_order;
+using byte_order = ::lumex::core::protocol::field::byte_order;
 
 namespace detail
 {

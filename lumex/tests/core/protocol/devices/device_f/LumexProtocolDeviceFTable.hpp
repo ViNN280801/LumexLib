@@ -35,7 +35,7 @@ struct codec
 /// The message format of the family: [address][message][data...].
 struct family_header
 {
-  typedef index::key_at<1, 1> key_reader;
+  using key_reader = index::key_at<1, 1>;
   static LUMEX_CONSTEXPR std::size_t key_width = 1;
 };
 

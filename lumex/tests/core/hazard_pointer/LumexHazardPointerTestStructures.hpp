@@ -250,7 +250,7 @@ template <class Node> struct pool_deleter
 };
 
 /// A hook called inside the ABA window of a structure.
-typedef std::function<void (int)> hook_t;
+using hook_t = std::function<void (int)>;
 
 // ---------------------------------------------------------------------------
 // The two policies
@@ -391,7 +391,7 @@ struct unprotected_policy
 template <class Policy> class treiber_stack_t
 {
 public:
-  typedef typename Policy::guard guard_type;
+  using guard_type = typename Policy::guard;
 
   /// Points of the hook.
   enum hook_point
@@ -506,7 +506,7 @@ private:
 template <class Policy> class ms_queue_t
 {
 public:
-  typedef typename Policy::guard guard_type;
+  using guard_type = typename Policy::guard;
 
   enum hook_point
   {
@@ -676,7 +676,7 @@ private:
 template <class Policy> class michael_list_t
 {
 public:
-  typedef typename Policy::guard guard_type;
+  using guard_type = typename Policy::guard;
 
   enum hook_point
   {
@@ -684,7 +684,7 @@ public:
     insert_window = 1
   };
 
-  typedef std::atomic<std::uintptr_t> cell_t;
+  using cell_t = std::atomic<std::uintptr_t>;
 
   struct node_t : hp_ns::hazard_pointer_obj_base<node_t, pool_deleter<node_t>>
   {

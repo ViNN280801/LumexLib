@@ -101,7 +101,7 @@ template <std::size_t I>
 void
 check_json_index (nlohmann::json const &j)
 {
-  typedef typename field_type_at<I>::type field_t;
+  using field_t = typename field_type_at<I>::type;
   std::string const key = expected_field_name (I);
   ASSERT_TRUE (j.contains (key)) << key;
   expect_sample_eq (j.at (key).get<field_t> (), make_sample<field_t> (I));
@@ -449,8 +449,8 @@ TEST (LumexFieldReflectionTest, GivenPaddedAggregate_WhenToJson_ThenAllKeys)
 TYPED_TEST (LumexFieldArityTest, GivenArity_WhenNamed_ThenFIndexNames)
 {
 #if __cplusplus >= 202002L
-  typedef TypeParam tag_t;
-  typedef typename fields_of<tag_t::value>::type agg_t;
+  using tag_t = TypeParam;
+  using agg_t = typename fields_of<tag_t::value>::type;
   std::array<char const *, tag_t::value> const names
       = names_as_array<agg_t> ();
   ASSERT_EQ (names.size (), tag_t::value);
@@ -464,8 +464,8 @@ TYPED_TEST (LumexFieldArityTest, GivenArity_WhenNamed_ThenFIndexNames)
 TYPED_TEST (LumexFieldArityTest, GivenArity_WhenToJson_ThenEveryKey)
 {
 #if __cplusplus >= 202002L
-  typedef TypeParam tag_t;
-  typedef typename fields_of<tag_t::value>::type agg_t;
+  using tag_t = TypeParam;
+  using agg_t = typename fields_of<tag_t::value>::type;
   agg_t obj{};
   fill_fields (obj, std::make_index_sequence<tag_t::value>{});
   nlohmann::json const j = to_json (obj);

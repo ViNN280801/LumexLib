@@ -41,8 +41,8 @@ struct codec
 /// The message format: the key is the first byte (there is no address).
 struct plain_header
 {
-  typedef registry::table_vocabulary lumex_vocabulary;
-  typedef index::key_at<0, 1> key_reader;
+  using lumex_vocabulary = registry::table_vocabulary;
+  using key_reader = index::key_at<0, 1>;
   static LUMEX_CONSTEXPR std::size_t key_width = 1;
 };
 

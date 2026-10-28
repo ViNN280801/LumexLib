@@ -65,7 +65,7 @@ measured_size ()
 template <class T> class MeasuringAllocator
 {
 public:
-  typedef T value_type;
+  using value_type = T;
   MeasuringAllocator () {}
   template <class U> MeasuringAllocator (MeasuringAllocator<U> const &) {}
   template <class U>
@@ -380,7 +380,7 @@ TEST (LumexMakeSharedTest,
       = sp::allocate_shared<Spy> (CountingAllocator<Spy> (&stats));
   EXPECT_EQ (p->value, 3);
   EXPECT_EQ (stats.allocations.load (), 1);
-  typedef sp::detail::ctl_inplace<Spy, CountingAllocator<Spy>> block_type;
+  using block_type = sp::detail::ctl_inplace<Spy, CountingAllocator<Spy>>;
   EXPECT_EQ (stats.bytes.load (), static_cast<long> (sizeof (block_type)))
       << "the one allocation is the block";
   if (sizeof (void *) == 8)

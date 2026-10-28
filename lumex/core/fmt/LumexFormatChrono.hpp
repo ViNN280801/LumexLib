@@ -193,10 +193,11 @@ split_seconds (std::chrono::duration<Rep, Period> const &value, int digits,
   ticks = 0;
   if (digits == 0)
     return;
-  typedef typename std::common_type<std::chrono::duration<Rep, Period>,
-                                    std::chrono::seconds>::type common_type;
+  using common_type =
+      typename std::common_type<std::chrono::duration<Rep, Period>,
+                                std::chrono::seconds>::type;
   common_type const rest = common_type (value) - common_type (whole);
-  typedef typename common_type::period period;
+  using period = typename common_type::period;
   long long const scale = power_of_ten (digits);
   if (!std::is_floating_point<Rep>::value && scale % period::den == 0)
     {
@@ -207,7 +208,7 @@ split_seconds (std::chrono::duration<Rep, Period> const &value, int digits,
     }
   // Floating-point counts, or a period without an exact decimal fraction
   // (6 digits, truncated).
-  typedef std::chrono::duration<double> double_seconds;
+  using double_seconds = std::chrono::duration<double>;
   double const fraction
       = std::chrono::duration_cast<double_seconds> (rest).count ();
   ticks = static_cast<long long> (fraction * static_cast<double> (scale));
@@ -222,7 +223,7 @@ template <typename Period>
 std::string
 unit_suffix ()
 {
-  typedef std::ratio<Period::num, Period::den> period;
+  using period = std::ratio<Period::num, Period::den>;
   if (std::ratio_equal<period, std::atto>::value)
     return "as";
   if (std::ratio_equal<period, std::femto>::value)
@@ -784,7 +785,7 @@ public:
       }
     else
       {
-        typedef std::chrono::duration<Rep, Period> duration_type;
+        using duration_type = std::chrono::duration<Rep, Period>;
         bool const negative = value < duration_type::zero ();
         if (std::is_floating_point<Rep>::value)
           {
@@ -852,9 +853,9 @@ public:
               &value,
           basic_format_context<Char> &ctx) const
   {
-    typedef std::chrono::duration<long long, std::ratio<86400>> days_type;
-    typedef typename std::common_type<Duration, days_type,
-                                      std::chrono::seconds>::type common_type;
+    using days_type = std::chrono::duration<long long, std::ratio<86400>>;
+    using common_type = typename std::common_type<Duration, days_type,
+                                                  std::chrono::seconds>::type;
     common_type const since_epoch (value.time_since_epoch ());
     // Whole seconds rounded down (duration_cast truncates toward zero),
     // then whole days rounded down, so times before 1970 stay correct.

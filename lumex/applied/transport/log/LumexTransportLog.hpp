@@ -100,7 +100,7 @@ enum class log_level : int
 };
 
 /// @brief The bytes a record may carry.
-typedef lumex::core::span::view::span<std::uint8_t const> log_bytes_t;
+using log_bytes_t = lumex::core::span::view::span<std::uint8_t const>;
 
 /// @brief One log record; every pointer is valid only during the sink call.
 struct log_record_t
@@ -117,7 +117,7 @@ struct log_record_t
 };
 
 /// @brief A log sink.
-typedef void (*log_sink_t) (log_record_t const &);
+using log_sink_t = void (*) (log_record_t const &);
 
 /// @brief Sets the sink of this binary; `nullptr` restores the default sink
 /// (`warning` and above to `std::cerr`). Thread-safe.

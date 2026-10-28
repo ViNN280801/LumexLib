@@ -163,8 +163,8 @@ datagram_round (tr::stream::io_runner &runner)
 #if defined(LUMEX_TRANSPORT_WITH_FRAMING)
 // --- the framed adapters (framed_stream, framed_datagram) ------------------
 
-typedef lumex::core::framing::slip::slip_codec codec_t;
-typedef tr::framed::framed_stream<codec_t> link_t;
+using codec_t = lumex::core::framing::slip::slip_codec;
+using link_t = tr::framed::framed_stream<codec_t>;
 
 std::vector<std::uint8_t>
 frame_payload ()

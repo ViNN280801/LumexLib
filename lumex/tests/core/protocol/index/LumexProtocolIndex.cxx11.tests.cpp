@@ -51,7 +51,7 @@ bytes (std::initializer_list<int> values)
 // The key of a frame in the second byte, little endian over two bytes.
 struct second_byte_header
 {
-  typedef index::key_at<1, 2, index::key_byte_order::little> key_reader;
+  using key_reader = index::key_at<1, 2, index::key_byte_order::little>;
   static constexpr std::size_t key_width = 2;
 };
 
@@ -65,7 +65,7 @@ LUMEX_PROTOCOL_DEFINE (offset_protocol, tables::codec, second_byte_header,
 
 struct hex_header
 {
-  typedef layout::fixed_width_text_layout<16> layout_type;
+  using layout_type = layout::fixed_width_text_layout<16>;
   static constexpr std::size_t key_width = 1;
 };
 

@@ -35,8 +35,8 @@ using tables::hex_of;
 using tables::view_of;
 using tables::xor_text;
 
-typedef tables::j_text text;
-typedef tables::j_hid hid;
+using text = tables::j_text;
+using hid = tables::j_hid;
 
 template <typename P>
 index::protocol_index_t const &

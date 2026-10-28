@@ -108,7 +108,7 @@ cobs_encoded_bound (std::size_t payload_size) LUMEX_NOEXCEPT
 class cobs_codec
 {
 public:
-  typedef cobs_options_t options_type;
+  using options_type = cobs_options_t;
 
   /// @pre `options.max_frame_size > 0`.
   explicit cobs_codec (options_type const &options = options_type ())

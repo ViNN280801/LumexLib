@@ -96,10 +96,10 @@ inline namespace LUMEX_ATOMIC_SMART_PTR_ABI_NAMESPACE
 namespace Detail
 {
 /// The value of a slot word: the two halves of a `dwcas_word`.
-typedef ::lumex::core::atomic::dwcas::dwcas_value_t split_value_t;
+using split_value_t = ::lumex::core::atomic::dwcas::dwcas_value_t;
 
 /// The control block of the module's own smart pointers.
-typedef ::lumex::core::smart_ptr::detail::ctl_base split_block_t;
+using split_block_t = ::lumex::core::smart_ptr::detail::ctl_base;
 
 static_assert (sizeof (void *) == 8,
                "the split-count word packs 64-bit addresses");

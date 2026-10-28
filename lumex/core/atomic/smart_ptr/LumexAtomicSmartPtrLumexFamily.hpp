@@ -80,8 +80,8 @@ namespace Detail
 template <typename T>
 struct smart_ptr_traits_t<::lumex::core::smart_ptr::shared_ptr<T>>
 {
-  typedef ::lumex::core::smart_ptr::shared_ptr<T> pointer_type;
-  typedef ::lumex::core::smart_ptr::detail::access access_type;
+  using pointer_type = ::lumex::core::smart_ptr::shared_ptr<T>;
+  using access_type = ::lumex::core::smart_ptr::detail::access;
 
   /// A pointer of the family needs no extra state to be compared.
   struct probe_t
@@ -117,8 +117,8 @@ struct smart_ptr_traits_t<::lumex::core::smart_ptr::shared_ptr<T>>
 template <typename T>
 struct smart_ptr_traits_t<::lumex::core::smart_ptr::weak_ptr<T>>
 {
-  typedef ::lumex::core::smart_ptr::weak_ptr<T> pointer_type;
-  typedef ::lumex::core::smart_ptr::detail::access access_type;
+  using pointer_type = ::lumex::core::smart_ptr::weak_ptr<T>;
+  using access_type = ::lumex::core::smart_ptr::detail::access;
 
   /// A pointer of the family needs no extra state to be compared.
   struct probe_t

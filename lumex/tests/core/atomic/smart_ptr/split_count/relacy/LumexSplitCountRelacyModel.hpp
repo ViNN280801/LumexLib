@@ -130,8 +130,8 @@
 
 namespace split_count_relacy
 {
-typedef std::uint64_t u64;
-typedef rl::memory_order mo_t;
+using u64 = std::uint64_t;
+using mo_t = rl::memory_order;
 
 /// The mutation of this build.
 static const int mutant = LUMEX_RELACY_MUTANT;
@@ -408,7 +408,7 @@ struct word_ops_t
   }
 };
 
-typedef word_ops_t word;
+using word = word_ops_t;
 
 /// A smart pointer value: a block (0 = empty) and the stored pointer (an
 /// offset from the anchor, or the raw pointer of an empty one).
@@ -1553,7 +1553,7 @@ run_model (char const *name, search_t const &search)
   return ok;
 }
 
-typedef bool (*runner_t) (char const *, search_t const &);
+using runner_t = bool (*) (char const *, search_t const &);
 
 /// One model of a program and its default search.
 struct entry_t

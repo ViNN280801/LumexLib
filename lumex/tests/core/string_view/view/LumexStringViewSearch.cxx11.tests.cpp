@@ -23,8 +23,8 @@ std::size_t const npos = static_cast<std::size_t> (-1);
 
 template <class CharT> struct checker
 {
-  typedef std::basic_string<CharT> text_t;
-  typedef typename lumex_sv_test::char_set<CharT>::view_t view_t;
+  using text_t = std::basic_string<CharT>;
+  using view_t = typename lumex_sv_test::char_set<CharT>::view_t;
 
   int mismatches;
   checker () : mismatches (0) {}

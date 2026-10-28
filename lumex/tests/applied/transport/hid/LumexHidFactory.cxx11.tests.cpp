@@ -37,7 +37,7 @@ using lumex_fake_hidapi::fake_device;
 using lumex_fake_hidapi::fake_seam;
 using tr::deadline_t;
 using tr::error::transport_errc;
-typedef std::chrono::milliseconds ms;
+using ms = std::chrono::milliseconds;
 
 std::uint16_t const KVENDOR = 0x1234;
 std::uint16_t const KPRODUCT = 0x5678;

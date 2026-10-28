@@ -25,7 +25,7 @@ using namespace lumex_atomic_test;
 
 namespace
 {
-typedef pf::shared_ptr<int> IntPtr;
+using IntPtr = pf::shared_ptr<int>;
 
 /// Passes a token around @p ring_size threads for @p rounds laps; thread i
 /// takes the turns whose value is i modulo the ring size.

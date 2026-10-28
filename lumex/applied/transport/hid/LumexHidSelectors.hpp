@@ -86,7 +86,7 @@ namespace hid
 {
 /// @brief The HID devices present now (the seam of the selectors and of
 /// `session::device_watcher`; tests give a fake).
-typedef std::function<std::vector<hid_device_info_t> ()> hid_enumeration_t;
+using hid_enumeration_t = std::function<std::vector<hid_device_info_t> ()>;
 
 /// @brief `enumerate_hid_devices ()`: every HID interface, no device opened.
 hid_enumeration_t default_hid_enumeration ();

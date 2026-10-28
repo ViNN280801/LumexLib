@@ -41,8 +41,8 @@ enum class colour : std::uint8_t
 TEST (LumexProtocolTypeListTest,
       GivenAGroupWithCommas_WhenUnwrapped_ThenEveryElementIsAnArgument)
 {
-  typedef TYPE_LIST_TEST_LIST ((a, std::ratio<1, 100>, b)) list;
-  typedef TYPE_LIST_TEST_LIST (()) nothing;
+  using list = TYPE_LIST_TEST_LIST ((a, std::ratio<1, 100>, b));
+  using nothing = TYPE_LIST_TEST_LIST (());
   EXPECT_EQ (dsl::list_size<nothing>::value, 0u);
   EXPECT_EQ (dsl::list_size<list>::value, 3u);
   EXPECT_TRUE (
@@ -71,7 +71,7 @@ TEST (LumexProtocolTypeListTest,
 TEST (LumexProtocolTypeListTest,
       GivenAList_WhenAskedForMembers_ThenOnlyItsTypesAreContained)
 {
-  typedef dsl::type_list<a, b> list;
+  using list = dsl::type_list<a, b>;
   EXPECT_TRUE ((dsl::list_contains<list, a>::value));
   EXPECT_TRUE ((dsl::list_contains<list, b>::value));
   EXPECT_FALSE ((dsl::list_contains<list, c>::value));

@@ -34,7 +34,7 @@ using tr::stream::io_runner;
 using tr::testing::make_mock_datagram;
 using tr::testing::mock_datagram;
 
-typedef std::chrono::system_clock clock_type;
+using clock_type = std::chrono::system_clock;
 
 message_t
 message (std::size_t payload_size)

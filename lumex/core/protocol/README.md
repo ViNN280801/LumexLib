@@ -69,7 +69,7 @@ LUMEX_PROTOCOL_DEFINE (widget_v1, my_codec, my_header, WIDGET_ROWS);
 | `description ()` | описание из таблицы |
 | `field_names ()` | имена полей по порядку (`dsl::names_t`) |
 
-При компиляции проверяются: число имен полей; что каждый элемент группы полей является полем; что ответ является полем, раскладкой или видом ответа другого слоя (тип с `typedef dsl::reply_tag lumex_protocol_reply;`); что группа не называет собственный тип строки (строка `status` и раскладка `status_t`: внутри строки имя `status_t` означает саму строку) и не называет слово словаря.
+При компиляции проверяются: число имен полей; что каждый элемент группы полей является полем; что ответ является полем, раскладкой или видом ответа другого слоя (тип с `using lumex_protocol_reply = dsl::reply_tag;`); что группа не называет собственный тип строки (строка `status` и раскладка `status_t`: внутри строки имя `status_t` означает саму строку) и не называет слово словаря.
 
 Сам протокол дает `protocol_name ()`, `framing_type`, `header_type`, `base_protocol` (`void` у корня), список команд `dsl::commands_of<P>::type` в порядке таблицы, их число `dsl::command_count<P>::value`, записи времени выполнения `dsl::command_entries<P> ()` и примесь клиента `P::lumex_methods<Client>`: метод на каждую строку с именем идентификатора (`client.SET_RATE (20, 1)`), который вызывает `Client::lumex_invoke<Row> (args...)`.
 
@@ -132,7 +132,7 @@ LUMEX_PROTOCOL_DEFINE (widget_v1, my_codec, my_header, WIDGET_ROWS);
 Раскладку протокола выбирает тип заголовка слоя: `P::header_type::layout_type`, если заголовок его называет, иначе `binary_layout<>`. Слой `LUMEX_PROTOCOL_EXTEND_FRAMED` с другим заголовком переносит те же строки (те же типы команд) в другую раскладку, не повторяя их:
 
 ```cpp
-struct hex_header { typedef lumex::core::protocol::layout::fixed_width_text_layout<16> layout_type; };
+struct hex_header { using layout_type = lumex::core::protocol::layout::fixed_width_text_layout<16>; };
 #define NO_ROWS(X, X_AS)
 LUMEX_PROTOCOL_EXTEND_FRAMED (widget_lan, widget_v1, lan_codec, hex_header, NO_ROWS);
 ```
@@ -164,7 +164,7 @@ layout::decode_result_t<layout::reply_value_of<widget_v1::SET_RATE_t>::type> rep
 
 ## Расширение словаря другим слоем
 
-Слой над ядром (диалог `applied/transport/protocol`) добавляет свои слова, не меняя ядро: класс, производный от `dsl::vocabulary`, с видами ответа (`ack_nak<...>`) и опциями, и заголовок протокола, который его называет (`typedef my_vocabulary lumex_vocabulary;`) или специализация `dsl::vocabulary_of<Header>`. Опция другого слоя является литеральным типом с `option_kind`, создается функцией `constexpr` и дает `option_name ()` и `view_value ()`: запись времени выполнения перечисляет такие опции в `options.extra`.
+Слой над ядром (диалог `applied/transport/protocol`) добавляет свои слова, не меняя ядро: класс, производный от `dsl::vocabulary`, с видами ответа (`ack_nak<...>`) и опциями, и заголовок протокола, который его называет (`using lumex_vocabulary = my_vocabulary;`) или специализация `dsl::vocabulary_of<Header>`. Опция другого слоя является литеральным типом с `option_kind`, создается функцией `constexpr` и дает `option_name ()` и `view_value ()`: запись времени выполнения перечисляет такие опции в `options.extra`.
 
 ## Записи времени выполнения
 
@@ -185,7 +185,7 @@ LUMEX_PROTOCOL_REGISTRY (lamp, LAMP_PARAMS);
 
 struct lamp_header
 {
-  typedef lumex::core::protocol::registry::table_vocabulary lumex_vocabulary;
+  using lumex_vocabulary = lumex::core::protocol::registry::table_vocabulary;
 };
 
 #define LAMP_ROWS(X, X_AS)                                                    \
@@ -210,9 +210,9 @@ layout::encode_request<lamp_protocol, lamp_protocol::SET_PARAMETER_t> (
 
 `index::build_index<P, Реестры...> ()` строит индекс слоя `P` (`index::protocol_index_t`), `index::protocol_index<P, Реестры...> ()` дает один экземпляр на программу. Индекс хранит строки в порядке таблицы (`row_t`): запись `dsl::command_entry_t` (имена, описание, ключ, параметры), ключ, приведенный к ширине провода, дескрипторы полей запроса и ответа (`field_descriptor_t`: имя, `field_info_t`, имя раскладки, составные части, роль), вид ответа (`reply_form`), признак события (у строки есть `stream`). Поиск: `find (ключ)`, `find_integer`, `find_text`, `find_name` (имя из спецификации или идентификатор), `find_registry`, и по принятому кадру: `match (кадр)` читает ключ и возвращает строку и смещение, с которого начинаются поля.
 
-Ширина ключа на проводе: константа `static constexpr std::size_t key_width` в типе заголовка слоя, иначе самый широкий ключ таблицы (целый, перечислитель или составной со своим `lumex_key_width ()`). У двоичного слоя и слоя с шестнадцатеричными цифрами фиксированной ширины ширину или свой `key_reader` обязан назвать заголовок: ширина типа ключа (`0x1D` это `int`) не ширина на проводе, и `static_assert` отказывает угадывать. В текстовом слое ключи сравниваются по тексту на проводе: `'A'` это `A`, а `65` это `65`. Ключи таблицы приводятся к этой ширине, поэтому символ `'\xFF'` и число `-1` на однобайтовом проводе один ключ, и два таких ряда индекс отвергает. Ключ из нескольких частей объявляется типом с `typedef dsl::composite_key_tag lumex_composite_key;`, `static std::size_t lumex_key_width ()` и `std::uint64_t lumex_key_bits () const`.
+Ширина ключа на проводе: константа `static constexpr std::size_t key_width` в типе заголовка слоя, иначе самый широкий ключ таблицы (целый, перечислитель или составной со своим `lumex_key_width ()`). У двоичного слоя и слоя с шестнадцатеричными цифрами фиксированной ширины ширину или свой `key_reader` обязан назвать заголовок: ширина типа ключа (`0x1D` это `int`) не ширина на проводе, и `static_assert` отказывает угадывать. В текстовом слое ключи сравниваются по тексту на проводе: `'A'` это `A`, а `65` это `65`. Ключи таблицы приводятся к этой ширине, поэтому символ `'\xFF'` и число `-1` на однобайтовом проводе один ключ, и два таких ряда индекс отвергает. Ключ из нескольких частей объявляется типом с `using lumex_composite_key = dsl::composite_key_tag;`, `static std::size_t lumex_key_width ()` и `std::uint64_t lumex_key_bits () const`.
 
-Где в кадре лежит ключ, зависит от раскладки слоя: у `tokenized_text_layout` это первый токен (`index::tokenized_key`), у `binary_layout` первые `key_width` байт (`index::key_at<0, W>`), у `fixed_width_text_layout<16>` первые `2 * W` цифр (`index::key_at_digits<0, 2 * W, 16>`). Другое место называет заголовок слоя: `typedef index::key_at<2, 1> key_reader;` или своим типом со статической `bool read (bytes_view_t, key_read_t &)`.
+Где в кадре лежит ключ, зависит от раскладки слоя: у `tokenized_text_layout` это первый токен (`index::tokenized_key`), у `binary_layout` первые `key_width` байт (`index::key_at<0, W>`), у `fixed_width_text_layout<16>` первые `2 * W` цифр (`index::key_at_digits<0, 2 * W, 16>`). Другое место называет заголовок слоя: `using key_reader = index::key_at<2, 1>;` или своим типом со статической `bool read (bytes_view_t, key_read_t &)`.
 
 Одинаковые ключи индекс отвергает. Для целых ключей это проверка при компиляции: `index::keys_unique<P>::value`, `protocol_index<P>` не компилируется с одинаковыми ключами (таблицы больше 200 строк проверяются только при построении). Для остальных (текст, составной, десятичный текст токенизированной раскладки, имена, ключи реестра) `build_index` возвращает ошибку `duplicate_key` с текстом, где названы обе строки и ключ: `protocol p: rows ONE and TWO have the same key 0x07 on the wire`.
 

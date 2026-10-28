@@ -176,8 +176,8 @@ make_kind_set ()
 template <typename Engine> class semantics_t
 {
 public:
-  typedef sp::shared_ptr<int> ptr;
-  typedef typename Engine::template shared<int> atomic_type;
+  using ptr = sp::shared_ptr<int>;
+  using atomic_type = typename Engine::template shared<int>;
 
   /// The expected strong count of owner @p owner: the base, the slot if it
   /// holds a value of that owner, and one per held value.
@@ -689,7 +689,7 @@ template <typename Engine>
 inline void
 base_conversion_table ()
 {
-  typedef typename Engine::template shared<Base2> atomic_type;
+  using atomic_type = typename Engine::template shared<Base2>;
   long const alive = alive_objects ().load ();
   {
     sp::shared_ptr<Derived> d = sp::make_shared<Derived> ();

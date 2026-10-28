@@ -177,13 +177,13 @@ protected:
 
 template <class...> struct make_void
 {
-  typedef void type;
+  using type = void;
 };
 
 template <class U, class D> struct base_pair
 {
-  typedef U object_type;
-  typedef D deleter_type;
+  using object_type = U;
+  using deleter_type = D;
 };
 
 // Declared, never defined. The first overload deduces the object and deleter
@@ -213,15 +213,14 @@ template <class T,
           bool = decltype (protectable_probe<T> (std::declval<T *> ()))::value>
 struct protectable_base
 {
-  typedef void type;
+  using type = void;
 };
 
 template <class T> struct protectable_base<T, true>
 {
-  typedef decltype (base_of_probe (std::declval<T *> ())) pair_type;
-  typedef hazard_pointer_obj_base<typename pair_type::object_type,
-                                  typename pair_type::deleter_type>
-      type;
+  using pair_type = decltype (base_of_probe (std::declval<T *> ()));
+  using type = hazard_pointer_obj_base<typename pair_type::object_type,
+                                       typename pair_type::deleter_type>;
 };
 
 template <class T>
@@ -229,7 +228,7 @@ struct protectable_impl
     : std::integral_constant<bool, decltype (protectable_probe<T> (
                                        std::declval<T *> ()))::value>
 {
-  typedef typename protectable_base<T>::type base_type;
+  using base_type = typename protectable_base<T>::type;
 };
 } // namespace detail
 

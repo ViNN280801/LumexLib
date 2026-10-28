@@ -120,11 +120,11 @@ namespace asp = split_test::asp;
 using split_test::split_event_t;
 using split_test::split_point_t;
 using split_test::split_value_t;
-typedef asp::Detail::split_word_t word;
-typedef sp::detail::ctl_base ctl_t;
-typedef sp::detail::ctl_holder holder_t;
-typedef sp::detail::ctl_weak_holder weak_holder_t;
-typedef sp::detail::split_counter counter_t;
+using word = asp::Detail::split_word_t;
+using ctl_t = sp::detail::ctl_base;
+using holder_t = sp::detail::ctl_holder;
+using weak_holder_t = sp::detail::ctl_weak_holder;
+using counter_t = sp::detail::split_counter;
 
 // -- The scheduling points --
 
@@ -502,8 +502,8 @@ private:
 static_assert (sizeof (holder_t) <= 64 && sizeof (weak_holder_t) <= 64,
                "a holder fits in a holder slot");
 
-typedef sim_arena_t<128, 6> obj_arena_t;
-typedef sim_arena_t<64, 6> hold_arena_t;
+using obj_arena_t = sim_arena_t<128, 6>;
+using hold_arena_t = sim_arena_t<64, 6>;
 
 /// The managed object. `pad` starts at offset 12: its address is the member
 /// alias.
@@ -595,7 +595,7 @@ inline sim_obj_t::~sim_obj_t ()
 /// arena holds the control block and the object.
 template <typename T> struct sim_alloc_t
 {
-  typedef T value_type;
+  using value_type = T;
 
   explicit sim_alloc_t (obj_arena_t *a) : arena (a) {}
 
@@ -1048,7 +1048,8 @@ public:
   /// whether the step changed shared state (a step that only spins at a
   /// back-off does not).
   virtual bool step (int id, unsigned from, unsigned to, long stepno,
-                     int decision) = 0;
+                     int decision)
+      = 0;
   /// After the threads are joined: the checks of the end, the teardown.
   virtual void end () = 0;
   /// The hash of the schedule that just ended.
@@ -1752,9 +1753,8 @@ template <std::uint32_t Reserve, std::uint32_t Limit>
 struct sim_policy_t
     : split_test::ledger_policy_t<sim_tag_t<Reserve, Limit>, Limit, Reserve>
 {
-  typedef split_test::ledger_policy_t<sim_tag_t<Reserve, Limit>, Limit,
-                                      Reserve>
-      base_type;
+  using base_type
+      = split_test::ledger_policy_t<sim_tag_t<Reserve, Limit>, Limit, Reserve>;
 
   static void
   at (split_point_t point) noexcept
@@ -1792,15 +1792,15 @@ struct sim_policy_t
   }
 };
 
-typedef sim_policy_t<8u, 0xFFFFFFu> sim_r8_t;
-typedef sim_policy_t<0u, 0xFFFFFFu> sim_r0_t;
-typedef sim_policy_t<8u, 2u> sim_l2_t;
-typedef sim_policy_t<8u, 1u> sim_l1_t;
+using sim_r8_t = sim_policy_t<8u, 0xFFFFFFu>;
+using sim_r0_t = sim_policy_t<0u, 0xFFFFFFu>;
+using sim_l2_t = sim_policy_t<8u, 2u>;
+using sim_l1_t = sim_policy_t<8u, 1u>;
 
 // -- The cells --
 
-typedef sp::shared_ptr<sim_obj_t> strong_t;
-typedef sp::weak_ptr<sim_obj_t> weak_t;
+using strong_t = sp::shared_ptr<sim_obj_t>;
+using weak_t = sp::weak_ptr<sim_obj_t>;
 
 /// The cell as the scenarios use it: the operations of the op vocabulary.
 class cell_ops_t

@@ -204,7 +204,7 @@ flaw_name (Flaw flaw)
 template <typename T, Flaw F> class flawed_atomic_shared_ptr
 {
 public:
-  typedef pf::shared_ptr<T> value_type;
+  using value_type = pf::shared_ptr<T>;
 
   flawed_atomic_shared_ptr () : loads_ (0) {}
   flawed_atomic_shared_ptr (value_type desired)
@@ -454,7 +454,7 @@ template <typename T, BoxReclaim R> class box_atomic_shared_ptr
   };
 
 public:
-  typedef pf::shared_ptr<T> value_type;
+  using value_type = pf::shared_ptr<T>;
 
   box_atomic_shared_ptr () : word_ (nullptr) {}
   box_atomic_shared_ptr (value_type desired) : word_ (make_box (desired)) {}
@@ -632,7 +632,7 @@ template <Flaw F> struct FlawedEngine
 };
 
 /// The correct reference engine.
-typedef FlawedEngine<Flaw::none> ReferenceEngine;
+using ReferenceEngine = FlawedEngine<Flaw::none>;
 
 template <BoxReclaim R> struct BoxEngine
 {
@@ -657,13 +657,13 @@ template <BoxReclaim R> struct BoxEngine
 };
 
 /// Correct lock-free-shaped engine with deferred destruction.
-typedef BoxEngine<BoxReclaim::leak_until_destruction> LeakyBoxEngine;
+using LeakyBoxEngine = BoxEngine<BoxReclaim::leak_until_destruction>;
 
 /// The same with relaxed publication: a data race only ThreadSanitizer sees.
-typedef BoxEngine<BoxReclaim::leak_with_relaxed_publication> RelaxedBoxEngine;
+using RelaxedBoxEngine = BoxEngine<BoxReclaim::leak_with_relaxed_publication>;
 
 /// Lock-free-shaped engine that frees a box at once: the ABA victim.
-typedef BoxEngine<BoxReclaim::delete_at_once> NaiveBoxEngine;
+using NaiveBoxEngine = BoxEngine<BoxReclaim::delete_at_once>;
 } // namespace lumex_atomic_test
 
 #endif // !LUMEX_TESTS_CORE_ATOMIC_ATOMIC_TEST_ENGINES_HPP

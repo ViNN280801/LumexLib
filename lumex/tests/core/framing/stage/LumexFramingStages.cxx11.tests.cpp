@@ -22,9 +22,9 @@ using lumex::core::framing::codec::byte_order;
 using lumex::core::framing::codec::framing_errc;
 namespace st = lumex::core::framing::stage;
 
-typedef st::crc<lumex::core::crc::parametric::crc16_modbus_spec_t,
-                byte_order::little>
-    crc16_modbus_le;
+using crc16_modbus_le
+    = st::crc<lumex::core::crc::parametric::crc16_modbus_spec_t,
+              byte_order::little>;
 
 template <typename Stage>
 bytes_t
@@ -118,9 +118,9 @@ TEST (LumexFramingStagesTest,
 {
   // Device L sends the Modbus CRC high byte first: the write request
   // 01 06 2C C8 55 90 98 3F and a read reply ending in 51 CF.
-  typedef st::crc<lumex::core::crc::parametric::crc16_modbus_spec_t,
-                  byte_order::big>
-      crc16_modbus_be;
+  using crc16_modbus_be
+      = st::crc<lumex::core::crc::parametric::crc16_modbus_spec_t,
+                byte_order::big>;
   st::checksum_stage<crc16_modbus_be> const stage;
   EXPECT_EQ (encoded (stage, bytes_t{ 0x01, 0x06, 0x2C, 0xC8, 0x55, 0x90 }),
              (bytes_t{ 0x01, 0x06, 0x2C, 0xC8, 0x55, 0x90, 0x98, 0x3F }));

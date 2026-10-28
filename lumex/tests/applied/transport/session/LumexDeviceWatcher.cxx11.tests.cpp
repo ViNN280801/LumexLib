@@ -22,7 +22,7 @@
 namespace
 {
 using namespace lumex_session_test;
-typedef ss::device_event_kind kind;
+using kind = ss::device_event_kind;
 
 // The ports the fake enumeration lists now (thread-safe).
 struct fake_ports

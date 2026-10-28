@@ -24,10 +24,10 @@ namespace layout = lumex::core::protocol::layout;
 namespace tables = lumex_tests::field_tables;
 using tables::view_of;
 
-typedef field::record_of<tables::sink_t::fields_type>::type sink;
-typedef layout::binary_layout<> binary;
-typedef layout::fixed_width_text_layout<16> hex;
-typedef layout::tokenized_text_layout<','> tokens;
+using sink = field::record_of<tables::sink_t::fields_type>::type;
+using binary = layout::binary_layout<>;
+using hex = layout::fixed_width_text_layout<16>;
+using tokens = layout::tokenized_text_layout<','>;
 
 // xorshift64*: deterministic and the same on every platform.
 class random_source

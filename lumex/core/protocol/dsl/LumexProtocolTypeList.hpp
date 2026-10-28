@@ -87,7 +87,7 @@ template <typename... T> struct type_list
 template <typename Sentinel, typename... T> struct list_of
 {
   /// The list without the sentinel.
-  typedef type_list<T...> type;
+  using type = type_list<T...>;
 };
 
 /// @brief The number of types of a `type_list`.
@@ -115,7 +115,7 @@ template <typename Head, typename... Tail>
 struct list_at<0, type_list<Head, Tail...>>
 {
   /// The type at the index.
-  typedef Head type;
+  using type = Head;
 };
 
 namespace detail
@@ -148,14 +148,14 @@ template <typename... Lists> struct concat;
 template <> struct concat<>
 {
   /// The empty list.
-  typedef type_list<> type;
+  using type = type_list<>;
 };
 
 /// @copydoc concat
 template <typename... A> struct concat<type_list<A...>>
 {
   /// The only list.
-  typedef type_list<A...> type;
+  using type = type_list<A...>;
 };
 
 /// @copydoc concat
@@ -180,11 +180,10 @@ template <typename... B, typename... N>
 struct append_unique<type_list<B...>, type_list<N...>>
 {
   /// The joined list.
-  typedef typename concat<
+  using type = typename concat<
       type_list<B...>,
       typename std::conditional<list_contains<type_list<B...>, N>::value,
-                                type_list<>, type_list<N>>::type...>::type
-      type;
+                                type_list<>, type_list<N>>::type...>::type;
 };
 } // namespace dsl
 } // namespace protocol

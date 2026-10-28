@@ -164,7 +164,7 @@ using lumex::core::utility::sequence::index_sequence;
 
 template <std::size_t N> struct make_index_sequence
 {
-  typedef lumex::core::utility::sequence::make_index_sequence<N> type;
+  using type = lumex::core::utility::sequence::make_index_sequence<N>;
 };
 
 template <std::size_t I> struct any_field
@@ -187,8 +187,8 @@ template <typename Aggregate> std::false_type can_construct_fn (...);
 
 template <typename Aggregate, std::size_t N> struct can_construct_n
 {
-  typedef decltype (can_construct_fn<Aggregate> (
-      typename make_index_sequence<N>::type{})) type;
+  using type = decltype (can_construct_fn<Aggregate> (
+      typename make_index_sequence<N>::type{}));
   static const bool value = type::value;
 };
 
@@ -290,8 +290,8 @@ template <typename T> struct inject_all_fields
 
 template <typename T, std::size_t I> struct field_type : inject_all_fields<T>
 {
-  typedef typename std::remove_pointer<decltype (loophole_fn (
-      loophole_tag<T, I>{}))>::type type;
+  using type = typename std::remove_pointer<decltype (loophole_fn (
+      loophole_tag<T, I>{}))>::type;
 };
 
 template <typename T, std::size_t I> struct field_offset;
@@ -303,8 +303,8 @@ template <typename T> struct field_offset<T, 0>
 
 template <typename T, std::size_t I> struct field_offset
 {
-  typedef typename field_type<T, I - 1>::type prev_t;
-  typedef typename field_type<T, I>::type cur_t;
+  using prev_t = typename field_type<T, I - 1>::type;
+  using cur_t = typename field_type<T, I>::type;
   static const std::size_t value
       = (field_offset<T, I - 1>::value + sizeof (prev_t) + alignof (cur_t) - 1)
         / alignof (cur_t) * alignof (cur_t);
@@ -312,7 +312,7 @@ template <typename T, std::size_t I> struct field_offset
 
 template <typename T, std::size_t N> struct computed_sizeof
 {
-  typedef typename field_type<T, N - 1>::type last_t;
+  using last_t = typename field_type<T, N - 1>::type;
   static const std::size_t end
       = field_offset<T, N - 1>::value + sizeof (last_t);
   static const std::size_t value
@@ -354,8 +354,8 @@ struct registry_of
                                                registry_tag<Aggregate> ())),
                                            unregistered_t>::value>
 {
-  typedef decltype (lumex_field_registry (
-      registry_tag<Aggregate> ())) fields_t;
+  using fields_t
+      = decltype (lumex_field_registry (registry_tag<Aggregate> ()));
 
   static fields_t
   fetch () LUMEX_NOEXCEPT
@@ -455,7 +455,7 @@ LUMEX_CONSTEXPR bool k_automatic_names
 // A pointer to a member as a type (C++11 has no template<auto>).
 template <typename Pointer, Pointer Value> struct member_constant
 {
-  typedef Pointer pointer_t;
+  using pointer_t = Pointer;
 
   static LUMEX_CONSTEXPR pointer_t
   get () LUMEX_NOEXCEPT
@@ -477,7 +477,7 @@ template <std::size_t Index, typename... Members> struct nth_member;
 
 template <typename Head, typename... Tail> struct nth_member<0, Head, Tail...>
 {
-  typedef Head type;
+  using type = Head;
 };
 
 template <std::size_t Index, typename Head, typename... Tail>
@@ -518,7 +518,7 @@ template <typename Pointer> struct member_value;
 
 template <typename Class, typename Value> struct member_value<Value Class::*>
 {
-  typedef Value type;
+  using type = Value;
 };
 
 // One field of a registration: the type of the member and the pointer to it.
@@ -527,16 +527,17 @@ template <typename Class, typename Value> struct member_value<Value Class::*>
 template <typename Aggregate, std::size_t Index, bool Usable>
 struct registered_member
 {
-  typedef unregistered_t value_t;
+  using value_t = unregistered_t;
 };
 
 template <typename Aggregate, std::size_t Index>
 struct registered_member<Aggregate, Index, true>
 {
-  typedef typename fields_member<typename registry_of<Aggregate>::fields_t,
-                                 Index>::type constant_t;
-  typedef typename constant_t::pointer_t pointer_t;
-  typedef typename member_value<pointer_t>::type value_t;
+  using constant_t =
+      typename fields_member<typename registry_of<Aggregate>::fields_t,
+                             Index>::type;
+  using pointer_t = typename constant_t::pointer_t;
+  using value_t = typename member_value<pointer_t>::type;
 
   static LUMEX_CONSTEXPR pointer_t
   pointer () LUMEX_NOEXCEPT
@@ -752,8 +753,7 @@ template <typename T> union fake_object_wrapper_t
   ~fake_object_wrapper_t () LUMEX_NOEXCEPT {}
 };
 
-template <typename T>
-fake_object_wrapper_t<T> const fake_object_storage{};
+template <typename T> fake_object_wrapper_t<T> const fake_object_storage{};
 #else
 template <typename T> struct fake_object_wrapper_t
 {
@@ -881,12 +881,12 @@ names_of (std::integral_constant<int, 3>) LUMEX_NOEXCEPT
 #if __cplusplus >= 201402L && !LUMEX_AGGREGATE_FIELDS_USE_SB
 template <std::size_t I, typename Agg> struct qualified_field
 {
-  typedef typename std::remove_const<
-      typename std::remove_reference<Agg>::type>::type bare_t;
-  typedef typename field_type<bare_t, I>::type field_t;
-  typedef typename std::conditional<
+  using bare_t = typename std::remove_const<
+      typename std::remove_reference<Agg>::type>::type;
+  using field_t = typename field_type<bare_t, I>::type;
+  using type = typename std::conditional<
       std::is_const<typename std::remove_reference<Agg>::type>::value,
-      field_t const, field_t>::type type;
+      field_t const, field_t>::type;
 };
 #endif
 
@@ -897,19 +897,20 @@ template <std::size_t I, typename Agg> struct qualified_field
 // way (from C++14).
 template <std::size_t I, typename Agg> struct registered_ref
 {
-  typedef typename std::remove_reference<Agg>::type plain_t;
-  typedef typename std::remove_const<plain_t>::type bare_t;
-  typedef typename registered_member<
-      bare_t, I, registered_usable<bare_t, I>::value>::value_t value_t;
-  typedef typename std::conditional<std::is_const<plain_t>::value,
-                                    value_t const, value_t>::type &type;
+  using plain_t = typename std::remove_reference<Agg>::type;
+  using bare_t = typename std::remove_const<plain_t>::type;
+  using value_t =
+      typename registered_member<bare_t, I,
+                                 registered_usable<bare_t, I>::value>::value_t;
+  using type = typename std::conditional<std::is_const<plain_t>::value,
+                                         value_t const, value_t>::type &;
 };
 
 template <std::size_t I, typename Agg>
 typename registered_ref<I, Agg>::type
 get_field (Agg &value, std::true_type) LUMEX_NOEXCEPT
 {
-  typedef typename std::remove_const<Agg>::type bare_t;
+  using bare_t = typename std::remove_const<Agg>::type;
   return value.*(registered_member<bare_t, I, true>::pointer ());
 }
 
@@ -918,7 +919,7 @@ template <std::size_t I, typename Agg>
 decltype (auto)
 get_field (Agg &value, std::false_type) LUMEX_NOEXCEPT
 {
-  typedef typename std::remove_const<Agg>::type bare_t;
+  using bare_t = typename std::remove_const<Agg>::type;
   return std::get<I> (as_tied (
       value,
       std::integral_constant<std::size_t, aggregate_traits<bare_t>::count>{}));
@@ -932,15 +933,15 @@ template <std::size_t I, typename Agg,
               I>::value>
 struct get_result
 {
-  typedef typename registered_ref<I, Agg>::type type;
+  using type = typename registered_ref<I, Agg>::type;
 };
 
 template <std::size_t I, typename Agg> struct get_result<I, Agg, false>
 {
 #if __cplusplus >= 201402L
-  typedef typename qualified_field<I, Agg>::type &type;
+  using type = typename qualified_field<I, Agg>::type &;
 #else
-  typedef typename registered_ref<I, Agg>::type type;
+  using type = typename registered_ref<I, Agg>::type;
 #endif
 };
 
@@ -951,8 +952,8 @@ template <std::size_t I, typename Agg>
 typename qualified_field<I, Agg &>::type &
 get_field (Agg &value, std::false_type) LUMEX_NOEXCEPT
 {
-  typedef typename std::remove_const<Agg>::type bare_t;
-  typedef typename qualified_field<I, Agg &>::type qual_t;
+  using bare_t = typename std::remove_const<Agg>::type;
+  using qual_t = typename qualified_field<I, Agg &>::type;
   return *reinterpret_cast<qual_t *> (
       reinterpret_cast<char *> (std::addressof (value))
       + field_offset<bare_t, I>::value);
@@ -962,8 +963,8 @@ template <std::size_t I, typename Agg>
 typename qualified_field<I, Agg const &>::type &
 get_field (Agg const &value, std::false_type) LUMEX_NOEXCEPT
 {
-  typedef typename std::remove_const<Agg>::type bare_t;
-  typedef typename qualified_field<I, Agg const &>::type qual_t;
+  using bare_t = typename std::remove_const<Agg>::type;
+  using qual_t = typename qualified_field<I, Agg const &>::type;
   return *reinterpret_cast<qual_t const *> (
       reinterpret_cast<char const *> (std::addressof (value))
       + field_offset<bare_t, I>::value);
@@ -975,7 +976,7 @@ template <std::size_t I, typename Agg>
 typename registered_ref<I, Agg>::type
 get_field (Agg &, std::false_type) LUMEX_NOEXCEPT
 {
-  typedef typename std::remove_const<Agg>::type bare_t;
+  using bare_t = typename std::remove_const<Agg>::type;
   LUMEX_STATIC_ASSERT_MSG (
       registry_of<bare_t>::value,
       "get<I> below C++14 needs the members of the aggregate: register them "
@@ -1024,7 +1025,7 @@ template <std::size_t Index, typename Aggregate>
 decltype (auto)
 get (Aggregate &value) LUMEX_NOEXCEPT
 {
-  typedef typename std::remove_const<Aggregate>::type bare_t;
+  using bare_t = typename std::remove_const<Aggregate>::type;
   LUMEX_STATIC_ASSERT_MSG (Index < tuple_size<bare_t>::value,
                            "field index out of range");
   return detail::get_field<Index> (
@@ -1035,7 +1036,7 @@ template <std::size_t Index, typename Aggregate>
 decltype (auto)
 get (Aggregate const &value) LUMEX_NOEXCEPT
 {
-  typedef typename std::remove_const<Aggregate>::type bare_t;
+  using bare_t = typename std::remove_const<Aggregate>::type;
   LUMEX_STATIC_ASSERT_MSG (Index < tuple_size<bare_t>::value,
                            "field index out of range");
   return detail::get_field<Index> (
@@ -1046,7 +1047,7 @@ template <std::size_t Index, typename Aggregate>
 typename detail::get_result<Index, Aggregate &>::type
 get (Aggregate &value) LUMEX_NOEXCEPT
 {
-  typedef typename std::remove_const<Aggregate>::type bare_t;
+  using bare_t = typename std::remove_const<Aggregate>::type;
   LUMEX_STATIC_ASSERT_MSG (Index < tuple_size<bare_t>::value,
                            "field index out of range");
   return detail::get_field<Index> (
@@ -1057,7 +1058,7 @@ template <std::size_t Index, typename Aggregate>
 typename detail::get_result<Index, Aggregate const &>::type
 get (Aggregate const &value) LUMEX_NOEXCEPT
 {
-  typedef typename std::remove_const<Aggregate>::type bare_t;
+  using bare_t = typename std::remove_const<Aggregate>::type;
   LUMEX_STATIC_ASSERT_MSG (Index < tuple_size<bare_t>::value,
                            "field index out of range");
   return detail::get_field<Index> (
@@ -1081,7 +1082,7 @@ template <typename Aggregate>
 std::array<char const *, tuple_size<Aggregate>::value>
 names_as_array () LUMEX_NOEXCEPT
 {
-  typedef typename std::remove_cv<Aggregate>::type bare_t;
+  using bare_t = typename std::remove_cv<Aggregate>::type;
   return detail::names_of<bare_t> (
       std::integral_constant<int, detail::names_source<bare_t>::value> ());
 }
@@ -1161,7 +1162,7 @@ names_as_array () LUMEX_NOEXCEPT
  *          `names_as_array`, `get`, `to_json`). Name every non-static data
  *          member, in declaration order, 1 to 32 of them. `Type` may be
  *          qualified (`Host::inner_t`) and may be in an unnamed namespace;
- *          it must not contain a top-level comma (use a `typedef`). An
+ *          it must not contain a top-level comma (use an alias). An
  *          aggregate without fields needs no registration.
  *
  *          The macro defines an inline function that ADL finds from

@@ -93,7 +93,7 @@ namespace detail
 /// Maps any list of types to `void` (the C++17 `void_t` for C++11).
 template <class...> struct make_void
 {
-  typedef void type;
+  using type = void;
 };
 
 /// Static storage whose address identifies the type `T` (see the file text).
@@ -221,7 +221,7 @@ deallocate_aligned (void *block, std::size_t alignment) LUMEX_NOEXCEPT
 template <class T> class block_allocator
 {
 public:
-  typedef T value_type;
+  using value_type = T;
 
   block_allocator () LUMEX_NOEXCEPT {}
 
@@ -349,17 +349,17 @@ struct is_implicit_deleter<default_array_deleter<Y>> : std::true_type
 /// The deleter `shared_ptr<T> (Y *)` uses: `delete[]` for array `T`.
 template <class T, class Y> struct default_deleter_for
 {
-  typedef default_deleter<Y> type;
+  using type = default_deleter<Y>;
 };
 
 template <class U, class Y> struct default_deleter_for<U[], Y>
 {
-  typedef default_array_deleter<Y> type;
+  using type = default_array_deleter<Y>;
 };
 
 template <class U, std::size_t N, class Y> struct default_deleter_for<U[N], Y>
 {
-  typedef default_array_deleter<Y> type;
+  using type = default_array_deleter<Y>;
 };
 } // namespace detail
 } // namespace smart_ptr

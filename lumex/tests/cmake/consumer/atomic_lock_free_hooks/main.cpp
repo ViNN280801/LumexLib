@@ -235,7 +235,7 @@ atomic_test_point (int id)
 
 namespace
 {
-typedef sp::atomic_shared_ptr_lock_free<int> atom_t;
+using atom_t = sp::atomic_shared_ptr_lock_free<int>;
 
 void
 hazard_handler (int id)

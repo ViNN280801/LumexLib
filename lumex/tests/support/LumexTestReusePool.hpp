@@ -102,7 +102,7 @@ class ReusePool
 public:
   /// Hook signature: the event and the address involved (null before an
   /// allocation).
-  typedef std::function<void (PoolEvent, void *)> hook_type;
+  using hook_type = std::function<void (PoolEvent, void *)>;
 
   ReusePool ()
       : allocations_ (0), releases_ (0), reuses_ (0), live_ (0), poison_ (true)
@@ -256,7 +256,7 @@ private:
 template <typename T> class ReuseAllocator
 {
 public:
-  typedef T value_type;
+  using value_type = T;
 
   explicit ReuseAllocator (ReusePool &pool) : pool_ (&pool) {}
 

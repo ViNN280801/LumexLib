@@ -75,21 +75,19 @@ struct no_cas_reserve_policy_t
 /** The split-count engine of the shared pointer without that reserve. */
 struct split_count_without_cas_reserve_t
 {
-  typedef lumex::core::atomic::smart_ptr::Detail::basic_atomic_shared_ptr<
+  using type = lumex::core::atomic::smart_ptr::Detail::basic_atomic_shared_ptr<
       int,
       lumex::core::atomic::smart_ptr::Detail::split_count_cell<
-          lumex::core::smart_ptr::shared_ptr<int>, no_cas_reserve_policy_t>>
-      type;
+          lumex::core::smart_ptr::shared_ptr<int>, no_cas_reserve_policy_t>>;
 };
 
 /** The split-count engine of the shared pointer with a given reserve. */
 template <unsigned Reserve> struct split_count_with_reserve_t
 {
-  typedef lumex::core::atomic::smart_ptr::Detail::basic_atomic_shared_ptr<
+  using type = lumex::core::atomic::smart_ptr::Detail::basic_atomic_shared_ptr<
       int,
       lumex::core::atomic::smart_ptr::Detail::split_count_cell<
-          lumex::core::smart_ptr::shared_ptr<int>, reserve_policy_t<Reserve>>>
-      type;
+          lumex::core::smart_ptr::shared_ptr<int>, reserve_policy_t<Reserve>>>;
 };
 } // namespace lumex_atomic_bench
 #endif

@@ -114,7 +114,7 @@ namespace transport
 namespace hid
 {
 /// @brief A HID device is a message transport.
-typedef datagram::message_transport hid_device;
+using hid_device = datagram::message_transport;
 
 /// @brief One HID interface found by `enumerate_hid_devices`.
 struct hid_device_info_t

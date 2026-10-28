@@ -34,7 +34,7 @@ void
 check_reply (layout::bytes_view_t message,
              field::decode_context_t const &context)
 {
-  typedef typename layout::reply_value_of<Row>::type value_type;
+  using value_type = typename layout::reply_value_of<Row>::type;
   layout::decode_result_t<value_type> const first
       = layout::decode_reply<P, Row> (message, &context);
   if (!first.has_value ())
@@ -55,7 +55,7 @@ template <typename P, typename Row>
 void
 check_request (layout::bytes_view_t message)
 {
-  typedef typename layout::request_of<Row>::type value_type;
+  using value_type = typename layout::request_of<Row>::type;
   layout::decode_result_t<value_type> const first
       = layout::decode_request<P, Row> (message);
   if (!first.has_value ())

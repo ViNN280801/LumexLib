@@ -23,9 +23,9 @@ using tables::bytes_of;
 using tables::text_of;
 using tables::view_of;
 
-typedef layout::fixed_width_text_layout<16> hex;
-typedef layout::fixed_width_text_layout<10> decimal;
-typedef layout::tokenized_text_layout<','> tokens;
+using hex = layout::fixed_width_text_layout<16>;
+using decimal = layout::fixed_width_text_layout<10>;
+using tokens = layout::tokenized_text_layout<','>;
 
 LUMEX_PROTOCOL_LAYOUT (mixed_t, (u8_, i16_be_, ascii_hex_<3>, char_, text_<3>),
                        ("a", "b", "c", "d", "e"));
@@ -34,8 +34,8 @@ LUMEX_PROTOCOL_LAYOUT (numbers_t, (u8_, i16_be_, dec_text_<3, 1>),
 LUMEX_PROTOCOL_LAYOUT (floats_t, (f32_le_, f64_be_), ("a", "b"));
 LUMEX_PROTOCOL_LAYOUT (words_t, (token_, u8_, token_), ("a", "b", "c"));
 
-typedef field::record_of<mixed_t::fields_type>::type mixed;
-typedef field::record_of<numbers_t::fields_type>::type numbers;
+using mixed = field::record_of<mixed_t::fields_type>::type;
+using numbers = field::record_of<numbers_t::fields_type>::type;
 
 mixed
 make_mixed ()
@@ -68,8 +68,8 @@ decoded (char const *text)
   return layout::decode<Layout, F> (view_of (bytes));
 }
 
-typedef tables::gauge_text text_protocol;
-typedef tables::gauge::SET_LEVEL_t set_level;
+using text_protocol = tables::gauge_text;
+using set_level = tables::gauge::SET_LEVEL_t;
 
 layout::decode_result_t<layout::request_of<set_level>::type>
 decode_set_level (char const *text)
@@ -175,7 +175,7 @@ TEST (LumexProtocolTextLayoutsTest,
 TEST (LumexProtocolTextLayoutsTest,
       GivenATextKeyRow_WhenRoundTripped_ThenTheMnemonicIsThePrefix)
 {
-  typedef tables::gauge::SET_NAME_t set_name;
+  using set_name = tables::gauge::SET_NAME_t;
   layout::bytes_t out;
   ASSERT_TRUE (
       (layout::encode_request<text_protocol, set_name> (out, "ABC", 12.5)
@@ -213,7 +213,7 @@ TEST (LumexProtocolTextLayoutsTest,
 TEST (LumexProtocolTextLayoutsTest,
       GivenFloatingTokens_WhenRoundTripped_ThenTheValuesComeBackExactly)
 {
-  typedef field::record_of<floats_t::fields_type>::type floats;
+  using floats = field::record_of<floats_t::fields_type>::type;
   floats value = floats ();
   field::get<0> (value) = 1.5f;
   field::get<1> (value) = -1e-300;
@@ -244,7 +244,7 @@ TEST (LumexProtocolTextLayoutsTest,
 TEST (LumexProtocolTextLayoutsTest,
       GivenAHexRadixAndAKeySeparator_WhenEncoded_ThenTheBitsAreHexTokens)
 {
-  typedef layout::tokenized_text_layout<',', ':', 16> hex_tokens;
+  using hex_tokens = layout::tokenized_text_layout<',', ':', 16>;
   mixed const value = make_mixed ();
   std::string const text = encoded<hex_tokens, mixed_t> (value);
   EXPECT_EQ (text, "A,FFFE,ABC,X,ok");
@@ -260,7 +260,7 @@ TEST (LumexProtocolTextLayoutsTest,
 TEST (LumexProtocolTextLayoutsTest,
       GivenTokensWithoutTrimming_WhenSpacesSurroundThem_ThenTheyAreRefused)
 {
-  typedef layout::tokenized_text_layout<';', ';', 10, false> strict;
+  using strict = layout::tokenized_text_layout<';', ';', 10, false>;
   EXPECT_EQ (
       (encoded<strict, numbers_t> (*decoded<strict, numbers_t> ("7;-2;12.5"))),
       "7;-2;012.5");
@@ -292,7 +292,7 @@ TEST (LumexProtocolTextLayoutsTest,
 TEST (LumexProtocolTextLayoutsTest,
       GivenANulOrAnEdgeSpaceInATextToken_WhenDecodedOrEncoded_ThenInvalidValue)
 {
-  typedef tables::gauge::SET_NAME_t set_name;
+  using set_name = tables::gauge::SET_NAME_t;
   layout::bytes_t const with_nul{ 'N', 'M', ',', '5', ' ',
                                   0,   'N', 'M', ',', '5' };
   EXPECT_TRUE (
@@ -315,7 +315,7 @@ TEST (LumexProtocolTextLayoutsTest,
   EXPECT_EQ (text_of (out), "NM,a b,0001.0");
   // Without trimming, spaces are part of the tokens (the views point into
   // the message, which outlives them).
-  typedef layout::tokenized_text_layout<';', ';', 10, false> strict;
+  using strict = layout::tokenized_text_layout<';', ';', 10, false>;
   layout::bytes_t const spaced = bytes_of (" x ;7; y");
   layout::decode_result_t<field::record_of<words_t::fields_type>::type> const
       words

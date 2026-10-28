@@ -97,7 +97,7 @@ make_params (int threads, int iterations, lumex_test::ScheduleKind schedule,
 }
 
 /// A checker: runs the scenario for the given parameters.
-typedef void (*Checker) (Params const &, lumex_test::Verdict &);
+using Checker = void (*) (Params const &, lumex_test::Verdict &);
 
 /**
  * @brief Runs @p checker for every thread count of the run
@@ -179,7 +179,7 @@ struct VNode
   int check;
 };
 
-typedef pf::shared_ptr<VNode> VNodePtr;
+using VNodePtr = pf::shared_ptr<VNode>;
 } // namespace scenario
 
 /// Content equality of nodes, for the engine that wrongly compares by it.
@@ -271,7 +271,7 @@ template <typename Engine>
 void
 cas_counter (Params const &p, lumex_test::Verdict &verdict)
 {
-  typedef typename Engine::template shared<VNode> atom_type;
+  using atom_type = typename Engine::template shared<VNode>;
   lumex_test::ObjectLedger ledger (node_capacity (p, p.threads + 2));
   lumex_test::ReusePool pool;
   std::atomic<long> wins (0);
@@ -337,7 +337,7 @@ template <typename Engine>
 void
 exchange_permutation (Params const &p, lumex_test::Verdict &verdict)
 {
-  typedef typename Engine::template shared<VNode> atom_type;
+  using atom_type = typename Engine::template shared<VNode>;
   lumex_test::ObjectLedger ledger (node_capacity (p, 1));
   lumex_test::ReusePool pool;
   std::vector<std::vector<int>> returned (
@@ -401,7 +401,7 @@ template <typename Engine>
 void
 monotone_loads (Params const &p, lumex_test::Verdict &verdict)
 {
-  typedef typename Engine::template shared<VNode> atom_type;
+  using atom_type = typename Engine::template shared<VNode>;
   int const readers = std::max (1, p.threads - 1);
   lumex_test::ObjectLedger ledger (node_capacity (p, 1) + 8);
   lumex_test::ReusePool pool;
@@ -480,7 +480,7 @@ template <typename Engine>
 void
 strong_cas_precision (Params const &p, lumex_test::Verdict &verdict)
 {
-  typedef typename Engine::template shared<VNode> atom_type;
+  using atom_type = typename Engine::template shared<VNode>;
   lumex_test::ObjectLedger ledger (node_capacity (p, p.threads + 2));
   lumex_test::ReusePool pool;
   std::atomic<long> wins (0);
@@ -732,7 +732,7 @@ template <typename Engine>
 void
 rmw_walk (Params const &p, lumex_test::Verdict &verdict)
 {
-  typedef typename Engine::template shared<int> atom_type;
+  using atom_type = typename Engine::template shared<int>;
   Universe const universe;
   std::size_t const n = static_cast<std::size_t> (universe.size ());
   std::vector<long> base_counts;
@@ -876,7 +876,7 @@ template <typename Engine>
 void
 reuse_equivalence (lumex_test::Verdict &verdict)
 {
-  typedef typename Engine::template shared<VNode> atom_type;
+  using atom_type = typename Engine::template shared<VNode>;
   if (!Engine::replaced_value_dies_in_call ())
     return; // a deferred engine frees the node later: no address to reuse
   lumex_test::ObjectLedger ledger (64);
@@ -933,7 +933,7 @@ template <typename Engine>
 void
 aba_same_owner (lumex_test::Verdict &verdict)
 {
-  typedef typename Engine::template shared<VNode> atom_type;
+  using atom_type = typename Engine::template shared<VNode>;
   lumex_test::ObjectLedger ledger (64);
   lumex_test::ReusePool pool;
   {
@@ -978,7 +978,7 @@ template <typename Engine>
 void
 reuse_stress (Params const &p, lumex_test::Verdict &verdict)
 {
-  typedef typename Engine::template shared<VNode> atom_type;
+  using atom_type = typename Engine::template shared<VNode>;
   lumex_test::ObjectLedger ledger (node_capacity (p, 3));
   lumex_test::ReusePool pool;
   std::atomic<int> serial (0);
@@ -1056,7 +1056,7 @@ template <typename Engine>
 void
 linearizable_register (Params const &p, lumex_test::Verdict &verdict)
 {
-  typedef typename Engine::template shared<int> atom_type;
+  using atom_type = typename Engine::template shared<int>;
   Universe const universe;
   lumex_test::SeededRandom plan (lumex_test::derive_seed (p.seed, 77));
   bool reported = false;
@@ -1166,7 +1166,7 @@ progress_under_loaders (int loaders, int swappers, int milliseconds,
                         long minimum_each, long minimum_total,
                         std::uint64_t seed, lumex_test::Verdict &verdict)
 {
-  typedef typename Engine::template shared<VNode> atom_type;
+  using atom_type = typename Engine::template shared<VNode>;
   lumex_test::ObjectLedger ledger (64);
   lumex_test::ReusePool pool;
   std::vector<long> wins (static_cast<std::size_t> (swappers), 0);

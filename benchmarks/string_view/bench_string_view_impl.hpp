@@ -33,8 +33,8 @@
 
 namespace bench
 {
-typedef lumex_string_view view;
-typedef lumex_wstring_view wview;
+using view = lumex_string_view;
+using wview = lumex_wstring_view;
 #define BENCH_STRING_VIEW_IMPL_NAME "lumex"
 // The view has std::hash on every standard (a deterministic FNV-1a below
 // C++17, the hash of std::string_view from C++17).
@@ -57,8 +57,8 @@ hash_of (view const &v)
 
 namespace bench
 {
-typedef std::string_view view;
-typedef std::wstring_view wview;
+using view = std::string_view;
+using wview = std::wstring_view;
 #define BENCH_STRING_VIEW_IMPL_NAME "std"
 #define BENCH_HAS_HASH 1
 #define BENCH_HAS_STD_CONVERSION 1
@@ -76,8 +76,8 @@ hash_of (view const &v)
 
 namespace bench
 {
-typedef boost::string_view view;
-typedef boost::wstring_view wview;
+using view = boost::string_view;
+using wview = boost::wstring_view;
 #define BENCH_STRING_VIEW_IMPL_NAME "boost"
 #define BENCH_HAS_HASH 1
 // boost::string_view neither converts to nor is built from std::string_view.

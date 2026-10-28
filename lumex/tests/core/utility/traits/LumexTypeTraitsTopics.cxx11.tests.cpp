@@ -389,9 +389,9 @@ TEST (LumexTypeTraitsTopicsTest,
 TEST (LumexTypeTraitsTopicsTest, GivenTypes_WhenIsExpected_ThenOnlyExpected)
 {
   // The trait needs only the forward declaration of expected.
-  typedef lumex::core::expected::result::expected<int, std::string>
-      expected_type;
-  typedef lumex::core::expected::result::expected<void, int> void_expected;
+  using expected_type
+      = lumex::core::expected::result::expected<int, std::string>;
+  using void_expected = lumex::core::expected::result::expected<void, int>;
   EXPECT_TRUE (traits::value::is_expected<expected_type>::value);
   EXPECT_TRUE (traits::value::is_expected<void_expected>::value);
   EXPECT_FALSE (traits::value::is_expected<int>::value);

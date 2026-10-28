@@ -102,9 +102,9 @@ template <class Block, class Alloc, class Make>
 Block *
 create_block (Alloc const &alloc, Make make)
 {
-  typedef typename std::allocator_traits<Alloc>::template rebind_alloc<Block>
-      block_alloc;
-  typedef std::allocator_traits<block_alloc> block_traits;
+  using block_alloc =
+      typename std::allocator_traits<Alloc>::template rebind_alloc<Block>;
+  using block_traits = std::allocator_traits<block_alloc>;
   static_assert (std::is_pointer<typename block_traits::pointer>::value,
                  "smart_ptr: allocators with fancy pointers are not "
                  "supported");
@@ -129,8 +129,8 @@ template <class Block, class Alloc>
 void
 destroy_block (Block *block, Alloc const &alloc) LUMEX_NOEXCEPT
 {
-  typedef typename std::allocator_traits<Alloc>::template rebind_alloc<Block>
-      block_alloc;
+  using block_alloc =
+      typename std::allocator_traits<Alloc>::template rebind_alloc<Block>;
   block_alloc block_allocator_copy (alloc);
   block->~Block ();
   std::allocator_traits<block_alloc>::deallocate (block_allocator_copy, block,
@@ -216,7 +216,7 @@ template <class T, class A>
 class ctl_inplace final : public ctl_base, private ebo_member<A, 1>
 {
 public:
-  typedef typename std::remove_cv<T>::type value_type;
+  using value_type = typename std::remove_cv<T>::type;
 
   /**
    * @brief Allocates a block and constructs the object in it from @p args.
@@ -246,9 +246,9 @@ public:
   }
 
 private:
-  typedef typename std::allocator_traits<A>::template rebind_alloc<value_type>
-      value_alloc;
-  typedef std::allocator_traits<value_alloc> value_traits;
+  using value_alloc =
+      typename std::allocator_traits<A>::template rebind_alloc<value_type>;
+  using value_traits = std::allocator_traits<value_alloc>;
 
   // A union keeps the storage aligned for value_type and the object
   // unconstructed until the block constructor builds it.

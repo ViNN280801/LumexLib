@@ -85,12 +85,12 @@ namespace detail
 // The smallest unsigned type of at least Bits bits.
 template <std::size_t Bits> struct unsigned_for
 {
-  typedef typename std::conditional<
+  using type = typename std::conditional<
       (Bits <= 8), std::uint8_t,
       typename std::conditional<
           (Bits <= 16), std::uint16_t,
           typename std::conditional<(Bits <= 32), std::uint32_t,
-                                    std::uint64_t>::type>::type>::type type;
+                                    std::uint64_t>::type>::type>::type;
 };
 
 // 10 to the power N as an intmax_t constant.
@@ -119,18 +119,18 @@ struct ascii_hex_ : detail::check_modifiers<true, Modifiers...>
                  "ascii_hex_<Width>: Width must be between 1 and 16 digits");
 
   /// Marks the type as a field.
-  typedef field_tag lumex_protocol_field;
+  using lumex_protocol_field = field_tag;
   /// The integer type of the raw value.
-  typedef typename detail::unsigned_for<4 * Width>::type raw_type;
+  using raw_type = typename detail::unsigned_for<4 * Width>::type;
   /// The factor of the engineering value.
-  typedef typename detail::scale_of<Modifiers...>::type scale_type;
+  using scale_type = typename detail::scale_of<Modifiers...>::type;
   /// The value.
-  typedef
-      typename detail::numeric_value<raw_type, scale_type>::type value_type;
+  using value_type =
+      typename detail::numeric_value<raw_type, scale_type>::type;
   /// Characters in a binary layout.
-  typedef std::integral_constant<std::size_t, Width> binary_size;
+  using binary_size = std::integral_constant<std::size_t, Width>;
   /// Characters need no alignment.
-  typedef std::integral_constant<std::size_t, 1> binary_alignment;
+  using binary_alignment = std::integral_constant<std::size_t, 1>;
 
   /// @brief The descriptor (`count` is the number of digits).
   static LUMEX_CONSTEXPR field_info_t
@@ -195,24 +195,22 @@ struct dec_text_ : detail::check_modifiers<true, Modifiers...>
                  "dec_text_: at most 18 digits (a 64-bit value)");
 
   /// Marks the type as a field.
-  typedef field_tag lumex_protocol_field;
+  using lumex_protocol_field = field_tag;
   /// The raw value: the number in units of the last digit.
-  typedef std::int64_t raw_type;
+  using raw_type = std::int64_t;
   /// The factor of the engineering value: one unit of the last digit,
   /// times the scale<> modifier.
-  typedef std::ratio_multiply<
+  using scale_type = std::ratio_multiply<
       std::ratio<1, detail::power_of_ten<FracDigits>::value>,
-      typename detail::scale_of<Modifiers...>::type>
-      scale_type;
+      typename detail::scale_of<Modifiers...>::type>;
   /// The value.
-  typedef
-      typename detail::numeric_value<raw_type, scale_type>::type value_type;
+  using value_type =
+      typename detail::numeric_value<raw_type, scale_type>::type;
   /// Characters in a binary layout.
-  typedef std::integral_constant<
-      std::size_t, IntDigits + (FracDigits == 0 ? 0 : 1 + FracDigits)>
-      binary_size;
+  using binary_size = std::integral_constant<
+      std::size_t, IntDigits + (FracDigits == 0 ? 0 : 1 + FracDigits)>;
   /// Characters need no alignment.
-  typedef std::integral_constant<std::size_t, 1> binary_alignment;
+  using binary_alignment = std::integral_constant<std::size_t, 1>;
 
   /// @brief The descriptor (`count` is the number of digits).
   static LUMEX_CONSTEXPR field_info_t
@@ -265,13 +263,13 @@ struct dec_text_ : detail::check_modifiers<true, Modifiers...>
 struct char_
 {
   /// Marks the type as a field.
-  typedef field_tag lumex_protocol_field;
+  using lumex_protocol_field = field_tag;
   /// The value.
-  typedef char value_type;
+  using value_type = char;
   /// One byte in a binary layout.
-  typedef std::integral_constant<std::size_t, 1> binary_size;
+  using binary_size = std::integral_constant<std::size_t, 1>;
   /// No alignment.
-  typedef std::integral_constant<std::size_t, 1> binary_alignment;
+  using binary_alignment = std::integral_constant<std::size_t, 1>;
 
   /// @brief The descriptor.
   static LUMEX_CONSTEXPR field_info_t
@@ -322,13 +320,13 @@ template <std::size_t N> struct text_
   static_assert (N >= 1, "text_<N>: N must be positive");
 
   /// Marks the type as a field.
-  typedef field_tag lumex_protocol_field;
+  using lumex_protocol_field = field_tag;
   /// The value.
-  typedef fixed_string<N> value_type;
+  using value_type = fixed_string<N>;
   /// Bytes in a binary layout.
-  typedef std::integral_constant<std::size_t, N> binary_size;
+  using binary_size = std::integral_constant<std::size_t, N>;
   /// No alignment.
-  typedef std::integral_constant<std::size_t, 1> binary_alignment;
+  using binary_alignment = std::integral_constant<std::size_t, 1>;
 
   /// @brief The descriptor (`count` is the capacity).
   static LUMEX_CONSTEXPR field_info_t
@@ -403,13 +401,13 @@ private:
 struct token_
 {
   /// Marks the type as a field.
-  typedef field_tag lumex_protocol_field;
+  using lumex_protocol_field = field_tag;
   /// The value.
-  typedef text_view value_type;
+  using value_type = text_view;
   /// The size depends on the message.
-  typedef std::integral_constant<std::size_t, variable_size> binary_size;
+  using binary_size = std::integral_constant<std::size_t, variable_size>;
   /// No alignment.
-  typedef std::integral_constant<std::size_t, 1> binary_alignment;
+  using binary_alignment = std::integral_constant<std::size_t, 1>;
 
   /// @brief The descriptor.
   static LUMEX_CONSTEXPR field_info_t

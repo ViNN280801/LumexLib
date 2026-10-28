@@ -28,8 +28,8 @@ template <class CharT> struct kinds;
 
 template <> struct kinds<char>
 {
-  typedef lumex_string_view view_t;
-  typedef std::ostringstream stream_t;
+  using view_t = lumex_string_view;
+  using stream_t = std::ostringstream;
   static std::string
   text (char const *narrow, std::size_t size)
   {
@@ -39,8 +39,8 @@ template <> struct kinds<char>
 
 template <> struct kinds<wchar_t>
 {
-  typedef lumex_wstring_view view_t;
-  typedef std::wostringstream stream_t;
+  using view_t = lumex_wstring_view;
+  using stream_t = std::wostringstream;
   static std::wstring
   text (char const *narrow, std::size_t size)
   {
@@ -56,7 +56,7 @@ template <> struct kinds<wchar_t>
 template <class CharT> class limited_buf : public std::basic_streambuf<CharT>
 {
 public:
-  typedef typename std::basic_streambuf<CharT>::int_type int_type;
+  using int_type = typename std::basic_streambuf<CharT>::int_type;
   explicit limited_buf (std::size_t limit, bool throws = false)
       : m_written (), m_limit (limit), m_throws (throws)
   {
@@ -97,8 +97,8 @@ template <class CharT>
 void
 compare_formatting (char const *narrow, std::size_t size)
 {
-  typedef typename kinds<CharT>::view_t view_t;
-  typedef typename kinds<CharT>::stream_t stream_t;
+  using view_t = typename kinds<CharT>::view_t;
+  using stream_t = typename kinds<CharT>::stream_t;
   std::basic_string<CharT> const text = kinds<CharT>::text (narrow, size);
   int const widths[] = { 0, 1, 3, 8, 20 };
   CharT const fills[] = { static_cast<CharT> (' '), static_cast<CharT> ('*') };

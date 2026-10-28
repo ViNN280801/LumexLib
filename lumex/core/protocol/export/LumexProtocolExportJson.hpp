@@ -105,7 +105,7 @@ namespace index
 {
 namespace detail
 {
-typedef ::nlohmann::json json_t;
+using json_t = ::nlohmann::json;
 
 inline json_t
 json_field (field_descriptor_t const &node, std::set<std::string> &units)

@@ -776,7 +776,7 @@ TEST (
 TEST (LumexTransportCancellationTcp,
       GivenAReadFromASilentPeer_WhenTerminalIsEmitted_ThenItEndsCancelled)
 {
-  typedef asio::ip::tcp tcp;
+  using tcp = asio::ip::tcp;
   asio::io_context peer_context;
   tcp::acceptor acceptor (
       peer_context, tcp::endpoint (asio::ip::address_v4::loopback (), 0));

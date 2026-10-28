@@ -125,8 +125,8 @@ struct element_first_only
   bool operator() (double, int) const = delete;
 };
 
-typedef std::vector<int> ints_t;
-typedef std::vector<double> reals_t;
+using ints_t = std::vector<int>;
+using reals_t = std::vector<double>;
 } // namespace
 
 // --- ranges
@@ -151,7 +151,7 @@ TEST (LumexRangesConstraintsTest,
 TEST (LumexRangesConstraintsTest,
       GivenMapRange_WhenProjectionNamesTheKey_ThenTheRangeOverloadExists)
 {
-  typedef std::map<int, std::string> table_t;
+  using table_t = std::map<int, std::string>;
   // The elements are pairs, not numbers: a projection has to name the key.
   EXPECT_FALSE ((can_call<table_t &, int>::value));
   EXPECT_TRUE ((can_call<table_t &, int, functional::less,
@@ -223,13 +223,13 @@ TEST (LumexRangesConstraintsTest,
 TEST (LumexRangesConstraintsTest,
       GivenIteratorsThatAreNotBidirectional_WhenGetNearestTo_ThenNoOverload)
 {
-  typedef std::forward_list<int> forward_t;
+  using forward_t = std::forward_list<int>;
   EXPECT_FALSE ((can_call<forward_t &, int>::value));
   EXPECT_FALSE (
       (can_call<forward_t::iterator, forward_t::iterator, int>::value));
-  typedef std::istream_iterator<int> input_t;
+  using input_t = std::istream_iterator<int>;
   EXPECT_FALSE ((can_call<input_t, input_t, int>::value));
-  typedef std::ostream_iterator<int> output_t;
+  using output_t = std::ostream_iterator<int>;
   EXPECT_FALSE ((can_call<output_t, output_t, int>::value));
 }
 

@@ -16,7 +16,7 @@ namespace
 class boost_atomic_t
 {
 public:
-  typedef boost::shared_ptr<int> value_type;
+  using value_type = boost::shared_ptr<int>;
 
   boost_atomic_t () {}
   explicit boost_atomic_t (value_type desired) : atom_ (desired) {}
@@ -62,7 +62,7 @@ namespace detail
 {
 template <> struct atomic_traits_t<boost_atomic_t>
 {
-  typedef boost_atomic_t::value_type value_type;
+  using value_type = boost_atomic_t::value_type;
 
   static value_type
   make (int value)

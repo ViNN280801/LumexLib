@@ -111,7 +111,7 @@ namespace transport
 namespace hid
 {
 struct hid_device_info_t;
-typedef std::function<std::vector<hid_device_info_t> ()> hid_enumeration_t;
+using hid_enumeration_t = std::function<std::vector<hid_device_info_t> ()>;
 } // namespace hid
 } // namespace transport
 } // namespace applied
@@ -146,7 +146,7 @@ struct device_event_t
 };
 
 /// @brief Called on the watcher's strand for each event of its selector.
-typedef std::function<void (device_event_t const &)> device_callback_t;
+using device_callback_t = std::function<void (device_event_t const &)>;
 
 #if defined(LUMEX_TRANSPORT_WITH_HID)
 /// @brief A HID interface that arrived or went.
@@ -157,7 +157,7 @@ struct hid_device_event_t
 };
 
 /// @brief Called on the watcher's strand for each event of a HID selector.
-typedef std::function<void (hid_device_event_t const &)> hid_device_callback_t;
+using hid_device_callback_t = std::function<void (hid_device_event_t const &)>;
 #endif
 
 class device_watcher_impl;
@@ -168,7 +168,7 @@ class device_watcher
 {
 public:
   /// @brief The handle of one `watch` / `watch_presence`.
-  typedef std::uint64_t watch_id_t;
+  using watch_id_t = std::uint64_t;
 
   /// @brief Starts polling every `period` (at least 1 ms) through
   /// `enumeration` (empty: `default_serial_enumeration ()`) and

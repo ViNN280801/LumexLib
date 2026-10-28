@@ -51,8 +51,8 @@ namespace
 {
 using namespace split_test;
 
-typedef semantics_t<public_engine_t> public_semantics;
-typedef semantics_t<policy_engine_t<split_native_policy_t>> native_semantics;
+using public_semantics = semantics_t<public_engine_t>;
+using native_semantics = semantics_t<policy_engine_t<split_native_policy_t>>;
 
 TEST (LumexSplitCountSemanticsTest,
       GivenTheKindSet_WhenBuilt_ThenEveryKindHasTheOffsetItIsNamedFor)
@@ -153,8 +153,8 @@ TEST (LumexSplitCountSemanticsTest,
 TEST (LumexSplitCountSemanticsTest,
       GivenTheTypes_WhenInspected_ThenTheyMatchThePlan)
 {
-  typedef asp::atomic_shared_ptr_lock_free_split_count<Obj> shared_atomic;
-  typedef asp::atomic_weak_ptr_lock_free_split_count<Obj> weak_atomic;
+  using shared_atomic = asp::atomic_shared_ptr_lock_free_split_count<Obj>;
+  using weak_atomic = asp::atomic_weak_ptr_lock_free_split_count<Obj>;
   EXPECT_EQ (sizeof (shared_atomic), 32u);
   EXPECT_EQ (sizeof (weak_atomic), 32u);
   EXPECT_EQ (alignof (shared_atomic), 16u);

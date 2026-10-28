@@ -136,9 +136,9 @@ struct none
 struct timeout_t
 {
   /// The kind of the option.
-  typedef kind::timeout option_kind;
+  using option_kind = kind::timeout;
   /// A word of the table vocabulary (`timeout (ms)`).
-  typedef vocabulary_word_tag lumex_vocabulary_word;
+  using lumex_vocabulary_word = vocabulary_word_tag;
   /// Milliseconds.
   std::uint32_t milliseconds;
 
@@ -154,9 +154,9 @@ struct timeout_t
 struct retries_t
 {
   /// The kind of the option.
-  typedef kind::retries option_kind;
+  using option_kind = kind::retries;
   /// A word of the table vocabulary (`retries (n)`).
-  typedef vocabulary_word_tag lumex_vocabulary_word;
+  using lumex_vocabulary_word = vocabulary_word_tag;
   /// Additional attempts.
   std::uint32_t count;
 
@@ -172,9 +172,9 @@ struct retries_t
 struct stream_t
 {
   /// The kind of the option.
-  typedef kind::stream option_kind;
+  using option_kind = kind::stream;
   /// A word of the table vocabulary (`stream (interval_ms)`).
-  typedef vocabulary_word_tag lumex_vocabulary_word;
+  using lumex_vocabulary_word = vocabulary_word_tag;
   /// The expected interval between two messages, milliseconds.
   std::uint32_t interval_ms;
 
@@ -189,9 +189,9 @@ struct stream_t
 struct log_level_t
 {
   /// The kind of the option.
-  typedef kind::log_level option_kind;
+  using option_kind = kind::log_level;
   /// A word of the table vocabulary (`log_level (level::debug)`).
-  typedef vocabulary_word_tag lumex_vocabulary_word;
+  using lumex_vocabulary_word = vocabulary_word_tag;
   /// The level.
   level value;
 
@@ -207,9 +207,9 @@ struct log_level_t
 struct firmware_t
 {
   /// The kind of the option.
-  typedef kind::firmware option_kind;
+  using option_kind = kind::firmware;
   /// A word of the table vocabulary (`firmware (from, to)`).
-  typedef vocabulary_word_tag lumex_vocabulary_word;
+  using lumex_vocabulary_word = vocabulary_word_tag;
   /// First version with the row.
   std::uint32_t from;
   /// Last version with the row.
@@ -228,7 +228,7 @@ struct firmware_t
 template <std::size_t N> struct model_t
 {
   /// The kind of the option.
-  typedef kind::model option_kind;
+  using option_kind = kind::model;
   /// The model names (string literals).
   char const *names[N];
 };
@@ -238,9 +238,9 @@ template <std::size_t N> struct model_t
 template <typename E, std::size_t N> struct accepted_in_t
 {
   /// The kind of the option.
-  typedef kind::accepted_in option_kind;
+  using option_kind = kind::accepted_in;
   /// The state enumeration.
-  typedef E state_type;
+  using state_type = E;
   /// The states.
   E states[N];
 };
@@ -268,23 +268,23 @@ namespace detail
 {
 template <typename T> struct options_voider
 {
-  typedef void type;
+  using type = void;
 };
 
 template <typename T, typename = void> struct kind_of
 {
-  typedef kind::none type;
+  using type = kind::none;
 };
 
 template <typename T>
 struct kind_of<T, typename options_voider<typename T::option_kind>::type>
 {
-  typedef typename T::option_kind type;
+  using type = typename T::option_kind;
 };
 
 template <> struct kind_of<row_flags::value, void>
 {
-  typedef kind::flag type;
+  using type = kind::flag;
 };
 
 template <bool... B> struct option_bools
@@ -331,12 +331,12 @@ struct index_of_kind<K, I, Head, Tail...>
 
 template <std::size_t I, typename... T> struct option_at
 {
-  typedef void type;
+  using type = void;
 };
 
 template <typename Head, typename... Tail> struct option_at<0, Head, Tail...>
 {
-  typedef Head type;
+  using type = Head;
 };
 
 template <std::size_t I, typename Head, typename... Tail>
@@ -477,8 +477,8 @@ template <typename K, typename... T> struct option_getter
   static_assert (count_kind<K, T...>::value > 0,
                  "LUMEX_PROTOCOL: get_option of an option the row does not "
                  "have (check has_option first)");
-  typedef
-      typename option_at<index_of_kind<K, 0, T...>::value, T...>::type type;
+  using type =
+      typename option_at<index_of_kind<K, 0, T...>::value, T...>::type;
 };
 } // namespace detail
 

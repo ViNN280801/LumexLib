@@ -41,10 +41,10 @@ namespace bench
 template <typename T> class deque_ring
 {
 public:
-  typedef T value_type;
-  typedef std::size_t size_type;
-  typedef typename std::deque<T>::iterator iterator;
-  typedef typename std::deque<T>::const_iterator const_iterator;
+  using value_type = T;
+  using size_type = std::size_t;
+  using iterator = typename std::deque<T>::iterator;
+  using const_iterator = typename std::deque<T>::const_iterator;
 
   explicit deque_ring (size_type capacity) : m_capacity (capacity) {}
 
@@ -134,11 +134,11 @@ template <typename T, bool Mod> class vector_ring
   template <typename R, typename V> class basic_iterator
   {
   public:
-    typedef std::forward_iterator_tag iterator_category;
-    typedef V value_type;
-    typedef std::ptrdiff_t difference_type;
-    typedef V *pointer;
-    typedef V &reference;
+    using iterator_category = std::forward_iterator_tag;
+    using value_type = V;
+    using difference_type = std::ptrdiff_t;
+    using pointer = V *;
+    using reference = V &;
     basic_iterator (R *ring, std::size_t index)
         : m_ring (ring), m_index (index)
     {
@@ -171,10 +171,10 @@ template <typename T, bool Mod> class vector_ring
   };
 
 public:
-  typedef T value_type;
-  typedef std::size_t size_type;
-  typedef basic_iterator<vector_ring, T> iterator;
-  typedef basic_iterator<vector_ring const, T const> const_iterator;
+  using value_type = T;
+  using size_type = std::size_t;
+  using iterator = basic_iterator<vector_ring, T>;
+  using const_iterator = basic_iterator<vector_ring const, T const>;
 
   explicit vector_ring (size_type capacity)
       : m_items (capacity), m_capacity (capacity)

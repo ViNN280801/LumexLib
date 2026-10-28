@@ -1,0 +1,2 @@
+// A header without an extension (a module umbrella).
+typedef unsigned umbrella_t;

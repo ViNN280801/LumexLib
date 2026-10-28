@@ -473,7 +473,7 @@ TEST (LumexTypeTraitsTwinsTest, GivenTraits_WhenAsCastGuard_ThenDowncastRules)
   // The way the cast helpers combine the traits: the pointer or reference to
   // a class, a complete and polymorphic class, a public base, and no cv
   // dropped.
-  typedef traits::meta::indirection_of_t<base_t *> pointee_t;
+  using pointee_t = traits::meta::indirection_of_t<base_t *>;
   static_assert (
       traits::meta::is_pointer_to_class<base_t *>::value
           && traits::meta::is_complete_type<pointee_t>::value
@@ -481,7 +481,7 @@ TEST (LumexTypeTraitsTwinsTest, GivenTraits_WhenAsCastGuard_ThenDowncastRules)
           && traits::meta::is_derived_from<public_derived_t, pointee_t>::value
           && traits::meta::preserves_cv<pointee_t, public_derived_t>::value,
       "base_t * to public_derived_t * is a valid downcast");
-  typedef traits::meta::indirection_of_t<base_t const &> const_pointee_t;
+  using const_pointee_t = traits::meta::indirection_of_t<base_t const &>;
   static_assert (traits::meta::is_lvalue_ref_to_class<base_t const &>::value
                      && !traits::meta::preserves_cv<const_pointee_t,
                                                     public_derived_t>::value,

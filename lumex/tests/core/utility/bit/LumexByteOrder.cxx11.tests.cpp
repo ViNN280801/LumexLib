@@ -10,7 +10,7 @@
 
 TEST (LumexByteOrderTest, GivenTheTwoOrders_WhenCompared_ThenTheyDiffer)
 {
-  typedef lumex::core::utility::bit::byte_order byte_order;
+  using byte_order = lumex::core::utility::bit::byte_order;
   EXPECT_TRUE (byte_order::big != byte_order::little);
   EXPECT_TRUE (std::is_enum<byte_order>::value);
   EXPECT_FALSE ((std::is_convertible<byte_order, int>::value));

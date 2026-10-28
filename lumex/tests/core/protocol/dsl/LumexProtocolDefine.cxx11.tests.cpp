@@ -17,7 +17,7 @@ namespace
 namespace dsl = lumex::core::protocol::dsl;
 namespace field = lumex::core::protocol::field;
 namespace tables = lumex_tests::protocol_tables;
-typedef tables::widget_v1 v1;
+using v1 = tables::widget_v1;
 
 std::string
 name_at (dsl::names_t const &names, std::size_t index)
@@ -91,7 +91,7 @@ TEST (LumexProtocolDefineTest,
 TEST (LumexProtocolDefineTest,
       GivenARow_WhenItsFieldTypesAreRead_ThenTheyAreTheTableTypesInOrder)
 {
-  typedef v1::SET_RATE_t::fields_type::types types;
+  using types = v1::SET_RATE_t::fields_type::types;
   EXPECT_TRUE ((
       std::is_same<types, dsl::type_list<
                               field::u16_le_<field::scale<std::ratio<1, 100>>>,
@@ -142,7 +142,7 @@ TEST (LumexProtocolDefineTest,
 TEST (LumexProtocolDefineTest,
       GivenAProtocol_WhenItsCommandsAreListed_ThenTheyFollowTheTableOrder)
 {
-  typedef dsl::commands_of<v1>::type commands;
+  using commands = dsl::commands_of<v1>::type;
   EXPECT_TRUE (
       (std::is_same<commands,
                     dsl::type_list<v1::PING_t, v1::READ_STATUS_t,

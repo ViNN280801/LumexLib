@@ -29,8 +29,8 @@ using tables::bytes;
 using tables::payload_of;
 using tables::view_of;
 
-typedef tables::device_f device;
-typedef tables::family_f family;
+using device = tables::device_f;
+using family = tables::family_f;
 
 index::protocol_index_t const &
 device_index ()

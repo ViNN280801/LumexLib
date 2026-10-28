@@ -241,17 +241,17 @@ namespace Detail
 template <typename Pointer, typename Policy = split_native_policy_t>
 class split_count_cell : private epoch_wait_base
 {
-  typedef split_pointer_traits_t<Pointer> traits_type;
-  typedef typename traits_type::element_type element_type;
-  typedef typename traits_type::ledger_type ledger_type;
-  typedef typename traits_type::holder_type holder_type;
-  typedef split_strong_ledger_t holder_ledger_type;
-  typedef split_word_t word;
-  typedef split_block_t block_type;
+  using traits_type = split_pointer_traits_t<Pointer>;
+  using element_type = typename traits_type::element_type;
+  using ledger_type = typename traits_type::ledger_type;
+  using holder_type = typename traits_type::holder_type;
+  using holder_ledger_type = split_strong_ledger_t;
+  using word = split_word_t;
+  using block_type = split_block_t;
 
 public:
   /// The smart pointer the cell stores.
-  typedef Pointer value_type;
+  using value_type = Pointer;
 
   static LUMEX_CONSTEXPR bool is_always_lock_free = true;
 
@@ -889,8 +889,8 @@ private:
   /// below: the one without a reserve is the code of the engine as it was, and
   /// the other one is not instantiated for a policy that switches the reserve
   /// off.
-  typedef std::integral_constant<bool, (Policy::cas_reserve () != 0u)>
-      cas_reserve_tag;
+  using cas_reserve_tag
+      = std::integral_constant<bool, (Policy::cas_reserve () != 0u)>;
 
   bool
   compare_exchange (Pointer &expected, Pointer &desired, bool weak,

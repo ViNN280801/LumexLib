@@ -15,7 +15,7 @@ namespace
 namespace tr = lumex::applied::transport;
 namespace ss = tr::session;
 using tr::error::transport_errc;
-typedef std::chrono::milliseconds ms;
+using ms = std::chrono::milliseconds;
 
 ss::reconnect_policy_t
 policy (long initial, long max_delay, double multiplier, double jitter)

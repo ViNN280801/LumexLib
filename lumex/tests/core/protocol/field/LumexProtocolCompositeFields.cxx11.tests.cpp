@@ -23,7 +23,7 @@ namespace tables = lumex_tests::field_tables;
 using lumex::core::protocol::error::protocol_errc;
 using tables::view_of;
 
-typedef layout::binary_layout<> binary;
+using binary = layout::binary_layout<>;
 
 template <typename F>
 layout::bytes_t
@@ -101,7 +101,7 @@ LUMEX_PROTOCOL_LAYOUT (tunnel_t, (u8_, nested_<tables::inner_protocol, char_>),
 TEST (LumexProtocolCompositeFieldsTest,
       GivenAnArray_WhenRoundTripped_ThenEveryElementInOrder)
 {
-  typedef field::array_<field::u16_be_<>, 3> triple;
+  using triple = field::array_<field::u16_be_<>, 3>;
   std::array<std::uint16_t, 3> const value = { { 1, 0x0203, 0xFFFF } };
   EXPECT_EQ (encoded<triple> (value),
              (layout::bytes_t{ 0, 1, 2, 3, 0xFF, 0xFF }));
@@ -109,7 +109,7 @@ TEST (LumexProtocolCompositeFieldsTest,
   EXPECT_EQ (triple::binary_size::value, 6u);
   EXPECT_TRUE (decoded<triple> (layout::bytes_t{ 0, 1, 2 }).error ()
                == protocol_errc::truncated);
-  typedef field::impl_of<triple>::type impl;
+  using impl = field::impl_of<triple>::type;
   impl::value_type assigned = impl::value_type ();
   EXPECT_TRUE (impl::assign (assigned, std::vector<int>{ 7, 8, 9 }));
   EXPECT_EQ (assigned[2], 9u);
@@ -121,7 +121,7 @@ TEST (LumexProtocolCompositeFieldsTest,
 TEST (LumexProtocolCompositeFieldsTest,
       GivenACountedField_WhenRoundTripped_ThenTheCountComesFirst)
 {
-  typedef field::record_of<counted_message_t::fields_type>::type record_type;
+  using record_type = field::record_of<counted_message_t::fields_type>::type;
   record_type value = record_type ();
   field::get<0> (value) = 9;
   ASSERT_TRUE (
@@ -155,8 +155,8 @@ TEST (LumexProtocolCompositeFieldsTest,
       = decoded<counted_message_t> (layout::bytes_t{ 9, 0 });
   ASSERT_TRUE (empty.has_value ());
   EXPECT_EQ (field::get<1> (*empty).size (), 0u);
-  typedef field::impl_of<
-      field::counted_<field::u16_be_<>, field::u8_<>, 4>>::type impl;
+  using impl = field::impl_of<
+      field::counted_<field::u16_be_<>, field::u8_<>, 4>>::type;
   impl::value_type value = impl::value_type ();
   EXPECT_FALSE (impl::assign (value, std::vector<int>{ 1, 2, 3, 4, 5 }));
 }
@@ -195,7 +195,7 @@ TEST (LumexProtocolCompositeFieldsTest,
 TEST (LumexProtocolCompositeFieldsTest,
       GivenAnOptionalTail_WhenTheMessageEndsBeforeIt_ThenItIsAbsent)
 {
-  typedef field::record_of<tail_message_t::fields_type>::type record_type;
+  using record_type = field::record_of<tail_message_t::fields_type>::type;
   record_type const without = *decoded<tail_message_t> (layout::bytes_t{ 4 });
   EXPECT_FALSE (field::get<1> (without).present);
   EXPECT_EQ (encoded<tail_message_t> (without), (layout::bytes_t{ 4 }));
@@ -217,7 +217,7 @@ TEST (LumexProtocolCompositeFieldsTest,
 TEST (LumexProtocolCompositeFieldsTest,
       GivenALengthChosenLayout_WhenDecoded_ThenTheRemainingLengthChooses)
 {
-  typedef field::record_of<length_message_t::fields_type>::type record_type;
+  using record_type = field::record_of<length_message_t::fields_type>::type;
   record_type const short_form
       = *decoded<length_message_t> (layout::bytes_t{ 1, 5, 6 });
   ASSERT_EQ (field::get<1> (short_form).index (), 0u);
@@ -239,7 +239,7 @@ TEST (LumexProtocolCompositeFieldsTest,
 TEST (LumexProtocolCompositeFieldsTest,
       GivenALeadingDiscriminant_WhenDecoded_ThenItChoosesTheCase)
 {
-  typedef field::record_of<lead_union_t::fields_type>::type record_type;
+  using record_type = field::record_of<lead_union_t::fields_type>::type;
   record_type const pair = *decoded<lead_union_t> (layout::bytes_t{ 1, 7, 8 });
   EXPECT_EQ (field::get<0> (pair).discriminant, 1);
   ASSERT_EQ (field::get<0> (pair).cases.index (), 0u);
@@ -263,7 +263,7 @@ TEST (LumexProtocolCompositeFieldsTest,
 TEST (LumexProtocolCompositeFieldsTest,
       GivenAnEarlierFieldAsDiscriminant_WhenEncoded_ThenItMustAgree)
 {
-  typedef field::record_of<field_union_t::fields_type>::type record_type;
+  using record_type = field::record_of<field_union_t::fields_type>::type;
   record_type const quad
       = *decoded<field_union_t> (layout::bytes_t{ 20, 0, 1, 2, 3, 4 });
   ASSERT_EQ (field::get<2> (quad).cases.index (), 1u);
@@ -284,7 +284,7 @@ TEST (LumexProtocolCompositeFieldsTest,
 TEST (LumexProtocolCompositeFieldsTest,
       GivenATrailingDiscriminant_WhenDecoded_ThenItIsReadFromTheEndFirst)
 {
-  typedef field::record_of<end_union_t::fields_type>::type record_type;
+  using record_type = field::record_of<end_union_t::fields_type>::type;
   record_type const pair
       = *decoded<end_union_t> (layout::bytes_t{ 9, 5, 6, 3 });
   ASSERT_EQ (field::get<1> (pair).cases.index (), 0u);
@@ -304,7 +304,7 @@ TEST (LumexProtocolCompositeFieldsTest,
 TEST (LumexProtocolCompositeFieldsTest,
       GivenASessionValue_WhenDecoded_ThenItChoosesTheCase)
 {
-  typedef field::record_of<context_union_t::fields_type>::type record_type;
+  using record_type = field::record_of<context_union_t::fields_type>::type;
   tables::test_session const first = { 1, true };
   tables::test_session const second = { 2, true };
   tables::test_session const none = { 0, false };
@@ -335,7 +335,7 @@ TEST (LumexProtocolCompositeFieldsTest,
 TEST (LumexProtocolCompositeFieldsTest,
       GivenATunnel_WhenDecoded_ThenTheInnerRowDecodesThePayload)
 {
-  typedef field::record_of<tunnel_t::fields_type>::type record_type;
+  using record_type = field::record_of<tunnel_t::fields_type>::type;
   layout::bytes_t const wire{ 3, 'L', 2, 0x01, 0xF4 };
   record_type const value = *decoded<tunnel_t> (wire);
   EXPECT_EQ (field::get<1> (value).key, 'L');

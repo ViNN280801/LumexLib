@@ -326,7 +326,7 @@ TEST (
 TEST (LumexSharedPtrModifiersTest,
       GivenTheModifiers_WhenCheckingTraits_ThenTheyAreNoexceptWhereSpecified)
 {
-  typedef sp::shared_ptr<int> ptr;
+  using ptr = sp::shared_ptr<int>;
   static_assert (noexcept (std::declval<ptr &> ().reset ()), "");
   static_assert (
       noexcept (std::declval<ptr &> ().swap (std::declval<ptr &> ())), "");

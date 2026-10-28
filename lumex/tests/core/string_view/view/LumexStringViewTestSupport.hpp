@@ -68,7 +68,7 @@ template <class CharT> struct char_set;
 
 template <> struct char_set<char>
 {
-  typedef lumex_string_view view_t;
+  using view_t = lumex_string_view;
   /// 'a', 'b', NUL and a byte with the high bit set (negative as a char).
   static std::vector<char>
   alphabet ()
@@ -79,7 +79,7 @@ template <> struct char_set<char>
 
 template <> struct char_set<wchar_t>
 {
-  typedef lumex_wstring_view view_t;
+  using view_t = lumex_wstring_view;
   static std::vector<wchar_t>
   alphabet ()
   {
@@ -171,11 +171,11 @@ positions (std::size_t size)
 // Traits without a comparison_category, comparing without regard to case.
 struct caseless_traits
 {
-  typedef char char_type;
-  typedef int int_type;
-  typedef std::streamoff off_type;
-  typedef std::streampos pos_type;
-  typedef std::mbstate_t state_type;
+  using char_type = char;
+  using int_type = int;
+  using off_type = std::streamoff;
+  using pos_type = std::streampos;
+  using state_type = std::mbstate_t;
   static constexpr char
   fold (char c) noexcept
   {
@@ -280,8 +280,8 @@ struct counting_traits : std::char_traits<char>
   }
 };
 
-typedef lumex_basic_string_view<char, counting_traits> counting_view;
-typedef lumex_basic_string_view<char, caseless_traits> caseless_view;
+using counting_view = lumex_basic_string_view<char, counting_traits>;
+using caseless_view = lumex_basic_string_view<char, caseless_traits>;
 } // namespace lumex_sv_test
 
 #endif // LUMEX_TESTS_CORE_STRING_VIEW_VIEW_TEST_SUPPORT_HPP

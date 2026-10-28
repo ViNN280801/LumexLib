@@ -77,7 +77,7 @@ struct make_index_list : make_index_list<N - 1, N - 1, I...>
 
 template <std::size_t... I> struct make_index_list<0, I...>
 {
-  typedef index_list<I...> type;
+  using type = index_list<I...>;
 };
 
 template <std::size_t... I>

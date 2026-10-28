@@ -27,7 +27,7 @@ using lumex::xml::types::Types::xml_encoding;
 
 namespace
 {
-typedef std::vector<unsigned char> byte_vector;
+using byte_vector = std::vector<unsigned char>;
 
 void
 put_u16 (byte_vector &out, std::uint32_t unit, bool big_endian)

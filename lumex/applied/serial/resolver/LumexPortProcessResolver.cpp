@@ -98,25 +98,26 @@
 #define NT_SUCCESS(Status) (static_cast<NTSTATUS> (Status) >= 0)
 #endif
 
-typedef LONG NTSTATUS;
-typedef NTSTATUS (NTAPI *NtQuerySystemInformation_t) (ULONG, PVOID, ULONG,
-                                                      PULONG);
-typedef NTSTATUS (NTAPI *NtDuplicateObject_t) (HANDLE, HANDLE, HANDLE, PHANDLE,
-                                               ACCESS_MASK, ULONG, ULONG);
-typedef NTSTATUS (NTAPI *NtQueryObject_t) (HANDLE, ULONG, PVOID, ULONG,
-                                           PULONG);
+using NTSTATUS = LONG;
+using NtQuerySystemInformation_t
+    = NTSTATUS (NTAPI *) (ULONG, PVOID, ULONG, PULONG);
+using NtDuplicateObject_t
+    = NTSTATUS (NTAPI *) (HANDLE, HANDLE, HANDLE, PHANDLE, ACCESS_MASK, ULONG,
+                          ULONG);
+using NtQueryObject_t
+    = NTSTATUS (NTAPI *) (HANDLE, ULONG, PVOID, ULONG, PULONG);
 
 #define SystemHandleInformation 16
 #define ObjectNameInformation 1
 
-typedef struct
+struct UNICODE_STRING_NT
 {
   USHORT Length;
   USHORT MaximumLength;
   PWSTR Buffer;
-} UNICODE_STRING_NT;
+};
 
-typedef struct
+struct SYSTEM_HANDLE_ENTRY
 {
   ULONG ProcessId;
   BYTE ObjectTypeNumber;
@@ -124,13 +125,13 @@ typedef struct
   USHORT Handle;
   PVOID Object;
   ACCESS_MASK GrantedAccess;
-} SYSTEM_HANDLE_ENTRY;
+};
 
-typedef struct
+struct SYSTEM_HANDLE_INFORMATION
 {
   ULONG HandleCount;
   SYSTEM_HANDLE_ENTRY Handles[1];
-} SYSTEM_HANDLE_INFORMATION;
+};
 #endif
 
 namespace lumex

@@ -361,7 +361,7 @@ struct data_and_size_of_ints
 };
 struct foreign_traits_chars
 {
-  typedef std::char_traits<wchar_t> traits_type;
+  using traits_type = std::char_traits<wchar_t>;
   char const *
   data () const
   {

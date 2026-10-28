@@ -833,7 +833,7 @@ TEST (
 TEST (UtfWcharTest,
       GivenUtf8Text_WhenConvertedToWchar_ThenTheUnitsFollowTheWidth)
 {
-  typedef wchar_selector<sizeof (wchar_t)>::type unit_t;
+  using unit_t = wchar_selector<sizeof (wchar_t)>::type;
   std::vector<std::uint32_t> const text
       = points ({ 'A', 0xE9, 0x20AC, 0x1F600 });
   std::vector<unit_t> const out

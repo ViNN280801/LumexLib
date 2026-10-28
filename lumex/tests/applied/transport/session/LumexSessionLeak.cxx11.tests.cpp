@@ -23,7 +23,7 @@
 namespace
 {
 using namespace lumex_session_test;
-typedef asio::ip::tcp tcp;
+using tcp = asio::ip::tcp;
 
 ss::stream_session::factory_t
 watched (ss::stream_session::factory_t inner,

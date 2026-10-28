@@ -178,7 +178,7 @@ struct modbus_rtu_options_t : codec::codec_options_t
 class modbus_rtu_codec
 {
 public:
-  typedef modbus_rtu_options_t options_type;
+  using options_type = modbus_rtu_options_t;
 
   /// @pre `options.max_frame_size >= 5` (the shortest frame).
   explicit modbus_rtu_codec (options_type const &options = options_type ())

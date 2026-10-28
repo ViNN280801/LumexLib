@@ -87,7 +87,7 @@ namespace detail
 {
 template <typename T> struct key_maker
 {
-  typedef T type;
+  using type = T;
 
   static LUMEX_CONSTEXPR T
   make (T const &value) LUMEX_NOEXCEPT
@@ -98,7 +98,7 @@ template <typename T> struct key_maker
 
 template <std::size_t N> struct key_maker<char[N]>
 {
-  typedef text_key type;
+  using type = text_key;
 
   static LUMEX_CONSTEXPR text_key
   make (char const (&value)[N]) LUMEX_NOEXCEPT
@@ -165,7 +165,7 @@ namespace detail
 {
 template <typename T, typename = void> struct key_voider
 {
-  typedef void type;
+  using type = void;
 };
 
 template <typename T, typename = void>
@@ -245,8 +245,8 @@ to_key_value (text_key const &value, std::false_type,
 
 /**
  * @brief The run-time form of a key made by `make_key`.
- * @details A composite key type (it names `typedef composite_key_tag
- * lumex_composite_key;`) gives `static std::size_t lumex_key_width ()` (the
+ * @details A composite key type (it names `using lumex_composite_key =
+ * composite_key_tag;`) gives `static std::size_t lumex_key_width ()` (the
  * bytes it takes on the wire) and `std::uint64_t lumex_key_bits () const`
  * (its parts packed in wire order, most significant first).
  */

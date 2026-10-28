@@ -304,6 +304,14 @@
 
 **Проверено:** cl.exe и clang-cl 21.1.7, `LUMEX_WERROR=ON`: `ctest -R "^(utility\.os|serial)\."` 91 из 91 на каждом компиляторе (`utility.os` на C++11, 17 и 20), `lint.*` 7 из 7. Каждый новый тест убивает свою мутацию: без снятия `\r\n`, с `CP_ACP` вместо `CP_UTF8`, без проверки пустой длины. Ветка POSIX проверяется на Linux (todo 158).
 
+##### `typedef` заменен на `using`
+
+**Файлы:** `Scripts/CodeTools/check_no_typedef.py` (новый), `lumex/tests/CMakeLists.txt` (`lint.no_typedef`), `lumex/tests/cmake/cases/lint_no_typedef_script.cmake` и `lumex/tests/cmake/fixtures/no_typedef/` (новые), 295 файлов `lumex/` и `benchmarks/`.
+
+**Суть:** 1422 объявления `typedef` (в том числе тела макросов DSL протокола, ветки только для Windows и 57 строк таблиц приборов) заменены на `using name = type;`; указатели на функции, массивы и `typedef struct {...} name` тоже. Проверка `lint.no_typedef` следит, чтобы `typedef` не вернулся (комментарии и строки не в счет); исключений для кода на C нет.
+
+**Проверено:** GCC 13.2 (все 617 целей, C++11-C++23), Clang 23.1 (C++11), GCC 8.3 (C++11), MinGW 8.3 (сборка), `LUMEX_WERROR=ON`, 0 предупреждений; число тестов по модулям то же, что до замены (кроме двух новых), падения те же, что на базе (у MinGW те же 23 цели, что на базе). Проверка заголовков по отдельности (318 заголовков, строгие флаги) на GCC 8 и Clang 23 при C++11 и GCC 13 при C++14, 17 и 20: 0 отказов. Мутации проверки (10) пойманы `cmake.lint_no_typedef_script`; `typedef`, вставленный в ветку Windows и в макрос, ловит `lint.no_typedef`. На Windows (cl, clang-cl) не запускалось.
+
 ---
 
 ## [v2.0.2.0] - 2026-10-17

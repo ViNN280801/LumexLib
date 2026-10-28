@@ -97,7 +97,7 @@ enum : std::uint32_t
 };
 
 /// Signature of the function that reads ECX of CPUID leaf 1.
-typedef std::uint32_t (*cpuid_reader_t) ();
+using cpuid_reader_t = std::uint32_t (*) ();
 
 /**
  * @brief Reads ECX of CPUID leaf 1 from the CPU.

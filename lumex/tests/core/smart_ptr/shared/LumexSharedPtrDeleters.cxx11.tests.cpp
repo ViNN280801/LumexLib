@@ -100,7 +100,7 @@ scenario_get_deleter (Trace &t)
                == nullptr);
   // A function-pointer deleter is stored as that type.
   shared_of<F, int> by_function (new int (3), &function_deleter);
-  typedef void (*function_type) (int *);
+  using function_type = void (*) (int *);
   function_type *stored = F::template get_deleter<function_type> (by_function);
   t.note_bool (stored != nullptr);
   if (stored != nullptr)

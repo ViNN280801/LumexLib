@@ -36,7 +36,7 @@ namespace
 class cell_t
 {
 public:
-  typedef std::shared_ptr<int> value_type;
+  using value_type = std::shared_ptr<int>;
   cell_t () {}
   explicit cell_t (value_type desired) : value_ (desired) {}
   bool
@@ -81,32 +81,32 @@ private:
   value_type value_;
 };
 #elif BENCH_ATOMIC_IMPL == 1
-typedef lumex::core::atomic::smart_ptr::atomic_shared_ptr<int> cell_t;
+using cell_t = lumex::core::atomic::smart_ptr::atomic_shared_ptr<int>;
 #elif BENCH_ATOMIC_IMPL == 2
-typedef lumex::core::atomic::smart_ptr::atomic_shared_ptr_lock_based<int>
-    cell_t;
+using cell_t
+    = lumex::core::atomic::smart_ptr::atomic_shared_ptr_lock_based<int>;
 #elif BENCH_ATOMIC_IMPL == 3
 #if !LUMEX_ATOMIC_SMART_PTR_HAS_LOCK_FREE
 #error "this build has no lock-free engine"
 #endif
-typedef lumex::core::atomic::smart_ptr::atomic_shared_ptr_lock_free<int>
-    cell_t;
+using cell_t
+    = lumex::core::atomic::smart_ptr::atomic_shared_ptr_lock_free<int>;
 #elif BENCH_ATOMIC_IMPL == 4
 #if !LUMEX_ATOMIC_SMART_PTR_HAS_STD_BACKED
 #error "this build has no std::atomic<std::shared_ptr>"
 #endif
-typedef lumex::core::atomic::smart_ptr::atomic_shared_ptr_std_backed<int>
-    cell_t;
+using cell_t
+    = lumex::core::atomic::smart_ptr::atomic_shared_ptr_std_backed<int>;
 #elif BENCH_ATOMIC_IMPL == 5
 #if !defined(__cpp_lib_atomic_shared_ptr)
 #error "this standard library has no std::atomic<std::shared_ptr>"
 #endif
-typedef std::atomic<std::shared_ptr<int>> cell_t;
+using cell_t = std::atomic<std::shared_ptr<int>>;
 #elif BENCH_ATOMIC_IMPL == 6
 class cell_t
 {
 public:
-  typedef boost::shared_ptr<int> value_type;
+  using value_type = boost::shared_ptr<int>;
   cell_t () {}
   explicit cell_t (value_type desired) : atom_ (desired) {}
   bool
@@ -142,7 +142,7 @@ private:
 #error "BENCH_ATOMIC_IMPL must be 0 to 6"
 #endif
 
-typedef cell_t::value_type pointer_t;
+using pointer_t = cell_t::value_type;
 } // namespace
 
 int

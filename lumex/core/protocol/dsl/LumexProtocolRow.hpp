@@ -73,7 +73,7 @@ namespace dsl
 {
 /// @brief The field names of a row or layout, in field order (string
 /// literals with static storage).
-typedef ::lumex::core::span::view::span<char const *const> names_t;
+using names_t = ::lumex::core::span::view::span<char const *const>;
 
 /// @brief The tag a command type names as `lumex_protocol_command`.
 struct command_tag
@@ -108,7 +108,7 @@ struct row_all : std::is_same<row_bools<true, B...>, row_bools<B..., true>>
 
 template <typename T> struct row_voider
 {
-  typedef void type;
+  using type = void;
 };
 } // namespace detail
 
@@ -122,14 +122,14 @@ template <typename T> struct row_voider
 template <typename... Fields> struct field_list
 {
   /// The fields as a type list.
-  typedef type_list<Fields...> types;
+  using types = type_list<Fields...>;
   /// The number of fields.
-  typedef std::integral_constant<std::size_t, sizeof...(Fields)> count;
+  using count = std::integral_constant<std::size_t, sizeof...(Fields)>;
   /// A group of fields.
-  typedef ::lumex::core::protocol::field::field_tag lumex_protocol_field;
+  using lumex_protocol_field = ::lumex::core::protocol::field::field_tag;
   /// Its codec: the record codec.
-  typedef ::lumex::core::protocol::field::group_impl<field_list>
-      lumex_field_impl;
+  using lumex_field_impl
+      = ::lumex::core::protocol::field::group_impl<field_list>;
 };
 
 /// @brief `canonical_fields<F...>::type`: the field list of a group, each
@@ -138,9 +138,8 @@ template <typename... Fields> struct field_list
 template <typename... F> struct canonical_fields
 {
   /// The field list.
-  typedef field_list<
-      typename ::lumex::core::protocol::field::resolve<F>::type...>
-      type;
+  using type = field_list<
+      typename ::lumex::core::protocol::field::resolve<F>::type...>;
 };
 
 /// @brief The tag a reply kind of another layer (the dialogue's
@@ -172,21 +171,21 @@ template <typename... T> struct reply_of
                  "LUMEX_PROTOCOL: a reply group holds at most one type (a "
                  "field, a layout or a reply kind)");
   /// Not used: the group is invalid.
-  typedef no_reply type;
+  using type = no_reply;
 };
 
 /// @copydoc reply_of
 template <> struct reply_of<>
 {
   /// No reply.
-  typedef no_reply type;
+  using type = no_reply;
 };
 
 /// @copydoc reply_of
 template <typename T> struct reply_of<T>
 {
   /// The reply.
-  typedef typename ::lumex::core::protocol::field::resolve<T>::type type;
+  using type = typename ::lumex::core::protocol::field::resolve<T>::type;
 };
 
 namespace detail
@@ -251,20 +250,17 @@ template <typename Owner, template <typename, typename> class IsWord,
 struct group_check
 {
   /// No element is the owner.
-  typedef detail::group_all<!std::is_same<T, Owner>::value...> no_owner;
+  using no_owner = detail::group_all<!std::is_same<T, Owner>::value...>;
   /// No element is a word of the vocabulary.
-  typedef detail::group_all<
+  using no_word = detail::group_all<
       std::conditional<std::is_same<T, Owner>::value, std::true_type,
-                       detail::group_not<IsWord<T, void>>>::type::value...>
-      no_word;
+                       detail::group_not<IsWord<T, void>>>::type::value...>;
   /// Every element is a field.
-  typedef detail::group_all<
-      detail::group_accepts<T, Owner, detail::field_accept, IsWord>::value...>
-      all_fields;
+  using all_fields = detail::group_all<
+      detail::group_accepts<T, Owner, detail::field_accept, IsWord>::value...>;
   /// Every element is a field, a layout or a reply kind.
-  typedef detail::group_all<
-      detail::group_accepts<T, Owner, detail::reply_accept, IsWord>::value...>
-      all_replies;
+  using all_replies = detail::group_all<
+      detail::group_accepts<T, Owner, detail::reply_accept, IsWord>::value...>;
 };
 
 namespace detail
@@ -340,7 +336,7 @@ template <typename P> struct commands_of
                  "commands_of<P>: P must be a LUMEX_PROTOCOL_DEFINE or "
                  "LUMEX_PROTOCOL_EXTEND type");
   /// The command types.
-  typedef typename P::template lumex_resolve<P>::type type;
+  using type = typename P::template lumex_resolve<P>::type;
 };
 
 /// @brief The number of commands of protocol `P`.

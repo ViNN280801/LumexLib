@@ -30,17 +30,17 @@ struct Node
 };
 
 /// The lock-based engine over the family, both kinds.
-typedef asp::atomic_shared_ptr_lock_based_lumex<Node> lock_based_shared;
-typedef asp::atomic_weak_ptr_lock_based_lumex<Node> lock_based_weak;
+using lock_based_shared = asp::atomic_shared_ptr_lock_based_lumex<Node>;
+using lock_based_weak = asp::atomic_weak_ptr_lock_based_lumex<Node>;
 
 #if LUMEX_ATOMIC_SMART_PTR_FAMILY_IS_SPLIT_COUNT
 /// The engine the family alias must name in this build.
-typedef asp::atomic_shared_ptr_lock_free_split_count<Node> family_shared;
-typedef asp::atomic_weak_ptr_lock_free_split_count<Node> family_weak;
+using family_shared = asp::atomic_shared_ptr_lock_free_split_count<Node>;
+using family_weak = asp::atomic_weak_ptr_lock_free_split_count<Node>;
 #else
 /// The engine the family alias must name in this build.
-typedef lock_based_shared family_shared;
-typedef lock_based_weak family_weak;
+using family_shared = lock_based_shared;
+using family_weak = lock_based_weak;
 #endif
 
 TEST (LumexSplitCountFamilyAliasTest,

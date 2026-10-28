@@ -26,10 +26,9 @@ protected:
   log_capture log_;
 };
 
-typedef ::testing::Types<slip_case, cobs_case, delimiter_case, length_case,
-                         header_case, header_crc_case, modbus_case,
-                         pipeline_case>
-    all_cases;
+using all_cases = ::testing::Types<slip_case, cobs_case, delimiter_case,
+                                   length_case, header_case, header_crc_case,
+                                   modbus_case, pipeline_case>;
 TYPED_TEST_SUITE (LumexFramedStreamCodecTest, all_cases);
 
 template <typename Case>

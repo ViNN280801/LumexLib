@@ -66,32 +66,32 @@ namespace applied
 namespace transport
 {
 /// @brief Bytes to read into.
-typedef lumex::core::span::view::span<std::uint8_t> mutable_bytes_t;
+using mutable_bytes_t = lumex::core::span::view::span<std::uint8_t>;
 
 /// @brief Bytes to write.
-typedef lumex::core::span::view::span<std::uint8_t const> const_bytes_t;
+using const_bytes_t = lumex::core::span::view::span<std::uint8_t const>;
 
 /// @brief The executor every transport takes (an `io_context`, a strand, a
 /// thread pool, ...).
-typedef asio::any_io_executor executor_type;
+using executor_type = asio::any_io_executor;
 
 /// @brief A deadline of a synchronous call, counted from the call.
-typedef std::chrono::milliseconds deadline_t;
+using deadline_t = std::chrono::milliseconds;
 
 /// @brief The completion of an open, a send or a close.
-typedef asio::any_completion_handler<void (std::error_code)> status_handler_t;
+using status_handler_t = asio::any_completion_handler<void (std::error_code)>;
 
 /// @brief The completion of a read or a write: the error and the byte count.
-typedef asio::any_completion_handler<void (std::error_code, std::size_t)>
-    io_handler_t;
+using io_handler_t
+    = asio::any_completion_handler<void (std::error_code, std::size_t)>;
 
 /// @brief The result of a synchronous call without a value.
-typedef lumex::core::expected::result::expected<void, std::error_code>
-    status_result_t;
+using status_result_t
+    = lumex::core::expected::result::expected<void, std::error_code>;
 
 /// @brief The result of a synchronous read or write: the byte count.
-typedef lumex::core::expected::result::expected<std::size_t, std::error_code>
-    io_result_t;
+using io_result_t
+    = lumex::core::expected::result::expected<std::size_t, std::error_code>;
 } // namespace transport
 } // namespace applied
 } // namespace lumex

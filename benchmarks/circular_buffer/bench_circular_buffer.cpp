@@ -152,7 +152,7 @@ keep_value (T const &value)
 template <typename T> class model_ring
 {
 public:
-  typedef typename std::vector<T>::iterator iterator;
+  using iterator = typename std::vector<T>::iterator;
 
   explicit model_ring (std::size_t capacity) : m_capacity (capacity) {}
   std::size_t
@@ -226,7 +226,7 @@ struct pod32
 /** A kind: a make function (the i-th sample) and a digest of a value. */
 struct kind_int
 {
-  typedef int type;
+  using type = int;
   static char const *
   tag ()
   {
@@ -246,7 +246,7 @@ struct kind_int
 
 struct kind_str_short
 {
-  typedef std::string type;
+  using type = std::string;
   static char const *
   tag ()
   {
@@ -266,7 +266,7 @@ struct kind_str_short
 
 struct kind_str_long
 {
-  typedef std::string type;
+  using type = std::string;
   static char const *
   tag ()
   {
@@ -335,7 +335,7 @@ make_wrapped (std::size_t capacity, std::size_t first_sample)
 // -- Scenarios: run (iterations, size) on the container under test and on the
 // reference --
 
-typedef u64 (*run_t) (std::size_t iterations, std::size_t size);
+using run_t = u64 (*) (std::size_t iterations, std::size_t size);
 
 struct scenario_t
 {
@@ -649,7 +649,7 @@ template <typename T>
 void
 footprint_row (std::ofstream &out, char const *name)
 {
-  typedef bench::ring<T> ring_t;
+  using ring_t = bench::ring<T>;
   std::size_t const capacity = 1024;
   T const sample = T ();
   g_count_allocations = true;

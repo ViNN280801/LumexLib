@@ -183,9 +183,10 @@ scenario_hash_and_containers (Trace &t)
   ordered.insert (a2);
   t.note (static_cast<long> (ordered.size ()));
   // owner_less groups pointers by owner, not by stored pointer.
-  typedef typename std::conditional<
-      std::is_same<F, lumex_family>::value, sp::owner_less<shared_of<F, int>>,
-      std::owner_less<shared_of<F, int>>>::type less_type;
+  using less_type =
+      typename std::conditional<std::is_same<F, lumex_family>::value,
+                                sp::owner_less<shared_of<F, int>>,
+                                std::owner_less<shared_of<F, int>>>::type;
   std::set<shared_of<F, int>, less_type> by_owner;
   by_owner.insert (a);
   by_owner.insert (shared_of<F, int> (a, b.get ()));
@@ -291,7 +292,7 @@ TEST (LumexSharedPtrObserversTest,
 TEST (LumexSharedPtrObserversTest,
       GivenTheHashAndComparisonTraits_WhenChecked_ThenTheSignaturesAreRight)
 {
-  typedef sp::shared_ptr<int> ptr;
+  using ptr = sp::shared_ptr<int>;
   static_assert (noexcept (std::declval<ptr const &> ().get ()), "");
   static_assert (noexcept (std::declval<ptr const &> ().use_count ()), "");
   static_assert (noexcept (static_cast<bool> (std::declval<ptr const &> ())),
@@ -331,7 +332,7 @@ TEST (LumexSharedPtrObserversTest,
       GivenVoid_WhenDereferencing_ThenTheOperatorsAreNotAvailable)
 {
   // shared_ptr<void> has get () and the observers but no operator*.
-  typedef sp::shared_ptr<void> ptr;
+  using ptr = sp::shared_ptr<void>;
   static_assert (std::is_same<ptr::element_type, void>::value, "");
   static_assert (std::is_same<decltype (std::declval<ptr const &> ().get ()),
                               void *>::value,

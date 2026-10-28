@@ -111,9 +111,9 @@ template <typename Transport> struct hub_traits;
 template <> struct hub_traits<stream::byte_stream>
 {
   /// What a frame is for the reader.
-  typedef frame_t frame_type;
+  using frame_type = frame_t;
   /// The erased completion of a frame read.
-  typedef frame_handler_t read_handler_type;
+  using read_handler_type = frame_handler_t;
   /// The component of the log records.
   static char const *
   component () LUMEX_NOEXCEPT
@@ -130,8 +130,8 @@ template <> struct hub_traits<stream::byte_stream>
 
 template <> struct hub_traits<datagram::message_transport>
 {
-  typedef datagram::message_t frame_type;
-  typedef datagram::message_handler_t read_handler_type;
+  using frame_type = datagram::message_t;
+  using read_handler_type = datagram::message_handler_t;
   static char const *
   component () LUMEX_NOEXCEPT
   {
@@ -150,12 +150,12 @@ template <typename Transport>
 class framed_hub : public std::enable_shared_from_this<framed_hub<Transport>>
 {
 public:
-  typedef hub_traits<Transport> traits_type;
-  typedef typename traits_type::frame_type frame_type;
-  typedef typename traits_type::read_handler_type read_handler_type;
-  typedef asio::strand<executor_type> strand_type;
-  typedef core::framing::codec::bytes_t bytes_t;
-  typedef core::framing::codec::bytes_view_t bytes_view_t;
+  using traits_type = hub_traits<Transport>;
+  using frame_type = typename traits_type::frame_type;
+  using read_handler_type = typename traits_type::read_handler_type;
+  using strand_type = asio::strand<executor_type>;
+  using bytes_t = core::framing::codec::bytes_t;
+  using bytes_view_t = core::framing::codec::bytes_view_t;
 
   /// @brief A hub over `transport` (not empty, moved from).
   framed_hub (Transport transport, framed_options_t const &options);

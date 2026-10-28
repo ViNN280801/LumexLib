@@ -50,7 +50,7 @@
  *  - a fixed-width hexadecimal layout carries it as the first `2 * W`
  *    digits (`key_at_digits<0, 2 * W, 16>`);
  *  - anything else, or a header with another position, names its own reader
- *    in the header type: `typedef key_at<2, 1> key_reader;` or a type with
+ *    in the header type: `using key_reader = key_at<2, 1>;` or a type with
  *    `static bool read (bytes_view_t frame, key_read_t &out)`.
  * A binary or hexadecimal fixed-width layer must name the width
  * (`static constexpr std::size_t key_width = N;`) or its own `key_reader`:
@@ -107,7 +107,7 @@ struct key_read_t
 };
 
 /// @brief The byte order of the key bytes.
-typedef ::lumex::core::protocol::field::byte_order key_byte_order;
+using key_byte_order = ::lumex::core::protocol::field::byte_order;
 
 /**
  * @brief The key as `Width` bytes at `Offset` of the frame, in byte order
@@ -248,7 +248,7 @@ namespace detail
 {
 template <typename T> struct key_voider
 {
-  typedef void type;
+  using type = void;
 };
 
 template <typename H, typename = void> struct header_key_reader
@@ -263,7 +263,7 @@ template <typename H, typename = void> struct header_key_reader
 template <typename H>
 struct header_key_reader<H, typename key_voider<typename H::key_reader>::type>
 {
-  typedef typename H::key_reader type;
+  using type = typename H::key_reader;
 
   static LUMEX_CONSTEXPR bool
   present () LUMEX_NOEXCEPT
@@ -362,21 +362,21 @@ struct widest_of_list<::lumex::core::protocol::dsl::type_list<Rows...>>
 
 template <typename Layout, std::size_t Width> struct default_reader
 {
-  typedef no_key_reader type;
+  using type = no_key_reader;
 };
 
 template <typename Policy, std::size_t Width>
 struct default_reader<::lumex::core::protocol::layout::binary_layout<Policy>,
                       Width>
 {
-  typedef key_at<0, Width> type;
+  using type = key_at<0, Width>;
 };
 
 template <std::size_t Width>
 struct default_reader<
     ::lumex::core::protocol::layout::fixed_width_text_layout<16>, Width>
 {
-  typedef key_at_digits<0, 2 * Width, 16> type;
+  using type = key_at_digits<0, 2 * Width, 16>;
 };
 
 template <char Separator, char KeySeparator, unsigned Radix, bool Trim,
@@ -385,7 +385,7 @@ struct default_reader<::lumex::core::protocol::layout::tokenized_text_layout<
                           Separator, KeySeparator, Radix, Trim>,
                       Width>
 {
-  typedef tokenized_key<KeySeparator, Trim> type;
+  using type = tokenized_key<KeySeparator, Trim>;
 };
 } // namespace detail
 
@@ -461,7 +461,7 @@ struct key_reader_of
       "LUMEX_PROTOCOL: the header type of a binary or hexadecimal "
       "fixed-width layer names the width of the key on the wire "
       "(static constexpr std::size_t key_width = N;) or its own key_reader "
-      "(typedef index::key_at<Offset, N> key_reader;): the width of the "
+      "(using key_reader = index::key_at<Offset, N>;): the width of the "
       "key type (an int for 0x1D) is not the width on the wire");
 };
 } // namespace index

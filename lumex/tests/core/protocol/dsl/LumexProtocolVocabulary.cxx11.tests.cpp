@@ -58,7 +58,7 @@ LUMEX_PROTOCOL_LAYOUT (pair_t, (u8_, u8_), ("a", "b"));
 // clang-format on
 LUMEX_PROTOCOL_DEFINE (vocabulary_protocol, codec, header, VOCABULARY_ROWS);
 
-typedef vocabulary_protocol::PLAIN_t plain_row;
+using plain_row = vocabulary_protocol::PLAIN_t;
 } // namespace
 
 TEST (

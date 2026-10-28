@@ -46,7 +46,7 @@ namespace
 {
 using namespace lumex_session_test;
 using tr::error::transport_errc;
-typedef ss::channel_state state;
+using state = ss::channel_state;
 
 // A stream whose open ignores cancel () like the serial stream (the bounded
 // open runs on a worker thread): it completes after `delay`, with
@@ -1474,7 +1474,7 @@ TEST_F (
     LumexSessionRegressionTest,
     GivenAPendingTcpRead_WhenTheSessionDropsTheLink_ThenThePeerSeesTheConnectionClosed)
 {
-  typedef asio::ip::tcp tcp;
+  using tcp = asio::ip::tcp;
   asio::io_context peer_context;
   tcp::acceptor acceptor (
       peer_context, tcp::endpoint (asio::ip::address_v4::loopback (), 0));

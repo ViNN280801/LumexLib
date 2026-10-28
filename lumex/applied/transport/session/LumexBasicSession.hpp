@@ -145,7 +145,7 @@ namespace session
 template <typename Transport> class basic_session
 {
 protected:
-  typedef detail::session_impl<Transport> impl_type;
+  using impl_type = detail::session_impl<Transport>;
 
   // The initiating functions (declared first: the return types of the
   // async_* members name them). Each reports the session strand, which
@@ -153,7 +153,7 @@ protected:
   // strand, as for the transports' initiations.
   struct initiate_base
   {
-    typedef ::lumex::applied::transport::executor_type executor_type;
+    using executor_type = ::lumex::applied::transport::executor_type;
 
     explicit initiate_base (executor_type const &executor)
         : executor_ (executor)
@@ -243,7 +243,7 @@ protected:
 public:
   /// @brief Makes a closed transport on the executor it is given (the
   /// session's executor); a factory that throws is a failed attempt.
-  typedef typename impl_type::factory_t factory_t;
+  using factory_t = typename impl_type::factory_t;
 
   /// @brief A closed session; `start ()` or `open` begins.
   basic_session (executor_type const &executor, factory_t factory,

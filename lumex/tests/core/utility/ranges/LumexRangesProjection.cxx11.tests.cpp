@@ -262,7 +262,7 @@ TEST (LumexRangesProjectionTest,
 TEST (LumexRangesProjectionTest,
       GivenMapWithKeyMember_WhenProjectingFirst_ThenFindsNearestKey)
 {
-  typedef std::map<int, std::string> table_t;
+  using table_t = std::map<int, std::string>;
   table_t table;
   table[10] = "ten";
   table[20] = "twenty";
@@ -280,7 +280,7 @@ TEST (LumexRangesProjectionTest,
 TEST (LumexRangesProjectionTest,
       GivenPairsWithMember_WhenProjectingFirst_ThenFindsNearest)
 {
-  typedef std::pair<double, std::string> entry_t;
+  using entry_t = std::pair<double, std::string>;
   std::vector<entry_t> entries;
   entries.push_back (entry_t (0.5, "a"));
   entries.push_back (entry_t (1.5, "b"));

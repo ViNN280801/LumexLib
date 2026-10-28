@@ -77,7 +77,7 @@ namespace protocol
 namespace dsl
 {
 /// @brief The accepted states of a row, converted to 64-bit integers.
-typedef ::lumex::core::span::view::span<std::int64_t const> states_t;
+using states_t = ::lumex::core::span::view::span<std::int64_t const>;
 
 /**
  * @brief An option of another layer (an option type whose kind is not one
@@ -96,7 +96,7 @@ struct extra_option_t
 };
 
 /// @brief The options of other layers of a row.
-typedef ::lumex::core::span::view::span<extra_option_t const> extra_options_t;
+using extra_options_t = ::lumex::core::span::view::span<extra_option_t const>;
 
 /// @brief The options of a row as plain values; a `has_*` flag tells
 /// whether the row set the option.
@@ -189,7 +189,7 @@ struct models_storage<Command,
 
 template <typename Command> struct models_of<Command, true>
 {
-  typedef decltype (get_option<kind::model> (Command::options ())) option_type;
+  using option_type = decltype (get_option<kind::model> (Command::options ()));
 
   static names_t
   get () LUMEX_NOEXCEPT
@@ -227,8 +227,8 @@ template <typename Command, bool Present> struct states_of
 
 template <typename Command> struct states_of<Command, true>
 {
-  typedef decltype (get_option<kind::accepted_in> (
-      Command::options ())) option_type;
+  using option_type
+      = decltype (get_option<kind::accepted_in> (Command::options ()));
 
   static states_t
   get () LUMEX_NOEXCEPT
@@ -358,7 +358,7 @@ template <std::size_t... K, std::size_t I>
 struct collect_extras<::lumex::core::utility::sequence::index_sequence<K...>,
                       I>
 {
-  typedef ::lumex::core::utility::sequence::index_sequence<K...> type;
+  using type = ::lumex::core::utility::sequence::index_sequence<K...>;
 };
 
 template <std::size_t... K, std::size_t I, typename Head, typename... Tail>
@@ -379,8 +379,8 @@ template <typename Set> struct extras_of;
 
 template <typename... T> struct extras_of<option_set<T...>>
 {
-  typedef typename collect_extras<
-      ::lumex::core::utility::sequence::index_sequence<>, 0, T...>::type type;
+  using type = typename collect_extras<
+      ::lumex::core::utility::sequence::index_sequence<>, 0, T...>::type;
 };
 
 template <typename Option>
@@ -414,11 +414,11 @@ template <typename Command>
 options_view_t
 make_options_view () LUMEX_NOEXCEPT
 {
-  typedef command_has_option<Command, kind::timeout> has_timeout;
-  typedef command_has_option<Command, kind::retries> has_retries;
-  typedef command_has_option<Command, kind::stream> has_stream;
-  typedef command_has_option<Command, kind::log_level> has_level;
-  typedef command_has_option<Command, kind::firmware> has_firmware;
+  using has_timeout = command_has_option<Command, kind::timeout>;
+  using has_retries = command_has_option<Command, kind::retries>;
+  using has_stream = command_has_option<Command, kind::stream>;
+  using has_level = command_has_option<Command, kind::log_level>;
+  using has_firmware = command_has_option<Command, kind::firmware>;
   firmware_t const firmware
       = firmware_of<Command, has_firmware::value>::get ();
   options_view_t view = {

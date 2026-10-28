@@ -179,14 +179,14 @@ struct state_change_t
 };
 
 /// @brief Called on the session's strand at every state change.
-typedef std::function<void (state_change_t const &)> state_callback_t;
+using state_callback_t = std::function<void (state_change_t const &)>;
 
 /// @brief A random number in [0, 1) for the jitter (called on the strand).
-typedef std::function<double ()> random_source_t;
+using random_source_t = std::function<double ()>;
 
 /// @brief Tells a session whether its device is present (any thread); a
 /// `device_watcher` calls it (see `device_watcher::watch_presence`).
-typedef std::function<void (bool present)> presence_sink_t;
+using presence_sink_t = std::function<void (bool present)>;
 
 /// @brief The settings of a session.
 struct session_options_t
@@ -223,13 +223,13 @@ struct session_statistics_t
 
 /// @brief The completion of `async_wait_state_change`: an error
 /// (`cancelled`) or the new state.
-typedef asio::any_completion_handler<void (std::error_code, channel_state)>
-    state_handler_t;
+using state_handler_t
+    = asio::any_completion_handler<void (std::error_code, channel_state)>;
 
 /// @brief The completion of `async_wait_state_change` from a snapshot: an
 /// error (`cancelled`) or the snapshot after the change.
-typedef asio::any_completion_handler<void (std::error_code, state_snapshot_t)>
-    snapshot_handler_t;
+using snapshot_handler_t
+    = asio::any_completion_handler<void (std::error_code, state_snapshot_t)>;
 } // namespace session
 } // namespace transport
 } // namespace applied

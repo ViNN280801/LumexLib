@@ -77,9 +77,8 @@ namespace log
 namespace
 {
 struct transport_log_tag;
-typedef lumex::core::utility::callback::lumex_callback_slot<
-    transport_log_tag, void (log_record_t const &)>
-    sink_slot;
+using sink_slot = lumex::core::utility::callback::lumex_callback_slot<
+    transport_log_tag, void (log_record_t const &)>;
 
 std::atomic<int> g_threshold (static_cast<int> (log_level::warning));
 std::atomic<std::size_t> g_dump_limit (256);

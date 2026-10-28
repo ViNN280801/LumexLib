@@ -144,7 +144,7 @@ TEST (
     GivenACompareExchangeThatLocksTwice_WhenCheckersRun_ThenLostUpdatesAreSeen)
 {
   lumex_test::TestWatchdog const dog ("GivenACompareExchangeThatLocksTwice");
-  typedef FlawedEngine<Flaw::cas_split_lock> Engine;
+  using Engine = FlawedEngine<Flaw::cas_split_lock>;
   // Deterministic: the hook makes two threads meet inside the gap.
   LUMEX_EXPECT_CAUGHT (
       Engine::name (),
@@ -170,7 +170,7 @@ TEST (
     GivenAnExchangeThatIsALoadThenAStore_WhenCheckersRun_ThenADuplicateIsSeen)
 {
   lumex_test::TestWatchdog const dog ("GivenAnExchangeThatIsALoadThenAStore");
-  typedef FlawedEngine<Flaw::exchange_split> Engine;
+  using Engine = FlawedEngine<Flaw::exchange_split>;
   LUMEX_EXPECT_CAUGHT (
       Engine::name (),
       (scenario::exchange_double_return<Engine> (
@@ -193,7 +193,7 @@ TEST (
     GivenAnEquivalenceOfThePointerOnly_WhenCheckersRun_ThenTheIdentityRuleIsViolated)
 {
   lumex_test::TestWatchdog const dog ("GivenAnEquivalenceOfThePointerOnly");
-  typedef FlawedEngine<Flaw::cas_pointer_only> Engine;
+  using Engine = FlawedEngine<Flaw::cas_pointer_only>;
   LUMEX_EXPECT_CAUGHT (Engine::name (),
                        scenario::identity_rule<Engine> (verdict_under_test));
   // The address-reuse check: a handle that names only the address of a dead
@@ -216,7 +216,7 @@ TEST (
     GivenAnEquivalenceOfTheOwnerOnly_WhenCheckersRun_ThenTheIdentityRuleIsViolated)
 {
   lumex_test::TestWatchdog const dog ("GivenAnEquivalenceOfTheOwnerOnly");
-  typedef FlawedEngine<Flaw::cas_owner_only> Engine;
+  using Engine = FlawedEngine<Flaw::cas_owner_only>;
   LUMEX_EXPECT_CAUGHT (Engine::name (),
                        scenario::identity_rule<Engine> (verdict_under_test));
   LUMEX_EXPECT_CAUGHT (Engine::name (),
@@ -230,7 +230,7 @@ TEST (
     GivenAnEquivalenceByContent_WhenCheckersRun_ThenTheNewEqualObjectIsSeenAsMatching)
 {
   lumex_test::TestWatchdog const dog ("GivenAnEquivalenceByContent");
-  typedef FlawedEngine<Flaw::cas_content_equal> Engine;
+  using Engine = FlawedEngine<Flaw::cas_content_equal>;
   // A -> B -> A' with an equal new object: only the identity of the object
   // tells it from A.
   LUMEX_EXPECT_CAUGHT (Engine::name (),
@@ -245,7 +245,7 @@ TEST (
 {
   lumex_test::TestWatchdog const dog (
       "GivenAStrongCompareExchangeThatFailsSpuriously");
-  typedef FlawedEngine<Flaw::strong_fails_spuriously> Engine;
+  using Engine = FlawedEngine<Flaw::strong_fails_spuriously>;
   LUMEX_EXPECT_CAUGHT (
       Engine::name (),
       scenario::run_matrix_for (scenario::history_thread_counts (),
@@ -259,7 +259,7 @@ TEST (LumexAtomicSmartPtrFalsificationTest,
       GivenAStoreThatKeepsTheReplacedValue_WhenCheckersRun_ThenTheLeakIsSeen)
 {
   lumex_test::TestWatchdog const dog ("GivenAStoreThatKeepsTheReplacedValue");
-  typedef FlawedEngine<Flaw::store_keeps_old> Engine;
+  using Engine = FlawedEngine<Flaw::store_keeps_old>;
   LUMEX_EXPECT_CAUGHT (
       Engine::name (),
       scenario::replaced_value_released<Engine> (verdict_under_test));
@@ -278,7 +278,7 @@ TEST (
 {
   lumex_test::TestWatchdog const dog (
       "GivenALoadThatSometimesReturnsAnOlderValue");
-  typedef FlawedEngine<Flaw::stale_load> Engine;
+  using Engine = FlawedEngine<Flaw::stale_load>;
   LUMEX_EXPECT_CAUGHT (Engine::name (),
                        scenario::matrix (scenario::two_and_four (),
                                          &scenario::monotone_loads<Engine>,
@@ -328,7 +328,7 @@ TEST (
 {
   if (!lumex_test::subprocess_available ())
     GTEST_SKIP () << "no fork on this platform";
-  typedef FlawedEngine<Flaw::cas_unlocked> Engine;
+  using Engine = FlawedEngine<Flaw::cas_unlocked>;
   bool const caught = caught_in_child (
       [] (std::uint64_t attempt)
         {
@@ -430,7 +430,7 @@ TEST (
   // not return to one, however long the atomic lives.
   if (!lumex_test::subprocess_available ())
     GTEST_SKIP () << "no fork on this platform";
-  typedef FlawedEngine<Flaw::store_leaks_forever> Engine;
+  using Engine = FlawedEngine<Flaw::store_leaks_forever>;
   struct Case
   {
     char const *name;

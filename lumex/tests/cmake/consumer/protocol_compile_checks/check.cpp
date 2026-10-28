@@ -186,9 +186,8 @@ LUMEX_PROTOCOL_DEFINE (bad_protocol, codec, header, BAD_ROWS);
 // 20: a row of an aligned binary layout with a misplaced 2-byte field.
 struct aligned_header
 {
-  typedef ::lumex::core::protocol::layout::binary_layout<
-      ::lumex::core::protocol::layout::natural_alignment<0>>
-      layout_type;
+  using layout_type = ::lumex::core::protocol::layout::binary_layout<
+      ::lumex::core::protocol::layout::natural_alignment<0>>;
 };
 #define BAD_ROWS(X, X_AS)                                                     \
   X (SET, 0x01, "Set", (u8_<>, u16_le_<>), ("a", "b"), (), ())
@@ -240,7 +239,7 @@ use_bad ()
 // 24: decoding a reply kind of the dialogue with the core.
 template <typename A, typename N> struct ack_nak
 {
-  typedef ::lumex::core::protocol::dsl::reply_tag lumex_protocol_reply;
+  using lumex_protocol_reply = ::lumex::core::protocol::dsl::reply_tag;
 };
 #define BAD_ROWS(X, X_AS)                                                     \
   X (PING, 0x01, "Liveness", (), (), (ack_nak<u8_<>, u8_<>>), ())
@@ -293,7 +292,7 @@ struct lone_vocabulary
 };
 struct lone_header
 {
-  typedef lone_vocabulary lumex_vocabulary;
+  using lumex_vocabulary = lone_vocabulary;
 };
 #define BAD_ROWS(X, X_AS) X (PING, 0x01, "Liveness", (), (), (), ())
 LUMEX_PROTOCOL_DEFINE (bad_protocol, codec, lone_header, BAD_ROWS);

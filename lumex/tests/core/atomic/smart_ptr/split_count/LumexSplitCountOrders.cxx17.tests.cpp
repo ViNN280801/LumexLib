@@ -45,8 +45,8 @@ namespace
 {
 using namespace split_test;
 
-typedef asp::atomic_shared_ptr_lock_free_split_count<int> shared_atomic;
-typedef asp::atomic_weak_ptr_lock_free_split_count<int> weak_atomic;
+using shared_atomic = asp::atomic_shared_ptr_lock_free_split_count<int>;
+using weak_atomic = asp::atomic_weak_ptr_lock_free_split_count<int>;
 
 static_assert (shared_atomic::is_always_lock_free,
                "usable in a constant expression");

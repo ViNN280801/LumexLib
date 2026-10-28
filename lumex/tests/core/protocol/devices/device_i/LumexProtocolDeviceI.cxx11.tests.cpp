@@ -31,8 +31,8 @@ using tables::bytes;
 using tables::payload_of;
 using tables::view_of;
 
-typedef tables::device_i device;
-typedef tables::alt_i alt;
+using device = tables::device_i;
+using alt = tables::alt_i;
 
 index::protocol_index_t const &
 device_index ()

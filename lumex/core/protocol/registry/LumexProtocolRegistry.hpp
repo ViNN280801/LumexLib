@@ -247,10 +247,10 @@ struct limits_kind
 struct limits_t
 {
   /// The kind of the option.
-  typedef limits_kind option_kind;
+  using option_kind = limits_kind;
   /// A word of the table vocabulary (`limits (min, max)`).
-  typedef ::lumex::core::protocol::dsl::vocabulary_word_tag
-      lumex_vocabulary_word;
+  using lumex_vocabulary_word
+      = ::lumex::core::protocol::dsl::vocabulary_word_tag;
   /// The smallest value.
   double lower;
   /// The largest value.
@@ -323,7 +323,7 @@ make_registry_key (T const &value) LUMEX_NOEXCEPT
 struct vocabulary : ::lumex::core::protocol::dsl::vocabulary, access_words
 {
   /// @brief Option: the engineering values `limits (min, max)`.
-  typedef limits_t limits;
+  using limits = limits_t;
 
   /// @brief Key: an index.
   static LUMEX_CONSTEXPR registry_key_t
@@ -373,7 +373,7 @@ template <typename... T> struct field_of
                  "LUMEX_PROTOCOL_REGISTRY: the type group of a row holds "
                  "exactly one field");
   /// Not used: the group is invalid.
-  typedef void type;
+  using type = void;
 };
 
 /// @copydoc field_of
@@ -383,7 +383,7 @@ template <typename T> struct field_of<T>
                  "LUMEX_PROTOCOL_REGISTRY: the type of a row is a field "
                  "type (u16_be_<scale<...> >, u8_, ...)");
   /// The field.
-  typedef typename ::lumex::core::protocol::field::resolve<T>::type type;
+  using type = typename ::lumex::core::protocol::field::resolve<T>::type;
 };
 
 /**
@@ -391,7 +391,7 @@ template <typename T> struct field_of<T>
  * `registry_entry_t::value_name`): the enumerator, or `nullptr` for a value
  * that is no enumerator.
  */
-typedef char const *(*value_name_t) (std::int64_t raw);
+using value_name_t = char const *(*)(std::int64_t raw);
 
 /// @brief The run-time entry of one row of a registry.
 struct registry_entry_t
@@ -431,7 +431,7 @@ struct registry_entry_t
 };
 
 /// @brief The run-time table of a registry.
-typedef ::lumex::core::span::view::span<registry_entry_t const> entries_t;
+using entries_t = ::lumex::core::span::view::span<registry_entry_t const>;
 
 namespace detail
 {
@@ -441,7 +441,7 @@ template <typename E>
 char const *
 enumerator_name (std::int64_t raw) LUMEX_NOEXCEPT
 {
-  typedef typename std::underlying_type<E>::type underlying;
+  using underlying = typename std::underlying_type<E>::type;
   return ::lumex::core::protocol::field::enum_name (
       static_cast<E> (static_cast<underlying> (raw)));
 }
@@ -491,11 +491,11 @@ registry_entry_t
 make_registry_entry () LUMEX_NOEXCEPT
 {
   namespace dsl = ::lumex::core::protocol::dsl;
-  typedef dsl::detail::command_has_option<Row, limits_kind> has_limits;
-  typedef dsl::detail::command_has_option<Row, dsl::kind::firmware>
-      has_firmware;
-  typedef typename ::lumex::core::protocol::field::impl_of<
-      typename Row::field_type>::type impl;
+  using has_limits = dsl::detail::command_has_option<Row, limits_kind>;
+  using has_firmware
+      = dsl::detail::command_has_option<Row, dsl::kind::firmware>;
+  using impl = typename ::lumex::core::protocol::field::impl_of<
+      typename Row::field_type>::type;
   limits_t const limits = detail::limits_of<Row, has_limits::value>::get ();
   dsl::firmware_t const firmware
       = dsl::detail::firmware_of<Row, has_firmware::value>::get ();
@@ -719,10 +719,11 @@ entry_available (registry_entry_t const &entry, std::uint32_t firmware,
   {                                                                           \
     struct lumex_row : lumex_vocabulary                                       \
     {                                                                         \
-      typedef ::lumex::core::protocol::registry::field_of<                    \
-          LUMEX_PP_UNWRAP field_>::type field_type;                           \
-      typedef decltype (::lumex::core::protocol::dsl::make_options (          \
-          LUMEX_PP_UNWRAP options_)) options_type;                            \
+      using field_type = ::lumex::core::protocol::registry::field_of<         \
+          LUMEX_PP_UNWRAP field_>::type;                                      \
+      using options_type                                                      \
+          = decltype (::lumex::core::protocol::dsl::make_options (            \
+              LUMEX_PP_UNWRAP options_));                                     \
       static LUMEX_CONSTEXPR ::lumex::core::protocol::registry::              \
           registry_key_t                                                      \
           make_key_value () LUMEX_NOEXCEPT                                    \
@@ -742,8 +743,8 @@ entry_available (registry_entry_t const &entry, std::uint32_t firmware,
             LUMEX_PP_UNWRAP options_);                                        \
       }                                                                       \
     };                                                                        \
-    typedef lumex_row::field_type field_type;                                 \
-    typedef lumex_row::options_type options_type;                             \
+    using field_type = lumex_row::field_type;                                 \
+    using options_type = lumex_row::options_type;                             \
     static LUMEX_CONSTEXPR char const *                                       \
     identifier () LUMEX_NOEXCEPT                                              \
     {                                                                         \
@@ -814,9 +815,9 @@ entry_available (registry_entry_t const &entry, std::uint32_t firmware,
 #define LUMEX_PROTOCOL_REGISTRY(name_, LIST_)                                 \
   struct name_                                                                \
   {                                                                           \
-    typedef ::lumex::core::protocol::registry::registry_tag                   \
-        lumex_protocol_registry;                                              \
-    typedef ::lumex::core::protocol::registry::vocabulary lumex_vocabulary;   \
+    using lumex_protocol_registry                                             \
+        = ::lumex::core::protocol::registry::registry_tag;                    \
+    using lumex_vocabulary = ::lumex::core::protocol::registry::vocabulary;   \
     static LUMEX_CONSTEXPR char const *                                       \
     registry_name () LUMEX_NOEXCEPT                                           \
     {                                                                         \
@@ -830,9 +831,9 @@ entry_available (registry_entry_t const &entry, std::uint32_t firmware,
              LUMEX_PROTOCOL_DETAIL_REGISTRY_ENUMERATOR_AS)                    \
           lumex_end_of_entries                                                \
     };                                                                        \
-    typedef ::lumex::core::protocol::dsl::list_of<void LIST_ (                \
+    using rows = ::lumex::core::protocol::dsl::list_of<void LIST_ (           \
         LUMEX_PROTOCOL_DETAIL_REGISTRY_RESOLVE,                               \
-        LUMEX_PROTOCOL_DETAIL_REGISTRY_RESOLVE_AS)>::type rows;               \
+        LUMEX_PROTOCOL_DETAIL_REGISTRY_RESOLVE_AS)>::type;                    \
     static ::lumex::core::protocol::registry::entries_t                       \
     entries () LUMEX_NOEXCEPT                                                 \
     {                                                                         \

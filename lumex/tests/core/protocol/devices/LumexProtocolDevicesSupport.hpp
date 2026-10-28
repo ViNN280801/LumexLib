@@ -29,7 +29,7 @@ namespace devices
 namespace layout = lumex::core::protocol::layout;
 namespace index = lumex::core::protocol::index;
 
-typedef layout::bytes_t bytes_t;
+using bytes_t = layout::bytes_t;
 
 /// The bytes of a list of small integers.
 inline bytes_t

@@ -79,7 +79,7 @@ namespace stream
 namespace
 {
 using error::transport_errc;
-typedef std::shared_ptr<stream_impl> impl_ptr;
+using impl_ptr = std::shared_ptr<stream_impl>;
 
 // Each posted step is a small function object: C++11 lambdas cannot move a
 // move-only handler into their capture.
@@ -324,7 +324,7 @@ struct write_all_next
     op.step ();
   }
 
-  typedef stream_impl::strand_type executor_type;
+  using executor_type = stream_impl::strand_type;
   executor_type
   get_executor () const LUMEX_NOEXCEPT
   {

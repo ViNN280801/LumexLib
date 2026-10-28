@@ -115,9 +115,9 @@ template <class T> class shared_ptr
 {
 public:
   /// `T` without one array extent ([util.smartptr.shared.general]).
-  typedef typename std::remove_extent<T>::type element_type;
+  using element_type = typename std::remove_extent<T>::type;
   /// The weak pointer type of this one (C++17).
-  typedef weak_ptr<T> weak_type;
+  using weak_type = weak_ptr<T>;
 
   // -- Construction ([util.smartptr.shared.const]) --
 
@@ -142,7 +142,7 @@ public:
                          detail::is_new_compatible<Y, T>::value>::type>
   explicit shared_ptr (Y *p) : ptr_ (p), cb_ (nullptr)
   {
-    typedef typename detail::default_deleter_for<T, Y>::type deleter_type;
+    using deleter_type = typename detail::default_deleter_for<T, Y>::type;
     detail::check_std_enable_shared_from_this<Y> ();
     deleter_type deleter;
     create_owner (p, deleter, detail::block_allocator<void> ());
@@ -492,7 +492,7 @@ private:
   void
   create_owner (P p, D &d, A const &a)
   {
-    typedef detail::ctl_ptr<P, D, A> block_type;
+    using block_type = detail::ctl_ptr<P, D, A>;
     LUMEX_SMART_PTR_TRY { cb_ = block_type::create (p, std::move (d), a); }
     LUMEX_SMART_PTR_CATCH_ALL
     {
@@ -538,8 +538,8 @@ private:
   void
   adopt_unique (std::unique_ptr<Y, D> &r, std::true_type)
   {
-    typedef typename std::remove_reference<D>::type deleter_object;
-    typedef std::reference_wrapper<deleter_object> deleter_ref;
+    using deleter_object = typename std::remove_reference<D>::type;
+    using deleter_ref = std::reference_wrapper<deleter_object>;
     typename std::unique_ptr<Y, D>::pointer const p = r.get ();
     if (p == nullptr)
       return;
@@ -594,7 +594,7 @@ template <class T>
 std::strong_ordering
 operator<=> (shared_ptr<T> const &a, std::nullptr_t) LUMEX_NOEXCEPT
 {
-  typedef typename shared_ptr<T>::element_type *pointer_type;
+  using pointer_type = typename shared_ptr<T>::element_type *;
   return std::compare_three_way () (a.get (),
                                     static_cast<pointer_type> (nullptr));
 }
@@ -632,10 +632,9 @@ template <class T, class U>
 bool
 operator< (shared_ptr<T> const &a, shared_ptr<U> const &b) LUMEX_NOEXCEPT
 {
-  typedef
+  using common_pointer =
       typename std::common_type<typename shared_ptr<T>::element_type *,
-                                typename shared_ptr<U>::element_type *>::type
-          common_pointer;
+                                typename shared_ptr<U>::element_type *>::type;
   return std::less<common_pointer> () (a.get (), b.get ());
 }
 
@@ -664,7 +663,7 @@ template <class T>
 bool
 operator< (shared_ptr<T> const &a, std::nullptr_t) LUMEX_NOEXCEPT
 {
-  typedef typename shared_ptr<T>::element_type *pointer_type;
+  using pointer_type = typename shared_ptr<T>::element_type *;
   return std::less<pointer_type> () (a.get (), nullptr);
 }
 
@@ -672,7 +671,7 @@ template <class T>
 bool
 operator< (std::nullptr_t, shared_ptr<T> const &b) LUMEX_NOEXCEPT
 {
-  typedef typename shared_ptr<T>::element_type *pointer_type;
+  using pointer_type = typename shared_ptr<T>::element_type *;
   return std::less<pointer_type> () (nullptr, b.get ());
 }
 
@@ -762,7 +761,7 @@ template <class T, class U>
 shared_ptr<T>
 static_pointer_cast (shared_ptr<U> const &r) LUMEX_NOEXCEPT
 {
-  typedef typename shared_ptr<T>::element_type element_type;
+  using element_type = typename shared_ptr<T>::element_type;
   return shared_ptr<T> (r, static_cast<element_type *> (r.get ()));
 }
 
@@ -771,7 +770,7 @@ template <class T, class U>
 shared_ptr<T>
 static_pointer_cast (shared_ptr<U> &&r) LUMEX_NOEXCEPT
 {
-  typedef typename shared_ptr<T>::element_type element_type;
+  using element_type = typename shared_ptr<T>::element_type;
   return shared_ptr<T> (std::move (r), static_cast<element_type *> (r.get ()));
 }
 
@@ -780,7 +779,7 @@ template <class T, class U>
 shared_ptr<T>
 dynamic_pointer_cast (shared_ptr<U> const &r) LUMEX_NOEXCEPT
 {
-  typedef typename shared_ptr<T>::element_type element_type;
+  using element_type = typename shared_ptr<T>::element_type;
   if (element_type *const p = dynamic_cast<element_type *> (r.get ()))
     return shared_ptr<T> (r, p);
   return shared_ptr<T> ();
@@ -792,7 +791,7 @@ template <class T, class U>
 shared_ptr<T>
 dynamic_pointer_cast (shared_ptr<U> &&r) LUMEX_NOEXCEPT
 {
-  typedef typename shared_ptr<T>::element_type element_type;
+  using element_type = typename shared_ptr<T>::element_type;
   if (element_type *const p = dynamic_cast<element_type *> (r.get ()))
     return shared_ptr<T> (std::move (r), p);
   return shared_ptr<T> ();
@@ -803,7 +802,7 @@ template <class T, class U>
 shared_ptr<T>
 const_pointer_cast (shared_ptr<U> const &r) LUMEX_NOEXCEPT
 {
-  typedef typename shared_ptr<T>::element_type element_type;
+  using element_type = typename shared_ptr<T>::element_type;
   return shared_ptr<T> (r, const_cast<element_type *> (r.get ()));
 }
 
@@ -812,7 +811,7 @@ template <class T, class U>
 shared_ptr<T>
 const_pointer_cast (shared_ptr<U> &&r) LUMEX_NOEXCEPT
 {
-  typedef typename shared_ptr<T>::element_type element_type;
+  using element_type = typename shared_ptr<T>::element_type;
   return shared_ptr<T> (std::move (r), const_cast<element_type *> (r.get ()));
 }
 
@@ -821,7 +820,7 @@ template <class T, class U>
 shared_ptr<T>
 reinterpret_pointer_cast (shared_ptr<U> const &r) LUMEX_NOEXCEPT
 {
-  typedef typename shared_ptr<T>::element_type element_type;
+  using element_type = typename shared_ptr<T>::element_type;
   return shared_ptr<T> (r, reinterpret_cast<element_type *> (r.get ()));
 }
 
@@ -830,7 +829,7 @@ template <class T, class U>
 shared_ptr<T>
 reinterpret_pointer_cast (shared_ptr<U> &&r) LUMEX_NOEXCEPT
 {
-  typedef typename shared_ptr<T>::element_type element_type;
+  using element_type = typename shared_ptr<T>::element_type;
   return shared_ptr<T> (std::move (r),
                         reinterpret_cast<element_type *> (r.get ()));
 }
@@ -843,8 +842,8 @@ namespace std
 /// Hash of the stored pointer ([util.smartptr.hash]).
 template <class T> struct hash<lumex::core::smart_ptr::shared_ptr<T>>
 {
-  typedef lumex::core::smart_ptr::shared_ptr<T> argument_type;
-  typedef std::size_t result_type;
+  using argument_type = lumex::core::smart_ptr::shared_ptr<T>;
+  using result_type = std::size_t;
 
   std::size_t
   operator() (lumex::core::smart_ptr::shared_ptr<T> const &p) const

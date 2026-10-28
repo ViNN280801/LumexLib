@@ -99,12 +99,12 @@ struct message_t
 };
 
 /// @brief The completion of a receive.
-typedef asio::any_completion_handler<void (std::error_code, message_t)>
-    message_handler_t;
+using message_handler_t
+    = asio::any_completion_handler<void (std::error_code, message_t)>;
 
 /// @brief The result of a synchronous receive.
-typedef lumex::core::expected::result::expected<message_t, std::error_code>
-    message_result_t;
+using message_result_t
+    = lumex::core::expected::result::expected<message_t, std::error_code>;
 
 struct message_impl_access;
 
@@ -113,7 +113,7 @@ struct message_impl_access;
 class message_impl : public std::enable_shared_from_this<message_impl>
 {
 public:
-  typedef asio::strand<executor_type> strand_type;
+  using strand_type = asio::strand<executor_type>;
 
   message_impl (executor_type const &executor, std::string name);
   virtual ~message_impl ();
@@ -257,7 +257,7 @@ class message_transport
   // asio::cancel_after ask for (see byte_stream).
   struct initiate_base
   {
-    typedef transport::executor_type executor_type;
+    using executor_type = transport::executor_type;
 
     explicit initiate_base (executor_type const &executor)
         : executor_ (executor)

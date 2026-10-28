@@ -82,8 +82,8 @@ TEST (LumexAggregateFieldsTest, GivenTupleSizeValue_WhenAddressTaken_ThenLinks)
 
 TYPED_TEST (LumexFieldArityTest, GivenArity_WhenTupleSize_ThenMatches)
 {
-  typedef TypeParam tag_t;
-  typedef typename fields_of<tag_t::value>::type agg_t;
+  using tag_t = TypeParam;
+  using agg_t = typename fields_of<tag_t::value>::type;
   EXPECT_EQ (tuple_size<agg_t>::value, tag_t::value);
 }
 

@@ -665,7 +665,7 @@ template <typename Pay> struct chain_t
 
 // -- The table of scenarios --
 
-typedef std::uint64_t (*run_t) (std::size_t iterations);
+using run_t = std::uint64_t (*) (std::size_t iterations);
 
 struct scenario_t
 {

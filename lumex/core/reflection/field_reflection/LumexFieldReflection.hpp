@@ -330,7 +330,7 @@ template <typename Struct>
 inline nlohmann::json
 to_json (Struct const &obj)
 {
-  typedef typename std::remove_cv<Struct>::type bare_t;
+  using bare_t = typename std::remove_cv<Struct>::type;
   return detail::to_json_fields (
       obj, std::integral_constant<bool, detail::names_source<bare_t>::value
                                             != 3> ());
