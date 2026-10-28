@@ -320,6 +320,17 @@ public:
     return impl_ ? impl_->last_error () : std::error_code ();
   }
 
+  /// @brief The text that goes with `last_error ()`. A factory that threw
+  /// shows in `last_error ()` as the exception's own code (a
+  /// `std::system_error`) or `invalid_endpoint`; this is the `what ()` of the
+  /// exception (the factory's reason: "no device with this serial number").
+  /// For every other failure it is the message of the code.
+  std::string
+  last_error_text () const
+  {
+    return impl_ ? impl_->last_error_text () : std::string ();
+  }
+
   /// @brief The counters of the transport of the last attempt (zero before
   /// the first).
   statistics::statistics_t

@@ -23,12 +23,9 @@
 #include <utility>
 #include <vector>
 
+// The umbrella alone: it brings the logger adapter (LUMEX_BUILD_LOGGER) and
+// the mocks (LUMEX_TRANSPORT_WITH_TESTING) behind their options.
 #include "lumex/applied/transport/LumexTransport"
-#if defined(LUMEX_TRANSPORT_WITH_LOGGER)
-#include "lumex/applied/transport/log/adapter/LumexTransportLoggerAdapter.hpp"
-#endif
-#include "lumex/applied/transport/testing/LumexMockDatagram.hpp"
-#include "lumex/applied/transport/testing/LumexMockStream.hpp"
 #if defined(LUMEX_TRANSPORT_WITH_FRAMING)
 #include "lumex/core/framing/LumexFraming"
 #endif

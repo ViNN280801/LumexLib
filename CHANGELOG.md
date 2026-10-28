@@ -334,6 +334,14 @@
 
 **Проверено:** GCC 13 (libstdc++ 13): наборы `fmt.*` и `string.*` проходят; при выключенном пропуске падают 15 проверок дифференциальных тестов; мутация нулевого указателя убита 7 проверками.
 
+##### Транспорт: усечение UDP, `LumexLogger::get_trigger_file_directory`, `last_error_text`, зонтичный заголовок
+
+**Файлы:** `lumex/applied/transport/net/LumexNetTransports.cpp`, `lumex/applied/logger/logger/LumexLogger.{hpp,cpp}`, `session/detail/LumexSessionCore.{hpp,cpp}`, `session/LumexBasicSession.hpp`, `LumexTransport`, README транспорта и логгера, тесты.
+
+**Суть:** буфер приема UDP на байт больше предела; датаграмма считается усеченной при `message_size` или при размере больше `max_datagram_size`, обрезается и пишется предупреждение (код и документация согласованы). Публичный `LumexLogger::get_trigger_file_directory ()`. `last_error_text ()` сессии хранит `what ()` исключения фабрики. `LumexTransport` включает адаптер логгера и заголовки `testing/` за своими опциями.
+
+**Проверено:** GCC 13, Clang 23, GCC 8.3: тесты проходят; мутации (буфер без `+1`, пустой каталог, очищенный текст) убиты тестами.
+
 #### Изменено
 
 ##### `serial_port_state::denied`: отказ в доступе при пробном открытии в POSIX

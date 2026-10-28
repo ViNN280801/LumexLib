@@ -452,17 +452,25 @@ public:
                   std::vector<std::uint8_t> buffer,
                   asio::error_code const &asio_error, std::size_t bytes)
   {
-    // Windows reports a datagram longer than the buffer as an error after
-    // filling the buffer; POSIX cuts it silently: both return the cut one.
+    // The receive buffer holds one byte more than max_datagram_size, so a
+    // datagram that is too long shows on every platform: POSIX cuts it
+    // silently to the buffer (one byte too many tells), Windows reports
+    // message_size after filling it. Both return the datagram cut to
+    // max_datagram_size and log it.
+    std::size_t const limit = options_.max_datagram_size;
+    bool cut = asio_error == asio::error::message_size;
     std::error_code error;
-    if (asio_error == asio::error::message_size)
-      LUMEX_TRANSPORT_LOG (warning, KUDP_COMPONENT, name ().c_str (),
-                           "datagram cut to "
-                               + std::to_string (options_.max_datagram_size)
-                               + " B",
-                           log::log_bytes_t ());
-    else
+    if (!cut)
       error = detail::from_asio (asio_error);
+    if (!error && bytes > limit)
+      {
+        cut = true;
+        bytes = limit;
+      }
+    if (cut && !error)
+      LUMEX_TRANSPORT_LOG (warning, KUDP_COMPONENT, name ().c_str (),
+                           "datagram cut to " + std::to_string (limit) + " B",
+                           log::log_bytes_t ());
     datagram::message_t message;
     if (!error)
       {
@@ -522,11 +530,13 @@ protected:
   void
   do_receive (datagram::message_handler_t handler) override
   {
-    // The buffer becomes the payload: no copy of the datagram.
+    // The buffer becomes the payload: no copy of the datagram. One byte more
+    // than max_datagram_size, to see a datagram that is too long (see
+    // finish_receive).
     udp_received done
         = { std::static_pointer_cast<udp_socket_impl> (shared_from_this ()),
             std::move (handler),
-            std::vector<std::uint8_t> (options_.max_datagram_size) };
+            std::vector<std::uint8_t> (options_.max_datagram_size + 1) };
     asio::mutable_buffer const target
         = asio::buffer (done.buffer.data (), done.buffer.size ());
     socket_.async_receive (target, std::move (done));
