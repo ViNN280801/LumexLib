@@ -85,6 +85,12 @@
  * cancel it), a queued one with `cancelled`. A failed read ends the reader:
  * the pending and every later receive complete with `disconnected` until
  * the device is closed and opened again.
+ *
+ * The threads of the runtime never post to a destroyed `io_context`: a
+ * thread posts its result to the strand only while the device is pinned by
+ * the work it runs for it, and the `io_context` shutdown unpins the device
+ * first. An open that finishes after that closes the handle it opened, and a
+ * reader that finds the device unpinned ends.
  */
 #ifndef LUMEX_APPLIED_TRANSPORT_HID_HID_DEVICE_HPP
 #define LUMEX_APPLIED_TRANSPORT_HID_HID_DEVICE_HPP
