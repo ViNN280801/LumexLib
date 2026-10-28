@@ -698,8 +698,8 @@
    "edits": [
     {
      "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
-     "old": "  typedef split_strong_ledger_t holder_ledger_type;",
-     "new": "  typedef typename traits_type::ledger_type holder_ledger_type;"
+     "old": "  using holder_ledger_type = split_strong_ledger_t;",
+     "new": "  using holder_ledger_type = typename traits_type::ledger_type;"
     }
    ],
    "checks": [

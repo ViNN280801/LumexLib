@@ -98,8 +98,8 @@ namespace Detail
 inline namespace backend_builtin
 {
 /// An unsigned 128-bit integer that may alias any object.
-__extension__ using u128_alias_t
-    = unsigned __int128 __attribute__ ((may_alias));
+__extension__ using u128_alias_t __attribute__ ((may_alias))
+    = unsigned __int128;
 
 /// An unsigned 128-bit integer.
 __extension__ using u128_t = unsigned __int128;

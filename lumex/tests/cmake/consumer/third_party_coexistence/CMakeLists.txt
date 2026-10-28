@@ -2,12 +2,12 @@
 #
 # A process may hold two copies of Asio and hidapi: one inside another shared
 # library (with its own embedded Asio and a static hidapi, default visibility)
-# and one in the executable that links the LumexLib transport. On ELF their global symbols interpose, so the
-# copies must be identical (transport specification F3). This fixture builds
-# the same shape from the vendored trees: a shared library "other_library" with
-# its own copy of both, and an executable that uses lumex::3rdparty_asio and
-# lumex::3rdparty_hidapi; both run an io_context and enumerate HID devices in
-# one process.
+# and one in the executable that links the LumexLib transport. On ELF their
+# global symbols interpose, so the copies must be identical (transport
+# specification F3). This fixture builds the same shape from the vendored
+# trees: a shared library "other_library" with its own copy of both, and an
+# executable that uses lumex::3rdparty_asio and lumex::3rdparty_hidapi; both
+# run an io_context and enumerate HID devices in one process.
 
 cmake_minimum_required(VERSION 3.16)
 project(LumexThirdPartyCoexistenceConsumer LANGUAGES C CXX)

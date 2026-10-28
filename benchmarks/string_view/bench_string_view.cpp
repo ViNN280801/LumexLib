@@ -488,7 +488,7 @@ run_range_sum (size_t iterations, size_t)
 // search
 
 #define BENCH_LOOP_BEGIN                                                      \
-  using BENCH_UNUSED = data<S> d;                                             \
+  using d BENCH_UNUSED = data<S>;                                             \
   u64 sum = 0;                                                                \
   for (size_t it = 0; it < iterations; ++it)                                  \
     {                                                                         \
