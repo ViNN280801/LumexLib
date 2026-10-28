@@ -420,7 +420,7 @@ framed_hub<Transport>::framed_hub (Transport transport,
       restart_ (false),
       connection_seen_ (transport_.impl ()->connection_epoch ()),
       overflowing_ (false), error_burst_ (false), report_id_ (0),
-      generation_ (0), events_ (0), queued_ (0)
+      generation_ (0), events_ (0), queued_ (0), enlisted_ (false)
 {
   if (!traits_type::per_message ())
     chunk_ = std::make_shared<bytes_t> (
@@ -428,6 +428,27 @@ framed_hub<Transport>::framed_hub (Transport transport,
 }
 
 template <typename Transport> framed_hub<Transport>::~framed_hub () {}
+
+// Strand data, but nothing runs the strand any more: the io_context is being
+// destroyed. The handlers are taken first and die at the end, so a handler
+// that destroys the last owner of the hub finds the members empty.
+template <typename Transport>
+void
+framed_hub<Transport>::drop_kept_handlers () LUMEX_NOEXCEPT
+{
+  std::deque<read_handler_type> readers;
+  readers.swap (waiters_);
+  std::deque<pending_write> queued_writes;
+  queued_writes.swap (writes_);
+  status_handler_t const running_write (std::move (active_.handler));
+}
+
+template <typename Transport>
+void
+framed_hub<Transport>::enlist ()
+{
+  tdetail::enlist_keeper (enlisted_, strand_, this->shared_from_this ());
+}
 
 template <typename Transport>
 void
@@ -471,6 +492,7 @@ void
 framed_hub<Transport>::enqueue_read (read_handler_type handler,
                                      tdetail::operation_mark_ptr const &mark)
 {
+  enlist ();
   std::shared_ptr<framed_hub> const self = this->shared_from_this ();
   take_cancellation (self, handler, mark, marks_);
   read_step<framed_hub> step = { self, std::move (handler) };
@@ -484,6 +506,7 @@ framed_hub<Transport>::enqueue_write (std::uint8_t report_id,
                                       status_handler_t handler,
                                       tdetail::operation_mark_ptr const &mark)
 {
+  enlist ();
   std::shared_ptr<framed_hub> const self = this->shared_from_this ();
   take_cancellation (self, handler, mark, marks_);
   write_step<framed_hub> step

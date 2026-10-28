@@ -168,6 +168,23 @@ public:
     return open_count_;
   }
 
+  // The io_context is being destroyed: the pending read and the held open
+  // die uncalled, after the lock is released (their destructors may destroy
+  // the last owner of this stream).
+  void
+  drop_kept_handlers () LUMEX_NOEXCEPT override
+  {
+    io_handler_t read;
+    status_handler_t open;
+    {
+      std::lock_guard<std::mutex> const lock (mutex_);
+      read = std::move (pending_handler_);
+      open = std::move (pending_open_);
+      has_pending_read_ = false;
+      has_pending_open_ = false;
+    }
+  }
+
 protected:
   void
   do_open (status_handler_t handler) override

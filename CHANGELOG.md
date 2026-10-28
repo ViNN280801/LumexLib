@@ -294,6 +294,14 @@
 
 **Проверено:** Linux, GCC 13 и Clang 23: `cmake.consumer_transport_two_modules` проходит, исполняемый файл фикстуры 300 запусков из 300 без падений на каждом компиляторе; с определением `ASIO_DISABLE_VISIBILITY` тот же файл падал с SIGSEGV в 152 запусках из 200 (GCC 13) и в 153 из 200 (Clang 23); на базовой ревизии фикстура завершалась кодом 2 в 200 запусках из 200 (общая категория). Мутация "без скрытой видимости" дает "exports 126 symbol(s)". Windows не проверялось.
 
+##### Транспорт: остановка `io_context` уничтожает обработчики, которые держат реализации
+
+**Файлы:** `lumex/applied/transport/detail/LumexHandlerKeeper.{hpp,cpp}` (новые), `stream/LumexByteStream.{hpp,cpp}`, `datagram/LumexMessageTransport.{hpp,cpp}`, `session/detail/LumexSessionCore.{hpp,cpp}`, `framed/detail/LumexFramedHub.{hpp,cpp}`, `testing/LumexMockStream.cpp`, `testing/LumexMockDatagram.cpp`, `net/LumexNetTransports.cpp`, `hid/LumexHidDevice.cpp`, `README.md`.
+
+**Суть:** обработчик, который реализация хранит в поле и который владеет своим владельцем (захват `shared_ptr`), оставлял цикл ссылок после уничтожения `io_context`. Теперь реализации наследуют `detail::handler_keeper`, регистрируются на первой операции в службе `asio::execution_context::service`, а при остановке контекста служба вызывает `drop_kept_handlers ()`: обработчики уничтожаются без вызова. Файл подавлений LeakSanitizer и `detect_leaks=0` не нужны.
+
+**Проверено:** до исправления LeakSanitizer давал 12102 байта в 73 выделениях (`LumexTransportHandlerCycle`) и 9514 байт в 62 (`LumexSessionRegressionShutdown*`); после: 0 отчетов. GCC 13, ASan с `detect_leaks=1` на C++11, 17 и 20 (66 исполняемых файлов `transport.*` и `framing.*`), 0 отчетов (два бинарника C++11 дают только ложное `alloc-dealloc-mismatch` из-за смешения стандартов, без него чисто). Мутации (служба не регистрирует, снят сброс ожидателей сессии, читателей и записей `framed`, снят `enlist`) убиты тестами `LumexHandlerKeeper`, `LumexTransportHandlerCycle`, `LumexSessionRegressionShutdown*`, `LumexFramedHandlerCycle`.
+
 #### Изменено
 
 ##### `serial_port_state::denied`: отказ в доступе при пробном открытии в POSIX

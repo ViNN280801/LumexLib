@@ -109,6 +109,7 @@
 
 #include "lumex/applied/transport/detail/LumexAsio.hpp"
 #include "lumex/applied/transport/detail/LumexCountingHandler.hpp"
+#include "lumex/applied/transport/detail/LumexHandlerKeeper.hpp"
 #include "lumex/applied/transport/error/LumexTransportErrc.hpp"
 #include "lumex/applied/transport/statistics/LumexTransportStatistics.hpp"
 #include "lumex/applied/transport/stream/LumexStreamTypes.hpp"
@@ -135,13 +136,14 @@ struct stream_impl_access;
  * the strand. A `do_*` operation completes its handler exactly once through
  * `complete`, never inside the `do_*` call itself.
  */
-class stream_impl : public std::enable_shared_from_this<stream_impl>
+class stream_impl : public detail::handler_keeper,
+                    public std::enable_shared_from_this<stream_impl>
 {
 public:
   typedef asio::strand<executor_type> strand_type;
 
   stream_impl (executor_type const &executor, std::string name);
-  virtual ~stream_impl ();
+  ~stream_impl () override;
 
   stream_impl (stream_impl const &) = delete;
   stream_impl &operator= (stream_impl const &) = delete;
@@ -260,6 +262,13 @@ public:
   void start_cancel ();
   void start_close ();
 
+  /// @brief Called when the `io_context` of the stream is destroyed: an
+  /// implementation that keeps a handler in a member (a pending open or read
+  /// it completes later) destroys it here WITHOUT calling it, outside any
+  /// lock of its own. Without it a handler that owns its owner leaves a cycle
+  /// the shutdown cannot break. The default keeps nothing.
+  void drop_kept_handlers () LUMEX_NOEXCEPT override;
+
 protected:
   /// @brief Opens; completes with an error or success.
   virtual void do_open (status_handler_t handler) = 0;
@@ -289,8 +298,10 @@ private:
   // The posted steps of the .cpp reach the protected members through it.
   friend struct stream_impl_access;
 
-  // With a mark, each first puts the slot handler of the stream in the
-  // cancellation slot of the erased handler.
+  // Each first enlists the implementation with the shutdown service of its
+  // io_context (once), and with a mark puts the slot handler of the stream
+  // in the cancellation slot of the erased handler.
+  void enlist ();
   void enqueue_open (status_handler_t handler,
                      detail::operation_mark_ptr const &mark);
   void enqueue_read_some (mutable_bytes_t buffer, io_handler_t handler,
@@ -304,6 +315,8 @@ private:
   strand_type strand_;
   std::string name_;
   std::atomic<bool> open_;
+  // Set when the implementation was enlisted for the io_context shutdown.
+  std::atomic<bool> enlisted_;
   std::shared_ptr<statistics::statistics_counters> counters_;
   // Bumped on the strand by every cancel and close: an operation of several
   // steps (write_all) that sees it change between two steps ends with

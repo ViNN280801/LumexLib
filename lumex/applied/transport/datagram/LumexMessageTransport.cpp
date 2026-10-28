@@ -272,12 +272,24 @@ struct sync_message_handler
 
 message_impl::message_impl (executor_type const &executor, std::string name)
     : executor_ (executor), strand_ (asio::make_strand (executor)),
-      name_ (std::move (name)), open_ (false), connection_epoch_ (0),
+      name_ (std::move (name)), open_ (false), enlisted_ (false),
+      connection_epoch_ (0),
       counters_ (std::make_shared<statistics::statistics_counters> ())
 {
 }
 
 message_impl::~message_impl () {}
+
+void
+message_impl::drop_kept_handlers () LUMEX_NOEXCEPT
+{
+}
+
+void
+message_impl::enlist ()
+{
+  detail::enlist_keeper (enlisted_, executor_, shared_from_this ());
+}
 
 // The handlers arrive already wrapped in the counting handler (see the
 // start_* templates of the header); the slot handler goes in before the post.
@@ -285,6 +297,7 @@ void
 message_impl::enqueue_open (status_handler_t handler,
                             detail::operation_mark_ptr const &mark)
 {
+  enlist ();
   impl_ptr const self = shared_from_this ();
   take_cancellation (self, handler, mark);
   post_open step = { self, std::move (handler) };
@@ -295,6 +308,7 @@ void
 message_impl::enqueue_receive (message_handler_t handler,
                                detail::operation_mark_ptr const &mark)
 {
+  enlist ();
   impl_ptr const self = shared_from_this ();
   take_cancellation (self, handler, mark);
   post_receive step = { self, std::move (handler) };
@@ -305,6 +319,7 @@ void
 message_impl::enqueue_send (message_t message, status_handler_t handler,
                             detail::operation_mark_ptr const &mark)
 {
+  enlist ();
   impl_ptr const self = shared_from_this ();
   take_cancellation (self, handler, mark);
   post_send step = { self, std::move (message), std::move (handler) };

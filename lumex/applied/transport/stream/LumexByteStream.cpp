@@ -379,13 +379,24 @@ struct post_write_all
 
 stream_impl::stream_impl (executor_type const &executor, std::string name)
     : executor_ (executor), strand_ (asio::make_strand (executor)),
-      name_ (std::move (name)), open_ (false),
+      name_ (std::move (name)), open_ (false), enlisted_ (false),
       counters_ (std::make_shared<statistics::statistics_counters> ()),
       cancel_epoch_ (0), connection_epoch_ (0)
 {
 }
 
 stream_impl::~stream_impl () {}
+
+void
+stream_impl::drop_kept_handlers () LUMEX_NOEXCEPT
+{
+}
+
+void
+stream_impl::enlist ()
+{
+  detail::enlist_keeper (enlisted_, executor_, shared_from_this ());
+}
 
 // The handlers arrive already wrapped in the counting handler (see the
 // start_* templates of the header); write_all counts once, at the end,
@@ -395,6 +406,7 @@ void
 stream_impl::enqueue_open (status_handler_t handler,
                            detail::operation_mark_ptr const &mark)
 {
+  enlist ();
   impl_ptr const self = shared_from_this ();
   take_cancellation (self, handler, mark);
   post_open step = { self, std::move (handler) };
@@ -405,6 +417,7 @@ void
 stream_impl::enqueue_read_some (mutable_bytes_t buffer, io_handler_t handler,
                                 detail::operation_mark_ptr const &mark)
 {
+  enlist ();
   impl_ptr const self = shared_from_this ();
   take_cancellation (self, handler, mark);
   post_read_some step = { self, buffer, std::move (handler) };
@@ -415,6 +428,7 @@ void
 stream_impl::enqueue_write_some (const_bytes_t data, io_handler_t handler,
                                  detail::operation_mark_ptr const &mark)
 {
+  enlist ();
   impl_ptr const self = shared_from_this ();
   take_cancellation (self, handler, mark);
   post_write_some step = { self, data, std::move (handler) };
@@ -425,6 +439,7 @@ void
 stream_impl::enqueue_write_all (const_bytes_t data, io_handler_t handler,
                                 detail::operation_mark_ptr const &mark)
 {
+  enlist ();
   impl_ptr const self = shared_from_this ();
   take_cancellation (self, handler, mark);
   post_write_all step = { { self, data, 0, std::move (handler), 0 } };

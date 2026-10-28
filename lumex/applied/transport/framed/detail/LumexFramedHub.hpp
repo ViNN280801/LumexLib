@@ -83,6 +83,7 @@
 #include "lumex/applied/transport/detail/LumexAsio.hpp"
 #include "lumex/applied/transport/detail/LumexCountingHandler.hpp"
 #include "lumex/applied/transport/detail/LumexErasedHandlers.hpp"
+#include "lumex/applied/transport/detail/LumexHandlerKeeper.hpp"
 #include "lumex/applied/transport/framed/LumexFramedStatistics.hpp"
 #include "lumex/applied/transport/framed/LumexFramedTypes.hpp"
 #include "lumex/applied/transport/stream/LumexByteStream.hpp"
@@ -147,7 +148,8 @@ template <> struct hub_traits<datagram::message_transport>
 /// @brief The hub of a framed adapter over `Transport` (see the file
 /// description).
 template <typename Transport>
-class framed_hub : public std::enable_shared_from_this<framed_hub<Transport>>
+class framed_hub : public ::lumex::applied::transport::detail::handler_keeper,
+                   public std::enable_shared_from_this<framed_hub<Transport>>
 {
 public:
   typedef hub_traits<Transport> traits_type;
@@ -159,7 +161,7 @@ public:
 
   /// @brief A hub over `transport` (not empty, moved from).
   framed_hub (Transport transport, framed_options_t const &options);
-  virtual ~framed_hub ();
+  ~framed_hub () override;
 
   framed_hub (framed_hub const &) = delete;
   framed_hub &operator= (framed_hub const &) = delete;
@@ -183,6 +185,11 @@ public:
   {
     return strand_;
   }
+
+  /// @brief The `io_context` is being destroyed: the pending reads and
+  /// writes die uncalled (a reader whose handler owns the adapter would
+  /// otherwise keep it for ever).
+  void drop_kept_handlers () LUMEX_NOEXCEPT override;
 
   /// @brief The counters (any thread).
   framed_counters &
@@ -317,6 +324,7 @@ private:
     status_handler_t handler;
   };
 
+  void enlist ();
   void deliver (frame_type frame);
   void complete (read_handler_type handler, std::error_code error,
                  frame_type frame);
@@ -353,6 +361,8 @@ private:
   std::size_t events_;
   std::shared_ptr<bytes_t> chunk_;
   std::atomic<std::size_t> queued_;
+  // Set when the hub was enlisted for the io_context shutdown.
+  std::atomic<bool> enlisted_;
   // The marks of the pending operations with a cancellation slot, settled by
   // complete (): a signal emitted after that ends nothing.
   ::lumex::applied::transport::detail::mark_registry marks_;
