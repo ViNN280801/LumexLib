@@ -338,7 +338,7 @@
 
 **Файлы:** `lumex/tests/core/fmt/LumexFormatStdQuirks.hpp` (новый), `LumexFormatStdCompare.cxx20.tests.cpp`, `LumexFormatDifferential.cxx20.tests.cpp`, `LumexFormatFloat.cxx11.tests.cpp`, `lumex/core/string/utility/LumexStringify.hpp`, `lumex/tests/core/string/utility/LumexString.cxx11.tests.cpp`.
 
-**Суть:** для каждого расхождения решено по тексту стандарта ([format.string.std], P1868R2, P2909R4, P2510R3, `%#g`): libstdc++ <= 13 и libc++ неверны в перечисленных случаях, `LumexFormat` прав; кросс-проверки пропускают только эти спецификации (libstdc++ - по `_GLIBCXX_RELEASE <= 13`). `stringify` печатает нулевой указатель объекта как `0x0` на любой стандартной библиотеке (libstdc++ давала `0`, libc++ `0x0`).
+**Суть:** для каждого расхождения решено по тексту стандарта ([format.string.std], P1868R2, P2909R4, P2510R3, `%#g`): libstdc++ <= 13 и libc++ неверны в перечисленных случаях, `LumexFormat` прав; кросс-проверки пропускают только эти спецификации (libstdc++ - по `_GLIBCXX_RELEASE <= 13`, libc++ - до версии 23). `stringify` печатает нулевой указатель объекта как `0x0` на любой стандартной библиотеке (libstdc++ давала `0`, libc++ `0x0`).
 
 **Проверено:** GCC 13 (libstdc++ 13): наборы `fmt.*` и `string.*` проходят; при выключенном пропуске падают 15 проверок дифференциальных тестов; мутация нулевого указателя убита 7 проверками.
 

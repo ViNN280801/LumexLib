@@ -38,9 +38,8 @@
  * the other library; `LumexFormat` is right in each case and the library named
  * is not. The libstdc++ rules are active up to release 13: a newer release
  * that fixed the case is compared again, and one that still differs shows up
- * as a failing test to widen the gate. The libc++ rules are active for every
- * release (only 23 was seen), so a libc++ that fixes a case keeps skipping it
- * until the rule is removed.
+ * as a failing test to widen the gate. The libc++ rules are active up to
+ * release 23 (`_LIBCPP_VERSION` below 240000) for the same reason.
  *
  * libstdc++ 13 (`_GLIBCXX_RELEASE <= 13`):
  * - A multibyte fill (`{:ж^+}`) is rejected: the fill is a Unicode scalar
@@ -96,7 +95,7 @@
 #define LUMEX_FORMAT_TEST_LIBSTDCXX_13 0
 #endif
 
-#if defined(_LIBCPP_VERSION)
+#if defined(_LIBCPP_VERSION) && _LIBCPP_VERSION < 240000
 #define LUMEX_FORMAT_TEST_LIBCXX 1
 #else
 #define LUMEX_FORMAT_TEST_LIBCXX 0

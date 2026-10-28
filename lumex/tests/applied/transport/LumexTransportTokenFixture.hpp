@@ -129,7 +129,7 @@ protected:
   void
   TearDown () override
   {
-    if (mock_)
+    if (mock_ && !IsSkipped ())
       EXPECT_EQ (mock_->control.written (), ping ());
   }
 
