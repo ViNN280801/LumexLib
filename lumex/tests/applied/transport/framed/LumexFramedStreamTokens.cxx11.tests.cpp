@@ -408,8 +408,9 @@ TEST (
 // A read with asio::cancel_after and an unbound handler, started inside the
 // adapter's own strand (get_strand ()), ends with cancelled when no frame
 // comes.
-TEST (LumexFramedStreamStrand,
-      GivenCancelAfterStartedInGetStrand_WhenNoFrameComes_ThenTheReadIsCancelled)
+TEST (
+    LumexFramedStreamStrand,
+    GivenCancelAfterStartedInGetStrand_WhenNoFrameComes_ThenTheReadIsCancelled)
 {
   tr::stream::io_runner runner (2);
   tr::testing::mock_stream mock
@@ -431,4 +432,19 @@ TEST (LumexFramedStreamStrand,
   ASSERT_EQ (ended.wait_for (std::chrono::seconds (5)),
              std::future_status::ready);
   EXPECT_TRUE (ended.get () == transport_errc::cancelled);
+}
+
+// get_strand () is the strand of the transport underneath, not a new one: a
+// handler of cancel_after must run on the strand the operations run on.
+TEST (
+    LumexFramedStreamStrand,
+    GivenAFramedStream_WhenGetStrand_ThenItIsTheStrandOfTheTransportUnderneath)
+{
+  tr::stream::io_runner runner (1);
+  tr::testing::mock_stream mock
+      = tr::testing::make_mock_stream (runner.get_executor (), "strand");
+  tr::framed::framed_stream<slip_case::codec_t> link (
+      std::move (mock.stream), slip_case::make (slip_case::limit ()));
+  EXPECT_TRUE (link.get_strand () == link.transport ().impl ()->strand ());
+  EXPECT_TRUE (link.get_strand () == link.get_strand ());
 }

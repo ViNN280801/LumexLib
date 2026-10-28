@@ -943,8 +943,9 @@ TEST (
 
 // get_strand () gives the strand the operations of a stream and of a message
 // transport run on: the one to start an operation with asio::cancel_after in.
-TEST (LumexTransportStrand,
-      GivenAStreamAndATransport_WhenGetStrand_ThenItIsTheStrandOfTheirOperations)
+TEST (
+    LumexTransportStrand,
+    GivenAStreamAndATransport_WhenGetStrand_ThenItIsTheStrandOfTheirOperations)
 {
   tr::stream::io_runner runner (1);
   tr::testing::mock_stream mock

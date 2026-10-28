@@ -442,3 +442,17 @@ TEST_F (LumexFramedDatagramPolledTest,
   EXPECT_EQ (frame.payload, payload_);
   EXPECT_EQ (frame.report_id, 5u);
 }
+
+// get_strand () is the strand of the transport underneath, not a new one.
+TEST (
+    LumexFramedDatagramStrand,
+    GivenAFramedDatagram_WhenGetStrand_ThenItIsTheStrandOfTheTransportUnderneath)
+{
+  tr::stream::io_runner runner (1);
+  tr::testing::mock_datagram mock
+      = tr::testing::make_mock_datagram (runner.get_executor (), "strand");
+  tr::framed::framed_datagram<slip_case::codec_t> link (
+      std::move (mock.transport), slip_case::make (slip_case::limit ()));
+  EXPECT_TRUE (link.get_strand () == link.transport ().impl ()->strand ());
+  EXPECT_TRUE (link.get_strand () == link.get_strand ());
+}
