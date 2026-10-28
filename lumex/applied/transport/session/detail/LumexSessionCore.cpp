@@ -369,6 +369,15 @@ session_core::last_error () const
   return last_error_;
 }
 
+std::string
+session_core::last_error_text () const
+{
+  std::lock_guard<std::mutex> const lock (error_mutex_);
+  if (!last_error_text_.empty ())
+    return last_error_text_;
+  return last_error_ ? last_error_.message () : std::string ();
+}
+
 session_statistics_t
 session_core::session_statistics () const LUMEX_NOEXCEPT
 {
@@ -779,8 +788,11 @@ session_core::attempt ()
   ++attempt_;
   attempts_.fetch_add (1, std::memory_order_relaxed);
   drop_current ();
-  // A factory that throws is a failed attempt, not a crash.
+  // A factory that throws is a failed attempt, not a crash. The code is the
+  // exception's own for a system_error, else invalid_endpoint; the text of
+  // the exception is kept for last_error_text ().
   std::error_code made;
+  std::string made_text;
   try
     {
       make_transport ();
@@ -790,26 +802,29 @@ session_core::attempt ()
       made = failure.code ();
       if (!made)
         made = make_error_code (transport_errc::invalid_endpoint);
+      made_text = failure.what ();
       LUMEX_TRANSPORT_LOG (warning, KSESSION_COMPONENT, name ().c_str (),
-                           std::string ("factory failed: ") + failure.what (),
+                           "factory failed: " + made_text,
                            log::log_bytes_t ());
     }
   catch (std::exception const &failure)
     {
       made = make_error_code (transport_errc::invalid_endpoint);
+      made_text = failure.what ();
       LUMEX_TRANSPORT_LOG (warning, KSESSION_COMPONENT, name ().c_str (),
-                           std::string ("factory failed: ") + failure.what (),
+                           "factory failed: " + made_text,
                            log::log_bytes_t ());
     }
   catch (...)
     {
       made = make_error_code (transport_errc::invalid_endpoint);
+      made_text = "the factory threw an object that is not an exception";
       LUMEX_TRANSPORT_LOG (warning, KSESSION_COMPONENT, name ().c_str (),
                            "factory failed", log::log_bytes_t ());
     }
   if (made)
     {
-      fail_attempt (made);
+      fail_attempt (made, made_text);
       return;
     }
   // A close () or cancel () (or the destruction of the session) that came
@@ -832,10 +847,11 @@ session_core::attempt ()
 }
 
 void
-session_core::fail_attempt (std::error_code const &error)
+session_core::fail_attempt (std::error_code const &error,
+                            std::string const &text)
 {
   failed_attempts_.fetch_add (1, std::memory_order_relaxed);
-  set_last_error (error);
+  set_last_error (error, text);
   LUMEX_TRANSPORT_LOG (warning, KSESSION_COMPONENT, name ().c_str (),
                        "attempt " + std::to_string (attempt_)
                            + " failed: " + error.message (),
@@ -1019,10 +1035,12 @@ session_core::set_state (channel_state state, std::error_code const &reason)
 }
 
 void
-session_core::set_last_error (std::error_code const &error)
+session_core::set_last_error (std::error_code const &error,
+                              std::string const &text)
 {
   std::lock_guard<std::mutex> const lock (error_mutex_);
   last_error_ = error;
+  last_error_text_ = text;
 }
 
 void

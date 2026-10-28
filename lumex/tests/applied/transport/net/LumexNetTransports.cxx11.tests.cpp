@@ -8,6 +8,7 @@
 #include <cstdint>
 #include <future>
 #include <memory>
+#include <mutex>
 #include <string>
 #include <system_error>
 #include <thread>
@@ -17,6 +18,7 @@
 
 #include "lumex/applied/transport/detail/LumexAsio.hpp"
 #include "lumex/applied/transport/error/LumexTransportErrc.hpp"
+#include "lumex/applied/transport/log/LumexTransportLog.hpp"
 #include "lumex/applied/transport/net/LumexNetTransports.hpp"
 #include "lumex/applied/transport/stream/LumexIoRunner.hpp"
 
@@ -37,6 +39,32 @@ elapsed_ms (clock_type::time_point start)
   return std::chrono::duration_cast<std::chrono::milliseconds> (
              clock_type::now () - start)
       .count ();
+}
+
+// The warnings of the UDP component, collected by a sink (the sink runs on the
+// strand, the test reads after the receive returned).
+std::mutex &
+udp_warnings_mutex ()
+{
+  static std::mutex mutex;
+  return mutex;
+}
+
+std::vector<std::string> &
+udp_warnings ()
+{
+  static std::vector<std::string> warnings;
+  return warnings;
+}
+
+void
+udp_warning_sink (tr::log::log_record_t const &record)
+{
+  if (record.level != tr::log::log_level::warning
+      || std::string (record.component) != "transport.udp")
+    return;
+  std::lock_guard<std::mutex> const lock (udp_warnings_mutex ());
+  udp_warnings ().push_back (record.message);
 }
 
 // An address in a block reserved for documentation (TEST-NET-1): a connect
@@ -328,13 +356,76 @@ TEST (
   udp::endpoint sender;
   peer.receive_from (asio::buffer (got), sender);
 
+  {
+    std::lock_guard<std::mutex> const lock (udp_warnings_mutex ());
+    udp_warnings ().clear ();
+  }
+  tr::log::set_log_sink (&udp_warning_sink);
+  tr::log::set_log_level (tr::log::log_level::warning);
+
   std::vector<std::uint8_t> const longer = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
   peer.send_to (asio::buffer (longer), sender);
   tr::datagram::message_result_t const answer
       = socket.receive (deadline_t (5000));
+  tr::log::set_log_sink (nullptr);
   ASSERT_TRUE (answer.has_value ()) << answer.error ().message ();
   EXPECT_EQ (answer.value ().payload,
              std::vector<std::uint8_t> ({ 1, 2, 3, 4 }));
+  // The cut is logged on every platform: POSIX cuts silently, Windows reports
+  // an error, the transport tells both the same way.
+  std::lock_guard<std::mutex> const lock (udp_warnings_mutex ());
+  ASSERT_EQ (udp_warnings ().size (), 1U);
+  EXPECT_NE (udp_warnings ()[0].find ("cut to 4 B"), std::string::npos)
+      << udp_warnings ()[0];
+}
+
+// A datagram one byte longer than the buffer is the boundary a receive that
+// reads exactly max_datagram_size bytes would take for a fit.
+TEST (
+    LumexUdpSocketTest,
+    GivenADatagramOneByteLongerThanTheBuffer_WhenReceived_ThenItIsCutAndLogged)
+{
+  asio::io_context context;
+  udp::socket peer (context,
+                    udp::endpoint (asio::ip::address_v4::loopback (), 0));
+  tr::stream::io_runner runner;
+  udp_options_t options;
+  options.host = "127.0.0.1";
+  options.port = peer.local_endpoint ().port ();
+  options.max_datagram_size = 4;
+  tr::datagram::message_transport socket
+      = tr::net::make_udp_socket (runner.get_executor (), options);
+  ASSERT_TRUE (socket.open (deadline_t (5000)).has_value ());
+  tr::datagram::message_t hello;
+  hello.payload = { 0 };
+  ASSERT_TRUE (socket.send (hello, deadline_t (5000)).has_value ());
+  std::vector<std::uint8_t> got (8);
+  udp::endpoint sender;
+  peer.receive_from (asio::buffer (got), sender);
+  {
+    std::lock_guard<std::mutex> const lock (udp_warnings_mutex ());
+    udp_warnings ().clear ();
+  }
+  tr::log::set_log_sink (&udp_warning_sink);
+  tr::log::set_log_level (tr::log::log_level::warning);
+
+  peer.send_to (asio::buffer (std::vector<std::uint8_t> ({ 1, 2, 3, 4, 5 })),
+                sender);
+  tr::datagram::message_result_t const cut
+      = socket.receive (deadline_t (5000));
+  // A datagram that fits exactly is returned whole and logs nothing.
+  peer.send_to (asio::buffer (std::vector<std::uint8_t> ({ 6, 7, 8, 9 })),
+                sender);
+  tr::datagram::message_result_t const whole
+      = socket.receive (deadline_t (5000));
+  tr::log::set_log_sink (nullptr);
+  ASSERT_TRUE (cut.has_value ()) << cut.error ().message ();
+  ASSERT_TRUE (whole.has_value ()) << whole.error ().message ();
+  EXPECT_EQ (cut.value ().payload, std::vector<std::uint8_t> ({ 1, 2, 3, 4 }));
+  EXPECT_EQ (whole.value ().payload,
+             std::vector<std::uint8_t> ({ 6, 7, 8, 9 }));
+  std::lock_guard<std::mutex> const lock (udp_warnings_mutex ());
+  EXPECT_EQ (udp_warnings ().size (), 1U);
 }
 
 TEST (LumexUdpSocketTest, GivenAReportId_WhenSent_ThenInvalidArgument)

@@ -1157,6 +1157,26 @@ TEST_F (
                || contains (text, "log level: LEVEL_WARNING ==="));
 }
 
+// The directory a caller must put the trigger file in (a program that shows
+// its user where to create it, or a test that creates it): the accessor names
+// the directory the logger reads, and the file written there enables it.
+TEST_F (
+    LumexLoggerRereadTest,
+    GivenTheSingleton_WhenAskedForTheTriggerFileDirectory_ThenAFileThereEnablesIt)
+{
+  std::string const directory = logger_->get_trigger_file_directory ();
+  EXPECT_FALSE (directory.empty ());
+  EXPECT_EQ (directory, trigger::logger_directory ());
+  EXPECT_EQ (logger_->get_trigger_file_name (), kTriggerName);
+
+  EXPECT_FALSE (logger_->is_logging_enabled ());
+  ASSERT_TRUE (
+      trigger::write_file (directory + "/" + logger_->get_trigger_file_name (),
+                           trigger::config_text ("info")));
+  logger_->force_reread ();
+  EXPECT_TRUE (logger_->is_logging_enabled ());
+}
+
 #if defined(__clang__)
 #pragma clang diagnostic pop
 #endif

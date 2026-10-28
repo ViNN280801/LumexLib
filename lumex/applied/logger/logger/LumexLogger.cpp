@@ -2203,6 +2203,13 @@ LumexLogger::get_trigger_file_name () const LUMEX_NOEXCEPT
   return trigger_file_name;
 }
 
+std::string
+LumexLogger::get_trigger_file_directory () const LUMEX_NOEXCEPT
+{
+  std::lock_guard<std::mutex> lock (log_mutex);
+  return executable_directory;
+}
+
 logger_applied_config_view_t
 LumexLogger::get_applied_config_view () const LUMEX_NOEXCEPT
 {

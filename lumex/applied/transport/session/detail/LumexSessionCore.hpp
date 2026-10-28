@@ -153,6 +153,11 @@ public:
   /// @brief The error of the last failed attempt or lost link (any thread).
   std::error_code last_error () const;
 
+  /// @brief The text that goes with `last_error ()` (any thread): the
+  /// message of the exception when the factory threw, else the message of
+  /// the error code.
+  std::string last_error_text () const;
+
   /// @brief The session's own counters (any thread).
   session_statistics_t session_statistics () const LUMEX_NOEXCEPT;
 
@@ -314,14 +319,16 @@ private:
 
   void begin_cycle (channel_state state, std::error_code const &reason);
   void attempt ();
-  void fail_attempt (std::error_code const &error);
+  void fail_attempt (std::error_code const &error,
+                     std::string const &text = std::string ());
   void schedule_retry (std::uint32_t failed_attempt);
   void cancel_retry ();
   void lose_link (std::error_code const &error);
   bool established () const;
   void drop_current () LUMEX_NOEXCEPT;
   void set_state (channel_state state, std::error_code const &reason);
-  void set_last_error (std::error_code const &error);
+  void set_last_error (std::error_code const &error,
+                       std::string const &text = std::string ());
   void cancel_waiters ();
   double draw_random ();
 
@@ -344,6 +351,9 @@ private:
   std::atomic<std::uint64_t> reconnects_;
   mutable std::mutex error_mutex_;
   std::error_code last_error_;
+  // What goes with last_error_ when its code says too little (the what () of
+  // a factory that threw); empty: the message of the code.
+  std::string last_error_text_;
 
   // The strand only.
   bool running_;
