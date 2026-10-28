@@ -4,15 +4,14 @@
 // std::atomic<std::uint64_t> baseline (a relaxed load followed by a
 // compare-exchange on one shared word) measured in the same process, with the
 // same threads and at the same moment. The series are the module's own
-// engine, the unprotected load of the same pointer (the lower bound of a
-// read), a std::shared_mutex read lock and std::atomic_load of a
-// std::shared_ptr (the usual alternatives for a read-mostly pointer), and,
-// when the build points at a local copy, libcds HP and a port of the libc++
-// pull request engine.
+// engine, the unprotected load of the same pointer (the lower bound of a read),
+// a std::shared_mutex read lock and std::atomic_load of a std::shared_ptr (the
+// usual alternatives for a read-mostly pointer), and, when the build points at
+// a local copy, libcds HP and a port of the libc++ pull request engine.
 //
-// One run of the program is one repetition (run_benchmark.py runs many and
-// takes medians). Output: --csv <file>, one row per series, mode, thread count
-// and operation; --list prints the series.
+// One run of the program is one repetition (run_benchmark.py runs many and takes
+// medians). Output: --csv <file>, one row per series, mode, thread count and
+// operation; --list prints the series.
 
 #include <algorithm>
 #include <atomic>
@@ -83,20 +82,11 @@ enum operation_id
   operation_count
 };
 
-char const *const operation_names[operation_count] = { "uint64_cas",
-                                                       "make_destroy",
-                                                       "protect_reset",
-                                                       "protect_kept",
-                                                       "make_protect_destroy",
-                                                       "retire",
-                                                       "new_delete",
-                                                       "read",
-                                                       "list_walk",
-                                                       "readers_writer",
-                                                       "retire_p50",
-                                                       "retire_p99",
-                                                       "retire_p999",
-                                                       "retire_max" };
+char const *const operation_names[operation_count] = {
+  "uint64_cas",  "make_destroy", "protect_reset", "protect_kept",
+  "make_protect_destroy", "retire", "new_delete", "read", "list_walk",
+  "readers_writer", "retire_p50", "retire_p99", "retire_p999", "retire_max"
+};
 
 struct measurement
 {
@@ -117,26 +107,13 @@ struct payload
   std::uint64_t value;
 };
 
-// --- the module's engine
-// ------------------------------------------------------
+// --- the module's engine ------------------------------------------------------
 
 struct lumex_series
 {
-  static char const *
-  key ()
-  {
-    return "lumex";
-  }
-  static char const *
-  label ()
-  {
-    return "LumexLib hazard_pointer";
-  }
-  static char const *
-  detail ()
-  {
-    return "own engine, seq_cst fences";
-  }
+  static char const *key () { return "lumex"; }
+  static char const *label () { return "LumexLib hazard_pointer"; }
+  static char const *detail () { return "own engine, seq_cst fences"; }
 
   struct node : hp::hazard_pointer_obj_base<node>
   {
@@ -148,89 +125,39 @@ struct lumex_series
   {
     hp::hazard_pointer holder;
     holder_type () : holder (hp::make_hazard_pointer ()) {}
-    node *
-    protect (std::atomic<node *> const &source)
-    {
-      return holder.protect (source);
-    }
-    void
-    reset ()
-    {
-      holder.reset_protection ();
-    }
+    node *protect (std::atomic<node *> const &source) { return holder.protect (source); }
+    void reset () { holder.reset_protection (); }
   };
 
-  static void
-  settle ()
-  {
-    hp::clean_up ();
-  }
+  static void settle () { hp::clean_up (); }
 };
 
-// --- libcds and the libc++ port (local copies only)
-// -------------------------------
+// --- libcds and the libc++ port (local copies only) -------------------------------
 
 // The adapters define series with the same shape as lumex_series; they come
 // from the headers above.
 
-// --- alternatives for a read-mostly pointer (operation read only)
-// --------------
+// --- alternatives for a read-mostly pointer (operation read only) --------------
 
 struct unprotected_series
 {
-  static char const *
-  key ()
-  {
-    return "unprotected";
-  }
-  static char const *
-  label ()
-  {
-    return "plain acquire load (unsafe)";
-  }
-  static char const *
-  detail ()
-  {
-    return "lower bound of a read";
-  }
+  static char const *key () { return "unprotected"; }
+  static char const *label () { return "plain acquire load (unsafe)"; }
+  static char const *detail () { return "lower bound of a read"; }
 };
 
 struct shared_mutex_series
 {
-  static char const *
-  key ()
-  {
-    return "shared_mutex";
-  }
-  static char const *
-  label ()
-  {
-    return "std::shared_mutex read lock";
-  }
-  static char const *
-  detail ()
-  {
-    return "lock_shared / unlock_shared";
-  }
+  static char const *key () { return "shared_mutex"; }
+  static char const *label () { return "std::shared_mutex read lock"; }
+  static char const *detail () { return "lock_shared / unlock_shared"; }
 };
 
 struct shared_ptr_series
 {
-  static char const *
-  key ()
-  {
-    return "shared_ptr";
-  }
-  static char const *
-  label ()
-  {
-    return "std::atomic_load (shared_ptr)";
-  }
-  static char const *
-  detail ()
-  {
-    return "copy and release a shared_ptr";
-  }
+  static char const *key () { return "shared_ptr"; }
+  static char const *label () { return "std::atomic_load (shared_ptr)"; }
+  static char const *detail () { return "copy and release a shared_ptr"; }
 };
 
 // ---------------------------------------------------------------------------
@@ -248,10 +175,10 @@ struct options
   bool only_baseline_check;
 };
 
-// Runs `body (thread index, stop flag, result)` on `threads` threads that
-// start together for `duration_ms`; returns the wall time per operation and
-// thread in nanoseconds (the figure Google Benchmark reports with UseRealTime)
-// and fills `total` with the sums.
+// Runs `body (thread index, stop flag, result)` on `threads` threads that start
+// together for `duration_ms`; returns the wall time per operation and thread
+// in nanoseconds (the figure Google Benchmark reports with UseRealTime) and
+// fills `total` with the sums.
 template <class Body>
 double
 run_threads (int threads, int duration_ms, Body body, measurement &total)
@@ -263,15 +190,13 @@ run_threads (int threads, int duration_ms, Body body, measurement &total)
   std::vector<std::thread> workers;
   for (int t = 0; t < threads; ++t)
     {
-      workers.emplace_back (
-          [&, t]
-            {
-              ready.fetch_add (1);
-              while (!go.load (std::memory_order_acquire))
-                {
-                }
-              body (t, stop, results[static_cast<std::size_t> (t)]);
-            });
+      workers.emplace_back ([&, t] {
+        ready.fetch_add (1);
+        while (!go.load (std::memory_order_acquire))
+          {
+          }
+        body (t, stop, results[static_cast<std::size_t> (t)]);
+      });
     }
   while (ready.load () < threads)
     {
@@ -312,32 +237,29 @@ baseline (int threads, int duration_ms, measurement &total)
   std::atomic<std::uint64_t> word (0);
   return run_threads (
       threads, duration_ms,
-      [&word] (int, stop_flag &stop, measurement &out)
-        {
-          std::uint64_t operations = 0;
-          std::uint64_t successes = 0;
-          while (!stop.stop.load (std::memory_order_relaxed))
-            {
-              for (int i = 0; i < 32; ++i)
-                {
-                  std::uint64_t expected
-                      = word.load (std::memory_order_relaxed);
-                  if (word.compare_exchange_strong (expected, expected + 1))
-                    {
-                      ++successes;
-                    }
-                  ++operations;
-                }
-            }
-          out.operations = operations;
-          out.successes = successes;
-          out.valid = true;
-        },
+      [&word] (int, stop_flag &stop, measurement &out) {
+        std::uint64_t operations = 0;
+        std::uint64_t successes = 0;
+        while (!stop.stop.load (std::memory_order_relaxed))
+          {
+            for (int i = 0; i < 32; ++i)
+              {
+                std::uint64_t expected = word.load (std::memory_order_relaxed);
+                if (word.compare_exchange_strong (expected, expected + 1))
+                  {
+                    ++successes;
+                  }
+                ++operations;
+              }
+          }
+        out.operations = operations;
+        out.successes = successes;
+        out.valid = true;
+      },
       total);
 }
 
-// --- operations over a hazard pointer series
-// ------------------------------------
+// --- operations over a hazard pointer series ------------------------------------
 
 template <class S>
 double
@@ -345,57 +267,54 @@ make_destroy (int threads, int duration_ms, measurement &total)
 {
   return run_threads (
       threads, duration_ms,
-      [] (int, stop_flag &stop, measurement &out)
-        {
-          std::uint64_t operations = 0;
-          while (!stop.stop.load (std::memory_order_relaxed))
-            {
-              for (int i = 0; i < 32; ++i)
-                {
-                  typename S::holder_type holder;
-                  keep (holder);
-                  ++operations;
-                }
-            }
-          out.operations = operations;
-          out.successes = operations;
-          out.valid = true;
-        },
+      [] (int, stop_flag &stop, measurement &out) {
+        std::uint64_t operations = 0;
+        while (!stop.stop.load (std::memory_order_relaxed))
+          {
+            for (int i = 0; i < 32; ++i)
+              {
+                typename S::holder_type holder;
+                keep (holder);
+                ++operations;
+              }
+          }
+        out.operations = operations;
+        out.successes = operations;
+        out.valid = true;
+      },
       total);
 }
 
 template <class S>
 double
-protect_reset (int threads, int duration_ms, measurement &total,
-               bool keep_protection)
+protect_reset (int threads, int duration_ms, measurement &total, bool keep_protection)
 {
   typename S::node *shared = new typename S::node (1);
   std::atomic<typename S::node *> source (shared);
   double const ns = run_threads (
       threads, duration_ms,
-      [&source, keep_protection] (int, stop_flag &stop, measurement &out)
-        {
-          typename S::holder_type holder;
-          std::uint64_t operations = 0;
-          std::uint64_t sum = 0;
-          while (!stop.stop.load (std::memory_order_relaxed))
-            {
-              for (int i = 0; i < 32; ++i)
-                {
-                  typename S::node *node = holder.protect (source);
-                  sum += node->value;
-                  if (!keep_protection)
-                    {
-                      holder.reset ();
-                    }
-                  ++operations;
-                }
-            }
-          keep (sum);
-          out.operations = operations;
-          out.successes = operations;
-          out.valid = true;
-        },
+      [&source, keep_protection] (int, stop_flag &stop, measurement &out) {
+        typename S::holder_type holder;
+        std::uint64_t operations = 0;
+        std::uint64_t sum = 0;
+        while (!stop.stop.load (std::memory_order_relaxed))
+          {
+            for (int i = 0; i < 32; ++i)
+              {
+                typename S::node *node = holder.protect (source);
+                sum += node->value;
+                if (!keep_protection)
+                  {
+                    holder.reset ();
+                  }
+                ++operations;
+              }
+          }
+        keep (sum);
+        out.operations = operations;
+        out.successes = operations;
+        out.valid = true;
+      },
       total);
   shared->retire ();
   S::settle ();
@@ -410,24 +329,23 @@ make_protect_destroy (int threads, int duration_ms, measurement &total)
   std::atomic<typename S::node *> source (shared);
   double const ns = run_threads (
       threads, duration_ms,
-      [&source] (int, stop_flag &stop, measurement &out)
-        {
-          std::uint64_t operations = 0;
-          std::uint64_t sum = 0;
-          while (!stop.stop.load (std::memory_order_relaxed))
-            {
-              for (int i = 0; i < 32; ++i)
-                {
-                  typename S::holder_type holder;
-                  sum += holder.protect (source)->value;
-                  ++operations;
-                }
-            }
-          keep (sum);
-          out.operations = operations;
-          out.successes = operations;
-          out.valid = true;
-        },
+      [&source] (int, stop_flag &stop, measurement &out) {
+        std::uint64_t operations = 0;
+        std::uint64_t sum = 0;
+        while (!stop.stop.load (std::memory_order_relaxed))
+          {
+            for (int i = 0; i < 32; ++i)
+              {
+                typename S::holder_type holder;
+                sum += holder.protect (source)->value;
+                ++operations;
+              }
+          }
+        keep (sum);
+        out.operations = operations;
+        out.successes = operations;
+        out.valid = true;
+      },
       total);
   shared->retire ();
   S::settle ();
@@ -441,21 +359,20 @@ retire_cost (int threads, int duration_ms, measurement &total)
 {
   double const ns = run_threads (
       threads, duration_ms,
-      [] (int, stop_flag &stop, measurement &out)
-        {
-          std::uint64_t operations = 0;
-          while (!stop.stop.load (std::memory_order_relaxed))
-            {
-              for (int i = 0; i < 32; ++i)
-                {
-                  (new typename S::node (operations))->retire ();
-                  ++operations;
-                }
-            }
-          out.operations = operations;
-          out.successes = operations;
-          out.valid = true;
-        },
+      [] (int, stop_flag &stop, measurement &out) {
+        std::uint64_t operations = 0;
+        while (!stop.stop.load (std::memory_order_relaxed))
+          {
+            for (int i = 0; i < 32; ++i)
+              {
+                (new typename S::node (operations))->retire ();
+                ++operations;
+              }
+          }
+        out.operations = operations;
+        out.successes = operations;
+        out.valid = true;
+      },
       total);
   S::settle ();
   return ns;
@@ -466,24 +383,23 @@ new_delete_cost (int threads, int duration_ms, measurement &total)
 {
   return run_threads (
       threads, duration_ms,
-      [] (int, stop_flag &stop, measurement &out)
-        {
-          std::uint64_t operations = 0;
-          while (!stop.stop.load (std::memory_order_relaxed))
-            {
-              for (int i = 0; i < 32; ++i)
-                {
-                  payload *object = new payload;
-                  object->value = operations;
-                  keep (object);
-                  delete object;
-                  ++operations;
-                }
-            }
-          out.operations = operations;
-          out.successes = operations;
-          out.valid = true;
-        },
+      [] (int, stop_flag &stop, measurement &out) {
+        std::uint64_t operations = 0;
+        while (!stop.stop.load (std::memory_order_relaxed))
+          {
+            for (int i = 0; i < 32; ++i)
+              {
+                payload *object = new payload;
+                object->value = operations;
+                keep (object);
+                delete object;
+                ++operations;
+              }
+          }
+        out.operations = operations;
+        out.successes = operations;
+        out.valid = true;
+      },
       total);
 }
 
@@ -510,21 +426,19 @@ retire_latency (int duration_ms, double percentiles[4], measurement &total)
     }
   S::settle ();
   std::sort (samples.begin (), samples.end ());
-  auto at = [&samples] (double fraction)
-    {
-      if (samples.empty ())
-        {
-          return 0.0;
-        }
-      std::size_t index = static_cast<std::size_t> (
-          fraction * static_cast<double> (samples.size () - 1));
-      return static_cast<double> (samples[index]);
-    };
+  auto at = [&samples] (double fraction) {
+    if (samples.empty ())
+      {
+        return 0.0;
+      }
+    std::size_t index = static_cast<std::size_t> (
+        fraction * static_cast<double> (samples.size () - 1));
+    return static_cast<double> (samples[index]);
+  };
   percentiles[0] = at (0.5);
   percentiles[1] = at (0.99);
   percentiles[2] = at (0.999);
-  percentiles[3]
-      = samples.empty () ? 0.0 : static_cast<double> (samples.back ());
+  percentiles[3] = samples.empty () ? 0.0 : static_cast<double> (samples.back ());
   total.operations = count;
   total.successes = count;
   total.valid = true;
@@ -573,45 +487,43 @@ list_walk_cost (int threads, int duration_ms, measurement &total, bool protect)
   list_t list;
   return run_threads (
       threads, duration_ms,
-      [&list, protect] (int, stop_flag &stop, measurement &out)
-        {
-          hp::hazard_pointer first = hp::make_hazard_pointer ();
-          hp::hazard_pointer second = hp::make_hazard_pointer ();
-          std::uint64_t operations = 0;
-          std::uint64_t sum = 0;
-          while (!stop.stop.load (std::memory_order_relaxed))
-            {
-              if (protect)
-                {
-                  list_node *node = first.protect (list.head);
-                  while (node != nullptr)
-                    {
-                      sum += node->value;
-                      ++operations;
-                      list_node *next = second.protect (node->next);
-                      swap (first, second);
-                      node = next;
-                    }
-                  first.reset_protection ();
-                  second.reset_protection ();
-                }
-              else
-                {
-                  for (list_node *node
-                       = list.head.load (std::memory_order_acquire);
-                       node != nullptr;
-                       node = node->next.load (std::memory_order_acquire))
-                    {
-                      sum += node->value;
-                      ++operations;
-                    }
-                }
-            }
-          keep (sum);
-          out.operations = operations;
-          out.successes = operations;
-          out.valid = true;
-        },
+      [&list, protect] (int, stop_flag &stop, measurement &out) {
+        hp::hazard_pointer first = hp::make_hazard_pointer ();
+        hp::hazard_pointer second = hp::make_hazard_pointer ();
+        std::uint64_t operations = 0;
+        std::uint64_t sum = 0;
+        while (!stop.stop.load (std::memory_order_relaxed))
+          {
+            if (protect)
+              {
+                list_node *node = first.protect (list.head);
+                while (node != nullptr)
+                  {
+                    sum += node->value;
+                    ++operations;
+                    list_node *next = second.protect (node->next);
+                    swap (first, second);
+                    node = next;
+                  }
+                first.reset_protection ();
+                second.reset_protection ();
+              }
+            else
+              {
+                for (list_node *node = list.head.load (std::memory_order_acquire);
+                     node != nullptr;
+                     node = node->next.load (std::memory_order_acquire))
+                  {
+                    sum += node->value;
+                    ++operations;
+                  }
+              }
+          }
+        keep (sum);
+        out.operations = operations;
+        out.successes = operations;
+        out.valid = true;
+      },
       total);
 }
 
@@ -659,9 +571,7 @@ template <> struct reader<unprotected_series>
     state () : source (new payload) { source.load ()->value = 7; }
     ~state () { delete source.load (); }
   };
-  struct local
-  {
-  };
+  struct local {};
 
   static std::uint64_t
   read (state &s, local &)
@@ -669,10 +579,7 @@ template <> struct reader<unprotected_series>
     return s.source.load (std::memory_order_acquire)->value;
   }
 
-  static void
-  write (state &)
-  {
-  }
+  static void write (state &) {}
 };
 
 template <> struct reader<shared_mutex_series>
@@ -683,9 +590,7 @@ template <> struct reader<shared_mutex_series>
     payload object;
     state () { object.value = 7; }
   };
-  struct local
-  {
-  };
+  struct local {};
 
   static std::uint64_t
   read (state &s, local &)
@@ -712,9 +617,7 @@ template <> struct reader<shared_ptr_series>
     std::shared_ptr<payload> pointer;
     state () : pointer (new payload) { pointer->value = 7; }
   };
-  struct local
-  {
-  };
+  struct local {};
 
   static std::uint64_t
   read (state &s, local &)
@@ -739,24 +642,23 @@ read_cost (int threads, int duration_ms, measurement &total)
   typename reader<S>::state state;
   return run_threads (
       threads, duration_ms,
-      [&state] (int, stop_flag &stop, measurement &out)
-        {
-          typename reader<S>::local local;
-          std::uint64_t operations = 0;
-          std::uint64_t sum = 0;
-          while (!stop.stop.load (std::memory_order_relaxed))
-            {
-              for (int i = 0; i < 32; ++i)
-                {
-                  sum += reader<S>::read (state, local);
-                  ++operations;
-                }
-            }
-          keep (sum);
-          out.operations = operations;
-          out.successes = operations;
-          out.valid = true;
-        },
+      [&state] (int, stop_flag &stop, measurement &out) {
+        typename reader<S>::local local;
+        std::uint64_t operations = 0;
+        std::uint64_t sum = 0;
+        while (!stop.stop.load (std::memory_order_relaxed))
+          {
+            for (int i = 0; i < 32; ++i)
+              {
+                sum += reader<S>::read (state, local);
+                ++operations;
+              }
+          }
+        keep (sum);
+        out.operations = operations;
+        out.successes = operations;
+        out.valid = true;
+      },
       total);
 }
 
@@ -772,46 +674,45 @@ readers_writer (int threads, int duration_ms, measurement &total)
   measurement all = { 0, 0, true };
   double const ns = run_threads (
       threads, duration_ms,
-      [&state, &reads, &writes] (int index, stop_flag &stop, measurement &out)
-        {
-          out.operations = 0;
-          out.successes = 0;
-          out.valid = true;
-          if (index == 0)
-            {
-              std::uint64_t count = 0;
-              while (!stop.stop.load (std::memory_order_relaxed))
-                {
-                  reader<S>::write (state);
-                  ++count;
-                }
-              writes.fetch_add (count);
-              return;
-            }
-          typename reader<S>::local local;
-          std::uint64_t operations = 0;
-          std::uint64_t sum = 0;
-          while (!stop.stop.load (std::memory_order_relaxed))
-            {
-              for (int i = 0; i < 32; ++i)
-                {
-                  sum += reader<S>::read (state, local);
-                  ++operations;
-                }
-            }
-          keep (sum);
-          out.operations = operations;
-          out.successes = operations;
-          reads.fetch_add (operations);
-        },
+      [&state, &reads, &writes] (int index, stop_flag &stop, measurement &out) {
+        out.operations = 0;
+        out.successes = 0;
+        out.valid = true;
+        if (index == 0)
+          {
+            std::uint64_t count = 0;
+            while (!stop.stop.load (std::memory_order_relaxed))
+              {
+                reader<S>::write (state);
+                ++count;
+              }
+            writes.fetch_add (count);
+            return;
+          }
+        typename reader<S>::local local;
+        std::uint64_t operations = 0;
+        std::uint64_t sum = 0;
+        while (!stop.stop.load (std::memory_order_relaxed))
+          {
+            for (int i = 0; i < 32; ++i)
+              {
+                sum += reader<S>::read (state, local);
+                ++operations;
+              }
+          }
+        keep (sum);
+        out.operations = operations;
+        out.successes = operations;
+        reads.fetch_add (operations);
+      },
       all);
   total = all;
-  (void)ns;
+  (void) ns;
   // Time per read: the readers ran for the whole window.
   double const seconds_total = static_cast<double> (duration_ms) * 1e6;
-  return reads.load () == 0 ? 0.0
-                            : seconds_total * (threads - 1)
-                                  / static_cast<double> (reads.load ());
+  return reads.load () == 0
+             ? 0.0
+             : seconds_total * (threads - 1) / static_cast<double> (reads.load ());
 }
 
 // ---------------------------------------------------------------------------
@@ -825,7 +726,8 @@ struct row_writer
 
   void
   put (char const *mode, int threads, char const *implementation,
-       char const *operation, double ratio, double ns, measurement const &m)
+       char const *operation, double ratio, double ns,
+       measurement const &m)
   {
     std::fprintf (file, "%s,%d,%s,%s,%d,%.6f,%.3f,%llu,%llu,%d\n", mode,
                   threads, implementation, operation, repetition, ratio, ns,
@@ -853,20 +755,15 @@ measure_hazard_series (row_writer &out, char const *mode, int threads,
   measurement total = { 0, 0, true };
   double ns;
   ns = make_destroy<S> (threads, opt.duration_ms, total);
-  out.put (mode, threads, S::key (), operation_names[op_make_destroy],
-           ns / base_ns, ns, total);
+  out.put (mode, threads, S::key (), operation_names[op_make_destroy], ns / base_ns, ns, total);
   ns = protect_reset<S> (threads, opt.duration_ms, total, false);
-  out.put (mode, threads, S::key (), operation_names[op_protect_reset],
-           ns / base_ns, ns, total);
+  out.put (mode, threads, S::key (), operation_names[op_protect_reset], ns / base_ns, ns, total);
   ns = protect_reset<S> (threads, opt.duration_ms, total, true);
-  out.put (mode, threads, S::key (), operation_names[op_protect_kept],
-           ns / base_ns, ns, total);
+  out.put (mode, threads, S::key (), operation_names[op_protect_kept], ns / base_ns, ns, total);
   ns = make_protect_destroy<S> (threads, opt.duration_ms, total);
-  out.put (mode, threads, S::key (), operation_names[op_make_protect_destroy],
-           ns / base_ns, ns, total);
+  out.put (mode, threads, S::key (), operation_names[op_make_protect_destroy], ns / base_ns, ns, total);
   ns = retire_cost<S> (threads, opt.duration_ms, total);
-  out.put (mode, threads, S::key (), operation_names[op_retire], ns / base_ns,
-           ns, total);
+  out.put (mode, threads, S::key (), operation_names[op_retire], ns / base_ns, ns, total);
 }
 
 template <class S>
@@ -876,21 +773,18 @@ measure_read_series (row_writer &out, char const *mode, int threads,
 {
   measurement total = { 0, 0, true };
   double ns = read_cost<S> (threads, opt.duration_ms, total);
-  out.put (mode, threads, S::key (), operation_names[op_read], ns / base_ns,
-           ns, total);
+  out.put (mode, threads, S::key (), operation_names[op_read], ns / base_ns, ns, total);
   if (threads >= 2)
     {
       ns = readers_writer<S> (threads, opt.duration_ms, total);
-      out.put (mode, threads, S::key (), operation_names[op_readers_writer],
-               ns / base_ns, ns, total);
+      out.put (mode, threads, S::key (), operation_names[op_readers_writer], ns / base_ns, ns, total);
     }
 }
 
 std::vector<int>
 default_threads ()
 {
-  int const cpus
-      = static_cast<int> (std::max (1u, std::thread::hardware_concurrency ()));
+  int const cpus = static_cast<int> (std::max (1u, std::thread::hardware_concurrency ()));
   std::vector<int> counts;
   counts.push_back (1);
   for (int t = 2; t <= cpus; t += 2)
@@ -909,17 +803,10 @@ print_series ()
 {
   std::vector<std::string> lines;
   has_holder<lumex_series>::list (lines);
-  lines.push_back (std::string (unprotected_series::key ()) + "|"
-                   + unprotected_series::label () + "|"
-                   + unprotected_series::detail () + "|11|no protection");
-  lines.push_back (std::string (shared_mutex_series::key ()) + "|"
-                   + shared_mutex_series::label () + "|"
-                   + shared_mutex_series::detail () + "|17|lock");
-  lines.push_back (std::string (shared_ptr_series::key ()) + "|"
-                   + shared_ptr_series::label () + "|"
-                   + shared_ptr_series::detail () + "|11|lock-free or locked");
-  lines.push_back ("memory|new + delete of a small object|the allocator "
-                   "baseline of retire|11|allocator");
+  lines.push_back (std::string (unprotected_series::key ()) + "|" + unprotected_series::label () + "|" + unprotected_series::detail () + "|11|no protection");
+  lines.push_back (std::string (shared_mutex_series::key ()) + "|" + shared_mutex_series::label () + "|" + shared_mutex_series::detail () + "|17|lock");
+  lines.push_back (std::string (shared_ptr_series::key ()) + "|" + shared_ptr_series::label () + "|" + shared_ptr_series::detail () + "|11|lock-free or locked");
+  lines.push_back ("memory|new + delete of a small object|the allocator baseline of retire|11|allocator");
 #if defined(LUMEX_HP_BENCH_LIBCDS)
   has_holder<libcds_series>::list (lines);
 #endif
@@ -941,7 +828,7 @@ run (options const &opt)
       std::fprintf (stderr, "cannot write %s\n", opt.csv.c_str ());
       return 2;
     }
-#if defined(__VERSION__)
+  #if defined(__VERSION__)
   std::fprintf (file, "# compiler=%s\n", __VERSION__);
 #else
   std::fprintf (file, "# compiler=unknown\n");
@@ -954,18 +841,10 @@ run (options const &opt)
 #endif
   std::vector<std::string> listed;
   has_holder<lumex_series>::list (listed);
-  listed.push_back (std::string (unprotected_series::key ()) + "|"
-                    + unprotected_series::label () + "|"
-                    + unprotected_series::detail () + "|11|no protection");
-  listed.push_back (std::string (shared_mutex_series::key ()) + "|"
-                    + shared_mutex_series::label () + "|"
-                    + shared_mutex_series::detail () + "|17|lock");
-  listed.push_back (std::string (shared_ptr_series::key ()) + "|"
-                    + shared_ptr_series::label () + "|"
-                    + shared_ptr_series::detail ()
-                    + "|11|lock-free or locked");
-  listed.push_back ("memory|new + delete of a small object|the allocator "
-                    "baseline of retire|11|allocator");
+  listed.push_back (std::string (unprotected_series::key ()) + "|" + unprotected_series::label () + "|" + unprotected_series::detail () + "|11|no protection");
+  listed.push_back (std::string (shared_mutex_series::key ()) + "|" + shared_mutex_series::label () + "|" + shared_mutex_series::detail () + "|17|lock");
+  listed.push_back (std::string (shared_ptr_series::key ()) + "|" + shared_ptr_series::label () + "|" + shared_ptr_series::detail () + "|11|lock-free or locked");
+  listed.push_back ("memory|new + delete of a small object|the allocator baseline of retire|11|allocator");
 #if defined(LUMEX_HP_BENCH_LIBCDS)
   has_holder<libcds_series>::list (listed);
 #endif
@@ -976,26 +855,22 @@ run (options const &opt)
     {
       std::fprintf (file, "# implementation=%s\n", line.c_str ());
     }
-  std::fprintf (file, "mode,threads,implementation,operation,repetition,ratio,"
-                      "ns_per_op,operations,successes,valid\n");
+  std::fprintf (file, "mode,threads,implementation,operation,repetition,ratio,ns_per_op,operations,successes,valid\n");
   row_writer out = { file, opt.repetition };
 
   // Warm up every core.
   {
     measurement ignored = { 0, 0, true };
-    int const cpus = static_cast<int> (
-        std::max (1u, std::thread::hardware_concurrency ()));
+    int const cpus = static_cast<int> (std::max (1u, std::thread::hardware_concurrency ()));
     baseline (cpus, opt.warmup_ms, ignored);
   }
 
-  std::vector<int> threads
-      = opt.threads.empty () ? default_threads () : opt.threads;
+  std::vector<int> threads = opt.threads.empty () ? default_threads () : opt.threads;
   bool all_valid = true;
   for (int count : threads)
     {
       char const *mode = count == 1 ? "uncontended" : "contended";
-      // Series take turns; the first one differs from repetition to
-      // repetition.
+      // Series take turns; the first one differs from repetition to repetition.
       for (int turn = 0; turn < 4; ++turn)
         {
           int const which = (turn + opt.repetition) % 4;
@@ -1007,68 +882,51 @@ run (options const &opt)
               continue;
             }
           // The baseline row goes under the key of every series of the block.
-          auto base_row = [&] (char const *key)
-            {
-              out.put (mode, count, key, operation_names[op_baseline], 1.0,
-                       base_ns, total);
-            };
+          auto base_row = [&] (char const *key) {
+            out.put (mode, count, key, operation_names[op_baseline], 1.0,
+                     base_ns, total);
+          };
           switch (which)
             {
             case 0:
               base_row (lumex_series::key ());
               base_row ("memory");
-              measure_hazard_series<lumex_series> (out, mode, count, opt,
-                                                   base_ns);
+              measure_hazard_series<lumex_series> (out, mode, count, opt, base_ns);
               {
                 double ns = new_delete_cost (count, opt.duration_ms, total);
-                out.put (mode, count, "memory", operation_names[op_new_delete],
-                         ns / base_ns, ns, total);
+                out.put (mode, count, "memory", operation_names[op_new_delete], ns / base_ns, ns, total);
               }
               break;
             case 1:
               base_row (lumex_series::key ());
-              measure_read_series<lumex_series> (out, mode, count, opt,
-                                                 base_ns);
+              measure_read_series<lumex_series> (out, mode, count, opt, base_ns);
               {
-                double ns
-                    = list_walk_cost (count, opt.duration_ms, total, true);
-                out.put (mode, count, lumex_series::key (),
-                         operation_names[op_list_walk], ns / base_ns, ns,
-                         total);
+                double ns = list_walk_cost (count, opt.duration_ms, total, true);
+                out.put (mode, count, lumex_series::key (), operation_names[op_list_walk], ns / base_ns, ns, total);
               }
               break;
             case 2:
               base_row (unprotected_series::key ());
               base_row (shared_mutex_series::key ());
-              measure_read_series<unprotected_series> (out, mode, count, opt,
-                                                       base_ns);
+              measure_read_series<unprotected_series> (out, mode, count, opt, base_ns);
               {
-                double ns
-                    = list_walk_cost (count, opt.duration_ms, total, false);
-                out.put (mode, count, unprotected_series::key (),
-                         operation_names[op_list_walk], ns / base_ns, ns,
-                         total);
+                double ns = list_walk_cost (count, opt.duration_ms, total, false);
+                out.put (mode, count, unprotected_series::key (), operation_names[op_list_walk], ns / base_ns, ns, total);
               }
-              measure_read_series<shared_mutex_series> (out, mode, count, opt,
-                                                        base_ns);
+              measure_read_series<shared_mutex_series> (out, mode, count, opt, base_ns);
               break;
             default:
               base_row (shared_ptr_series::key ());
-              measure_read_series<shared_ptr_series> (out, mode, count, opt,
-                                                      base_ns);
+              measure_read_series<shared_ptr_series> (out, mode, count, opt, base_ns);
 #if defined(LUMEX_HP_BENCH_LIBCDS)
               base_row (libcds_series::key ());
-              measure_hazard_series<libcds_series> (out, mode, count, opt,
-                                                    base_ns);
-              measure_read_series<libcds_series> (out, mode, count, opt,
-                                                  base_ns);
+              measure_hazard_series<libcds_series> (out, mode, count, opt, base_ns);
+              measure_read_series<libcds_series> (out, mode, count, opt, base_ns);
 #endif
 #if defined(LUMEX_HP_BENCH_LLVM)
               base_row (llvm_series::key ());
-              measure_hazard_series<llvm_series> (out, mode, count, opt,
-                                                  base_ns);
-              measure_read_series<llvm_series> (out, mode, count, opt,
-                                                base_ns);
+              measure_hazard_series<llvm_series> (out, mode, count, opt, base_ns);
+              measure_read_series<llvm_series> (out, mode, count, opt, base_ns);
 #endif
               break;
             }
@@ -1082,14 +940,11 @@ run (options const &opt)
     double const base_ns = baseline (1, opt.duration_ms, ignored);
     double percentiles[4];
     retire_latency<lumex_series> (opt.duration_ms * 5, percentiles, total);
-    operation_id const ids[4]
-        = { op_retire_p50, op_retire_p99, op_retire_p999, op_retire_max };
+    operation_id const ids[4] = { op_retire_p50, op_retire_p99, op_retire_p999, op_retire_max };
     for (int i = 0; i < 4; ++i)
       {
-        out.put ("uncontended", 1, lumex_series::key (),
-                 operation_names[ids[i]],
-                 base_ns > 0.0 ? percentiles[i] / base_ns : 0.0,
-                 percentiles[i], total);
+        out.put ("uncontended", 1, lumex_series::key (), operation_names[ids[i]],
+                 base_ns > 0.0 ? percentiles[i] / base_ns : 0.0, percentiles[i], total);
       }
   }
   std::fclose (file);
@@ -1109,8 +964,9 @@ main (int argc, char **argv)
   for (int i = 1; i < argc; ++i)
     {
       std::string const arg = argv[i];
-      auto value
-          = [&] () -> char const * { return i + 1 < argc ? argv[++i] : ""; };
+      auto value = [&] () -> char const * {
+        return i + 1 < argc ? argv[++i] : "";
+      };
       if (arg == "--list")
         {
           opt.list = true;
@@ -1142,8 +998,7 @@ main (int argc, char **argv)
                 {
                   comma = list.size ();
                 }
-              opt.threads.push_back (
-                  std::atoi (list.substr (at, comma - at).c_str ()));
+              opt.threads.push_back (std::atoi (list.substr (at, comma - at).c_str ()));
               at = comma + 1;
             }
         }
@@ -1160,10 +1015,7 @@ main (int argc, char **argv)
     }
   if (opt.csv.empty ())
     {
-      std::fprintf (stderr,
-                    "usage: %s --csv <file> [--repetition n] [--duration-ms "
-                    "n] [--warmup-ms n] [--threads 1,2,4] | --list\n",
-                    argv[0]);
+      std::fprintf (stderr, "usage: %s --csv <file> [--repetition n] [--duration-ms n] [--warmup-ms n] [--threads 1,2,4] | --list\n", argv[0]);
       return 2;
     }
   return run (opt);
