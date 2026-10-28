@@ -230,8 +230,9 @@ TEST_F (LumexHidThreadsTest,
   EXPECT_EQ (written[0][1], 4);
 }
 
-TEST_F (LumexHidThreadsTest,
-        GivenAWriteQueuedBehindStuckWrites_WhenCancelled_ThenItEndsCancelled)
+TEST_F (
+    LumexHidThreadsTest,
+    GivenAWriteQueuedBehindStuckWrites_WhenCancelled_ThenItEndsCancelledAndIsFreed)
 {
   std::shared_ptr<fake_device> const a = add ("fake-a");
   std::shared_ptr<fake_device> const b = add ("fake-b");
@@ -242,6 +243,7 @@ TEST_F (LumexHidThreadsTest,
   ASSERT_TRUE (first.open (deadline_t (2000)).has_value ());
   ASSERT_TRUE (second.open (deadline_t (2000)).has_value ());
   ASSERT_TRUE (third.open (deadline_t (2000)).has_value ());
+  std::weak_ptr<tr::datagram::message_impl> const third_impl = third.impl ();
   a->set_hold_writes (true);
   b->set_hold_writes (true);
   std::future<void> stuck_a
@@ -271,6 +273,13 @@ TEST_F (LumexHidThreadsTest,
   EXPECT_TRUE (eventually (
       [] () { return hid::hid_runtime::stats ().pending_tasks == 0; }));
   EXPECT_TRUE (c->written ().empty ());
+  // The write taken back lets go of what it pinned: the device is freed with
+  // its owner.
+  {
+    hid::hid_device const gone (std::move (third));
+  }
+  EXPECT_TRUE (
+      eventually ([&third_impl] () { return third_impl.expired (); }));
 }
 
 TEST_F (LumexHidThreadsTest,
