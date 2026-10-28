@@ -4,7 +4,7 @@
 // worker thread, and, with a real port named in LUMEX_TEST_SERIAL_PORT
 // (skipped
 // without it), the regression of a blocked synchronous read that close () from
-// another thread must end within 200 ms (the DChannel StopDataExchange hang).
+// another thread must end within 200 ms (a close that hangs).
 
 #include <atomic>
 #include <chrono>

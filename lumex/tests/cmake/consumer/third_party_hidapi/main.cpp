@@ -1,6 +1,6 @@
 // Enumerates every HID device through the vendored hidapi 0.15.0 and checks
 // the version the library reports. hid_exit is deliberately not called: a
-// process that also loads DChannel shares hidapi state with it.
+// process that also loads another library shares hidapi state with it.
 
 #include <cstdio>
 

@@ -349,7 +349,7 @@ lumex_add_consumer_test(consumer_cplusplus_macro cplusplus_macro)
 # cmake/LumexBoostContext.cmake, cmake/LumexHidapi.cmake): the vendored copies
 # build and run, the version pins and the override hold, an existing consumer
 # target is reused, a strict consumer sees no warning from them, and two copies
-# coexist in one process the way DChannel and LumexLib do.
+# coexist in one process the way LumexLib and another library may.
 lumex_add_consumer_test(consumer_third_party_asio_cxx11 third_party_asio
     -DFIXTURE_CXX_STANDARD=11)
 lumex_add_consumer_test(consumer_third_party_asio_cxx20 third_party_asio

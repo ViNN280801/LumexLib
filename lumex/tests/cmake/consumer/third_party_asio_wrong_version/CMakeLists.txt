@@ -3,7 +3,7 @@
 # LUMEX_ASIO_DIR names an include directory whose asio/version.hpp is not
 # 1.36.0. lumex_setup_asio () must stop the configure with a message that names
 # the found version (the test expects "LumexLib needs Asio"): a second, different
-# Asio next to DChannel's copy in one process is an ODR violation.
+# Asio next to another library's copy in one process is an ODR violation.
 
 cmake_minimum_required(VERSION 3.16)
 project(LumexThirdPartyAsioWrongVersion LANGUAGES CXX)

@@ -578,7 +578,7 @@ def fix_encoding_issues(file_path):
 def main():
     if len(sys.argv) != 2:
         print("Usage: python3 fix_encoding.py <file_path>")
-        print("Example: python3 fix_encoding.py DChannel/CommDataBlock.h")
+        print("Example: python3 fix_encoding.py src/Example.h")
         sys.exit(1)
 
     file_path = sys.argv[1]

@@ -17,6 +17,6 @@
 
 None.
 
-## Relation to DChannel
+## Relation to other copies
 
-`DChannel/src/3rdparty/asio/include/` is identical to this tree, file by file, once line endings are normalized (627 files compared, 21.10.2026; DChannel lacks only `include/Makefile.am` and `include/.gitignore`). LumexLib must use the same version and the same configuration macros as DChannel (`ASIO_STANDALONE`, `ASIO_NO_DEPRECATED`), because a process can hold both copies (see the LumexLib transport specification, F3).
+Another library in the same process may carry its own copy of Asio. LumexLib therefore pins the version and the configuration macros (`ASIO_STANDALONE`, `ASIO_NO_DEPRECATED`), because a process can hold both copies (see the LumexLib transport specification, F3).

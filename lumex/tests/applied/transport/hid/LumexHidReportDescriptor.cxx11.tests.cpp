@@ -1,5 +1,5 @@
-// analyze_report_descriptor (lumex/applied/transport/hid): the cases of
-// DChannel's AnalyzeHidReportDescriptor (unnumbered, numbered, bit fields,
+// analyze_report_descriptor (lumex/applied/transport/hid): the reference
+// cases (unnumbered, numbered, bit fields,
 // 0x85 as a data byte, empty, truncated) and the sizes per report ID, Push
 // and Pop, long items, four-byte items and the malformed descriptors. The
 // descriptors are synthetic (vendor-defined usage page).

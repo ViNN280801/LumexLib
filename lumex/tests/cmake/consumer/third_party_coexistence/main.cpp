@@ -1,12 +1,12 @@
 // Runs Asio and hidapi from the executable (LumexLib's copies) and from the
-// DChannel-like shared library (its own copies) in one process, interleaved.
+// other shared library (its own copies) in one process, interleaved.
 
 #include <cstdio>
 
 #include <asio.hpp>
 #include <hidapi.h>
 
-extern "C" int dchannel_like_run ();
+extern "C" int other_library_run ();
 
 int
 main ()
@@ -21,7 +21,7 @@ main ()
       hid_device_info *devices = hid_enumerate (0, 0);
       hid_free_enumeration (devices);
 
-      ok += ran + dchannel_like_run ();
+      ok += ran + other_library_run ();
     }
   std::printf ("ok=%d\n", ok);
   return ok == 6 ? 0 : 1;

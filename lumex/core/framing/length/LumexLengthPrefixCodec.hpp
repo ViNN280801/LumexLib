@@ -46,13 +46,13 @@
  * A zero-length payload is a frame and is delivered as an empty frame.
  *
  * `encode` refuses with `payload_too_large` a payload above `max_frame_size`
- * or one whose length the field cannot hold; it never truncates (the DChannel
- * v4 TCP protocol cut such a payload silently). A received length above
- * `max_frame_size` is reported as `frame_too_large` once and the declared
- * bytes are skipped, so the next frame is read from its own length field. A
- * length smaller than the field itself (with `length_includes_prefix`) is
- * `bad_header`, and reading continues at the next byte as a new length field;
- * a stream without boundaries cannot resynchronize better than that.
+ * or one whose length the field cannot hold; it never truncates. A received
+ * length above `max_frame_size` is reported as `frame_too_large` once and the
+ * declared bytes are skipped, so the next frame is read from its own length
+ * field. A length smaller than the field itself (with
+ * `length_includes_prefix`) is `bad_header`, and reading continues at the next
+ * byte as a new length field; a stream without boundaries cannot resynchronize
+ * better than that.
  */
 #ifndef LUMEX_CORE_FRAMING_LENGTH_PREFIX_CODEC_HPP
 #define LUMEX_CORE_FRAMING_LENGTH_PREFIX_CODEC_HPP

@@ -7,7 +7,7 @@
 # and on other systems the backend of LUMEX_HIDAPI_BACKEND: hidraw (default,
 # needs libudev) or libusb (needs libusb-1.0). LUMEX_HIDAPI_DIR replaces the
 # vendored tree with another hidapi 0.15.0 source tree. LumexLib never calls
-# hid_exit (DChannel's hidapi copy may share the process).
+# hid_exit (another library's hidapi copy may share the process).
 #
 # lumex_setup_hidapi is a macro: hidapi is C, the root project enables CXX
 # only, and enable_language() must run in file scope, which a function body is
@@ -42,8 +42,9 @@ function(_lumex_setup_hidapi_target)
     if(NOT "${_major}.${_minor}.${_patch}" STREQUAL "0.15.0")
         message(FATAL_ERROR
             "LumexLib needs hidapi 0.15.0, ${_header} has "
-            "${_major}.${_minor}.${_patch}. The sources DChannel compiles are "
-            "0.15.0, and one process can hold both copies.")
+            "${_major}.${_minor}.${_patch}. Another library in the same "
+            "process may carry its own hidapi 0.15.0 copy, and both copies must "
+            "match.")
     endif()
 
     set(_public_includes "${_dir}/hidapi")
@@ -54,7 +55,7 @@ function(_lumex_setup_hidapi_target)
         set(_sources "${_dir}/windows/hid.c")
         list(APPEND _public_includes "${_dir}/windows")
         # HidD_* and CM_Get_* are resolved at link time by the Windows SDK
-        # import libraries (DChannel v4 found them missing from upstream's CMake).
+        # import libraries (upstream's CMake does not list them).
         set(_link setupapi hid cfgmgr32)
     elseif(APPLE)
         set(_sources "${_dir}/mac/hid.c")

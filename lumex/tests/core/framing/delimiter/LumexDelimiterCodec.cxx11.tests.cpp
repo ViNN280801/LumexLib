@@ -1,7 +1,7 @@
-// delimiter_codec (lumex/core/framing/delimiter): the cases of the DChannel v4
+// delimiter_codec (lumex/core/framing/delimiter): the reference cases of an
 // ASCII suite are ported (default CR, a custom multi-byte receive delimiter, a
 // custom transmit suffix, split data, two frames in one chunk, a delimiter in
-// the middle, a multi-byte delimiter fed byte by byte, reset); the v4 case
+// the middle, a multi-byte delimiter fed byte by byte, reset); the old case
 // "empty delimiters keep CR" is now a contract violation. The exchange of
 // device M1 (LF out, CR LF ETB in) and the limits are added.
 //

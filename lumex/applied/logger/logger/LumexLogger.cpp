@@ -132,8 +132,7 @@
 // Bring the namespaced logger symbols into this translation unit unqualified.
 // This is a
 // `.cpp`-local convenience only (never leaks into consumers of
-// LumexLogger.hpp) and mirrors how the rest of this file was ported
-// line-for-line from DChannel's Logger.cpp.
+// LumexLogger.hpp) and mirrors how the rest of this file is written.
 
 namespace lumex
 {

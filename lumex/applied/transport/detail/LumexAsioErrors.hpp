@@ -40,8 +40,8 @@
 /**
  * @file LumexAsioErrors.hpp
  * @brief The translation of Asio's own error codes at the transport boundary.
- * @details A process that also loads DChannel holds two copies of Asio, each
- * with its own category objects, so a code of an Asio category is never
+ * @details A process that also loads another library holds two copies of Asio,
+ * each with its own category objects, so a code of an Asio category is never
  * compared by a caller: `operation_aborted` becomes
  * `transport_errc::cancelled`, `eof` becomes `disconnected`, a name resolution
  * failure `invalid_endpoint`, and an operating system error of Asio's own

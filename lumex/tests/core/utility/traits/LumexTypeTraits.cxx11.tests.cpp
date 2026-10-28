@@ -213,7 +213,7 @@ TEST (LumexTypeTraitsTest, GivenMismatchedArgs_WhenInvokeResult_ThenNoType)
   SUCCEED ();
 }
 
-// --- is_callable_signature (DChannel signature form)
+// --- is_callable_signature (signature form)
 // -------------------------------------------
 
 TEST (LumexTypeTraitsTest,
