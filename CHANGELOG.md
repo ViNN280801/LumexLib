@@ -286,6 +286,14 @@
 
 **Проверено:** bash 5.0.3: `cmake.release_script_dry_run` и `cmake.release_script_options` проходят при `LC_ALL=C`, `ru_RU.UTF-8` и `en_GB.UTF-8`.
 
+##### Транспорт: статическая библиотека и hidapi не отдают символы наружу на ELF
+
+**Файлы:** `lumex/applied/transport/CMakeLists.txt`, `cmake/LumexHidapi.cmake`, `cmake/LumexAsio.cmake`, `lumex/applied/transport/README.md`, `lumex/tests/cmake/consumer/transport_two_modules/` (`CMakeLists.txt`, `check_exports.cmake`).
+
+**Суть:** статический транспорт и hidapi собираются со скрытой видимостью (`CXX_VISIBILITY_PRESET hidden`, `VISIBILITY_INLINES_HIDDEN`, `C_VISIBILITY_PRESET hidden`): EXE и `.so`, которые линкуют транспорт, имеют каждый свою категорию ошибок, свой слот лога и свою службу остановки, как на Windows. Символы Asio остаются экспортируемыми намеренно: заголовки Asio сами включают видимость по умолчанию, и статики Asio (стеки вызовов по потокам) должны быть одни на процесс, иначе общий `io_context` падает (`ASIO_DISABLE_VISIBILITY` не определяется).
+
+**Проверено:** Linux, GCC 13 и Clang 23: `cmake.consumer_transport_two_modules` проходит, исполняемый файл фикстуры 300 запусков из 300 без падений на каждом компиляторе; с определением `ASIO_DISABLE_VISIBILITY` тот же файл падал с SIGSEGV в 152 запусках из 200 (GCC 13) и в 153 из 200 (Clang 23); на базовой ревизии фикстура завершалась кодом 2 в 200 запусках из 200 (общая категория). Мутация "без скрытой видимости" дает "exports 126 symbol(s)". Windows не проверялось.
+
 #### Изменено
 
 ##### `serial_port_state::denied`: отказ в доступе при пробном открытии в POSIX

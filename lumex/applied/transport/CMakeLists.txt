@@ -44,6 +44,16 @@ endif()
 # library keeps the consumer's binary the only owner of its io_context and of
 # the transport's log slot.
 add_library(${LUMEX_TRANSPORT_NAME} STATIC ${SOURCES})
+# Hidden symbols (ELF; PE has no such sharing): an executable and a
+# shared library that both link this static library keep their own copy of the
+# error category, the log slot and the shutdown service, as on Windows. With
+# default visibility the dynamic linker would bind the library's copy to the
+# executable's, and two binaries would share one category object and one log
+# slot. The symbols of Asio are not covered: its headers force default
+# visibility around themselves, and they must (see cmake/LumexAsio.cmake).
+set_target_properties(${LUMEX_TRANSPORT_NAME} PROPERTIES
+    CXX_VISIBILITY_PRESET hidden
+    VISIBILITY_INLINES_HIDDEN ON)
 add_library(lumex::transport ALIAS ${LUMEX_TRANSPORT_NAME})
 
 target_include_directories(${LUMEX_TRANSPORT_NAME} PUBLIC
