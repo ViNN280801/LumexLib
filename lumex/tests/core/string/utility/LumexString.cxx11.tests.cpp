@@ -383,10 +383,10 @@ TEST_F (LumexStringifyTest, Pointers_Dirty)
   EXPECT_FALSE (ptr_str.empty ());
   // On Windows, pointer may not have "0x" prefix, just check it's not empty
 
-  // Null pointer (Windows shows "0000000000000000", Unix shows "0")
+  // Null pointer: one text with every standard library (a stream prints "0"
+  // with libstdc++, "0x0" with libc++, sixteen zeros with MSVC).
   int *null_ptr = nullptr;
-  std::string null_str = stringify (null_ptr);
-  EXPECT_TRUE (null_str == "0" || null_str == "0000000000000000");
+  EXPECT_EQ (stringify (null_ptr), "0x0");
 
   // Pointer to custom type
   CustomStreamable cs (99);
@@ -407,14 +407,39 @@ TEST_F (LumexStringifyTest, SmartPointers_Dirty)
   std::string sptr_str = stringify (sptr);
   EXPECT_FALSE (sptr_str.empty ());
 
-  // Empty smart pointers (Windows shows "0000000000000000", Unix shows "0")
+  // Empty smart pointers: the same text as a null raw pointer.
   std::unique_ptr<int> empty_uptr;
-  std::string empty_uptr_str = stringify (empty_uptr);
-  EXPECT_TRUE (empty_uptr_str == "0" || empty_uptr_str == "0000000000000000");
+  EXPECT_EQ (stringify (empty_uptr), "0x0");
 
   std::shared_ptr<int> empty_sptr;
-  std::string empty_sptr_str = stringify (empty_sptr);
-  EXPECT_TRUE (empty_sptr_str == "0" || empty_sptr_str == "0000000000000000");
+  EXPECT_EQ (stringify (empty_sptr), "0x0");
+}
+
+// A null pointer is "0x0" whatever its kind and wherever it stands in the
+// list; a pointer that is not null keeps the text of the standard library.
+TEST_F (LumexStringifyTest, NullPointersOfEveryKind_Dirty)
+{
+  int const *null_const = nullptr;
+  void *null_void = nullptr;
+  void const *null_void_const = nullptr;
+  CustomStreamable *null_custom = nullptr;
+  std::unique_ptr<CustomStreamable> empty_custom;
+  EXPECT_EQ (stringify (null_const), "0x0");
+  EXPECT_EQ (stringify (null_void), "0x0");
+  EXPECT_EQ (stringify (null_void_const), "0x0");
+  EXPECT_EQ (stringify (null_custom), "0x0");
+  EXPECT_EQ (stringify (empty_custom), "0x0");
+  EXPECT_EQ (stringify ("p=", null_const, ",q=", null_void, ";"),
+             "p=0x0,q=0x0;");
+  EXPECT_EQ (stringify (static_cast<int *> (nullptr)), "0x0");
+
+  int value = 1;
+  std::string const text = stringify (&value);
+  EXPECT_NE (text, "0x0");
+  EXPECT_FALSE (text.empty ());
+  EXPECT_NE (stringify (std::make_shared<int> (1)), "0x0");
+  // A pointer to characters is text, not an address.
+  EXPECT_EQ (stringify (static_cast<char const *> ("text")), "text");
 }
 
 // === Array Tests ===

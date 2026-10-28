@@ -15,5 +15,5 @@
 lumex_add_standard_suites(Format
     MODULE fmt
     LINK lumex::fmt lumex::string_view lumex::reflection
-    SOURCES LumexFormatTestHelpers.hpp
+    SOURCES LumexFormatTestHelpers.hpp LumexFormatStdQuirks.hpp
 )
