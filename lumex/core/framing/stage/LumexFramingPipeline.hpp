@@ -66,6 +66,16 @@
 #include "lumex/core/framing/codec/LumexFramingCodec.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 
+#if defined(__clang__)
+#pragma clang diagnostic push
+#if __has_warning("-Wlifetime-safety-invalidation")
+// Clang 23 reports a reference parameter to a container as "invalidated" by
+// its own push_back, insert or reserve (a false positive: only references into
+// the container are invalidated, not the container).
+#pragma clang diagnostic ignored "-Wlifetime-safety-invalidation"
+#endif
+#endif
+
 namespace lumex
 {
 namespace core
@@ -229,5 +239,9 @@ private:
 } // namespace framing
 } // namespace core
 } // namespace lumex
+
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif
 
 #endif // !LUMEX_CORE_FRAMING_STAGE_PIPELINE_HPP

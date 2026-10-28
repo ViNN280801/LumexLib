@@ -310,6 +310,14 @@
 
 **Проверено:** GCC 13, TSan на C++11, 17 и 20, `setarch -R`: 66 исполняемых файлов `transport.*` и `framing.*`, 0 отчетов `WARNING: ThreadSanitizer`. Фикстура `consumer_third_party_boost_context_threads_tsan` проходит на GCC 13 и Clang 23 и пропускается (Skipped) на GCC 8.3; без `BOOST_USE_TSAN` она падает.
 
+##### Clang 23: замечания `-Wlifetime-safety*` и thread-safety в заголовках и фикстурах
+
+**Файлы:** 28 заголовков `lumex/core/**` и `lumex/applied/transport/**` (охраняемые `#pragma clang diagnostic` внутри `__has_warning`), `lumex/applied/transport/detail/LumexCountingHandler.hpp`, `cmake/LumexThirdParty.cmake`, `lumex/tests/cmake/consumer/transport_warnings/main.cpp`.
+
+**Суть:** разобраны все замечания: реальных висячих ссылок нет; `-Wlifetime-safety-suggestions` (просьбы о `[[clang::lifetimebound]]`) и ложное `-Wlifetime-safety-invalidation` (ссылка на контейнер, изменяемый собственным `push_back`) заглушены в заголовках, `-Wlifetime-safety-dangling-*` оставлены; `-Wthread-safety-negative` на libc++ заглушено в `LumexCountingHandler.hpp`; `-Wswitch-default` GCC 13 из `co_await` заглушено в самой фикстуре. Фикстуры `consumer_third_party_boost_context*` и `third_party_warnings` на Clang + libc++ линкуются: `-stdlib=libc++` передается потребителям статических и разделяемых сторонних библиотек.
+
+**Проверено:** GCC 13 и Clang 23 с `LUMEX_WERROR=ON`: 0 строк предупреждений; Clang + libc++: 23 теста `cmake.consumer_*` проходят.
+
 #### Изменено
 
 ##### `serial_port_state::denied`: отказ в доступе при пробном открытии в POSIX
