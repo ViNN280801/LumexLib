@@ -318,6 +318,14 @@
 
 **Проверено:** GCC 13 и Clang 23 с `LUMEX_WERROR=ON`: 0 строк предупреждений; Clang + libc++: 23 теста `cmake.consumer_*` проходят.
 
+##### C4702 в `expected::value () const &`
+
+**Файлы:** `lumex/core/expected/result/ExpectedDetail.hpp`, `Expected.hpp`, `lumex/tests/cmake/consumer/expected_warnings/` (новый), `lumex/tests/cmake/CMakeLists.txt`.
+
+**Суть:** недостижимый операнд после `throw` в запятой убран: ветка ошибки вызывает `detail::throw_bad_expected_access_as<...>`. Фикстура `consumer_expected_warnings` собирается со строгими флагами (`/W4 /WX` на MSVC).
+
+**Проверено:** Linux, GCC 13 и Clang 23: фикстура собирается и проходит; старую форму Clang не помечает, поэтому регрессию ловит только запуск на Windows (не выполнялся).
+
 #### Изменено
 
 ##### `serial_port_state::denied`: отказ в доступе при пробном открытии в POSIX

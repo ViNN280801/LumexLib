@@ -335,6 +335,28 @@ throw_bad_expected_access (Arg &&error)
 }
 
 /**
+ * @brief `throw_bad_expected_access` as an expression of type `Result`, for
+ * the branch of a conditional expression.
+ * @details `value () const &` is a C++11 `constexpr` function, so its error
+ * branch is the operand of a conditional expression. A `void` call followed
+ * by a comma operand that yields the value left that operand after a call
+ * that never returns, which cl.exe reports as unreachable code (C4702, an
+ * error under `/W4 /WX`). A call of this function is the whole branch; the
+ * conditional takes the type of the other branch, so a reference stays a
+ * reference.
+ * @tparam ErrorType Error type of the `expected`.
+ * @tparam Result The type of the expression; it never yields a value.
+ * @tparam Arg Type of the error, possibly a reference.
+ * @param[in] error The error, as for `throw_bad_expected_access`.
+ */
+template <typename ErrorType, typename Result, typename Arg>
+LUMEX_ATTRIBUTE_NORETURN inline Result
+throw_bad_expected_access_as (Arg &&error)
+{
+  throw_bad_expected_access<ErrorType> (detail::fwd<Arg> (error));
+}
+
+/**
  * @brief Whether `X` is exactly `std::expected<T, E>` (false where the
  * standard library has no `std::expected`).
  * @tparam X The type to test.

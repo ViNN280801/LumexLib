@@ -980,9 +980,9 @@ public:
                              "value (): ErrorType must be copy constructible");
     return m_has_value
                ? static_cast<SuccessType const &> (m_storage.m_value)
-               : (detail::throw_bad_expected_access<ErrorType> (
-                      static_cast<ErrorType const &> (m_storage.m_error)),
-                  static_cast<SuccessType const &> (m_storage.m_value));
+               : detail::throw_bad_expected_access_as<ErrorType,
+                                                      SuccessType const &> (
+                     static_cast<ErrorType const &> (m_storage.m_error));
   }
 
   /**
