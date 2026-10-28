@@ -5,5 +5,8 @@ typedef unsigned long dword_t;
 #endif
 
 #ifdef LUMEX_FIXTURE_NEVER_DEFINED
-typedef unsigned long long split_t;
+// clang-format off
+typedef
+    unsigned long long split_t;
+// clang-format on
 #endif

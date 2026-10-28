@@ -23,6 +23,13 @@ only).
   typedef T a, *b;                 ->  using a = T; using b = T *;
   typedef struct { ... } name;     ->  struct name { ... };
   typedef struct tag { ... } name; ->  struct tag { ... }; using name = tag;
+  typedef T name __attribute__ ((a)); -> using name __attribute__ ((a)) = T;
+An `__attribute__` goes between the alias name and the `=` wherever it stood
+in the typedef: Clang drops an attribute that follows the type of an alias
+(`may_alias`, `aligned`). A trailing identifier in capitals after the name
+(`typedef T name BENCH_UNUSED;`) may be an attribute macro: it cannot be told
+from the name, so the declaration is left alone. `alignas`, `__declspec` and
+`[[...]]` on a typedef are left alone too.
 It leaves a declaration it cannot convert with certainty (and says so on
 stderr); the exit status is 1 when any such declaration remains.
 
@@ -60,7 +67,6 @@ C_EXCEPTIONS: Set[str] = set()
 # Words that may stand between a typedef's specifiers and its name without
 # being the name.
 CV_WORDS = {"const", "volatile", "noexcept", "throw", "restrict", "__restrict"}
-ATTRIBUTE_WORDS = {"__attribute__", "__declspec", "alignas"}
 CLASS_KEYS = {"struct", "class", "union", "enum"}
 KEYWORDS = CLASS_KEYS | CV_WORDS | {
     "typedef", "typename", "template", "unsigned", "signed", "int", "char",
@@ -309,6 +315,38 @@ def split_top_level(toks: List[Tok]) -> List[List[Tok]]:
     return parts
 
 
+MACRO_NAME = re.compile(r"[A-Z][A-Z0-9_]*\Z")
+
+
+def looks_like_macro(tok: Tok) -> bool:
+    return bool(MACRO_NAME.match(tok.text))
+
+
+def pull_attributes(toks: List[Tok]) -> Tuple[List[Tok], List[List[Tok]]]:
+    """Split the `__attribute__ ((..))` groups off a declarator.
+
+    Return (the tokens without them, the groups).
+    """
+    rest: List[Tok] = []
+    groups: List[List[Tok]] = []
+    k = 0
+    while k < len(toks):
+        t = toks[k].text
+        following = toks[k + 1].text if k + 1 < len(toks) else ""
+        if t == "__attribute__" and following == "(":
+            close = match_close(toks, k + 1)
+            groups.append(toks[k : close + 1])
+            k = close + 1
+            continue
+        if t in ("alignas", "__declspec") and following == "(":
+            raise Unconvertible("{} on a typedef".format(t))
+        if t == "[" and following == "[":
+            raise Unconvertible("[[attribute]] on a typedef")
+        rest.append(toks[k])
+        k += 1
+    return rest, groups
+
+
 def declarator_name(toks: List[Tok]) -> Tuple[int, bool]:
     """Return (index of the declared name, name sits in a (*name) group)."""
     # Function pointer, reference or member pointer: `R (*name) (A)`.
@@ -339,8 +377,11 @@ def declarator_name(toks: List[Tok]) -> Tuple[int, bool]:
         t = toks[i].text
         if t in (")", "]"):
             i = match_open(toks, i) - 1
-            if i >= 0 and toks[i].text in ATTRIBUTE_WORDS:
-                i -= 1
+            if i >= 1 and toks[i].is_ident() and looks_like_macro(toks[i]) \
+                    and toks[i - 1].is_ident():
+                raise Unconvertible(
+                    "{} after the name may be an attribute macro".format(
+                        toks[i].text))
             continue
         if t in CV_WORDS or t in ("&", "&&"):
             i -= 1
@@ -348,6 +389,9 @@ def declarator_name(toks: List[Tok]) -> Tuple[int, bool]:
         break
     if i < 0 or not toks[i].is_ident():
         raise Unconvertible("no declared name found")
+    if i >= 1 and looks_like_macro(toks[i]) and toks[i - 1].is_ident():
+        raise Unconvertible(
+            "{} after the name may be an attribute macro".format(toks[i].text))
     return i, False
 
 
@@ -358,10 +402,23 @@ def squeeze(text: str) -> str:
     return text.strip(" ")
 
 
-def without_name(src: str, toks: List[Tok], name_index: int) -> str:
-    """Return the source text of toks with the name token removed."""
-    name = toks[name_index]
-    return src[toks[0].start : name.start] + src[name.end : toks[-1].end]
+def render(src: str, toks: List[Tok], begin: int, end: int,
+           skipped: Set[int]) -> str:
+    """Return the source text of the tokens in [begin, end) without skipped.
+
+    The text between tokens stays, so the layout (macro line splices) does.
+    """
+    out: List[str] = []
+    previous = None
+    for tok in toks:
+        if tok.start < begin or tok.end > end:
+            continue
+        if previous is not None:
+            out.append(src[previous:tok.start])
+        if id(tok) not in skipped:
+            out.append(src[tok.start : tok.end])
+        previous = tok.end
+    return "".join(out)
 
 
 def pointer_run_start(toks: List[Tok], name_index: int) -> int:
@@ -400,30 +457,43 @@ def convert_declaration(src: str, code: str, begin: int, end: int,
     parts = split_top_level(toks)
     if any(not part for part in parts):
         raise Unconvertible("empty declarator")
-    first = parts[0]
-    f_name, grouped = declarator_name(first)
     aliases: List[Tuple[str, str]] = []
-    if grouped:
-        if len(parts) > 1:
+    shared: List[str] = []
+    for index, part in enumerate(parts):
+        clean, groups = pull_attributes(part)
+        if not clean:
+            raise Unconvertible("empty declarator")
+        name_i, grouped = declarator_name(clean)
+        if grouped and len(parts) > 1:
             raise Unconvertible("function pointer in a list of declarators")
-        aliases.append(
-            (first[f_name].text, squeeze(without_name(src, first, f_name))))
-    else:
-        run = pointer_run_start(first, f_name)
-        if run == 0:
-            raise Unconvertible("no type before the name")
-        base = squeeze(src[first[0].start : first[run].start])
-        for index, part in enumerate(parts):
-            if index == 0:
-                declarator = first[run:]
-                name_i = f_name - run
-            else:
-                declarator = part
-                name_i, again = declarator_name(part)
-                if again:
-                    raise Unconvertible("function pointer in a list")
-            text = squeeze(base + " " + without_name(src, declarator, name_i))
-            aliases.append((declarator[name_i].text, text))
+        name = clean[name_i]
+        skipped = {id(name)}
+        for group in groups:
+            skipped.update(id(t) for t in group)
+        run = 0 if grouped else pointer_run_start(clean, name_i)
+        if index == 0 and not grouped:
+            if run == 0:
+                raise Unconvertible("no type before the name")
+            # What stands before the first declarator belongs to every alias.
+            limit = clean[run].start
+            base = squeeze(render(src, part, part[0].start, limit, skipped))
+            shared = [squeeze(src[g[0].start : g[-1].end])
+                      for g in groups if g[0].start < limit]
+            groups = [g for g in groups if g[0].start >= limit]
+            declarator = squeeze(
+                render(src, part, limit, part[-1].end, skipped))
+        elif index == 0:
+            base = ""
+            declarator = squeeze(
+                render(src, part, part[0].start, part[-1].end, skipped))
+        else:
+            declarator = squeeze(
+                render(src, part, part[0].start, part[-1].end, skipped))
+        attributes = shared + [squeeze(src[g[0].start : g[-1].end])
+                               for g in groups]
+        text = squeeze(base + " " + declarator) if base else declarator
+        head = name.text + "".join(" " + a for a in attributes)
+        aliases.append((head, text))
     if not macro:
         aliases = [(n, re.sub(r"\s*\n\s*", " ", t).strip())
                    for n, t in aliases]
