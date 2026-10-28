@@ -36,18 +36,17 @@
  * (libstdc++ 13) and Clang 23 (libc++ 23) and decided against the text of
  * [format.string.std] (C++20, with the DRs P1868R2 and P2909R4) and against
  * the other library; `LumexFormat` is right in each case and the library named
- * is not. The libstdc++ rules are active up to release 13: a newer release
- * that fixed the case is compared again, and one that still differs shows up
- * as a failing test to widen the gate. The libc++ rules are active up to
- * release 23 (`_LIBCPP_VERSION` below 240000) for the same reason.
+ * is not. The one exception is the deliberate decision below, where the
+ * libraries disagree about what the standard allows and `LumexFormat` follows
+ * libc++ and MSVC STL. The libstdc++ rules are active up to release 13: a
+ * newer release that fixed the case is compared again, and one that still
+ * differs shows up as a failing test to widen the gate. The libc++ rules are
+ * active up to release 23 (`_LIBCPP_VERSION` below 240000) for the same
+ * reason.
  *
  * libstdc++ 13 (`_GLIBCXX_RELEASE <= 13`):
  * - A multibyte fill (`{:ж^+}`) is rejected: the fill is a Unicode scalar
  *   value for a UTF-8 format string (P1868R2); libc++ accepts it.
- * - `c` with a sign, `#` or `0` (`{:07c}`, `{:+15c}`, `{:^-#3c}`) is accepted:
- *   those options are valid only for the arithmetic types other than charT
- *   and bool, or with an integer presentation type, and `c` is not one;
- *   libc++ and `LumexFormat` reject it.
  * - `#` with `g`, `G` or no type (`{:#g}`, `{:#.3g}`, `{:#}`): the zeros that
  *   `#` keeps are one short for a value below 1 ("0.10000" for 0.1, where C's
  *   `%#g` gives "0.100000"), the decimal point of a value in scientific style
@@ -72,13 +71,29 @@
  *   after the "0x"; libc++ does.
  *
  * libc++ 23 (`_LIBCPP_VERSION`):
- * - `0` together with an explicit alignment is ignored on `bool`, `char` and
- *   with `c`; the option is not valid there (same rule as above), so
- *   `LumexFormat` rejects it.
+ * - `0` together with an explicit alignment is ignored on `bool` and `char`
+ *   and with `c` on a `char`; the option is not valid there (sign, `#` and
+ *   `0` need an arithmetic type other than charT and bool), so `LumexFormat`
+ *   rejects it. With `c` on an integer see the decision below.
  * - `#` with `g` or `G` keeps one zero too few for a value below 1, as above.
  * - A `long double` is formatted through a `double` (the precision of the
  *   value is lost) and its hexadecimal form is normalised differently.
  * - `a` of a subnormal, as above.
+ *
+ * A deliberate decision, not a defect of the library named: `c` with a sign,
+ * `#` or `0` on an integer argument (`{:+c}`, `{:#c}`, `{:07c}` of 65).
+ * The current wording of [format.string.std] allows these options for the
+ * arithmetic types other than charT and bool, and libstdc++ 13 (`{:+c}` is
+ * "A") and {fmt} follow the letter of it. `LumexFormat`, libc++ and MSVC STL
+ * reject them on purpose, pending a decision of LWG; this follows
+ * https://github.com/llvm/llvm-project/issues/106136 and
+ * https://github.com/microsoft/STL/issues/4918 and is revisited when LWG
+ * decides. libc++ is not consistent here: it rejects the sign, `#` and a
+ * plain `0` but accepts `0` together with an explicit alignment (`{:*>05c}`)
+ * and ignores the `0`, as the standard says of `0` with an alignment. The
+ * rules below skip those cases (libstdc++ for all three options, libc++ for
+ * `0` with an alignment) and nothing else; with a `char` argument all three
+ * libraries and `LumexFormat` reject the options and the cases are compared.
  */
 #ifndef LUMEX_TESTS_CORE_FMT_FORMAT_STD_QUIRKS_HPP
 #define LUMEX_TESTS_CORE_FMT_FORMAT_STD_QUIRKS_HPP
@@ -328,7 +343,10 @@ std_is_known_to_differ (spec_info const &spec, value_kind kind,
 #if LUMEX_FORMAT_TEST_LIBSTDCXX_13
   if (spec.multibyte_fill)
     return true;
-  if (spec.type == 'c' && (spec.sign || spec.alternate || spec.zero))
+  // Deliberate decision (see the file description): libstdc++ accepts the
+  // options with `c` on an integer, LumexFormat rejects them.
+  if (kind == value_kind::integer && spec.type == 'c'
+      && (spec.sign || spec.alternate || spec.zero))
     return true;
   if (floating && spec.alternate
       && (spec.type == 'g' || spec.type == 'G' || spec.type == '\0'))
@@ -349,10 +367,15 @@ std_is_known_to_differ (spec_info const &spec, value_kind kind,
     return true;
 #endif
 #if LUMEX_FORMAT_TEST_LIBCXX
+  // A defect for `bool` and `char`, where the options are invalid.
   if (spec.zero && spec.explicit_align
-      && (spec.type == 'c'
-          || ((kind == value_kind::boolean || kind == value_kind::character)
-              && !integer_type_letter (spec.type))))
+      && (kind == value_kind::boolean || kind == value_kind::character)
+      && !integer_type_letter (spec.type))
+    return true;
+  // Deliberate decision (see the file description): libc++ ignores the `0`
+  // next to an alignment with `c` on an integer, LumexFormat rejects it.
+  if (spec.zero && spec.explicit_align && spec.type == 'c'
+      && kind == value_kind::integer)
     return true;
   if (floating && spec.alternate && (spec.type == 'g' || spec.type == 'G'))
     return true;
