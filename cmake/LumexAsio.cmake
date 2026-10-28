@@ -7,7 +7,15 @@
 # the consumer's own; the version must still be 1.36.0 and the configuration
 # macros are fixed to DChannel's (ASIO_STANDALONE, ASIO_NO_DEPRECATED): a
 # process that also loads DChannel holds a second Asio copy, and both copies
-# must be identical.
+# must be identical. ASIO_DISABLE_VISIBILITY is NOT defined, on purpose: the
+# Asio headers push default visibility around themselves, so on ELF the
+# statics of Asio (the per-thread call stacks above all) are one per process
+# whatever -fvisibility says, and an io_context shared by an executable and a
+# shared library works. With a copy of those per binary, the epoll reactor of
+# one binary runs on the scheduler thread of the other and dereferences a
+# null thread record (a segmentation fault in 3 of 4 runs of the
+# transport_two_modules fixture). The transport's own symbols and hidapi stay
+# hidden (see lumex/applied/transport/CMakeLists.txt).
 
 # Resolved at include time: CMAKE_CURRENT_LIST_DIR inside a function is the
 # caller's directory.
