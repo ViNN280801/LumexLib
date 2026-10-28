@@ -517,6 +517,12 @@ byte_stream::get_executor () const LUMEX_NOEXCEPT
   return impl_->executor ();
 }
 
+byte_stream::strand_type
+byte_stream::get_strand () const LUMEX_NOEXCEPT
+{
+  return impl_->strand ();
+}
+
 std::string const &
 byte_stream::name () const LUMEX_NOEXCEPT
 {

@@ -337,6 +337,9 @@ class message_transport
   };
 
 public:
+  /// @brief The strand of the transport's operations.
+  using strand_type = message_impl::strand_type;
+
   explicit message_transport (std::shared_ptr<message_impl> impl);
   ~message_transport ();
 
@@ -346,6 +349,13 @@ public:
   message_transport &operator= (message_transport &&other) LUMEX_NOEXCEPT;
 
   executor_type get_executor () const LUMEX_NOEXCEPT;
+  /// @brief The strand every operation of the transport runs on (a copy).
+  /// @details Start an operation that uses `asio::cancel_after` and whose
+  /// handler has no associated executor of its own inside this strand: from
+  /// a handler that runs on it or through `asio::post (x.get_strand (),
+  /// ...)`. Asio requires it, because the timer of `cancel_after` runs on
+  /// this strand while the initiation installs the cancellation slot.
+  strand_type get_strand () const LUMEX_NOEXCEPT;
   std::string const &name () const LUMEX_NOEXCEPT;
   bool is_open () const LUMEX_NOEXCEPT;
 

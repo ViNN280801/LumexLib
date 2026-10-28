@@ -404,3 +404,31 @@ TEST (
     ASSERT_EQ (got[i], static_cast<std::uint32_t> (i)) << "position " << i;
   EXPECT_EQ (link.statistics ().dropped_frames, 0u);
 }
+
+// A read with asio::cancel_after and an unbound handler, started inside the
+// adapter's own strand (get_strand ()), ends with cancelled when no frame
+// comes.
+TEST (LumexFramedStreamStrand,
+      GivenCancelAfterStartedInGetStrand_WhenNoFrameComes_ThenTheReadIsCancelled)
+{
+  tr::stream::io_runner runner (2);
+  tr::testing::mock_stream mock
+      = tr::testing::make_mock_stream (runner.get_executor (), "strand");
+  tr::framed::framed_stream<slip_case::codec_t> link (
+      std::move (mock.stream), slip_case::make (slip_case::limit ()));
+  ASSERT_TRUE (link.transport ().open (tr::deadline_t (2000)).has_value ());
+  std::shared_ptr<std::promise<std::error_code>> const done
+      = std::make_shared<std::promise<std::error_code>> ();
+  std::future<std::error_code> ended = done->get_future ();
+  asio::post (link.get_strand (),
+              [&link, done] ()
+                {
+                  link.async_read_frame (asio::cancel_after (
+                      std::chrono::milliseconds (20),
+                      [done] (std::error_code error, tr::framed::frame_t)
+                        { done->set_value (error); }));
+                });
+  ASSERT_EQ (ended.wait_for (std::chrono::seconds (5)),
+             std::future_status::ready);
+  EXPECT_TRUE (ended.get () == transport_errc::cancelled);
+}

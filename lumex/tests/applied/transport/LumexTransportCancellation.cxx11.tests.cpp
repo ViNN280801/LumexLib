@@ -879,7 +879,7 @@ cancel_after_stress (bool bind_strand, int iterations)
       // Started from this thread it races the timer; see the transport
       // README.
       asio::post (
-          bind_strand ? strand : mock.stream.impl ()->strand (),
+          bind_strand ? strand : mock.stream.get_strand (),
           [&mock, &buffer, bind_strand, &strand, timeout, handler] ()
             {
               if (bind_strand)
@@ -939,4 +939,19 @@ TEST (
   EXPECT_EQ (result.lost, 0);
   EXPECT_EQ (result.hung, 0);
   EXPECT_EQ (result.doubles, 0);
+}
+
+// get_strand () gives the strand the operations of a stream and of a message
+// transport run on: the one to start an operation with asio::cancel_after in.
+TEST (LumexTransportStrand,
+      GivenAStreamAndATransport_WhenGetStrand_ThenItIsTheStrandOfTheirOperations)
+{
+  tr::stream::io_runner runner (1);
+  tr::testing::mock_stream mock
+      = tr::testing::make_mock_stream (runner.get_executor (), "strand");
+  EXPECT_TRUE (mock.stream.get_strand () == mock.stream.impl ()->strand ());
+  tr::testing::mock_datagram datagram
+      = tr::testing::make_mock_datagram (runner.get_executor (), "strand");
+  EXPECT_TRUE (datagram.transport.get_strand ()
+               == datagram.transport.impl ()->strand ());
 }

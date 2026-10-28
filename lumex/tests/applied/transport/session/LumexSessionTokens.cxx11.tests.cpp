@@ -602,7 +602,7 @@ TEST_F (LumexSessionTokensTest,
   // asio::cancel_after must be started inside a strand (Asio's documented
   // thread safety: the timer's handler and the initiation both touch the
   // cancellation slot of the operation): a step of the session strand.
-  asio::post (session_strand (session),
+  asio::post (session.get_strand (),
               [&session, &buffer, &read] ()
                 {
                   session.async_read_some (
@@ -1020,4 +1020,15 @@ TEST_F (LumexSessionTokensTest,
     }
   EXPECT_EQ (twice->load (), 0);
   EXPECT_EQ (session->state (), state::open);
+}
+
+// get_strand () is the strand the initiations of a session report.
+TEST_F (LumexSessionTokensTest,
+        GivenASession_WhenGetStrand_ThenItIsTheStrandTheInitiationsReport)
+{
+  ss::stream_session session (runner_.get_executor (),
+                              make_stream_factory (factory_));
+  EXPECT_TRUE (tr::executor_type (session.get_strand ())
+               == session_strand (session));
+  session.close ();
 }

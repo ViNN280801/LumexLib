@@ -391,6 +391,12 @@ message_transport::get_executor () const LUMEX_NOEXCEPT
   return impl_->executor ();
 }
 
+message_transport::strand_type
+message_transport::get_strand () const LUMEX_NOEXCEPT
+{
+  return impl_->strand ();
+}
+
 std::string const &
 message_transport::name () const LUMEX_NOEXCEPT
 {
