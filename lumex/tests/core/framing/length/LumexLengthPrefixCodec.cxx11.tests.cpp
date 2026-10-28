@@ -1,10 +1,10 @@
-// length_prefix_codec (lumex/core/framing/length): the cases of the DChannel
-// v4 TCP suite are ported (round trip, the first byte is the length, a payload
-// at the cap, frames split at the length byte and inside the payload, two
-// frames in one chunk, a zero length, reset); the v4 finding "one past the cap
-// is silently truncated" is now payload_too_large. Every width and byte order,
-// the prefix-inclusive length, an oversized frame skipped and a bad header
-// are added.
+// length_prefix_codec (lumex/core/framing/length): the reference cases
+// of a TCP suite are ported (round trip, the first byte is the length, a
+// payload at the cap, frames split at the length byte and inside the payload,
+// two frames in one chunk, a zero length, reset); the old finding "one past
+// the cap is silently truncated" is now payload_too_large. Every width and
+// byte order, the prefix-inclusive length, an oversized frame skipped and a
+// bad header are added.
 
 #include <cstddef>
 #include <system_error>

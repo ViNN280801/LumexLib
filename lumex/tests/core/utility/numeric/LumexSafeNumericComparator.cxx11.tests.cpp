@@ -1,5 +1,5 @@
 // LumexSafeNumericComparator.cxx11.tests.cpp
-// Merged from DChannel SafeNumericComparator.tests.cpp plus Lumex-only
+// Reference cases plus Lumex-only
 // fits_in_type, free-function, and ordering-helper cases. Every utility
 // suite compiles this file; LumexSafeNumericComparator.cxx20.tests.cpp adds
 // the three-way comparison.

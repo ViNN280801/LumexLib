@@ -15,8 +15,8 @@ Upstream build systems (CMake, autotools, meson, Visual Studio projects, makefil
 
 ## Local changes
 
-None. DChannel's copy carries three Windows SDK include patches (`windows/hid.c`, `hidapi_cfgmgr32.h`, `hidapi_hidpi.h`); they are not applied here, because the unpatched Windows backend compiles with MSVC and clang-cl (21.10.2026). If another toolchain of the verification set needs them, they are added here as documented patches.
+None. Some copies of hidapi carry Windows SDK include patches (`windows/hid.c`, `hidapi_cfgmgr32.h`, `hidapi_hidpi.h`); they are not applied here, because the unpatched Windows backend compiles with MSVC and clang-cl (21.10.2026). If another toolchain of the verification set needs them, they are added here as documented patches.
 
-## Relation to DChannel
+## Relation to other copies
 
-DChannel compiles hidapi **0.15.0 sources** (identical to this release, apart from the three patches above) with the **0.14.0 header** (`dchannel/pitfalls.md`, 2026-10-21). This tree is the full 0.15.0 release, so both libraries run the same hidapi code in one process (Linux symbol interposition, transport specification F3). LumexLib never calls `hid_exit`.
+Another library in the same process may carry its own hidapi copy, possibly built from **0.15.0 sources** with an older header. This tree is the full 0.15.0 release, so both copies run the same hidapi code in one process (Linux symbol interposition, transport specification F3). LumexLib never calls `hid_exit`.

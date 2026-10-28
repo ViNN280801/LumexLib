@@ -1,5 +1,5 @@
 // The thread rules of hid_device and hid_runtime (lumex/applied/transport/hid)
-// over the fake hidapi seam, after DChannel's zombie-thread pitfalls: two
+// over the fake hidapi seam, after the known zombie-thread pitfalls: two
 // concurrent shutdowns, a write queued behind a busy executor ends by its
 // deadline and by cancel, a report or a read failure after the stop never
 // reaches the strand, stale results that reach it are dropped, a write and

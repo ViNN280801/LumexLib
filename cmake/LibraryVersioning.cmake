@@ -176,8 +176,8 @@ function(apply_library_versioning TARGET_NAME)
   endif()
   
   # Vendor display string for CompanyName, in the house format
-  # "Name <email> (Company, URL)" - the same shape the DChannel rc uses, so every
-  # Lumex-built binary shows one authorship line. Falls back to the company alone
+  # "Name <email> (Company, URL)" - one shape for every
+  # Lumex-built binary, so each shows the same authorship line. Falls back to the company alone
   # when no person/team was provided.
   set(ARG_VENDOR_DISPLAY "${ARG_VENDOR_COMPANY}")
   if(ARG_VENDOR_NAME)

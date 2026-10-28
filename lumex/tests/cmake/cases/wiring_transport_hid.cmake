@@ -64,8 +64,8 @@ foreach(_file IN LISTS _transport_files)
     endif()
 endforeach()
 
-# LumexLib never calls hid_exit (DChannel's hidapi copy may share the
-# process): no call in the library's sources.
+# LumexLib never calls hid_exit (another library's hidapi copy may share
+# the process): no call in the library's sources.
 file(GLOB_RECURSE _hid_files
     "${LUMEX_SOURCE_DIR}/lumex/applied/transport/hid/*.hpp"
     "${LUMEX_SOURCE_DIR}/lumex/applied/transport/hid/*.cpp")

@@ -27,13 +27,12 @@
  * @brief The file logger of the `lumex::logger` module: the `LumexLogger`
  * singleton, its level and configuration types, and the `LOGGER_LOG_*` and
  * `LUMEX_LOG_*` macros.
- * @details The logger, kept in step with the Logger of the DChannel project,
- * writes to a log file next to the executable and is enabled only while its
- * trigger file (`enable_logs` by default) exists; the contents of the trigger
- * file set the level and the other options, in the format chosen by
- * `LumexLoggerConfigFormat.hpp`. Besides the class, the header declares
- * `LogLevel`, `FunctionNameMode`, `logger_config_t`, `log_entry_t` and
- * `logger_stringify()`.
+ * @details The logger writes to a log file next to the executable and is
+ * enabled only while its trigger file (`enable_logs` by default) exists; the
+ * contents of the trigger file set the level and the other options, in the
+ * format chosen by `LumexLoggerConfigFormat.hpp`. Besides the class, the
+ * header declares `LogLevel`, `FunctionNameMode`, `logger_config_t`,
+ * `log_entry_t` and `logger_stringify()`.
  *
  * A logging macro does nothing when its level is disabled; otherwise it
  * prefixes the message with the calling function (as `FunctionNameMode`
@@ -185,8 +184,7 @@ namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 namespace applied
 {
 /**
- * @brief Universal file logger, ported and kept up to date from the DChannel
- * project's Logger.
+ * @brief Universal file logger.
  * @details All symbols below live in this namespace instead of the global
  * namespace specifically to avoid name collisions in a shared library consumed
  * by many projects (see e.g. `logger_stringify`, which would otherwise be a
@@ -1820,8 +1818,7 @@ using LumexLogger = lumex::applied::logger::logger::LumexLogger;
       ::lumex::applied::logger::logger::LogLevel::LEVEL_FATAL, __VA_ARGS__)
 
 // ---------------------------------------------------------------------------------------
-// // Macro layer adapted for LumexLib (counterpart of DCHANNEL_LOG_* in
-// the DChannel project).   //
+// // Macro layer adapted for LumexLib.   //
 // ---------------------------------------------------------------------------------------
 // //
 #define LUMEX_ADDRESS_TO_STRING(address) LOGGER_ADDRESS_TO_STRING (address)

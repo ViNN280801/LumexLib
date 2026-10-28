@@ -5,9 +5,9 @@
 # in-tree INTERFACE target lumex_3rdparty_asio (alias lumex::3rdparty_asio,
 # not exported). LUMEX_ASIO_DIR replaces the vendored include directory with
 # the consumer's own; the version must still be 1.36.0 and the configuration
-# macros are fixed to DChannel's (ASIO_STANDALONE, ASIO_NO_DEPRECATED): a
-# process that also loads DChannel holds a second Asio copy, and both copies
-# must be identical.
+# macros are fixed (ASIO_STANDALONE, ASIO_NO_DEPRECATED): a process that
+# also loads another library holds a second Asio copy, and both copies must
+# be identical.
 
 # Resolved at include time: CMAKE_CURRENT_LIST_DIR inside a function is the
 # caller's directory.
@@ -34,7 +34,7 @@ function(lumex_setup_asio)
         message(FATAL_ERROR
             "LumexLib needs Asio ${LUMEX_ASIO_REQUIRED_VERSION} (1.36.0), "
             "${_dir}/asio/version.hpp has ${_version}. The version is pinned "
-            "to DChannel's, because one process can hold both copies.")
+            "because one process can hold a second copy of Asio.")
     endif()
 
     find_package(Threads REQUIRED)

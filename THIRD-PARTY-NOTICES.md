@@ -34,7 +34,7 @@ Vendored headers in `3rdparty/relacy/relacy/` (BSD-style license, Copyright (c) 
 
 ## Asio 1.36.0 (standalone)
 
-Vendored headers in `3rdparty/asio/include/` (Boost Software License 1.0, Copyright (c) 2003-2025 Christopher M. Kohlhoff; the license text is in `3rdparty/asio/LICENSE_1_0.txt`, the archive and its SHA-256 in `3rdparty/asio/VENDORED.md`). The headers are unmodified. They are the I/O layer of the transport module. The version and the configuration macros (`ASIO_STANDALONE`, `ASIO_NO_DEPRECATED`) are the same as DChannel's, because one process can hold both copies.
+Vendored headers in `3rdparty/asio/include/` (Boost Software License 1.0, Copyright (c) 2003-2025 Christopher M. Kohlhoff; the license text is in `3rdparty/asio/LICENSE_1_0.txt`, the archive and its SHA-256 in `3rdparty/asio/VENDORED.md`). The headers are unmodified. They are the I/O layer of the transport module. The version and the configuration macros (`ASIO_STANDALONE`, `ASIO_NO_DEPRECATED`) are fixed, because another library in the same process may carry its own copy of Asio.
 
 ## Boost.Context 1.88.0
 

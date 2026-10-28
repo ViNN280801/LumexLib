@@ -78,7 +78,7 @@
  * outlive the open devices, or the program calls `shutdown` first) and does
  * not join them (no hidapi call follows the
  * flag; the operating system ends the threads). `hid_exit` is never called:
- * DChannel's hidapi copy may share the process.
+ * another library's hidapi copy may share the process.
  *
  * Cancellation, deadlines and the statistics follow `message_transport`; a
  * write that reached hidapi completes with its own result (hidapi cannot

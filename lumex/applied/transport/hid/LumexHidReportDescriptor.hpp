@@ -51,8 +51,7 @@
  * `Push` and `Pop`), and adds `Report Size * Report Count` bits to the report
  * of the current ID for every `Input` and `Output` main item (constant
  * padding items too, as `InputReportByteLength` of the Windows HID API
- * does). Sizes are in bytes, rounded up, without the report ID byte. Port of
- * DChannel's `AnalyzeHidReportDescriptor` with sizes per report ID.
+ * does). Sizes are in bytes, rounded up, without the report ID byte.
  */
 #ifndef LUMEX_APPLIED_TRANSPORT_HID_HID_REPORT_DESCRIPTOR_HPP
 #define LUMEX_APPLIED_TRANSPORT_HID_HID_REPORT_DESCRIPTOR_HPP

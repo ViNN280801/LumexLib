@@ -1,14 +1,13 @@
 # Consumer fixture for cmake.consumer_third_party_coexistence (Linux).
 #
-# A process of PeakExpertCE or PeakExpertWeb holds two copies of Asio and
-# hidapi: one inside libDChannel.so (a shared library with its own embedded
-# Asio and a static hidapi, default visibility) and one in the executable that
-# links the LumexLib transport. On ELF their global symbols interpose, so the
+# A process may hold two copies of Asio and hidapi: one inside another shared
+# library (with its own embedded Asio and a static hidapi, default visibility)
+# and one in the executable that links the LumexLib transport. On ELF their global symbols interpose, so the
 # copies must be identical (transport specification F3). This fixture builds
-# the same shape from the vendored trees: a shared library "dchannel_like" with
+# the same shape from the vendored trees: a shared library "other_library" with
 # its own copy of both, and an executable that uses lumex::3rdparty_asio and
 # lumex::3rdparty_hidapi; both run an io_context and enumerate HID devices in
-# one process. The real libDChannel.so is checked by hand in PeakExpertCE.
+# one process.
 
 cmake_minimum_required(VERSION 3.16)
 project(LumexThirdPartyCoexistenceConsumer LANGUAGES C CXX)
@@ -21,7 +20,7 @@ if(NOT CMAKE_SYSTEM_NAME STREQUAL "Linux")
     return()
 endif()
 if(LUMEX_HIDAPI_BACKEND STREQUAL "libusb")
-    message("LUMEX_CONSUMER_SKIP: the fixture models DChannel, which uses hidraw")
+    message("LUMEX_CONSUMER_SKIP: the fixture models a library that uses hidraw")
     return()
 endif()
 find_package(PkgConfig QUIET)
@@ -50,25 +49,25 @@ add_subdirectory("${LUMEX_SOURCE_DIR}" lumexlib)
 lumex_setup_asio()
 lumex_setup_hidapi()
 
-# The DChannel-like shared library: its own Asio (same tree, same macros as
-# DChannel: ASIO_STANDALONE, ASIO_NO_DEPRECATED) and its own static hidapi
-# compiled into it, all with default visibility.
+# The other shared library: its own Asio (same tree, same macros:
+# ASIO_STANDALONE, ASIO_NO_DEPRECATED) and its own static hidapi compiled
+# into it, all with default visibility.
 find_package(Threads REQUIRED)
-add_library(dchannel_like SHARED
-    dchannel_like.cpp
+add_library(other_library SHARED
+    other_library.cpp
     "${LUMEX_SOURCE_DIR}/3rdparty/hidapi/linux/hid.c")
-target_include_directories(dchannel_like SYSTEM PRIVATE
+target_include_directories(other_library SYSTEM PRIVATE
     "${LUMEX_SOURCE_DIR}/3rdparty/asio/include"
     "${LUMEX_SOURCE_DIR}/3rdparty/hidapi/hidapi")
-target_compile_definitions(dchannel_like PRIVATE ASIO_STANDALONE ASIO_NO_DEPRECATED)
-target_link_libraries(dchannel_like PRIVATE Threads::Threads PkgConfig::FIXTURE_UDEV)
-set_target_properties(dchannel_like PROPERTIES
+target_compile_definitions(other_library PRIVATE ASIO_STANDALONE ASIO_NO_DEPRECATED)
+target_link_libraries(other_library PRIVATE Threads::Threads PkgConfig::FIXTURE_UDEV)
+set_target_properties(other_library PROPERTIES
     CXX_STANDARD 11 CXX_STANDARD_REQUIRED ON CXX_EXTENSIONS OFF
     C_VISIBILITY_PRESET default CXX_VISIBILITY_PRESET default)
-target_compile_options(dchannel_like PRIVATE -w)
+target_compile_options(other_library PRIVATE -w)
 
 add_executable(third_party_coexistence_consumer main.cpp)
 target_link_libraries(third_party_coexistence_consumer PRIVATE
-    dchannel_like lumex::3rdparty_asio lumex::3rdparty_hidapi)
+    other_library lumex::3rdparty_asio lumex::3rdparty_hidapi)
 set_target_properties(third_party_coexistence_consumer PROPERTIES
     CXX_STANDARD 11 CXX_STANDARD_REQUIRED ON CXX_EXTENSIONS OFF)

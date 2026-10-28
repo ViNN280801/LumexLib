@@ -343,7 +343,7 @@ struct reader_failed_step
 
 // The reader thread: slices of hid_read_timeout until the stop flag; the
 // flag is checked before and after every slice, so a report that arrives
-// after the stop is dropped (DChannel's zombie read). The handle is closed
+// after the stop is dropped (a zombie read). The handle is closed
 // here, after the last read.
 struct reader_body
 {

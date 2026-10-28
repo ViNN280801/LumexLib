@@ -225,8 +225,8 @@ set_property(CACHE LUMEX_BUILD_INFO_FORMAT PROPERTY STRINGS txt json yaml ini)
 # An empty directory option means the vendored copy. A consumer that already
 # ships one of these libraries points the option at its own source tree, which
 # must have the same version (checked at configure time): a process that loads
-# DChannel holds a second copy of Asio and hidapi, and both copies must be
-# identical. The vendored targets build with every warning off.
+# another library holds a second copy of Asio and hidapi, and both copies
+# must be identical. The vendored targets build with every warning off.
 set(LUMEX_ASIO_DIR "" CACHE PATH
     "Asio include directory (the one that contains asio.hpp); empty = 3rdparty/asio/include")
 set(LUMEX_BOOST_CONTEXT_DIR "" CACHE PATH

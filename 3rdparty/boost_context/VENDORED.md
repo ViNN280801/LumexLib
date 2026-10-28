@@ -25,7 +25,7 @@ None.
 
 ## Relation to other copies
 
-Every closure header that also exists in PeakExpertWeb's vendored Boost 1.88 headers (`BusinessLogic/PeakExpertNoGUI/3rdparty/boost`) is identical to it (222 files, line endings normalized, 21.10.2026); the 23 Boost.Context headers are not part of that copy. DChannel vendors Boost 1.88 headers without Context.
+Every closure header that also exists in PeakExpertWeb's vendored Boost 1.88 headers (`BusinessLogic/PeakExpertNoGUI/3rdparty/boost`) is identical to it (222 files, line endings normalized, 21.10.2026); the 23 Boost.Context headers are not part of that copy.
 
 ## Checked
 

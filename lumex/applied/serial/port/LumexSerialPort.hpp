@@ -76,11 +76,11 @@ namespace port
 /**
  * @brief Numeric channel-type identifiers this module understands.
  * @details These mirror the values a serial/network communication library
- * (such as Lumex's own DChannel) typically assigns to its channel types. This
+ * typically assigns to its channel types. This
  * module does not depend on any particular communication library - it only
  * needs to tell a serial channel apart from a TCP/UDP one, so the values are
  * duplicated here rather than pulled in via a dependency. If the values below
- * and DChannel's own `DCT_*` macros ever drift apart, callers that bridge the
+ * and that library's own constants ever drift apart, callers that bridge the
  * two should pass their own channel-type constant through instead of relying
  * on these.
  */

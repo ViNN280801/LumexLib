@@ -1,11 +1,11 @@
-// The DChannel-like shared library of the coexistence fixture: its own copy of
-// Asio and hidapi, used the way DChannel uses them.
+// The other shared library of the coexistence fixture: its own copy of Asio
+// and hidapi, used the way a library with its own copies uses them.
 
 #include <asio.hpp>
 #include <hidapi.h>
 
 extern "C" int
-dchannel_like_run ()
+other_library_run ()
 {
   asio::io_context io;
   int ran = 0;

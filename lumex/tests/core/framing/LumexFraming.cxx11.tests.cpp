@@ -1,6 +1,6 @@
 // Properties every codec of lumex/core/framing keeps, checked through the
 // umbrella header for each codec and for the set-ups of devices J and M2
-// (the ideas of the DChannel v4 ProtocolInvariants suite): random payloads
+// (the ideas of a protocol invariants suite): random payloads
 // round trip; a stream of several frames gives the same frames however it is
 // split; decode consumes exactly what it is given and never throws, for a
 // valid frame cut at every length and for one with any single byte damaged;

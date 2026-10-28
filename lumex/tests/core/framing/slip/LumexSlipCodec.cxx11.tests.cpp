@@ -1,5 +1,5 @@
-// slip_codec (lumex/core/framing/slip): RFC 1055 framing. The cases of the
-// DChannel v4 SLIP suite are ported (round trip, END and ESC in the payload,
+// slip_codec (lumex/core/framing/slip): RFC 1055 framing. The reference
+// cases of a SLIP suite are ported (round trip, END and ESC in the payload,
 // split frames, empty frames, reset, an escape across two calls); the "number
 // byte" case is gone (RFC 1055 has no header), and the "byte after ESC" case
 // now expects bad_escape, with lenient_escape for the RFC behaviour.
