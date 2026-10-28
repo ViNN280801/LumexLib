@@ -106,16 +106,18 @@ LUMEX_CONST_STR KMODULE_NAME = "ResourceMonitor";
  *
  * @par Example
  * The snippet below shows the intended use.
-
+ *
  * @code
- * // Host application decides whether to enable it and at what interval - the
- * library does not. if (hostConfig.resourceLoggingEnabled)
+ * namespace monitor = lumex::applied::resource_monitor::monitor;
+ * // The host application decides whether to enable it and at what
+ * // interval; the library does not.
+ * if (hostConfig.resourceLoggingEnabled)
  * {
- *   lumex::applied::resource_monitor::monitor::LumexResourceMonitor::start_if_enabled(
+ *   monitor::LumexResourceMonitor::start_if_enabled(
  *     hostConfig.logDirectory, hostConfig.resourceLogPollInterval);
  * }
  * // ... later, at shutdown:
- * lumex::applied::resource_monitor::monitor::LumexResourceMonitor::stop();
+ * monitor::LumexResourceMonitor::stop();
  * @endcode
  */
 class LUMEX_API LumexResourceMonitor

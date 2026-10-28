@@ -250,10 +250,9 @@ report_exception (std::string const &prefix,
  * is not a `std::exception` (e.g. a plain `int`, or a type from another ABI).
  * @param func The callable to invoke.
  * @param args Arguments forwarded to `func`.
- * @return Whatever `func(args...)` returns on success; a value-initialized
- * default
- *         (<tt>lumex::core::utility::traits::meta::default_return\<ReturnType\>\::value()</tt>)
- * if it throws.
+ * @return Whatever `func(args...)` returns on success; if it throws, a
+ * value-initialized default (<tt>lumex::core::utility::traits::meta::
+ * default_return\<ReturnType\>\::value()</tt>).
  *
  * @note `noexcept` is conditional on whether the wrapped call itself is
  * `noexcept`: reporting a failure is unconditionally `noexcept` (see

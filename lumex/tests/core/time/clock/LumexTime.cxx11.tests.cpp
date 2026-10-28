@@ -75,7 +75,7 @@ TEST_F (LumexTimeTest, GetCurrentDatetime_ISO8601Format_Clean)
 // strptime is POSIX, not standard C++. Windows does not have it by default.
 // This parsing verification is specific to Unix-like systems. The macro is
 // function-like in LumexCheckOS.hpp, hence the parentheses.
-#if LUMEX_OS_IS_UNIX ()
+#if LUMEX_OS_IS_UNIX()
   std::tm tm_from_str = {};
   char *parse_result
       = strptime (datetime_str.c_str (), format_str.c_str (), &tm_from_str);
