@@ -64,6 +64,34 @@ protected:
 };
 } // namespace
 
+namespace asio
+{
+template <typename... Signatures>
+struct async_result<capture_executor_t, Signatures...>
+{
+  template <typename Initiation, typename... Args>
+  static void
+  initiate (Initiation &&initiation, capture_executor_t token, Args &&...args)
+  {
+    *token.out = initiation.get_executor ();
+    std::move (initiation) (ignore_all (), std::forward<Args> (args)...);
+  }
+};
+} // namespace asio
+
+namespace
+{
+// The strand the initiations of `session` report (observed through a token;
+// the wait it starts is never completed by the test).
+tr::executor_type
+session_strand (ss::stream_session &session)
+{
+  capture_executor_t token = { std::make_shared<tr::executor_type> () };
+  session.async_wait_state_change (session.state (), token);
+  return *token.out;
+}
+} // namespace
+
 // TK1
 TEST_F (LumexSessionTokensTest,
         GivenUseFuture_WhenOpenAndStateWait_ThenTheyCompleteAndCancelThrows)
@@ -355,6 +383,10 @@ TEST_F (
   EXPECT_TRUE (called.load ())
       << "the work guard kept run () going until the handler";
   EXPECT_LT (clock_type::now () - start, ms (1500));
+  // The thread that posted the handler to `other` may still be finishing its
+  // wake-up of that context: `other` dies at the end of this body, before the
+  // runner of the fixture, so the runner stops first.
+  runner_.stop ();
 }
 
 // TK8b
@@ -392,6 +424,10 @@ TEST_F (
   EXPECT_TRUE (called.load ())
       << "the work guard kept run () going until the handler";
   EXPECT_LT (clock_type::now () - start, ms (1500));
+  // The thread that posted the handler to `other` may still be finishing its
+  // wake-up of that context: `other` dies at the end of this body, before the
+  // runner of the fixture, so the runner stops first.
+  runner_.stop ();
 }
 
 // TK9
@@ -432,6 +468,10 @@ TEST_F (
   EXPECT_TRUE (called.load ())
       << "the work guard kept run () going until the handler";
   EXPECT_LT (clock_type::now () - start, ms (1500));
+  // The thread that posted the handler to `other` may still be finishing its
+  // wake-up of that context: `other` dies at the end of this body, before the
+  // runner of the fixture, so the runner stops first.
+  runner_.stop ();
 }
 
 // TK10: a plain byte_stream keeps no work on the handler's executor either:
@@ -559,31 +599,24 @@ TEST_F (LumexSessionTokensTest,
   std::vector<std::uint8_t> buffer (3);
   outcome<int> read;
   clock_type::time_point const start = clock_type::now ();
-  session.async_read_some (
-      tr::mutable_bytes_t (buffer),
-      asio::cancel_after (ms (50), [&read] (std::error_code e, std::size_t n)
+  // asio::cancel_after must be started inside a strand (Asio's documented
+  // thread safety: the timer's handler and the initiation both touch the
+  // cancellation slot of the operation): a step of the session strand.
+  asio::post (session_strand (session),
+              [&session, &buffer, &read] ()
+                {
+                  session.async_read_some (
+                      tr::mutable_bytes_t (buffer),
+                      asio::cancel_after (
+                          ms (50), [&read] (std::error_code e, std::size_t n)
                             { read.set (e, static_cast<int> (n)); }));
+                });
   ASSERT_TRUE (read.wait (ms (2000)));
   EXPECT_TRUE (read.error == transport_errc::cancelled);
   EXPECT_GE (clock_type::now () - start, ms (40));
   EXPECT_EQ (session.state (), state::open);
   session.close ();
 }
-
-namespace asio
-{
-template <typename... Signatures>
-struct async_result<capture_executor_t, Signatures...>
-{
-  template <typename Initiation, typename... Args>
-  static void
-  initiate (Initiation &&initiation, capture_executor_t token, Args &&...args)
-  {
-    *token.out = initiation.get_executor ();
-    std::move (initiation) (ignore_all (), std::forward<Args> (args)...);
-  }
-};
-} // namespace asio
 
 // C1 (round 3 re-review, M1): a terminal cancellation emitted after an open
 // waiter completed does not reach the session.

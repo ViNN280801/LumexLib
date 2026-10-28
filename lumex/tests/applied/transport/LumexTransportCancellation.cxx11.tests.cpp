@@ -871,14 +871,27 @@ cancel_after_stress (bool bind_strand, int iterations)
               std::make_shared<std::atomic<int>> (0), &doubles };
       std::future<std::error_code> ended = handler.done->get_future ();
       std::chrono::microseconds const timeout (delay (random));
-      if (bind_strand)
-        mock.stream.async_read_some (
-            tr::mutable_bytes_t (buffer),
-            asio::cancel_after (timeout,
-                                asio::bind_executor (strand, handler)));
-      else
-        mock.stream.async_read_some (tr::mutable_bytes_t (buffer),
-                                     asio::cancel_after (timeout, handler));
+      // asio::cancel_after needs the operation to be started inside a strand
+      // (its documented thread safety: the timer's handler and the
+      // initiation both touch the cancellation slot of the operation), the
+      // strand the timer's handler runs on: the associated executor of the
+      // handler, which is the stream's own strand when the handler has none.
+      // Started from this thread it races the timer; see the transport
+      // README.
+      asio::post (
+          bind_strand ? strand : mock.stream.impl ()->strand (),
+          [&mock, &buffer, bind_strand, &strand, timeout, handler] ()
+            {
+              if (bind_strand)
+                mock.stream.async_read_some (
+                    tr::mutable_bytes_t (buffer),
+                    asio::cancel_after (
+                        timeout, asio::bind_executor (strand, handler)));
+              else
+                mock.stream.async_read_some (
+                    tr::mutable_bytes_t (buffer),
+                    asio::cancel_after (timeout, handler));
+            });
       if (ended.wait_for (std::chrono::seconds (5))
           != std::future_status::ready)
         {

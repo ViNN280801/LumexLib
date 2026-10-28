@@ -362,8 +362,15 @@ TEST (
               std::make_shared<std::atomic<int>> (0) };
       std::future<std::error_code> ended = handler.done->get_future ();
       std::chrono::microseconds const timeout (delay (random));
-      link.async_read_frame (
-          asio::cancel_after (timeout, asio::bind_executor (strand, handler)));
+      // asio::cancel_after must be started inside a strand (Asio's documented
+      // thread safety): a step of the strand the timer's handler runs on,
+      // the associated executor of the handler.
+      asio::post (strand,
+                  [&link, timeout, &strand, handler] ()
+                    {
+                      link.async_read_frame (asio::cancel_after (
+                          timeout, asio::bind_executor (strand, handler)));
+                    });
       if (ended.wait_for (std::chrono::seconds (5))
           != std::future_status::ready)
         {

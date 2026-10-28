@@ -369,6 +369,23 @@ if(UNIX AND NOT APPLE)
     lumex_add_consumer_test(consumer_third_party_boost_context_asan
         third_party_boost_context -DLUMEX_USE_ASAN=ON)
 endif()
+# Coroutines that migrate between threads: the plain build, and the ucontext
+# backend under ThreadSanitizer (BOOST_USE_TSAN; a SEGV without it).
+lumex_add_consumer_test(consumer_third_party_boost_context_threads
+    third_party_boost_context_threads)
+if(UNIX AND NOT APPLE)
+    # A kernel with a wide address-space randomization (vm.mmap_rnd_bits > 28)
+    # stops a ThreadSanitizer program at start ("unexpected memory mapping"):
+    # run it with the layout fixed where setarch is there.
+    find_program(_lumex_setarch setarch)
+    set(_lumex_tsan_run_prefix "")
+    if(_lumex_setarch)
+        set(_lumex_tsan_run_prefix RUN_PREFIX "${_lumex_setarch}" "${CMAKE_HOST_SYSTEM_PROCESSOR}" -R)
+    endif()
+    lumex_add_consumer_test(consumer_third_party_boost_context_threads_tsan
+        third_party_boost_context_threads -DLUMEX_USE_TSAN=ON
+        ${_lumex_tsan_run_prefix})
+endif()
 lumex_add_consumer_test(consumer_third_party_hidapi third_party_hidapi)
 lumex_add_consumer_test(consumer_third_party_warnings third_party_warnings)
 # One exception-handling model per compile command of this tree (two make
