@@ -30,7 +30,7 @@ std::atomic<int> g_dead (0);
 
 template <typename T> struct poison
 {
-  typedef T value_type;
+  using value_type = T;
   volatile int magic;
 
   poison () : magic (0x5a5a) {}
@@ -157,7 +157,7 @@ TEST (
     LumexSessionAllocatorTest,
     GivenTcpSessionIoWithABoundErasedHandler_WhenEverythingDiesUncalled_ThenNoDeadAllocatorIsRead)
 {
-  typedef asio::ip::tcp tcp;
+  using tcp = asio::ip::tcp;
   g_dead.store (0);
   std::vector<std::uint8_t> buffer (4);
   asio::io_context peer_context;

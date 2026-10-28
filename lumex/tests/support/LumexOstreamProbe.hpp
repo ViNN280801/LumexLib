@@ -59,7 +59,7 @@ namespace lumex_tests_support
 {
 template <typename...> struct probe_make_void
 {
-  typedef void type;
+  using type = void;
 };
 
 /**

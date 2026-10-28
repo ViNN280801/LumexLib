@@ -40,28 +40,29 @@ struct codec
 
 struct m1_header
 {
-  typedef layout::tokenized_text_layout<','> layout_type;
+  using layout_type = layout::tokenized_text_layout<','>;
 };
 
 /// Up to `N` decimal values with the scale `Value`: each one more is an
 /// optional tail of the one before.
 template <typename Value, std::size_t N> struct values_upto
 {
-  typedef field::optional_tail_<Value,
-                                typename values_upto<Value, N - 1>::type>
-      type;
+  using type
+      = field::optional_tail_<Value, typename values_upto<Value, N - 1>::type>;
 };
 
 template <typename Value> struct values_upto<Value, 1>
 {
-  typedef field::optional_tail_<Value> type;
+  using type = field::optional_tail_<Value>;
 };
 
-typedef values_upto<field::dec_text_<6, 3>, 20>::type values_1;
-typedef values_upto<field::dec_text_<6, 3, field::scale<std::ratio<2>>>,
-                    20>::type values_2;
-typedef values_upto<field::dec_text_<6, 3, field::scale<std::ratio<20>>>,
-                    20>::type values_20;
+using values_1 = values_upto<field::dec_text_<6, 3>, 20>::type;
+using values_2
+    = values_upto<field::dec_text_<6, 3, field::scale<std::ratio<2>>>,
+                  20>::type;
+using values_20
+    = values_upto<field::dec_text_<6, 3, field::scale<std::ratio<20>>>,
+                  20>::type;
 
 LUMEX_PROTOCOL_LAYOUT (counted_t, (u32_le_, values_1), ("count", "values"));
 LUMEX_PROTOCOL_LAYOUT (counted_2_t, (u32_le_, values_2), ("count", "values"));
@@ -130,7 +131,7 @@ LUMEX_PROTOCOL_EXTEND (device_m1_m3, device_m1, DEVICE_M1_M3_ROWS);
 /// little endian), then the data.
 struct m2_header
 {
-  typedef index::key_at<2, 2, index::key_byte_order::little> key_reader;
+  using key_reader = index::key_at<2, 2, index::key_byte_order::little>;
 };
 
 LUMEX_PROTOCOL_LAYOUT (m2_info_t,

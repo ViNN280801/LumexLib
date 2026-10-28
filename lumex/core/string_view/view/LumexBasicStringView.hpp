@@ -487,7 +487,7 @@ scan_bwd (Pred const &pred, std::size_t lo, std::size_t hi) LUMEX_NOEXCEPT
 // char_traits (memchr, memcmp and the wide twins).
 template <class Traits> struct chars
 {
-  typedef typename Traits::char_type char_type;
+  using char_type = typename Traits::char_type;
 
 #if defined(__GNUC__) || defined(__clang__)
   // A narrow string: the builtin is constant in every mode and the libc call
@@ -498,11 +498,10 @@ template <class Traits> struct chars
   {
     return __builtin_strlen (str);
   }
-  typedef std::integral_constant<
-      bool, std::is_same<Traits, std::char_traits<char>>::value>
-      narrow_t;
+  using narrow_t = std::integral_constant<
+      bool, std::is_same<Traits, std::char_traits<char>>::value>;
 #else
-  typedef std::false_type narrow_t;
+  using narrow_t = std::false_type;
 #endif
 
 #if LUMEX_SV_CONSTEXPR_TRAITS
@@ -710,8 +709,8 @@ template <class Traits> struct chars
  */
 template <class Traits> struct search
 {
-  typedef typename Traits::char_type char_type;
-  typedef chars<Traits> chars_t;
+  using char_type = typename Traits::char_type;
+  using chars_t = chars<Traits>;
 
   /** @brief `data[idx..idx + count)` equals `needle[0..count)`. */
   struct match_at
@@ -910,7 +909,7 @@ block_hash (CharT const *data, std::size_t size,
             std::false_type) LUMEX_NOEXCEPT
 {
   // Wider characters: the code unit values, two per round.
-  typedef typename std::make_unsigned<CharT>::type unit_t;
+  using unit_t = typename std::make_unsigned<CharT>::type;
   std::uint64_t acc = 0x27D4EB2F165667C5ULL ^ (size * 0x9E3779B97F4A7C15ULL);
   std::size_t at = 0;
   for (; at + 2 <= size; at += 2)
@@ -948,7 +947,7 @@ struct is_char_range : std::false_type
 
 template <class...> struct make_void
 {
-  typedef void type;
+  using type = void;
 };
 
 // A range type that names its traits must name the view's.
@@ -990,14 +989,14 @@ template <class Traits, class = void> struct comparison_category
 {
   // [string.view.comparison]: traits::comparison_category if it names a type,
   // else weak_ordering (std::char_traits names strong_ordering).
-  typedef std::weak_ordering type;
+  using type = std::weak_ordering;
 };
 
 template <class Traits>
 struct comparison_category<
     Traits, typename make_void<typename Traits::comparison_category>::type>
 {
-  typedef typename Traits::comparison_category type;
+  using type = typename Traits::comparison_category;
 };
 #endif
 
@@ -1066,35 +1065,35 @@ template <class CharT, class Traits> class lumex_basic_string_view
   static_assert (std::is_same<typename Traits::char_type, CharT>::value,
                  "Traits::char_type must be CharT");
 
-  typedef detail::chars<Traits> chars_t;
-  typedef detail::search<Traits> search_t;
+  using chars_t = detail::chars<Traits>;
+  using search_t = detail::search<Traits>;
 
 public:
   // -- Types --
   /** @brief The traits of the characters. */
-  typedef Traits traits_type;
+  using traits_type = Traits;
   /** @brief The character type. */
-  typedef CharT value_type;
+  using value_type = CharT;
   /** @brief A pointer to a const character. */
-  typedef CharT const *pointer;
+  using pointer = CharT const *;
   /** @brief A pointer to a const character. */
-  typedef CharT const *const_pointer;
+  using const_pointer = CharT const *;
   /** @brief A const reference to a character. */
-  typedef CharT const &reference;
+  using reference = CharT const &;
   /** @brief A const reference to a character. */
-  typedef CharT const &const_reference;
+  using const_reference = CharT const &;
   /** @brief The iterator: a pointer, as the view is constant. */
-  typedef const_pointer iterator;
+  using iterator = const_pointer;
   /** @brief The const iterator: a pointer. */
-  typedef const_pointer const_iterator;
+  using const_iterator = const_pointer;
   /** @brief The reverse iterator. */
-  typedef std::reverse_iterator<const_iterator> reverse_iterator;
+  using reverse_iterator = std::reverse_iterator<const_iterator>;
   /** @brief The const reverse iterator. */
-  typedef reverse_iterator const_reverse_iterator;
+  using const_reverse_iterator = reverse_iterator;
   /** @brief The size type. */
-  typedef std::size_t size_type;
+  using size_type = std::size_t;
   /** @brief The difference type. */
-  typedef std::ptrdiff_t difference_type;
+  using difference_type = std::ptrdiff_t;
 
   /**
    * @brief "Not a position": the result of a failed search and the default
@@ -2082,16 +2081,16 @@ LUMEX_SV_NO_UBSAN
 
 // -- Aliases --
 /** @brief The view of `char`: the `std::string_view` of the library. */
-typedef lumex_basic_string_view<char> lumex_string_view;
+using lumex_string_view = lumex_basic_string_view<char>;
 /** @brief The view of `wchar_t`: the `std::wstring_view` of the library. */
-typedef lumex_basic_string_view<wchar_t> lumex_wstring_view;
+using lumex_wstring_view = lumex_basic_string_view<wchar_t>;
 /** @brief The view of `char16_t`: the `std::u16string_view` of the library. */
-typedef lumex_basic_string_view<char16_t> lumex_u16string_view;
+using lumex_u16string_view = lumex_basic_string_view<char16_t>;
 /** @brief The view of `char32_t`: the `std::u32string_view` of the library. */
-typedef lumex_basic_string_view<char32_t> lumex_u32string_view;
+using lumex_u32string_view = lumex_basic_string_view<char32_t>;
 #if LUMEX_HAS_CHAR8_T
 /** @brief The view of `char8_t`: the `std::u8string_view` of the library. */
-typedef lumex_basic_string_view<char8_t> lumex_u8string_view;
+using lumex_u8string_view = lumex_basic_string_view<char8_t>;
 #endif
 
 /**
@@ -2175,10 +2174,10 @@ namespace std
 
 #if __cplusplus < 201703L
 #define LUMEX_SV_HASH_TYPEDEFS(CHAR)                                          \
-  typedef ::lumex::core::string_view::view::lumex_basic_string_view<          \
-      CHAR, std::char_traits<CHAR>>                                           \
-      argument_type;                                                          \
-  typedef std::size_t result_type;
+  using argument_type                                                         \
+      = ::lumex::core::string_view::view::lumex_basic_string_view<            \
+          CHAR, std::char_traits<CHAR>>;                                      \
+  using result_type = std::size_t;
 #else
 #define LUMEX_SV_HASH_TYPEDEFS(CHAR)
 #endif

@@ -385,7 +385,7 @@ template <typename Transport> class session_impl final : public session_core
 {
 public:
   /// @brief Makes a closed transport on the executor it is given.
-  typedef std::function<Transport (executor_type const &)> factory_t;
+  using factory_t = std::function<Transport (executor_type const &)>;
 
   session_impl (executor_type const &executor, factory_t factory,
                 session_options_t options);
@@ -402,7 +402,7 @@ public:
   void
   start_io (Operation operation, Handler &&handler)
   {
-    typedef typename std::decay<Handler>::type handler_type;
+    using handler_type = typename std::decay<Handler>::type;
     // With a cancellation slot, the session's canceller goes in at the
     // initiation: a signal emitted before the operation reached the
     // transport is not lost.
@@ -479,8 +479,8 @@ struct associator<
     lumex::applied::transport::session::detail::observed_handler<Handler>,
     DefaultCandidate> : Associator<Handler, DefaultCandidate>
 {
-  typedef lumex::applied::transport::session::detail::observed_handler<Handler>
-      wrapper_type;
+  using wrapper_type
+      = lumex::applied::transport::session::detail::observed_handler<Handler>;
 
   static typename Associator<Handler, DefaultCandidate>::type
   get (wrapper_type const &wrapper) LUMEX_NOEXCEPT
@@ -505,8 +505,8 @@ struct associator<
     lumex::applied::transport::session::detail::observed_handler<Handler>,
     DefaultCandidate>
 {
-  typedef lumex::applied::transport::session::detail::session_core::strand_type
-      type;
+  using type
+      = lumex::applied::transport::session::detail::session_core::strand_type;
 
   static type
   get (lumex::applied::transport::session::detail::observed_handler<
@@ -533,7 +533,7 @@ struct associator<
     lumex::applied::transport::session::detail::observed_handler<Handler>,
     DefaultCandidate>
 {
-  typedef cancellation_slot type;
+  using type = cancellation_slot;
 
   static type
   get (lumex::applied::transport::session::detail::observed_handler<
@@ -560,12 +560,12 @@ struct associator<
     lumex::applied::transport::session::detail::observed_handler<Handler>,
     DefaultCandidate>
 {
-  typedef lumex::applied::transport::session::detail::observed_handler<Handler>
-      wrapper_type;
-  typedef lumex::applied::transport::session::detail::shielded_allocator<
-      Handler, DefaultCandidate>
-      shield_type;
-  typedef typename shield_type::type type;
+  using wrapper_type
+      = lumex::applied::transport::session::detail::observed_handler<Handler>;
+  using shield_type
+      = lumex::applied::transport::session::detail::shielded_allocator<
+          Handler, DefaultCandidate>;
+  using type = typename shield_type::type;
 
   static type
   get (wrapper_type const &wrapper) LUMEX_NOEXCEPT

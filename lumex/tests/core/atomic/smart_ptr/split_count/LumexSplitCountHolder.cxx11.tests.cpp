@@ -57,7 +57,7 @@ namespace
 {
 using namespace split_test;
 
-typedef asp::atomic_shared_ptr_lock_free_split_count<int> int_atomic;
+using int_atomic = asp::atomic_shared_ptr_lock_free_split_count<int>;
 
 sp::shared_ptr<int>
 far_alias (sp::shared_ptr<Obj> const &owner, std::int64_t extra = 0)

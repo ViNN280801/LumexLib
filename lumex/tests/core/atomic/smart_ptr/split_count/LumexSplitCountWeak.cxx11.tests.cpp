@@ -48,8 +48,8 @@ namespace
 {
 using namespace split_test;
 
-typedef asp::atomic_weak_ptr_lock_free_split_count<int> weak_atomic;
-typedef sp::weak_ptr<int> wptr;
+using weak_atomic = asp::atomic_weak_ptr_lock_free_split_count<int>;
+using wptr = sp::weak_ptr<int>;
 
 struct weak_kind_t
 {

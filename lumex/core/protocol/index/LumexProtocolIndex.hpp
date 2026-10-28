@@ -131,13 +131,13 @@ enum class reply_form : std::uint8_t
 
 /// @brief Decodes the payload of a row in one direction and appends its
 /// fields as text to `out`.
-typedef std::error_code (*describe_hook_t) (
+using describe_hook_t = std::error_code (*) (
     ::lumex::core::protocol::layout::bytes_view_t payload,
     ::lumex::core::protocol::field::decode_context_t const *context,
     describe_options_t const &options, std::string &out);
 
 /// @brief Appends the text a tokenized layout writes for the key of a row.
-typedef void (*text_key_hook_t) (std::string &out);
+using text_key_hook_t = void (*) (std::string &out);
 
 /// @brief One row of the index: a command with its reply, or an event.
 struct row_t
@@ -202,15 +202,16 @@ struct frame_match_t
 
 /// @brief The reader of the key of the frames: false when the frame has no
 /// readable key.
-typedef bool (*key_read_hook_t) (
-    ::lumex::core::protocol::layout::bytes_view_t frame, key_read_t &out);
+using key_read_hook_t
+    = bool (*) (::lumex::core::protocol::layout::bytes_view_t frame,
+                key_read_t &out);
 
 class protocol_index_t;
 
 /// @brief The result of building an index.
-typedef ::lumex::core::expected::result::expected<protocol_index_t,
-                                                  index_error_t>
-    index_result_t;
+using index_result_t
+    = ::lumex::core::expected::result::expected<protocol_index_t,
+                                                index_error_t>;
 
 namespace detail
 {
@@ -233,7 +234,7 @@ describe_request_of (layout::bytes_view_t payload,
 // A row without a reply is checked as a message without fields.
 template <typename Row> struct empty_reply_row
 {
-  typedef dsl::field_list<> fields_type;
+  using fields_type = dsl::field_list<>;
 
   static LUMEX_CONSTEXPR typename Row::key_type
   key () LUMEX_NOEXCEPT
@@ -459,7 +460,7 @@ template <typename P, typename Row>
 row_t
 make_row (dsl::command_entry_t const &entry)
 {
-  typedef reply_support<P, Row, reply_kind_of<Row>::value> reply;
+  using reply = reply_support<P, Row, reply_kind_of<Row>::value>;
   descriptor_run_t const request = request_descriptors<Row> ();
   descriptor_run_t const reply_fields = reply::fields ();
   row_t const row = { &entry,

@@ -15,9 +15,9 @@ namespace
 {
 namespace dsl = lumex::core::protocol::dsl;
 namespace tables = lumex_tests::protocol_tables;
-typedef tables::widget_v1 v1;
-typedef tables::widget_v2 v2;
-typedef tables::widget_v3 v3;
+using v1 = tables::widget_v1;
+using v2 = tables::widget_v2;
+using v3 = tables::widget_v3;
 
 template <typename Protocol>
 struct key_recorder : Protocol::template lumex_methods<key_recorder<Protocol>>

@@ -264,7 +264,7 @@ scatter_bits (std::uint64_t value, std::uint64_t mask) LUMEX_NOEXCEPT
 /// a fixed point.
 template <typename T> struct raw_access
 {
-  typedef T raw_type;
+  using raw_type = T;
 
   static T
   get (T value) LUMEX_NOEXCEPT
@@ -282,7 +282,7 @@ template <typename T> struct raw_access
 template <typename Raw, typename Ratio>
 struct raw_access<fixed_point<Raw, Ratio>>
 {
-  typedef Raw raw_type;
+  using raw_type = Raw;
 
   static Raw
   get (fixed_point<Raw, Ratio> const &value) LUMEX_NOEXCEPT

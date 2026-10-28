@@ -32,12 +32,11 @@ using lumex::core::framing::header::header_options_t;
 using lumex::core::framing::header::length_counts;
 namespace st = lumex::core::framing::stage;
 
-typedef st::word_reversed<
+using word_crc = st::word_reversed<
     st::crc<lumex::core::crc::parametric::crc32_mpeg2_spec_t,
             byte_order::little>,
-    4>
-    word_crc;
-typedef header_codec<word_crc> framed_codec;
+    4>;
+using framed_codec = header_codec<word_crc>;
 
 struct golden_t
 {

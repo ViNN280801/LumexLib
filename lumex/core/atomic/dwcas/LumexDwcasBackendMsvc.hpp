@@ -117,7 +117,7 @@ struct msvc_cas_t
 };
 
 /// The operations the word calls.
-typedef cas_operations_t<msvc_cas_t> backend_operations_t;
+using backend_operations_t = cas_operations_t<msvc_cas_t>;
 } // namespace backend_msvc
 } // namespace Detail
 } // namespace dwcas

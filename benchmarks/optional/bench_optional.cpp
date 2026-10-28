@@ -149,7 +149,7 @@ operator< (pod32 const &l, pod32 const &r)
 /** A value type: a make function (two samples) and a digest of a value. */
 struct kind_int
 {
-  typedef int type;
+  using type = int;
   static type
   make (int which)
   {
@@ -164,7 +164,7 @@ struct kind_int
 
 struct kind_pod
 {
-  typedef pod32 type;
+  using type = pod32;
   static type
   make (int which)
   {
@@ -181,7 +181,7 @@ struct kind_pod
 
 struct kind_str_short
 {
-  typedef std::string type;
+  using type = std::string;
   static type
   make (int which)
   {
@@ -196,7 +196,7 @@ struct kind_str_short
 
 struct kind_str_long
 {
-  typedef std::string type;
+  using type = std::string;
   static type
   make (int which)
   {
@@ -308,7 +308,7 @@ prepare_data ()
 
 // -- Scenarios: run (iterations, size) and the reference with plain values --
 
-typedef u64 (*run_t) (std::size_t iterations, std::size_t size);
+using run_t = u64 (*) (std::size_t iterations, std::size_t size);
 
 struct scenario_t
 {
@@ -1019,7 +1019,7 @@ template <typename T>
 void
 traits_row (std::ostream &out, char const *name)
 {
-  typedef optional<T> O;
+  using O = optional<T>;
   out << name << ',' << sizeof (T) << ',' << sizeof (O) << ',' << alignof (O)
       << ',' << (std::is_trivially_copyable<O>::value ? 1 : 0) << ','
       << (std::is_trivially_destructible<O>::value ? 1 : 0) << ','

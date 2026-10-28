@@ -383,7 +383,7 @@ TEST (LumexSharedPtrEnableSharedFromThisTest,
 TEST (LumexSharedPtrEnableSharedFromThisTest,
       GivenTheBase_WhenCheckingTraits_ThenItIsProtectedAndNoexcept)
 {
-  typedef sp::enable_shared_from_this<Node<lumex_family>> base;
+  using base = sp::enable_shared_from_this<Node<lumex_family>>;
   static_assert (!std::is_default_constructible<base>::value,
                  "the constructor is protected");
   static_assert (!std::is_destructible<base>::value,

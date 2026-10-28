@@ -28,7 +28,7 @@ namespace
 {
 using namespace lumex_session_test;
 using tr::error::transport_errc;
-typedef ss::channel_state state;
+using state = ss::channel_state;
 
 std::vector<std::uint8_t>
 three ()
@@ -316,8 +316,8 @@ TEST_F (
 // transports): without a work guard, run () of the handler's own context
 // returns before the handler runs; with an executor_work_guard on it, run ()
 // waits for the handler.
-typedef asio::executor_work_guard<asio::io_context::executor_type>
-    context_guard;
+using context_guard
+    = asio::executor_work_guard<asio::io_context::executor_type>;
 
 // TK8
 TEST_F (
@@ -815,7 +815,7 @@ TEST_F (
                               make_stream_factory (factory_));
   capture_executor_t token = { std::make_shared<tr::executor_type> () };
   session.async_wait_state_change (state::closed, token);
-  typedef asio::strand<tr::executor_type> strand_type;
+  using strand_type = asio::strand<tr::executor_type>;
   EXPECT_TRUE (token.out->target<strand_type> () != nullptr)
       << "the state wait does not report the session strand";
   capture_executor_t io = { std::make_shared<tr::executor_type> () };

@@ -26,7 +26,7 @@ using lumex_test::PoolEvent;
 using lumex_test::ReuseAllocator;
 using lumex_test::ReusePool;
 
-typedef scenario::Generation Gen;
+using Gen = scenario::Generation;
 
 sp::shared_ptr<Gen>
 make_generation (ReusePool &pool, std::uint64_t id)

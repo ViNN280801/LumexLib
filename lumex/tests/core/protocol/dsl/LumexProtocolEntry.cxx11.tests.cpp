@@ -14,9 +14,9 @@ namespace
 {
 namespace dsl = lumex::core::protocol::dsl;
 namespace tables = lumex_tests::protocol_tables;
-typedef tables::widget_v1 v1;
+using v1 = tables::widget_v1;
 
-typedef lumex::core::span::view::span<dsl::command_entry_t const> entries_t;
+using entries_t = lumex::core::span::view::span<dsl::command_entry_t const>;
 
 std::string
 text (char const *value)

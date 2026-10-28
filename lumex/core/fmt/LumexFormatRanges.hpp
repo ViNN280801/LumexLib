@@ -259,8 +259,8 @@ template <std::size_t Index, std::size_t Count> struct tuple_each
   static void
   parse (Formatters &formatters)
   {
-    typedef
-        typename std::tuple_element<Index, Formatters>::type formatter_type;
+    using formatter_type =
+        typename std::tuple_element<Index, Formatters>::type;
     parse_default_element<Char, typename formatter_type::value_type> (
         std::get<Index> (formatters));
     tuple_each<Index + 1, Count>::template parse<Char> (formatters);

@@ -718,7 +718,7 @@ TEST (LumexSharedPtrConstructionTest,
 TEST (LumexSharedPtrConstructionTest,
       GivenTheNoexceptRules_WhenCheckingTraits_ThenTheyMatchTheStandard)
 {
-  typedef sp::shared_ptr<int> ptr;
+  using ptr = sp::shared_ptr<int>;
   static_assert (std::is_nothrow_default_constructible<ptr>::value, "");
   static_assert (std::is_nothrow_constructible<ptr, std::nullptr_t>::value,
                  "");

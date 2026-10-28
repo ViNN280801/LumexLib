@@ -186,7 +186,7 @@ private:
 class hid_runtime_core
 {
 public:
-  typedef std::function<void ()> task_t;
+  using task_t = std::function<void ()>;
 
   /// @brief The one instance (created on first use, never destroyed).
   static hid_runtime_core &instance ();

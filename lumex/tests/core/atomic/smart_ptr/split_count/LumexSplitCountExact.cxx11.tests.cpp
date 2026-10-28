@@ -83,7 +83,7 @@ struct weak_tag
 {
 };
 
-typedef gate_policy_t<exact_tag> exact_policy;
+using exact_policy = gate_policy_t<exact_tag>;
 
 /// The plan's observer: `use_count ()` of @p object from another thread, which
 /// must return without waiting for the held threads.
@@ -111,7 +111,7 @@ observe_without_waiting (Pointer const &object, bool &returned)
 void
 held_then_replaced (int k, replace_t how, bool holder)
 {
-  typedef exact_policy policy;
+  using policy = exact_policy;
   policy::arrived ().store (0);
   reset_ledger<policy> ();
   long const alive = alive_objects ().load ();
@@ -258,7 +258,7 @@ TEST (LumexSplitCountExactTest,
       GivenHeldLoadsOnALiveWord_WhenObserved_ThenTheyCountOnlyAfterTheyFinish)
 {
   Watchdog const dog ("held loads, live");
-  typedef exact_policy policy;
+  using policy = exact_policy;
   for (int holder = 0; holder < 2; ++holder)
     for (int k = 1; k <= 3; ++k)
       {
@@ -299,7 +299,7 @@ TEST (
     GivenTheSameBlockReinstalledWithAnotherDelta_WhenLoadsOverlap_ThenValuesAreRightAndTheObserverIsInTheWindow)
 {
   Watchdog const dog ("reinstall");
-  typedef gate_policy_t<reinstall_tag> policy;
+  using policy = gate_policy_t<reinstall_tag>;
   policy::arrived ().store (0);
   reset_ledger<policy> ();
   long const alive = alive_objects ().load ();
@@ -350,7 +350,7 @@ TEST (LumexSplitCountExactTest,
       GivenAStoreHeldBetweenSwapAndDrop_WhenObserved_ThenTheSlotUnitLagsByOne)
 {
   Watchdog const dog ("window i");
-  typedef gate_policy_t<window_tag> policy;
+  using policy = gate_policy_t<window_tag>;
   policy::arrived ().store (0);
   reset_ledger<policy> ();
   {
@@ -379,8 +379,8 @@ TEST (
     GivenAWriterHeldAfterItsDeposit_WhenObserved_ThenTheDepositIsAtMostTicksPlusReserve)
 {
   Watchdog const dog ("window ii");
-  typedef gate_policy_t<window_tag, 0xFFFFFFu, 8u> policy8;
-  typedef gate_policy_t<reserve0_tag, 0xFFFFFFu, 0u> policy0;
+  using policy8 = gate_policy_t<window_tag, 0xFFFFFFu, 8u>;
+  using policy0 = gate_policy_t<reserve0_tag, 0xFFFFFFu, 0u>;
   policy8::arrived ().store (0);
   policy0::arrived ().store (0);
   // reserve 8 and 0; two held loads; the writer is held on its second `swap`
@@ -489,8 +489,8 @@ TEST (
     GivenACompareExchangeHeldAfterItsDeposit_WhenObserved_ThenTheDepositIsTicksPlusTheCasReserve)
 {
   Watchdog const dog ("window ii of a compare-exchange");
-  typedef gate_policy_t<window_tag, 0xFFFFFFu, 8u> policy8;
-  typedef gate_policy_t<reserve0_tag, 0xFFFFFFu, 0u> policy0;
+  using policy8 = gate_policy_t<window_tag, 0xFFFFFFu, 8u>;
+  using policy0 = gate_policy_t<reserve0_tag, 0xFFFFFFu, 0u>;
   for (int holder = 0; holder < 2; ++holder)
     for (int k = 1; k <= 3; ++k)
       {
@@ -657,8 +657,8 @@ TEST (
     GivenAStrongCompareExchangeThatFailsOnTheSameValue_WhenHeldBeforeItsSecondSwap_ThenTheDepositWasKeptAndToppedUpWithTheReserve)
 {
   Watchdog const dog ("retained deposit");
-  typedef two_cas_policy_t<retain_tag, 0xFFFFFFu, 8u> policy8;
-  typedef two_cas_policy_t<retain0_tag, 0xFFFFFFu, 0u> policy0;
+  using policy8 = two_cas_policy_t<retain_tag, 0xFFFFFFu, 8u>;
+  using policy0 = two_cas_policy_t<retain0_tag, 0xFFFFFFu, 0u>;
   for (int holder = 0; holder < 2; ++holder)
     {
       SCOPED_TRACE (holder);
@@ -676,7 +676,7 @@ TEST (
     GivenHeldWeakLoads_WhenTheValueIsReplacedAndTheOwnersDie_ThenNoUseCountChangesAndExpiredAgrees)
 {
   Watchdog const dog ("weak held");
-  typedef gate_policy_t<weak_tag> policy;
+  using policy = gate_policy_t<weak_tag>;
   for (int holder = 0; holder < 2; ++holder)
     for (int k = 1; k <= 3; ++k)
       {
@@ -739,7 +739,7 @@ template <std::uint32_t Reserve>
 void
 reserve_scenario (int arriving)
 {
-  typedef gate_policy_t<struct reserve_tag, 0xFFFFFFu, Reserve> policy;
+  using policy = gate_policy_t<struct reserve_tag, 0xFFFFFFu, Reserve>;
   policy::arrived ().store (0);
   reset_ledger<policy> ();
   long const alive = alive_objects ().load ();
@@ -811,7 +811,7 @@ TEST (
     GivenOnlyLoadsInTransitOwnTheObject_WhenItIsLockedAndAskedIfExpired_ThenItIsAlive)
 {
   Watchdog const dog ("loads in transit own the object");
-  typedef gate_policy_t<struct transit_tag> policy;
+  using policy = gate_policy_t<struct transit_tag>;
   for (int holder = 0; holder < 2; ++holder)
     for (int k = 1; k <= 3; ++k)
       {
@@ -882,7 +882,7 @@ static_assert (sizeof (thread_counters_t) == 64,
 void
 never_below_once (int threads, int rep)
 {
-  typedef ledger_policy_t<struct never_below_tag> policy;
+  using policy = ledger_policy_t<struct never_below_tag>;
   reset_ledger<policy> ();
   long const alive = alive_objects ().load ();
   {

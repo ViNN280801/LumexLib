@@ -76,11 +76,11 @@ namespace detail
 template <typename Transport, typename Codec>
 class codec_hub final : public framed_hub<Transport>
 {
-  typedef framed_hub<Transport> base_type;
+  using base_type = framed_hub<Transport>;
 
 public:
-  typedef typename base_type::bytes_t bytes_t;
-  typedef typename base_type::bytes_view_t bytes_view_t;
+  using bytes_t = typename base_type::bytes_t;
+  using bytes_view_t = typename base_type::bytes_view_t;
 
   codec_hub (Transport transport, Codec codec, framed_options_t const &options)
       : base_type (std::move (transport), options), codec_ (std::move (codec))

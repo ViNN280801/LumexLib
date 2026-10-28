@@ -180,13 +180,13 @@ LUMEX_DEFINE_FIELD_NAMES (RegInNamespace, big, flag);
 } // namespace reg_inner_ns
 
 // A class template instance: the macro takes the type without a top-level
-// comma, so the instance is named through a typedef.
+// comma, so the instance is named through an alias.
 template <typename First, typename Second> struct RegPairLike
 {
   First first;
   Second second;
 };
-typedef RegPairLike<int, double> reg_pair_t;
+using reg_pair_t = RegPairLike<int, double>;
 LUMEX_DEFINE_FIELD_NAMES (reg_pair_t, first, second);
 
 struct RegTwelveFields
@@ -260,7 +260,7 @@ template <std::size_t N> struct reg_fields_of;
   LUMEX_DEFINE_FIELD_NAMES (reg_fields_##N##_t, LUMEX_FR_NAMES_##N);          \
   template <> struct reg_fields_of<N>                                         \
   {                                                                           \
-    typedef reg_fields_##N##_t type;                                          \
+    using type = reg_fields_##N##_t;                                          \
   }
 
 LUMEX_FR_REG_DEFINE (1);

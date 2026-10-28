@@ -497,7 +497,7 @@ field_descriptor_t
 make_descriptor_impl (char const *name, descriptor_role role,
                       std::int64_t value)
 {
-  typedef typename field::resolve<F>::type resolved;
+  using resolved = typename field::resolve<F>::type;
   return make_node (name, role, value, field::impl_of<resolved>::type::info (),
                     layout_name_of<resolved>::get (),
                     describer<resolved>::registry (),

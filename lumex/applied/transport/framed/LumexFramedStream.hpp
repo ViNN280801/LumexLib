@@ -143,11 +143,11 @@ namespace framed
 template <typename Codec>
 class framed_stream : public detail::basic_framed<stream::byte_stream>
 {
-  typedef detail::basic_framed<stream::byte_stream> base_type;
+  using base_type = detail::basic_framed<stream::byte_stream>;
 
 public:
   /// @brief The codec of `core/framing`.
-  typedef Codec codec_type;
+  using codec_type = Codec;
 
   /// @brief Frames over `device` (not empty; moved in) with `codec` (moved
   /// in). The decoder begins with the first read.

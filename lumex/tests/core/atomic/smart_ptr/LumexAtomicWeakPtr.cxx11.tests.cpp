@@ -33,8 +33,8 @@ TYPED_TEST_SUITE (LumexAtomicWeakPtrTest, ValueTypes);
 TYPED_TEST (LumexAtomicWeakPtrTest,
             GivenTheType_WhenInspected_ThenMatchesTheStdInterface)
 {
-  typedef TypeParam T;
-  typedef atomic_weak_ptr<T> A;
+  using T = TypeParam;
+  using A = atomic_weak_ptr<T>;
 
   static_assert (std::is_same<typename A::value_type, pf::weak_ptr<T>>::value,
                  "value_type");
@@ -67,8 +67,8 @@ TYPED_TEST (LumexAtomicWeakPtrTest,
 TYPED_TEST (LumexAtomicWeakPtrTest,
             GivenAConstObject_WhenCallingMembers_ThenOnlyObserversCompile)
 {
-  typedef atomic_weak_ptr<TypeParam> A;
-  typedef A const C;
+  using A = atomic_weak_ptr<TypeParam>;
+  using C = A const;
 
   static_assert (can_load<C>::value && can_load<A>::value, "load is const");
   static_assert (can_wait<C>::value && can_wait<A>::value, "wait is const");
@@ -105,7 +105,7 @@ TYPED_TEST (LumexAtomicWeakPtrTest,
 TYPED_TEST (LumexAtomicWeakPtrTest,
             GivenAWeakPointer_WhenConstructedFromIt_ThenRefersToTheObject)
 {
-  typedef TypeParam T;
+  using T = TypeParam;
   pf::shared_ptr<T> const sp = state_a<T> ();
   pf::weak_ptr<T> const wp = sp;
   atomic_weak_ptr<T> const a (wp);
@@ -120,7 +120,7 @@ TYPED_TEST (LumexAtomicWeakPtrTest,
 TYPED_TEST (LumexAtomicWeakPtrTest,
             GivenAnExpiredWeakPointer_WhenConstructedFromIt_ThenStaysExpired)
 {
-  typedef TypeParam T;
+  using T = TypeParam;
   pf::weak_ptr<T> expired;
   {
     pf::shared_ptr<T> const sp = state_a<T> ();
@@ -138,7 +138,7 @@ TYPED_TEST (LumexAtomicWeakPtrTest,
 TYPED_TEST (LumexAtomicWeakPtrTest,
             GivenIsAlwaysLockFree_WhenBoundToAReference_ThenAConstantBool)
 {
-  typedef atomic_weak_ptr<TypeParam> A;
+  using A = atomic_weak_ptr<TypeParam>;
   // The lock-free engine always is; the lock-based one never; the wrapper
   // has the standard type's value.
   if (EngineFacts::std_backed ())
@@ -159,7 +159,7 @@ TYPED_TEST (LumexAtomicWeakPtrTest,
 TYPED_TEST (LumexAtomicWeakPtrTest,
             GivenAnObject_WhenAskingIsLockFree_ThenConsistentWithTheType)
 {
-  typedef atomic_weak_ptr<TypeParam> A;
+  using A = atomic_weak_ptr<TypeParam>;
   A const a;
   static_assert (std::is_same<decltype (a.is_lock_free ()), bool>::value,
                  "returns bool");
@@ -184,7 +184,7 @@ TYPED_TEST (LumexAtomicWeakPtrTest,
 TYPED_TEST (LumexAtomicWeakPtrTest,
             GivenEveryLoadOrder_WhenLoading_ThenReturnsACopy)
 {
-  typedef TypeParam T;
+  using T = TypeParam;
   pf::shared_ptr<T> const sp = state_a<T> ();
   atomic_weak_ptr<T> const a ((pf::weak_ptr<T> (sp)));
   static_assert (std::is_same<decltype (a.load ()), pf::weak_ptr<T>>::value,
@@ -220,7 +220,7 @@ TYPED_TEST (LumexAtomicWeakPtrTest,
 TYPED_TEST (LumexAtomicWeakPtrTest,
             GivenEveryStoreOrder_WhenStoring_ThenReplacesTheValue)
 {
-  typedef TypeParam T;
+  using T = TypeParam;
   pf::shared_ptr<T> const sp1 = state_a<T> ();
   atomic_weak_ptr<T> a;
   a.store (pf::weak_ptr<T> (sp1));
@@ -251,7 +251,7 @@ TYPED_TEST (LumexAtomicWeakPtrTest,
 TYPED_TEST (LumexAtomicWeakPtrTest,
             GivenTheHeldValue_WhenStoredAgain_ThenStillRefersToTheObject)
 {
-  typedef TypeParam T;
+  using T = TypeParam;
   pf::shared_ptr<T> const sp = state_a<T> ();
   atomic_weak_ptr<T> a ((pf::weak_ptr<T> (sp)));
   for (int i = 0; i < 3; ++i)
@@ -266,7 +266,7 @@ TYPED_TEST (LumexAtomicWeakPtrTest,
 TYPED_TEST (LumexAtomicWeakPtrTest,
             GivenWeakPointers_WhenAssigned_ThenStoredWithVoidResult)
 {
-  typedef TypeParam T;
+  using T = TypeParam;
   pf::shared_ptr<T> const sp1 = state_a<T> ();
   pf::shared_ptr<T> const sp2 = state_b<T> ();
   pf::weak_ptr<T> const wp1 = sp1;
@@ -287,7 +287,7 @@ TYPED_TEST (LumexAtomicWeakPtrTest,
 TYPED_TEST (LumexAtomicWeakPtrTest,
             GivenAConstObject_WhenConverted_ThenReturnsACopy)
 {
-  typedef TypeParam T;
+  using T = TypeParam;
   pf::shared_ptr<T> const sp = state_a<T> ();
   atomic_weak_ptr<T> const a ((pf::weak_ptr<T> (sp)));
 
@@ -305,7 +305,7 @@ TYPED_TEST (LumexAtomicWeakPtrTest,
 TYPED_TEST (LumexAtomicWeakPtrTest,
             GivenEveryOrder_WhenExchanging_ThenReturnsThePreviousValue)
 {
-  typedef TypeParam T;
+  using T = TypeParam;
   pf::shared_ptr<T> const sp1 = state_a<T> ();
   pf::shared_ptr<T> const sp2 = state_b<T> ();
   atomic_weak_ptr<T> a ((pf::weak_ptr<T> (sp1)));
@@ -344,7 +344,7 @@ TYPED_TEST (
     LumexAtomicWeakPtrTest,
     GivenEquivalentExpected_WhenCompareExchangeStrong_ThenStoresDesired)
 {
-  typedef TypeParam T;
+  using T = TypeParam;
   pf::shared_ptr<T> const sp1 = state_a<T> ();
   pf::shared_ptr<T> const sp2 = state_b<T> ();
   pf::weak_ptr<T> const wp1 = sp1;
@@ -378,7 +378,7 @@ TYPED_TEST (
 TYPED_TEST (LumexAtomicWeakPtrTest,
             GivenNonEquivalentExpected_WhenCompareExchangeStrong_ThenLoadsIt)
 {
-  typedef TypeParam T;
+  using T = TypeParam;
   pf::shared_ptr<T> const sp1 = state_a<T> ();
   pf::shared_ptr<T> const sp2 = state_b<T> ();
   atomic_weak_ptr<T> a ((pf::weak_ptr<T> (sp2)));
@@ -398,7 +398,7 @@ TYPED_TEST (LumexAtomicWeakPtrTest,
 TYPED_TEST (LumexAtomicWeakPtrTest,
             GivenEveryOrder_WhenCompareExchangeStrongWithOneOrder_ThenWorks)
 {
-  typedef TypeParam T;
+  using T = TypeParam;
   std::vector<pf::shared_ptr<T>> keep;
   keep.push_back (state_a<T> ());
   atomic_weak_ptr<T> a ((pf::weak_ptr<T> (keep.back ())));
@@ -423,7 +423,7 @@ TYPED_TEST (LumexAtomicWeakPtrTest,
 TYPED_TEST (LumexAtomicWeakPtrTest,
             GivenEveryOrderPair_WhenCompareExchangeStrongWithTwo_ThenWorks)
 {
-  typedef TypeParam T;
+  using T = TypeParam;
   std::vector<pf::shared_ptr<T>> keep;
   keep.push_back (state_a<T> ());
   atomic_weak_ptr<T> a ((pf::weak_ptr<T> (keep.back ())));
@@ -453,7 +453,7 @@ TYPED_TEST (LumexAtomicWeakPtrTest,
 TYPED_TEST (LumexAtomicWeakPtrTest,
             GivenEquivalentExpected_WhenCompareExchangeWeakLoops_ThenStores)
 {
-  typedef TypeParam T;
+  using T = TypeParam;
   pf::shared_ptr<T> const sp1 = state_a<T> ();
   pf::shared_ptr<T> const sp2 = state_b<T> ();
   pf::shared_ptr<T> const sp3 = state_c<T> ();
@@ -493,7 +493,7 @@ TYPED_TEST (LumexAtomicWeakPtrTest,
 TYPED_TEST (LumexAtomicWeakPtrTest,
             GivenNonEquivalentExpected_WhenCompareExchangeWeak_ThenLoadsIt)
 {
-  typedef TypeParam T;
+  using T = TypeParam;
   pf::shared_ptr<T> const sp1 = state_a<T> ();
   pf::shared_ptr<T> const sp2 = state_b<T> ();
   atomic_weak_ptr<T> a ((pf::weak_ptr<T> (sp2)));
@@ -507,7 +507,7 @@ TYPED_TEST (LumexAtomicWeakPtrTest,
 TYPED_TEST (LumexAtomicWeakPtrTest,
             GivenEveryOrder_WhenCompareExchangeWeakWithOneOrder_ThenWorks)
 {
-  typedef TypeParam T;
+  using T = TypeParam;
   std::vector<pf::shared_ptr<T>> keep;
   keep.push_back (state_a<T> ());
   atomic_weak_ptr<T> a ((pf::weak_ptr<T> (keep.back ())));
@@ -534,7 +534,7 @@ TYPED_TEST (LumexAtomicWeakPtrTest,
 TYPED_TEST (LumexAtomicWeakPtrTest,
             GivenEveryOrderPair_WhenCompareExchangeWeakWithTwo_ThenWorks)
 {
-  typedef TypeParam T;
+  using T = TypeParam;
   std::vector<pf::shared_ptr<T>> keep;
   keep.push_back (state_a<T> ());
   atomic_weak_ptr<T> a ((pf::weak_ptr<T> (keep.back ())));
@@ -566,7 +566,7 @@ TYPED_TEST (LumexAtomicWeakPtrTest,
 TYPED_TEST (LumexAtomicWeakPtrTest,
             GivenANonEquivalentValue_WhenWaitingWithEveryOrder_ThenReturns)
 {
-  typedef TypeParam T;
+  using T = TypeParam;
   Watchdog const dog ("GivenANonEquivalentValue_WhenWaiting");
   pf::shared_ptr<T> const sp = state_a<T> ();
   pf::shared_ptr<T> const other = state_a<T> ();
@@ -589,7 +589,7 @@ TYPED_TEST (LumexAtomicWeakPtrTest,
 TYPED_TEST (LumexAtomicWeakPtrTest,
             GivenAnEquivalentValue_WhenWaiting_ThenBlocksUntilNotifiedChange)
 {
-  typedef TypeParam T;
+  using T = TypeParam;
   Watchdog const dog ("GivenAnEquivalentValue_WhenWaiting");
   pf::shared_ptr<T> const sp_for_wait = state_a<T> ();
   pf::shared_ptr<T> const sp1 = state_b<T> ();
@@ -618,7 +618,7 @@ TYPED_TEST (LumexAtomicWeakPtrTest,
 
 TYPED_TEST (LumexAtomicWeakPtrTest, GivenOneWaiter_WhenNotifyOne_ThenItWakes)
 {
-  typedef TypeParam T;
+  using T = TypeParam;
   Watchdog const dog ("GivenOneWaiter_WhenNotifyOne_ThenItWakes");
   pf::shared_ptr<T> const sp1 = state_a<T> ();
   pf::shared_ptr<T> const sp2 = state_b<T> ();
@@ -644,7 +644,7 @@ TYPED_TEST (LumexAtomicWeakPtrTest, GivenOneWaiter_WhenNotifyOne_ThenItWakes)
 TYPED_TEST (LumexAtomicWeakPtrTest,
             GivenSeveralWaiters_WhenNotifyAll_ThenEveryOneWakes)
 {
-  typedef TypeParam T;
+  using T = TypeParam;
   Watchdog const dog ("GivenSeveralWaiters_WhenNotifyAll_ThenEveryOneWakes");
   pf::shared_ptr<T> const sp1 = state_a<T> ();
   pf::shared_ptr<T> const sp2 = state_b<T> ();

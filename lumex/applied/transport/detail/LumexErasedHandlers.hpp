@@ -92,12 +92,12 @@ namespace detail
 template <typename Handler, typename DefaultCandidate>
 struct shielded_allocator
 {
-  typedef asio::associated_allocator<Handler, DefaultCandidate> inner_type;
-  typedef ::lumex::applied::transport::detail::is_erased_handler_allocator<
-      typename inner_type::type>
-      erased;
-  typedef typename std::conditional<erased::value, DefaultCandidate,
-                                    typename inner_type::type>::type type;
+  using inner_type = asio::associated_allocator<Handler, DefaultCandidate>;
+  using erased
+      = ::lumex::applied::transport::detail::is_erased_handler_allocator<
+          typename inner_type::type>;
+  using type = typename std::conditional<erased::value, DefaultCandidate,
+                                         typename inner_type::type>::type;
 
   static type
   get (Handler const &handler,
@@ -184,8 +184,8 @@ struct associator<Associator,
                   lumex::applied::transport::detail::shielded_handler<Handler>,
                   DefaultCandidate> : Associator<Handler, DefaultCandidate>
 {
-  typedef lumex::applied::transport::detail::shielded_handler<Handler>
-      wrapper_type;
+  using wrapper_type
+      = lumex::applied::transport::detail::shielded_handler<Handler>;
 
   static typename Associator<Handler, DefaultCandidate>::type
   get (wrapper_type const &wrapper) LUMEX_NOEXCEPT
@@ -209,12 +209,11 @@ struct associator<associated_allocator,
                   lumex::applied::transport::detail::shielded_handler<Handler>,
                   DefaultCandidate>
 {
-  typedef lumex::applied::transport::detail::shielded_handler<Handler>
-      wrapper_type;
-  typedef lumex::applied::transport::detail::shielded_allocator<
-      Handler, DefaultCandidate>
-      shield_type;
-  typedef typename shield_type::type type;
+  using wrapper_type
+      = lumex::applied::transport::detail::shielded_handler<Handler>;
+  using shield_type = lumex::applied::transport::detail::shielded_allocator<
+      Handler, DefaultCandidate>;
+  using type = typename shield_type::type;
 
   static type
   get (wrapper_type const &wrapper) LUMEX_NOEXCEPT

@@ -96,7 +96,7 @@ struct length_prefix_options_t : codec::codec_options_t
 class length_prefix_codec
 {
 public:
-  typedef length_prefix_options_t options_type;
+  using options_type = length_prefix_options_t;
 
   /// @pre `options.max_frame_size > 0` and `options.width` is 1, 2 or 4.
   explicit length_prefix_codec (options_type const &options = options_type ())

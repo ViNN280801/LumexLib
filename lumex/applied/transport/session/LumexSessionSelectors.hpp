@@ -98,12 +98,12 @@ namespace transport
 namespace session
 {
 /// @brief One serial port of the enumeration.
-typedef lumex::applied::serial::enumeration::serial_port_info_t
-    serial_port_info_t;
+using serial_port_info_t
+    = lumex::applied::serial::enumeration::serial_port_info_t;
 
 /// @brief The serial ports present now (the seam of selectors and of
 /// `device_watcher`; tests give a fake).
-typedef std::function<std::vector<serial_port_info_t> ()> serial_enumeration_t;
+using serial_enumeration_t = std::function<std::vector<serial_port_info_t> ()>;
 
 /// @brief `enumerate_serial_ports_without_probe` with the openable paths
 /// ("\\\\.\\COM12", "/dev/ttyACM0"): lists the ports without opening

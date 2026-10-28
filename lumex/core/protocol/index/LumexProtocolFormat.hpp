@@ -481,7 +481,7 @@ append_record (std::string &out, field::record<F...> const &record,
 // A leaf: the value, its raw value when asked for, then the unit.
 template <typename F, typename> struct value_formatter
 {
-  typedef typename field::impl_of<F>::type impl;
+  using impl = typename field::impl_of<F>::type;
 
   static void
   apply (std::string &out, typename impl::value_type const &value,
@@ -517,7 +517,7 @@ template <typename F>
 struct value_formatter<
     F, typename std::enable_if<field::detail::has_fields<F>::value>::type>
 {
-  typedef typename field::impl_of<F>::type impl;
+  using impl = typename field::impl_of<F>::type;
 
   static void
   apply (std::string &out, typename impl::value_type const &value,
@@ -548,7 +548,7 @@ append_elements (std::string &out, Array const &items, std::size_t count,
 template <typename T, std::size_t N>
 struct value_formatter<field::array_<T, N>, void>
 {
-  typedef typename field::impl_of<field::array_<T, N>>::type impl;
+  using impl = typename field::impl_of<field::array_<T, N>>::type;
 
   static void
   apply (std::string &out, typename impl::value_type const &value,
@@ -561,7 +561,7 @@ struct value_formatter<field::array_<T, N>, void>
 template <typename T, typename C, std::size_t Max>
 struct value_formatter<field::counted_<T, C, Max>, void>
 {
-  typedef typename field::impl_of<field::counted_<T, C, Max>>::type impl;
+  using impl = typename field::impl_of<field::counted_<T, C, Max>>::type;
 
   static void
   apply (std::string &out, typename impl::value_type const &value,
@@ -574,8 +574,8 @@ struct value_formatter<field::counted_<T, C, Max>, void>
 template <typename T, typename E, std::size_t Max>
 struct value_formatter<field::computed_count_<T, E, Max>, void>
 {
-  typedef
-      typename field::impl_of<field::computed_count_<T, E, Max>>::type impl;
+  using impl =
+      typename field::impl_of<field::computed_count_<T, E, Max>>::type;
 
   static void
   apply (std::string &out, typename impl::value_type const &value,
@@ -588,7 +588,7 @@ struct value_formatter<field::computed_count_<T, E, Max>, void>
 template <typename... F>
 struct value_formatter<field::optional_tail_<F...>, void>
 {
-  typedef typename field::impl_of<field::optional_tail_<F...>>::type impl;
+  using impl = typename field::impl_of<field::optional_tail_<F...>>::type;
 
   static void
   apply (std::string &out, typename impl::value_type const &value,
@@ -608,7 +608,7 @@ struct value_formatter<field::optional_tail_<F...>, void>
 template <std::size_t Min, typename A, typename B>
 struct value_formatter<field::by_length_<Min, A, B>, void>
 {
-  typedef typename field::impl_of<field::by_length_<Min, A, B>>::type impl;
+  using impl = typename field::impl_of<field::by_length_<Min, A, B>>::type;
 
   static void
   apply (std::string &out, typename impl::value_type const &value,
@@ -670,7 +670,7 @@ append_union (std::string &out, Union const &value,
 template <typename D, typename... Cases>
 struct value_formatter<field::union_by_<D, Cases...>, void>
 {
-  typedef typename field::impl_of<field::union_by_<D, Cases...>>::type impl;
+  using impl = typename field::impl_of<field::union_by_<D, Cases...>>::type;
 
   static void
   apply (std::string &out, typename impl::value_type const &value,
@@ -683,8 +683,8 @@ struct value_formatter<field::union_by_<D, Cases...>, void>
 template <typename K, typename... Cases>
 struct value_formatter<field::union_by_context_<K, Cases...>, void>
 {
-  typedef typename field::impl_of<field::union_by_context_<K, Cases...>>::type
-      impl;
+  using impl =
+      typename field::impl_of<field::union_by_context_<K, Cases...>>::type;
 
   static void
   apply (std::string &out, typename impl::value_type const &value,
@@ -716,7 +716,7 @@ template <typename Part> struct split_part_names<Part>
 template <typename Word, typename... Parts>
 struct value_formatter<field::split_<Word, Parts...>, void>
 {
-  typedef typename field::impl_of<field::split_<Word, Parts...>>::type impl;
+  using impl = typename field::impl_of<field::split_<Word, Parts...>>::type;
 
   static void
   apply (std::string &out, typename impl::value_type const &value,
@@ -732,7 +732,7 @@ struct value_formatter<field::split_<Word, Parts...>, void>
 template <typename P, typename K>
 struct value_formatter<field::nested_<P, K>, void>
 {
-  typedef typename field::impl_of<field::nested_<P, K>>::type impl;
+  using impl = typename field::impl_of<field::nested_<P, K>>::type;
 
   static void
   apply (std::string &out, typename impl::value_type const &value,
@@ -750,7 +750,7 @@ struct value_formatter<field::nested_<P, K>, void>
 template <typename R, typename F1, typename F2>
 struct value_formatter<registry::registry_key_<R, F1, F2>, void>
 {
-  typedef typename R::id value_type;
+  using value_type = typename R::id;
 
   static void
   apply (std::string &out, value_type const &value, describe_options_t const &)

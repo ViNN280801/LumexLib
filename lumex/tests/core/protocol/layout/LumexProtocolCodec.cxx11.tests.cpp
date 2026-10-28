@@ -25,8 +25,8 @@ using lumex::core::protocol::error::protocol_errc;
 using tables::text_of;
 using tables::view_of;
 
-typedef tables::gauge::SET_LEVEL_t set_level;
-typedef layout::request_of<set_level>::type set_level_request;
+using set_level = tables::gauge::SET_LEVEL_t;
+using set_level_request = layout::request_of<set_level>::type;
 
 template <typename P>
 layout::bytes_t
@@ -54,9 +54,9 @@ namespace dialogue
 {
 template <typename Ack, typename Nak> struct ack_nak
 {
-  typedef dsl::reply_tag lumex_protocol_reply;
-  typedef Ack ack_type;
-  typedef Nak nak_type;
+  using lumex_protocol_reply = dsl::reply_tag;
+  using ack_type = Ack;
+  using nak_type = Nak;
 };
 
 struct rate_limit_kind
@@ -65,7 +65,7 @@ struct rate_limit_kind
 
 struct rate_limit_t
 {
-  typedef rate_limit_kind option_kind;
+  using option_kind = rate_limit_kind;
   std::uint32_t milliseconds;
 
   static char const *
@@ -97,7 +97,7 @@ struct vocabulary : dsl::vocabulary
 
 struct header
 {
-  typedef vocabulary lumex_vocabulary;
+  using lumex_vocabulary = vocabulary;
 };
 
 // clang-format off
@@ -159,7 +159,7 @@ TEST (
     LumexProtocolCodecTest,
     GivenRowReplies_WhenRoundTripped_ThenAFieldReplyIsItsValueAndALayoutARecord)
 {
-  typedef tables::gauge::READ_WORD_t read_word;
+  using read_word = tables::gauge::READ_WORD_t;
   layout::bytes_t out;
   ASSERT_TRUE ((layout::encode_reply<tables::gauge, read_word> (out, 0xBEEF)
                     .has_value ()));
@@ -208,7 +208,7 @@ TEST (
                              dsl::vocabulary>::value));
   // The reply kind gets the names of the table as written; the dialogue
   // resolves them (field::resolve, field::impl_of).
-  typedef dialogue_protocol::START_t::reply_type start_reply;
+  using start_reply = dialogue_protocol::START_t::reply_type;
   EXPECT_TRUE (
       (std::is_same<start_reply,
                     dialogue::ack_nak<dsl::plain::u8_<>,
@@ -249,7 +249,7 @@ TEST (LumexProtocolCodecTest,
 TEST (LumexProtocolCodecTest,
       GivenTheSinkLayout_WhenRead_ThenItHasFortyFieldsOfEveryKind)
 {
-  typedef tables::sink_t::fields_type fields;
+  using fields = tables::sink_t::fields_type;
   EXPECT_EQ (fields::count::value, 40u);
   EXPECT_EQ (tables::sink_t::field_names ().size (), 40u);
   EXPECT_EQ (std::string (tables::sink_t::field_names ()[39]), "tail");

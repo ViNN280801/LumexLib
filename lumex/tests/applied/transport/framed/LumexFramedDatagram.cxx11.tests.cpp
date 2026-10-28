@@ -30,9 +30,8 @@ protected:
   log_capture log_;
 };
 
-typedef ::testing::Types<slip_case, delimiter_case, length_case,
-                         header_crc_case, pipeline_case>
-    datagram_cases;
+using datagram_cases = ::testing::Types<slip_case, delimiter_case, length_case,
+                                        header_crc_case, pipeline_case>;
 TYPED_TEST_SUITE (LumexFramedDatagramCodecTest, datagram_cases);
 
 message_t

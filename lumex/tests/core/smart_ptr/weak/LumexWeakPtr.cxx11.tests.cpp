@@ -311,7 +311,7 @@ TEST (LumexWeakPtrTest, GivenOwnerLess_WhenKeyingContainers_ThenOwnersGroup)
 
 TEST (LumexWeakPtrTest, GivenTheTraits_WhenChecked_ThenTheSignaturesAreRight)
 {
-  typedef sp::weak_ptr<int> weak;
+  using weak = sp::weak_ptr<int>;
   static_assert (std::is_nothrow_default_constructible<weak>::value, "");
   static_assert (std::is_nothrow_copy_constructible<weak>::value, "");
   static_assert (std::is_nothrow_move_constructible<weak>::value, "");

@@ -190,7 +190,7 @@ enum test_point_id_t
 /**
  * @brief The handler type of `set_test_handler`.
  */
-typedef void (*test_handler_t) (int);
+using test_handler_t = void (*) (int);
 
 /**
  * @brief Calls the installed handler with a test point id, if any.

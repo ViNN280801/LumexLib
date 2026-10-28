@@ -32,8 +32,8 @@ namespace lumex_session_test
 {
 namespace tr = lumex::applied::transport;
 namespace ss = tr::session;
-typedef std::chrono::steady_clock clock_type;
-typedef std::chrono::milliseconds ms;
+using clock_type = std::chrono::steady_clock;
+using ms = std::chrono::milliseconds;
 
 /// Waits until `condition` holds, polling every millisecond, at most
 /// `limit`; returns the last value of the condition.

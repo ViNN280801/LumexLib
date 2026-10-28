@@ -56,9 +56,9 @@ namespace asp = ::lumex::core::atomic::smart_ptr;
 
 namespace
 {
-typedef asp::Detail::split_word_t split_word;
-typedef asp::Detail::split_value_t split_value;
-typedef asp::Detail::split_block_t split_block;
+using split_word = asp::Detail::split_word_t;
+using split_value = asp::Detail::split_value_t;
+using split_block = asp::Detail::split_block_t;
 
 // Storage whose addresses stand for a control block and for a holder.
 alignas (16) unsigned char block_storage[64];

@@ -81,7 +81,7 @@ template <typename T, typename U>
 void
 check_one_pair (mismatch_report &report, T lhs, U rhs, int expected)
 {
-  typedef three_way_comparison_result_t<T, U> Result;
+  using Result = three_way_comparison_result_t<T, U>;
 
   Result const free_result = safe_three_way_compare (lhs, rhs);
   Result const plain_result

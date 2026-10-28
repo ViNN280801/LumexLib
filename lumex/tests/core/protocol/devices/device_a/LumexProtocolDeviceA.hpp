@@ -41,21 +41,21 @@ LUMEX_DEFINE_REFLECTED_ENUM (severity, std::uint8_t, (warning, 0),
 /// a_new: the address, then the message code; the fields follow it.
 struct family_header
 {
-  typedef registry::table_vocabulary lumex_vocabulary;
-  typedef index::key_at<1, 1> key_reader;
+  using lumex_vocabulary = registry::table_vocabulary;
+  using key_reader = index::key_at<1, 1>;
 };
 
 /// a_old: the address, the process, the attribute, then the message code.
 struct process_header
 {
-  typedef registry::table_vocabulary lumex_vocabulary;
-  typedef index::key_at<3, 1> key_reader;
+  using lumex_vocabulary = registry::table_vocabulary;
+  using key_reader = index::key_at<3, 1>;
 };
 
 /// a_system: the address 0 is the key; the message byte is a field.
 struct system_header
 {
-  typedef index::key_at<0, 1> key_reader;
+  using key_reader = index::key_at<0, 1>;
 };
 
 LUMEX_PROTOCOL_LAYOUT (info_t,

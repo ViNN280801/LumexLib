@@ -28,7 +28,7 @@ namespace
 namespace hid = lumex::applied::transport::hid;
 namespace error = lumex::applied::transport::error;
 
-typedef std::vector<std::uint8_t> bytes;
+using bytes = std::vector<std::uint8_t>;
 
 void
 require (bool condition)

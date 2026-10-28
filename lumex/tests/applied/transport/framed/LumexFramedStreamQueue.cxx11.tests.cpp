@@ -21,7 +21,7 @@ namespace
 using namespace lumex_framed_test;
 using tr::log::log_level;
 
-typedef slip_case queue_case;
+using queue_case = slip_case;
 
 bytes_t
 wire_of_frames (std::size_t n, std::uint8_t first = 0)

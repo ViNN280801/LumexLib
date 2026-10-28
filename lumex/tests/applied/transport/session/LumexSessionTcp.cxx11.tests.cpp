@@ -25,7 +25,7 @@ namespace
 {
 using namespace lumex_session_test;
 using tr::error::transport_errc;
-typedef asio::ip::tcp tcp;
+using tcp = asio::ip::tcp;
 
 // Ends the peer thread also when an assertion leaves the test early: it lets
 // the peer finish and connects to it until it does (an accept that still

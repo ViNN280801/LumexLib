@@ -48,7 +48,7 @@ namespace lumex_atomic_test
 {
 namespace scenario
 {
-typedef pf::weak_ptr<VNode> VNodeWeak;
+using VNodeWeak = pf::weak_ptr<VNode>;
 
 /**
  * @brief Weak pointers compare by owner: A -> B -> A with the same owner
@@ -63,7 +63,7 @@ template <typename Engine>
 void
 weak_owner_identity (lumex_test::Verdict &verdict)
 {
-  typedef typename Engine::template weak<VNode> weak_atom;
+  using weak_atom = typename Engine::template weak<VNode>;
   lumex_test::ObjectLedger ledger (64);
   lumex_test::ReusePool pool;
   {
@@ -136,7 +136,7 @@ template <typename Engine>
 void
 weak_split_allocation_identity (lumex_test::Verdict &verdict)
 {
-  typedef typename Engine::template weak<VNode> weak_atom;
+  using weak_atom = typename Engine::template weak<VNode>;
   lumex_test::ObjectLedger ledger (32);
   lumex_test::ReusePool object_pool;
   lumex_test::ReusePool control_pool;
@@ -198,8 +198,8 @@ template <typename Engine, bool WeakFirst>
 void
 promotion_race (Params const &p, lumex_test::Verdict &verdict)
 {
-  typedef typename Engine::template shared<VNode> shared_atom;
-  typedef typename Engine::template weak<VNode> weak_atom;
+  using shared_atom = typename Engine::template shared<VNode>;
+  using weak_atom = typename Engine::template weak<VNode>;
   lumex_test::ObjectLedger ledger (node_capacity (p, 1) + 8);
   lumex_test::ReusePool pool;
   std::atomic<bool> done (false);
@@ -294,7 +294,7 @@ template <typename Engine>
 void
 expired_race (Params const &p, lumex_test::Verdict &verdict)
 {
-  typedef typename Engine::template weak<VNode> weak_atom;
+  using weak_atom = typename Engine::template weak<VNode>;
   int const rounds = std::max (1, p.iterations / 10);
   lumex_test::ObjectLedger ledger (static_cast<std::size_t> (rounds) + 8);
   lumex_test::ReusePool pool;

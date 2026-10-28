@@ -151,7 +151,7 @@ class alignas (16) dwcas_word
 {
 public:
   /// The type the operations take and return.
-  typedef dwcas_value_t value_type;
+  using value_type = dwcas_value_t;
 
   /**
    * @brief Creates a word holding zero in both halves.

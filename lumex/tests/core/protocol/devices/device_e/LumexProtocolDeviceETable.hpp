@@ -42,8 +42,8 @@ struct codec
 /// address; the fields follow it.
 struct family_header
 {
-  typedef registry::table_vocabulary lumex_vocabulary;
-  typedef index::key_at<1, 1> key_reader;
+  using lumex_vocabulary = registry::table_vocabulary;
+  using key_reader = index::key_at<1, 1>;
   static LUMEX_CONSTEXPR std::size_t key_width = 1;
 };
 

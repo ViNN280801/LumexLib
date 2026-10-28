@@ -85,7 +85,7 @@ template <typename T> class ExpectedVoidTest : public ::testing::Test
 {
 protected:
   // Define ErrorType from TypeParam (std::tuple<EType>)
-  typedef typename std::tuple_element<0, T>::type ErrorType;
+  using ErrorType = typename std::tuple_element<0, T>::type;
 
   // Initial values for error types
   ErrorType error_val1{};

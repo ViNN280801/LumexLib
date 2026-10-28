@@ -78,8 +78,8 @@ namespace transport
 namespace serial
 {
 /// @brief The serial settings: baud, data bits, parity, stop bits, flow.
-typedef lumex::applied::serial::probe::serial_port_settings_t
-    serial_settings_t;
+using serial_settings_t
+    = lumex::applied::serial::probe::serial_port_settings_t;
 
 /// @brief What `make_serial_stream` opens.
 struct serial_stream_options_t

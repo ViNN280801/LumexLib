@@ -49,6 +49,22 @@ else()
         "Skipping lint.header_using_directives: no Python 3 interpreter")
 endif()
 
+# No C-style `typedef` in lumex/ or benchmarks/: aliases are `using name =
+# type;` and alias templates (macro bodies, Windows-only branches and the
+# code blocks of Markdown files included). Files that must compile as C are
+# on the checker's exception list. Same Python 3.7+ interpreter as above.
+if(Python3_Interpreter_FOUND)
+    add_test(NAME lint.no_typedef
+        COMMAND ${Python3_EXECUTABLE}
+            ${LumexLib_SOURCE_DIR}/Scripts/CodeTools/check_no_typedef.py
+            --check --dir ${LumexLib_SOURCE_DIR}/lumex
+            --dir ${LumexLib_SOURCE_DIR}/benchmarks
+    )
+    set_tests_properties(lint.no_typedef PROPERTIES LABELS "lint")
+else()
+    message(STATUS "Skipping lint.no_typedef: no Python 3 interpreter")
+endif()
+
 # No `#pragma warning` or `#pragma comment` outside _MSC_VER: GCC and MinGW
 # report them as unknown pragmas, which stops a -Werror build. Same Python
 # 3.7+ interpreter as above.

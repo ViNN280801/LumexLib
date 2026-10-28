@@ -49,12 +49,11 @@ using namespace lumex_numeric_samples;
 
 namespace
 {
-typedef type_list<int, unsigned int, long long, unsigned long long>
-    table_integers;
-typedef type_list<float, double, long double> table_floats;
-typedef type_list<int, unsigned int, long long, unsigned long long, float,
-                  double, long double>
-    table_types;
+using table_integers
+    = type_list<int, unsigned int, long long, unsigned long long>;
+using table_floats = type_list<float, double, long double>;
+using table_types = type_list<int, unsigned int, long long, unsigned long long,
+                              float, double, long double>;
 
 // === The values of the table ===
 

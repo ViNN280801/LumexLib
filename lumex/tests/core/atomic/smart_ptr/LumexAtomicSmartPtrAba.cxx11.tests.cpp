@@ -35,8 +35,8 @@ using namespace lumex_atomic_test;
 
 namespace
 {
-typedef scenario::VNode VNode;
-typedef scenario::VNodePtr VNodePtr;
+using VNode = scenario::VNode;
+using VNodePtr = scenario::VNodePtr;
 
 /// Fails the test with the verdict's text.
 void

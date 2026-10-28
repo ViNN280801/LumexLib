@@ -103,7 +103,7 @@ struct slip_options_t : codec::codec_options_t
 class slip_codec
 {
 public:
-  typedef slip_options_t options_type;
+  using options_type = slip_options_t;
 
   /// @pre `options.max_frame_size > 0`.
   explicit slip_codec (options_type const &options = options_type ())

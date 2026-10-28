@@ -54,7 +54,7 @@ struct begin_only_t
   }
 };
 
-typedef char const separator_literal_t[3];
+using separator_literal_t = char const[3];
 } // namespace
 
 // --- join: viable in every standard ---

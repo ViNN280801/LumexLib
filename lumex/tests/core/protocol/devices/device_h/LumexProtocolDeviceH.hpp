@@ -120,7 +120,7 @@ LUMEX_PROTOCOL_LAYOUT (status_a_flags_t,
 
 struct status_header
 {
-  typedef index::key_at<0, 1> key_reader;
+  using key_reader = index::key_at<0, 1>;
 };
 
 // clang-format off

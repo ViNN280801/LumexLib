@@ -212,7 +212,7 @@ struct naive_node
 
 struct naive_adapter
 {
-  typedef naive_node node_type;
+  using node_type = naive_node;
 
   struct holder_type
   {
@@ -240,7 +240,7 @@ struct naive_adapter
 
 struct real_adapter
 {
-  typedef lumex_hp_test::poisoned_node node_type;
+  using node_type = lumex_hp_test::poisoned_node;
 
   struct holder_type
   {
@@ -275,8 +275,8 @@ template <class Adapter>
 long
 hunt (std::chrono::milliseconds budget)
 {
-  typedef typename Adapter::node_type node_type;
-  typedef typename Adapter::holder_type holder_type;
+  using node_type = typename Adapter::node_type;
+  using holder_type = typename Adapter::holder_type;
   std::atomic<node_type *> shared (new node_type (1));
   std::atomic<bool> stop (false);
   std::atomic<long> violations (0);

@@ -192,11 +192,12 @@ namespace Detail
 #if LUMEX_FORMAT_HAS_INT128
 // `__int128` is a GNU extension that GCC and Clang accept in every standard
 // mode and report under -Wpedantic ("ISO C++ does not support '__int128'").
-// `__extension__` in front of a typedef silences it, and the rest of the
-// header names the two types only through these aliases, so the pedantic
-// diagnostic cannot come back at a use. (MSVC defines no __SIZEOF_INT128__.)
-__extension__ typedef __int128 int128_type;
-__extension__ typedef unsigned __int128 uint128_type;
+// `__extension__` in front of an alias declaration silences it, and the rest
+// of the header names the two types only through these aliases, so the
+// pedantic diagnostic cannot come back at a use. (MSVC defines no
+// __SIZEOF_INT128__.)
+__extension__ using int128_type = __int128;
+__extension__ using uint128_type = unsigned __int128;
 #endif
 
 // ----------------------------------------------------------------------
@@ -2437,8 +2438,9 @@ template <typename F>
 std::string
 printf_float (char const *pattern, int precision, F value)
 {
-  typedef typename std::conditional<std::is_same<F, long double>::value,
-                                    long double, double>::type promoted_type;
+  using promoted_type =
+      typename std::conditional<std::is_same<F, long double>::value,
+                                long double, double>::type;
   promoted_type const promoted = static_cast<promoted_type> (value);
   int const size = std::snprintf (nullptr, 0, pattern, precision, promoted);
   if (size < 0)
@@ -2631,9 +2633,9 @@ float_body (F value, FloatStyle style, int precision, bool alternate,
             {
               char const *const pattern
                   = std::is_same<F, long double>::value ? "%La" : "%a";
-              typedef typename std::conditional<
+              using promoted_type = typename std::conditional<
                   std::is_same<F, long double>::value, long double,
-                  double>::type promoted_type;
+                  double>::type;
               char raw[128];
               std::snprintf (raw, sizeof (raw), pattern,
                              static_cast<promoted_type> (value));
@@ -2911,7 +2913,7 @@ public:
       case ArgKind::character:
         if (is_integer_presentation (specs.type))
           {
-            typedef typename std::make_unsigned<Char>::type unsigned_type;
+            using unsigned_type = typename std::make_unsigned<Char>::type;
             write_integer (buffer, specs, false,
                            static_cast<unsigned long long> (
                                static_cast<unsigned_type> (arg.char_value)),
@@ -3098,7 +3100,7 @@ template <typename Char, typename T>
 void
 make_arg (format_arg_t<Char> &arg, T const &value)
 {
-  typedef typename std::decay<T>::type decayed_type;
+  using decayed_type = typename std::decay<T>::type;
   LUMEX_CONSTEXPR ArgKind kind = arg_kind_of<Char, decayed_type> ();
   static_assert (!is_other_character_type<decayed_type> ()
                      || is_character_type<Char, decayed_type> (),
@@ -3517,7 +3519,7 @@ public:
   {
     Detail::format_specs_t<Char> const specs = _impl.resolved_specs (ctx);
     Detail::buffer<Char> &buffer = ctx.out ().buffer ();
-    typedef typename std::underlying_type<Enum>::type underlying_type;
+    using underlying_type = typename std::underlying_type<Enum>::type;
     if (Detail::is_integer_presentation (specs.type))
       {
         underlying_type const number = static_cast<underlying_type> (value);

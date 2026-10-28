@@ -106,7 +106,7 @@ std::string const &empty_session_name () LUMEX_NOEXCEPT;
 class session_core : public std::enable_shared_from_this<session_core>
 {
 public:
-  typedef asio::strand<executor_type> strand_type;
+  using strand_type = asio::strand<executor_type>;
 
   session_core (executor_type const &executor, session_options_t options);
   virtual ~session_core ();

@@ -26,7 +26,7 @@ using namespace lumex_framed_test;
 using tr::error::transport_errc;
 using tr::log::log_level;
 
-typedef tr::framed::framed_stream<slip_case::codec_t> link_t;
+using link_t = tr::framed::framed_stream<slip_case::codec_t>;
 
 std::string
 text_of (bytes_t const &bytes)

@@ -223,8 +223,8 @@ template <typename T> class ExpectedTest : public ::testing::Test
 {
 protected:
   // Define SuccessType and ErrorType from TypeParam (std::tuple<SType, EType>)
-  typedef typename std::tuple_element<0, T>::type SuccessType;
-  typedef typename std::tuple_element<1, T>::type ErrorType;
+  using SuccessType = typename std::tuple_element<0, T>::type;
+  using ErrorType = typename std::tuple_element<1, T>::type;
 
   // Initial values for success types
   SuccessType s_val1{};

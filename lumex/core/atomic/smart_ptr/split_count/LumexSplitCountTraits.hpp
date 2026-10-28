@@ -93,7 +93,7 @@ namespace Detail
 /// The strong group of a control block.
 struct split_strong_ledger_t
 {
-  typedef ::lumex::core::smart_ptr::detail::ctl_base block_type;
+  using block_type = ::lumex::core::smart_ptr::detail::ctl_base;
 
   static void
   add (block_type *block) LUMEX_NOEXCEPT
@@ -147,7 +147,7 @@ struct split_strong_ledger_t
 /// The weak ledger of a control block.
 struct split_weak_ledger_t
 {
-  typedef ::lumex::core::smart_ptr::detail::ctl_base block_type;
+  using block_type = ::lumex::core::smart_ptr::detail::ctl_base;
 
   static void
   add (block_type *block) LUMEX_NOEXCEPT
@@ -228,12 +228,12 @@ template <typename Pointer> struct split_pointer_traits_t;
 template <typename T>
 struct split_pointer_traits_t<::lumex::core::smart_ptr::shared_ptr<T>>
 {
-  typedef ::lumex::core::smart_ptr::shared_ptr<T> pointer_type;
-  typedef typename pointer_type::element_type element_type;
-  typedef ::lumex::core::smart_ptr::detail::ctl_base block_type;
-  typedef ::lumex::core::smart_ptr::detail::access access_type;
-  typedef split_strong_ledger_t ledger_type;
-  typedef ::lumex::core::smart_ptr::detail::ctl_holder holder_type;
+  using pointer_type = ::lumex::core::smart_ptr::shared_ptr<T>;
+  using element_type = typename pointer_type::element_type;
+  using block_type = ::lumex::core::smart_ptr::detail::ctl_base;
+  using access_type = ::lumex::core::smart_ptr::detail::access;
+  using ledger_type = split_strong_ledger_t;
+  using holder_type = ::lumex::core::smart_ptr::detail::ctl_holder;
 
   /// Pins of a holder word are mirrored in the owner's strong `ext`, so that
   /// `use_count ()` of the owner sees them (HG, see the cell).
@@ -284,12 +284,12 @@ struct split_pointer_traits_t<::lumex::core::smart_ptr::shared_ptr<T>>
 template <typename T>
 struct split_pointer_traits_t<::lumex::core::smart_ptr::weak_ptr<T>>
 {
-  typedef ::lumex::core::smart_ptr::weak_ptr<T> pointer_type;
-  typedef typename pointer_type::element_type element_type;
-  typedef ::lumex::core::smart_ptr::detail::ctl_base block_type;
-  typedef ::lumex::core::smart_ptr::detail::access access_type;
-  typedef split_weak_ledger_t ledger_type;
-  typedef ::lumex::core::smart_ptr::detail::ctl_weak_holder holder_type;
+  using pointer_type = ::lumex::core::smart_ptr::weak_ptr<T>;
+  using element_type = typename pointer_type::element_type;
+  using block_type = ::lumex::core::smart_ptr::detail::ctl_base;
+  using access_type = ::lumex::core::smart_ptr::detail::access;
+  using ledger_type = split_weak_ledger_t;
+  using holder_type = ::lumex::core::smart_ptr::detail::ctl_weak_holder;
 
   /// Weak loads do not change `use_count ()`: no mirror.
   static bool const mirror_holder = false;

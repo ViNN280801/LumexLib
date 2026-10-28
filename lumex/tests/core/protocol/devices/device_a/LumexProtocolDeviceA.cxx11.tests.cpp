@@ -70,11 +70,11 @@ TEST (LumexProtocolDeviceATest,
 TEST (LumexProtocolDeviceATest,
       GivenEveryFamilyRequest_WhenEncoded_ThenTheBytesAreTheReference)
 {
-  typedef family_a::param_set_3f_t set_parameter;
-  typedef family_a::param_get_d1_t get_parameter;
-  typedef family_a::set_65_t set_mode;
-  typedef family_a::param_get_83_t get_service;
-  typedef family_a::param_set_cc_t set_service;
+  using set_parameter = family_a::param_set_3f_t;
+  using get_parameter = family_a::param_get_d1_t;
+  using set_mode = family_a::set_65_t;
+  using get_service = family_a::param_get_83_t;
+  using set_service = family_a::param_set_cc_t;
   using lumex_tests::device_a::new_header;
   using lumex_tests::device_a::request_frame;
 

@@ -108,7 +108,7 @@ struct operation_mark
   std::atomic<int> bits;
 };
 
-typedef std::shared_ptr<operation_mark> operation_mark_ptr;
+using operation_mark_ptr = std::shared_ptr<operation_mark>;
 
 /// @brief On the thread that emits: true when this call requested the
 /// cancellation of a pending operation (post its step then); false when the
@@ -191,8 +191,8 @@ public:
   }
 
 private:
-  typedef std::pair<asio::cancellation_slot, std::weak_ptr<operation_mark>>
-      entry;
+  using entry
+      = std::pair<asio::cancellation_slot, std::weak_ptr<operation_mark>>;
 
   struct expired
   {
@@ -402,9 +402,8 @@ struct associator<
     lumex::applied::transport::detail::counting_handler<Handler, Recorder>,
     DefaultCandidate> : Associator<Handler, DefaultCandidate>
 {
-  typedef lumex::applied::transport::detail::counting_handler<Handler,
-                                                              Recorder>
-      wrapper_type;
+  using wrapper_type
+      = lumex::applied::transport::detail::counting_handler<Handler, Recorder>;
 
   static typename Associator<Handler, DefaultCandidate>::type
   get (wrapper_type const &wrapper) LUMEX_NOEXCEPT
@@ -435,15 +434,14 @@ struct associator<
     lumex::applied::transport::detail::counting_handler<Handler, Recorder>,
     DefaultCandidate>
 {
-  typedef lumex::applied::transport::detail::counting_handler<Handler,
-                                                              Recorder>
-      wrapper_type;
-  typedef associated_allocator<Handler, DefaultCandidate> inner_type;
-  typedef lumex::applied::transport::detail::is_erased_handler_allocator<
-      typename inner_type::type>
-      erased;
-  typedef typename std::conditional<erased::value, DefaultCandidate,
-                                    typename inner_type::type>::type type;
+  using wrapper_type
+      = lumex::applied::transport::detail::counting_handler<Handler, Recorder>;
+  using inner_type = associated_allocator<Handler, DefaultCandidate>;
+  using erased
+      = lumex::applied::transport::detail::is_erased_handler_allocator<
+          typename inner_type::type>;
+  using type = typename std::conditional<erased::value, DefaultCandidate,
+                                         typename inner_type::type>::type;
 
   static type
   get (wrapper_type const &wrapper) LUMEX_NOEXCEPT

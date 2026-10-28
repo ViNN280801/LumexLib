@@ -230,7 +230,7 @@ template <std::size_t N> struct fields_of;
   };                                                                          \
   template <> struct fields_of<N>                                             \
   {                                                                           \
-    typedef fields_##N##_t type;                                              \
+    using type = fields_##N##_t;                                              \
   }
 
 LUMEX_FR_DEFINE (1);
@@ -280,47 +280,47 @@ template <std::size_t I> struct field_type_sel;
 
 template <> struct field_type_sel<0>
 {
-  typedef int type;
+  using type = int;
 };
 
 template <> struct field_type_sel<1>
 {
-  typedef char type;
+  using type = char;
 };
 
 template <> struct field_type_sel<2>
 {
-  typedef double type;
+  using type = double;
 };
 
 template <> struct field_type_sel<3>
 {
-  typedef bool type;
+  using type = bool;
 };
 
 template <> struct field_type_sel<4>
 {
-  typedef unsigned type;
+  using type = unsigned;
 };
 
 template <> struct field_type_sel<5>
 {
-  typedef float type;
+  using type = float;
 };
 
 template <> struct field_type_sel<6>
 {
-  typedef short type;
+  using type = short;
 };
 
 template <> struct field_type_sel<7>
 {
-  typedef long long type;
+  using type = long long;
 };
 
 template <std::size_t I> struct field_type_at
 {
-  typedef typename field_type_sel<I % 8>::type type;
+  using type = typename field_type_sel<I % 8>::type;
 };
 
 template <typename T>
@@ -413,10 +413,9 @@ template <std::size_t I, typename Agg>
 void
 check_get_index (Agg const &obj)
 {
-  typedef typename field_type_at<I>::type field_t;
-  typedef typename std::remove_cv<
-      typename std::remove_reference<decltype (get<I> (obj))>::type>::type
-      got_t;
+  using field_t = typename field_type_at<I>::type;
+  using got_t = typename std::remove_cv<
+      typename std::remove_reference<decltype (get<I> (obj))>::type>::type;
   LUMEX_STATIC_ASSERT_MSG (std::is_same<got_t, field_t>::value,
                            "get<I> type must match the arity type cycle");
   field_t const actual = get<I> (obj);
@@ -442,10 +441,10 @@ check_fields (Agg const &obj, std::index_sequence<I...>)
 }
 #endif
 
-// Types<> must be a typedef. Passing
+// Types<> must be an alias. Passing
 // ::testing::Types<field_count_tag_t<1>, ...> as a macro argument
 // splits on the commas.
-typedef ::testing::Types<
+using FieldArityTypes = ::testing::Types<
     field_count_tag_t<1>, field_count_tag_t<2>, field_count_tag_t<3>,
     field_count_tag_t<4>, field_count_tag_t<5>, field_count_tag_t<6>,
     field_count_tag_t<7>, field_count_tag_t<8>, field_count_tag_t<9>,
@@ -456,8 +455,7 @@ typedef ::testing::Types<
     field_count_tag_t<22>, field_count_tag_t<23>, field_count_tag_t<24>,
     field_count_tag_t<25>, field_count_tag_t<26>, field_count_tag_t<27>,
     field_count_tag_t<28>, field_count_tag_t<29>, field_count_tag_t<30>,
-    field_count_tag_t<31>, field_count_tag_t<32>>
-    FieldArityTypes;
+    field_count_tag_t<31>, field_count_tag_t<32>>;
 } // namespace lumex_field_reflection_tests
 
 template <typename T> class LumexFieldArityTest : public ::testing::Test

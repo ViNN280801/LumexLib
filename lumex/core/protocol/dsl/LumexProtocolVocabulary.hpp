@@ -58,7 +58,7 @@
  * A layer above the core (the dialogue of `applied/transport/protocol`: reply
  * kinds, correlation, rate limits) extends the vocabulary without editing
  * it: a class derived from `dsl::vocabulary` with the new names, named by the
- * header type of the protocol as `typedef ... lumex_vocabulary;` (or given by
+ * header type of the protocol as `using lumex_vocabulary = ...;` (or given by
  * a specialization of `dsl::vocabulary_of<Header>`). The rows of that
  * protocol and of its layers then see the new names. A word of the
  * vocabulary hides a type of the same name of the user's namespace inside a
@@ -119,14 +119,14 @@ namespace plain
 #define LUMEX_PROTOCOL_DETAIL_PLAIN_NAME(name_)                               \
   template <typename... Modifiers> struct name_                               \
   {                                                                           \
-    typedef ::lumex::core::protocol::field::name_<Modifiers...>               \
-        lumex_named_field;                                                    \
+    using lumex_named_field                                                   \
+        = ::lumex::core::protocol::field::name_<Modifiers...>;                \
   }
 #define LUMEX_PROTOCOL_DETAIL_PLAIN_TYPE(name_)                               \
   template <typename... Modifiers> struct name_                               \
   {                                                                           \
     static_assert (sizeof...(Modifiers) == 0, #name_ " takes no argument");   \
-    typedef ::lumex::core::protocol::field::name_ lumex_named_field;          \
+    using lumex_named_field = ::lumex::core::protocol::field::name_;          \
   }
 /// @endcond
 
@@ -206,14 +206,14 @@ struct names : u8_<>,
 struct vocabulary : row_flags, plain::names
 {
   /// @brief The log levels of `log_level (...)`.
-  typedef ::lumex::core::protocol::dsl::level level;
+  using level = ::lumex::core::protocol::dsl::level;
 
   /// @brief Modifier: the engineering value is the raw value times `Ratio`.
   template <typename Ratio>
   using scale = ::lumex::core::protocol::field::scale<Ratio>;
 
   /// @brief The units (`unit::microliter`).
-  typedef ::lumex::core::protocol::field::unit unit;
+  using unit = ::lumex::core::protocol::field::unit;
 
   /// @brief Field: an integer whose top bit is the sign.
   template <typename IntegerField>
@@ -307,21 +307,21 @@ struct vocabulary : row_flags, plain::names
   using nested_ = ::lumex::core::protocol::field::nested_<Protocol, KeyField>;
 
   /// @brief Option: the reply must come within `timeout (ms)`.
-  typedef timeout_t timeout;
+  using timeout = timeout_t;
 
   /// @brief Option: send the request again up to `retries (n)` times.
-  typedef retries_t retries;
+  using retries = retries_t;
 
   /// @brief Option: the device sends the row by itself every
   /// `stream (interval_ms)`.
-  typedef stream_t stream;
+  using stream = stream_t;
 
   /// @brief Option: the log level of the row, `log_level (level::...)`.
-  typedef log_level_t log_level;
+  using log_level = log_level_t;
 
   /// @brief Option: the row exists in firmware versions `firmware (from,
   /// to)`.
-  typedef firmware_t firmware;
+  using firmware = firmware_t;
 
   /// @brief Option: the row exists in these models only.
   template <typename... Rest>
@@ -353,7 +353,7 @@ namespace detail
 {
 template <typename T> struct vocabulary_voider
 {
-  typedef void type;
+  using type = void;
 };
 } // namespace detail
 
@@ -366,7 +366,7 @@ template <typename T> struct vocabulary_voider
 template <typename Header, typename = void> struct vocabulary_of
 {
   /// The vocabulary.
-  typedef vocabulary type;
+  using type = vocabulary;
 };
 
 /// @copydoc vocabulary_of
@@ -379,7 +379,7 @@ struct vocabulary_of<Header, typename detail::vocabulary_voider<
       "LUMEX_PROTOCOL: the lumex_vocabulary of a header derives "
       "from dsl::vocabulary");
   /// The vocabulary.
-  typedef typename Header::lumex_vocabulary type;
+  using type = typename Header::lumex_vocabulary;
 };
 
 /// @brief Whether `T` is a word of the vocabulary that is not a field (an

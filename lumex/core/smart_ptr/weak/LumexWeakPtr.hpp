@@ -82,7 +82,7 @@ template <class T> class weak_ptr
 {
 public:
   /// `T` without one array extent.
-  typedef typename std::remove_extent<T>::type element_type;
+  using element_type = typename std::remove_extent<T>::type;
 
   /// An empty weak pointer.
   LUMEX_CONSTEXPR_CTOR
@@ -288,9 +288,9 @@ template <class T = void> class owner_less;
 template <class T> class owner_less<shared_ptr<T>>
 {
 public:
-  typedef bool result_type;
-  typedef shared_ptr<T> first_argument_type;
-  typedef shared_ptr<T> second_argument_type;
+  using result_type = bool;
+  using first_argument_type = shared_ptr<T>;
+  using second_argument_type = shared_ptr<T>;
 
   bool
   operator() (shared_ptr<T> const &a,
@@ -318,9 +318,9 @@ public:
 template <class T> class owner_less<weak_ptr<T>>
 {
 public:
-  typedef bool result_type;
-  typedef weak_ptr<T> first_argument_type;
-  typedef weak_ptr<T> second_argument_type;
+  using result_type = bool;
+  using first_argument_type = weak_ptr<T>;
+  using second_argument_type = weak_ptr<T>;
 
   bool
   operator() (weak_ptr<T> const &a, weak_ptr<T> const &b) const LUMEX_NOEXCEPT
@@ -347,7 +347,7 @@ public:
 template <> class owner_less<void>
 {
 public:
-  typedef void is_transparent;
+  using is_transparent = void;
 
   template <class T, class U>
   bool

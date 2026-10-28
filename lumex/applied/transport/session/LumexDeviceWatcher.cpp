@@ -186,8 +186,8 @@ class device_watcher_impl
     : public std::enable_shared_from_this<device_watcher_impl>
 {
 public:
-  typedef device_watcher::watch_id_t watch_id_t;
-  typedef asio::strand<executor_type> strand_type;
+  using watch_id_t = device_watcher::watch_id_t;
+  using strand_type = asio::strand<executor_type>;
 
   device_watcher_impl (executor_type const &executor,
                        std::chrono::milliseconds period,

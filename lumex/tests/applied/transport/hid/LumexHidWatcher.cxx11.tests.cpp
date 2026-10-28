@@ -29,8 +29,8 @@ namespace hid = tr::hid;
 namespace ss = tr::session;
 using lumex_fake_hidapi::fake_device;
 using lumex_fake_hidapi::fake_seam;
-typedef ss::device_event_kind kind;
-typedef std::chrono::milliseconds ms;
+using kind = ss::device_event_kind;
+using ms = std::chrono::milliseconds;
 
 std::uint16_t const KVENDOR = 0x1234;
 std::uint16_t const KPRODUCT = 0x5678;

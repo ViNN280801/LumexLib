@@ -41,8 +41,8 @@ TEST (LumexProtocolIntegerFieldsTest,
 TEST (LumexProtocolIntegerFieldsTest,
       GivenAScaleWithACommaInItsRatio_WhenRead_ThenItIsTheReducedRatio)
 {
-  typedef field::u16_le_<field::scale<std::ratio<1, 100>>> hundredths;
-  typedef field::u16_be_<field::scale<std::ratio<2, 200>>> also_hundredths;
+  using hundredths = field::u16_le_<field::scale<std::ratio<1, 100>>>;
+  using also_hundredths = field::u16_be_<field::scale<std::ratio<2, 200>>>;
   EXPECT_TRUE (
       (std::is_same<hundredths::scale_type, std::ratio<1, 100>>::value));
   EXPECT_TRUE (

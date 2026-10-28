@@ -269,7 +269,7 @@ TEST (LumexIndexSequenceTest, GivenTableSize_WhenExpanded_ThenTableBuilt)
 TEST (LumexIndexSequenceTest,
       GivenSequenceTypes_WhenInspected_ThenEmptyAndTrivial)
 {
-  typedef sequence::make_index_sequence<8> eight_t;
+  using eight_t = sequence::make_index_sequence<8>;
   static_assert (std::is_empty<eight_t>::value, "no data");
   static_assert (std::is_default_constructible<eight_t>::value, "default");
   static_assert (std::is_copy_constructible<eight_t>::value, "copy");

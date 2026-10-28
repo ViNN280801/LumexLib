@@ -87,8 +87,8 @@ TEST (LumexAggregateFieldsTest, GivenEightFields_WhenGet_ThenEachIndex)
 
 TYPED_TEST (LumexFieldArityTest, GivenArity_WhenGetEachIndex_ThenSampleValues)
 {
-  typedef TypeParam tag_t;
-  typedef typename fields_of<tag_t::value>::type agg_t;
+  using tag_t = TypeParam;
+  using agg_t = typename fields_of<tag_t::value>::type;
   agg_t obj{};
   fill_fields (obj, std::make_index_sequence<tag_t::value>{});
   check_fields (obj, std::make_index_sequence<tag_t::value>{});

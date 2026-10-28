@@ -244,7 +244,7 @@ template <typename S>
 void
 prepare_data ()
 {
-  typedef data<S> d;
+  using d = data<S>;
   for (size_t i = 0; i < k_count; ++i)
     {
       d::main_[i] = S (g_main[i]);
@@ -433,7 +433,7 @@ template <typename S>
 u64
 run_copy (size_t iterations, size_t)
 {
-  typedef data<S> d;
+  using d = data<S>;
   u64 sum = 0;
   for (size_t it = 0; it < iterations; ++it)
     {
@@ -454,7 +454,7 @@ template <typename S>
 u64
 run_index_sum (size_t iterations, size_t)
 {
-  typedef data<S> d;
+  using d = data<S>;
   u64 sum = 0;
   for (size_t it = 0; it < iterations; ++it)
     {
@@ -473,7 +473,7 @@ template <typename S>
 u64
 run_range_sum (size_t iterations, size_t)
 {
-  typedef data<S> d;
+  using d = data<S>;
   u64 sum = 0;
   for (size_t it = 0; it < iterations; ++it)
     {
@@ -488,7 +488,7 @@ run_range_sum (size_t iterations, size_t)
 // search
 
 #define BENCH_LOOP_BEGIN                                                      \
-  typedef data<S> d BENCH_UNUSED;                                             \
+  using BENCH_UNUSED = data<S> d;                                             \
   u64 sum = 0;                                                                \
   for (size_t it = 0; it < iterations; ++it)                                  \
     {                                                                         \
@@ -812,7 +812,7 @@ template <typename S>
 u64
 run_sort (size_t iterations, size_t)
 {
-  typedef data<S> d;
+  using d = data<S>;
   u64 sum = 0;
   std::vector<S> work (k_count);
   for (size_t it = 0; it < iterations; ++it)
@@ -842,7 +842,7 @@ template <typename S>
 u64
 run_split (size_t iterations, size_t)
 {
-  typedef data<S> d;
+  using d = data<S>;
   u64 sum = 0;
   for (size_t it = 0; it < iterations; ++it)
     {

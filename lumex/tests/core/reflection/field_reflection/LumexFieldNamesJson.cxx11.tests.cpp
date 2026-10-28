@@ -57,9 +57,9 @@ template <std::size_t N>
 void
 expect_arity_json ()
 {
-  typedef typename reg_fields_of<N>::type agg_t;
-  typedef typename field_type_at<0>::type first_t;
-  typedef typename field_type_at<N - 1>::type last_t;
+  using agg_t = typename reg_fields_of<N>::type;
+  using first_t = typename field_type_at<0>::type;
+  using last_t = typename field_type_at<N - 1>::type;
   agg_t obj = agg_t ();
   get<0> (obj) = make_sample<first_t> (0);
   get<N - 1> (obj) = make_sample<last_t> (N - 1);

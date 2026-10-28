@@ -31,7 +31,7 @@ using tables::bytes_of;
 using tables::view_of;
 using tables::xor_text;
 
-typedef tables::device_k device;
+using device = tables::device_k;
 
 index::protocol_index_t const &
 device_index ()

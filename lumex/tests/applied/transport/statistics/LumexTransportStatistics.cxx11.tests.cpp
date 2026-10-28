@@ -27,7 +27,7 @@ using tr::error::transport_errc;
 using tr::statistics::statistics_counters;
 using tr::statistics::statistics_t;
 
-typedef std::chrono::system_clock clock_type;
+using clock_type = std::chrono::system_clock;
 
 // A category of another binary: the same name, another object.
 class foreign_category final : public std::error_category

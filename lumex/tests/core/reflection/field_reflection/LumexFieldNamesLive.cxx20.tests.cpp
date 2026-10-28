@@ -167,7 +167,7 @@ TEST (LumexFieldNamesLiveTest,
       GivenNestedNamespaces_WhenNamed_ThenLastIdentifier)
 {
 #if __cplusplus >= 202002L
-  typedef live_inner::LiveDeep deep_t;
+  using deep_t = live_inner::LiveDeep;
   std::array<char const *, 3> const names = compiler_names_of<deep_t> ();
   EXPECT_STREQ (names[0], "first_1");
   EXPECT_STREQ (names[1], "_second");
@@ -182,7 +182,7 @@ TEST (LumexFieldNamesLiveTest,
       GivenUnnamedNamespace_WhenNamed_ThenLastIdentifier)
 {
 #if __cplusplus >= 202002L
-  typedef live_hidden::LiveHidden hidden_t;
+  using hidden_t = live_hidden::LiveHidden;
   std::array<char const *, 2> const names = compiler_names_of<hidden_t> ();
   EXPECT_STREQ (names[0], "hidden_a");
   EXPECT_STREQ (names[1], "hidden_b2");
@@ -195,8 +195,8 @@ TEST (LumexFieldNamesLiveTest,
       GivenClassTemplate_WhenNamed_ThenMemberNotArgument)
 {
 #if __cplusplus >= 202002L
-  typedef LiveBox<std::string> string_box_t;
-  typedef LiveBox<LiveBox<int>> nested_box_t;
+  using string_box_t = LiveBox<std::string>;
+  using nested_box_t = LiveBox<LiveBox<int>>;
   std::array<char const *, 2> const names = compiler_names_of<string_box_t> ();
   EXPECT_STREQ (names[0], "item");
   EXPECT_STREQ (names[1], "count");

@@ -36,9 +36,9 @@ namespace tr = lumex::applied::transport;
 namespace fr = lumex::core::framing;
 namespace st = lumex::core::framing::stage;
 using fr::codec::framing_errc;
-typedef std::vector<std::uint8_t> bytes_t;
-typedef std::chrono::steady_clock clock_type;
-typedef std::chrono::milliseconds ms;
+using bytes_t = std::vector<std::uint8_t>;
+using clock_type = std::chrono::steady_clock;
+using ms = std::chrono::milliseconds;
 
 /// Waits until `condition` holds, at most `limit`; returns its last value.
 template <typename Condition>
@@ -258,7 +258,7 @@ encode_direct (Codec const &codec, bytes_t const &payload, bool *ok = nullptr)
 /// `name ()`.
 struct slip_case
 {
-  typedef fr::slip::slip_codec codec_t;
+  using codec_t = fr::slip::slip_codec;
   static char const *
   name ()
   {
@@ -305,7 +305,7 @@ struct slip_case
 
 struct cobs_case
 {
-  typedef fr::cobs::cobs_codec codec_t;
+  using codec_t = fr::cobs::cobs_codec;
   static char const *
   name ()
   {
@@ -352,7 +352,7 @@ struct cobs_case
 
 struct delimiter_case
 {
-  typedef fr::delimiter::delimiter_codec codec_t;
+  using codec_t = fr::delimiter::delimiter_codec;
   static char const *
   name ()
   {
@@ -391,7 +391,7 @@ struct delimiter_case
 
 struct length_case
 {
-  typedef fr::length::length_prefix_codec codec_t;
+  using codec_t = fr::length::length_prefix_codec;
   static char const *
   name ()
   {
@@ -454,7 +454,7 @@ header_options (std::size_t limit)
 /// A header frame without a check value: [A5 5A][2 bytes][length:2][data].
 struct header_case
 {
-  typedef fr::header::header_codec<> codec_t;
+  using codec_t = fr::header::header_codec<>;
   static char const *
   name ()
   {
@@ -491,10 +491,9 @@ struct header_case
 /// A header frame with a CRC-16 check value.
 struct header_crc_case
 {
-  typedef fr::header::header_codec<
+  using codec_t = fr::header::header_codec<
       st::crc<lumex::core::crc::parametric::crc16_modbus_spec_t,
-              fr::codec::byte_order::little>>
-      codec_t;
+              fr::codec::byte_order::little>>;
   static char const *
   name ()
   {
@@ -530,7 +529,7 @@ struct header_crc_case
 /// Modbus RTU frames (a public format) with made-up register values.
 struct modbus_case
 {
-  typedef fr::modbus_rtu::modbus_rtu_codec codec_t;
+  using codec_t = fr::modbus_rtu::modbus_rtu_codec;
   static char const *
   name ()
   {
@@ -581,10 +580,9 @@ struct modbus_case
 /// the payload as hex digits.
 struct pipeline_case
 {
-  typedef st::pipeline<
+  using codec_t = st::pipeline<
       fr::delimiter::delimiter_codec, st::prefix_char_stage<'$'>,
-      st::checksum_stage<st::sum8, st::ascii_hex_render>, st::ascii_hex_stage>
-      codec_t;
+      st::checksum_stage<st::sum8, st::ascii_hex_render>, st::ascii_hex_stage>;
   static char const *
   name ()
   {

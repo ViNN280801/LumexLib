@@ -30,7 +30,7 @@ namespace registry = lumex::core::protocol::registry;
 namespace field = lumex::core::protocol::field;
 
 /// The framing of device L.
-typedef lumex::core::framing::modbus_rtu::modbus_rtu_codec codec;
+using codec = lumex::core::framing::modbus_rtu::modbus_rtu_codec;
 
 /// The Modbus address of device L (the default slave address).
 std::uint8_t const kSlave = 0x01;
@@ -97,14 +97,14 @@ struct half_of_previous
 /// Requests: the address of the device, then the function.
 struct request_header
 {
-  typedef registry::table_vocabulary lumex_vocabulary;
-  typedef index::key_at<1, 1> key_reader;
+  using lumex_vocabulary = registry::table_vocabulary;
+  using key_reader = index::key_at<1, 1>;
 };
 
 /// Replies: the function and the byte count are the key.
 struct reply_header
 {
-  typedef index::key_at<1, 2> key_reader;
+  using key_reader = index::key_at<1, 2>;
 };
 
 // clang-format off

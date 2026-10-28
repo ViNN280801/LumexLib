@@ -72,19 +72,19 @@ namespace transport
 namespace framed
 {
 /// @brief The decoded payload of one frame of a stream.
-typedef std::vector<std::uint8_t> frame_t;
+using frame_t = std::vector<std::uint8_t>;
 
 /// @brief The completion of a frame read of a `framed_stream`.
-typedef asio::any_completion_handler<void (std::error_code, frame_t)>
-    frame_handler_t;
+using frame_handler_t
+    = asio::any_completion_handler<void (std::error_code, frame_t)>;
 
 /// @brief The result of a synchronous `framed_stream::read_frame`.
-typedef lumex::core::expected::result::expected<frame_t, std::error_code>
-    frame_result_t;
+using frame_result_t
+    = lumex::core::expected::result::expected<frame_t, std::error_code>;
 
 /// @brief The result of a synchronous `framed_datagram::read_frame` (the
 /// completion of an asynchronous one is `datagram::message_handler_t`).
-typedef datagram::message_result_t message_result_t;
+using message_result_t = datagram::message_result_t;
 
 /// @brief The options of a framed adapter.
 struct framed_options_t

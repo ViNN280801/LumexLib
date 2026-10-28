@@ -77,7 +77,7 @@ TEST (LumexCtlBaseTest,
 {
   if (sizeof (void *) != 8)
     GTEST_SKIP () << "the sizes are checked on a 64-bit target";
-  typedef sp::detail::block_allocator<void> default_alloc;
+  using default_alloc = sp::detail::block_allocator<void>;
   // A block that carries two empty bases - the empty deleter and the empty
   // allocator - is eight bytes larger with MSVC: it elides one empty base but
   // not two. The blocks with one empty base or a stateful deleter below are

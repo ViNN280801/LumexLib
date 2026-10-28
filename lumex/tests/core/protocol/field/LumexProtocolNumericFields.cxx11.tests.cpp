@@ -25,9 +25,9 @@ namespace layout = lumex::core::protocol::layout;
 using lumex::core::protocol::error::protocol_errc;
 using lumex_tests::field_tables::view_of;
 
-typedef layout::binary_layout<> binary;
-typedef layout::fixed_width_text_layout<16> hex;
-typedef layout::fixed_width_text_layout<10> decimal;
+using binary = layout::binary_layout<>;
+using hex = layout::fixed_width_text_layout<16>;
+using decimal = layout::fixed_width_text_layout<10>;
 
 template <typename Layout, typename F>
 layout::bytes_t
@@ -74,7 +74,7 @@ template <typename F>
 void
 expect_round_trip (typename F::raw_type value)
 {
-  typedef typename F::raw_type raw;
+  using raw = typename F::raw_type;
   std::size_t const size = F::size ();
   std::uint64_t const bits
       = static_cast<std::uint64_t> (static_cast<std::int64_t> (value))
@@ -200,11 +200,11 @@ TEST (LumexProtocolNumericFieldsTest,
 TEST (LumexProtocolNumericFieldsTest,
       GivenIntegerArguments_WhenAssigned_ThenOnlyValuesOfTheWidthAreAccepted)
 {
-  typedef field::impl_of<field::u8_<>>::type u8;
-  typedef field::impl_of<field::i8_<>>::type i8;
-  typedef field::impl_of<field::u24_le_<>>::type u24;
-  typedef field::impl_of<field::i24_be_<>>::type i24;
-  typedef field::impl_of<field::i64_le_<>>::type i64;
+  using u8 = field::impl_of<field::u8_<>>::type;
+  using i8 = field::impl_of<field::i8_<>>::type;
+  using u24 = field::impl_of<field::u24_le_<>>::type;
+  using i24 = field::impl_of<field::i24_be_<>>::type;
+  using i64 = field::impl_of<field::i64_le_<>>::type;
   std::uint8_t a = 0;
   EXPECT_TRUE (u8::assign (a, 255));
   EXPECT_EQ (a, 255u);
@@ -230,8 +230,8 @@ TEST (
     LumexProtocolNumericFieldsTest,
     GivenAScaledField_WhenAssignedAnEngineeringValue_ThenTheRawIsRoundedAndKept)
 {
-  typedef field::u16_be_<field::scale<std::ratio<1, 100>>> hundredths;
-  typedef field::impl_of<hundredths>::type impl;
+  using hundredths = field::u16_be_<field::scale<std::ratio<1, 100>>>;
+  using impl = field::impl_of<hundredths>::type;
   impl::value_type value = impl::value_type ();
   EXPECT_TRUE (impl::assign (value, 12.345));
   EXPECT_EQ (value.raw, 1235u);
@@ -245,8 +245,8 @@ TEST (
   EXPECT_TRUE (impl::assign (value, 3));
   EXPECT_EQ (value.raw, 300u);
 
-  typedef field::impl_of<field::i16_le_<field::scale<std::ratio<1, 10>>>>::type
-      tenths;
+  using tenths
+      = field::impl_of<field::i16_le_<field::scale<std::ratio<1, 10>>>>::type;
   tenths::value_type signed_value = tenths::value_type ();
   EXPECT_TRUE (tenths::assign (signed_value, -0.05));
   EXPECT_EQ (signed_value.raw, -1);
@@ -289,7 +289,7 @@ TEST (LumexProtocolNumericFieldsTest,
 TEST (LumexProtocolNumericFieldsTest,
       GivenASignMagnitudeField_WhenEncodedInBinary_ThenTheTopBitIsTheSign)
 {
-  typedef field::sign_magnitude_<field::i32_be_<>> sm;
+  using sm = field::sign_magnitude_<field::i32_be_<>>;
   EXPECT_EQ ((encoded<binary, sm> (-5)),
              (layout::bytes_t{ 0x80, 0x00, 0x00, 0x05 }));
   EXPECT_EQ ((encoded<binary, sm> (5)),
@@ -299,7 +299,7 @@ TEST (LumexProtocolNumericFieldsTest,
              -2147483647);
   EXPECT_EQ ((decoded<binary, sm> (layout::bytes_t{ 0x7F, 0xFF, 0xFF, 0xFF })),
              2147483647);
-  typedef field::impl_of<sm>::type impl;
+  using impl = field::impl_of<sm>::type;
   std::int32_t value = 0;
   EXPECT_FALSE (
       impl::assign (value, std::numeric_limits<std::int32_t>::min ()));
@@ -317,10 +317,9 @@ TEST (
     LumexProtocolNumericFieldsTest,
     GivenASignMagnitudeField_WhenEncodedAsText_ThenHexKeepsTheBitsAndDecimalTheNumber)
 {
-  typedef field::sign_magnitude_<
-      field::i16_le_<field::scale<std::ratio<1, 100>>>>
-      sm;
-  typedef field::impl_of<sm>::type impl;
+  using sm = field::sign_magnitude_<
+      field::i16_le_<field::scale<std::ratio<1, 100>>>>;
+  using impl = field::impl_of<sm>::type;
   impl::value_type value = impl::value_type ();
   ASSERT_TRUE (impl::assign (value, -0.05));
   EXPECT_EQ (value.raw, -5);

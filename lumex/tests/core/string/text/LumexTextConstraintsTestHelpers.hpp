@@ -43,7 +43,7 @@ namespace text_constraints_test_helpers
 {
 template <typename... T> struct make_void
 {
-  typedef void type;
+  using type = void;
 };
 
 template <typename Range, typename Separator, typename = void>

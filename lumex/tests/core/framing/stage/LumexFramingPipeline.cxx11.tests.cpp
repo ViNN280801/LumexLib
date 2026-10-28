@@ -28,16 +28,15 @@ using lumex::core::framing::delimiter::delimiter_codec;
 using lumex::core::framing::length::length_prefix_codec;
 namespace st = lumex::core::framing::stage;
 
-typedef st::pipeline<
+using text_codec = st::pipeline<
     delimiter_codec, st::prefix_char_stage<'%'>,
     st::checksum_stage<st::xor8, st::ascii_hex_render, st::checksum_optional>,
-    st::ascii_hex_stage>
-    text_codec;
+    st::ascii_hex_stage>;
 
-typedef st::pipeline<delimiter_codec, st::prefix_char_stage<'%'>,
-                     st::checksum_stage<st::xor8, st::ascii_hex_render>,
-                     st::ascii_hex_stage>
-    text_strict_codec;
+using text_strict_codec
+    = st::pipeline<delimiter_codec, st::prefix_char_stage<'%'>,
+                   st::checksum_stage<st::xor8, st::ascii_hex_render>,
+                   st::ascii_hex_stage>;
 
 // The reply to %8D: '%' 8D 00, 46 zero digits, the serial number in four
 // digits, 20 zero digits, the XOR, CR.
@@ -162,8 +161,8 @@ TEST (LumexFramingPipelineTest,
 TEST (LumexFramingPipelineTest,
       GivenOuterOptionsAndStages_WhenConstructed_ThenBothAreUsed)
 {
-  typedef st::pipeline<length_prefix_codec, st::prefix_char_stage<0x7E>>
-      framed;
+  using framed
+      = st::pipeline<length_prefix_codec, st::prefix_char_stage<0x7E>>;
   length_prefix_codec::options_type options;
   options.width = 2;
   framed const codec (options, st::prefix_char_stage<0x7E> ());

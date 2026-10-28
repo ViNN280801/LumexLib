@@ -38,7 +38,7 @@ using dev::tail_of;
 using dev::text_bytes;
 using m::device_m1;
 using m::device_m2;
-typedef m::device_m1_m3::text_13_t device_m1_m3_counted;
+using device_m1_m3_counted = m::device_m1_m3::text_13_t;
 
 // ---------------------------------------------------------------------------
 // m1
@@ -105,12 +105,11 @@ request_text (Args const &...args)
 // m2
 // ---------------------------------------------------------------------------
 
-typedef framing::stage::word_reversed<
+using word_crc = framing::stage::word_reversed<
     framing::stage::crc<lumex::core::crc::parametric::crc32_mpeg2_spec_t,
                         framing::codec::byte_order::little>,
-    4>
-    word_crc;
-typedef framing::header::header_codec<word_crc> m2_codec;
+    4>;
+using m2_codec = framing::header::header_codec<word_crc>;
 
 // One side of the link: its own preamble out, the other one in.
 framing::header::header_options_t

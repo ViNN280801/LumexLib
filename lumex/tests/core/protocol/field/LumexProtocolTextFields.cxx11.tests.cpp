@@ -21,7 +21,7 @@ using lumex_tests::field_tables::bytes_of;
 using lumex_tests::field_tables::text_of;
 using lumex_tests::field_tables::view_of;
 
-typedef layout::binary_layout<> binary;
+using binary = layout::binary_layout<>;
 
 template <typename F>
 std::string
@@ -55,7 +55,7 @@ decoded (char const *text)
 TEST (LumexProtocolTextFieldsTest,
       GivenAsciiHex_WhenRoundTripped_ThenUpperCaseZeroPaddedDigits)
 {
-  typedef field::ascii_hex_<4> hex4;
+  using hex4 = field::ascii_hex_<4>;
   EXPECT_EQ (encoded<hex4> (0x1A2F), "1A2F");
   EXPECT_EQ (encoded<hex4> (0x2), "0002");
   EXPECT_EQ (*decoded<hex4> ("1a2f"), 0x1A2Fu);
@@ -74,12 +74,12 @@ TEST (LumexProtocolTextFieldsTest,
 TEST (LumexProtocolTextFieldsTest,
       GivenAsciiHex_WhenTheValueOrTheDigitsAreWrong_ThenInvalidValue)
 {
-  typedef field::ascii_hex_<3> hex3;
+  using hex3 = field::ascii_hex_<3>;
   EXPECT_TRUE (encode_error<hex3> (0x1000) == protocol_errc::invalid_value);
   EXPECT_TRUE (decoded<hex3> ("1G2").error () == protocol_errc::invalid_value);
   EXPECT_TRUE (decoded<hex3> (" 12").error () == protocol_errc::invalid_value);
   EXPECT_TRUE (decoded<hex3> ("12").error () == protocol_errc::truncated);
-  typedef field::impl_of<hex3>::type impl;
+  using impl = field::impl_of<hex3>::type;
   std::uint16_t value = 0;
   EXPECT_TRUE (impl::assign (value, 0xFFF));
   EXPECT_FALSE (impl::assign (value, 0x1000));
@@ -88,10 +88,9 @@ TEST (LumexProtocolTextFieldsTest,
 TEST (LumexProtocolTextFieldsTest,
       GivenAScaledAsciiHex_WhenRoundTripped_ThenTheRawIsTheDigits)
 {
-  typedef field::ascii_hex_<4, field::scale<std::ratio<1, 10>>,
-                            field::unit::degree_celsius>
-      temperature;
-  typedef field::impl_of<temperature>::type impl;
+  using temperature = field::ascii_hex_<4, field::scale<std::ratio<1, 10>>,
+                                        field::unit::degree_celsius>;
+  using impl = field::impl_of<temperature>::type;
   impl::value_type value = impl::value_type ();
   ASSERT_TRUE (impl::assign (value, 25.5));
   EXPECT_EQ (value.raw, 255u);
@@ -103,8 +102,8 @@ TEST (LumexProtocolTextFieldsTest,
 TEST (LumexProtocolTextFieldsTest,
       GivenDecimalText_WhenRoundTripped_ThenFixedWidthWithThePoint)
 {
-  typedef field::dec_text_<6, 3> dec;
-  typedef field::impl_of<dec>::type impl;
+  using dec = field::dec_text_<6, 3>;
+  using impl = field::impl_of<dec>::type;
   impl::value_type value = impl::value_type ();
   ASSERT_TRUE (impl::assign (value, 500.0));
   EXPECT_EQ (value.raw, 500000);
@@ -122,8 +121,8 @@ TEST (LumexProtocolTextFieldsTest,
 TEST (LumexProtocolTextFieldsTest,
       GivenDecimalText_WhenItDoesNotFitOrIsNoNumber_ThenInvalidValue)
 {
-  typedef field::dec_text_<3, 1> dec;
-  typedef field::impl_of<dec>::type impl;
+  using dec = field::dec_text_<3, 1>;
+  using impl = field::impl_of<dec>::type;
   impl::value_type value = impl::value_type ();
   ASSERT_TRUE (impl::assign (value, 999.9));
   EXPECT_EQ (encoded<dec> (value), "999.9");
@@ -166,8 +165,8 @@ TEST (LumexProtocolTextFieldsTest,
 TEST (LumexProtocolTextFieldsTest,
       GivenAFixedText_WhenRoundTripped_ThenNulPaddedToItsCapacity)
 {
-  typedef field::text_<6> text6;
-  typedef field::impl_of<text6>::type impl;
+  using text6 = field::text_<6>;
+  using impl = field::impl_of<text6>::type;
   impl::value_type value = impl::value_type ();
   ASSERT_TRUE (impl::assign (value, "AB"));
   layout::bytes_t out;

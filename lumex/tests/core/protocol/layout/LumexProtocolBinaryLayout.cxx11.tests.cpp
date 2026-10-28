@@ -22,7 +22,7 @@ namespace tables = lumex_tests::field_tables;
 using lumex::core::protocol::error::protocol_errc;
 using tables::view_of;
 
-typedef layout::binary_layout<> binary;
+using binary = layout::binary_layout<>;
 
 template <std::size_t Offset> struct aligned_at
 {
@@ -51,7 +51,7 @@ LUMEX_PROTOCOL_LAYOUT (after_header_t, (u16_le_, u32_le_, u16_le_),
 
 struct aligned_header
 {
-  typedef layout::binary_layout<layout::natural_alignment<2>> layout_type;
+  using layout_type = layout::binary_layout<layout::natural_alignment<2>>;
 };
 
 struct codec

@@ -18,8 +18,8 @@ namespace
 namespace dsl = lumex::core::protocol::dsl;
 namespace field = lumex::core::protocol::field;
 namespace tables = lumex_tests::protocol_tables;
-typedef tables::large_protocol large;
-typedef field::u16_le_<field::scale<std::ratio<1, 100>>> hundredths;
+using large = tables::large_protocol;
+using hundredths = field::u16_le_<field::scale<std::ratio<1, 100>>>;
 
 std::string
 text (char const *value)
@@ -52,7 +52,7 @@ TEST (
 TEST (LumexProtocolLargeTableTest,
       GivenARowListOf100Rows_WhenListed_ThenEveryRowKeepsItsPosition)
 {
-  typedef dsl::commands_of<large>::type commands;
+  using commands = dsl::commands_of<large>::type;
   EXPECT_TRUE ((
       std::is_same<dsl::list_at<0, commands>::type, large::CMD_000_t>::value));
   EXPECT_TRUE ((std::is_same<dsl::list_at<57, commands>::type,
@@ -100,7 +100,7 @@ TEST (LumexProtocolLargeTableTest,
   ASSERT_EQ (names.size (), 40u);
   EXPECT_EQ (text (names[0]), "f00");
   EXPECT_EQ (text (names[39]), "f39");
-  typedef tables::wide_t::fields_type::types types;
+  using types = tables::wide_t::fields_type::types;
   EXPECT_TRUE (
       (std::is_same<dsl::list_at<0, types>::type, hundredths>::value));
   EXPECT_TRUE (

@@ -20,7 +20,7 @@ namespace
 {
 using namespace lumex_session_test;
 using tr::error::transport_errc;
-typedef ss::channel_state state;
+using state = ss::channel_state;
 
 class LumexMessageSessionTest : public ::testing::Test
 {

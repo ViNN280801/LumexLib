@@ -93,7 +93,7 @@ TEST (IteratorRangeTest,
       GivenReverseIterators_WhenRangeFor_ThenTheElementsComeBackwards)
 {
   std::vector<int> const values = { 1, 2, 3 };
-  typedef std::vector<int>::const_reverse_iterator reverse_t;
+  using reverse_t = std::vector<int>::const_reverse_iterator;
   iterator_range<reverse_t> const range (values.rbegin (), values.rend ());
   std::vector<int> seen;
   for (int value : range)
@@ -135,7 +135,7 @@ TEST (IteratorRangeTest,
 
 TEST (IteratorRangeTest, GivenTheTypedefs_WhenRead_ThenBothAreTheIteratorType)
 {
-  typedef iterator_range<int const *> range_t;
+  using range_t = iterator_range<int const *>;
   static_assert (std::is_same<range_t::iterator, int const *>::value,
                  "iterator is the template argument");
   static_assert (std::is_same<range_t::const_iterator, int const *>::value,

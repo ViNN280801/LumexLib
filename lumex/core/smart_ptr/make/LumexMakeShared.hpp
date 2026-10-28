@@ -95,9 +95,9 @@ allocate_shared (A const &alloc, Args &&...args)
   static_assert (!std::is_array<T>::value,
                  "smart_ptr: make_shared / allocate_shared of an array "
                  "(C++20) is not provided");
-  typedef typename std::remove_cv<T>::type value_type;
+  using value_type = typename std::remove_cv<T>::type;
   detail::check_std_enable_shared_from_this<value_type> ();
-  typedef detail::ctl_inplace<T, A> block_type;
+  using block_type = detail::ctl_inplace<T, A>;
   block_type *const block
       = block_type::create (alloc, std::forward<Args> (args)...);
   value_type *const object = block->object ();

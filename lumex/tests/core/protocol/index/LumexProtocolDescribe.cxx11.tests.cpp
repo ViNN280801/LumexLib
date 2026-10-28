@@ -361,8 +361,8 @@ namespace
 {
 namespace gt = lumex_tests::field_tables;
 
-typedef field::record_of<gt::sink_t::fields_type>::type sink;
-typedef field::record_of<gt::point_t::fields_type>::type point;
+using sink = field::record_of<gt::sink_t::fields_type>::type;
+using point = field::record_of<gt::point_t::fields_type>::type;
 
 void
 set_point (point &value, std::int16_t x, std::uint8_t flags)

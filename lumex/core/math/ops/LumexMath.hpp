@@ -95,7 +95,7 @@ namespace Detail
 {
 template <typename...> struct voider
 {
-  typedef void type;
+  using type = void;
 };
 
 using std::begin;
@@ -120,7 +120,7 @@ adl_end (Range &range) -> decltype (end (range))
 /// @brief `Range` without reference, as the lvalue the functions iterate.
 template <typename Range> struct range_object
 {
-  typedef typename std::remove_reference<Range>::type type;
+  using type = typename std::remove_reference<Range>::type;
 };
 
 /// @brief True when `Range` can be iterated as an lvalue and its elements
@@ -157,14 +157,14 @@ struct numeric_range_value
 
 template <typename Range> struct numeric_range_value<Range, true>
 {
-  typedef typename std::decay<decltype (*adl_begin (
-      std::declval<typename range_object<Range>::type &> ()))>::type type;
+  using type = typename std::decay<decltype (*adl_begin (
+      std::declval<typename range_object<Range>::type &> ()))>::type;
 };
 
 /// @brief `std::sqrt`'s result type for `T` (double for an integral `T`).
 template <typename T> struct sqrt_result
 {
-  typedef decltype (std::sqrt (std::declval<T> ())) type;
+  using type = decltype (std::sqrt (std::declval<T> ()));
 };
 
 /// @brief `std::common_type` of two numeric types; no `type` otherwise.
@@ -176,7 +176,7 @@ struct numeric_common
 
 template <typename T, typename U> struct numeric_common<T, U, true>
 {
-  typedef typename std::common_type<T, U>::type type;
+  using type = typename std::common_type<T, U>::type;
 };
 
 /// @brief The type `a - b` has in the common type of T and U (promoted, so
@@ -189,8 +189,8 @@ struct difference_type
 
 template <typename T, typename U> struct difference_type<T, U, true>
 {
-  typedef typename std::common_type<T, U>::type common;
-  typedef decltype (std::declval<common> () - std::declval<common> ()) type;
+  using common = typename std::common_type<T, U>::type;
+  using type = decltype (std::declval<common> () - std::declval<common> ());
 };
 
 /// @brief Result type of `distance` for two integers; no `type` otherwise.
@@ -207,7 +207,7 @@ struct integral_distance
 
 template <typename T, typename U> struct integral_distance<T, U, true>
 {
-  typedef typename difference_type<T, U>::type type;
+  using type = typename difference_type<T, U>::type;
 };
 
 /// @brief Result type of `distance` with a floating-point operand; no `type`
@@ -222,7 +222,7 @@ struct floating_distance
 
 template <typename T, typename U> struct floating_distance<T, U, true>
 {
-  typedef typename std::common_type<T, U>::type type;
+  using type = typename std::common_type<T, U>::type;
 };
 
 /// @brief `sqrt` result type of the common element type of two numeric
@@ -237,10 +237,10 @@ struct range_pair_result
 template <typename Range1, typename Range2>
 struct range_pair_result<Range1, Range2, true>
 {
-  typedef typename std::common_type<
+  using common = typename std::common_type<
       typename numeric_range_value<Range1>::type,
-      typename numeric_range_value<Range2>::type>::type common;
-  typedef typename sqrt_result<common>::type type;
+      typename numeric_range_value<Range2>::type>::type;
+  using type = typename sqrt_result<common>::type;
 };
 
 /// @brief `sqrt` result type of a numeric range's elements combined with a
@@ -255,9 +255,10 @@ struct range_scalar_result
 template <typename Range, typename Scalar>
 struct range_scalar_result<Range, Scalar, true>
 {
-  typedef typename std::common_type<typename numeric_range_value<Range>::type,
-                                    Scalar>::type common;
-  typedef typename sqrt_result<common>::type type;
+  using common =
+      typename std::common_type<typename numeric_range_value<Range>::type,
+                                Scalar>::type;
+  using type = typename sqrt_result<common>::type;
 };
 
 // --- checked_narrow_cast helpers ------------------------------------------
@@ -494,7 +495,7 @@ template <typename T, typename U>
 LUMEX_CONSTEXPR typename Detail::integral_distance<T, U>::type
 distance (T a, U b)
 {
-  typedef typename Detail::numeric_common<T, U>::type CommonType;
+  using CommonType = typename Detail::numeric_common<T, U>::type;
   return (static_cast<CommonType> (a) > static_cast<CommonType> (b))
              ? (static_cast<CommonType> (a) - static_cast<CommonType> (b))
              : (static_cast<CommonType> (b) - static_cast<CommonType> (a));
@@ -506,7 +507,7 @@ template <typename T, typename U>
 typename Detail::floating_distance<T, U>::type
 distance (T a, U b)
 {
-  typedef typename Detail::numeric_common<T, U>::type CommonType;
+  using CommonType = typename Detail::numeric_common<T, U>::type;
   return std::abs (static_cast<CommonType> (a) - static_cast<CommonType> (b));
 }
 
@@ -516,7 +517,7 @@ template <typename T, typename U>
 LUMEX_CONSTEXPR typename Detail::difference_type<T, U>::type
 squared_difference (T a, U b)
 {
-  typedef typename Detail::numeric_common<T, U>::type CommonType;
+  using CommonType = typename Detail::numeric_common<T, U>::type;
   return (static_cast<CommonType> (a) - static_cast<CommonType> (b))
          * (static_cast<CommonType> (a) - static_cast<CommonType> (b));
 }
@@ -533,7 +534,7 @@ template <typename Range>
 typename Detail::numeric_range_value<Range>::type
 avg (Range &&range)
 {
-  typedef typename Detail::numeric_range_value<Range>::type ValueType;
+  using ValueType = typename Detail::numeric_range_value<Range>::type;
 
   ValueType sum = ValueType (0);
   std::size_t count = 0;
@@ -556,7 +557,7 @@ template <typename Range, typename Predicate>
 typename Detail::numeric_range_value<Range>::type
 avg (Range &&range, Predicate predicate)
 {
-  typedef typename Detail::numeric_range_value<Range>::type ValueType;
+  using ValueType = typename Detail::numeric_range_value<Range>::type;
 
   ValueType sum = ValueType (0);
   std::size_t count = 0;
@@ -588,8 +589,8 @@ typename Detail::sqrt_result<
     typename Detail::numeric_range_value<Range>::type>::type
 rms (Range &&range)
 {
-  typedef typename Detail::numeric_range_value<Range>::type ValueType;
-  typedef typename Detail::sqrt_result<ValueType>::type ResultType;
+  using ValueType = typename Detail::numeric_range_value<Range>::type;
+  using ResultType = typename Detail::sqrt_result<ValueType>::type;
 
   ValueType sumOfSquares = ValueType (0);
   std::size_t count = 0;
@@ -619,9 +620,9 @@ template <typename Range1, typename Range2>
 typename Detail::range_pair_result<Range1, Range2>::type
 rms (Range1 &&first, Range2 &&second)
 {
-  typedef
-      typename Detail::range_pair_result<Range1, Range2>::common CommonType;
-  typedef typename Detail::range_pair_result<Range1, Range2>::type ResultType;
+  using CommonType =
+      typename Detail::range_pair_result<Range1, Range2>::common;
+  using ResultType = typename Detail::range_pair_result<Range1, Range2>::type;
 
   auto it1 = Detail::adl_begin (first);
   auto const last1 = Detail::adl_end (first);
@@ -651,9 +652,9 @@ template <typename Range, typename Scalar>
 typename Detail::range_scalar_result<Range, Scalar>::type
 rmse (Range &&range, Scalar const &scalar)
 {
-  typedef
-      typename Detail::range_scalar_result<Range, Scalar>::common CommonType;
-  typedef typename Detail::range_scalar_result<Range, Scalar>::type ResultType;
+  using CommonType =
+      typename Detail::range_scalar_result<Range, Scalar>::common;
+  using ResultType = typename Detail::range_scalar_result<Range, Scalar>::type;
 
   CommonType sumOfSquaredDifferences = CommonType (0);
   std::size_t count = 0;
@@ -682,9 +683,9 @@ template <typename Range1, typename Range2>
 typename Detail::range_pair_result<Range1, Range2>::type
 rmse (Range1 &&first, Range2 &&second)
 {
-  typedef
-      typename Detail::range_pair_result<Range1, Range2>::common CommonType;
-  typedef typename Detail::range_pair_result<Range1, Range2>::type ResultType;
+  using CommonType =
+      typename Detail::range_pair_result<Range1, Range2>::common;
+  using ResultType = typename Detail::range_pair_result<Range1, Range2>::type;
 
   auto it1 = Detail::adl_begin (first);
   auto const last1 = Detail::adl_end (first);

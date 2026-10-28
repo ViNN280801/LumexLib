@@ -961,7 +961,7 @@ public:
    * @param enabled Whether logging is enabled.
    * @param level The minimum log level.
    */
-  typedef void (*level_change_callback_t) (bool enabled, LogLevel level);
+  using level_change_callback_t = void (*) (bool enabled, LogLevel level);
 
   /**
    * @brief Checks the trigger file now and applies a change.

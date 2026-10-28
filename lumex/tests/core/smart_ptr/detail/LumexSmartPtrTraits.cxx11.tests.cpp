@@ -68,9 +68,9 @@ TEST (LumexSmartPtrTraitsTest,
   EXPECT_EQ (ids.size (), 6u);
 }
 
-typedef detail::ebo_member<EmptyThing, 0> empty_member_0;
-typedef detail::ebo_member<EmptyThing, 1> empty_member_1;
-typedef detail::ebo_member<FinalEmpty, 0> final_member;
+using empty_member_0 = detail::ebo_member<EmptyThing, 0>;
+using empty_member_1 = detail::ebo_member<EmptyThing, 1>;
+using final_member = detail::ebo_member<FinalEmpty, 0>;
 
 struct WithEmpty : empty_member_0
 {
@@ -157,8 +157,8 @@ TEST (LumexSmartPtrTraitsTest,
 TEST (LumexSmartPtrTraitsTest,
       GivenBlockAllocator_WhenUsedThroughAllocatorTraits_ThenItIsAnAllocator)
 {
-  typedef detail::block_allocator<int> alloc;
-  typedef std::allocator_traits<alloc> traits;
+  using alloc = detail::block_allocator<int>;
+  using traits = std::allocator_traits<alloc>;
   static_assert (std::is_same<traits::rebind_alloc<double>,
                               detail::block_allocator<double>>::value,
                  "");
@@ -173,7 +173,7 @@ TEST (LumexSmartPtrTraitsTest,
   traits::destroy (a, p);
   traits::deallocate (a, p, 4);
   // The void form is only a rebind source.
-  typedef traits::rebind_alloc<NonEmpty> rebound;
+  using rebound = traits::rebind_alloc<NonEmpty>;
   static_assert (
       std::is_same<rebound, detail::block_allocator<NonEmpty>>::value, "");
   static_assert (

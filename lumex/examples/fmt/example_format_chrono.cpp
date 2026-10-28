@@ -14,11 +14,10 @@ namespace fmt = lumex::core::fmt;
 
 namespace
 {
-typedef std::chrono::time_point<std::chrono::system_clock,
-                                std::chrono::seconds>
-    sys_seconds_t;
-typedef std::chrono::duration<long long, std::ratio<86400>> days_t;
-typedef std::chrono::time_point<std::chrono::system_clock, days_t> sys_days_t;
+using sys_seconds_t
+    = std::chrono::time_point<std::chrono::system_clock, std::chrono::seconds>;
+using days_t = std::chrono::duration<long long, std::ratio<86400>>;
+using sys_days_t = std::chrono::time_point<std::chrono::system_clock, days_t>;
 
 void
 show (std::string const &text)

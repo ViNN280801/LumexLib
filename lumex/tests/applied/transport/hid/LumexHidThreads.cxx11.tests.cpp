@@ -42,7 +42,7 @@ using tr::datagram::message_t;
 using tr::error::transport_errc;
 using tr::stream::io_runner;
 
-typedef std::chrono::steady_clock clock_type;
+using clock_type = std::chrono::steady_clock;
 
 message_t
 message (std::uint8_t report_id, bytes const &payload)

@@ -206,14 +206,14 @@ struct is_text_value<field::fixed_string<N>> : std::true_type
 // One wire part of a key (void: no part).
 template <typename F> struct key_part
 {
-  typedef typename field::impl_of<F>::type impl;
-  typedef typename impl::value_type value_type;
+  using impl = typename field::impl_of<F>::type;
+  using value_type = typename impl::value_type;
   static_assert (std::is_integral<value_type>::value
                      || is_text_value<value_type>::value,
                  "registry_key_: a part of a key is an integer field "
                  "(without scale<>) or a text field");
-  typedef typename impl::binary_size binary_size;
-  typedef typename impl::binary_alignment binary_alignment;
+  using binary_size = typename impl::binary_size;
+  using binary_alignment = typename impl::binary_alignment;
   static LUMEX_CONSTEXPR bool
   present () LUMEX_NOEXCEPT
   {
@@ -245,9 +245,9 @@ template <> struct key_part<void>
       return true;
     }
   };
-  typedef std::uint8_t value_type;
-  typedef std::integral_constant<std::size_t, 0> binary_size;
-  typedef std::integral_constant<std::size_t, 1> binary_alignment;
+  using value_type = std::uint8_t;
+  using binary_size = std::integral_constant<std::size_t, 0>;
+  using binary_alignment = std::integral_constant<std::size_t, 1>;
   static LUMEX_CONSTEXPR bool
   present () LUMEX_NOEXCEPT
   {
@@ -363,11 +363,11 @@ fits_int64 (V value) LUMEX_NOEXCEPT
 
 template <std::size_t A, std::size_t B> struct size_plus
 {
-  typedef std::integral_constant<std::size_t, (A == field::variable_size
-                                               || B == field::variable_size)
-                                                  ? field::variable_size
-                                                  : A + B>
-      type;
+  using type
+      = std::integral_constant<std::size_t, (A == field::variable_size
+                                             || B == field::variable_size)
+                                                ? field::variable_size
+                                                : A + B>;
 };
 } // namespace detail
 
@@ -387,27 +387,25 @@ template <typename R, typename F1, typename F2 = void> struct registry_key_
   static_assert (is_registry<R>::value,
                  "registry_key_<R, ...>: R is a LUMEX_PROTOCOL_REGISTRY type");
   /// The first part.
-  typedef detail::key_part<
-      typename ::lumex::core::protocol::field::resolve<F1>::type>
-      part1;
+  using part1 = detail::key_part<
+      typename ::lumex::core::protocol::field::resolve<F1>::type>;
   /// The second part.
-  typedef detail::key_part<typename std::conditional<
+  using part2 = detail::key_part<typename std::conditional<
       std::is_void<F2>::value, void,
-      typename ::lumex::core::protocol::field::resolve<F2>::type>::type>
-      part2;
+      typename ::lumex::core::protocol::field::resolve<F2>::type>::type>;
 
   /// Marks the type as a field.
-  typedef ::lumex::core::protocol::field::field_tag lumex_protocol_field;
+  using lumex_protocol_field = ::lumex::core::protocol::field::field_tag;
   /// The registry.
-  typedef R registry_type;
+  using registry_type = R;
   /// The value: an enumerator of the registry.
-  typedef typename R::id value_type;
+  using value_type = typename R::id;
   /// Bytes in a binary layout.
-  typedef
+  using binary_size =
       typename detail::size_plus<part1::binary_size::value,
-                                 part2::binary_size::value>::type binary_size;
+                                 part2::binary_size::value>::type;
   /// The alignment of the first part.
-  typedef typename part1::binary_alignment binary_alignment;
+  using binary_alignment = typename part1::binary_alignment;
 
   /// @brief The descriptor (`count` the number of entries).
   static LUMEX_CONSTEXPR ::lumex::core::protocol::field::field_info_t
@@ -541,8 +539,8 @@ struct registry_value_
                  "registry_value_<R, ...>: R is a LUMEX_PROTOCOL_REGISTRY "
                  "type");
   /// The carrier implementation.
-  typedef typename ::lumex::core::protocol::field::impl_of<RawField>::type
-      raw_impl;
+  using raw_impl =
+      typename ::lumex::core::protocol::field::impl_of<RawField>::type;
   static_assert (std::is_integral<typename raw_impl::value_type>::value,
                  "registry_value_<R, I, RawField>: RawField holds an integer "
                  "(no scale<>)");
@@ -554,15 +552,15 @@ struct registry_value_
       "registry of their own, for the exports and verify_registry)");
 
   /// Marks the type as a field.
-  typedef ::lumex::core::protocol::field::field_tag lumex_protocol_field;
+  using lumex_protocol_field = ::lumex::core::protocol::field::field_tag;
   /// The registry.
-  typedef R registry_type;
+  using registry_type = R;
   /// The value.
-  typedef parameter_value_t value_type;
+  using value_type = parameter_value_t;
   /// Bytes in a binary layout.
-  typedef typename raw_impl::binary_size binary_size;
+  using binary_size = typename raw_impl::binary_size;
   /// The alignment of the carrier.
-  typedef typename raw_impl::binary_alignment binary_alignment;
+  using binary_alignment = typename raw_impl::binary_alignment;
 
   /// @brief The descriptor: the carrier's width and order.
   static LUMEX_CONSTEXPR ::lumex::core::protocol::field::field_info_t
@@ -669,7 +667,7 @@ private:
  * @code
  * struct lamp_header
  * {
- *   typedef registry::table_vocabulary lumex_vocabulary;
+ *   using lumex_vocabulary = registry::table_vocabulary;
  * };
  * @endcode
  */

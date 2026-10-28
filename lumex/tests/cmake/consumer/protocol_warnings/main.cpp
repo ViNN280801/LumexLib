@@ -116,7 +116,7 @@ LUMEX_PROTOCOL_LAYOUT (tunnel_t, (u8_, nested_<inner_protocol, char_>),
 LUMEX_PROTOCOL_LAYOUT (word_t, (u8_, token_), ("a", "b"));
 // clang-format on
 
-typedef field::record_of<kinds_t::fields_type>::type kinds;
+using kinds = field::record_of<kinds_t::fields_type>::type;
 
 namespace
 {
@@ -270,7 +270,7 @@ int
 check ()
 {
   int failures = 0;
-  typedef fixture_protocol::SET_LEVEL_t set_level;
+  using set_level = fixture_protocol::SET_LEVEL_t;
   failures += failed (
       dsl::get_option<dsl::kind::timeout> (set_level::options ()).milliseconds
       == 100);

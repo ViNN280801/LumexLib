@@ -57,7 +57,7 @@ template <std::size_t N>
 void
 expect_arity_names ()
 {
-  typedef typename reg_fields_of<N>::type agg_t;
+  using agg_t = typename reg_fields_of<N>::type;
   std::array<char const *, N> const names = names_as_array<agg_t> ();
   EXPECT_EQ (tuple_size<agg_t>::value, N);
   for (std::size_t i = 0; i < N; ++i)

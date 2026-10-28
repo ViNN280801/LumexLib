@@ -36,8 +36,8 @@ namespace
 namespace sp = lumex::core::atomic::smart_ptr;
 namespace hp = lumex::core::hazard_pointer;
 
-typedef sp::reclaim::immediate immediate_t;
-typedef sp::reclaim::deferred deferred_t;
+using immediate_t = sp::reclaim::immediate;
+using deferred_t = sp::reclaim::deferred;
 
 template <typename T, typename Reclaim>
 using shared_engine = sp::atomic_shared_ptr_lock_free<T, Reclaim>;
@@ -428,7 +428,7 @@ template <typename Engine>
 void
 run_reentrant ()
 {
-  typedef Reentrant<Engine> deleter_t;
+  using deleter_t = Reentrant<Engine>;
   deleter_t::runs ().store (0);
   {
     Engine atom (std::shared_ptr<int> (new int (0), deleter_t ()));

@@ -23,7 +23,7 @@ using text_constraints_test_helpers::can_quote;
 
 namespace
 {
-typedef char const separator_literal_t[3];
+using separator_literal_t = char const[3];
 } // namespace
 
 TEST (LumexTextWideCharsTest, GivenWideElements_ThenJoinFollowsTheStream)

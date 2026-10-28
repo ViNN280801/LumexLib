@@ -33,7 +33,7 @@
 namespace lumex_fake_hidapi
 {
 namespace hid = lumex::applied::transport::hid;
-typedef std::vector<std::uint8_t> bytes;
+using bytes = std::vector<std::uint8_t>;
 
 // A vendor-defined device without numbered reports: one input report of
 // `input` bytes and one output report of `output` bytes (up to 255 each).

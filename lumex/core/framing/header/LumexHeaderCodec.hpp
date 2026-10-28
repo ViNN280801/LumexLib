@@ -151,7 +151,7 @@ struct header_options_t : codec::codec_options_t
 template <typename Check = no_check> class header_codec
 {
 public:
-  typedef header_options_t options_type;
+  using options_type = header_options_t;
 
   /// @pre `max_frame_size > 0`; the preambles are equally long and not
   /// empty; the length field (1, 2 or 4 bytes) lies between the preamble and

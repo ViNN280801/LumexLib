@@ -79,8 +79,8 @@ namespace net
 namespace
 {
 using error::transport_errc;
-typedef asio::ip::tcp tcp;
-typedef asio::ip::udp udp;
+using tcp = asio::ip::tcp;
+using udp = asio::ip::udp;
 
 char const KTCP_COMPONENT[] = "transport.tcp";
 char const KUDP_COMPONENT[] = "transport.udp";
@@ -149,7 +149,7 @@ private:
 // ---------------------------------------------------------------------
 
 class tcp_stream_impl;
-typedef std::shared_ptr<tcp_stream_impl> tcp_impl_ptr;
+using tcp_impl_ptr = std::shared_ptr<tcp_stream_impl>;
 
 struct tcp_resolved
 {
@@ -371,7 +371,7 @@ tcp_io_finished::operator() (asio::error_code const &error, std::size_t bytes)
 // ---------------------------------------------------------------------
 
 class udp_socket_impl;
-typedef std::shared_ptr<udp_socket_impl> udp_impl_ptr;
+using udp_impl_ptr = std::shared_ptr<udp_socket_impl>;
 
 struct udp_resolved
 {

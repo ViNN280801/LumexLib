@@ -44,7 +44,7 @@ random_bytes (std::mt19937 &rng, std::size_t size, byte_t avoid = 0,
 
 struct slip_case
 {
-  typedef fr::slip::slip_codec codec_t;
+  using codec_t = fr::slip::slip_codec;
   static codec_t
   make ()
   {
@@ -64,7 +64,7 @@ struct slip_case
 
 struct cobs_case
 {
-  typedef fr::cobs::cobs_codec codec_t;
+  using codec_t = fr::cobs::cobs_codec;
   static codec_t
   make ()
   {
@@ -84,7 +84,7 @@ struct cobs_case
 
 struct delimiter_case
 {
-  typedef fr::delimiter::delimiter_codec codec_t;
+  using codec_t = fr::delimiter::delimiter_codec;
   static codec_t
   make ()
   {
@@ -107,7 +107,7 @@ struct delimiter_case
 
 struct length_case
 {
-  typedef fr::length::length_prefix_codec codec_t;
+  using codec_t = fr::length::length_prefix_codec;
   static codec_t
   make ()
   {
@@ -129,11 +129,10 @@ struct length_case
 
 struct header_case
 {
-  typedef fr::header::header_codec<st::word_reversed<
+  using codec_t = fr::header::header_codec<st::word_reversed<
       st::crc<lumex::core::crc::parametric::crc32_mpeg2_spec_t,
               fr::codec::byte_order::little>,
-      4>>
-      codec_t;
+      4>>;
   static codec_t
   make ()
   {
@@ -158,7 +157,7 @@ struct header_case
 
 struct modbus_case
 {
-  typedef fr::modbus_rtu::modbus_rtu_codec codec_t;
+  using codec_t = fr::modbus_rtu::modbus_rtu_codec;
   static codec_t
   make ()
   {
@@ -178,14 +177,14 @@ struct modbus_case
   }
 };
 
-typedef st::pipeline<
-    fr::delimiter::delimiter_codec, st::prefix_char_stage<'%'>,
-    st::checksum_stage<st::xor8, st::ascii_hex_render>, st::ascii_hex_stage>
-    text_strict_t;
+using text_strict_t
+    = st::pipeline<fr::delimiter::delimiter_codec, st::prefix_char_stage<'%'>,
+                   st::checksum_stage<st::xor8, st::ascii_hex_render>,
+                   st::ascii_hex_stage>;
 
 struct text_case
 {
-  typedef text_strict_t codec_t;
+  using codec_t = text_strict_t;
   static codec_t
   make ()
   {
@@ -203,15 +202,14 @@ struct text_case
   }
 };
 
-typedef st::pipeline<
+using text_lenient_t = st::pipeline<
     fr::delimiter::delimiter_codec, st::prefix_char_stage<'%'>,
     st::checksum_stage<st::xor8, st::ascii_hex_render, st::checksum_optional>,
-    st::ascii_hex_stage>
-    text_lenient_t;
+    st::ascii_hex_stage>;
 
 struct text_lenient_case
 {
-  typedef text_lenient_t codec_t;
+  using codec_t = text_lenient_t;
   static codec_t
   make ()
   {
@@ -234,10 +232,9 @@ class LumexFramingInvariantTest : public ::testing::Test
 {
 };
 
-typedef ::testing::Types<slip_case, cobs_case, delimiter_case, length_case,
-                         header_case, modbus_case, text_case,
-                         text_lenient_case>
-    every_case;
+using every_case
+    = ::testing::Types<slip_case, cobs_case, delimiter_case, length_case,
+                       header_case, modbus_case, text_case, text_lenient_case>;
 TYPED_TEST_SUITE (LumexFramingInvariantTest, every_case);
 
 std::size_t const kSizes[] = { 0, 1, 2, 3, 7, 16, 63, 64, 255, 300 };

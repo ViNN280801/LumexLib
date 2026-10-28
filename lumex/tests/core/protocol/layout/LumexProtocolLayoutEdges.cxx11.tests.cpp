@@ -24,10 +24,10 @@ using tables::bytes_of;
 using tables::text_of;
 using tables::view_of;
 
-typedef layout::binary_layout<> binary;
-typedef layout::fixed_width_text_layout<16> hex;
-typedef layout::fixed_width_text_layout<10> decimal;
-typedef layout::tokenized_text_layout<','> tokens;
+using binary = layout::binary_layout<>;
+using hex = layout::fixed_width_text_layout<16>;
+using decimal = layout::fixed_width_text_layout<10>;
+using tokens = layout::tokenized_text_layout<','>;
 
 LUMEX_PROTOCOL_LAYOUT (f32_value_t, (f32_le_), ("value"));
 LUMEX_PROTOCOL_LAYOUT (one_token_t, (token_), ("value"));
@@ -50,7 +50,7 @@ LUMEX_PROTOCOL_LAYOUT (letter_t, (char_, token_), ("letter", "word"));
 
 struct colon_header
 {
-  typedef layout::tokenized_text_layout<',', ':'> layout_type;
+  using layout_type = layout::tokenized_text_layout<',', ':'>;
 };
 
 // clang-format off
@@ -77,7 +77,7 @@ encode_error (typename field::value_of<F>::type const &value)
 TEST (LumexProtocolLayoutEdgesTest,
       GivenTheLargestFloat_WhenRoundTrippedAsAToken_ThenItComesBack)
 {
-  typedef field::record_of<f32_value_t::fields_type>::type value_type;
+  using value_type = field::record_of<f32_value_t::fields_type>::type;
   float const extremes[] = { (std::numeric_limits<float>::max) (),
                              -(std::numeric_limits<float>::max) (),
                              (std::numeric_limits<float>::min) () };
@@ -101,7 +101,7 @@ TEST (LumexProtocolLayoutEdgesTest,
 TEST (LumexProtocolLayoutEdgesTest,
       GivenAnEmptyMessage_WhenTheLayoutExpectsOneToken_ThenItIsAnEmptyToken)
 {
-  typedef field::record_of<one_token_t::fields_type>::type token_value;
+  using token_value = field::record_of<one_token_t::fields_type>::type;
   token_value token = token_value ();
   layout::bytes_t out;
   ASSERT_TRUE (
@@ -112,7 +112,7 @@ TEST (LumexProtocolLayoutEdgesTest,
   ASSERT_TRUE (back.has_value ());
   EXPECT_TRUE (field::get<0> (*back).empty ());
 
-  typedef field::record_of<one_text_t::fields_type>::type text_value;
+  using text_value = field::record_of<one_text_t::fields_type>::type;
   layout::bytes_t const spaces = bytes_of ("   ");
   layout::decode_result_t<text_value> const trimmed
       = layout::decode<tokens, one_text_t> (view_of (spaces));
@@ -128,7 +128,7 @@ TEST (LumexProtocolLayoutEdgesTest,
 TEST (LumexProtocolLayoutEdgesTest,
       GivenAByLengthValueOnTheWrongSideOfMin_WhenEncoded_ThenInvalidValue)
 {
-  typedef field::record_of<crossed_t::fields_type>::type crossed;
+  using crossed = field::record_of<crossed_t::fields_type>::type;
   crossed value = crossed ();
   field::get<1> (value).emplace<0> ();
   EXPECT_TRUE ((encode_error<binary, crossed_t> (value))
@@ -137,7 +137,7 @@ TEST (LumexProtocolLayoutEdgesTest,
   EXPECT_TRUE ((encode_error<binary, crossed_t> (value))
                == protocol_errc::invalid_value);
   // The units are those of the layout: bytes, characters, tokens.
-  typedef field::record_of<sized_t::fields_type>::type sized;
+  using sized = field::record_of<sized_t::fields_type>::type;
   sized fine = sized ();
   field::get<1> (fine).emplace<1> ();
   EXPECT_FALSE ((encode_error<binary, sized_t> (fine)));
@@ -155,7 +155,7 @@ TEST (LumexProtocolLayoutEdgesTest,
 TEST (LumexProtocolLayoutEdgesTest,
       GivenANulInsideAFixedText_WhenAssignedOrEncoded_ThenInvalidValue)
 {
-  typedef field::impl_of<one_text_t>::type::value_type record_type;
+  using record_type = field::impl_of<one_text_t>::type::value_type;
   record_type value = record_type ();
   EXPECT_FALSE (field::get<0> (value).assign (field::text_view ("A\0B", 3)));
   EXPECT_FALSE (field::impl_of<field::text_<4>>::type::assign (
@@ -190,14 +190,14 @@ TEST (LumexProtocolLayoutEdgesTest,
 TEST (LumexProtocolLayoutEdgesTest,
       GivenAnArrayValueAboveItsCapacity_WhenEncoded_ThenInvalidValue)
 {
-  typedef field::record_of<counted_t::fields_type>::type record_type;
+  using record_type = field::record_of<counted_t::fields_type>::type;
   record_type value = record_type ();
   field::get<0> (value).count = 3;
   EXPECT_TRUE ((encode_error<binary, counted_t> (value))
                == protocol_errc::invalid_value);
   // The earlier field agrees with the size, both above the capacity: the
   // elements past the capacity are never read.
-  typedef field::record_of<computed_t::fields_type>::type computed;
+  using computed = field::record_of<computed_t::fields_type>::type;
   computed many = computed ();
   field::get<0> (many) = 3;
   field::get<1> (many).count = 3;
@@ -225,7 +225,7 @@ TEST (LumexProtocolLayoutEdgesTest,
            out, 1))
           .has_value ());
   EXPECT_EQ (text_of (out), "AB:1");
-  typedef field::record_of<letter_t::fields_type>::type letter;
+  using letter = field::record_of<letter_t::fields_type>::type;
   letter value = letter ();
   field::get<0> (value) = ',';
   field::get<1> (value) = field::text_view ("word");

@@ -173,7 +173,7 @@ template <class T>
 shared_ptr<T>
 from_std (std::shared_ptr<T> const &p)
 {
-  typedef typename shared_ptr<T>::element_type element_type;
+  using element_type = typename shared_ptr<T>::element_type;
   element_type *const stored = p.get ();
   if (p.use_count () == 0)
     return shared_ptr<T> (shared_ptr<void> (), stored);
@@ -191,7 +191,7 @@ template <class T>
 shared_ptr<T>
 from_std (std::shared_ptr<T> &&p)
 {
-  typedef typename shared_ptr<T>::element_type element_type;
+  using element_type = typename shared_ptr<T>::element_type;
   element_type *const stored = p.get ();
   if (p.use_count () == 0)
     return shared_ptr<T> (shared_ptr<void> (), stored);
@@ -216,7 +216,7 @@ template <class T>
 std::shared_ptr<T>
 to_std (shared_ptr<T> const &p)
 {
-  typedef typename shared_ptr<T>::element_type element_type;
+  using element_type = typename shared_ptr<T>::element_type;
   element_type *const stored = p.get ();
   detail::ctl_base *const block = detail::access::control (p);
   if (block == nullptr)

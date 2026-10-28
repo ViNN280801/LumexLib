@@ -16,8 +16,8 @@ namespace
 namespace dsl = lumex::core::protocol::dsl;
 namespace kind = lumex::core::protocol::dsl::kind;
 namespace tables = lumex_tests::protocol_tables;
-typedef tables::widget_v1 v1;
-typedef dsl::row_flags flags;
+using v1 = tables::widget_v1;
+using flags = dsl::row_flags;
 } // namespace
 
 TEST (LumexProtocolOptionsTest,
@@ -34,8 +34,8 @@ TEST (LumexProtocolOptionsTest,
 TEST (LumexProtocolOptionsTest,
       GivenAcceptedIn_WhenRead_ThenTheStatesKeepTheirEnumerationType)
 {
-  typedef decltype (dsl::get_option<kind::accepted_in> (
-      v1::SET_RATE_t::options ())) accepted;
+  using accepted = decltype (dsl::get_option<kind::accepted_in> (
+      v1::SET_RATE_t::options ()));
   EXPECT_TRUE (
       (std::is_same<accepted::state_type, tables::widget_state>::value));
   accepted const value

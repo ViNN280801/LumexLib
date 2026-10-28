@@ -118,19 +118,19 @@
   {                                                                           \
     struct lumex_row : lumex_vocabulary                                       \
     {                                                                         \
-      typedef ::lumex::core::protocol::dsl::type_list<                        \
-          LUMEX_PP_UNWRAP fields_>                                            \
-          raw_fields_type;                                                    \
-      typedef ::lumex::core::protocol::dsl::type_list<LUMEX_PP_UNWRAP reply_> \
-          raw_reply_type;                                                     \
-      typedef ::lumex::core::protocol::dsl::canonical_fields<                 \
-          LUMEX_PP_UNWRAP fields_>::type fields_type;                         \
-      typedef ::lumex::core::protocol::dsl::reply_of<                         \
-          LUMEX_PP_UNWRAP reply_>::type reply_type;                           \
-      typedef decltype (::lumex::core::protocol::dsl::make_key (              \
-          key_)) key_type;                                                    \
-      typedef decltype (::lumex::core::protocol::dsl::make_options (          \
-          LUMEX_PP_UNWRAP options_)) options_type;                            \
+      using raw_fields_type                                                   \
+          = ::lumex::core::protocol::dsl::type_list<LUMEX_PP_UNWRAP fields_>; \
+      using raw_reply_type                                                    \
+          = ::lumex::core::protocol::dsl::type_list<LUMEX_PP_UNWRAP reply_>;  \
+      using fields_type = ::lumex::core::protocol::dsl::canonical_fields<     \
+          LUMEX_PP_UNWRAP fields_>::type;                                     \
+      using reply_type = ::lumex::core::protocol::dsl::reply_of<              \
+          LUMEX_PP_UNWRAP reply_>::type;                                      \
+      using key_type                                                          \
+          = decltype (::lumex::core::protocol::dsl::make_key (key_));         \
+      using options_type                                                      \
+          = decltype (::lumex::core::protocol::dsl::make_options (            \
+              LUMEX_PP_UNWRAP options_));                                     \
       static LUMEX_CONSTEXPR key_type                                         \
       make_key_value () LUMEX_NOEXCEPT                                        \
       {                                                                       \
@@ -143,11 +143,11 @@
             LUMEX_PP_UNWRAP options_);                                        \
       }                                                                       \
     };                                                                        \
-    typedef ::lumex::core::protocol::dsl::command_tag lumex_protocol_command; \
-    typedef lumex_row::fields_type fields_type;                               \
-    typedef lumex_row::reply_type reply_type;                                 \
-    typedef lumex_row::key_type key_type;                                     \
-    typedef lumex_row::options_type options_type;                             \
+    using lumex_protocol_command = ::lumex::core::protocol::dsl::command_tag; \
+    using fields_type = lumex_row::fields_type;                               \
+    using reply_type = lumex_row::reply_type;                                 \
+    using key_type = lumex_row::key_type;                                     \
+    using options_type = lumex_row::options_type;                             \
     static LUMEX_CONSTEXPR char const *                                       \
     identifier () LUMEX_NOEXCEPT                                              \
     {                                                                         \
@@ -175,12 +175,10 @@
     }                                                                         \
     LUMEX_PROTOCOL_DETAIL_NAMES (names_)                                      \
     LUMEX_PROTOCOL_DETAIL_CHECK_TEXT (id_text_, expanded_);                   \
-    typedef ::lumex::core::protocol::dsl::group_check_of<                     \
-        type_, lumex_row::raw_fields_type>                                    \
-        lumex_fields_check;                                                   \
-    typedef ::lumex::core::protocol::dsl::group_check_of<                     \
-        type_, lumex_row::raw_reply_type>                                     \
-        lumex_reply_check;                                                    \
+    using lumex_fields_check = ::lumex::core::protocol::dsl::group_check_of<  \
+        type_, lumex_row::raw_fields_type>;                                   \
+    using lumex_reply_check = ::lumex::core::protocol::dsl::group_check_of<   \
+        type_, lumex_row::raw_reply_type>;                                    \
     LUMEX_PROTOCOL_DETAIL_GROUP_CHECKS ("row " id_text_, lumex_fields_check); \
     static_assert (                                                           \
         lumex_reply_check::no_owner::value,                                   \
@@ -250,11 +248,11 @@
                                     header_, LIST_)                           \
   struct type_ : base_                                                        \
   {                                                                           \
-    typedef framing_ framing_type;                                            \
-    typedef header_ header_type;                                              \
-    typedef base_ base_protocol;                                              \
-    typedef ::lumex::core::protocol::dsl::vocabulary_of<header_>::type        \
-        lumex_vocabulary;                                                     \
+    using framing_type = framing_;                                            \
+    using header_type = header_;                                              \
+    using base_protocol = base_;                                              \
+    using lumex_vocabulary                                                    \
+        = ::lumex::core::protocol::dsl::vocabulary_of<header_>::type;         \
     static LUMEX_CONSTEXPR char const *                                       \
     protocol_name () LUMEX_NOEXCEPT                                           \
     {                                                                         \
@@ -263,11 +261,11 @@
     LIST_ (LUMEX_PROTOCOL_DETAIL_ROW, LUMEX_PROTOCOL_DETAIL_ROW_AS)           \
     template <typename LumexLayer> struct lumex_resolve                       \
     {                                                                         \
-      typedef typename ::lumex::core::protocol::dsl::append_unique<           \
+      using type = typename ::lumex::core::protocol::dsl::append_unique<      \
           typename base_::template lumex_resolve<LumexLayer>::type,           \
           typename ::lumex::core::protocol::dsl::list_of<void LIST_ (         \
               LUMEX_PROTOCOL_DETAIL_RESOLVE,                                  \
-              LUMEX_PROTOCOL_DETAIL_RESOLVE_AS)>::type>::type type;           \
+              LUMEX_PROTOCOL_DETAIL_RESOLVE_AS)>::type>::type;                \
     };                                                                        \
     template <typename LumexClient>                                           \
     struct lumex_methods : base_::template lumex_methods<LumexClient>         \
@@ -288,12 +286,12 @@
 #define LUMEX_PROTOCOL_DEFINE(name_, framing_, header_, LIST_)                \
   struct name_                                                                \
   {                                                                           \
-    typedef ::lumex::core::protocol::dsl::protocol_tag lumex_protocol_kind;   \
-    typedef framing_ framing_type;                                            \
-    typedef header_ header_type;                                              \
-    typedef void base_protocol;                                               \
-    typedef ::lumex::core::protocol::dsl::vocabulary_of<header_>::type        \
-        lumex_vocabulary;                                                     \
+    using lumex_protocol_kind = ::lumex::core::protocol::dsl::protocol_tag;   \
+    using framing_type = framing_;                                            \
+    using header_type = header_;                                              \
+    using base_protocol = void;                                               \
+    using lumex_vocabulary                                                    \
+        = ::lumex::core::protocol::dsl::vocabulary_of<header_>::type;         \
     static LUMEX_CONSTEXPR char const *                                       \
     protocol_name () LUMEX_NOEXCEPT                                           \
     {                                                                         \
@@ -302,9 +300,10 @@
     LIST_ (LUMEX_PROTOCOL_DETAIL_ROW, LUMEX_PROTOCOL_DETAIL_ROW_AS)           \
     template <typename LumexLayer> struct lumex_resolve                       \
     {                                                                         \
-      typedef typename ::lumex::core::protocol::dsl::list_of<void LIST_ (     \
-          LUMEX_PROTOCOL_DETAIL_RESOLVE,                                      \
-          LUMEX_PROTOCOL_DETAIL_RESOLVE_AS)>::type type;                      \
+      using type =                                                            \
+          typename ::lumex::core::protocol::dsl::list_of<void LIST_ (         \
+              LUMEX_PROTOCOL_DETAIL_RESOLVE,                                  \
+              LUMEX_PROTOCOL_DETAIL_RESOLVE_AS)>::type;                       \
     };                                                                        \
     template <typename LumexClient> struct lumex_methods                      \
     {                                                                         \
@@ -341,24 +340,22 @@
   {                                                                           \
     struct lumex_row : ::lumex::core::protocol::dsl::vocabulary               \
     {                                                                         \
-      typedef ::lumex::core::protocol::dsl::type_list<                        \
-          LUMEX_PP_UNWRAP fields_>                                            \
-          raw_fields_type;                                                    \
-      typedef ::lumex::core::protocol::dsl::canonical_fields<                 \
-          LUMEX_PP_UNWRAP fields_>::type fields_type;                         \
+      using raw_fields_type                                                   \
+          = ::lumex::core::protocol::dsl::type_list<LUMEX_PP_UNWRAP fields_>; \
+      using fields_type = ::lumex::core::protocol::dsl::canonical_fields<     \
+          LUMEX_PP_UNWRAP fields_>::type;                                     \
     };                                                                        \
-    typedef ::lumex::core::protocol::field::field_tag lumex_protocol_field;   \
-    typedef ::lumex::core::protocol::dsl::layout_tag lumex_protocol_layout;   \
-    typedef lumex_row::fields_type fields_type;                               \
+    using lumex_protocol_field = ::lumex::core::protocol::field::field_tag;   \
+    using lumex_protocol_layout = ::lumex::core::protocol::dsl::layout_tag;   \
+    using fields_type = lumex_row::fields_type;                               \
     static LUMEX_CONSTEXPR char const *                                       \
     layout_name () LUMEX_NOEXCEPT                                             \
     {                                                                         \
       return #name_;                                                          \
     }                                                                         \
     LUMEX_PROTOCOL_DETAIL_NAMES (names_)                                      \
-    typedef ::lumex::core::protocol::dsl::group_check_of<                     \
-        name_, lumex_row::raw_fields_type>                                    \
-        lumex_fields_check;                                                   \
+    using lumex_fields_check = ::lumex::core::protocol::dsl::group_check_of<  \
+        name_, lumex_row::raw_fields_type>;                                   \
     LUMEX_PROTOCOL_DETAIL_GROUP_CHECKS ("layout " #name_,                     \
                                         lumex_fields_check);                  \
     static_assert (                                                           \

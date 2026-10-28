@@ -193,7 +193,7 @@ apply_settings (asio::serial_port &port, serial_settings_t const &settings)
 }
 
 class serial_stream_impl;
-typedef std::shared_ptr<serial_stream_impl> serial_impl_ptr;
+using serial_impl_ptr = std::shared_ptr<serial_stream_impl>;
 
 struct open_finished
 {

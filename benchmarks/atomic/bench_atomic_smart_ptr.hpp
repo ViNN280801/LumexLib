@@ -86,9 +86,9 @@
 #include <vector>
 
 #if defined(__linux__)
+#include <linux/perf_event.h>
 #include <pthread.h>
 #include <sched.h>
-#include <linux/perf_event.h>
 #include <sys/ioctl.h>
 #include <sys/resource.h>
 #include <sys/syscall.h>
@@ -178,22 +178,22 @@ struct latency_result_t
  */
 struct store_wait_result_t
 {
-  double median_ns;                ///< the time of one store, median
-  double p90_ns;                   ///< 90th percentile
-  double p99_ns;                   ///< 99th percentile
-  double p999_ns;                  ///< 99.9th percentile
-  double p9999_ns;                 ///< 99.99th percentile
-  double max_ns;                   ///< the longest store
-  double timer_ns;                 ///< median of an empty pair of clock reads
-  unsigned long long stores;       ///< timed stores
-  unsigned long long over_1ms;     ///< stores that took more than 1 ms
-  unsigned long long switches;     ///< involuntary context switches of the
-                                   ///< writer during the timed stores
+  double median_ns;            ///< the time of one store, median
+  double p90_ns;               ///< 90th percentile
+  double p99_ns;               ///< 99th percentile
+  double p999_ns;              ///< 99.9th percentile
+  double p9999_ns;             ///< 99.99th percentile
+  double max_ns;               ///< the longest store
+  double timer_ns;             ///< median of an empty pair of clock reads
+  unsigned long long stores;   ///< timed stores
+  unsigned long long over_1ms; ///< stores that took more than 1 ms
+  unsigned long long switches; ///< involuntary context switches of the
+                               ///< writer during the timed stores
   unsigned long long over_1ms_switched; ///< stores over 1 ms after which the
                                         ///< writer's switch count had
                                         ///< advanced since the last reading
-  bool pinned;                     ///< every thread was pinned as requested
-  bool valid;                      ///< no reference left behind afterwards
+  bool pinned; ///< every thread was pinned as requested
+  bool valid;  ///< no reference left behind afterwards
 };
 
 /**
@@ -201,23 +201,23 @@ struct store_wait_result_t
  * shared by all threads when `contended`, otherwise on a private one (one
  * thread).
  */
-typedef measurement_t (*measure_fn) (int operation, int threads,
-                                     double seconds, bool contended);
+using measure_fn = measurement_t (*) (int operation, int threads,
+                                      double seconds, bool contended);
 
 /**
  * Replaces an object `objects` times, `threads - 1` further threads loading
  * all the while, and times from each replacing store to the destructor of
  * the object it replaced.
  */
-typedef latency_result_t (*latency_fn) (int threads, long objects);
+using latency_fn = latency_result_t (*) (int threads, long objects);
 
 /**
  * One writer thread times `stores` single `store ()` calls of alternating
  * values on one shared object while `threads - 1` further threads `load ()`
  * all the while. With `pin` every thread is pinned to a CPU of its own.
  */
-typedef store_wait_result_t (*store_wait_fn) (int threads, long stores,
-                                              bool pin);
+using store_wait_fn
+    = store_wait_result_t (*) (int threads, long stores, bool pin);
 
 /** An implementation as main () sees it. */
 struct implementation_t
@@ -556,7 +556,7 @@ template <> struct pointer_maker_t<std::shared_ptr<int>>
  */
 template <typename Atomic> struct atomic_traits_t
 {
-  typedef typename Atomic::value_type value_type;
+  using value_type = typename Atomic::value_type;
 
   static value_type
   make (int value)
@@ -683,7 +683,7 @@ template <typename Atomic> struct compare_exchange_body_t
   void
   operator() (std::atomic<bool> const &stop, thread_result_t &out) const
   {
-    typedef typename Atomic::value_type pointer_t;
+    using pointer_t = typename Atomic::value_type;
     unsigned long long operations = 0u;
     unsigned long long successes = 0u;
     while (!stop.load (std::memory_order_relaxed))
@@ -841,8 +841,8 @@ template <typename Atomic>
 measurement_t
 measure (int operation, int threads, double seconds, bool contended)
 {
-  typedef atomic_traits_t<Atomic> traits_t;
-  typedef typename traits_t::value_type pointer_t;
+  using traits_t = atomic_traits_t<Atomic>;
+  using pointer_t = typename traits_t::value_type;
   if (!contended)
     threads = 1;
   pointer_t const keep_a (traits_t::make (1));
@@ -939,8 +939,8 @@ template <typename Atomic>
 measurement_t
 measure_weak (int operation, int threads, double seconds, bool contended)
 {
-  typedef typename Atomic::value_type weak_type;
-  typedef decltype (std::declval<weak_type const &> ().lock ()) strong_type;
+  using weak_type = typename Atomic::value_type;
+  using strong_type = decltype (std::declval<weak_type const &> ().lock ());
   if (!contended)
     threads = 1;
   strong_type const keep = pointer_maker_t<strong_type>::make (1);
@@ -1075,7 +1075,7 @@ template <typename Atomic>
 latency_result_t
 measure_latency (int threads, long objects)
 {
-  typedef atomic_traits_t<Atomic> traits_t;
+  using traits_t = atomic_traits_t<Atomic>;
   std::size_t const count = static_cast<std::size_t> (objects) + 1u;
   destruction_log_t log (count);
   std::vector<std::int64_t> started (count, 0);
@@ -1144,7 +1144,8 @@ measure_latency (int threads, long objects)
   return result;
 }
 
-/** Pins the calling thread to CPU `index` (modulo the CPUs); false: could not. */
+/** Pins the calling thread to CPU `index` (modulo the CPUs); false: could not.
+ */
 inline bool
 pin_current_thread (int index)
 {
@@ -1155,8 +1156,7 @@ pin_current_thread (int index)
   cpu_set_t set;
   CPU_ZERO (&set);
   CPU_SET (static_cast<unsigned> (index) % cpus, &set);
-  return ::pthread_setaffinity_np (::pthread_self (), sizeof (set), &set)
-         == 0;
+  return ::pthread_setaffinity_np (::pthread_self (), sizeof (set), &set) == 0;
 #else
   (void)index;
   return false;
@@ -1314,12 +1314,12 @@ template <typename Atomic>
 store_wait_result_t
 measure_store_wait (int threads, long stores, bool pin)
 {
-  typedef atomic_traits_t<Atomic> traits_t;
-  typedef typename traits_t::value_type pointer_t;
+  using traits_t = atomic_traits_t<Atomic>;
+  using pointer_t = typename traits_t::value_type;
   pointer_t const keep_a (traits_t::make (1));
   pointer_t const keep_b (traits_t::make (2));
-  store_wait_result_t result = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0u, 0u,
-                                 0u,  0u,  false, false };
+  store_wait_result_t result
+      = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0u, 0u, 0u, 0u, false, false };
   std::vector<std::int64_t> waits;
   std::atomic<int> pin_failures (0);
   {
@@ -1335,10 +1335,18 @@ measure_store_wait (int threads, long stores, bool pin)
             = { atom, &stop, &started, t, pin, &pin_failures };
         readers.push_back (std::thread (reader));
       }
-    store_wait_writer_t<Atomic> const writer
-        = { atom,   &keep_a, &keep_b, &started,      reader_count,
-            stores, pin,     &pin_failures, &waits, &result.timer_ns,
-            &result.switches, &result.over_1ms_switched };
+    store_wait_writer_t<Atomic> const writer = { atom,
+                                                 &keep_a,
+                                                 &keep_b,
+                                                 &started,
+                                                 reader_count,
+                                                 stores,
+                                                 pin,
+                                                 &pin_failures,
+                                                 &waits,
+                                                 &result.timer_ns,
+                                                 &result.switches,
+                                                 &result.over_1ms_switched };
     std::thread writer_thread (writer);
     writer_thread.join ();
     stop.store (true);

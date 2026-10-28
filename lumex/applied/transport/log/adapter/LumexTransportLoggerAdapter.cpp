@@ -77,7 +77,7 @@ namespace log
 namespace
 {
 using lumex::applied::logger::logger::LogLevel;
-typedef lumex::applied::logger::logger::LumexLogger file_logger;
+using file_logger = lumex::applied::logger::logger::LumexLogger;
 
 /// The logger level of a transport record.
 LogLevel

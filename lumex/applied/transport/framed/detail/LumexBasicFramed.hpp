@@ -94,10 +94,10 @@ std::string const &empty_framed_name () LUMEX_NOEXCEPT;
 template <typename Transport> class basic_framed
 {
 protected:
-  typedef framed_hub<Transport> hub_type;
-  typedef typename hub_type::frame_type frame_type;
-  typedef lumex::core::expected::result::expected<frame_type, std::error_code>
-      read_result_type;
+  using hub_type = framed_hub<Transport>;
+  using frame_type = typename hub_type::frame_type;
+  using read_result_type
+      = lumex::core::expected::result::expected<frame_type, std::error_code>;
 
   // The initiating functions (declared first: the return types of the
   // async_* members name them). Each reports the strand, which tokens such as
@@ -105,7 +105,7 @@ protected:
   // the transports' initiations.
   struct initiate_base
   {
-    typedef ::lumex::applied::transport::executor_type executor_type;
+    using executor_type = ::lumex::applied::transport::executor_type;
 
     explicit initiate_base (executor_type const &executor)
         : executor_ (executor)
@@ -194,7 +194,7 @@ protected:
 
 public:
   /// @brief The transport underneath.
-  typedef Transport transport_type;
+  using transport_type = Transport;
 
   /// @brief The transport the adapter owns: open it, read its name and its
   /// statistics through it. Do not read from it or send on it while the

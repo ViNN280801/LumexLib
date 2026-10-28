@@ -85,7 +85,7 @@ namespace detail
 namespace
 {
 using error::transport_errc;
-typedef std::shared_ptr<session_core> core_ptr;
+using core_ptr = std::shared_ptr<session_core>;
 
 char const KSESSION_COMPONENT[] = "transport.session";
 

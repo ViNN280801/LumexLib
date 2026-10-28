@@ -57,7 +57,7 @@ namespace
 {
 using namespace split_test;
 
-typedef asp::atomic_shared_ptr_lock_free_split_count<int> shared_atomic;
+using shared_atomic = asp::atomic_shared_ptr_lock_free_split_count<int>;
 
 TEST (LumexSplitCountWaitCxx20Test,
       GivenWaitersStartedByALatch_WhenNotifyAll_ThenEveryOneWakes)

@@ -32,8 +32,8 @@ template <class CharT>
 void
 order_of_all_pairs (std::size_t max_length)
 {
-  typedef std::basic_string<CharT> text_t;
-  typedef typename lumex_sv_test::char_set<CharT>::view_t view_t;
+  using text_t = std::basic_string<CharT>;
+  using view_t = typename lumex_sv_test::char_set<CharT>::view_t;
   std::vector<text_t> const texts = lumex_sv_test::all_texts (
       lumex_sv_test::char_set<CharT>::alphabet (), max_length);
   int mismatches = 0;
@@ -86,8 +86,8 @@ run (Call call)
 
 template <class CharT> struct overloads
 {
-  typedef std::basic_string<CharT> text_t;
-  typedef typename lumex_sv_test::char_set<CharT>::view_t view_t;
+  using text_t = std::basic_string<CharT>;
+  using view_t = typename lumex_sv_test::char_set<CharT>::view_t;
 
   text_t text;
   text_t other;
@@ -158,7 +158,7 @@ template <class CharT>
 void
 substring_overloads ()
 {
-  typedef std::basic_string<CharT> text_t;
+  using text_t = std::basic_string<CharT>;
   std::vector<text_t> const texts = lumex_sv_test::all_texts (
       lumex_sv_test::char_set<CharT>::alphabet (), 2);
   int mismatches = 0;

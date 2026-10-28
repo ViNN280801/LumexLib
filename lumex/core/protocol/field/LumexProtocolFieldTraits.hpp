@@ -43,15 +43,15 @@
  * `is_field`, the modifier tag `modifier_tag` / `is_modifier`, the
  * implementation lookup `impl_of` / `value_of`, and the run-time descriptor
  * `field_info_t` of a field type.
- * @details A field type declares `typedef field_tag lumex_protocol_field;`
+ * @details A field type declares `using lumex_protocol_field = field_tag;`
  * and is its own implementation, or names its implementation as
  * `lumex_field_impl` (the integer names), or is a group of fields with a
  * `fields_type` (a `LUMEX_PROTOCOL_LAYOUT`, the field group of a row), whose
  * implementation is the record codec of `LumexProtocolRecord.hpp`. A name of
  * the table vocabulary that is usable without `<>` (`u8_`, `char_`) is a
  * carrier type naming its field as `lumex_named_field`; `resolve` maps it to
- * the field. A modifier (`scale<Ratio>`, a unit) declares `typedef
- * modifier_tag lumex_protocol_modifier;`.
+ * the field. A modifier (`scale<Ratio>`, a unit) declares `using
+ * lumex_protocol_modifier = modifier_tag;`.
  *
  * The implementation of a field (`impl_of<F>::type`) provides `value_type`
  * (the decoded value), `binary_size` and `binary_alignment` (integral
@@ -87,7 +87,7 @@ namespace field
 {
 /// @brief The byte order of a multi-byte field (the type the framing codecs
 /// use too).
-typedef ::lumex::core::utility::bit::byte_order byte_order;
+using byte_order = ::lumex::core::utility::bit::byte_order;
 
 /// @brief The tag a field type names as `lumex_protocol_field`.
 struct field_tag
@@ -106,18 +106,18 @@ namespace detail
 {
 template <typename T> struct voider
 {
-  typedef void type;
+  using type = void;
 };
 
 template <typename T, typename = void> struct named_field
 {
-  typedef T type;
+  using type = T;
 };
 
 template <typename T>
 struct named_field<T, typename voider<typename T::lumex_named_field>::type>
 {
-  typedef typename T::lumex_named_field type;
+  using type = typename T::lumex_named_field;
 };
 
 template <typename T, typename = void> struct has_field_tag : std::false_type
@@ -190,17 +190,17 @@ struct has_fields<T, typename voider<typename T::fields_type>::type>
 
 template <typename T, bool Impl, bool Fields> struct impl_select
 {
-  typedef T type;
+  using type = T;
 };
 
 template <typename T, bool Fields> struct impl_select<T, true, Fields>
 {
-  typedef typename T::lumex_field_impl type;
+  using type = typename T::lumex_field_impl;
 };
 
 template <typename T> struct impl_select<T, false, true>
 {
-  typedef group_impl<typename T::fields_type> type;
+  using type = group_impl<typename T::fields_type>;
 };
 } // namespace detail
 
@@ -211,18 +211,18 @@ template <typename T> struct impl_select<T, false, true>
 template <typename F> struct impl_of
 {
   /// The field the name stands for.
-  typedef typename resolve<F>::type field_type;
+  using field_type = typename resolve<F>::type;
   /// Its implementation.
-  typedef typename detail::impl_select<
+  using type = typename detail::impl_select<
       field_type, detail::has_impl<field_type>::value,
-      detail::has_fields<field_type>::value>::type type;
+      detail::has_fields<field_type>::value>::type;
 };
 
 /// @brief `value_of<F>::type`: the decoded value of field `F`.
 template <typename F> struct value_of
 {
   /// The value type.
-  typedef typename impl_of<F>::type::value_type type;
+  using type = typename impl_of<F>::type::value_type;
 };
 
 /// @brief What a field is, for the descriptors of the index and the export.

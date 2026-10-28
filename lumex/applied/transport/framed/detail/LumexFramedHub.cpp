@@ -230,7 +230,7 @@ take_cancellation (std::shared_ptr<Hub> const &hub, Handler &handler,
 // The completion of a read of a byte stream: runs on the strand.
 template <typename Hub> struct stream_read_done
 {
-  typedef typename Hub::strand_type executor_type;
+  using executor_type = typename Hub::strand_type;
   std::weak_ptr<Hub> hub;
   executor_type strand;
   std::size_t generation;
@@ -257,7 +257,7 @@ template <typename Hub> struct stream_read_done
 // The completion of a receive of a message transport.
 template <typename Hub> struct message_receive_done
 {
-  typedef typename Hub::strand_type executor_type;
+  using executor_type = typename Hub::strand_type;
   std::weak_ptr<Hub> hub;
   executor_type strand;
   std::size_t generation;
@@ -287,7 +287,7 @@ template <typename Hub> struct message_receive_done
 // of the hub.
 template <typename Hub> struct write_finished
 {
-  typedef typename Hub::strand_type executor_type;
+  using executor_type = typename Hub::strand_type;
   std::weak_ptr<Hub> hub;
   executor_type strand;
   std::size_t id;

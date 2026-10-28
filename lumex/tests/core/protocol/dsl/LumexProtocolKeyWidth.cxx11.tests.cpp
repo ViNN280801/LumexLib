@@ -27,7 +27,7 @@ enum class signed_code : std::int16_t
 
 struct two_part_key
 {
-  typedef dsl::composite_key_tag lumex_composite_key;
+  using lumex_composite_key = dsl::composite_key_tag;
   std::uint8_t type;
   std::uint8_t number;
 

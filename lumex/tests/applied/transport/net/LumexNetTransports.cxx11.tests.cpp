@@ -27,9 +27,9 @@ using tr::deadline_t;
 using tr::error::transport_errc;
 using tr::net::tcp_options_t;
 using tr::net::udp_options_t;
-typedef asio::ip::tcp tcp;
-typedef asio::ip::udp udp;
-typedef std::chrono::steady_clock clock_type;
+using tcp = asio::ip::tcp;
+using udp = asio::ip::udp;
+using clock_type = std::chrono::steady_clock;
 
 long long
 elapsed_ms (clock_type::time_point start)

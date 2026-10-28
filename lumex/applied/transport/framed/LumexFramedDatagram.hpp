@@ -94,11 +94,11 @@ template <typename Codec>
 class framed_datagram
     : public detail::basic_framed<datagram::message_transport>
 {
-  typedef detail::basic_framed<datagram::message_transport> base_type;
+  using base_type = detail::basic_framed<datagram::message_transport>;
 
 public:
   /// @brief The codec of `core/framing`.
-  typedef Codec codec_type;
+  using codec_type = Codec;
 
   /// @brief Frames over `device` (not empty; moved in) with `codec` (moved
   /// in).

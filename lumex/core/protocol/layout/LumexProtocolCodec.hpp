@@ -92,8 +92,8 @@ namespace protocol
 namespace layout
 {
 /// @brief The result of an encode: nothing, or why it failed.
-typedef ::lumex::core::expected::result::expected<void, std::error_code>
-    encode_result_t;
+using encode_result_t
+    = ::lumex::core::expected::result::expected<void, std::error_code>;
 
 /// @brief The result of a decode: the value, or why it failed.
 template <typename T>
@@ -104,14 +104,14 @@ namespace detail
 {
 template <typename H, typename = void> struct header_layout
 {
-  typedef binary_layout<> type;
+  using type = binary_layout<>;
 };
 
 template <typename H>
 struct header_layout<H, typename ::lumex::core::protocol::field::detail::
                             voider<typename H::layout_type>::type>
 {
-  typedef typename H::layout_type type;
+  using type = typename H::layout_type;
 };
 
 inline ::lumex::core::expected::error::unexpected<std::error_code>
@@ -121,7 +121,7 @@ failed (std::error_code const &code)
 }
 
 // The siblings of a field decoded on its own (not in a group).
-typedef ::lumex::core::protocol::field::record<> no_siblings;
+using no_siblings = ::lumex::core::protocol::field::record<>;
 
 template <typename Layout, typename Impl>
 void
@@ -170,8 +170,8 @@ struct layout_of : detail::header_layout<typename P::header_type>
 template <typename Row> struct request_of
 {
   /// The record.
-  typedef typename ::lumex::core::protocol::field::record_of<
-      typename Row::fields_type>::type type;
+  using type = typename ::lumex::core::protocol::field::record_of<
+      typename Row::fields_type>::type;
 };
 
 /// @brief `reply_value_of<Row>::type`: the value of the reply of a row (a
@@ -187,8 +187,8 @@ template <typename Row> struct reply_value_of
       "LUMEX_PROTOCOL: the reply of the row is a reply kind of the dialogue "
       "(applied/transport/protocol), not a field: the dialogue decodes it");
   /// The value.
-  typedef typename ::lumex::core::protocol::field::value_of<
-      typename Row::reply_type>::type type;
+  using type = typename ::lumex::core::protocol::field::value_of<
+      typename Row::reply_type>::type;
 };
 
 /**
@@ -200,7 +200,7 @@ template <typename Layout, typename Field>
 decode_result_t<typename ::lumex::core::protocol::field::value_of<Field>::type>
 decode (bytes_view_t message, decode_context_t const *context = nullptr)
 {
-  typedef typename ::lumex::core::protocol::field::impl_of<Field>::type impl;
+  using impl = typename ::lumex::core::protocol::field::impl_of<Field>::type;
   detail::check_aligned<Layout, impl> ();
   typename Layout::reader reader (message, context);
   typename impl::value_type value = typename impl::value_type ();
@@ -221,7 +221,7 @@ encode (bytes_t &out,
             &value,
         decode_context_t const *context = nullptr)
 {
-  typedef typename ::lumex::core::protocol::field::impl_of<Field>::type impl;
+  using impl = typename ::lumex::core::protocol::field::impl_of<Field>::type;
   detail::check_aligned<Layout, impl> ();
   std::size_t const start = out.size ();
   typename Layout::writer writer (out, context);
@@ -242,7 +242,7 @@ template <typename Row, typename... Args>
 decode_result_t<typename request_of<Row>::type>
 make_request (Args const &...args)
 {
-  typedef typename request_of<Row>::type record_type;
+  using record_type = typename request_of<Row>::type;
   static_assert (sizeof...(Args) == record_type::size::value,
                  "LUMEX_PROTOCOL: give one argument per field of the row");
   record_type record = record_type ();
@@ -264,9 +264,9 @@ encode_request_record (bytes_t &out,
                        typename request_of<Row>::type const &record,
                        decode_context_t const *context = nullptr)
 {
-  typedef typename layout_of<P>::type layout_type;
-  typedef typename ::lumex::core::protocol::field::impl_of<
-      typename Row::fields_type>::type impl;
+  using layout_type = typename layout_of<P>::type;
+  using impl = typename ::lumex::core::protocol::field::impl_of<
+      typename Row::fields_type>::type;
   detail::check_aligned<layout_type, impl> ();
   std::size_t const start = out.size ();
   typename layout_type::writer writer (out, context);
@@ -301,9 +301,9 @@ decode_result_t<typename request_of<Row>::type>
 decode_request (bytes_view_t message,
                 decode_context_t const *context = nullptr)
 {
-  typedef typename layout_of<P>::type layout_type;
-  typedef typename ::lumex::core::protocol::field::impl_of<
-      typename Row::fields_type>::type impl;
+  using layout_type = typename layout_of<P>::type;
+  using impl = typename ::lumex::core::protocol::field::impl_of<
+      typename Row::fields_type>::type;
   detail::check_aligned<layout_type, impl> ();
   typename layout_type::reader reader (message, context);
   typename request_of<Row>::type record = typename request_of<Row>::type ();
@@ -320,9 +320,9 @@ encode_result_t
 encode_reply (bytes_t &out, typename reply_value_of<Row>::type const &value,
               decode_context_t const *context = nullptr)
 {
-  typedef typename layout_of<P>::type layout_type;
-  typedef typename ::lumex::core::protocol::field::impl_of<
-      typename Row::reply_type>::type impl;
+  using layout_type = typename layout_of<P>::type;
+  using impl = typename ::lumex::core::protocol::field::impl_of<
+      typename Row::reply_type>::type;
   detail::check_aligned<layout_type, impl> ();
   std::size_t const start = out.size ();
   typename layout_type::writer writer (out, context);
@@ -341,9 +341,9 @@ template <typename P, typename Row>
 decode_result_t<typename reply_value_of<Row>::type>
 decode_reply (bytes_view_t message, decode_context_t const *context = nullptr)
 {
-  typedef typename layout_of<P>::type layout_type;
-  typedef typename ::lumex::core::protocol::field::impl_of<
-      typename Row::reply_type>::type impl;
+  using layout_type = typename layout_of<P>::type;
+  using impl = typename ::lumex::core::protocol::field::impl_of<
+      typename Row::reply_type>::type;
   detail::check_aligned<layout_type, impl> ();
   typename layout_type::reader reader (message, context);
   typename impl::value_type value = typename impl::value_type ();
@@ -368,9 +368,9 @@ decode_nested (::lumex::core::protocol::field::nested_value<Key> const &value,
       != static_cast<std::int64_t> (Row::key ()))
     return detail::failed (::lumex::core::protocol::error::make_error_code (
         ::lumex::core::protocol::error::protocol_errc::unknown_frame));
-  typedef typename layout_of<P>::type layout_type;
-  typedef typename ::lumex::core::protocol::field::impl_of<
-      typename Row::fields_type>::type impl;
+  using layout_type = typename layout_of<P>::type;
+  using impl = typename ::lumex::core::protocol::field::impl_of<
+      typename Row::fields_type>::type;
   typename layout_type::reader reader (value.payload, context);
   typename request_of<Row>::type record = typename request_of<Row>::type ();
   if (!impl::template decode<true> (reader, record, detail::no_siblings ())

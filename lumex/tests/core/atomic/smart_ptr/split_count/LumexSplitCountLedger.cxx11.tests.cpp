@@ -65,7 +65,7 @@ template <int N> struct tag_t
   TEST (LumexSplitCountLedgerTest, Name)                                      \
   {                                                                           \
     Watchdog const dog (#Name);                                               \
-    typedef ledger_policy_t<tag_t<N>, Limit, Reserve> policy;                 \
+    using policy = ledger_policy_t<tag_t<N>, Limit, Reserve>;                 \
     for_each_shape ([] (int threads, int rep)                                 \
                       { Shape<policy> (threads, rep); });                     \
   }
@@ -143,7 +143,7 @@ alias_of (sp::shared_ptr<Obj> const &owner, bool holder)
 void
 two_writers_undo (bool holder)
 {
-  typedef gate_policy_t<undo_tag> policy;
+  using policy = gate_policy_t<undo_tag>;
   policy::arrived ().store (0);
   reset_ledger<policy> ();
   long const alive = alive_objects ().load ();
@@ -215,7 +215,7 @@ TEST (
     GivenALoadHeldBeforeItsSettle_WhenTheBlockIsSwappedOutAndInstalledAgain_ThenItPaysAndDoesNotUntick)
 {
   Watchdog const dog ("settle on a re-installed block");
-  typedef gate_policy_t<settle_tag> policy;
+  using policy = gate_policy_t<settle_tag>;
   policy::arrived ().store (0);
   reset_ledger<policy> ();
   long const alive = alive_objects ().load ();
@@ -251,7 +251,7 @@ TEST (
 void
 cas_deposit_returned (int held_loads)
 {
-  typedef gate_policy_t<cas_undo_tag> policy;
+  using policy = gate_policy_t<cas_undo_tag>;
   policy::arrived ().store (0);
   reset_ledger<policy> ();
   long const alive = alive_objects ().load ();
@@ -313,7 +313,7 @@ TEST (
     GivenAHolderCompareExchangeHeldBeforeItsSwap_WhenTheHolderIsSwappedOut_ThenItPaysItsTickAndFails)
 {
   Watchdog const dog ("holder cas undo");
-  typedef gate_policy_t<cas_holder_tag> policy;
+  using policy = gate_policy_t<cas_holder_tag>;
   policy::arrived ().store (0);
   reset_ledger<policy> ();
   long const alive = alive_objects ().load ();
@@ -351,7 +351,7 @@ TEST (
     GivenAHolderCompareExchangeWithLoadsHeld_WhenItSucceeds_ThenItsTickIsConsumed)
 {
   Watchdog const dog ("holder cas success");
-  typedef gate_policy_t<cas_success_tag> policy;
+  using policy = gate_policy_t<cas_success_tag>;
   for (int k = 0; k <= 3; ++k)
     {
       SCOPED_TRACE (k);
@@ -414,7 +414,7 @@ TEST (
     GivenTheWordAtTheTickLimit_WhenAnotherLoadComes_ThenItBacksOffUntilATickIsGone)
 {
   Watchdog const dog ("limit, load");
-  typedef gate_policy_t<limit_load_tag, 2u> policy;
+  using policy = gate_policy_t<limit_load_tag, 2u>;
   for (int holder = 0; holder < 2; ++holder)
     {
       limit_fixture_t<policy> f (holder != 0);
@@ -447,7 +447,7 @@ TEST (
     GivenTheWordAtTheTickLimit_WhenAWriterComes_ThenItBacksOffUntilATickIsGone)
 {
   Watchdog const dog ("limit, writer");
-  typedef gate_policy_t<limit_store_tag, 2u> policy;
+  using policy = gate_policy_t<limit_store_tag, 2u>;
   for (int holder = 0; holder < 2; ++holder)
     for (int how = 0; how < 2; ++how)
       {
@@ -479,7 +479,7 @@ TEST (LumexSplitCountLedgerTest,
       GivenAHolderWordAtTheTickLimit_WhenACompareExchangePins_ThenItBacksOff)
 {
   Watchdog const dog ("limit, holder cas");
-  typedef gate_policy_t<limit_cas_tag, 2u> policy;
+  using policy = gate_policy_t<limit_cas_tag, 2u>;
   limit_fixture_t<policy> f (true);
   ASSERT_TRUE (f.loads.wait_arrived (2));
   sp::shared_ptr<int> expected = f.value;

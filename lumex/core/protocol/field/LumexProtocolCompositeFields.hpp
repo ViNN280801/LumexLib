@@ -142,7 +142,7 @@ template <typename V>
 bool
 from_discriminant (V &value, std::int64_t discriminant) LUMEX_NOEXCEPT
 {
-  typedef typename raw_access<V>::raw_type raw_type;
+  using raw_type = typename raw_access<V>::raw_type;
   raw_access<V>::set (value, static_cast<raw_type> (discriminant));
   return to_discriminant (value) == discriminant;
 }
@@ -154,25 +154,24 @@ template <typename T, std::size_t N> struct array_
   static_assert (N > 0, "array_<T, N>: N must be positive");
 
   /// The element implementation.
-  typedef typename impl_of<T>::type element_impl;
+  using element_impl = typename impl_of<T>::type;
   /// The element value.
-  typedef typename element_impl::value_type element_value;
+  using element_value = typename element_impl::value_type;
   /// Marks the type as a field.
-  typedef field_tag lumex_protocol_field;
+  using lumex_protocol_field = field_tag;
   /// The value.
-  typedef std::array<element_value, N> value_type;
+  using value_type = std::array<element_value, N>;
   static_assert (sizeof (value_type) <= detail::array_value_limit,
                  "LUMEX_PROTOCOL: array_<T, N>: the value is larger than 64 "
                  "KiB (it lives on the stack); use a smaller N or split the "
                  "message");
   /// `N` times the element, or `variable_size`.
-  typedef std::integral_constant<
+  using binary_size = std::integral_constant<
       std::size_t, element_impl::binary_size::value == variable_size
                        ? variable_size
-                       : N * element_impl::binary_size::value>
-      binary_size;
+                       : N * element_impl::binary_size::value>;
   /// The alignment of the element.
-  typedef typename element_impl::binary_alignment binary_alignment;
+  using binary_alignment = typename element_impl::binary_alignment;
 
   /// @brief The descriptor (`count` is `N`).
   static LUMEX_CONSTEXPR field_info_t
@@ -240,9 +239,9 @@ template <typename T, std::size_t Max> struct bounded_elements
 {
   static_assert (Max > 0, "the Max of an array field must be positive");
 
-  typedef typename impl_of<T>::type element_impl;
-  typedef typename element_impl::value_type element_value;
-  typedef bounded_array<element_value, Max> value_type;
+  using element_impl = typename impl_of<T>::type;
+  using element_value = typename element_impl::value_type;
+  using value_type = bounded_array<element_value, Max>;
   static_assert (sizeof (value_type) <= array_value_limit,
                  "LUMEX_PROTOCOL: counted_ / computed_count_: Max makes the "
                  "value larger than 64 KiB (it lives on the stack); use a "
@@ -315,23 +314,23 @@ template <typename T, std::size_t Max> struct bounded_elements
 template <typename T, typename CountField, std::size_t Max> struct counted_
 {
   /// The elements.
-  typedef detail::bounded_elements<T, Max> elements;
+  using elements = detail::bounded_elements<T, Max>;
   /// The count field implementation.
-  typedef typename impl_of<CountField>::type count_impl;
+  using count_impl = typename impl_of<CountField>::type;
   /// The value of the count field.
-  typedef typename count_impl::value_type count_value;
+  using count_value = typename count_impl::value_type;
   static_assert (std::is_integral<count_value>::value,
                  "counted_<T, CountField, Max>: CountField must hold an "
                  "integer (no scale<>)");
 
   /// Marks the type as a field.
-  typedef field_tag lumex_protocol_field;
+  using lumex_protocol_field = field_tag;
   /// The value.
-  typedef typename elements::value_type value_type;
+  using value_type = typename elements::value_type;
   /// The size depends on the message.
-  typedef std::integral_constant<std::size_t, variable_size> binary_size;
+  using binary_size = std::integral_constant<std::size_t, variable_size>;
   /// The alignment of the count field.
-  typedef typename count_impl::binary_alignment binary_alignment;
+  using binary_alignment = typename count_impl::binary_alignment;
 
   /// @brief The descriptor (`count` is `Max`).
   static LUMEX_CONSTEXPR field_info_t
@@ -387,16 +386,16 @@ template <typename T, typename CountField, std::size_t Max> struct counted_
 template <typename T, typename Expr, std::size_t Max> struct computed_count_
 {
   /// The elements.
-  typedef detail::bounded_elements<T, Max> elements;
+  using elements = detail::bounded_elements<T, Max>;
 
   /// Marks the type as a field.
-  typedef field_tag lumex_protocol_field;
+  using lumex_protocol_field = field_tag;
   /// The value.
-  typedef typename elements::value_type value_type;
+  using value_type = typename elements::value_type;
   /// The size depends on the message.
-  typedef std::integral_constant<std::size_t, variable_size> binary_size;
+  using binary_size = std::integral_constant<std::size_t, variable_size>;
   /// The alignment of the element.
-  typedef typename elements::element_impl::binary_alignment binary_alignment;
+  using binary_alignment = typename elements::element_impl::binary_alignment;
 
   /// @brief The descriptor (`count` is `Max`).
   static LUMEX_CONSTEXPR field_info_t
@@ -460,15 +459,15 @@ template <typename... F> struct optional_tail_
   static_assert (sizeof...(F) > 0, "optional_tail_: give at least one field");
 
   /// The fields of the tail.
-  typedef group_impl<detail::field_pack<F...>> group;
+  using group = group_impl<detail::field_pack<F...>>;
   /// Marks the type as a field.
-  typedef field_tag lumex_protocol_field;
+  using lumex_protocol_field = field_tag;
   /// The value.
-  typedef tail_value<record<F...>> value_type;
+  using value_type = tail_value<record<F...>>;
   /// The size depends on the message.
-  typedef std::integral_constant<std::size_t, variable_size> binary_size;
+  using binary_size = std::integral_constant<std::size_t, variable_size>;
   /// The alignment of the tail.
-  typedef typename group::binary_alignment binary_alignment;
+  using binary_alignment = typename group::binary_alignment;
 
   /// @brief The descriptor (`count` is the number of fields).
   static LUMEX_CONSTEXPR field_info_t
@@ -549,24 +548,23 @@ private:
 template <std::size_t Min, typename A, typename B> struct by_length_
 {
   /// The short form.
-  typedef typename impl_of<A>::type short_impl;
+  using short_impl = typename impl_of<A>::type;
   /// The long form.
-  typedef typename impl_of<B>::type long_impl;
+  using long_impl = typename impl_of<B>::type;
   /// Marks the type as a field.
-  typedef field_tag lumex_protocol_field;
+  using lumex_protocol_field = field_tag;
   /// The value.
-  typedef alternatives<typename short_impl::value_type,
-                       typename long_impl::value_type>
-      value_type;
+  using value_type = alternatives<typename short_impl::value_type,
+                                  typename long_impl::value_type>;
   /// The size depends on the message.
-  typedef std::integral_constant<std::size_t, variable_size> binary_size;
+  using binary_size = std::integral_constant<std::size_t, variable_size>;
   /// The larger alignment of the two.
-  typedef std::integral_constant<std::size_t,
-                                 (short_impl::binary_alignment::value
-                                  > long_impl::binary_alignment::value)
-                                     ? short_impl::binary_alignment::value
-                                     : long_impl::binary_alignment::value>
-      binary_alignment;
+  using binary_alignment
+      = std::integral_constant<std::size_t,
+                               (short_impl::binary_alignment::value
+                                > long_impl::binary_alignment::value)
+                                   ? short_impl::binary_alignment::value
+                                   : long_impl::binary_alignment::value>;
 
   /// @brief The descriptor (`count` is `Min`).
   static LUMEX_CONSTEXPR field_info_t
@@ -635,7 +633,7 @@ template <std::int64_t Value, typename L> struct case_
   }
 
   /// The field of the case.
-  typedef L layout_type;
+  using layout_type = L;
 };
 
 /// @brief The discriminant of `union_by_` is field `I` of the same group,
@@ -649,7 +647,7 @@ template <std::size_t I> struct field_
 template <typename D> struct at_end_
 {
   /// The discriminant field.
-  typedef D field_type;
+  using field_type = D;
 };
 
 namespace detail
@@ -692,7 +690,7 @@ template <std::size_t K> struct case_switch<K>
 template <std::size_t K, typename Head, typename... Tail>
 struct case_switch<K, Head, Tail...>
 {
-  typedef typename impl_of<typename Head::layout_type>::type impl;
+  using impl = typename impl_of<typename Head::layout_type>::type;
 
   template <bool Last, typename Reader, typename Value, typename Siblings>
   static bool
@@ -731,9 +729,9 @@ struct case_switch<K, Head, Tail...>
 // end, an earlier field of the group.
 template <typename D> struct discriminant_source
 {
-  typedef typename impl_of<D>::type impl;
-  typedef typename impl::value_type value_type;
-  typedef typename impl::binary_alignment binary_alignment;
+  using impl = typename impl_of<D>::type;
+  using value_type = typename impl::value_type;
+  using binary_alignment = typename impl::binary_alignment;
 
   template <bool Last, typename Reader, typename Siblings>
   static bool
@@ -767,9 +765,9 @@ template <typename D> struct discriminant_source
 
 template <typename D> struct discriminant_source<at_end_<D>>
 {
-  typedef typename impl_of<D>::type impl;
-  typedef typename impl::value_type value_type;
-  typedef typename impl::binary_alignment binary_alignment;
+  using impl = typename impl_of<D>::type;
+  using value_type = typename impl::value_type;
+  using binary_alignment = typename impl::binary_alignment;
   static_assert (is_plain_integer<impl>::value,
                  "LUMEX_PROTOCOL: the discriminant at_end_<D> is an integer "
                  "field without scale<>");
@@ -809,7 +807,7 @@ template <typename D> struct discriminant_source<at_end_<D>>
 
 template <std::size_t I> struct discriminant_source<field_<I>>
 {
-  typedef std::integral_constant<std::size_t, 1> binary_alignment;
+  using binary_alignment = std::integral_constant<std::size_t, 1>;
 
   template <bool Last, typename Reader, typename Siblings>
   static bool
@@ -844,11 +842,10 @@ template <typename... Cases> struct union_cases
                  "LUMEX_PROTOCOL: the cases of a union are case_<value, "
                  "layout>");
 
-  typedef alternatives<
-      typename impl_of<typename Cases::layout_type>::type::value_type...>
-      alternatives_type;
-  typedef union_value<alternatives_type> value_type;
-  typedef case_switch<0, Cases...> switch_type;
+  using alternatives_type = alternatives<
+      typename impl_of<typename Cases::layout_type>::type::value_type...>;
+  using value_type = union_value<alternatives_type>;
+  using switch_type = case_switch<0, Cases...>;
 };
 } // namespace detail
 
@@ -867,18 +864,18 @@ template <typename... Cases> struct union_cases
 template <typename Discriminant, typename... Cases> struct union_by_
 {
   /// The cases.
-  typedef detail::union_cases<Cases...> cases;
+  using cases = detail::union_cases<Cases...>;
   /// Where the discriminant comes from.
-  typedef detail::discriminant_source<Discriminant> source;
+  using source = detail::discriminant_source<Discriminant>;
 
   /// Marks the type as a field.
-  typedef field_tag lumex_protocol_field;
+  using lumex_protocol_field = field_tag;
   /// The value.
-  typedef typename cases::value_type value_type;
+  using value_type = typename cases::value_type;
   /// The size depends on the case.
-  typedef std::integral_constant<std::size_t, variable_size> binary_size;
+  using binary_size = std::integral_constant<std::size_t, variable_size>;
   /// The alignment of the discriminant.
-  typedef typename source::binary_alignment binary_alignment;
+  using binary_alignment = typename source::binary_alignment;
 
   /// @brief The descriptor (`count` is the number of cases).
   static LUMEX_CONSTEXPR field_info_t
@@ -939,16 +936,16 @@ template <typename Discriminant, typename... Cases> struct union_by_
 template <typename Key, typename... Cases> struct union_by_context_
 {
   /// The cases.
-  typedef detail::union_cases<Cases...> cases;
+  using cases = detail::union_cases<Cases...>;
 
   /// Marks the type as a field.
-  typedef field_tag lumex_protocol_field;
+  using lumex_protocol_field = field_tag;
   /// The value.
-  typedef typename cases::value_type value_type;
+  using value_type = typename cases::value_type;
   /// The size depends on the case.
-  typedef std::integral_constant<std::size_t, variable_size> binary_size;
+  using binary_size = std::integral_constant<std::size_t, variable_size>;
   /// No alignment of its own.
-  typedef std::integral_constant<std::size_t, 1> binary_alignment;
+  using binary_alignment = std::integral_constant<std::size_t, 1>;
 
   /// @brief The descriptor (`count` is the number of cases).
   static LUMEX_CONSTEXPR field_info_t
@@ -1019,18 +1016,18 @@ template <typename Key, typename... Cases> struct union_by_context_
 template <typename Protocol, typename KeyField> struct nested_
 {
   /// The inner protocol.
-  typedef Protocol protocol_type;
+  using protocol_type = Protocol;
   /// The key field implementation.
-  typedef typename impl_of<KeyField>::type key_impl;
+  using key_impl = typename impl_of<KeyField>::type;
 
   /// Marks the type as a field.
-  typedef field_tag lumex_protocol_field;
+  using lumex_protocol_field = field_tag;
   /// The value.
-  typedef nested_value<typename key_impl::value_type> value_type;
+  using value_type = nested_value<typename key_impl::value_type>;
   /// The size depends on the message.
-  typedef std::integral_constant<std::size_t, variable_size> binary_size;
+  using binary_size = std::integral_constant<std::size_t, variable_size>;
   /// The alignment of the key.
-  typedef typename key_impl::binary_alignment binary_alignment;
+  using binary_alignment = typename key_impl::binary_alignment;
 
   /// @brief The descriptor.
   static LUMEX_CONSTEXPR field_info_t

@@ -62,7 +62,7 @@ struct counted_t
 template <typename T> class counting_allocator_t
 {
 public:
-  typedef T value_type;
+  using value_type = T;
 
   explicit counting_allocator_t (std::atomic<int> &frees) : frees_ (&frees) {}
 

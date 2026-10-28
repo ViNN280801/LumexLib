@@ -268,7 +268,7 @@ template <typename Pointer> class lock_based_cell : private epoch_wait_base
   using lock_guard_type = sync::Detail::bit_lock_guard;
 
 public:
-  typedef Pointer value_type;
+  using value_type = Pointer;
 
   static LUMEX_CONSTEXPR bool is_always_lock_free = false;
 
@@ -414,7 +414,7 @@ template <typename Pointer> class std_backed_cell : private epoch_wait_base
   using probe_type = typename traits_type::probe_t;
 
 public:
-  typedef Pointer value_type;
+  using value_type = Pointer;
 
   static LUMEX_CONSTEXPR bool is_always_lock_free
       = std::atomic<Pointer>::is_always_lock_free;

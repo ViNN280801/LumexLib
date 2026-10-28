@@ -99,7 +99,7 @@ struct esft_none_t
 /// Result of the probe: the class has a base `enable_shared_from_this<U>`.
 template <class U> struct esft_found_t
 {
-  typedef U type;
+  using type = U;
 };
 
 // Declared, never defined. The first overload deduces U from the (single)
@@ -131,8 +131,8 @@ std::false_type std_esft_probe (...);
 /// The probe result for `Y`: `esft_found_t<U>` or `esft_none_t`.
 template <class Y> struct esft_probe_result
 {
-  typedef decltype (esft_probe (static_cast<Y *> (nullptr),
-                                static_cast<Y *> (nullptr))) type;
+  using type = decltype (esft_probe (static_cast<Y *> (nullptr),
+                                     static_cast<Y *> (nullptr)));
 };
 
 /// True when `Y` derives from `std::enable_shared_from_this` and has no base
@@ -296,7 +296,7 @@ public:
   {
     if (base.weak_this_.expired ())
       {
-        typedef typename std::remove_cv<Y>::type plain_type;
+        using plain_type = typename std::remove_cv<Y>::type;
         base.weak_this_
             = shared_ptr<plain_type> (owner, const_cast<plain_type *> (p));
       }

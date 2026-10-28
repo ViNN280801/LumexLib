@@ -288,12 +288,11 @@ TEST (LumexFormatEdgeCasesTest,
 {
   // Checked against an independent 400-year-cycle computation; MSVC's
   // std::format prints garbage for both.
-  typedef std::chrono::time_point<std::chrono::system_clock,
-                                  std::chrono::seconds>
-      sys_seconds_t;
-  typedef std::chrono::duration<long long, std::ratio<86400>> days_t;
-  typedef std::chrono::time_point<std::chrono::system_clock, days_t>
-      sys_days_t;
+  using sys_seconds_t = std::chrono::time_point<std::chrono::system_clock,
+                                                std::chrono::seconds>;
+  using days_t = std::chrono::duration<long long, std::ratio<86400>>;
+  using sys_days_t
+      = std::chrono::time_point<std::chrono::system_clock, days_t>;
   EXPECT_EQ (fmt::format ("{:%F %T}", sys_seconds_t (std::chrono::seconds (
                                           LLONG_MAX / 2))),
              "146138514283-06-19 07:45:03");

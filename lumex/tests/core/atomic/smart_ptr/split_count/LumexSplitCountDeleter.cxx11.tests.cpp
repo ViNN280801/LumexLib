@@ -77,7 +77,7 @@ struct reentrant_t
   std::function<void ()> on_destroy;
 };
 
-typedef sp::shared_ptr<reentrant_t> rptr;
+using rptr = sp::shared_ptr<reentrant_t>;
 
 rptr
 make_r (int x)
@@ -174,7 +174,7 @@ TEST (LumexSplitCountDeleterTest,
       GivenADeleterThatUsesTheAtomic_WhenTheTornPolicyRuns_ThenItStillWorks)
 {
   Watchdog const dog ("deleter in store, torn");
-  typedef torn_policy_t<tag_c> policy;
+  using policy = torn_policy_t<tag_c>;
   for (std::uint32_t k = 1; k <= 5; ++k)
     {
       policy::set_period (k);
@@ -188,7 +188,7 @@ TEST (
     LumexSplitCountDeleterTest,
     GivenADeleterThatUsesTheAtomic_WhenExchangeHandsTheValueOver_ThenTheDeleterRunsAfterTheCall)
 {
-  typedef ledger_policy_t<tag_d> policy;
+  using policy = ledger_policy_t<tag_d>;
   reset_ledger<policy> ();
   long const alive = alive_objects ().load ();
   {
@@ -229,7 +229,7 @@ TEST (
     GivenADeleterThatUsesTheAtomic_WhenAFailedCompareExchangeReplacesExpected_ThenItRunsInsideTheCall)
 {
   Watchdog const dog ("deleter in cas, expected");
-  typedef ledger_policy_t<tag_e> policy;
+  using policy = ledger_policy_t<tag_e>;
   for (int holder = 0; holder < 2; ++holder)
     {
       reset_ledger<policy> ();
@@ -258,7 +258,7 @@ TEST (
     GivenADeleterThatUsesTheAtomic_WhenAFailedCompareExchangeRetiresDesired_ThenItRunsInsideTheCall)
 {
   Watchdog const dog ("deleter in cas, desired");
-  typedef ledger_policy_t<tag_f> policy;
+  using policy = ledger_policy_t<tag_f>;
   for (int holder = 0; holder < 2; ++holder)
     {
       reset_ledger<policy> ();
@@ -290,7 +290,7 @@ TEST (
     LumexSplitCountDeleterTest,
     GivenADeleterThatUsesTheAtomic_WhenTheAtomicObjectIsDestroyed_ThenTheValueDiesInTheDestructor)
 {
-  typedef ledger_policy_t<tag_g> policy;
+  using policy = ledger_policy_t<tag_g>;
   reset_ledger<policy> ();
   long const alive = alive_objects ().load ();
   {
@@ -317,7 +317,7 @@ TEST (
   EXPECT_EQ (alive_objects ().load (), alive);
 }
 
-typedef gate_policy_t<tag_h> gate_t;
+using gate_t = gate_policy_t<tag_h>;
 
 /// W2 is held before its swap with a pin outstanding; another writer swaps
 /// the block out; the last payer destroys the old object, which runs a hook
@@ -385,7 +385,7 @@ TEST (
     GivenALoadHeldAfterItsTick_WhenTheValueIsReplacedAndItsOwnersDie_ThenNothingIsDestroyedBeforeTheLoadReturns)
 {
   Watchdog const dog ("load held");
-  typedef gate_policy_t<tag_i> policy;
+  using policy = gate_policy_t<tag_i>;
   for (int holder = 0; holder < 2; ++holder)
     {
       policy::arrived ().store (0);
@@ -430,7 +430,7 @@ struct tag_j
 void
 reentrant_stress (int threads, int rep)
 {
-  typedef ledger_policy_t<tag_j> policy;
+  using policy = ledger_policy_t<tag_j>;
   reset_ledger<policy> ();
   long const alive = alive_objects ().load ();
   {

@@ -88,12 +88,12 @@ namespace detail
 // The value of a numeric field: the raw type, or a fixed point when scaled.
 template <typename Raw, typename Ratio> struct numeric_value
 {
-  typedef fixed_point<Raw, Ratio> type;
+  using type = fixed_point<Raw, Ratio>;
 };
 
 template <typename Raw> struct numeric_value<Raw, std::ratio<1>>
 {
-  typedef Raw type;
+  using type = Raw;
 };
 
 // assign () of a numeric field from an argument: an integer for a plain
@@ -214,20 +214,20 @@ struct integer_ : detail::check_modifiers<true, Modifiers...>
                  "integer_: Bytes must be between 1 and sizeof (Raw)");
 
   /// Marks the type as a field.
-  typedef field_tag lumex_protocol_field;
+  using lumex_protocol_field = field_tag;
   /// The integer type of the wire value.
-  typedef Raw raw_type;
+  using raw_type = Raw;
   /// The factor of the engineering value (`std::ratio<1>` without a scale).
-  typedef typename detail::scale_of<Modifiers...>::type scale_type;
+  using scale_type = typename detail::scale_of<Modifiers...>::type;
   /// The decoded value: `Raw`, or `fixed_point<Raw, scale_type>` when scaled.
-  typedef typename detail::numeric_value<Raw, scale_type>::type value_type;
+  using value_type = typename detail::numeric_value<Raw, scale_type>::type;
   /// Bytes in a binary layout.
-  typedef std::integral_constant<std::size_t, Bytes> binary_size;
+  using binary_size = std::integral_constant<std::size_t, Bytes>;
   /// The alignment the aligned binary layout checks: 2 for two bytes, 4 for
   /// four and eight, none for the others.
-  typedef std::integral_constant<std::size_t,
-                                 Bytes == 2 ? 2u : (Bytes >= 4 ? 4u : 1u)>
-      binary_alignment;
+  using binary_alignment
+      = std::integral_constant<std::size_t,
+                               Bytes == 2 ? 2u : (Bytes >= 4 ? 4u : 1u)>;
 
   /// @brief The number of bytes on the wire.
   static LUMEX_CONSTEXPR std::size_t
@@ -327,15 +327,15 @@ struct floating_ : detail::check_modifiers<false, Modifiers...>
                  "floating_: Raw must be a 4-byte float or an 8-byte double");
 
   /// Marks the type as a field.
-  typedef field_tag lumex_protocol_field;
+  using lumex_protocol_field = field_tag;
   /// The value type.
-  typedef Raw raw_type;
+  using raw_type = Raw;
   /// The value.
-  typedef Raw value_type;
+  using value_type = Raw;
   /// Bytes in a binary layout.
-  typedef std::integral_constant<std::size_t, sizeof (Raw)> binary_size;
+  using binary_size = std::integral_constant<std::size_t, sizeof (Raw)>;
   /// The alignment the aligned binary layout checks.
-  typedef std::integral_constant<std::size_t, 4> binary_alignment;
+  using binary_alignment = std::integral_constant<std::size_t, 4>;
 
   /// @brief The number of bytes on the wire.
   static LUMEX_CONSTEXPR std::size_t
@@ -410,20 +410,20 @@ struct floating_ : detail::check_modifiers<false, Modifiers...>
 template <typename IntegerField> struct sign_magnitude_
 {
   /// The integer field that gives the width, order, scale and unit.
-  typedef typename impl_of<IntegerField>::type inner;
+  using inner = typename impl_of<IntegerField>::type;
   /// The raw type: the signed type of the integer field.
-  typedef typename std::make_signed<typename inner::raw_type>::type raw_type;
+  using raw_type = typename std::make_signed<typename inner::raw_type>::type;
   /// The factor of the engineering value.
-  typedef typename inner::scale_type scale_type;
+  using scale_type = typename inner::scale_type;
   /// The value: signed, or a fixed point when scaled.
-  typedef
-      typename detail::numeric_value<raw_type, scale_type>::type value_type;
+  using value_type =
+      typename detail::numeric_value<raw_type, scale_type>::type;
   /// Marks the type as a field.
-  typedef field_tag lumex_protocol_field;
+  using lumex_protocol_field = field_tag;
   /// Bytes in a binary layout.
-  typedef typename inner::binary_size binary_size;
+  using binary_size = typename inner::binary_size;
   /// The alignment the aligned binary layout checks.
-  typedef typename inner::binary_alignment binary_alignment;
+  using binary_alignment = typename inner::binary_alignment;
 
   /// @brief The descriptor.
   static LUMEX_CONSTEXPR field_info_t

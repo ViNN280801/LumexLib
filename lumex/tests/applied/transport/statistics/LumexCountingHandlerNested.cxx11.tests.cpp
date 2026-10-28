@@ -33,7 +33,7 @@ std::atomic<int> g_dead_copies (0);
 // Copying from an allocator that was already destroyed is the defect.
 template <typename T> struct poison_allocator
 {
-  typedef T value_type;
+  using value_type = T;
   volatile int magic;
 
   poison_allocator () : magic (0x5a5a) {}

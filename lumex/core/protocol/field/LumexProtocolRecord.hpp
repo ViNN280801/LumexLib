@@ -76,7 +76,7 @@ namespace field
 template <typename F> struct field_type_tag
 {
   /// The field type.
-  typedef F type;
+  using type = F;
 };
 
 namespace detail
@@ -112,7 +112,7 @@ template <std::size_t I, typename... F> struct nth_field;
 
 template <typename Head, typename... Tail> struct nth_field<0, Head, Tail...>
 {
-  typedef Head type;
+  using type = Head;
 };
 
 template <std::size_t I, typename Head, typename... Tail>
@@ -132,7 +132,7 @@ struct record
           F...>
 {
   /// The number of fields.
-  typedef std::integral_constant<std::size_t, sizeof...(F)> size;
+  using size = std::integral_constant<std::size_t, sizeof...(F)>;
 
   /// @brief The field type at `I`.
   template <std::size_t I> struct field_at : detail::nth_field<I, F...>
@@ -209,7 +209,7 @@ template <typename List> struct record_of_list;
 template <template <typename...> class List, typename... F>
 struct record_of_list<List<F...>>
 {
-  typedef record<F...> type;
+  using type = record<F...>;
 };
 } // namespace detail
 
@@ -310,15 +310,15 @@ template <template <typename...> class List, typename... F>
 struct group_impl<List<F...>>
 {
   /// The value: one value per field.
-  typedef record<F...> value_type;
+  using value_type = record<F...>;
   /// The sum of the field sizes, or `variable_size`.
-  typedef detail::size_sum<impl_of<F>::type::binary_size::value...>
-      binary_size;
+  using binary_size
+      = detail::size_sum<impl_of<F>::type::binary_size::value...>;
   /// The largest alignment of a field.
-  typedef detail::size_max<impl_of<F>::type::binary_alignment::value...>
-      binary_alignment;
+  using binary_alignment
+      = detail::size_max<impl_of<F>::type::binary_alignment::value...>;
   /// The field types.
-  typedef List<F...> fields_type;
+  using fields_type = List<F...>;
 
   /// @brief The descriptor (kind `group`, `count` the number of fields).
   static LUMEX_CONSTEXPR field_info_t

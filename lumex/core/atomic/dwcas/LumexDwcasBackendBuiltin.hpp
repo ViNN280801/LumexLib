@@ -55,7 +55,7 @@
  * (the value 3) before the first include. Production code uses the other
  * backends: they need no library.
  *
- * The 128-bit type is accessed through a `may_alias` typedef, so the pair of
+ * The 128-bit type is accessed through a `may_alias` alias, so the pair of
  * 64-bit members of `dwcas_word` can be read as one integer without breaking
  * strict aliasing.
  *
@@ -98,11 +98,11 @@ namespace Detail
 inline namespace backend_builtin
 {
 /// An unsigned 128-bit integer that may alias any object.
-__extension__ typedef unsigned __int128 u128_alias_t
-    __attribute__ ((may_alias));
+__extension__ using u128_alias_t
+    = unsigned __int128 __attribute__ ((may_alias));
 
 /// An unsigned 128-bit integer.
-__extension__ typedef unsigned __int128 u128_t;
+__extension__ using u128_t = unsigned __int128;
 
 /// The `__ATOMIC_*` constant of @p order, with `consume` as `acquire`.
 inline int
@@ -222,7 +222,7 @@ struct builtin_operations_t
 };
 
 /// The operations the word calls.
-typedef builtin_operations_t backend_operations_t;
+using backend_operations_t = builtin_operations_t;
 } // namespace backend_builtin
 } // namespace Detail
 } // namespace dwcas

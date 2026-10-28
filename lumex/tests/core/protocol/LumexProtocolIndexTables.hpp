@@ -41,15 +41,15 @@ struct codec
 // frame, parameter rows through the registry words.
 struct widget_header
 {
-  typedef registry::table_vocabulary lumex_vocabulary;
+  using lumex_vocabulary = registry::table_vocabulary;
   static LUMEX_CONSTEXPR std::size_t key_width = 1;
 };
 
 // The same rows as tokenized text: the key is the first token.
 struct text_header
 {
-  typedef registry::table_vocabulary lumex_vocabulary;
-  typedef layout::tokenized_text_layout<','> layout_type;
+  using lumex_vocabulary = registry::table_vocabulary;
+  using layout_type = layout::tokenized_text_layout<','>;
 };
 
 // A header that names neither a key width nor a reader (the layer cannot
@@ -62,12 +62,12 @@ struct plain_header
 // is the widest key type of the table.
 struct wide_reader_header
 {
-  typedef index::key_at<0, 4> key_reader;
+  using key_reader = index::key_at<0, 4>;
 };
 
 struct pair_reader_header
 {
-  typedef index::key_at<0, 2> key_reader;
+  using key_reader = index::key_at<0, 2>;
 };
 
 // The parameter table of the lamp.
@@ -190,7 +190,7 @@ LUMEX_PROTOCOL_DEFINE (washer, codec, text_header, MNEMONIC_ROWS);
 // A key that is two numbers: type and number, two bytes on the wire.
 struct pair_key
 {
-  typedef dsl::composite_key_tag lumex_composite_key;
+  using lumex_composite_key = dsl::composite_key_tag;
   std::uint8_t type;
   std::uint8_t number;
 
@@ -315,7 +315,7 @@ namespace dialogue
 {
 template <typename Ack, typename Nak> struct ack_nak
 {
-  typedef dsl::reply_tag lumex_protocol_reply;
+  using lumex_protocol_reply = dsl::reply_tag;
 };
 
 struct rate_limit_kind
@@ -324,7 +324,7 @@ struct rate_limit_kind
 
 struct rate_limit_t
 {
-  typedef rate_limit_kind option_kind;
+  using option_kind = rate_limit_kind;
   std::uint32_t milliseconds;
 
   static char const *
@@ -354,7 +354,7 @@ struct vocabulary : registry::table_vocabulary
 
 struct header
 {
-  typedef vocabulary lumex_vocabulary;
+  using lumex_vocabulary = vocabulary;
   static LUMEX_CONSTEXPR std::size_t key_width = 1;
 };
 

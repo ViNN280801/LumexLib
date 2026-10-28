@@ -178,7 +178,7 @@ divide_and_conquer_reference (int const *begin, std::size_t size)
 
 // -- Scenarios: run (iterations, size) and the reference with raw pointers --
 
-typedef std::uint64_t (*run_t) (std::size_t iterations, std::size_t size);
+using run_t = std::uint64_t (*) (std::size_t iterations, std::size_t size);
 
 struct scenario_t
 {

@@ -288,7 +288,7 @@ TEST (LumexAtomicSharedPtrKindsTest,
 TEST (LumexAtomicSharedPtrKindsTest,
       GivenAConstElement_WhenStoredAndCompareExchanged_ThenWorks)
 {
-  typedef std::string const Text;
+  using Text = std::string const;
   pf::shared_ptr<Text> const first = pf::make_shared<Text> ("first");
   atomic_shared_ptr<Text> atom (first);
   pf::shared_ptr<Text> expected = first;

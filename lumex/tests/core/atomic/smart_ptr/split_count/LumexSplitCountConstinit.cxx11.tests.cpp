@@ -60,8 +60,8 @@ struct counted_t
   int v = 0;
 };
 
-typedef asp::atomic_shared_ptr_lock_free_split_count<counted_t> counted_atomic;
-typedef asp::atomic_weak_ptr_lock_free_split_count<counted_t> counted_weak;
+using counted_atomic = asp::atomic_shared_ptr_lock_free_split_count<counted_t>;
+using counted_weak = asp::atomic_weak_ptr_lock_free_split_count<counted_t>;
 
 /// Runs after the destruction of every atomic object below.
 struct exit_check_t

@@ -47,8 +47,8 @@ struct codec
 /// first two digits.
 struct text_header
 {
-  typedef layout::fixed_width_text_layout<16> layout_type;
-  typedef index::key_at_digits<0, 2, 16> key_reader;
+  using layout_type = layout::fixed_width_text_layout<16>;
+  using key_reader = index::key_at_digits<0, 2, 16>;
   static LUMEX_CONSTEXPR std::size_t key_width = 1;
 };
 

@@ -78,7 +78,7 @@ template <typename Engine>
 void
 cas_double_winner (Params const &p, lumex_test::Verdict &verdict)
 {
-  typedef typename Engine::template shared<VNode> atom_type;
+  using atom_type = typename Engine::template shared<VNode>;
   lumex_test::ObjectLedger ledger (static_cast<std::size_t> (p.iterations) * 4
                                    + 64);
   lumex_test::ReusePool pool;
@@ -120,7 +120,7 @@ template <typename Engine>
 void
 exchange_double_return (Params const &p, lumex_test::Verdict &verdict)
 {
-  typedef typename Engine::template shared<VNode> atom_type;
+  using atom_type = typename Engine::template shared<VNode>;
   lumex_test::ObjectLedger ledger (static_cast<std::size_t> (p.iterations) * 4
                                    + 64);
   lumex_test::ReusePool pool;
@@ -166,7 +166,7 @@ template <typename Engine>
 void
 gap_aba (lumex_test::Verdict &verdict)
 {
-  typedef typename Engine::template shared<VNode> atom_type;
+  using atom_type = typename Engine::template shared<VNode>;
   lumex_test::ObjectLedger ledger (64);
   lumex_test::ReusePool pool;
   lumex_test::StallPoint stall;

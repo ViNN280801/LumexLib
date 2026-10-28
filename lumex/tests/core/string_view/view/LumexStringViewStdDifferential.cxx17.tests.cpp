@@ -39,8 +39,8 @@ bool
 same_query_results (std::basic_string<CharT> const &text,
                     std::basic_string<CharT> const &other)
 {
-  typedef typename lumex_sv_test::char_set<CharT>::view_t view_t;
-  typedef std::basic_string_view<CharT> std_view_t;
+  using view_t = typename lumex_sv_test::char_set<CharT>::view_t;
+  using std_view_t = std::basic_string_view<CharT>;
   exact_copy<CharT> text_copy (text);
   exact_copy<CharT> other_copy (other);
   view_t const view (text_copy.data (), text_copy.size ());
@@ -169,8 +169,8 @@ template <class CharT>
 void
 formatting_probe ()
 {
-  typedef typename lumex_sv_test::char_set<CharT>::view_t view_t;
-  typedef std::basic_ostringstream<CharT> stream_t;
+  using view_t = typename lumex_sv_test::char_set<CharT>::view_t;
+  using stream_t = std::basic_ostringstream<CharT>;
   std::vector<CharT> const alphabet
       = lumex_sv_test::char_set<CharT>::alphabet ();
   std::vector<std::basic_string<CharT>> const texts

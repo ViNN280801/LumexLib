@@ -109,7 +109,7 @@ apostrophe_locale ()
 /** Output container whose growth always fails. */
 struct nongrowing_container_t
 {
-  typedef char value_type;
+  using value_type = char;
 
   void
   push_back (char)

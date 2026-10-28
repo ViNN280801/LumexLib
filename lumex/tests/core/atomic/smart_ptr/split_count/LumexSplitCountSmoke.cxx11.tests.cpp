@@ -31,8 +31,8 @@ namespace
 {
 using namespace split_test;
 
-typedef asp::atomic_shared_ptr_lock_free_split_count<Obj> shared_atomic;
-typedef asp::atomic_weak_ptr_lock_free_split_count<Obj> weak_atomic;
+using shared_atomic = asp::atomic_shared_ptr_lock_free_split_count<Obj>;
+using weak_atomic = asp::atomic_weak_ptr_lock_free_split_count<Obj>;
 
 static_assert (sizeof (shared_atomic) == 32, "a 16-byte word and the epoch");
 static_assert (sizeof (weak_atomic) == 32, "a 16-byte word and the epoch");
@@ -200,7 +200,7 @@ run_every_operation_once ()
 TEST (LumexSplitCountSmokeTest,
       GivenTheLedgerPolicy_WhenEveryOperationRuns_ThenItBalances)
 {
-  typedef ledger_policy_t<ledger_tag> policy;
+  using policy = ledger_policy_t<ledger_tag>;
   run_every_operation_once<policy> ();
   EXPECT_GT (policy::counters ().ticks.load (), 0u) << "loads pin the word";
   EXPECT_EQ (policy::counters ().transfers.load (), 0u)
@@ -210,7 +210,7 @@ TEST (LumexSplitCountSmokeTest,
 TEST (LumexSplitCountSmokeTest,
       GivenTheTornPolicy_WhenEveryOperationRuns_ThenItBalances)
 {
-  typedef torn_policy_t<torn_tag> policy;
+  using policy = torn_policy_t<torn_tag>;
   policy::set_period (2);
   run_every_operation_once<policy> ();
   policy::set_period (0);
@@ -219,7 +219,7 @@ TEST (LumexSplitCountSmokeTest,
 TEST (LumexSplitCountSmokeTest,
       GivenAHeldLoad_WhenTheValueIsReplaced_ThenUseCountIsNeverBelow)
 {
-  typedef gate_policy_t<gate_tag> policy;
+  using policy = gate_policy_t<gate_tag>;
   reset_ledger<policy> ();
   policy::arrived ().store (0);
   sp::shared_ptr<Obj> p = sp::make_shared<Obj> (7);
@@ -288,7 +288,7 @@ TEST (LumexSplitCountSmokeTest,
 TEST (LumexSplitCountSmokeTest,
       GivenAHeldLoad_WhenStrongCompareExchange_ThenItSucceedsAtOnce)
 {
-  typedef gate_policy_t<alias_tag> policy;
+  using policy = gate_policy_t<alias_tag>;
   reset_ledger<policy> ();
   policy::arrived ().store (0);
   sp::shared_ptr<Obj> p = sp::make_shared<Obj> (1);
@@ -327,7 +327,7 @@ TEST (LumexSplitCountSmokeTest,
 TEST (LumexSplitCountSmokeTest,
       GivenTheTickLimit_WhenMoreLoadsComeThanItAllows_ThenTheExtraOneBacksOff)
 {
-  typedef gate_policy_t<limit_tag, 2u> policy;
+  using policy = gate_policy_t<limit_tag, 2u>;
   reset_ledger<policy> ();
   policy::arrived ().store (0);
   sp::shared_ptr<Obj> p = sp::make_shared<Obj> (1);
@@ -369,7 +369,7 @@ struct empty_alias_tag
 TEST (LumexSplitCountSmokeTest,
       GivenTornGuesses_WhenEmptyAliasesAreLoaded_ThenTheCurrentOneIsReturned)
 {
-  typedef torn_policy_t<empty_alias_tag> policy;
+  using policy = torn_policy_t<empty_alias_tag>;
   policy::set_period (1);
   int first = 1;
   int second = 2;

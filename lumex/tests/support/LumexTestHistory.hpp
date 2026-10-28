@@ -137,7 +137,7 @@ namespace history_detail
 template <typename Model> class Search
 {
 public:
-  typedef typename Model::state_type state_type;
+  using state_type = typename Model::state_type;
 
   explicit Search (std::vector<HistoryOp> const &ops)
       : ops_ (ops), full_ ((std::uint64_t (1) << ops.size ()) - 1)
@@ -233,7 +233,7 @@ enum RegisterKind
 
 struct RegisterModel
 {
-  typedef std::int64_t state_type;
+  using state_type = std::int64_t;
 
   static bool
   apply (state_type &state, HistoryOp const &op)
@@ -310,7 +310,7 @@ enum StackKind
 
 struct StackModel
 {
-  typedef std::vector<std::int64_t> state_type;
+  using state_type = std::vector<std::int64_t>;
 
   static bool
   apply (state_type &state, HistoryOp const &op)
@@ -346,7 +346,7 @@ enum QueueKind
 
 struct QueueModel
 {
-  typedef std::vector<std::int64_t> state_type;
+  using state_type = std::vector<std::int64_t>;
 
   static bool
   apply (state_type &state, HistoryOp const &op)
@@ -385,7 +385,7 @@ enum SetKind
 struct SetModel
 {
   /// The members as a bit mask.
-  typedef std::int64_t state_type;
+  using state_type = std::int64_t;
 
   static bool
   apply (state_type &state, HistoryOp const &op)

@@ -142,8 +142,8 @@ template <typename Engine> class SharedStack
     pf::shared_ptr<Node> next;
   };
 
-  typedef pf::shared_ptr<Node> NodePtr;
-  typedef typename Engine::template shared<Node> head_type;
+  using NodePtr = pf::shared_ptr<Node>;
+  using head_type = typename Engine::template shared<Node>;
 
 public:
   SharedStack (lumex_test::ObjectLedger &ledger, lumex_test::ReusePool &pool)
@@ -710,8 +710,8 @@ template <typename Engine> class SharedQueue
     typename Engine::template shared<Node> next;
   };
 
-  typedef pf::shared_ptr<Node> NodePtr;
-  typedef typename Engine::template shared<Node> link_type;
+  using NodePtr = pf::shared_ptr<Node>;
+  using link_type = typename Engine::template shared<Node>;
 
 public:
   SharedQueue (lumex_test::ObjectLedger &ledger, lumex_test::ReusePool &pool)
@@ -898,7 +898,7 @@ template <typename Engine> class SharedSortedList
     bool marked;
   };
 
-  typedef pf::shared_ptr<Link> LinkPtr;
+  using LinkPtr = pf::shared_ptr<Link>;
 
   struct Node
   {
@@ -909,7 +909,7 @@ template <typename Engine> class SharedSortedList
     typename Engine::template shared<Link> next;
   };
 
-  typedef pf::shared_ptr<Node> NodePtr;
+  using NodePtr = pf::shared_ptr<Node>;
 
   struct Position
   {

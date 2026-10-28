@@ -430,8 +430,8 @@ template <> struct SpValues<Flag>
   }
 };
 
-typedef ::testing::Types<int, double, std::string, TrackedPod, Handle, Flag>
-    ValueTypes;
+using ValueTypes
+    = ::testing::Types<int, double, std::string, TrackedPod, Handle, Flag>;
 
 /// Shared pointers to the three states of T.
 template <typename T>
@@ -569,7 +569,7 @@ live_allocations ()
  */
 template <typename T> struct CountingAllocator
 {
-  typedef T value_type;
+  using value_type = T;
 
   CountingAllocator () {}
   template <typename U> CountingAllocator (CountingAllocator<U> const &) {}
@@ -724,7 +724,7 @@ private:
 
 template <typename...> struct make_void
 {
-  typedef void type;
+  using type = void;
 };
 
 #define LUMEX_ATOMIC_TEST_DETECTOR(name, expression)                          \

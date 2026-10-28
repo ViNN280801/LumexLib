@@ -53,7 +53,7 @@ struct std_family
   template <class T> using shared = std::shared_ptr<T>;
   template <class T> using weak = std::weak_ptr<T>;
   template <class T> using enable_from_this = std::enable_shared_from_this<T>;
-  typedef std::bad_weak_ptr bad_weak;
+  using bad_weak = std::bad_weak_ptr;
 
   static char const *
   name ()
@@ -140,7 +140,7 @@ struct lumex_family
   template <class T> using shared = sp::shared_ptr<T>;
   template <class T> using weak = sp::weak_ptr<T>;
   template <class T> using enable_from_this = sp::enable_shared_from_this<T>;
-  typedef sp::bad_weak_ptr bad_weak;
+  using bad_weak = sp::bad_weak_ptr;
 
   static char const *
   name ()
@@ -531,7 +531,7 @@ struct AllocStats
 template <class T> class CountingAllocator
 {
 public:
-  typedef T value_type;
+  using value_type = T;
 
   explicit CountingAllocator (AllocStats *stats) : stats_ (stats) {}
 

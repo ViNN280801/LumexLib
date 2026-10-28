@@ -405,7 +405,7 @@ struct tears_t<torn_policy_t<Tag, Limit, Reserve>>
 // -- What the scenario tests share --
 
 /// The counter words and the combined form of the engine's counters.
-typedef sp::detail::split_counter counter_t;
+using counter_t = sp::detail::split_counter;
 
 /// The control block of a smart pointer (null for an empty owner).
 template <typename Pointer>
@@ -562,7 +562,7 @@ struct sim_alloc_redirect_t
 {
   constexpr sim_alloc_redirect_t () : allocate (nullptr), release (nullptr) {}
 
-  std::atomic<void *(*) (std::size_t size)> allocate;
+  std::atomic<void *(*)(std::size_t size)> allocate;
   std::atomic<bool (*) (void *block)> release;
 };
 

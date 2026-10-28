@@ -71,7 +71,7 @@ namespace bench_fields
 namespace layout = lumex::core::protocol::layout;
 namespace field = lumex::core::protocol::field;
 
-typedef field::record_of<sink_t::fields_type>::type sink;
+using sink = field::record_of<sink_t::fields_type>::type;
 
 template <typename Layout>
 std::size_t

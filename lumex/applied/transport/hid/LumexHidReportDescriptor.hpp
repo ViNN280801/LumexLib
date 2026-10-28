@@ -111,9 +111,9 @@ struct report_layout_t
 };
 
 /// @brief The result of the analysis.
-typedef lumex::core::expected::result::expected<report_layout_t,
-                                                std::error_code>
-    report_layout_result_t;
+using report_layout_result_t
+    = lumex::core::expected::result::expected<report_layout_t,
+                                              std::error_code>;
 
 /**
  * @brief Analyzes a report descriptor (see the file description).

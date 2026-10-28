@@ -83,9 +83,9 @@ struct unit_tag
 template <typename Ratio> struct scale
 {
   /// Marks the type as a field modifier.
-  typedef modifier_tag lumex_protocol_modifier;
+  using lumex_protocol_modifier = modifier_tag;
   /// The factor, reduced (`std::ratio<2, 200>` is `std::ratio<1, 100>`).
-  typedef typename Ratio::type ratio;
+  using ratio = typename Ratio::type;
 };
 
 /**
@@ -95,9 +95,9 @@ template <typename Ratio> struct scale
 #define LUMEX_PROTOCOL_UNIT(name_, symbol_)                                   \
   struct name_                                                                \
   {                                                                           \
-    typedef ::lumex::core::protocol::field::modifier_tag                      \
-        lumex_protocol_modifier;                                              \
-    typedef ::lumex::core::protocol::field::unit_tag lumex_protocol_unit;     \
+    using lumex_protocol_modifier                                             \
+        = ::lumex::core::protocol::field::modifier_tag;                       \
+    using lumex_protocol_unit = ::lumex::core::protocol::field::unit_tag;     \
     static LUMEX_CONSTEXPR char const *                                       \
     symbol () LUMEX_NOEXCEPT                                                  \
     {                                                                         \
@@ -228,7 +228,7 @@ struct count_if<Is, Head, Tail...>
 // The ratio of the scale<> among the modifiers, std::ratio<1> without one.
 template <typename... Modifiers> struct scale_of
 {
-  typedef std::ratio<1> type;
+  using type = std::ratio<1>;
 };
 
 template <typename Head, typename... Tail>
@@ -239,7 +239,7 @@ struct scale_of<Head, Tail...> : scale_of<Tail...>
 template <typename Ratio, typename... Tail>
 struct scale_of<scale<Ratio>, Tail...>
 {
-  typedef typename scale<Ratio>::ratio type;
+  using type = typename scale<Ratio>::ratio;
 };
 
 // The symbol of the unit among the modifiers, "" without one.
