@@ -342,6 +342,14 @@
 
 **Проверено:** GCC 13, Clang 23, GCC 8.3: тесты проходят; мутации (буфер без `+1`, пустой каталог, очищенный текст) убиты тестами.
 
+##### Конфигурация: сообщения о Python < 3.8 и об отсутствующем libusb
+
+**Файлы:** `cmake/LumexBuildInfo.cmake`, `CMakeLists.txt`, `cmake/LumexHidDefault.cmake` (новый), `cmake/LumexOptions.cmake`, `lumex/tests/cmake/cases/configure_build_info_python.cmake`, `hid_default_decision.cmake` (новые).
+
+**Суть:** при Python старше 3.8 CMake предупреждает, что `LumexLib-build-info.json` не будет записан; `-DLUMEX_HIDAPI_BACKEND=libusb` без libusb-1.0 выводит предупреждение с причиной вместо тихого OFF.
+
+**Проверено:** реальная конфигурация на Python 3.7.3 и без libusb; наборы `cmake.*` (240 тестов) проходят на GCC 13 и Clang 23.
+
 #### Изменено
 
 ##### `serial_port_state::denied`: отказ в доступе при пробном открытии в POSIX
