@@ -164,6 +164,14 @@
 
 **Проверено:** `bash -n create_release.sh`. В `cmake.release_script_dry_run` добавлен случай с компилятором без C++23 (обертка компилятора хоста, отвергающая оба флага): `--std 17,23` строит одну сборку и пропускает C++23, `--std 23` завершается с ошибкой. Случай работает только на Linux и на этой машине не запускался. Release-матрица `create_release.sh` на Linux (GCC 8.3, GCC 13.2, Clang 23.1, MinGW 8.3; C++11, 14, 17, 20, 23, у GCC 8.3 и MinGW 8.3 без C++23): 18 сборок с `LUMEX_WERROR=ON`, 0 предупреждений и 0 ошибок.
 
+##### Примеры транспорта: сессии, датаграммы, статистика, отмена, корутины, лог, ошибки
+
+**Файлы:** `lumex/examples/transport/` (новые: `example_transport_session.cpp`, `example_transport_hotplug.cpp`, `example_transport_datagram.cpp`, `example_transport_statistics.cpp`, `example_transport_cancellation.cpp`, `example_transport_coroutines.cpp`, `example_transport_log.cpp`, `example_transport_errors.cpp`, `example_transport_workflow.cpp`; `CMakeLists.txt`), `lumex/applied/transport/README.md` (раздел примеров).
+
+**Суть:** девять примеров нового в `applied/transport`: `stream_session` и `message_session` (открытие с тайм-аутом, переходы `channel_state`, переподключение и `faulted`, `reconnect_delay`), селекторы устройств и `device_watcher` с `presence_sink ()` над поддельным перечислением портов, UDP и `framed_datagram`, снимки статистики потока и адаптера кадров, `asio::cancel_after`, слот и сигнал отмены, `asio::deferred`, обработчик на executor программы, корутины C++20 (`use_awaitable`, `||`, `parallel_group`; без корутин у компилятора пример сообщает об этом и завершается с 0), лог транспорта в `LumexLogger` (порог следует за файлом-триггером), `transport_errc`, `permission_denied` с советом из записи лога, `format_system_error` и то, что приложение говорит пользователю на POSIX и в Windows, клиент прибора из сессии, кодека и счетчиков. Все зарегистрированы как `examples.transport.*` и работают без оборудования, root и сети, кроме loopback; пример лога идет под `RESOURCE_LOCK lumex_logger_trigger_file`.
+
+**Проверено:** Linux (glibc 2.28), деревья с `LUMEX_WERROR=ON`, ни одной строки предупреждений: GCC 13.2, Clang 23.1 и GCC 8.3 (C++11; пример корутин как C++20, на GCC 8.3 печатает сообщение и завершается с 0), `examples.transport.*` 13 из 13 на каждом, 40 прогонов подряд на GCC 13.2 без падений; MinGW 8.3 собирает и линкует все 13; строгая компиляция каждого источника на GCC 8.3, Clang 23.1 (C++11) и GCC 13.2 (C++14, 17, 20): 0 предупреждений. Windows (cl.exe, clang-cl): TODO.
+
 #### Исправлено
 
 ##### `LumexFilesystem`: пути не в ASCII на Windows
