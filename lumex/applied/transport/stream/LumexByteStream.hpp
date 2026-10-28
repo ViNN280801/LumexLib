@@ -432,6 +432,9 @@ class byte_stream
   };
 
 public:
+  /// @brief The strand of the stream's operations.
+  using strand_type = stream_impl::strand_type;
+
   /// @brief A stream over a concrete implementation.
   explicit byte_stream (std::shared_ptr<stream_impl> impl);
 
@@ -445,6 +448,14 @@ public:
 
   /// @brief The executor the stream was given.
   executor_type get_executor () const LUMEX_NOEXCEPT;
+
+  /// @brief The strand every operation of the stream runs on (a copy).
+  /// @details Start an operation that uses `asio::cancel_after` and whose
+  /// handler has no associated executor of its own inside this strand: from
+  /// a handler that runs on it or through `asio::post (x.get_strand (),
+  /// ...)`. Asio requires it, because the timer of `cancel_after` runs on
+  /// this strand while the initiation installs the cancellation slot.
+  strand_type get_strand () const LUMEX_NOEXCEPT;
 
   /// @brief The name for logs.
   std::string const &name () const LUMEX_NOEXCEPT;

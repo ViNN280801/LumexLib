@@ -172,6 +172,14 @@
 
 **Проверено:** Linux (glibc 2.28), деревья с `LUMEX_WERROR=ON`, ни одной строки предупреждений: GCC 13.2, Clang 23.1 и GCC 8.3 (C++11; пример корутин как C++20, на GCC 8.3 печатает сообщение и завершается с 0), `examples.transport.*` 13 из 13 на каждом, 40 прогонов подряд на GCC 13.2 без падений; MinGW 8.3 собирает и линкует все 13; строгая компиляция каждого источника на GCC 8.3, Clang 23.1 (C++11) и GCC 13.2 (C++14, 17, 20): 0 предупреждений. Windows (cl.exe, clang-cl): TODO.
 
+##### Транспорт: `get_strand ()` у транспортов, сессий и адаптеров кадров
+
+**Файлы:** `lumex/applied/transport/stream/LumexByteStream.{hpp,cpp}`, `datagram/LumexMessageTransport.{hpp,cpp}`, `session/LumexBasicSession.hpp`, `framed/detail/LumexBasicFramed.hpp`, `README.md`, тесты `LumexTransportCancellation.cxx11`, `session/LumexSessionTokens.cxx11`, `framed/LumexFramedStreamTokens.cxx11`.
+
+**Суть:** `byte_stream`, `message_transport`, сессии и `framed_stream` / `framed_datagram` дают `get_strand ()` (и `strand_type`): strand, на котором выполняются их операции. Операцию с `asio::cancel_after` и обработчиком без своего executor начинают внутри него (`asio::post (x.get_strand (), ...)`), как требует Asio; раньше этот strand был доступен только через реализацию.
+
+**Проверено:** Linux, GCC 13: strand потока и транспорта сообщений совпадает со strand реализации, strand сессии совпадает с executor, который сообщают ее начальные функции; чтение кадра с `cancel_after`, начатое в `get_strand ()` адаптера, завершается `cancelled`; наборы `transport` (C++11, C++20), `session`, `framed`, `datagram`, `serial` (C++11) проходят. Windows не проверялось.
+
 #### Исправлено
 
 ##### `LumexFilesystem`: пути не в ASCII на Windows
