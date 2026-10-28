@@ -72,6 +72,7 @@
 #include <vector>
 
 #include "lumex/applied/transport/detail/LumexAsio.hpp"
+#include "lumex/applied/transport/detail/LumexHandlerKeeper.hpp"
 #include "lumex/applied/transport/session/LumexSessionTypes.hpp"
 #include "lumex/applied/transport/session/detail/LumexSessionHandlers.hpp"
 #include "lumex/applied/transport/stream/LumexStreamTypes.hpp"
@@ -103,13 +104,15 @@ std::string const &empty_session_name () LUMEX_NOEXCEPT;
  * the transport and implements the four `*_transport` functions, which always
  * run on the strand.
  */
-class session_core : public std::enable_shared_from_this<session_core>
+class session_core
+    : public ::lumex::applied::transport::detail::handler_keeper,
+      public std::enable_shared_from_this<session_core>
 {
 public:
   typedef asio::strand<executor_type> strand_type;
 
   session_core (executor_type const &executor, session_options_t options);
-  virtual ~session_core ();
+  ~session_core () override;
 
   session_core (session_core const &) = delete;
   session_core &operator= (session_core const &) = delete;
@@ -170,6 +173,10 @@ public:
   /// @brief Drops the open waiter `id` without calling it (its sync caller
   /// gave up).
   void forget_open_wait (std::uint64_t id);
+  /// @brief The `io_context` is being destroyed: the waiters die uncalled
+  /// (a waiter whose handler owns the session would otherwise keep it for
+  /// ever).
+  void drop_kept_handlers () LUMEX_NOEXCEPT override;
 
   /// @brief Completes with the state once it differs from `seen` or changed
   /// after this call (posted at once when it already did), or `cancelled` on
@@ -279,6 +286,7 @@ private:
     status_handler_t handler;
   };
 
+  void enlist ();
   void enqueue_state_wait (channel_state seen, std::uint64_t sequence,
                            state_handler_t handler);
   void enqueue_snapshot_wait (std::uint64_t sequence,
@@ -323,6 +331,8 @@ private:
   std::atomic<std::uint64_t> state_word_;
   std::atomic<unsigned> stop_epoch_;
   std::atomic<bool> detached_;
+  // Set when the core was enlisted for the io_context shutdown.
+  std::atomic<bool> enlisted_;
   std::atomic<std::uint64_t> next_waiter_id_;
   std::atomic<std::uint64_t> attempts_;
   std::atomic<std::uint64_t> failed_attempts_;

@@ -250,6 +250,14 @@ public:
     complete (std::move (handler), error, bytes);
   }
 
+  // The io_context is being destroyed: the open in progress dies uncalled (a
+  // late resolve or connect finds no current open).
+  void
+  drop_kept_handlers () LUMEX_NOEXCEPT override
+  {
+    status_handler_t const dropped (open_.take ());
+  }
+
 protected:
   void
   do_open (status_handler_t handler) override
@@ -479,6 +487,14 @@ public:
           "sent " + std::to_string (message.payload.size ()) + " B",
           log::log_bytes_t (message.payload.data (), message.payload.size ()));
     complete (std::move (handler), error);
+  }
+
+  // The io_context is being destroyed: the open in progress dies uncalled (a
+  // late resolve or connect finds no current open).
+  void
+  drop_kept_handlers () LUMEX_NOEXCEPT override
+  {
+    status_handler_t const dropped (open_.take ());
   }
 
 protected:

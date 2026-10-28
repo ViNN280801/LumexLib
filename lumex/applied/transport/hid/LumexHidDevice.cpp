@@ -188,6 +188,19 @@ public:
     return layout_;
   }
 
+  // The io_context is being destroyed (no thread runs it any more): the open,
+  // the receives and the queued and the running write die uncalled.
+  void
+  drop_kept_handlers () LUMEX_NOEXCEPT override
+  {
+    status_handler_t const dropped_open (std::move (open_handler_));
+    status_handler_t const dropped_write (std::move (write_handler_));
+    std::deque<message_handler_t> dropped_receives;
+    dropped_receives.swap (receives_);
+    std::deque<queued_send> dropped_sends;
+    dropped_sends.swap (sends_);
+  }
+
   // The blocking part of open, on the runtime's executor.
   void open_blocking ();
   // One write, on the runtime's executor.

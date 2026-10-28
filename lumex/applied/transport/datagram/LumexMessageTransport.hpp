@@ -70,6 +70,7 @@
 
 #include "lumex/applied/transport/detail/LumexAsio.hpp"
 #include "lumex/applied/transport/detail/LumexCountingHandler.hpp"
+#include "lumex/applied/transport/detail/LumexHandlerKeeper.hpp"
 #include "lumex/applied/transport/statistics/LumexTransportStatistics.hpp"
 #include "lumex/applied/transport/stream/LumexStreamTypes.hpp"
 #include "lumex/core/expected/Expected"
@@ -110,13 +111,14 @@ struct message_impl_access;
 
 /// @brief The implementation behind a `message_transport` (the rules of
 /// `stream::stream_impl`).
-class message_impl : public std::enable_shared_from_this<message_impl>
+class message_impl : public detail::handler_keeper,
+                     public std::enable_shared_from_this<message_impl>
 {
 public:
   typedef asio::strand<executor_type> strand_type;
 
   message_impl (executor_type const &executor, std::string name);
-  virtual ~message_impl ();
+  ~message_impl () override;
 
   message_impl (message_impl const &) = delete;
   message_impl &operator= (message_impl const &) = delete;
@@ -211,6 +213,12 @@ public:
   void start_cancel ();
   void start_close ();
 
+  /// @brief Called when the `io_context` of the transport is destroyed: an
+  /// implementation that keeps a handler in a member destroys it here
+  /// WITHOUT calling it, outside any lock of its own (see
+  /// `stream::stream_impl::drop_kept_handlers`). The default keeps nothing.
+  void drop_kept_handlers () LUMEX_NOEXCEPT override;
+
 protected:
   virtual void do_open (status_handler_t handler) = 0;
   virtual void do_receive (message_handler_t handler) = 0;
@@ -231,6 +239,7 @@ protected:
 private:
   friend struct message_impl_access;
 
+  void enlist ();
   void enqueue_open (status_handler_t handler,
                      detail::operation_mark_ptr const &mark);
   void enqueue_receive (message_handler_t handler,
@@ -242,6 +251,8 @@ private:
   strand_type strand_;
   std::string name_;
   std::atomic<bool> open_;
+  // Set when the implementation was enlisted for the io_context shutdown.
+  std::atomic<bool> enlisted_;
   // Bumped by every close (see connection_epoch).
   std::atomic<std::size_t> connection_epoch_;
   std::shared_ptr<statistics::statistics_counters> counters_;

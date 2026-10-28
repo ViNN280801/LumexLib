@@ -311,7 +311,7 @@ session_core::session_core (executor_type const &executor,
       options_ (std::move (options)), retry_timer_ (strand_),
       open_timer_ (strand_),
       state_word_ (make_word (channel_state::closed, 0)), stop_epoch_ (0),
-      detached_ (false), next_waiter_id_ (1), attempts_ (0),
+      detached_ (false), enlisted_ (false), next_waiter_id_ (1), attempts_ (0),
       failed_attempts_ (0), reconnects_ (0), running_ (false), run_epoch_ (0),
       generation_ (0), wait_id_ (0), attempt_ (0), opening_ (false),
       waiting_retry_ (false), parked_ (false), device_absent_ (false),
@@ -324,6 +324,27 @@ session_core::session_core (executor_type const &executor,
 }
 
 session_core::~session_core () {}
+
+// Strand data, but nothing runs the strand any more: the io_context is being
+// destroyed. The vectors are taken first and die at the end, so a handler
+// that destroys the last owner of the core finds the members empty.
+void
+session_core::drop_kept_handlers () LUMEX_NOEXCEPT
+{
+  std::vector<state_handler_t> states;
+  states.swap (state_waiters_);
+  std::vector<snapshot_handler_t> snapshots;
+  snapshots.swap (snapshot_waiters_);
+  std::vector<open_waiter> opens;
+  opens.swap (open_waiters_);
+}
+
+void
+session_core::enlist ()
+{
+  ::lumex::applied::transport::detail::enlist_keeper (enlisted_, executor_,
+                                                      shared_from_this ());
+}
 
 channel_state
 session_core::state () const LUMEX_NOEXCEPT
@@ -432,6 +453,7 @@ void
 session_core::enqueue_state_wait (channel_state seen, std::uint64_t sequence,
                                   state_handler_t handler)
 {
+  enlist ();
   post_state_wait step
       = { shared_from_this (), seen, sequence, std::move (handler) };
   asio::post (strand_, std::move (step));
@@ -441,6 +463,7 @@ void
 session_core::enqueue_snapshot_wait (std::uint64_t sequence,
                                      snapshot_handler_t handler)
 {
+  enlist ();
   post_snapshot_wait step
       = { shared_from_this (), sequence, std::move (handler) };
   asio::post (strand_, std::move (step));
@@ -449,6 +472,7 @@ session_core::enqueue_snapshot_wait (std::uint64_t sequence,
 void
 session_core::enqueue_open_wait (std::uint64_t id, status_handler_t handler)
 {
+  enlist ();
   unsigned const epoch = stop_epoch_.load (std::memory_order_acquire);
   post_open_wait step
       = { shared_from_this (), epoch, id, std::move (handler) };
