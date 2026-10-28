@@ -144,6 +144,23 @@ set(CMAKE_INTERPROCEDURAL_OPTIMIZATION_RELWITHDEBINFO OFF)
 
 include(cmake/LumexBuild.cmake)
 
+# LumexLib-build-info.json needs a Python 3.8 interpreter (GenerateBuildInfo.py):
+# with an older one, or none, the one report for all the libraries is not
+# written and cmake.build_info_report cannot pass. Say so here, once.
+if(LUMEX_GENERATE_BUILD_INFO)
+    include(cmake/LumexBuildInfo.cmake)
+    find_package(Python3 COMPONENTS Interpreter QUIET)
+    lumex_build_info_python_problem(_lumex_build_info_problem
+        "${Python3_Interpreter_FOUND}" "${Python3_VERSION}")
+    if(_lumex_build_info_problem)
+        message(WARNING
+            "LumexLib: LumexLib-build-info.json will not be written: "
+            "${_lumex_build_info_problem} (it needs Python 3.8 or newer; "
+            "pass -DPython3_EXECUTABLE=<python 3.8+>, or set "
+            "LUMEX_GENERATE_BUILD_INFO=OFF to skip the report).")
+    endif()
+endif()
+
 # RULE_LAUNCH_* must be set before targets compile (Ninja/Makefiles).
 configure_build_timing(ENABLE ${LUMEX_BUILD_TIMING})
 

@@ -240,24 +240,49 @@ set_property(CACHE LUMEX_HIDAPI_BACKEND PROPERTY STRINGS hidraw libusb)
 # The HID transport (applied/transport/hid: hid_device over the vendored
 # hidapi). On by default where hidapi builds: always on Windows and Apple
 # systems; elsewhere when pkg-config finds the library of the chosen backend
-# (libudev for hidraw, libusb-1.0 for libusb). Set it ON explicitly to get the
-# backend's error message instead of a silent OFF.
+# (libudev for hidraw, libusb-1.0 for libusb). When it does not, the default
+# is OFF and the configure says why (a warning for libusb, which only an
+# explicit LUMEX_HIDAPI_BACKEND=libusb selects; a status line for the default
+# hidraw). Set LUMEX_TRANSPORT_WITH_HID=ON explicitly to get the backend's
+# error instead. lumex_hid_default_decision (cmake/LumexHidDefault.cmake) is
+# the pure decision, so a test walks every combination without the libraries.
+include("${CMAKE_CURRENT_LIST_DIR}/LumexHidDefault.cmake")
+
 if(NOT DEFINED LUMEX_TRANSPORT_WITH_HID)
-    set(_lumex_hid_default ON)
-    if(NOT WIN32 AND NOT APPLE)
-        set(_lumex_hid_default OFF)
+    set(_lumex_hid_own_backend OFF)
+    if(WIN32 OR APPLE)
+        set(_lumex_hid_own_backend ON)
+    endif()
+    set(_lumex_hid_pkg_config OFF)
+    set(_lumex_hid_library OFF)
+    if(NOT _lumex_hid_own_backend)
         find_package(PkgConfig QUIET)
         if(PKG_CONFIG_FOUND)
+            set(_lumex_hid_pkg_config ON)
             if(LUMEX_HIDAPI_BACKEND STREQUAL "libusb")
                 pkg_check_modules(_LUMEX_HID_PROBE QUIET libusb-1.0)
             else()
                 pkg_check_modules(_LUMEX_HID_PROBE QUIET libudev)
             endif()
             if(_LUMEX_HID_PROBE_FOUND)
-                set(_lumex_hid_default ON)
+                set(_lumex_hid_library ON)
             endif()
         endif()
     endif()
+    lumex_hid_default_decision(_lumex_hid_default _lumex_hid_message
+        "${LUMEX_HIDAPI_BACKEND}" ${_lumex_hid_own_backend}
+        ${_lumex_hid_pkg_config} ${_lumex_hid_library})
+    if(_lumex_hid_message)
+        if(LUMEX_HIDAPI_BACKEND STREQUAL "libusb")
+            message(WARNING "${_lumex_hid_message}")
+        else()
+            message(STATUS "${_lumex_hid_message}")
+        endif()
+    endif()
+    unset(_lumex_hid_own_backend)
+    unset(_lumex_hid_pkg_config)
+    unset(_lumex_hid_library)
+    unset(_lumex_hid_message)
 endif()
 option(LUMEX_TRANSPORT_WITH_HID "applied/transport: hid_device over the vendored hidapi (default ON where hidapi builds)" ${_lumex_hid_default})
 unset(_lumex_hid_default)

@@ -21,6 +21,24 @@
 # report is kept while it is newer than every library; a failure is a warning,
 # never a failed build.
 
+# lumex_build_info_python_problem(<out> <found> <version>)
+#
+# Sets <out> to the reason why LumexLib-build-info.json cannot be written with
+# the Python interpreter <found> (a boolean) of version <version>, or to the
+# empty string when it can. The report is written by GenerateBuildInfo.py,
+# which needs Python 3.8; CMakeRoutines falls back to its CMake-native
+# per-target reports (a STATUS line only) and the one report for all the
+# libraries is not written, so the root configure says so.
+function(lumex_build_info_python_problem out found version)
+  if(NOT found)
+    set(${out} "no Python 3 interpreter was found" PARENT_SCOPE)
+  elseif(version VERSION_LESS "3.8")
+    set(${out} "Python ${version} is older than 3.8" PARENT_SCOPE)
+  else()
+    set(${out} "" PARENT_SCOPE)
+  endif()
+endfunction()
+
 function(lumex_write_build_info utils_dir source_dir binary_dir python output)
   set(_script "${source_dir}/Scripts/ReleaseTools/write_lumex_build_info.py")
   if(NOT python OR NOT EXISTS "${python}")
