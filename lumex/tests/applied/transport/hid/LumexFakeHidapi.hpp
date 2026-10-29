@@ -97,8 +97,13 @@ struct fake_device
   // Called on the writing thread at the start of every write.
   std::function<void ()> on_write;
   bool open_waiting = false;
+  // How many opens wait for set_hold_open (false) at the moment.
+  std::size_t open_waiters = 0;
   bool write_waiting = false;
   bool open = false;
+  // Handles opened and not closed yet (an abandoned open may leave a second
+  // handle behind the one of a later open); `open` is true while any lives.
+  std::size_t live_handles = 0;
   std::size_t opens = 0;
   std::size_t closes = 0;
   std::size_t read_calls = 0;
@@ -275,7 +280,9 @@ public:
     std::lock_guard<std::mutex> const lock (device_->mutex);
     if (!device_->open)
       ++device_->calls_after_close;
-    device_->open = false;
+    if (device_->live_handles > 0)
+      --device_->live_handles;
+    device_->open = device_->live_handles > 0;
     ++device_->closes;
     device_->closed_on_reading_thread
         = device_->reading_thread == std::this_thread::get_id ();
@@ -367,10 +374,13 @@ public:
       }
     std::unique_lock<std::mutex> lock (device->mutex);
     device->open_waiting = true;
+    ++device->open_waiters;
     device->changed.notify_all ();
     device->changed.wait (lock, [&device] () { return !device->hold_open; });
-    device->open_waiting = false;
+    --device->open_waiters;
+    device->open_waiting = device->open_waiters > 0;
     device->open = true;
+    ++device->live_handles;
     ++device->opens;
     return std::unique_ptr<hid::detail::hidapi_handle> (
         new fake_handle (device));
