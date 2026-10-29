@@ -206,8 +206,47 @@ hid_runtime_core::post (task_t task)
   // queue afterwards.
   if (!quit_ && tasks_.size () > idle_workers_
       && workers_.size () < KMAX_WORKERS)
-    workers_.push_back (std::thread (&hid_runtime_core::worker_main, this));
+    {
+      try
+        {
+          start_worker ();
+        }
+      catch (...)
+        {
+          // Without a worker the task would stay queued for a caller that
+          // saw the failure and a later worker would run it. Another
+          // worker, if any, would still take it, and then the post stands.
+          if (workers_.empty ())
+            {
+              tasks_.pop_back ();
+              throw;
+            }
+        }
+    }
   tasks_changed_.notify_one ();
+}
+
+void
+hid_runtime_core::start_worker ()
+{
+  if (failing_thread_starts_ > 0)
+    {
+      --failing_thread_starts_;
+      throw std::system_error (
+          std::make_error_code (std::errc::resource_unavailable_try_again));
+    }
+  // The slot first, so that a thread that started is never lost to a
+  // failing push_back (a joinable std::thread must not be destroyed).
+  workers_.emplace_back ();
+  try
+    {
+      workers_.back () = std::thread (&hid_runtime_core::worker_main, this);
+    }
+  catch (...)
+    {
+      workers_.pop_back ();
+      throw;
+    }
 }
 
 bool
@@ -444,8 +483,24 @@ hid_runtime_core::shutdown (deadline_t deadline)
   // the workers that quit left them: one worker per task, up to the limit.
   for (std::size_t i = 0;
        i < tasks_.size () && workers_.size () < KMAX_WORKERS; ++i)
-    workers_.push_back (std::thread (&hid_runtime_core::worker_main, this));
+    {
+      try
+        {
+          start_worker ();
+        }
+      catch (...)
+        {
+          break;
+        }
+    }
   return true;
+}
+
+void
+hid_runtime_core::fail_next_thread_starts (int count)
+{
+  std::lock_guard<std::mutex> const lock (mutex_);
+  failing_thread_starts_ = count;
 }
 
 void

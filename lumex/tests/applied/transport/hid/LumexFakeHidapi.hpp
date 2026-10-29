@@ -22,6 +22,7 @@
 #include <map>
 #include <memory>
 #include <mutex>
+#include <stdexcept>
 #include <string>
 #include <system_error>
 #include <thread>
@@ -88,6 +89,8 @@ struct fake_device
   std::vector<bytes> writes;
   bool fail_next_read = false;
   bool fail_writes = false;
+  // The next write throws (a defective seam or a std::bad_alloc).
+  bool throw_next_write = false;
   bool hold_writes = false;
   bool hold_open = false;
   // A read waits for set_hold_reads (false) whatever its slice (a slice in
@@ -240,6 +243,11 @@ public:
         ++device_->calls_after_close;
         error = std::make_error_code (std::errc::bad_file_descriptor);
         return -1;
+      }
+    if (device_->throw_next_write)
+      {
+        device_->throw_next_write = false;
+        throw std::runtime_error ("the fake write throws");
       }
     device_->write_waiting = true;
     device_->changed.notify_all ();
