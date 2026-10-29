@@ -180,6 +180,14 @@
 
 **Проверено:** Linux, GCC 13: strand потока и транспорта сообщений совпадает со strand реализации, strand сессии совпадает с executor, который сообщают ее начальные функции; чтение кадра с `cancel_after`, начатое в `get_strand ()` адаптера, завершается `cancelled`; наборы `transport` (C++11, C++20), `session`, `framed`, `datagram`, `serial` (C++11) проходят. Windows не проверялось.
 
+##### Таймеры транспорта и виртуальные часы для тестов
+
+**Файлы:** `lumex/applied/transport/time/LumexTimerSource.hpp`, `.cpp` (новые), `lumex/applied/transport/testing/LumexVirtualClock.hpp`, `.cpp` (новые), `lumex/applied/transport/session/LumexSessionTypes.hpp`, `session/LumexDeviceWatcher.hpp`, `.cpp`, `session/detail/LumexSessionCore.hpp`, `.cpp`, `LumexTransport`, `README.md`, `lumex/tests/applied/transport/time/`, `testing/` (новые), `lumex/tests/applied/transport/session/LumexSessionVirtualTime.cxx11.tests.cpp`, `lumex/tests/cmake/consumer/transport_warnings/main.cpp`.
+
+**Суть:** `time::timer_source` дает время и таймеры; по умолчанию `steady_timer_source ()` (`steady_clock` и `asio::steady_timer`). Сессии берут из `session_options_t::timers` задержки повторов, `open_timeout` и время установленной связи, `device_watcher` из `device_watcher_options_t::timers` период опроса (новый конструктор `device_watcher (executor, options)`, прежний остался); без опции поведение прежнее. `time::timer` привязан к своему strand, принимает любой completion token; новое ожидание, `cancel ()` и уничтожение завершают ожидание с `cancelled`, отмена отдельной операции работает как у `asio::steady_timer`. `testing::virtual_clock` двигает время по команде теста и завершает ожидания по порядку сроков, `run_until` прогоняет `io_context` от ожидания к ожиданию: переподключение и повторное перечисление проверяются без реального ожидания. Синхронные вызовы считают дедлайны в реальном времени.
+
+**Проверено:** Linux, GCC 13 (`LUMEX_WERROR=ON`) и GCC 8.3: наборы `transport.time` (15), `transport.testing` (23 и 2 для C++20) и 7 тестов сессий и наблюдателя на виртуальных часах падали до кода и проходят; `ctest` наборов `transport`, `serial`, `expected`, `span`, `contracts`, `utility`, `cmake`, `lint` проходит, кроме двух прежних падений, не связанных с изменением (`cmake.build_info_report` на Python 3.7, `serial.probe.LumexSerialProberPty`); ThreadSanitizer и ASan+UBSan для `transport.(session|time|testing)` (819 тестов) без сообщений; 20 повторов новых тестов; 20 мутаций пойманы тестами.
+
 #### Исправлено
 
 ##### `LumexFilesystem`: пути не в ASCII на Windows

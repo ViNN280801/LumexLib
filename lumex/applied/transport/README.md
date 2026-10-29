@@ -21,7 +21,7 @@
 | --- | --- | --- |
 | `LUMEX_BUILD_TRANSPORT` | `ON` | Собирать модуль (требует `serial`, `expected`, `span`, `contracts`, `utility`) |
 | `LUMEX_TRANSPORT_WITH_SPAWN` | `ON` | Токен `asio::yield_context` (собирает поставляемый Boost.Context) |
-| `LUMEX_TRANSPORT_WITH_TESTING` | `ON` | Публичные заглушки `testing/` (`mock_stream`, `mock_datagram`) |
+| `LUMEX_TRANSPORT_WITH_TESTING` | `ON` | Публичные заглушки `testing/` (`mock_stream`, `mock_datagram`, `virtual_clock`) |
 | `LUMEX_TRANSPORT_LOG_MIN_LEVEL` | `TRACE` | Нижний уровень лога, который вообще компилируется |
 | `LUMEX_TRANSPORT_WITH_HID` | `ON`, где собирается hidapi | HID-транспорт `hid/` поверх поставляемого hidapi 0.15.0 (раздел "HID") |
 | `LUMEX_HIDAPI_BACKEND` | `hidraw` | Backend hidapi в Linux: `hidraw` (нужен libudev) или `libusb` (нужен libusb-1.0) |
@@ -161,6 +161,34 @@ link.async_read_some (buffer, handler);           // потеря связи з�
 - **Причина отказа фабрики.** `last_error ()` после исключения фабрики дает код самого `std::system_error` или `invalid_endpoint`; текст исключения (`what ()`) доступен через `last_error_text ()` (для остальных отказов это сообщение кода). Текст попадает и в лог (`warning`, `factory failed: ...`).
 - **Время жизни.** Сессию можно уничтожить в любой момент, в том числе в ее колбэке состояния или обработчике: деструктор закрывает асинхронно и возвращается, колбэк состояния после него не вызывается. Уничтожайте сессию раньше `io_context` ее executor.
 - **Счетчики:** `statistics ()` возвращает счетчики транспорта последней попытки, `session_statistics ()` попытки, неудачные попытки и переподключения.
+- **Время.** Задержки повторов, `open_timeout` и время, после которого связь считается установленной, сессия берет из `session_options_t::timers` (`time::timer_source`), период опроса `device_watcher` из `device_watcher_options_t::timers` (конструктор `device_watcher (executor, options)`; прежний конструктор с периодом и перечислениями остался). По умолчанию это `time::steady_timer_source ()`: `std::chrono::steady_clock` и `asio::steady_timer`, поведение прежнее. Тест подставляет источник виртуальных часов (раздел "Тестовые заглушки") и проходит задержки без ожидания. Синхронные вызовы (`open (deadline)` и другие) считают свои дедлайны в реальном времени.
+
+## Тестовые заглушки
+
+С `LUMEX_TRANSPORT_WITH_TESTING` (по умолчанию включена) в `testing/` есть заглушки для тестов кода поверх транспорта; они входят в `LumexTransport`.
+
+- `testing::make_mock_stream` и `testing::make_mock_datagram` дают поток байтов и транспорт сообщений, которыми управляет тест: `feed` / `deliver` отдают данные чтению, `fail_*` завершают следующую операцию ошибкой, `disconnect` обрывает связь, `written` / `sent` показывают записанное.
+- `testing::virtual_clock` - часы, время которых идет, только когда тест их двигает. `source ()` дает `time::timer_source` для опций проверяемого кода (сессии, `device_watcher`); его таймеры ждут по этим часам. `advance (by)` сдвигает время и завершает ожидания, срок которых наступил: по порядку сроков, при равных сроках в порядке начала; обработчик отправляется (post) на executor таймера и никогда не вызывается внутри `advance`. Ожидание со сроком в прошлом (задержка 0) завершается при следующем `advance`, в том числе `advance (0)`, а не сразу. `advance_to_next ()` переходит к ближайшему ожиданию; без ожиданий возвращает 0 и время не трогает. `pending ()` и `next_expiry ()` показывают очередь. Часы потокобезопасны: двигать их можно из потока теста, пока обработчики выполняются на потоке `io_context`. Ожидание по виртуальным часам не держит работу ни на каком executor, поэтому `io_context::run ()` возвращается, пока оно не завершено.
+- `testing::run_until (context, clock, done, budget)` выполняет `context.poll ()` и двигает часы от ожидания к ожиданию, пока `done ()` не вернет `true` или часы не уйдут на `budget` вперед.
+- **Время жизни.** Уничтоженные часы завершают свои ожидания с `cancelled`, а таймер, переживший часы, завершает так же каждое новое ожидание. Таймер может пережить и свой `io_context` (также на strand): уничтожение контекста уничтожает ожидающий обработчик без вызова и забывает executor таймера, следующие ожидания отбрасываются так же.
+
+```cpp
+asio::io_context context;
+tr::testing::virtual_clock clock;
+
+ss::session_options_t options;
+options.policy.initial_delay = std::chrono::milliseconds (100);
+options.policy.jitter = 0.0;
+options.timers = clock.source ();                  // задержки по виртуальным часам
+ss::stream_session link (context.get_executor (), factory, options);
+link.start ();
+
+// Попытки идут через 100, 200, 400 мс виртуального времени, тест не ждет.
+bool const opened = tr::testing::run_until (
+    context, clock, [&link] { return link.is_open (); }, std::chrono::seconds (60));
+```
+
+`time::timer` (заголовок `time/LumexTimerSource.hpp`, входит в `LumexTransport`) можно использовать и напрямую: таймер привязан к executor, с которым его сделали (`source.make_timer (strand)`), `async_wait_for` и `async_wait_until` принимают любой completion token, новое ожидание завершает предыдущее с `cancelled`, `cancel ()` и уничтожение таймера тоже. Отмена отдельной операции (`asio::cancel_after`, `bind_cancellation_slot`, корутина) работает как у `asio::steady_timer`: любой тип сигнала на слоте обработчика завершает это ожидание с `cancelled`; сигнал подавайте на strand таймера. Сам таймер, как таймер Asio, не потокобезопасен: начинайте, отменяйте и уничтожайте его на его strand. Работу на executor обработчика таймер не держит.
 
 ## Кадры
 
