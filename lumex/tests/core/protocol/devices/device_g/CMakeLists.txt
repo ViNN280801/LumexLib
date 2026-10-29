@@ -9,6 +9,6 @@
 # keys) on mangled reference frames.
 lumex_add_standard_suites(ProtocolDeviceG
     MODULE protocol
-    LINK lumex::protocol
+    LINK lumex::protocol lumex::framing
     SOURCES LumexProtocolDeviceGTable.hpp
 )
