@@ -69,14 +69,23 @@
  * at once with `cancelled` (the synchronous call returns `timeout`) and
  * abandon it: its worker goes on, and when it returns it closes the handle it
  * opened, starts no reader (or stops the one it started) and changes nothing
- * on the device; the open's result is dropped. An `open ()` that starts while
- * an abandoned open still runs is independent of it (each open has its own
- * token, so the late result of the old one is never taken for the new one);
- * at most as many abandoned opens run as the executor has threads. A write
- * stuck inside hidapi (a driver that does not answer) occupies a thread, and
- * the opens and writes of the other devices queue behind it; a write that
- * reached hidapi cannot be abandoned (the report may be on the wire) and ends
- * with its own result. The threads belong to the
+ * on the device; the open's result is dropped (each open has its own token).
+ * A device has one open task at most: an `open ()` that starts while its
+ * abandoned open still runs waits on the strand (no task, no pin of its own)
+ * and starts when the abandoned task returns, so retries of a device that
+ * hangs never take the threads of the executor from the others; `cancel ()`,
+ * `close ()` and the deadline of a synchronous `open` end the waiting open at
+ * once and it never starts. A write stuck inside hidapi (a driver that does
+ * not answer) occupies a thread, and the opens and writes of the other
+ * devices queue behind it. A write that reached hidapi cannot be abandoned
+ * and ends with its own result: `timeout` would hide a report that may have
+ * reached the device, and a retry could send a command twice. How long a
+ * write may stay inside hidapi depends on the platform: on Windows hidapi's
+ * `write_timeout_ms` (1000 ms), with libusb the transfer timeout (1000 ms), on
+ * Linux hidraw the timeout of the kernel driver, on macOS
+ * `IOHIDDeviceSetReport` has no timeout of the library; a synchronous `send`
+ * can therefore exceed its deadline by that time (for ever with a driver that
+ * hangs). The threads belong to the
  * module-wide `hid_runtime`: every open device holds a reference to it, and
  * its housekeeping thread joins every reader thread that ended, so no thread
  * ever joins itself (a device whose last reference goes away on its own
