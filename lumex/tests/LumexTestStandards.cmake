@@ -413,9 +413,10 @@ lumex_test_standards_declare(contracts 11 14 17 20)
 # framing: its checksum stages use crc, whose tables are built at compile time
 # from C++14; C++20 adds the std::span conversion of the byte views.
 lumex_test_standards_declare(framing 11 14 17 20)
-# protocol: the table DSL is C++11 templates and macros; C++20 is the other
-# end of the matrix (the phase gate runs both).
-lumex_test_standards_declare(protocol 11 20)
+# protocol: the table DSL is C++11 templates and macros; C++14 is the lowest
+# standard of the transport that builds on it; C++20 is the other end of the
+# matrix (the phase gate runs all three).
+lumex_test_standards_declare(protocol 11 14 20)
 # transport: the use_awaitable token needs C++20; the other files run from C++11.
 lumex_test_standards_declare(transport 11 14 17 20)
 # interprocess: the library is C++11; its header converts a std::filesystem::path
