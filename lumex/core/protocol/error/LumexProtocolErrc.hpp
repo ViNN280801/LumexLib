@@ -72,11 +72,11 @@ namespace error
  * @details The values start at 1: a value-initialized `std::error_code` of
  * the category means success. Two blocks keep the layers apart: 1 to 99 are
  * the codes of the protocol core (the encoders and decoders of the fields
- * and layouts, no I/O), 100 and up the codes of the dialogue (`timeout`,
- * `retries_exhausted`, `nak`, `refused`, `unexpected_reply`,
- * `not_accepted_in_state`, `link_lost`), added by the dialogue. New codes
- * are appended to their block; the values of the existing ones never
- * change.
+ * and layouts, no I/O), 100 and up the codes of the dialogue (an exchange
+ * with a device: `timeout`, `retries_exhausted`, `nak`, `refused`,
+ * `unexpected_reply`, `not_accepted_in_state`, `link_lost`,
+ * `not_confirmed`). New codes are appended to their block; the values of
+ * the existing ones never change.
  */
 enum class protocol_errc : int
 {
@@ -106,7 +106,26 @@ enum class protocol_errc : int
   duplicate_key = 9,
   /// A value to write is representable but outside the limits of its
   /// registry entry.
-  out_of_limits = 10
+  out_of_limits = 10,
+
+  /// No reply came within the timeout of the row.
+  timeout = 100,
+  /// No reply came after the last retry of the row.
+  retries_exhausted = 101,
+  /// The device answered with a negative acknowledgement.
+  nak = 102,
+  /// The device refused the request (a reply that says so, not a NAK).
+  refused = 103,
+  /// The reply is not the one the request expects (another key, another
+  /// row).
+  unexpected_reply = 104,
+  /// The device does not accept the row in its current state
+  /// (`accepted_in`).
+  not_accepted_in_state = 105,
+  /// The link to the device was lost during the exchange.
+  link_lost = 106,
+  /// The device did not confirm the value it was sent (its echo differs).
+  not_confirmed = 107
 };
 
 /**
