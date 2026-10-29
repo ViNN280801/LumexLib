@@ -37,6 +37,10 @@
  * SOFTWARE.
  */
 
+#include <atomic>
+#include <chrono>
+#include <cstddef>
+#include <cstdint>
 #include <deque>
 #include <memory>
 #include <mutex>
@@ -45,6 +49,8 @@
 #include <utility>
 #include <vector>
 
+#include "lumex/applied/transport/detail/LumexHandlerKeeper.hpp"
+#include "lumex/applied/transport/detail/LumexScheduledDeliveries.hpp"
 #include "lumex/applied/transport/error/LumexTransportErrc.hpp"
 #include "lumex/applied/transport/testing/LumexMockDatagram.hpp"
 
@@ -77,12 +83,14 @@ using datagram::message_t;
 using error::transport_errc;
 
 /// The implementation of a mock message transport; every member is guarded
-/// by mutex_.
+/// by mutex_. Observers are called outside the lock.
 class mock_datagram_impl final : public datagram::message_impl
 {
 public:
-  mock_datagram_impl (executor_type const &executor, std::string const &name)
-      : message_impl (executor, name)
+  mock_datagram_impl (executor_type const &executor,
+                      mock_options_t const &options)
+      : message_impl (executor, options.name), timers_ (options.timers),
+        script_enlisted_ (false)
   {
   }
 
@@ -91,7 +99,7 @@ public:
   {
     std::lock_guard<std::mutex> const lock (mutex_);
     incoming_.push_back (message);
-    serve_pending_receive ();
+    serve_receives ();
   }
 
   void
@@ -102,13 +110,23 @@ public:
   }
 
   void
+  hold_next_open ()
+  {
+    std::lock_guard<std::mutex> const lock (mutex_);
+    hold_open_ = true;
+  }
+
+  // The oldest pending receive ends with `error`; without one the next
+  // receive does.
+  void
   fail_next_receive (std::error_code error)
   {
     std::lock_guard<std::mutex> const lock (mutex_);
-    if (has_pending_receive_)
+    if (!receives_.empty ())
       {
-        has_pending_receive_ = false;
-        complete (std::move (pending_handler_), error, message_t ());
+        datagram::message_handler_t handler = std::move (receives_.front ());
+        receives_.pop_front ();
+        complete (std::move (handler), error, message_t ());
         return;
       }
     receive_error_ = error;
@@ -122,11 +140,19 @@ public:
   }
 
   void
+  fail_send_after (std::size_t sends, std::error_code error)
+  {
+    std::lock_guard<std::mutex> const lock (mutex_);
+    sends_before_failure_ = sends;
+    delayed_send_error_ = error;
+  }
+
+  void
   disconnect ()
   {
     std::lock_guard<std::mutex> const lock (mutex_);
     disconnected_ = true;
-    serve_pending_receive ();
+    serve_receives ();
   }
 
   std::vector<message_t>
@@ -136,17 +162,62 @@ public:
     return sent_;
   }
 
-  // The io_context is being destroyed: the pending receive dies uncalled,
-  // after the lock is released (its destructor may destroy the last owner of
-  // this transport).
+  void
+  on_send (send_observer_t observer)
+  {
+    // An observer may own a control of this mock (a cycle): the shutdown of
+    // the context drops it, which needs the mock to be enlisted.
+    if (observer)
+      detail::enlist_keeper (
+          script_enlisted_, executor (),
+          std::static_pointer_cast<mock_datagram_impl> (shared_from_this ()));
+    {
+      std::lock_guard<std::mutex> const lock (mutex_);
+      observer_.swap (observer);
+    }
+    // The replaced observer dies here, outside the lock.
+  }
+
+  void
+  deliver_after (std::chrono::milliseconds delay, message_t const &message)
+  {
+    std::shared_ptr<mock_datagram_impl> const self
+        = std::static_pointer_cast<mock_datagram_impl> (shared_from_this ());
+    std::lock_guard<std::mutex> const lock (mutex_);
+    scheduled_.schedule (self, timers_, executor_type (strand ()), delay,
+                         message);
+  }
+
+  // A delivery came due (on the strand): its message becomes receivable.
+  void
+  deliver_scheduled (std::uint64_t id)
+  {
+    message_t message;
+    timing::timer expired;
+    {
+      std::lock_guard<std::mutex> const lock (mutex_);
+      if (!scheduled_.take (id, message, expired))
+        return;
+      incoming_.push_back (std::move (message));
+      serve_receives ();
+    }
+  }
+
+  // The io_context is being destroyed: the pending receives and open and the
+  // observer die uncalled, after the lock is released (their destructors may
+  // destroy the last owner of this transport).
   void
   drop_kept_handlers () LUMEX_NOEXCEPT override
   {
-    datagram::message_handler_t receive;
+    std::deque<datagram::message_handler_t> receives;
+    status_handler_t open;
+    send_observer_t observer;
     {
       std::lock_guard<std::mutex> const lock (mutex_);
-      receive = std::move (pending_handler_);
-      has_pending_receive_ = false;
+      receives.swap (receives_);
+      open = std::move (pending_open_);
+      observer.swap (observer_);
+      has_pending_open_ = false;
     }
   }
 
@@ -160,6 +231,13 @@ protected:
         std::error_code const error = open_error_;
         open_error_ = std::error_code ();
         complete (std::move (handler), error);
+        return;
+      }
+    if (hold_open_)
+      {
+        hold_open_ = false;
+        pending_open_ = std::move (handler);
+        has_pending_open_ = true;
         return;
       }
     disconnected_ = false;
@@ -178,78 +256,129 @@ protected:
         complete (std::move (handler), error, message_t ());
         return;
       }
-    pending_handler_ = std::move (handler);
-    has_pending_receive_ = true;
-    serve_pending_receive ();
+    receives_.push_back (std::move (handler));
+    serve_receives ();
   }
 
   void
   do_send (message_t message, status_handler_t handler) override
   {
-    std::lock_guard<std::mutex> const lock (mutex_);
-    if (send_error_)
-      {
-        std::error_code const error = send_error_;
-        send_error_ = std::error_code ();
-        complete (std::move (handler), error);
-        return;
-      }
-    sent_.push_back (std::move (message));
-    complete (std::move (handler), std::error_code ());
+    send_observer_t observer;
+    message_t seen;
+    {
+      std::lock_guard<std::mutex> const lock (mutex_);
+      if (send_error_)
+        {
+          std::error_code const error = send_error_;
+          send_error_ = std::error_code ();
+          complete (std::move (handler), error);
+          return;
+        }
+      if (delayed_send_error_)
+        {
+          if (sends_before_failure_ == 0)
+            {
+              std::error_code const error = delayed_send_error_;
+              delayed_send_error_ = std::error_code ();
+              complete (std::move (handler), error);
+              return;
+            }
+          --sends_before_failure_;
+        }
+      if (observer_)
+        {
+          observer = observer_;
+          seen = message;
+        }
+      sent_.push_back (std::move (message));
+      complete (std::move (handler), std::error_code ());
+    }
+    if (observer)
+      observer (seen);
   }
 
   void
   do_cancel () override
   {
     std::lock_guard<std::mutex> const lock (mutex_);
-    end_pending_receive (transport_errc::cancelled);
+    end_pending_open ();
+    end_pending_receives (transport_errc::cancelled);
   }
 
   void
   do_close () override
   {
     std::lock_guard<std::mutex> const lock (mutex_);
-    end_pending_receive (transport_errc::cancelled);
+    end_pending_open ();
+    end_pending_receives (transport_errc::cancelled);
   }
 
 private:
+  using scheduled_t
+      = detail::scheduled_deliveries<mock_datagram_impl, message_t>;
+
+  // Expects mutex_ held: serves the pending receives in the order they
+  // started while there is something to give them.
   void
-  serve_pending_receive ()
+  serve_receives ()
   {
-    if (!has_pending_receive_)
-      return;
-    if (!incoming_.empty ())
+    while (!receives_.empty ())
       {
-        message_t message = std::move (incoming_.front ());
-        incoming_.pop_front ();
-        has_pending_receive_ = false;
-        complete (std::move (pending_handler_), std::error_code (),
-                  std::move (message));
+        if (!incoming_.empty ())
+          {
+            message_t message = std::move (incoming_.front ());
+            incoming_.pop_front ();
+            datagram::message_handler_t handler
+                = std::move (receives_.front ());
+            receives_.pop_front ();
+            complete (std::move (handler), std::error_code (),
+                      std::move (message));
+            continue;
+          }
+        if (disconnected_)
+          end_pending_receives (transport_errc::disconnected);
         return;
       }
-    if (disconnected_)
-      end_pending_receive (transport_errc::disconnected);
   }
 
   void
-  end_pending_receive (transport_errc reason)
+  end_pending_open ()
   {
-    if (!has_pending_receive_)
+    if (!has_pending_open_)
       return;
-    has_pending_receive_ = false;
-    complete (std::move (pending_handler_), make_error_code (reason),
-              message_t ());
+    has_pending_open_ = false;
+    complete (std::move (pending_open_),
+              make_error_code (transport_errc::cancelled));
+  }
+
+  void
+  end_pending_receives (transport_errc reason)
+  {
+    while (!receives_.empty ())
+      {
+        datagram::message_handler_t handler = std::move (receives_.front ());
+        receives_.pop_front ();
+        complete (std::move (handler), make_error_code (reason), message_t ());
+      }
   }
 
   mutable std::mutex mutex_;
+  timing::timer_source timers_;
+  std::atomic<bool> script_enlisted_;
   std::deque<message_t> incoming_;
   std::vector<message_t> sent_;
-  datagram::message_handler_t pending_handler_;
-  bool has_pending_receive_ = false;
+  std::deque<datagram::message_handler_t> receives_;
+  scheduled_t scheduled_;
+  send_observer_t observer_;
+  status_handler_t pending_open_;
+  bool has_pending_open_ = false;
+  bool hold_open_ = false;
   bool disconnected_ = false;
   std::error_code open_error_;
   std::error_code receive_error_;
   std::error_code send_error_;
+  std::error_code delayed_send_error_;
+  std::size_t sends_before_failure_ = 0;
 };
 
 mock_datagram_control::mock_datagram_control (
@@ -294,14 +423,49 @@ mock_datagram_control::sent () const
   return impl_->sent ();
 }
 
+void
+mock_datagram_control::on_send (send_observer_t observer)
+{
+  impl_->on_send (std::move (observer));
+}
+
+void
+mock_datagram_control::deliver_after (std::chrono::milliseconds delay,
+                                      message_t const &message)
+{
+  impl_->deliver_after (delay, message);
+}
+
+void
+mock_datagram_control::hold_next_open ()
+{
+  impl_->hold_next_open ();
+}
+
+void
+mock_datagram_control::fail_send_after (std::size_t sends,
+                                        std::error_code error)
+{
+  impl_->fail_send_after (sends, error);
+}
+
 mock_datagram
-make_mock_datagram (executor_type const &executor, std::string const &name)
+make_mock_datagram (executor_type const &executor,
+                    mock_options_t const &options)
 {
   std::shared_ptr<mock_datagram_impl> const impl
-      = std::make_shared<mock_datagram_impl> (executor, name);
+      = std::make_shared<mock_datagram_impl> (executor, options);
   mock_datagram result
       = { datagram::message_transport (impl), mock_datagram_control (impl) };
   return result;
+}
+
+mock_datagram
+make_mock_datagram (executor_type const &executor, std::string const &name)
+{
+  mock_options_t options;
+  options.name = name;
+  return make_mock_datagram (executor, options);
 }
 } // namespace testing
 } // namespace transport

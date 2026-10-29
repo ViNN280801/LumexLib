@@ -49,11 +49,22 @@
  * `set_write_chunk` limits how many bytes one write takes (to exercise
  * `write_all`), `written` returns every byte the stream wrote. A read waits
  * for bytes indefinitely: a test bounds it with a deadline, `cancel` or
- * `close`. Available with `LUMEX_TRANSPORT_WITH_TESTING`.
+ * `close`. Several reads may be pending at once: they are served in the order
+ * they were started.
+ *
+ * The scripting members let a simulator drive the mock: `on_write` sees every
+ * accepted chunk on the strand of the mock (so a reply can be fed from
+ * inside), `feed_after` delivers bytes after a delay of the mock's timer
+ * source (a `virtual_clock` moves it), `set_read_chunk` limits how many bytes
+ * one read takes, `hold_writes` / `release_writes` keep writes pending (a
+ * frozen device) and let them go in order, `complete_next_read_empty` ends
+ * one read with no bytes and no error. Available with
+ * `LUMEX_TRANSPORT_WITH_TESTING`.
  */
 #ifndef LUMEX_APPLIED_TRANSPORT_TESTING_MOCK_STREAM_HPP
 #define LUMEX_APPLIED_TRANSPORT_TESTING_MOCK_STREAM_HPP
 
+#include <chrono>
 #include <cstddef>
 #include <cstdint>
 #include <memory>
@@ -63,6 +74,7 @@
 
 #include "lumex/applied/transport/stream/LumexByteStream.hpp"
 #include "lumex/applied/transport/stream/LumexStreamTypes.hpp"
+#include "lumex/applied/transport/testing/LumexMockScript.hpp"
 
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -108,6 +120,32 @@ public:
   /// @brief How many times the stream was opened.
   std::size_t open_count () const;
 
+  /// @brief Sets the observer of the accepted writes (see
+  /// `write_observer_t`); an empty one removes it. It sees each chunk the
+  /// mock took (as many bytes as `set_write_chunk` allowed), in order.
+  void on_write (write_observer_t observer);
+  /// @brief Makes `bytes` available to reads after `delay` of the mock's
+  /// timer source; deliveries with the same time arrive in the order they
+  /// were scheduled. A delivery waits on the clock it was scheduled with and
+  /// survives `cancel`, `close` and `disconnect`; it ends when the mock is
+  /// destroyed.
+  void feed_after (std::chrono::milliseconds delay,
+                   std::vector<std::uint8_t> const &bytes);
+  /// @brief At most `bytes` per read (0: no limit, the default); the rest
+  /// stays for the next read.
+  void set_read_chunk (std::size_t bytes);
+  /// @brief From now on writes stay pending (they are neither recorded nor
+  /// completed) until `release_writes`, `cancel` or `close`; the latter two
+  /// end them with `cancelled`.
+  void hold_writes ();
+  /// @brief Lets the held writes go, in the order they were started, on the
+  /// strand of the mock (after the call returns, when the strand runs); later
+  /// writes queue behind them until they are done.
+  void release_writes ();
+  /// @brief The next read ends with 0 bytes and no error (a pending one now),
+  /// also when bytes are available; the stream stays open.
+  void complete_next_read_empty ();
+
 private:
   std::shared_ptr<mock_stream_impl> impl_;
 };
@@ -120,9 +158,15 @@ struct mock_stream
   mock_stream_control control;
 };
 
-/// @brief Makes a mock stream on `executor` with the log name `name`.
+/// @brief Makes a mock stream on `executor` with the log name `name` and
+/// the steady timer source.
 mock_stream make_mock_stream (executor_type const &executor,
                               std::string const &name = "mock");
+
+/// @brief Makes a mock stream on `executor` with `options` (the name and the
+/// timer source of the scripted deliveries).
+mock_stream make_mock_stream (executor_type const &executor,
+                              mock_options_t const &options);
 } // namespace testing
 } // namespace transport
 } // namespace applied

@@ -43,18 +43,28 @@
  * @details The control (thread-safe): `deliver` queues a message for
  * receives, `fail_*` makes the next operation fail, `disconnect` ends the
  * pending and later receives with `disconnected`, `sent` returns every message
- * sent. A receive waits for a message indefinitely. Available with
- * `LUMEX_TRANSPORT_WITH_TESTING`.
+ * sent. A receive waits for a message indefinitely; several receives may be
+ * pending at once and are served in the order they were started.
+ *
+ * Scripting, as in `mock_stream`: `on_send` sees every accepted message on the
+ * strand of the mock, `deliver_after` delivers after a delay of the mock's
+ * timer source, `hold_next_open` keeps the next open pending,
+ * `fail_send_after` lets some sends succeed and fails the next one. Available
+ * with `LUMEX_TRANSPORT_WITH_TESTING`.
  */
 #ifndef LUMEX_APPLIED_TRANSPORT_TESTING_MOCK_DATAGRAM_HPP
 #define LUMEX_APPLIED_TRANSPORT_TESTING_MOCK_DATAGRAM_HPP
 
+#include <chrono>
+#include <cstddef>
+#include <functional>
 #include <memory>
 #include <string>
 #include <system_error>
 #include <vector>
 
 #include "lumex/applied/transport/datagram/LumexMessageTransport.hpp"
+#include "lumex/applied/transport/testing/LumexMockScript.hpp"
 
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -70,6 +80,11 @@ namespace transport
 namespace testing
 {
 class mock_datagram_impl;
+
+/// @brief Sees every message a mock datagram transport accepted, in order
+/// (the rules of `write_observer_t`).
+using send_observer_t
+    = std::function<void (datagram::message_t const &message)>;
 
 /// @brief The script side of a mock datagram transport (thread-safe).
 class mock_datagram_control
@@ -90,6 +105,19 @@ public:
   /// @brief Every message sent so far.
   std::vector<datagram::message_t> sent () const;
 
+  /// @brief Sets the observer of the accepted sends; an empty one removes it.
+  void on_send (send_observer_t observer);
+  /// @brief Queues `message` for receives after `delay` of the mock's timer
+  /// source (the rules of `mock_stream_control::feed_after`).
+  void deliver_after (std::chrono::milliseconds delay,
+                      datagram::message_t const &message);
+  /// @brief The next open does not complete until a cancel or a close ends it
+  /// with `cancelled`.
+  void hold_next_open ();
+  /// @brief After `sends` more sends that succeed, the next send fails with
+  /// `error`.
+  void fail_send_after (std::size_t sends, std::error_code error);
+
 private:
   std::shared_ptr<mock_datagram_impl> impl_;
 };
@@ -101,9 +129,14 @@ struct mock_datagram
   mock_datagram_control control;
 };
 
-/// @brief Makes a mock message transport on `executor`.
+/// @brief Makes a mock message transport on `executor` with the steady timer
+/// source.
 mock_datagram make_mock_datagram (executor_type const &executor,
                                   std::string const &name = "mock");
+
+/// @brief Makes a mock message transport on `executor` with `options`.
+mock_datagram make_mock_datagram (executor_type const &executor,
+                                  mock_options_t const &options);
 } // namespace testing
 } // namespace transport
 } // namespace applied

@@ -188,6 +188,14 @@
 
 **Проверено:** Linux, GCC 13 (`LUMEX_WERROR=ON`) и GCC 8.3: наборы `transport.timing`, `transport.testing` и 7 тестов сессий и наблюдателя на виртуальных часах падали до кода и проходят; `ctest` наборов `transport`, `serial`, `expected`, `span`, `contracts`, `utility`, `cmake`, `lint` проходит, кроме двух прежних падений, не связанных с изменением (`cmake.build_info_report` на Python 3.7, `serial.probe.LumexSerialProberPty`); отрицательные проверки компиляции `cmake.timing_compile_checks`; ThreadSanitizer и ASan+UBSan для `transport.(session|timing|testing)` (835 тестов) без сообщений, новые тесты по 20 повторов; 28 мутаций пойманы.
 
+##### Тестовые заглушки транспорта со сценариями
+
+**Файлы:** `lumex/applied/transport/testing/LumexMockScript.hpp` (новый), `LumexMockStream.hpp`, `.cpp`, `LumexMockDatagram.hpp`, `.cpp`, `lumex/applied/transport/detail/LumexScheduledDeliveries.hpp` (новый), `LumexTransport`, `README.md`, `lumex/tests/applied/transport/testing/LumexMockStream.cxx11.tests.cpp`, `LumexMockDatagram.cxx11.tests.cpp` (новые), `lumex/tests/cmake/consumer/transport_warnings/main.cpp`.
+
+**Суть:** `mock_stream` и `mock_datagram` получили то, что нужно симулятору прибора. Наблюдатель записей и отправок (`on_write`, `on_send`) вызывается на strand заглушки и может подать ответ. Отложенная доставка (`feed_after`, `deliver_after`) идет по `mock_options_t::timers`, в том числе по `virtual_clock`. Еще `set_read_chunk`, `hold_writes` и `release_writes`, `complete_next_read_empty`, у датаграмм `hold_next_open` и `fail_send_after`; фабрики принимают `mock_options_t`. Несколько одновременных чтений (приемов) обслуживаются по порядку: второе чтение больше не отбрасывает первое.
+
+**Проверено:** Linux, GCC 13 (`LUMEX_WERROR=ON`) и GCC 8.3: 54 новых теста заглушек, `ctest` наборов `transport`, `serial`, `expected`, `span`, `contracts`, `utility`, `lint` проходит, кроме прежнего `serial.probe.LumexSerialProberPty`; ASan+UBSan и TSan `transport.testing` без сообщений, новые тесты по 20 повторов; 36 мутаций пойманы; строгий потребитель `cmake.consumer_transport_warnings` проходит.
+
 #### Исправлено
 
 ##### `LumexFilesystem`: пути не в ASCII на Windows
