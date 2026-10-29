@@ -153,6 +153,7 @@ public:
     std::lock_guard<std::mutex> const lock (mutex_);
     disconnected_ = true;
     serve_receives ();
+    end_pending_sends (transport_errc::disconnected);
   }
 
   std::vector<message_t>
@@ -167,13 +168,17 @@ public:
   {
     // An observer may own a control of this mock (a cycle): the shutdown of
     // the context drops it, which needs the mock to be enlisted.
+    observer_ptr_t fresh;
     if (observer)
-      detail::enlist_keeper (
-          script_enlisted_, executor (),
-          std::static_pointer_cast<mock_datagram_impl> (shared_from_this ()));
+      {
+        detail::enlist_keeper (script_enlisted_, executor (),
+                               std::static_pointer_cast<mock_datagram_impl> (
+                                   shared_from_this ()));
+        fresh = std::make_shared<send_observer_t const> (std::move (observer));
+      }
     {
       std::lock_guard<std::mutex> const lock (mutex_);
-      observer_.swap (observer);
+      observer_.swap (fresh);
     }
     // The replaced observer dies here, outside the lock.
   }
@@ -183,9 +188,51 @@ public:
   {
     std::shared_ptr<mock_datagram_impl> const self
         = std::static_pointer_cast<mock_datagram_impl> (shared_from_this ());
+    std::uint64_t id = 0;
+    {
+      std::lock_guard<std::mutex> const lock (mutex_);
+      id = scheduled_.add (message);
+    }
+    // The timer is made and the wait started outside the lock.
+    timing::timer timer;
+    try
+      {
+        timer = scheduled_t::start (self, timers_, executor_type (strand ()),
+                                    delay, id);
+      }
+    catch (...)
+      {
+        std::lock_guard<std::mutex> const lock (mutex_);
+        scheduled_.remove (id);
+        throw;
+      }
+    {
+      std::lock_guard<std::mutex> const lock (mutex_);
+      scheduled_.attach (id, timer);
+    }
+  }
+
+  void
+  hold_sends ()
+  {
     std::lock_guard<std::mutex> const lock (mutex_);
-    scheduled_.schedule (self, timers_, executor_type (strand ()), delay,
-                         message);
+    hold_sends_ = true;
+  }
+
+  // Held sends go on the strand, in order, one by one (an observer may hold
+  // again between two of them).
+  void
+  release_sends ()
+  {
+    {
+      std::lock_guard<std::mutex> const lock (mutex_);
+      hold_sends_ = false;
+      if (sends_.empty ())
+        return;
+    }
+    release_step_t step = { std::static_pointer_cast<mock_datagram_impl> (
+        shared_from_this ()) };
+    asio::post (strand (), std::move (step));
   }
 
   // A delivery came due (on the strand): its message becomes receivable.
@@ -211,10 +258,12 @@ public:
   {
     std::deque<datagram::message_handler_t> receives;
     status_handler_t open;
-    send_observer_t observer;
+    std::deque<pending_send_t> sends;
+    observer_ptr_t observer;
     {
       std::lock_guard<std::mutex> const lock (mutex_);
       receives.swap (receives_);
+      sends.swap (sends_);
       open = std::move (pending_open_);
       observer.swap (observer_);
       has_pending_open_ = false;
@@ -263,38 +312,17 @@ protected:
   void
   do_send (message_t message, status_handler_t handler) override
   {
-    send_observer_t observer;
-    message_t seen;
     {
       std::lock_guard<std::mutex> const lock (mutex_);
-      if (send_error_)
+      if (hold_sends_ || !sends_.empty ())
         {
-          std::error_code const error = send_error_;
-          send_error_ = std::error_code ();
-          complete (std::move (handler), error);
+          // Behind the held sends, so that they keep their order.
+          pending_send_t held = { std::move (message), std::move (handler) };
+          sends_.push_back (std::move (held));
           return;
         }
-      if (delayed_send_error_)
-        {
-          if (sends_before_failure_ == 0)
-            {
-              std::error_code const error = delayed_send_error_;
-              delayed_send_error_ = std::error_code ();
-              complete (std::move (handler), error);
-              return;
-            }
-          --sends_before_failure_;
-        }
-      if (observer_)
-        {
-          observer = observer_;
-          seen = message;
-        }
-      sent_.push_back (std::move (message));
-      complete (std::move (handler), std::error_code ());
     }
-    if (observer)
-      observer (seen);
+    accept_send (std::move (message), std::move (handler));
   }
 
   void
@@ -303,6 +331,7 @@ protected:
     std::lock_guard<std::mutex> const lock (mutex_);
     end_pending_open ();
     end_pending_receives (transport_errc::cancelled);
+    end_pending_sends (transport_errc::cancelled);
   }
 
   void
@@ -311,11 +340,140 @@ protected:
     std::lock_guard<std::mutex> const lock (mutex_);
     end_pending_open ();
     end_pending_receives (transport_errc::cancelled);
+    end_pending_sends (transport_errc::cancelled);
   }
 
 private:
   using scheduled_t
       = detail::scheduled_deliveries<mock_datagram_impl, message_t>;
+  using observer_ptr_t = std::shared_ptr<send_observer_t const>;
+
+  struct pending_send_t
+  {
+    message_t message;
+    status_handler_t handler;
+  };
+
+  // The posted step that lets the held sends go.
+  struct release_step_t
+  {
+    std::shared_ptr<mock_datagram_impl> impl;
+
+    void
+    operator() ()
+    {
+      impl->flush_sends ();
+    }
+  };
+
+  // Takes one send under the lock, calls the observer outside it. On the
+  // strand.
+  void
+  accept_send (message_t message, status_handler_t handler)
+  {
+    observer_ptr_t observer;
+    message_t seen;
+    {
+      std::lock_guard<std::mutex> const lock (mutex_);
+      if (!take_send (std::move (message), std::move (handler), observer,
+                      seen))
+        return;
+    }
+    if (observer)
+      (*observer) (seen);
+  }
+
+  void
+  flush_sends ()
+  {
+    for (;;)
+      {
+        observer_ptr_t observer;
+        message_t seen;
+        {
+          std::lock_guard<std::mutex> const lock (mutex_);
+          if (hold_sends_ || sends_.empty ())
+            return;
+          pending_send_t held = std::move (sends_.front ());
+          sends_.pop_front ();
+          if (!take_send (std::move (held.message), std::move (held.handler),
+                          observer, seen))
+            continue;
+        }
+        if (!observer)
+          continue;
+        try
+          {
+            (*observer) (seen);
+          }
+        catch (...)
+          {
+            // The held sends that are left must not wait for ever: flush
+            // them in a new step, then let the exception go.
+            repost_flush ();
+            throw;
+          }
+      }
+  }
+
+  void
+  repost_flush ()
+  {
+    {
+      std::lock_guard<std::mutex> const lock (mutex_);
+      if (hold_sends_ || sends_.empty ())
+        return;
+    }
+    release_step_t step = { std::static_pointer_cast<mock_datagram_impl> (
+        shared_from_this ()) };
+    asio::post (strand (), std::move (step));
+  }
+
+  // Expects mutex_ held. Fails, or records the message and completes; true
+  // when the send was accepted (the observer, if any, is returned with a
+  // copy of the message to be called outside the lock).
+  bool
+  take_send (message_t message, status_handler_t handler,
+             observer_ptr_t &observer, message_t &seen)
+  {
+    if (send_error_)
+      {
+        std::error_code const error = send_error_;
+        send_error_ = std::error_code ();
+        complete (std::move (handler), error);
+        return false;
+      }
+    if (delayed_send_error_)
+      {
+        if (sends_before_failure_ == 0)
+          {
+            std::error_code const error = delayed_send_error_;
+            delayed_send_error_ = std::error_code ();
+            complete (std::move (handler), error);
+            return false;
+          }
+        --sends_before_failure_;
+      }
+    if (observer_)
+      {
+        observer = observer_;
+        seen = message;
+      }
+    sent_.push_back (std::move (message));
+    complete (std::move (handler), std::error_code ());
+    return true;
+  }
+
+  void
+  end_pending_sends (transport_errc reason)
+  {
+    while (!sends_.empty ())
+      {
+        status_handler_t handler = std::move (sends_.front ().handler);
+        sends_.pop_front ();
+        complete (std::move (handler), make_error_code (reason));
+      }
+  }
 
   // Expects mutex_ held: serves the pending receives in the order they
   // started while there is something to give them.
@@ -369,7 +527,9 @@ private:
   std::vector<message_t> sent_;
   std::deque<datagram::message_handler_t> receives_;
   scheduled_t scheduled_;
-  send_observer_t observer_;
+  observer_ptr_t observer_;
+  std::deque<pending_send_t> sends_;
+  bool hold_sends_ = false;
   status_handler_t pending_open_;
   bool has_pending_open_ = false;
   bool hold_open_ = false;
@@ -434,6 +594,18 @@ mock_datagram_control::deliver_after (std::chrono::milliseconds delay,
                                       message_t const &message)
 {
   impl_->deliver_after (delay, message);
+}
+
+void
+mock_datagram_control::hold_sends ()
+{
+  impl_->hold_sends ();
+}
+
+void
+mock_datagram_control::release_sends ()
+{
+  impl_->release_sends ();
 }
 
 void

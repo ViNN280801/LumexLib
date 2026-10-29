@@ -49,8 +49,13 @@
  * Scripting, as in `mock_stream`: `on_send` sees every accepted message on the
  * strand of the mock, `deliver_after` delivers after a delay of the mock's
  * timer source, `hold_next_open` keeps the next open pending,
- * `fail_send_after` lets some sends succeed and fails the next one. Available
- * with `LUMEX_TRANSPORT_WITH_TESTING`.
+ * `fail_send_after` lets some sends succeed and fails the next one,
+ * `hold_sends` / `release_sends` keep sends pending (a frozen device) and let
+ * them go in order. These settings belong to the script, not to a connection:
+ * they outlive `close` and a new open. An observer that throws during
+ * `release_sends` leaves the held sends that are left to a new flush step
+ * before the exception goes on. Available with
+ * `LUMEX_TRANSPORT_WITH_TESTING`.
  */
 #ifndef LUMEX_APPLIED_TRANSPORT_TESTING_MOCK_DATAGRAM_HPP
 #define LUMEX_APPLIED_TRANSPORT_TESTING_MOCK_DATAGRAM_HPP
@@ -100,7 +105,8 @@ public:
   void fail_next_receive (std::error_code error);
   /// @brief The next send fails with `error`.
   void fail_next_send (std::error_code error);
-  /// @brief The pending and later receives end with `disconnected`.
+  /// @brief The pending and later receives end with `disconnected`, and so do
+  /// the sends held by `hold_sends`.
   void disconnect ();
   /// @brief Every message sent so far.
   std::vector<datagram::message_t> sent () const;
@@ -111,6 +117,14 @@ public:
   /// source (the rules of `mock_stream_control::feed_after`).
   void deliver_after (std::chrono::milliseconds delay,
                       datagram::message_t const &message);
+  /// @brief From now on sends stay pending (they are neither recorded nor
+  /// completed) until `release_sends`, `cancel` or `close`; the latter two end
+  /// them with `cancelled`.
+  void hold_sends ();
+  /// @brief Lets the held sends go, in the order they were started, on the
+  /// strand of the mock (after the call returns, when the strand runs); later
+  /// sends queue behind them until they are done.
+  void release_sends ();
   /// @brief The next open does not complete until a cancel or a close ends it
   /// with `cancelled`.
   void hold_next_open ();

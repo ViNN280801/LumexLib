@@ -9,6 +9,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <memory>
+#include <stdexcept>
 #include <string>
 #include <system_error>
 #include <thread>
@@ -64,7 +65,7 @@ cyclic_observer (tr::testing::mock_datagram_control const &control,
 
 // A receive handler that owns a copy of the control (a cycle with the mock
 // until the handler is dropped) and the sentinel.
-struct cyclic_receive_handler
+struct cyclic_receive_handler_t
 {
   tr::testing::mock_datagram_control control;
   std::shared_ptr<int> sentinel;
@@ -75,6 +76,29 @@ struct cyclic_receive_handler
   }
 };
 
+// A send handler that owns a copy of the control (a cycle with the mock until
+// the handler is dropped) and the sentinel.
+struct cyclic_send_handler_t
+{
+  tr::testing::mock_datagram_control control;
+  std::shared_ptr<int> sentinel;
+
+  void
+  operator() (std::error_code const &) const
+  {
+  }
+};
+
+// Starts a send (held by the mock) whose handler owns the control.
+void
+start_cyclic_send (tr::datagram::message_transport &transport,
+                   tr::testing::mock_datagram_control const &control,
+                   std::shared_ptr<int> const &sentinel)
+{
+  cyclic_send_handler_t const handler = { control, sentinel };
+  transport.async_send (message_t (), handler);
+}
+
 // Starts two receives whose handlers own the control, so that no copy stays
 // with the caller.
 void
@@ -82,13 +106,13 @@ start_cyclic_receives (tr::datagram::message_transport &transport,
                        tr::testing::mock_datagram_control const &control,
                        std::shared_ptr<int> const &sentinel)
 {
-  cyclic_receive_handler const handler = { control, sentinel };
+  cyclic_receive_handler_t const handler = { control, sentinel };
   transport.async_receive (handler);
   transport.async_receive (handler);
 }
 
 // What the handler of one receive saw.
-struct receive_state
+struct receive_state_t
 {
   bool done = false;
   std::error_code error;
@@ -96,7 +120,7 @@ struct receive_state
 };
 
 // What the handler of one send saw.
-struct send_state
+struct send_state_t
 {
   bool done = false;
   std::error_code error;
@@ -131,10 +155,11 @@ protected:
     return options;
   }
 
-  std::shared_ptr<send_state>
+  std::shared_ptr<send_state_t>
   start_open ()
   {
-    std::shared_ptr<send_state> const state = std::make_shared<send_state> ();
+    std::shared_ptr<send_state_t> const state
+        = std::make_shared<send_state_t> ();
     mock_.transport.async_open (
         [state] (std::error_code const &error)
           {
@@ -147,17 +172,17 @@ protected:
   void
   open ()
   {
-    std::shared_ptr<send_state> const state = start_open ();
+    std::shared_ptr<send_state_t> const state = start_open ();
     drain (context_);
     ASSERT_TRUE (state->done);
     ASSERT_FALSE (state->error);
   }
 
-  std::shared_ptr<receive_state>
+  std::shared_ptr<receive_state_t>
   start_receive ()
   {
-    std::shared_ptr<receive_state> const state
-        = std::make_shared<receive_state> ();
+    std::shared_ptr<receive_state_t> const state
+        = std::make_shared<receive_state_t> ();
     mock_.transport.async_receive (
         [state] (std::error_code const &error, message_t message)
           {
@@ -168,10 +193,11 @@ protected:
     return state;
   }
 
-  std::shared_ptr<send_state>
+  std::shared_ptr<send_state_t>
   start_send (message_t message)
   {
-    std::shared_ptr<send_state> const state = std::make_shared<send_state> ();
+    std::shared_ptr<send_state_t> const state
+        = std::make_shared<send_state_t> ();
     mock_.transport.async_send (std::move (message),
                                 [state] (std::error_code const &error)
                                   {
@@ -199,8 +225,9 @@ TEST_F (
           seen.push_back (message);
           on_strand.push_back (strand.running_in_this_thread ());
         });
-  std::shared_ptr<send_state> const first = start_send (message_of (3, "one"));
-  std::shared_ptr<send_state> const second
+  std::shared_ptr<send_state_t> const first
+      = start_send (message_of (3, "one"));
+  std::shared_ptr<send_state_t> const second
       = start_send (message_of (0, "two"));
   EXPECT_TRUE (seen.empty ());
   drain (context_);
@@ -237,7 +264,8 @@ TEST_F (LumexMockDatagramTest,
   int calls = 0;
   mock_.control.on_send ([&calls] (message_t const &) { ++calls; });
   mock_.control.fail_next_send (std::make_error_code (std::errc::io_error));
-  std::shared_ptr<send_state> const failed = start_send (message_of (0, "x"));
+  std::shared_ptr<send_state_t> const failed
+      = start_send (message_of (0, "x"));
   drain (context_);
   ASSERT_TRUE (failed->done);
   EXPECT_TRUE (failed->error);
@@ -250,7 +278,7 @@ TEST_F (
 {
   open ();
   tr::testing::mock_datagram_control control = mock_.control;
-  std::shared_ptr<receive_state> const receive = start_receive ();
+  std::shared_ptr<receive_state_t> const receive = start_receive ();
   drain (context_);
   ASSERT_FALSE (receive->done);
   int done_inside = 0;
@@ -261,7 +289,8 @@ TEST_F (
               message_of (request.report_id, "re:" + text_of (request)));
           done_inside += receive->done ? 1 : 0;
         });
-  std::shared_ptr<send_state> const send = start_send (message_of (7, "ping"));
+  std::shared_ptr<send_state_t> const send
+      = start_send (message_of (7, "ping"));
   drain (context_);
   ASSERT_TRUE (send->done);
   ASSERT_TRUE (receive->done);
@@ -278,7 +307,7 @@ TEST_F (LumexMockDatagramTest,
         GivenDeliverAfter_WhenTheClockAdvances_ThenTheMessageArrivesAtItsTime)
 {
   open ();
-  std::shared_ptr<receive_state> const receive = start_receive ();
+  std::shared_ptr<receive_state_t> const receive = start_receive ();
   mock_.control.deliver_after (ms (100), message_of (2, "late"));
   drain (context_);
   EXPECT_FALSE (receive->done);
@@ -306,7 +335,7 @@ TEST_F (
   std::string order;
   for (int i = 0; i < 3; ++i)
     {
-      std::shared_ptr<receive_state> const receive = start_receive ();
+      std::shared_ptr<receive_state_t> const receive = start_receive ();
       drain (context_);
       ASSERT_TRUE (receive->done);
       order += text_of (receive->message);
@@ -341,8 +370,8 @@ TEST (LumexMockDatagram,
                                { opened = true; });
   drain (context);
   ASSERT_TRUE (opened);
-  std::shared_ptr<receive_state> const receive
-      = std::make_shared<receive_state> ();
+  std::shared_ptr<receive_state_t> const receive
+      = std::make_shared<receive_state_t> ();
   made.transport.async_receive (
       [receive] (std::error_code const &error, message_t message)
         {
@@ -371,8 +400,8 @@ TEST (LumexMockDatagram,
                                { opened = true; });
   drain (context);
   ASSERT_TRUE (opened);
-  std::shared_ptr<receive_state> const receive
-      = std::make_shared<receive_state> ();
+  std::shared_ptr<receive_state_t> const receive
+      = std::make_shared<receive_state_t> ();
   made.transport.async_receive (
       [receive] (std::error_code const &error, message_t message)
         {
@@ -401,7 +430,7 @@ TEST_F (LumexMockDatagramTest,
         GivenAHeldOpen_WhenTheTransportIsClosed_ThenTheOpenEndsCancelled)
 {
   mock_.control.hold_next_open ();
-  std::shared_ptr<send_state> const opening = start_open ();
+  std::shared_ptr<send_state_t> const opening = start_open ();
   drain (context_);
   EXPECT_FALSE (opening->done);
   EXPECT_FALSE (mock_.transport.is_open ());
@@ -418,7 +447,7 @@ TEST_F (LumexMockDatagramTest,
         GivenAHeldOpen_WhenTheTransportIsCancelled_ThenTheOpenEndsCancelled)
 {
   mock_.control.hold_next_open ();
-  std::shared_ptr<send_state> const opening = start_open ();
+  std::shared_ptr<send_state_t> const opening = start_open ();
   drain (context_);
   mock_.transport.cancel ();
   drain (context_);
@@ -432,10 +461,10 @@ TEST_F (LumexMockDatagramTest,
   open ();
   std::error_code const failure = std::make_error_code (std::errc::io_error);
   mock_.control.fail_send_after (2, failure);
-  std::shared_ptr<send_state> const a = start_send (message_of (0, "a"));
-  std::shared_ptr<send_state> const b = start_send (message_of (0, "b"));
-  std::shared_ptr<send_state> const c = start_send (message_of (0, "c"));
-  std::shared_ptr<send_state> const d = start_send (message_of (0, "d"));
+  std::shared_ptr<send_state_t> const a = start_send (message_of (0, "a"));
+  std::shared_ptr<send_state_t> const b = start_send (message_of (0, "b"));
+  std::shared_ptr<send_state_t> const c = start_send (message_of (0, "c"));
+  std::shared_ptr<send_state_t> const d = start_send (message_of (0, "d"));
   drain (context_);
   ASSERT_TRUE (a->done && b->done && c->done && d->done);
   EXPECT_FALSE (a->error);
@@ -451,7 +480,7 @@ TEST_F (LumexMockDatagramTest,
   open ();
   std::error_code const failure = std::make_error_code (std::errc::io_error);
   mock_.control.fail_send_after (0, failure);
-  std::shared_ptr<send_state> const a = start_send (message_of (0, "a"));
+  std::shared_ptr<send_state_t> const a = start_send (message_of (0, "a"));
   drain (context_);
   ASSERT_TRUE (a->done);
   EXPECT_EQ (a->error, failure);
@@ -465,8 +494,8 @@ TEST_F (
     GivenTwoPendingReceives_WhenMessagesArrive_ThenBothAreServedInTheOrderStarted)
 {
   open ();
-  std::shared_ptr<receive_state> const first = start_receive ();
-  std::shared_ptr<receive_state> const second = start_receive ();
+  std::shared_ptr<receive_state_t> const first = start_receive ();
+  std::shared_ptr<receive_state_t> const second = start_receive ();
   drain (context_);
   EXPECT_FALSE (first->done || second->done);
   mock_.control.deliver (message_of (1, "x"));
@@ -485,8 +514,8 @@ TEST_F (LumexMockDatagramTest,
         GivenTwoPendingReceives_WhenCancelled_ThenBothEndCancelled)
 {
   open ();
-  std::shared_ptr<receive_state> const first = start_receive ();
-  std::shared_ptr<receive_state> const second = start_receive ();
+  std::shared_ptr<receive_state_t> const first = start_receive ();
+  std::shared_ptr<receive_state_t> const second = start_receive ();
   drain (context_);
   mock_.transport.cancel ();
   drain (context_);
@@ -499,8 +528,8 @@ TEST_F (LumexMockDatagramTest,
         GivenTwoPendingReceives_WhenTheMockDisconnects_ThenBothEndDisconnected)
 {
   open ();
-  std::shared_ptr<receive_state> const first = start_receive ();
-  std::shared_ptr<receive_state> const second = start_receive ();
+  std::shared_ptr<receive_state_t> const first = start_receive ();
+  std::shared_ptr<receive_state_t> const second = start_receive ();
   drain (context_);
   mock_.control.disconnect ();
   drain (context_);
@@ -514,8 +543,8 @@ TEST_F (
     GivenTwoPendingReceives_WhenTheNextReceiveFails_ThenTheOldestEndsWithTheError)
 {
   open ();
-  std::shared_ptr<receive_state> const first = start_receive ();
-  std::shared_ptr<receive_state> const second = start_receive ();
+  std::shared_ptr<receive_state_t> const first = start_receive ();
+  std::shared_ptr<receive_state_t> const second = start_receive ();
   drain (context_);
   mock_.control.fail_next_receive (std::make_error_code (std::errc::io_error));
   drain (context_);
@@ -639,4 +668,263 @@ TEST (
   made.reset ();
   context.reset (); // the handlers of the two receives were the last owners
   EXPECT_EQ (sentinel.use_count (), 1);
+}
+
+// --- review round: a stateful observer, a throwing one, held sends ----------
+
+TEST_F (LumexMockDatagramTest,
+        GivenAStatefulObserver_WhenSeveralSendsRun_ThenItKeepsItsState)
+{
+  open ();
+  std::vector<int> seen;
+  std::vector<int> *out = &seen;
+  int count = 0;
+  mock_.control.on_send ([count, out] (message_t const &) mutable
+                           { out->push_back (++count); });
+  start_send (message_of (0, "a"));
+  drain (context_);
+  start_send (message_of (0, "b"));
+  drain (context_);
+  start_send (message_of (0, "c"));
+  drain (context_);
+  ASSERT_EQ (seen.size (), 3u);
+  EXPECT_EQ (seen[0], 1);
+  EXPECT_EQ (seen[1], 2);
+  EXPECT_EQ (seen[2], 3);
+}
+
+TEST_F (LumexMockDatagramTest,
+        GivenALateFailedSend_WhenObserved_ThenTheObserverDoesNotSeeIt)
+{
+  open ();
+  std::vector<std::string> seen;
+  mock_.control.on_send ([&seen] (message_t const &message)
+                           { seen.push_back (text_of (message)); });
+  mock_.control.fail_send_after (1,
+                                 std::make_error_code (std::errc::io_error));
+  std::shared_ptr<send_state_t> const a = start_send (message_of (0, "a"));
+  std::shared_ptr<send_state_t> const b = start_send (message_of (0, "b"));
+  drain (context_);
+  ASSERT_TRUE (a->done && b->done);
+  EXPECT_FALSE (a->error);
+  EXPECT_TRUE (b->error);
+  ASSERT_EQ (seen.size (), 1u);
+  EXPECT_EQ (seen[0], "a");
+}
+
+TEST_F (LumexMockDatagramTest,
+        GivenHeldSends_WhenTheTransportIsClosed_ThenTheyEndCancelled)
+{
+  open ();
+  int observed = 0;
+  mock_.control.on_send ([&observed] (message_t const &) { ++observed; });
+  mock_.control.hold_sends ();
+  std::shared_ptr<send_state_t> const a = start_send (message_of (0, "a"));
+  std::shared_ptr<send_state_t> const b = start_send (message_of (0, "b"));
+  drain (context_);
+  EXPECT_FALSE (a->done || b->done);
+  EXPECT_TRUE (mock_.control.sent ().empty ());
+  mock_.transport.close ();
+  drain (context_);
+  ASSERT_TRUE (a->done && b->done);
+  EXPECT_EQ (a->error, code (transport_errc::cancelled));
+  EXPECT_EQ (b->error, code (transport_errc::cancelled));
+  EXPECT_TRUE (mock_.control.sent ().empty ());
+  EXPECT_EQ (observed, 0);
+}
+
+TEST_F (LumexMockDatagramTest,
+        GivenHeldSends_WhenTheTransportIsCancelled_ThenTheyEndCancelled)
+{
+  open ();
+  mock_.control.hold_sends ();
+  std::shared_ptr<send_state_t> const a = start_send (message_of (0, "a"));
+  drain (context_);
+  mock_.transport.cancel ();
+  drain (context_);
+  ASSERT_TRUE (a->done);
+  EXPECT_EQ (a->error, code (transport_errc::cancelled));
+  EXPECT_TRUE (mock_.transport.is_open ());
+}
+
+TEST_F (
+    LumexMockDatagramTest,
+    GivenHeldSends_WhenReleased_ThenTheyGoInOrderAndALaterSendQueuesBehindThem)
+{
+  open ();
+  std::vector<std::string> seen;
+  mock_.control.on_send ([&seen] (message_t const &message)
+                           { seen.push_back (text_of (message)); });
+  mock_.control.hold_sends ();
+  std::shared_ptr<send_state_t> const a = start_send (message_of (0, "A"));
+  drain (context_);
+  std::shared_ptr<send_state_t> const b = start_send (message_of (0, "B"));
+  mock_.control.release_sends ();
+  std::shared_ptr<send_state_t> const c = start_send (message_of (0, "C"));
+  drain (context_);
+  ASSERT_TRUE (a->done && b->done && c->done);
+  ASSERT_EQ (seen.size (), 3u);
+  EXPECT_EQ (seen[0], "A");
+  EXPECT_EQ (seen[1], "B");
+  EXPECT_EQ (seen[2], "C");
+  EXPECT_EQ (mock_.control.sent ().size (), 3u);
+}
+
+TEST_F (LumexMockDatagramTest,
+        GivenAHoldWithNothingHeld_WhenReleased_ThenLaterSendsGoAtOnce)
+{
+  open ();
+  mock_.control.hold_sends ();
+  mock_.control.release_sends ();
+  std::shared_ptr<send_state_t> const a = start_send (message_of (0, "go"));
+  drain (context_);
+  EXPECT_TRUE (a->done);
+  EXPECT_EQ (mock_.control.sent ().size (), 1u);
+}
+
+TEST_F (LumexMockDatagramTest,
+        GivenHeldSends_WhenReceivesRun_ThenReceivesAreNotHeld)
+{
+  open ();
+  mock_.control.hold_sends ();
+  std::shared_ptr<send_state_t> const send = start_send (message_of (0, "x"));
+  mock_.control.deliver (message_of (1, "in"));
+  std::shared_ptr<receive_state_t> const receive = start_receive ();
+  drain (context_);
+  EXPECT_TRUE (receive->done);
+  EXPECT_FALSE (send->done);
+  mock_.control.release_sends ();
+  drain (context_);
+  EXPECT_TRUE (send->done);
+}
+
+TEST_F (
+    LumexMockDatagramTest,
+    GivenAHoldSetAgainByTheObserver_WhenTheReleaseRuns_ThenTheRestStaysHeld)
+{
+  open ();
+  tr::testing::mock_datagram_control control = mock_.control;
+  control.on_send (
+      [control] (message_t const &message) mutable
+        {
+          if (text_of (message) == "A")
+            control.hold_sends ();
+        });
+  control.hold_sends ();
+  std::shared_ptr<send_state_t> const a = start_send (message_of (0, "A"));
+  std::shared_ptr<send_state_t> const b = start_send (message_of (0, "B"));
+  drain (context_);
+  control.release_sends ();
+  drain (context_);
+  EXPECT_TRUE (a->done);
+  EXPECT_FALSE (b->done);
+  control.on_send (tr::testing::send_observer_t ());
+  control.release_sends ();
+  drain (context_);
+  EXPECT_TRUE (b->done);
+}
+
+TEST_F (LumexMockDatagramTest,
+        GivenAFailedHeldSend_WhenReleased_ThenTheOthersStillGo)
+{
+  open ();
+  mock_.control.hold_sends ();
+  mock_.control.fail_next_send (std::make_error_code (std::errc::io_error));
+  std::shared_ptr<send_state_t> const a = start_send (message_of (0, "A"));
+  std::shared_ptr<send_state_t> const b = start_send (message_of (0, "B"));
+  drain (context_);
+  mock_.control.release_sends ();
+  drain (context_);
+  ASSERT_TRUE (a->done && b->done);
+  EXPECT_TRUE (a->error);
+  EXPECT_FALSE (b->error);
+  EXPECT_EQ (mock_.control.sent ().size (), 1u);
+}
+
+TEST_F (
+    LumexMockDatagramTest,
+    GivenAnObserverThatThrowsDuringTheRelease_WhenTheRestIsHeld_ThenANewStepFlushesThem)
+{
+  open ();
+  int calls = 0;
+  mock_.control.on_send (
+      [&calls] (message_t const &)
+        {
+          if (++calls == 1)
+            throw std::runtime_error ("observer");
+        });
+  mock_.control.hold_sends ();
+  std::shared_ptr<send_state_t> const a = start_send (message_of (0, "a"));
+  std::shared_ptr<send_state_t> const b = start_send (message_of (0, "b"));
+  drain (context_);
+  mock_.control.release_sends ();
+  bool thrown = false;
+  try
+    {
+      drain (context_);
+    }
+  catch (std::runtime_error const &)
+    {
+      thrown = true;
+    }
+  drain (context_);
+  EXPECT_TRUE (thrown);
+  EXPECT_TRUE (a->done);
+  EXPECT_TRUE (b->done);
+  EXPECT_EQ (mock_.control.sent ().size (), 2u);
+}
+
+TEST_F (
+    LumexMockDatagramTest,
+    GivenScriptedSettings_WhenTheTransportIsClosedAndOpenedAgain_ThenTheyStillApply)
+{
+  open ();
+  mock_.control.hold_sends ();
+  mock_.transport.close ();
+  drain (context_);
+  open ();
+  std::shared_ptr<send_state_t> const a = start_send (message_of (0, "a"));
+  drain (context_);
+  EXPECT_FALSE (a->done);
+}
+
+TEST (
+    LumexMockDatagram,
+    GivenAHeldSendOwningTheControl_WhenTheContextIsDestroyed_ThenTheShutdownDropsIt)
+{
+  std::shared_ptr<int> const sentinel = std::make_shared<int> (0);
+  std::unique_ptr<asio::io_context> context (new asio::io_context);
+  std::unique_ptr<mock_datagram> made (new mock_datagram (
+      make_mock_datagram (context->get_executor (), "cycle")));
+  std::unique_ptr<tr::datagram::message_transport> transport (
+      new tr::datagram::message_transport (std::move (made->transport)));
+  bool opened = false;
+  transport->async_open ([&opened] (std::error_code const &)
+                           { opened = true; });
+  drain (*context);
+  ASSERT_TRUE (opened);
+  made->control.hold_sends ();
+  start_cyclic_send (*transport, made->control, sentinel);
+  drain (*context);
+  EXPECT_GT (sentinel.use_count (), 1);
+  transport.reset ();
+  made.reset ();
+  context.reset (); // the handler of the held send was the last owner
+  EXPECT_EQ (sentinel.use_count (), 1);
+}
+
+TEST_F (LumexMockDatagramTest,
+        GivenHeldSends_WhenTheMockDisconnects_ThenTheyEndDisconnected)
+{
+  open ();
+  mock_.control.hold_sends ();
+  std::shared_ptr<send_state_t> const a = start_send (message_of (0, "a"));
+  std::shared_ptr<send_state_t> const b = start_send (message_of (0, "b"));
+  drain (context_);
+  mock_.control.disconnect ();
+  drain (context_);
+  ASSERT_TRUE (a->done && b->done);
+  EXPECT_EQ (a->error, code (transport_errc::disconnected));
+  EXPECT_EQ (b->error, code (transport_errc::disconnected));
+  EXPECT_TRUE (mock_.control.sent ().empty ());
 }

@@ -154,6 +154,7 @@ public:
     std::lock_guard<std::mutex> const lock (mutex_);
     disconnected_ = true;
     serve_reads ();
+    end_pending_writes (transport_errc::disconnected);
   }
 
   void
@@ -182,13 +183,18 @@ public:
   {
     // An observer may own a control of this mock (a cycle): the shutdown of
     // the context drops it, which needs the mock to be enlisted.
+    observer_ptr_t fresh;
     if (observer)
-      detail::enlist_keeper (
-          script_enlisted_, executor (),
-          std::static_pointer_cast<mock_stream_impl> (shared_from_this ()));
+      {
+        detail::enlist_keeper (
+            script_enlisted_, executor (),
+            std::static_pointer_cast<mock_stream_impl> (shared_from_this ()));
+        fresh
+            = std::make_shared<write_observer_t const> (std::move (observer));
+      }
     {
       std::lock_guard<std::mutex> const lock (mutex_);
-      observer_.swap (observer);
+      observer_.swap (fresh);
     }
     // The replaced observer dies here, outside the lock (it may own the last
     // reference to something that calls back).
@@ -200,9 +206,28 @@ public:
   {
     std::shared_ptr<mock_stream_impl> const self
         = std::static_pointer_cast<mock_stream_impl> (shared_from_this ());
-    std::lock_guard<std::mutex> const lock (mutex_);
-    scheduled_.schedule (self, timers_, executor_type (strand ()), delay,
-                         bytes);
+    std::uint64_t id = 0;
+    {
+      std::lock_guard<std::mutex> const lock (mutex_);
+      id = scheduled_.add (bytes);
+    }
+    // The timer is made and the wait started outside the lock.
+    timing::timer timer;
+    try
+      {
+        timer = scheduled_t::start (self, timers_, executor_type (strand ()),
+                                    delay, id);
+      }
+    catch (...)
+      {
+        std::lock_guard<std::mutex> const lock (mutex_);
+        scheduled_.remove (id);
+        throw;
+      }
+    {
+      std::lock_guard<std::mutex> const lock (mutex_);
+      scheduled_.attach (id, timer);
+    }
   }
 
   // A delivery came due (on the strand): its bytes become readable.
@@ -245,7 +270,7 @@ public:
       if (writes_.empty ())
         return;
     }
-    release_step step
+    release_step_t step
         = { std::static_pointer_cast<mock_stream_impl> (shared_from_this ()) };
     asio::post (strand (), std::move (step));
   }
@@ -264,10 +289,10 @@ public:
   void
   drop_kept_handlers () LUMEX_NOEXCEPT override
   {
-    std::deque<pending_read> reads;
-    std::deque<pending_write> writes;
+    std::deque<pending_read_t> reads;
+    std::deque<pending_write_t> writes;
     status_handler_t open;
-    write_observer_t observer;
+    observer_ptr_t observer;
     {
       std::lock_guard<std::mutex> const lock (mutex_);
       reads.swap (reads_);
@@ -314,7 +339,7 @@ protected:
         complete (std::move (handler), error, 0);
         return;
       }
-    pending_read read = { buffer, std::move (handler) };
+    pending_read_t read = { buffer, std::move (handler) };
     reads_.push_back (std::move (read));
     serve_reads ();
   }
@@ -327,7 +352,7 @@ protected:
       if (hold_writes_ || !writes_.empty ())
         {
           // Behind the held writes, so that they keep their order.
-          pending_write held = { data, std::move (handler) };
+          pending_write_t held = { data, std::move (handler) };
           writes_.push_back (std::move (held));
           return;
         }
@@ -341,7 +366,7 @@ protected:
     std::lock_guard<std::mutex> const lock (mutex_);
     end_pending_open ();
     end_pending_reads (transport_errc::cancelled);
-    end_pending_writes ();
+    end_pending_writes (transport_errc::cancelled);
   }
 
   void
@@ -350,27 +375,28 @@ protected:
     std::lock_guard<std::mutex> const lock (mutex_);
     end_pending_open ();
     end_pending_reads (transport_errc::cancelled);
-    end_pending_writes ();
+    end_pending_writes (transport_errc::cancelled);
   }
 
 private:
   using scheduled_t = detail::scheduled_deliveries<mock_stream_impl,
                                                    std::vector<std::uint8_t>>;
+  using observer_ptr_t = std::shared_ptr<write_observer_t const>;
 
-  struct pending_read
+  struct pending_read_t
   {
     mutable_bytes_t buffer;
     io_handler_t handler;
   };
 
-  struct pending_write
+  struct pending_write_t
   {
     const_bytes_t data;
     io_handler_t handler;
   };
 
   // The posted step that lets the held writes go.
-  struct release_step
+  struct release_step_t
   {
     std::shared_ptr<mock_stream_impl> impl;
 
@@ -386,7 +412,7 @@ private:
   void
   accept_write (const_bytes_t data, io_handler_t handler)
   {
-    write_observer_t observer;
+    observer_ptr_t observer;
     std::vector<std::uint8_t> chunk;
     {
       std::lock_guard<std::mutex> const lock (mutex_);
@@ -394,7 +420,7 @@ private:
         return;
     }
     if (observer)
-      observer (chunk);
+      (*observer) (chunk);
   }
 
   void
@@ -402,21 +428,45 @@ private:
   {
     for (;;)
       {
-        write_observer_t observer;
+        observer_ptr_t observer;
         std::vector<std::uint8_t> chunk;
         {
           std::lock_guard<std::mutex> const lock (mutex_);
           if (hold_writes_ || writes_.empty ())
             return;
-          pending_write held = std::move (writes_.front ());
+          pending_write_t held = std::move (writes_.front ());
           writes_.pop_front ();
           if (!take_write (held.data, std::move (held.handler), observer,
                            chunk))
             continue;
         }
-        if (observer)
-          observer (chunk);
+        if (!observer)
+          continue;
+        try
+          {
+            (*observer) (chunk);
+          }
+        catch (...)
+          {
+            // The held writes that are left must not wait for ever: flush
+            // them in a new step, then let the exception go.
+            repost_flush ();
+            throw;
+          }
       }
+  }
+
+  void
+  repost_flush ()
+  {
+    {
+      std::lock_guard<std::mutex> const lock (mutex_);
+      if (hold_writes_ || writes_.empty ())
+        return;
+    }
+    release_step_t step
+        = { std::static_pointer_cast<mock_stream_impl> (shared_from_this ()) };
+    asio::post (strand (), std::move (step));
   }
 
   // Expects mutex_ held. Fails, or records the chunk and completes; true
@@ -424,7 +474,7 @@ private:
   // chunk to be called outside the lock).
   bool
   take_write (const_bytes_t data, io_handler_t handler,
-              write_observer_t &observer, std::vector<std::uint8_t> &chunk)
+              observer_ptr_t &observer, std::vector<std::uint8_t> &chunk)
   {
     if (write_error_)
       {
@@ -474,7 +524,7 @@ private:
           }
         if (!received_.empty ())
           {
-            pending_read &front = reads_.front ();
+            pending_read_t &front = reads_.front ();
             std::size_t count
                 = std::min (front.buffer.size (), received_.size ());
             if (read_chunk_ != 0)
@@ -519,14 +569,13 @@ private:
   }
 
   void
-  end_pending_writes ()
+  end_pending_writes (transport_errc reason)
   {
     while (!writes_.empty ())
       {
         io_handler_t handler = std::move (writes_.front ().handler);
         writes_.pop_front ();
-        complete (std::move (handler),
-                  make_error_code (transport_errc::cancelled), 0);
+        complete (std::move (handler), make_error_code (reason), 0);
       }
   }
 
@@ -535,10 +584,10 @@ private:
   std::atomic<bool> script_enlisted_;
   std::deque<std::uint8_t> received_;
   std::vector<std::uint8_t> written_;
-  std::deque<pending_read> reads_;
-  std::deque<pending_write> writes_;
+  std::deque<pending_read_t> reads_;
+  std::deque<pending_write_t> writes_;
   scheduled_t scheduled_;
-  write_observer_t observer_;
+  observer_ptr_t observer_;
   status_handler_t pending_open_;
   bool has_pending_open_ = false;
   bool hold_open_ = false;

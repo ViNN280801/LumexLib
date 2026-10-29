@@ -58,8 +58,14 @@
  * source (a `virtual_clock` moves it), `set_read_chunk` limits how many bytes
  * one read takes, `hold_writes` / `release_writes` keep writes pending (a
  * frozen device) and let them go in order, `complete_next_read_empty` ends
- * one read with no bytes and no error. Available with
- * `LUMEX_TRANSPORT_WITH_TESTING`.
+ * one read with no bytes and no error. These settings belong to the script,
+ * not to a connection: scripted empty reads, `hold_writes`, the read chunk,
+ * the write chunk, the observer and the deliveries of `feed_after` outlive
+ * `close` and a new open (an empty read scripted before a close ends the
+ * first read after the reopen). An observer that throws leaves the write it
+ * saw complete; when it runs during `release_writes` the remaining held
+ * writes are flushed by a new step before the exception goes on. Available
+ * with `LUMEX_TRANSPORT_WITH_TESTING`.
  */
 #ifndef LUMEX_APPLIED_TRANSPORT_TESTING_MOCK_STREAM_HPP
 #define LUMEX_APPLIED_TRANSPORT_TESTING_MOCK_STREAM_HPP
@@ -111,7 +117,8 @@ public:
   /// @brief After `writes` more writes that succeed, the next write fails
   /// with `error` (so a `write_all` in chunks fails on a later chunk).
   void fail_write_after (std::size_t writes, std::error_code error);
-  /// @brief The pending and later reads end with `disconnected`.
+  /// @brief The pending and later reads end with `disconnected` (bytes fed
+  /// before are read first), and so do the writes held by `hold_writes`.
   void disconnect ();
   /// @brief At most `bytes` per write (0: no limit, the default).
   void set_write_chunk (std::size_t bytes);

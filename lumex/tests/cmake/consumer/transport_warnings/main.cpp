@@ -599,6 +599,8 @@ scripted_round ()
              context, clock, [&sends_done] { return sends_done; }, ms (10))
          && !first_send && second_send && sent == 1 && fine;
   datagrams.control.on_send (tr::testing::send_observer_t ());
+  datagrams.control.hold_sends ();
+  datagrams.control.release_sends ();
 
   datagrams.control.deliver_after (ms (7), message);
   bool received = false;

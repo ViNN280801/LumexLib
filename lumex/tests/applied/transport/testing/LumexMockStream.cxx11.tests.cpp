@@ -9,6 +9,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <memory>
+#include <stdexcept>
 #include <string>
 #include <system_error>
 #include <thread>
@@ -61,7 +62,7 @@ cyclic_observer (tr::testing::mock_stream_control const &control,
 
 // A read or write handler that owns a copy of the control (a cycle with the
 // mock until the handler is dropped) and the sentinel.
-struct cyclic_io_handler
+struct cyclic_io_handler_t
 {
   tr::testing::mock_stream_control control;
   std::shared_ptr<int> sentinel;
@@ -80,7 +81,7 @@ start_cyclic_reads (tr::stream::byte_stream &stream,
                     std::shared_ptr<int> const &sentinel, bytes_t &first,
                     bytes_t &second)
 {
-  cyclic_io_handler const handler = { control, sentinel };
+  cyclic_io_handler_t const handler = { control, sentinel };
   stream.async_read_some (tr::mutable_bytes_t (first), handler);
   stream.async_read_some (tr::mutable_bytes_t (second), handler);
 }
@@ -91,12 +92,12 @@ start_cyclic_write (tr::stream::byte_stream &stream,
                     tr::testing::mock_stream_control const &control,
                     std::shared_ptr<int> const &sentinel, bytes_t &data)
 {
-  cyclic_io_handler const handler = { control, sentinel };
+  cyclic_io_handler_t const handler = { control, sentinel };
   stream.async_write_some (tr::const_bytes_t (data), handler);
 }
 
 // What the handler of one read saw.
-struct read_state
+struct read_state_t
 {
   bool done = false;
   std::error_code error;
@@ -112,7 +113,7 @@ struct read_state
 };
 
 // What the handler of one write saw.
-struct write_state
+struct write_state_t
 {
   bool done = false;
   std::error_code error;
@@ -166,10 +167,11 @@ protected:
     ASSERT_FALSE (error);
   }
 
-  std::shared_ptr<read_state>
+  std::shared_ptr<read_state_t>
   start_read (std::size_t capacity)
   {
-    std::shared_ptr<read_state> const state = std::make_shared<read_state> ();
+    std::shared_ptr<read_state_t> const state
+        = std::make_shared<read_state_t> ();
     state->buffer.assign (capacity, 0);
     mock_.stream.async_read_some (
         tr::mutable_bytes_t (state->buffer),
@@ -182,11 +184,11 @@ protected:
     return state;
   }
 
-  std::shared_ptr<write_state>
+  std::shared_ptr<write_state_t>
   start_write (std::string const &text)
   {
-    std::shared_ptr<write_state> const state
-        = std::make_shared<write_state> ();
+    std::shared_ptr<write_state_t> const state
+        = std::make_shared<write_state_t> ();
     state->data = bytes_of (text);
     mock_.stream.async_write_some (
         tr::const_bytes_t (state->data),
@@ -199,11 +201,11 @@ protected:
     return state;
   }
 
-  std::shared_ptr<write_state>
+  std::shared_ptr<write_state_t>
   start_write_all (std::string const &text)
   {
-    std::shared_ptr<write_state> const state
-        = std::make_shared<write_state> ();
+    std::shared_ptr<write_state_t> const state
+        = std::make_shared<write_state_t> ();
     state->data = bytes_of (text);
     mock_.stream.async_write_all (
         tr::const_bytes_t (state->data),
@@ -235,7 +237,7 @@ TEST_F (
           chunks.push_back (text_of (chunk));
           on_strand.push_back (strand.running_in_this_thread ());
         });
-  std::shared_ptr<write_state> const write = start_write_all ("abcdefgh");
+  std::shared_ptr<write_state_t> const write = start_write_all ("abcdefgh");
   EXPECT_TRUE (chunks.empty ()); // not inside the initiating call
   drain (context_);
   ASSERT_TRUE (write->done);
@@ -273,7 +275,7 @@ TEST_F (
   mock_.control.on_write ([&chunks] (bytes_t const &chunk)
                             { chunks.push_back (text_of (chunk)); });
   mock_.control.fail_next_write (std::make_error_code (std::errc::io_error));
-  std::shared_ptr<write_state> const failed = start_write ("lost");
+  std::shared_ptr<write_state_t> const failed = start_write ("lost");
   drain (context_);
   ASSERT_TRUE (failed->done);
   EXPECT_EQ (failed->error, std::make_error_code (std::errc::io_error));
@@ -291,7 +293,7 @@ TEST_F (
   open ();
   tr::testing::mock_stream_control control = mock_.control;
   int read_calls_inside = 0;
-  std::shared_ptr<read_state> const read = start_read (16);
+  std::shared_ptr<read_state_t> const read = start_read (16);
   drain (context_);
   ASSERT_FALSE (read->done);
   control.on_write (
@@ -301,7 +303,7 @@ TEST_F (
           // The read is completed through the strand, never from here.
           read_calls_inside += read->done ? 1 : 0;
         });
-  std::shared_ptr<write_state> const write = start_write ("ping");
+  std::shared_ptr<write_state_t> const write = start_write ("ping");
   drain (context_);
   ASSERT_TRUE (write->done);
   ASSERT_TRUE (read->done);
@@ -318,8 +320,8 @@ TEST_F (LumexMockStreamTest,
   tr::testing::mock_stream_control control = mock_.control;
   control.on_write ([control] (bytes_t const &) mutable
                       { control.hold_writes (); });
-  std::shared_ptr<write_state> const first = start_write ("one");
-  std::shared_ptr<write_state> const second = start_write ("two");
+  std::shared_ptr<write_state_t> const first = start_write ("one");
+  std::shared_ptr<write_state_t> const second = start_write ("two");
   drain (context_);
   EXPECT_TRUE (first->done);
   EXPECT_FALSE (second->done);
@@ -337,7 +339,7 @@ TEST_F (LumexMockStreamTest,
         GivenFeedAfter_WhenTheClockAdvances_ThenTheBytesArriveAtTheirTime)
 {
   open ();
-  std::shared_ptr<read_state> const read = start_read (16);
+  std::shared_ptr<read_state_t> const read = start_read (16);
   mock_.control.feed_after (ms (100), bytes_of ("late"));
   drain (context_);
   EXPECT_FALSE (read->done);
@@ -361,7 +363,7 @@ TEST_F (
   mock_.control.feed_after (ms (10), bytes_of ("C"));
   clock_.advance (ms (20));
   drain (context_);
-  std::shared_ptr<read_state> const read = start_read (16);
+  std::shared_ptr<read_state_t> const read = start_read (16);
   drain (context_);
   ASSERT_TRUE (read->done);
   EXPECT_EQ (read->text (), "ACB");
@@ -371,7 +373,7 @@ TEST_F (LumexMockStreamTest,
         GivenFeedAfterOfZero_WhenNothingAdvances_ThenItWaitsForTheNextAdvance)
 {
   open ();
-  std::shared_ptr<read_state> const read = start_read (16);
+  std::shared_ptr<read_state_t> const read = start_read (16);
   mock_.control.feed_after (ms (0), bytes_of ("now"));
   drain (context_);
   EXPECT_FALSE (read->done);
@@ -391,7 +393,7 @@ TEST_F (LumexMockStreamTest,
   clock_.advance (ms (10));
   drain (context_);
   open ();
-  std::shared_ptr<read_state> const read = start_read (16);
+  std::shared_ptr<read_state_t> const read = start_read (16);
   drain (context_);
   ASSERT_TRUE (read->done);
   EXPECT_EQ (read->text (), "kept");
@@ -424,7 +426,7 @@ TEST (LumexMockStream,
                             { opened = true; });
   drain (context);
   ASSERT_TRUE (opened);
-  std::shared_ptr<read_state> const read = std::make_shared<read_state> ();
+  std::shared_ptr<read_state_t> const read = std::make_shared<read_state_t> ();
   read->buffer.assign (8, 0);
   made.stream.async_read_some (
       tr::mutable_bytes_t (read->buffer),
@@ -455,7 +457,7 @@ TEST (LumexMockStream,
                             { opened = true; });
   drain (context);
   ASSERT_TRUE (opened);
-  std::shared_ptr<read_state> const read = std::make_shared<read_state> ();
+  std::shared_ptr<read_state_t> const read = std::make_shared<read_state_t> ();
   read->buffer.assign (8, 0);
   made.stream.async_read_some (
       tr::mutable_bytes_t (read->buffer),
@@ -491,7 +493,7 @@ TEST_F (LumexMockStreamTest,
   std::vector<std::string> parts;
   for (int i = 0; i < 3; ++i)
     {
-      std::shared_ptr<read_state> const read = start_read (16);
+      std::shared_ptr<read_state_t> const read = start_read (16);
       drain (context_);
       ASSERT_TRUE (read->done);
       parts.push_back (read->text ());
@@ -508,14 +510,14 @@ TEST_F (
 {
   open ();
   mock_.control.set_read_chunk (2);
-  std::shared_ptr<read_state> const read = start_read (16);
+  std::shared_ptr<read_state_t> const read = start_read (16);
   drain (context_);
   mock_.control.feed (bytes_of ("abcdef"));
   drain (context_);
   ASSERT_TRUE (read->done);
   EXPECT_EQ (read->text (), "ab");
   mock_.control.set_read_chunk (0); // no limit again
-  std::shared_ptr<read_state> const rest = start_read (16);
+  std::shared_ptr<read_state_t> const rest = start_read (16);
   drain (context_);
   EXPECT_EQ (rest->text (), "cdef");
 }
@@ -529,7 +531,7 @@ TEST_F (LumexMockStreamTest,
   int observed = 0;
   mock_.control.on_write ([&observed] (bytes_t const &) { ++observed; });
   mock_.control.hold_writes ();
-  std::shared_ptr<write_state> const write = start_write ("frozen");
+  std::shared_ptr<write_state_t> const write = start_write ("frozen");
   drain (context_);
   EXPECT_FALSE (write->done);
   EXPECT_TRUE (mock_.control.written ().empty ());
@@ -547,8 +549,8 @@ TEST_F (
 {
   open ();
   mock_.control.hold_writes ();
-  std::shared_ptr<write_state> const first = start_write ("a");
-  std::shared_ptr<write_state> const second = start_write ("b");
+  std::shared_ptr<write_state_t> const first = start_write ("a");
+  std::shared_ptr<write_state_t> const second = start_write ("b");
   drain (context_);
   mock_.stream.cancel ();
   drain (context_);
@@ -567,12 +569,12 @@ TEST_F (
   mock_.control.on_write ([&chunks] (bytes_t const &chunk)
                             { chunks.push_back (text_of (chunk)); });
   mock_.control.hold_writes ();
-  std::shared_ptr<write_state> const a = start_write ("A");
-  std::shared_ptr<write_state> const b = start_write ("B");
+  std::shared_ptr<write_state_t> const a = start_write ("A");
+  std::shared_ptr<write_state_t> const b = start_write ("B");
   drain (context_);
   EXPECT_FALSE (a->done || b->done);
   mock_.control.release_writes ();
-  std::shared_ptr<write_state> const c = start_write ("C");
+  std::shared_ptr<write_state_t> const c = start_write ("C");
   drain (context_);
   ASSERT_TRUE (a->done && b->done && c->done);
   EXPECT_EQ (text_of (mock_.control.written ()), "ABC");
@@ -588,9 +590,9 @@ TEST_F (
 {
   open ();
   mock_.control.hold_writes ();
-  std::shared_ptr<write_state> const a = start_write ("A");
-  drain (context_);                                         // A is held
-  std::shared_ptr<write_state> const b = start_write ("B"); // not run yet
+  std::shared_ptr<write_state_t> const a = start_write ("A");
+  drain (context_);                                           // A is held
+  std::shared_ptr<write_state_t> const b = start_write ("B"); // not run yet
   mock_.control.release_writes ();
   drain (context_);
   ASSERT_TRUE (a->done && b->done);
@@ -601,9 +603,9 @@ TEST_F (LumexMockStreamTest, GivenHeldWrites_WhenReadsRun_ThenReadsAreNotHeld)
 {
   open ();
   mock_.control.hold_writes ();
-  std::shared_ptr<write_state> const write = start_write ("x");
+  std::shared_ptr<write_state_t> const write = start_write ("x");
   mock_.control.feed (bytes_of ("in"));
-  std::shared_ptr<read_state> const read = start_read (8);
+  std::shared_ptr<read_state_t> const read = start_read (8);
   drain (context_);
   EXPECT_TRUE (read->done);
   EXPECT_FALSE (write->done);
@@ -617,7 +619,7 @@ TEST_F (LumexMockStreamTest,
 {
   open ();
   mock_.control.release_writes ();
-  std::shared_ptr<write_state> const write = start_write ("ok");
+  std::shared_ptr<write_state_t> const write = start_write ("ok");
   drain (context_);
   EXPECT_TRUE (write->done);
   EXPECT_EQ (text_of (mock_.control.written ()), "ok");
@@ -632,13 +634,13 @@ TEST_F (
   open ();
   mock_.control.feed (bytes_of ("data"));
   mock_.control.complete_next_read_empty ();
-  std::shared_ptr<read_state> const empty = start_read (8);
+  std::shared_ptr<read_state_t> const empty = start_read (8);
   drain (context_);
   ASSERT_TRUE (empty->done);
   EXPECT_FALSE (empty->error);
   EXPECT_EQ (empty->count, 0u);
   EXPECT_TRUE (mock_.stream.is_open ());
-  std::shared_ptr<read_state> const next = start_read (8);
+  std::shared_ptr<read_state_t> const next = start_read (8);
   drain (context_);
   ASSERT_TRUE (next->done);
   EXPECT_FALSE (next->error);
@@ -649,7 +651,7 @@ TEST_F (LumexMockStreamTest,
         GivenAPendingRead_WhenAnEmptyReadIsScripted_ThenThatReadEndsEmptyNow)
 {
   open ();
-  std::shared_ptr<read_state> const read = start_read (8);
+  std::shared_ptr<read_state_t> const read = start_read (8);
   drain (context_);
   ASSERT_FALSE (read->done);
   mock_.control.complete_next_read_empty ();
@@ -658,7 +660,7 @@ TEST_F (LumexMockStreamTest,
   EXPECT_FALSE (read->error);
   EXPECT_EQ (read->count, 0u);
   // Only one read was emptied: the next one waits.
-  std::shared_ptr<read_state> const next = start_read (8);
+  std::shared_ptr<read_state_t> const next = start_read (8);
   drain (context_);
   EXPECT_FALSE (next->done);
   mock_.control.feed (bytes_of ("z"));
@@ -674,8 +676,8 @@ TEST_F (
     GivenTwoPendingReads_WhenBytesArrive_ThenBothAreServedInTheOrderStarted)
 {
   open ();
-  std::shared_ptr<read_state> const first = start_read (8);
-  std::shared_ptr<read_state> const second = start_read (8);
+  std::shared_ptr<read_state_t> const first = start_read (8);
+  std::shared_ptr<read_state_t> const second = start_read (8);
   drain (context_);
   EXPECT_FALSE (first->done || second->done);
   mock_.control.feed (bytes_of ("abc"));
@@ -694,8 +696,8 @@ TEST_F (LumexMockStreamTest,
 {
   open ();
   mock_.control.set_read_chunk (2);
-  std::shared_ptr<read_state> const first = start_read (8);
-  std::shared_ptr<read_state> const second = start_read (8);
+  std::shared_ptr<read_state_t> const first = start_read (8);
+  std::shared_ptr<read_state_t> const second = start_read (8);
   drain (context_);
   mock_.control.feed (bytes_of ("wxyz"));
   drain (context_);
@@ -708,8 +710,8 @@ TEST_F (LumexMockStreamTest,
         GivenTwoPendingReads_WhenCancelled_ThenBothEndCancelled)
 {
   open ();
-  std::shared_ptr<read_state> const first = start_read (8);
-  std::shared_ptr<read_state> const second = start_read (8);
+  std::shared_ptr<read_state_t> const first = start_read (8);
+  std::shared_ptr<read_state_t> const second = start_read (8);
   drain (context_);
   mock_.stream.cancel ();
   drain (context_);
@@ -722,8 +724,8 @@ TEST_F (LumexMockStreamTest,
         GivenTwoPendingReads_WhenTheMockDisconnects_ThenBothEndDisconnected)
 {
   open ();
-  std::shared_ptr<read_state> const first = start_read (8);
-  std::shared_ptr<read_state> const second = start_read (8);
+  std::shared_ptr<read_state_t> const first = start_read (8);
+  std::shared_ptr<read_state_t> const second = start_read (8);
   drain (context_);
   mock_.control.disconnect ();
   drain (context_);
@@ -737,8 +739,8 @@ TEST_F (
     GivenTwoPendingReads_WhenTheNextReadFails_ThenTheOldestEndsWithTheError)
 {
   open ();
-  std::shared_ptr<read_state> const first = start_read (8);
-  std::shared_ptr<read_state> const second = start_read (8);
+  std::shared_ptr<read_state_t> const first = start_read (8);
+  std::shared_ptr<read_state_t> const second = start_read (8);
   drain (context_);
   mock_.control.fail_next_read (std::make_error_code (std::errc::io_error));
   drain (context_);
@@ -755,8 +757,8 @@ TEST_F (LumexMockStreamTest,
         GivenTwoPendingReads_WhenTheStreamIsClosed_ThenBothEndCancelled)
 {
   open ();
-  std::shared_ptr<read_state> const first = start_read (8);
-  std::shared_ptr<read_state> const second = start_read (8);
+  std::shared_ptr<read_state_t> const first = start_read (8);
+  std::shared_ptr<read_state_t> const second = start_read (8);
   drain (context_);
   mock_.stream.close ();
   drain (context_);
@@ -920,4 +922,229 @@ TEST (
   made.reset ();
   context.reset (); // the handler of the held write was the last owner
   EXPECT_EQ (sentinel.use_count (), 1);
+}
+
+// --- review round: a stateful observer, a throwing one, disconnect, settings
+
+TEST_F (LumexMockStreamTest,
+        GivenAStatefulObserver_WhenSeveralWritesRun_ThenItKeepsItsState)
+{
+  open ();
+  std::vector<int> seen;
+  std::vector<int> *out = &seen;
+  int count = 0;
+  mock_.control.on_write ([count, out] (bytes_t const &) mutable
+                            { out->push_back (++count); });
+  start_write ("a");
+  drain (context_);
+  start_write ("b");
+  drain (context_);
+  start_write ("c");
+  drain (context_);
+  ASSERT_EQ (seen.size (), 3u);
+  EXPECT_EQ (seen[0], 1);
+  EXPECT_EQ (seen[1], 2);
+  EXPECT_EQ (seen[2], 3);
+}
+
+TEST_F (
+    LumexMockStreamTest,
+    GivenAnObserverThatThrowsDuringTheRelease_WhenTheRestIsHeld_ThenANewStepFlushesThem)
+{
+  open ();
+  int calls = 0;
+  mock_.control.on_write (
+      [&calls] (bytes_t const &)
+        {
+          if (++calls == 1)
+            throw std::runtime_error ("observer");
+        });
+  mock_.control.hold_writes ();
+  std::shared_ptr<write_state_t> const a = start_write ("a");
+  std::shared_ptr<write_state_t> const b = start_write ("b");
+  drain (context_);
+  mock_.control.release_writes ();
+  bool thrown = false;
+  try
+    {
+      drain (context_);
+    }
+  catch (std::runtime_error const &)
+    {
+      thrown = true;
+    }
+  drain (context_);
+  EXPECT_TRUE (thrown);
+  std::shared_ptr<write_state_t> const c = start_write ("c");
+  drain (context_);
+  EXPECT_TRUE (a->done);
+  EXPECT_TRUE (b->done);
+  EXPECT_TRUE (c->done);
+  EXPECT_EQ (text_of (mock_.control.written ()), "abc");
+}
+
+TEST_F (LumexMockStreamTest,
+        GivenHeldWrites_WhenTheMockDisconnects_ThenTheyEndDisconnected)
+{
+  open ();
+  mock_.control.hold_writes ();
+  std::shared_ptr<write_state_t> const a = start_write ("a");
+  std::shared_ptr<write_state_t> const b = start_write ("b");
+  drain (context_);
+  mock_.control.disconnect ();
+  drain (context_);
+  ASSERT_TRUE (a->done && b->done);
+  EXPECT_EQ (a->error, code (transport_errc::disconnected));
+  EXPECT_EQ (b->error, code (transport_errc::disconnected));
+  EXPECT_TRUE (mock_.control.written ().empty ());
+}
+
+TEST_F (LumexMockStreamTest,
+        GivenBytesFedBeforeADisconnect_WhenRead_ThenTheyComeBeforeTheError)
+{
+  open ();
+  mock_.control.feed (bytes_of ("ab"));
+  mock_.control.disconnect ();
+  std::shared_ptr<read_state_t> const first = start_read (8);
+  std::shared_ptr<read_state_t> const second = start_read (8);
+  drain (context_);
+  ASSERT_TRUE (first->done && second->done);
+  EXPECT_FALSE (first->error);
+  EXPECT_EQ (first->text (), "ab");
+  EXPECT_EQ (second->error, code (transport_errc::disconnected));
+}
+
+TEST_F (
+    LumexMockStreamTest,
+    GivenScriptedSettings_WhenTheStreamIsClosedAndOpenedAgain_ThenTheyStillApply)
+{
+  open ();
+  mock_.control.complete_next_read_empty ();
+  mock_.control.set_read_chunk (1);
+  mock_.control.hold_writes ();
+  mock_.stream.close ();
+  drain (context_);
+  open ();
+  mock_.control.feed (bytes_of ("xyz"));
+  std::shared_ptr<read_state_t> const empty = start_read (8);
+  std::shared_ptr<read_state_t> const one = start_read (8);
+  std::shared_ptr<write_state_t> const write = start_write ("w");
+  drain (context_);
+  ASSERT_TRUE (empty->done && one->done);
+  EXPECT_EQ (empty->count, 0u);
+  EXPECT_EQ (one->text (), "x");
+  EXPECT_FALSE (write->done);
+}
+
+TEST_F (
+    LumexMockStreamTest,
+    GivenAHoldSetAgainByTheObserver_WhenTheReleaseRuns_ThenTheRestStaysHeld)
+{
+  open ();
+  tr::testing::mock_stream_control control = mock_.control;
+  control.on_write (
+      [control] (bytes_t const &chunk) mutable
+        {
+          if (text_of (chunk) == "A")
+            control.hold_writes ();
+        });
+  control.hold_writes ();
+  std::shared_ptr<write_state_t> const a = start_write ("A");
+  std::shared_ptr<write_state_t> const b = start_write ("B");
+  std::shared_ptr<write_state_t> const c = start_write ("C");
+  drain (context_);
+  control.release_writes ();
+  drain (context_);
+  EXPECT_TRUE (a->done);
+  EXPECT_FALSE (b->done || c->done);
+  EXPECT_EQ (text_of (control.written ()), "A");
+  control.on_write (tr::testing::write_observer_t ());
+  control.release_writes ();
+  drain (context_);
+  EXPECT_TRUE (b->done && c->done);
+  EXPECT_EQ (text_of (control.written ()), "ABC");
+}
+
+TEST_F (LumexMockStreamTest,
+        GivenTwoScriptedEmptyReads_WhenTwoReadsArePending_ThenBothEndEmpty)
+{
+  open ();
+  std::shared_ptr<read_state_t> const first = start_read (8);
+  std::shared_ptr<read_state_t> const second = start_read (8);
+  drain (context_);
+  mock_.control.complete_next_read_empty ();
+  mock_.control.complete_next_read_empty ();
+  drain (context_);
+  ASSERT_TRUE (first->done && second->done);
+  EXPECT_FALSE (first->error || second->error);
+  EXPECT_EQ (first->count, 0u);
+  EXPECT_EQ (second->count, 0u);
+}
+
+TEST_F (LumexMockStreamTest,
+        GivenAHoldWithNothingHeld_WhenReleased_ThenLaterWritesGoAtOnce)
+{
+  open ();
+  mock_.control.hold_writes ();
+  mock_.control.release_writes (); // nothing is held
+  std::shared_ptr<write_state_t> const write = start_write ("go");
+  drain (context_);
+  EXPECT_TRUE (write->done);
+  EXPECT_EQ (text_of (mock_.control.written ()), "go");
+}
+
+TEST_F (LumexMockStreamTest,
+        GivenAFailedPendingRead_WhenANewReadStarts_ThenItIsNotFailed)
+{
+  open ();
+  std::shared_ptr<read_state_t> const pending = start_read (8);
+  drain (context_);
+  mock_.control.fail_next_read (std::make_error_code (std::errc::io_error));
+  drain (context_);
+  ASSERT_TRUE (pending->done);
+  EXPECT_TRUE (pending->error);
+  mock_.control.feed (bytes_of ("ok"));
+  std::shared_ptr<read_state_t> const fresh = start_read (8);
+  drain (context_);
+  ASSERT_TRUE (fresh->done);
+  EXPECT_FALSE (fresh->error);
+  EXPECT_EQ (fresh->text (), "ok");
+}
+
+TEST_F (LumexMockStreamTest,
+        GivenAFailedHeldWrite_WhenReleased_ThenTheOthersStillGo)
+{
+  open ();
+  mock_.control.hold_writes ();
+  mock_.control.fail_next_write (std::make_error_code (std::errc::io_error));
+  std::shared_ptr<write_state_t> const a = start_write ("A");
+  std::shared_ptr<write_state_t> const b = start_write ("B");
+  std::shared_ptr<write_state_t> const c = start_write ("C");
+  drain (context_);
+  mock_.control.release_writes ();
+  drain (context_);
+  ASSERT_TRUE (a->done && b->done && c->done);
+  EXPECT_TRUE (a->error);
+  EXPECT_FALSE (b->error || c->error);
+  EXPECT_EQ (text_of (mock_.control.written ()), "BC");
+}
+
+TEST_F (
+    LumexMockStreamTest,
+    GivenManyDeliveriesAtOneTime_WhenTheClockPasses_ThenTheyKeepTheScheduleOrder)
+{
+  open ();
+  for (int i = 0; i < 200; ++i)
+    mock_.control.feed_after (ms (10),
+                              bytes_t (1, static_cast<std::uint8_t> (i)));
+  mock_.control.feed_after (ms (5), bytes_t (1, 255));
+  clock_.advance (ms (10));
+  drain (context_);
+  std::shared_ptr<read_state_t> const read = start_read (512);
+  drain (context_);
+  ASSERT_TRUE (read->done);
+  ASSERT_EQ (read->count, 201u);
+  EXPECT_EQ (read->buffer[0], 255);
+  for (int i = 0; i < 200; ++i)
+    EXPECT_EQ (read->buffer[static_cast<std::size_t> (i + 1)], i);
 }
