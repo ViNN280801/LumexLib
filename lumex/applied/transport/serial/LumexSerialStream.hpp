@@ -51,7 +51,11 @@
  * synchronous call): its worker thread cannot be stopped (the bounded open,
  * or the `resolve_path` that no deadline bounds), so it is abandoned. It goes
  * on to its end, closes the port it opened and changes nothing on the
- * stream; an `open ()` that starts meanwhile is independent of it. The
+ * stream. A stream has one worker thread at most: an `open ()` that starts
+ * while the worker of an abandoned open runs waits on the strand (no thread of
+ * its own) and starts when that worker returns; `cancel ()`, `close ()` and
+ * the deadline of a synchronous `open` end the waiting open at once and it
+ * never starts. The
  * settings are the `serial_port_settings_t` of `applied/serial`; a value the
  * platform cannot set (mark or space parity, 1.5 stop bits outside Windows,
  * data bits outside 5..8) fails the open with `std::errc::not_supported`.
