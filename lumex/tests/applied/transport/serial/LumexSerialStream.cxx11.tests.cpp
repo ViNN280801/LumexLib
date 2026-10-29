@@ -387,6 +387,13 @@ public:
     return port_;
   }
 
+  std::size_t
+  entries ()
+  {
+    std::lock_guard<std::mutex> const lock (mutex_);
+    return entries_;
+  }
+
   // Waits until `count` calls have entered the resolver.
   bool
   wait_entries (std::size_t count)
@@ -751,10 +758,11 @@ TEST (
 }
 
 // The decision for an open that starts while an abandoned one still runs: it
-// is independent of it; the late result of the old one changes nothing.
+// waits (parked on the strand, no second worker thread) for the old worker to
+// return and then starts.
 TEST (
     LumexSerialStreamTest,
-    GivenAnAbandonedOpenStillRunning_WhenTheStreamOpensAgain_ThenOnlyTheNewOpenCounts)
+    GivenAnAbandonedOpenStillRunning_WhenTheStreamOpensAgain_ThenTheNewOpenWaitsForItAndThenRuns)
 {
   test_pty pty;
   if (!pty.ok ())
@@ -773,17 +781,160 @@ TEST (
   EXPECT_TRUE (error_of (first) == transport_errc::cancelled);
 
   std::future<std::error_code> second = open_async (stream);
-  ASSERT_TRUE (resolver->wait_entries (2));
+  EXPECT_EQ (second.wait_for (std::chrono::milliseconds (150)),
+             std::future_status::timeout);
+  EXPECT_EQ (resolver->entries (), 1u);
   resolver->release ();
   ASSERT_EQ (second.wait_for (std::chrono::seconds (5)),
              std::future_status::ready);
   EXPECT_FALSE (error_of (second));
   EXPECT_TRUE (stream.is_open ());
+  EXPECT_EQ (resolver->entries (), 2u);
   // Both workers ended: the old one closed its port, the new one's is open.
   ASSERT_TRUE (
       eventually ([&resolver] () { return resolver.use_count () == 2; }));
   EXPECT_EQ (descriptors_to (pty.slave ()), before + 1);
   EXPECT_TRUE (stream.is_open ());
+}
+
+TEST (
+    LumexSerialStreamTest,
+    GivenAnOpenWaitingForAnAbandonedOne_WhenItsDeadlinePassesOrItIsCancelled_ThenItEndsAtOnceAndNeverRuns)
+{
+  test_pty pty;
+  if (!pty.ok ())
+    GTEST_SKIP () << "no pseudoterminal";
+  std::size_t const before = descriptors_to (pty.slave ());
+  std::shared_ptr<blocking_resolver> const resolver
+      = std::make_shared<blocking_resolver> (pty.slave ());
+  tr::stream::io_runner runner;
+  tr::stream::byte_stream stream = make_resolving_stream (runner, resolver);
+  delayed_release const guard (*resolver, KBACKSTOP_MS * 2);
+  std::future<std::error_code> first = open_async (stream);
+  ASSERT_TRUE (resolver->wait_entries (1));
+  stream.cancel ();
+  ASSERT_EQ (first.wait_for (std::chrono::milliseconds (1000)),
+             std::future_status::ready);
+
+  std::chrono::steady_clock::time_point const start
+      = std::chrono::steady_clock::now ();
+  tr::status_result_t const result = stream.open (deadline_t (100));
+  long long const took = elapsed_ms (start);
+  ASSERT_FALSE (result.has_value ());
+  EXPECT_TRUE (result.error () == transport_errc::timeout) << result.error ();
+  EXPECT_LT (took, 100 + KSLACK_MS);
+
+  std::future<std::error_code> cancelled = open_async (stream);
+  EXPECT_EQ (cancelled.wait_for (std::chrono::milliseconds (50)),
+             std::future_status::timeout);
+  stream.cancel ();
+  ASSERT_EQ (cancelled.wait_for (std::chrono::milliseconds (1000)),
+             std::future_status::ready);
+  EXPECT_TRUE (error_of (cancelled) == transport_errc::cancelled);
+
+  std::future<std::error_code> closed = open_async (stream);
+  EXPECT_EQ (closed.wait_for (std::chrono::milliseconds (50)),
+             std::future_status::timeout);
+  stream.close ();
+  ASSERT_EQ (closed.wait_for (std::chrono::milliseconds (1000)),
+             std::future_status::ready);
+  EXPECT_TRUE (error_of (closed) == transport_errc::cancelled);
+
+  resolver->release ();
+  ASSERT_TRUE (
+      eventually ([&resolver] () { return resolver.use_count () == 2; }));
+  // Only the abandoned worker ever ran; the parked opens never started.
+  EXPECT_EQ (resolver->entries (), 1u);
+  EXPECT_EQ (descriptors_to (pty.slave ()), before);
+  EXPECT_FALSE (stream.is_open ());
+}
+
+// The worker of an abandoned open owns nothing of the stream: the stream is
+// freed while the worker still blocks (the worker's reference was let go).
+TEST (
+    LumexSerialStreamTest,
+    GivenAnAbandonedOpen_WhenTheStreamIsDestroyedWhileTheWorkerBlocks_ThenTheStreamIsFreed)
+{
+  test_pty pty;
+  if (!pty.ok ())
+    GTEST_SKIP () << "no pseudoterminal";
+  std::size_t const before = descriptors_to (pty.slave ());
+  open_fixture fixture (pty.slave ());
+  release_on_exit const leave = { *fixture.resolver };
+  fixture.stream->async_open ([] (std::error_code) {});
+  fixture.context->poll ();
+  ASSERT_TRUE (fixture.resolver->wait_entered ());
+  fixture.stream->cancel ();
+  fixture.context->restart ();
+  fixture.context->poll ();
+  fixture.stream.reset ();
+  fixture.context->restart ();
+  fixture.context->poll ();
+  EXPECT_TRUE (fixture.impl.expired ())
+      << "the abandoned worker still owns the stream";
+  fixture.resolver->release ();
+  ASSERT_TRUE (fixture.resolver->wait_entered ());
+  EXPECT_TRUE (eventually ([&fixture] ()
+                             { return fixture.resolver.use_count () == 1; }));
+  EXPECT_EQ (descriptors_to (pty.slave ()), before);
+}
+
+TEST (
+    LumexSerialStreamTest,
+    GivenAnAbandonedOpen_WhenTheContextIsDestroyedWhileTheWorkerBlocks_ThenTheStreamIsFreedAndNoPortIsLeft)
+{
+  test_pty pty;
+  if (!pty.ok ())
+    GTEST_SKIP () << "no pseudoterminal";
+  std::size_t const before = descriptors_to (pty.slave ());
+  open_fixture fixture (pty.slave ());
+  release_on_exit const leave = { *fixture.resolver };
+  fixture.stream->async_open ([] (std::error_code) {});
+  fixture.context->poll ();
+  ASSERT_TRUE (fixture.resolver->wait_entered ());
+  fixture.stream->cancel ();
+  fixture.context->restart ();
+  fixture.context->poll ();
+  fixture.stream.reset ();
+  fixture.context.reset ();
+  EXPECT_TRUE (fixture.impl.expired ());
+  fixture.resolver->release ();
+  EXPECT_TRUE (eventually ([&fixture] ()
+                             { return fixture.resolver.use_count () == 1; }));
+  EXPECT_EQ (descriptors_to (pty.slave ()), before);
+}
+
+// An open parked behind an abandoned one dies with the context.
+TEST (
+    LumexSerialStreamTest,
+    GivenAnOpenParkedBehindAnAbandonedOne_WhenTheContextIsDestroyed_ThenItNeverRunsAndNothingLeaks)
+{
+  test_pty pty;
+  if (!pty.ok ())
+    GTEST_SKIP () << "no pseudoterminal";
+  std::size_t const before = descriptors_to (pty.slave ());
+  open_fixture fixture (pty.slave ());
+  release_on_exit const leave = { *fixture.resolver };
+  int calls = 0;
+  fixture.stream->async_open ([&calls] (std::error_code) { ++calls; });
+  fixture.context->poll ();
+  ASSERT_TRUE (fixture.resolver->wait_entered ());
+  fixture.stream->cancel ();
+  fixture.context->restart ();
+  fixture.context->poll ();
+  EXPECT_EQ (calls, 1);
+  fixture.stream->async_open ([&calls] (std::error_code) { ++calls; });
+  fixture.context->restart ();
+  fixture.context->poll ();
+  fixture.stream.reset ();
+  fixture.context.reset ();
+  EXPECT_TRUE (fixture.impl.expired ());
+  fixture.resolver->release ();
+  EXPECT_TRUE (eventually ([&fixture] ()
+                             { return fixture.resolver.use_count () == 1; }));
+  EXPECT_EQ (calls, 1);
+  EXPECT_EQ (fixture.resolver->entries (), 1u);
+  EXPECT_EQ (descriptors_to (pty.slave ()), before);
 }
 
 // The cancel is on the strand before the step that carries the result of the
