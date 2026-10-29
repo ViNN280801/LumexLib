@@ -12,6 +12,8 @@ add_subdirectory(serial)
 add_subdirectory(session)
 add_subdirectory(statistics)
 add_subdirectory(stream)
+add_subdirectory(testing)
+add_subdirectory(time)
 
 # The framed adapters are compiled only with the framing module
 # (lumex/applied/transport/CMakeLists.txt), and so are their tests.
