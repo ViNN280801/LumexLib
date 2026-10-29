@@ -307,7 +307,19 @@ public:
   {
     gate_->drop ();
     status_handler_t const dropped_open (std::move (open_handler_));
-    open_token_.reset ();
+    status_handler_t const dropped_parked (std::move (parked_handler_));
+    parked_ = false;
+    if (open_token_)
+      {
+        // The open's task must not touch hidapi after the context: one that
+        // has not started is taken back, one that runs is abandoned (it
+        // closes what it opened). No unpin: the drop above cleared the count.
+        int queued = KOPEN_QUEUED;
+        if (!open_token_->compare_exchange_strong (queued, KOPEN_CANCELLED,
+                                                   std::memory_order_acq_rel))
+          open_token_->store (KOPEN_ABANDONED, std::memory_order_release);
+        open_token_.reset ();
+      }
     status_handler_t const dropped_write (std::move (write_handler_));
     std::deque<message_handler_t> dropped_receives;
     dropped_receives.swap (receives_);
@@ -366,6 +378,7 @@ private:
 
   void start_next_write ();
   void end_open ();
+  void start_open (status_handler_t handler);
   void take_back_queued_write ();
   void end_queued_sends (transport_errc reason);
   void end_pending_receives (std::error_code error);
@@ -381,6 +394,13 @@ private:
   // carries another token is the late result of an open that cancel (),
   // close () or the deadline ended: it is dropped.
   std::shared_ptr<std::atomic<int>> open_token_;
+  // An open ended while its task runs: the task is alive until its late
+  // step reaches finish_open. The device has one open task at most, so an
+  // open that comes meanwhile is parked (its handler waits here, no task, no
+  // pin) and starts when that step arrives.
+  bool abandoned_running_ = false;
+  bool parked_ = false;
+  status_handler_t parked_handler_;
   std::shared_ptr<hid_connection> connection_;
   runtime_reference reference_;
   std::deque<message_t> incoming_;
@@ -710,6 +730,9 @@ open_task::operator() () const
         {
           // The caller has its answer: the handle is closed here, no reader
           // reads from it and nothing is posted that changes the device.
+          // Defence in depth: an abandoned open that got past this point
+          // would start a reader that the stale step stops before it reads,
+          // so no test can tell the two apart; this saves the thread.
           handle->close ();
           handle.reset ();
           error = make_error_code (transport_errc::cancelled);
@@ -832,6 +855,15 @@ hid_device_impl::finish_open (
       // the handle.
       if (connection)
         connection->request_stop ();
+      // Only an abandoned open leaves such a step. The task is over: the
+      // open that waited for it starts now.
+      abandoned_running_ = false;
+      if (parked_)
+        {
+          parked_ = false;
+          start_open (std::move (parked_handler_));
+          parked_handler_ = nullptr;
+        }
       return;
     }
   open_token_.reset ();
@@ -879,11 +911,23 @@ hid_device_impl::do_open (status_handler_t handler)
       complete (std::move (handler), std::error_code ());
       return;
     }
-  if (open_token_)
+  if (open_token_ || parked_)
     {
       complete (std::move (handler), transport_errc::cancelled);
       return;
     }
+  if (abandoned_running_)
+    {
+      parked_handler_ = std::move (handler);
+      parked_ = true;
+      return;
+    }
+  start_open (std::move (handler));
+}
+
+void
+hid_device_impl::start_open (status_handler_t handler)
+{
   std::shared_ptr<std::atomic<int>> token
       = std::make_shared<std::atomic<int>> (KOPEN_QUEUED);
   open_task task = { gate_, seam_, options_, name (), token };
@@ -895,7 +939,9 @@ hid_device_impl::do_open (status_handler_t handler)
   catch (...)
     {
       gate_->unpin ();
-      throw;
+      complete (std::move (handler),
+                std::make_error_code (std::errc::not_enough_memory));
+      return;
     }
   open_token_ = std::move (token);
   open_handler_ = std::move (handler);
@@ -1084,6 +1130,15 @@ hid_device_impl::take_back_queued_write ()
 void
 hid_device_impl::end_open ()
 {
+  if (parked_)
+    {
+      // It waits for an abandoned task and has none of its own.
+      parked_ = false;
+      status_handler_t parked (std::move (parked_handler_));
+      parked_handler_ = nullptr;
+      complete (std::move (parked), transport_errc::cancelled);
+      return;
+    }
   if (!open_token_)
     return;
   std::shared_ptr<std::atomic<int>> token;
@@ -1104,9 +1159,12 @@ hid_device_impl::end_open ()
       // posts a result that finish_open drops; that step ends the piece of
       // work.
       token->store (KOPEN_ABANDONED, std::memory_order_release);
-      LUMEX_TRANSPORT_LOG (warning, KCOMPONENT, name ().c_str (),
-                           "open ended while it runs in hidapi: abandoned",
-                           log::log_bytes_t ());
+      abandoned_running_ = true;
+      LUMEX_TRANSPORT_LOG (
+          warning, KCOMPONENT, name ().c_str (),
+          "open ended while its task runs or its result is on the way: "
+          "abandoned",
+          log::log_bytes_t ());
     }
   complete (std::move (handler), transport_errc::cancelled);
 }

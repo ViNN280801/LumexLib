@@ -209,6 +209,10 @@ public:
   void release (std::size_t reference) LUMEX_NOEXCEPT;
 
   bool shutdown (deadline_t deadline);
+  /// @brief A seam for tests: `hook` runs once on the thread of the next
+  /// `shutdown`, without a lock, right after the workers were told to quit
+  /// and before they are joined (empty: none).
+  void set_shutdown_hook (task_t hook);
   void abandon () LUMEX_NOEXCEPT;
   hid_runtime_stats_t stats ();
 
@@ -248,6 +252,7 @@ private:
   std::size_t idle_workers_;
   std::size_t running_tasks_;
   std::thread housekeeping_;
+  task_t shutdown_hook_;
   bool quit_;
   bool accepting_;
 };

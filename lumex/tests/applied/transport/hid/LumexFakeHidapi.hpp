@@ -99,6 +99,8 @@ struct fake_device
   bool open_waiting = false;
   // How many opens wait for set_hold_open (false) at the moment.
   std::size_t open_waiters = 0;
+  // The most opens that waited at once.
+  std::size_t open_waiters_max = 0;
   bool write_waiting = false;
   bool open = false;
   // Handles opened and not closed yet (an abandoned open may leave a second
@@ -375,6 +377,8 @@ public:
     std::unique_lock<std::mutex> lock (device->mutex);
     device->open_waiting = true;
     ++device->open_waiters;
+    device->open_waiters_max
+        = std::max (device->open_waiters_max, device->open_waiters);
     device->changed.notify_all ();
     device->changed.wait (lock, [&device] () { return !device->hold_open; });
     --device->open_waiters;
