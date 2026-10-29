@@ -217,6 +217,10 @@ struct open_gate
 struct open_finished
 {
   serial_impl_ptr impl;
+  // The gate of the open this result belongs to: a result whose gate is not
+  // the stream's current one is the late result of an open that cancel (),
+  // close () or the deadline of a synchronous open ended.
+  std::shared_ptr<open_gate> gate;
   bounded::open_result_t result;
   // The permission diagnostic, built by the worker thread; empty when the
   // open did not fail on a permission or the error log was off.
@@ -226,9 +230,10 @@ struct open_finished
   // Set while the step owns result.handle.
   bool owns_handle = false;
 
-  open_finished (serial_impl_ptr stream, bounded::open_result_t const &opened,
-                 std::string text, std::error_code const &resolve_failure)
-      : impl (std::move (stream)), result (opened),
+  open_finished (serial_impl_ptr stream, std::shared_ptr<open_gate> origin,
+                 bounded::open_result_t const &opened, std::string text,
+                 std::error_code const &resolve_failure)
+      : impl (std::move (stream)), gate (std::move (origin)), result (opened),
         permission_text (std::move (text)), resolve_error (resolve_failure),
         owns_handle (opened.outcome == bounded::open_outcome::opened)
   {
@@ -237,6 +242,7 @@ struct open_finished
   open_finished &operator= (open_finished const &) = delete;
   open_finished (open_finished &&other) LUMEX_NOEXCEPT
       : impl (std::move (other.impl)),
+        gate (std::move (other.gate)),
         result (std::move (other.result)),
         permission_text (std::move (other.permission_text)),
         resolve_error (other.resolve_error),
@@ -288,17 +294,26 @@ public:
   }
 
   void
-  finish_open (bounded::open_result_t const &result,
+  finish_open (std::shared_ptr<open_gate> const &origin,
+               bounded::open_result_t const &result,
                std::string const &permission_text,
                std::error_code const &resolve_error)
   {
+    if (origin != open_gate_)
+      {
+        // The late result of an open that was ended meanwhile: its handler
+        // has run, and a later open may be in progress. The port it opened
+        // is closed, nothing else happens.
+        if (result.outcome == bounded::open_outcome::opened)
+          bounded::close_serial_handle (result.handle);
+        return;
+      }
     opening_ = false;
     release_gate ();
     status_handler_t handler (std::move (open_handler_));
     open_handler_ = nullptr;
     if (resolve_error)
       {
-        close_requested_ = false;
         LUMEX_TRANSPORT_LOG (error, KCOMPONENT, name ().c_str (),
                              "no port to open: " + resolve_error.message (),
                              log::log_bytes_t ());
@@ -323,13 +338,6 @@ public:
         LUMEX_TRANSPORT_LOG (error, KCOMPONENT, name ().c_str (),
                              "open failed: " + text, log::log_bytes_t ());
         complete (std::move (handler), error);
-        return;
-      }
-    if (close_requested_)
-      {
-        bounded::close_serial_handle (result.handle);
-        close_requested_ = false;
-        complete (std::move (handler), transport_errc::cancelled);
         return;
       }
     std::error_code error = prepare_native_port (result.handle);
@@ -401,7 +409,6 @@ protected:
         return;
       }
     opening_ = true;
-    close_requested_ = false;
     open_handler_ = std::move (handler);
     open_gate_ = std::make_shared<open_gate> ();
     open_gate_->impl
@@ -435,6 +442,7 @@ protected:
   void
   do_cancel () override
   {
+    end_open ();
     asio::error_code ignored;
     port_.cancel (ignored);
   }
@@ -442,8 +450,7 @@ protected:
   void
   do_close () override
   {
-    if (opening_)
-      close_requested_ = true;
+    end_open ();
     if (port_.is_open ())
       {
         asio::error_code ignored;
@@ -464,6 +471,27 @@ protected:
   }
 
 private:
+  // A cancel or close during the open (also the deadline of a synchronous
+  // one): the open's handler ends with cancelled at once. The worker cannot
+  // be stopped (the bounded open, or the finder of the port, may be in a
+  // blocking call), so it is abandoned: with its reference let go it posts
+  // nothing, and a port it opened is closed by the step that dies in it, or
+  // by finish_open when the step was posted already.
+  void
+  end_open ()
+  {
+    if (!opening_)
+      return;
+    opening_ = false;
+    release_gate ();
+    status_handler_t handler (std::move (open_handler_));
+    open_handler_ = nullptr;
+    LUMEX_TRANSPORT_LOG (warning, KCOMPONENT, name ().c_str (),
+                         "open ended while its worker runs: abandoned",
+                         log::log_bytes_t ());
+    complete (std::move (handler), transport_errc::cancelled);
+  }
+
   // Lets the worker's reference go (the strand, or the context's shutdown):
   // after it the worker posts nothing and owns nothing.
   void
@@ -483,7 +511,6 @@ private:
   serial_stream_options_t options_;
   asio::serial_port port_;
   bool opening_ = false;
-  bool close_requested_ = false;
   // Strand data: the handler of the open in progress and its gate.
   status_handler_t open_handler_;
   std::shared_ptr<open_gate> open_gate_;
@@ -545,8 +572,8 @@ open_worker::operator() ()
   // a copy and the worker keeps none. Without a reference an opened port is
   // closed by the step that dies here.
   std::lock_guard<std::mutex> const lock (gate->mutex);
-  open_finished finished (gate->impl, result, std::move (permission_text),
-                          resolve_error);
+  open_finished finished (gate->impl, gate, result,
+                          std::move (permission_text), resolve_error);
   if (gate->impl)
     asio::post (gate->impl->strand (), std::move (finished));
 }
@@ -556,7 +583,7 @@ open_finished::operator() ()
 {
   // finish_open closes or adopts the handle whatever the outcome.
   owns_handle = false;
-  impl->finish_open (result, permission_text, resolve_error);
+  impl->finish_open (gate, result, permission_text, resolve_error);
 }
 
 void
