@@ -1,11 +1,12 @@
 // Every public header of the transport and every token style in one
 // translation unit, built with strict warnings (see CMakeLists.txt). At run
 // time a mock stream and a mock datagram answer each style once, directly and
-// through a session (stream_session, message_session), and a steady and a
-// virtual timer wait with each token style; exit code 0 when every exchange
-// returned what was fed, 1 otherwise. With the logger adapter
-// (LUMEX_TRANSPORT_WITH_LOGGER) the run goes through the LumexLogger sink and
-// a lumex_logger_watch_timer. With the framing module
+// through a session (stream_session, message_session), a steady and a
+// virtual timer wait with each token style, and the scripted mocks (options,
+// observers, timed delivery, held writes) run on a virtual clock; exit code 0
+// when every exchange returned what was fed, 1 otherwise. With the logger
+// adapter (LUMEX_TRANSPORT_WITH_LOGGER) the run goes through the LumexLogger
+// sink and a lumex_logger_watch_timer. With the framing module
 // (LUMEX_TRANSPORT_WITH_FRAMING) every token style also runs through
 // framed_stream, and framed_datagram answers a round. With the HID transport
 // (LUMEX_TRANSPORT_WITH_HID) a synthetic descriptor is analyzed, the real
@@ -503,6 +504,136 @@ timer_round (tr::stream::io_runner &runner)
   return fine;
 }
 
+// --- the scripted mocks: options with a timer source, the write and send
+// observers, timed delivery on the virtual clock, held writes, an empty read,
+// a held open and a send that fails after some succeeded.
+bool
+scripted_round ()
+{
+  using ms = std::chrono::milliseconds;
+  asio::io_context context;
+  tr::testing::virtual_clock clock;
+  tr::testing::mock_options_t options;
+  options.name = "scripted";
+  options.timers = clock.source ();
+  tr::testing::mock_stream stream
+      = tr::testing::make_mock_stream (context.get_executor (), options);
+  tr::testing::mock_datagram datagrams
+      = tr::testing::make_mock_datagram (context.get_executor (), options);
+
+  bool opened = false;
+  bool datagram_opened = false;
+  stream.stream.async_open ([&opened] (std::error_code error)
+                              { opened = !error; });
+  datagrams.transport.async_open ([&datagram_opened] (std::error_code error)
+                                    { datagram_opened = !error; });
+  bool fine = tr::testing::run_until (
+      context, clock, [&] { return opened && datagram_opened; }, ms (10));
+
+  std::size_t seen = 0;
+  stream.control.on_write ([&seen] (std::vector<std::uint8_t> const &chunk)
+                             { seen += chunk.size (); });
+  stream.control.set_read_chunk (2);
+  stream.control.feed_after (ms (5), reply ());
+  std::vector<std::uint8_t> buffer (8);
+  std::size_t got = 0;
+  stream.stream.async_read_some (
+      tr::mutable_bytes_t (buffer),
+      [&got] (std::error_code error, std::size_t bytes)
+        { got = error ? 0 : bytes; });
+  fine = tr::testing::run_until (
+             context, clock, [&got] { return got != 0; }, ms (100))
+         && got == 2 && fine;
+
+  stream.control.hold_writes ();
+  std::vector<std::uint8_t> const payload (2, std::uint8_t (1));
+  bool wrote = false;
+  stream.stream.async_write_some (tr::const_bytes_t (payload),
+                                  [&wrote] (std::error_code error, std::size_t)
+                                    { wrote = !error; });
+  fine = !tr::testing::run_until (
+             context, clock, [&wrote] { return wrote; }, ms (1))
+         && fine;
+  stream.control.release_writes ();
+  fine = tr::testing::run_until (
+             context, clock, [&wrote] { return wrote; }, ms (10))
+         && seen == payload.size () && fine;
+
+  stream.control.complete_next_read_empty ();
+  std::size_t empty_count = 1;
+  bool empty_done = false;
+  stream.stream.async_read_some (
+      tr::mutable_bytes_t (buffer),
+      [&empty_count, &empty_done] (std::error_code error, std::size_t bytes)
+        {
+          empty_count = error ? 1 : bytes;
+          empty_done = true;
+        });
+  fine = tr::testing::run_until (
+             context, clock, [&empty_done] { return empty_done; }, ms (10))
+         && empty_count == 0 && fine;
+  stream.control.on_write (tr::testing::write_observer_t ());
+
+  std::size_t sent = 0;
+  datagrams.control.on_send ([&sent] (tr::datagram::message_t const &)
+                               { ++sent; });
+  datagrams.control.fail_send_after (1, make_error_code (std::errc::io_error));
+  tr::datagram::message_t message;
+  message.payload = reply ();
+  std::error_code first_send = make_error_code (std::errc::io_error);
+  std::error_code second_send;
+  bool sends_done = false;
+  datagrams.transport.async_send (message,
+                                  [&] (std::error_code error)
+                                    {
+                                      first_send = error;
+                                      datagrams.transport.async_send (
+                                          message,
+                                          [&] (std::error_code again)
+                                            {
+                                              second_send = again;
+                                              sends_done = true;
+                                            });
+                                    });
+  fine = tr::testing::run_until (
+             context, clock, [&sends_done] { return sends_done; }, ms (10))
+         && !first_send && second_send && sent == 1 && fine;
+  datagrams.control.on_send (tr::testing::send_observer_t ());
+
+  datagrams.control.deliver_after (ms (7), message);
+  bool received = false;
+  datagrams.transport.async_receive (
+      [&received] (std::error_code error, tr::datagram::message_t)
+        { received = !error; });
+  fine = tr::testing::run_until (
+             context, clock, [&received] { return received; }, ms (100))
+         && fine;
+
+  datagrams.control.hold_next_open ();
+  datagrams.transport.close ();
+  std::error_code held_open;
+  bool held_done = false;
+  datagrams.transport.async_open (
+      [&held_open, &held_done] (std::error_code error)
+        {
+          held_open = error;
+          held_done = true;
+        });
+  bool const still_held = !tr::testing::run_until (
+      context, clock, [&held_done] { return held_done; }, ms (1));
+  datagrams.transport.cancel ();
+  fine = still_held
+         && tr::testing::run_until (
+             context, clock, [&held_done] { return held_done; }, ms (10))
+         && held_open == tr::error::transport_errc::cancelled && fine;
+
+  stream.stream.close ();
+  datagrams.transport.close ();
+  static_cast<void> (
+      tr::testing::run_until (context, clock, [] { return false; }, ms (0)));
+  return fine;
+}
+
 #if defined(LUMEX_TRANSPORT_WITH_HID)
 // --- the HID transport (hid_device over hidapi)
 // ------------------------------
@@ -576,6 +707,7 @@ main ()
   fine = datagram_round (runner) && fine;
   fine = session_round (runner) && fine;
   fine = timer_round (runner) && fine;
+  fine = scripted_round () && fine;
 #if defined(LUMEX_TRANSPORT_WITH_FRAMING)
   fine = framed_round (runner) && fine;
 #endif

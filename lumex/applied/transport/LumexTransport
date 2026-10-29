@@ -49,7 +49,7 @@
  * counters (`byte_stream::statistics ()`) in
  * `statistics/LumexTransportStatistics.hpp`, the sessions that reconnect
  * (`stream_session`, `message_session`), the selectors and the
- * `device_watcher` in `session/`, the timer seam they wait on in `time/`.
+ * `device_watcher` in `session/`, the timer seam they wait on in `timing/`.
  * Behind their options the umbrella also includes the adapter to the logger
  * (`LUMEX_BUILD_LOGGER`, `log/adapter/`) and the mocks and the virtual clock
  * of `testing/` (`LUMEX_TRANSPORT_WITH_TESTING`).
@@ -107,6 +107,7 @@
 // defines this macro for itself and its consumers then.
 #if defined(LUMEX_TRANSPORT_WITH_TESTING)
 #include "testing/LumexMockDatagram.hpp"
+#include "testing/LumexMockScript.hpp"
 #include "testing/LumexMockStream.hpp"
 #include "testing/LumexVirtualClock.hpp"
 #endif
