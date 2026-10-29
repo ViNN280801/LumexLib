@@ -40,6 +40,12 @@
 #  34 a registry value given a string
 #  35 the index of a binary layer without a key width or a key reader
 #  36 a registry with a floating entry used by registry_value_
+#  37 a header whose write_header is private
+#  38 a header whose write_header has the wrong parameters
+#  39 a header whose write_header is no static member
+#  40 a tokenized layer whose header names write_header
+#  41 dispatch_message on a layer without a key reader
+#  42 encode_message on a layer whose key reader has no writer twin
 # The compiler's messages are matched in English. Everything runs at
 # configure time (try_compile), at C++11 (MSVC: C++14, its lowest) and C++20.
 
@@ -114,6 +120,13 @@ _lumex_case(33 "row identifier DELETE ${_macro_regex}")
 _lumex_case(34 "a registry_value_ takes an engineering value")
 _lumex_case(35 "names the width of the key on the wire")
 _lumex_case(36 "every entry of the registry has an integer")
+set(_header_regex "names write_header, but not as an accessible static")
+_lumex_case(37 "${_header_regex}")
+_lumex_case(38 "${_header_regex}")
+_lumex_case(39 "${_header_regex}")
+_lumex_case(40 "a tokenized layer writes its key itself")
+_lumex_case(41 "the layer has no key reader")
+_lumex_case(42 "the key reader of the layer has no writer twin")
 
 function(_lumex_protocol_try result_var tag standard)
     try_compile(_ok "${CMAKE_BINARY_DIR}/try_${tag}"

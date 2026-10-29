@@ -277,20 +277,31 @@ check_messages (field::decode_context_t const &context)
            layout::bytes_view_t (reply.data (), reply.size ()), &context)
            .has_value ());
   row_counter counter = { 0, 0 };
-  failures += failed (!layout::dispatch<P> (
+  failures += failed (!layout::dispatch_message<P> (
       layout::bytes_view_t (request.data (), request.size ()),
       index::frame_direction::tx, counter, &context));
-  failures += failed (!layout::dispatch<P> (
+  failures += failed (!layout::dispatch_message<P> (
       layout::bytes_view_t (reply.data (), reply.size ()),
       index::frame_direction::rx, counter, &context));
   layout::bytes_t quiet;
   failures += failed (layout::encode_reply_message<P, typename P::QUIET_t> (
                           quiet, field::record<> ())
                           .has_value ());
-  failures += failed (!layout::dispatch<P> (
+  failures += failed (!layout::dispatch_message<P> (
       layout::bytes_view_t (quiet.data (), quiet.size ()),
       index::frame_direction::rx, counter));
   failures += failed (counter.requests == 1 && counter.replies == 2);
+  layout::bytes_t sample;
+  failures
+      += failed (layout::sample_reply_message<P, typename P::READ_KINDS_t> (
+                     sample, &context)
+                     .has_value ()
+                 && sample == reply);
+  layout::decode_result_t<layout::bytes_view_t> const fields
+      = layout::message_fields<P> (
+          layout::bytes_view_t (quiet.data (), quiet.size ()));
+  failures += failed (fields.has_value () && fields->size () == 0);
+  failures += failed (layout::has_core_reply<typename P::QUIET_t>::value);
   return failures;
 }
 

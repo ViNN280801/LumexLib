@@ -162,6 +162,31 @@ LUMEX_PROTOCOL_EXTEND_FRAMED (addressed, first, codec, addressed_header,
                               NO_ROWS);
 LUMEX_PROTOCOL_DEFINE (pairs, codec, pair_header, PAIR_ROWS);
 LUMEX_PROTOCOL_EXTEND_FRAMED (failing, first, codec, failing_header, NO_ROWS);
+
+// An address byte, then a key of one byte; the key of a row is -1, an int.
+struct negative_header
+{
+  using key_reader = index::key_at<1, 1>;
+  static LUMEX_CONSTEXPR std::size_t key_width = 1;
+};
+
+// The wire carries two bytes of key, the reader reads one.
+struct narrow_reader_header
+{
+  using key_reader = index::key_at<0, 1>;
+  static LUMEX_CONSTEXPR std::size_t key_width = 2;
+};
+
+// clang-format off
+#define NEGATIVE_ROWS(X, X_AS) \
+  X (MINUS_ONE, -1, "Minus one", (u8_), ("a"), (u8_), ()) \
+  X (PLAIN, 0x7E, "Plain", (u8_), ("a"), (u8_), ())
+#define NARROW_ROWS(X, X_AS) \
+  X (SMALL, 0x0012, "Fits the reader", (), (), (), ()) \
+  X (BIG, 0x1234, "Wider than the reader", (u8_), ("a"), (), ())
+// clang-format on
+LUMEX_PROTOCOL_DEFINE (negative, codec, negative_header, NEGATIVE_ROWS);
+LUMEX_PROTOCOL_DEFINE (narrow, codec, narrow_reader_header, NARROW_ROWS);
 } // namespace message_tables
 
 namespace
@@ -220,6 +245,26 @@ index_finds_set (layout::bytes_t const &message, std::size_t offset)
            << "fields at " << found.payload_offset;
   return ::testing::AssertionSuccess ();
 }
+
+// Counts what dispatch_message calls.
+struct row_seen
+{
+  std::string row;
+
+  template <typename Row, typename Record>
+  void
+  request (Record const &)
+  {
+    row = Row::identifier ();
+  }
+
+  template <typename Row, typename Value>
+  void
+  reply (Value const &)
+  {
+    row = std::string ("reply ") + Row::identifier ();
+  }
+};
 
 // A session that knows "address".
 struct address_session
@@ -679,4 +724,113 @@ TEST (
                     .has_value ()));
   EXPECT_EQ (addressed,
              (layout::bytes_t{ 0x2A, 0x09, 'A', 'B', 0x00, 0x00, 0x03 }));
+}
+
+TEST (
+    LumexProtocolMessageTest,
+    GivenTheKeyMinusOneOnAOneByteWire_WhenEncodedAndDispatched_ThenItIsTheByteFFAndTheSameRow)
+{
+  layout::bytes_t out;
+  ASSERT_TRUE ((
+      layout::encode_message<tables::negative, tables::negative::MINUS_ONE_t> (
+          out, 5)
+          .has_value ()));
+  EXPECT_EQ (out, (layout::bytes_t{ 0x00, 0xFF, 0x05 }));
+  row_seen seen;
+  EXPECT_FALSE ((layout::dispatch_message<tables::negative> (
+      view_of (out), index::frame_direction::tx, seen)));
+  EXPECT_EQ (seen.row, "MINUS_ONE");
+  EXPECT_TRUE ((
+      layout::decode_message<tables::negative, tables::negative::MINUS_ONE_t> (
+          view_of (out))
+          .has_value ()));
+}
+
+TEST (
+    LumexProtocolMessageTest,
+    GivenAKeyWiderThanTheReader_WhenTheMessageIsEncoded_ThenInvalidValueAndTheBufferIsUnchanged)
+{
+  layout::bytes_t out{ 0xEE };
+  layout::encode_result_t const message
+      = layout::encode_message<tables::narrow, tables::narrow::BIG_t> (out, 1);
+  ASSERT_FALSE (message.has_value ());
+  EXPECT_TRUE (message.error () == protocol_errc::invalid_value);
+  EXPECT_EQ (out, (layout::bytes_t{ 0xEE }));
+  layout::encode_result_t const header
+      = layout::encode_header<tables::narrow, tables::narrow::BIG_t> (out);
+  ASSERT_FALSE (header.has_value ());
+  EXPECT_TRUE (header.error () == protocol_errc::invalid_value);
+  EXPECT_EQ (out, (layout::bytes_t{ 0xEE }));
+  // A key that fits the reader is written.
+  ASSERT_TRUE (
+      (layout::encode_message<tables::narrow, tables::narrow::SMALL_t> (out)
+           .has_value ()));
+  EXPECT_EQ (out, (layout::bytes_t{ 0xEE, 0x12 }));
+}
+
+TEST (
+    LumexProtocolMessageTest,
+    GivenMessagesOfEveryLayout_WhenTheirFieldsAreAsked_ThenTheyAreTheBytesAfterTheHeaderAndTheKey)
+{
+  layout::bytes_t const after = set_message<tables::after> ();
+  layout::decode_result_t<layout::bytes_view_t> const binary_fields
+      = layout::message_fields<tables::after> (view_of (after));
+  ASSERT_TRUE (binary_fields.has_value ());
+  EXPECT_EQ (layout::bytes_t (binary_fields->begin (), binary_fields->end ()),
+             (layout::bytes_t{ 0x12, 0x34, 0x07 }));
+  layout::bytes_t const hex = set_message<tables::hex> ();
+  layout::decode_result_t<layout::bytes_view_t> const digits
+      = layout::message_fields<tables::hex> (view_of (hex));
+  ASSERT_TRUE (digits.has_value ());
+  EXPECT_EQ (layout::bytes_t (digits->begin (), digits->end ()),
+             text_bytes ("123407"));
+  layout::bytes_t const tokens = set_message<tables::text> ();
+  layout::decode_result_t<layout::bytes_view_t> const after_key
+      = layout::message_fields<tables::text> (view_of (tokens));
+  ASSERT_TRUE (after_key.has_value ());
+  EXPECT_EQ (layout::bytes_t (after_key->begin (), after_key->end ()),
+             text_bytes ("4660,7"));
+  // A message of the key alone has no fields.
+  layout::bytes_t const ping = text_bytes ("5");
+  layout::decode_result_t<layout::bytes_view_t> const none
+      = layout::message_fields<tables::text> (view_of (ping));
+  ASSERT_TRUE (none.has_value ());
+  EXPECT_EQ (none->size (), 0u);
+  // A message without a readable key has no fields either.
+  layout::bytes_t const short_message{ 0x00, 0x00 };
+  layout::decode_result_t<layout::bytes_view_t> const unreadable
+      = layout::message_fields<tables::after> (view_of (short_message));
+  ASSERT_FALSE (unreadable.has_value ());
+  EXPECT_TRUE (unreadable.error () == protocol_errc::unknown_frame);
+}
+
+TEST (
+    LumexProtocolMessageTest,
+    GivenRowsWithAndWithoutAReply_WhenTheirSampleReplyMessageIsEncoded_ThenItIsTheHeaderTheKeyAndTheSampleReply)
+{
+  layout::bytes_t set;
+  ASSERT_TRUE ((layout::sample_reply_message<tables::after, set_row> (set)
+                    .has_value ()));
+  EXPECT_EQ (set, (layout::bytes_t{ 0x00, 0x00, 0x00, 0x21, 0x00 }));
+  layout::bytes_t ping;
+  ASSERT_TRUE ((layout::sample_reply_message<tables::after, ping_row> (ping)
+                    .has_value ()));
+  EXPECT_EQ (ping, (layout::bytes_t{ 0x00, 0x00, 0x00, 0x05 }));
+  // The first enumerator of a reflected enumeration without 0.
+  layout::bytes_t lamp;
+  ASSERT_TRUE ((layout::sample_reply_message<tables::first, lamp_row> (lamp)
+                    .has_value ()));
+  EXPECT_EQ (lamp, (layout::bytes_t{ 0x07, 0x01 }));
+  // The session reaches the header.
+  address_session const session = { 0x2A };
+  field::decode_context_t const context = session.context ();
+  layout::bytes_t addressed;
+  ASSERT_TRUE ((layout::sample_reply_message<tables::addressed, set_row> (
+                    addressed, &context)
+                    .has_value ()));
+  EXPECT_EQ (addressed, (layout::bytes_t{ 0x2A, 0x21, 0x00 }));
+  static_assert (layout::has_core_reply<set_row>::value,
+                 "a field reply is the core's");
+  static_assert (layout::has_core_reply<ping_row>::value,
+                 "no reply is the core's too");
 }

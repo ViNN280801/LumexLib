@@ -1,10 +1,10 @@
 // Dispatch of a received message to its typed row
-// (lumex/core/protocol/layout/LumexProtocolDispatch.hpp): the key of the
-// message chooses the row, the visitor gets the request record or the reply
-// value of that row; an unknown key, a message without a readable key and a
-// decode error reach no visitor; a row without a reply gets an empty record,
-// a reply kind of another layer the message itself; the session values reach
-// the decoders.
+// (lumex/core/protocol/layout/LumexProtocolDispatch.hpp, dispatch_message):
+// the key of the message chooses the row, the visitor gets the request record
+// or the reply value of that row; an unknown key, a message without a readable
+// key and a decode error reach no visitor; a row without a reply gets an empty
+// record, a reply kind of another layer the message itself; the session values
+// reach the decoders.
 
 #include <cstddef>
 #include <cstdint>
@@ -16,6 +16,7 @@
 #include <gtest/gtest.h>
 
 #include "lumex/core/protocol/LumexProtocol"
+#include "lumex/tests/core/protocol/devices/LumexProtocolDevicesMessages.hpp"
 
 namespace dispatch_tables
 {
@@ -64,12 +65,19 @@ struct text_header
   X (ACKED, 0x40, "A reply of the dialogue", (), (), (ack_nak<u8_, u8_>), \
      ()) \
   X (BY_SESSION, 0x50, "A reply chosen by the session", (), (), \
-     (union_by_context_<panel_kind, case_<1, u8_>, case_<2, u16_be_> >), ())
+     (union_by_context_<panel_kind, case_<1, u8_>, case_<2, u16_be_> >), ()) \
+  X (PICK, 0x60, "A request chosen by the session", \
+     (union_by_context_<panel_kind, case_<1, u8_>, case_<2, u16_be_> >), \
+     ("choice"), (), ())
+#define PREFIX_ROWS(X, X_AS) \
+  X_AS (SHORT, "NM", "NM", "The shorter key", (u8_), ("a"), (u8_), ()) \
+  X_AS (LONG, "NMX", "NMX", "The longer key", (u8_), ("a"), (u8_), ())
 #define NO_ROWS(X, X_AS)
 // clang-format on
 
 LUMEX_PROTOCOL_DEFINE (binary, codec, binary_header, DISPATCH_ROWS);
 LUMEX_PROTOCOL_EXTEND_FRAMED (text, binary, codec, text_header, NO_ROWS);
+LUMEX_PROTOCOL_DEFINE (prefixes, codec, text_header, PREFIX_ROWS);
 } // namespace dispatch_tables
 
 namespace
@@ -146,7 +154,8 @@ dispatched (layout::bytes_t const &message, index::frame_direction direction,
             recorder<P> &seen,
             field::decode_context_t const *context = nullptr)
 {
-  return layout::dispatch<P> (view_of (message), direction, seen, context);
+  return layout::dispatch_message<P> (view_of (message), direction, seen,
+                                      context);
 }
 
 // A visitor passed as a temporary: it counts the calls.
@@ -338,9 +347,133 @@ TEST (LumexProtocolDispatchTest,
 {
   int calls = 0;
   layout::bytes_t const first{ 0x00, 0x10, 0x07 };
-  EXPECT_FALSE ((layout::dispatch<tables::binary> (view_of (first),
-                                                   index::frame_direction::tx,
-                                                   counter{ &calls })
-                     .operator bool ()));
+  EXPECT_FALSE (
+      (layout::dispatch_message<tables::binary> (
+           view_of (first), index::frame_direction::tx, counter{ &calls })
+           .operator bool ()));
   EXPECT_EQ (calls, 1);
+}
+
+TEST (
+    LumexProtocolDispatchTest,
+    GivenTheRowsOfBothLayers_WhenTheirReplyIsTheCoresOrTheDialogues_ThenHasCoreReplySaysWhich)
+{
+  static_assert (layout::has_core_reply<tables::binary::FIRST_t>::value,
+                 "a field reply");
+  static_assert (layout::has_core_reply<tables::binary::QUIET_t>::value,
+                 "no reply");
+  static_assert (layout::has_core_reply<tables::binary::BY_SESSION_t>::value,
+                 "a session union is a field");
+  static_assert (!layout::has_core_reply<tables::binary::ACKED_t>::value,
+                 "a reply kind of the dialogue");
+  EXPECT_TRUE (layout::has_core_reply<tables::binary::FIRST_t>::value);
+  EXPECT_FALSE (layout::has_core_reply<tables::binary::ACKED_t>::value);
+}
+
+TEST (
+    LumexProtocolDispatchTest,
+    GivenTheReplyMessageOfADialogueRow_WhenDispatched_ThenItsFieldsAreTheBytesAfterTheKey)
+{
+  layout::bytes_t const ack{ 0x00, 0x40, 0x06, 0x07 };
+  recorder<tables::binary> seen;
+  EXPECT_FALSE (
+      dispatched (ack, index::frame_direction::rx, seen).operator bool ());
+  layout::decode_result_t<layout::bytes_view_t> const fields
+      = layout::message_fields<tables::binary> (view_of (seen.again));
+  ASSERT_TRUE (fields.has_value ());
+  EXPECT_EQ (layout::bytes_t (fields->begin (), fields->end ()),
+             (layout::bytes_t{ 0x06, 0x07 }));
+}
+
+TEST (
+    LumexProtocolDispatchTest,
+    GivenEveryRowOfTheTables_WhenTheirMessagesAreChecked_ThenTheDialogueRowIsDispatchedToo)
+{
+  panel_session const session = { 1 };
+  field::decode_context_t const context = session.context ();
+  EXPECT_EQ (lumex_tests::devices::expect_every_row_message<tables::binary> (
+                 &context),
+             6u);
+  EXPECT_EQ (
+      lumex_tests::devices::expect_every_row_message<tables::text> (&context),
+      6u);
+}
+
+TEST (
+    LumexProtocolDispatchTest,
+    GivenTextKeysThatArePrefixesOfEachOther_WhenDispatched_ThenOnlyTheWholeKeyMatches)
+{
+  struct expected_t
+  {
+    char const *message;
+    char const *row;
+  };
+  expected_t const cases[] = { { "NM,1", "NM_SHORT" },
+                               { "NMX,1", "NM_LONG" },
+                               { "NMXY,1", "" },
+                               { "N,1", "" } };
+  for (expected_t const &item : cases)
+    {
+      layout::bytes_t const message = text_bytes (item.message);
+      recorder<tables::prefixes> seen;
+      std::error_code const error
+          = dispatched (message, index::frame_direction::tx, seen);
+      std::string const expected (item.row);
+      if (expected.empty ())
+        {
+          EXPECT_TRUE (error == protocol_errc::unknown_frame) << item.message;
+          EXPECT_EQ (seen.calls, 0u) << item.message;
+        }
+      else
+        {
+          EXPECT_FALSE (error) << item.message;
+          EXPECT_EQ (std::string ("NM_") + seen.row, expected) << item.message;
+          EXPECT_EQ (seen.again, message) << item.message;
+        }
+    }
+}
+
+TEST (
+    LumexProtocolDispatchTest,
+    GivenARequestChosenByTheSession_WhenEncodedDecodedAndDispatched_ThenTheSessionDecidesEveryStep)
+{
+  using pick = tables::binary::PICK_t;
+  layout::request_of<pick>::type record = layout::request_of<pick>::type ();
+  field::get<0> (record).discriminant = 2;
+  field::get<0> (record).cases.set<1> (0x1234);
+  panel_session const two = { 2 };
+  field::decode_context_t const two_context = two.context ();
+  panel_session const one = { 1 };
+  field::decode_context_t const one_context = one.context ();
+  // The encoder refuses a case the session does not hold.
+  layout::bytes_t refused;
+  layout::encode_result_t const mismatch
+      = layout::encode_message_record<tables::binary, pick> (refused, record,
+                                                             &one_context);
+  ASSERT_FALSE (mismatch.has_value ());
+  EXPECT_TRUE (mismatch.error () == protocol_errc::invalid_value);
+  EXPECT_TRUE (refused.empty ());
+  layout::bytes_t message;
+  ASSERT_TRUE ((layout::encode_message_record<tables::binary, pick> (
+                    message, record, &two_context)
+                    .has_value ()));
+  EXPECT_EQ (message, (layout::bytes_t{ 0x00, 0x60, 0x12, 0x34 }));
+  // Only the session tells the decoder which case it is.
+  layout::decode_result_t<layout::request_of<pick>::type> const decoded
+      = layout::decode_message<tables::binary, pick> (view_of (message),
+                                                      &two_context);
+  ASSERT_TRUE (decoded.has_value ());
+  EXPECT_EQ (field::get<0> (*decoded).cases.index (), 1u);
+  EXPECT_TRUE ((
+      layout::decode_message<tables::binary, pick> (view_of (message)).error ()
+      == protocol_errc::unknown_case));
+  recorder<tables::binary> seen;
+  EXPECT_FALSE (
+      dispatched (message, index::frame_direction::tx, seen, &two_context)
+          .operator bool ());
+  EXPECT_EQ (seen.row, "PICK");
+  recorder<tables::binary> blind;
+  EXPECT_TRUE (dispatched (message, index::frame_direction::tx, blind)
+               == protocol_errc::unknown_case);
+  EXPECT_EQ (blind.calls, 0u);
 }

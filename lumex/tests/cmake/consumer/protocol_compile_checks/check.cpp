@@ -381,6 +381,97 @@ use_float_registry ()
       float_registry, 0,
       ::lumex::core::protocol::field::i32_le_<>>::assign (value, 1.5);
 }
+
+#elif LUMEX_PROTOCOL_BAD_CASE >= 37 && LUMEX_PROTOCOL_BAD_CASE <= 42
+namespace layout = ::lumex::core::protocol::layout;
+namespace dsl = ::lumex::core::protocol::dsl;
+namespace index = ::lumex::core::protocol::index;
+#if LUMEX_PROTOCOL_BAD_CASE == 37
+// 37: a write_header the encoder cannot call (private).
+struct bad_header
+{
+  static constexpr std::size_t key_width = 1;
+
+private:
+  static layout::encode_result_t
+  write_header (layout::bytes_t &, dsl::key_value_t const &,
+                layout::decode_context_t const *);
+};
+#elif LUMEX_PROTOCOL_BAD_CASE == 38
+// 38: a write_header with the wrong parameters.
+struct bad_header
+{
+  static constexpr std::size_t key_width = 1;
+  static layout::encode_result_t write_header (layout::bytes_t &,
+                                               dsl::key_value_t const &);
+};
+#elif LUMEX_PROTOCOL_BAD_CASE == 39
+// 39: a write_header that is no static member.
+struct bad_header
+{
+  static constexpr std::size_t key_width = 1;
+  layout::encode_result_t write_header (layout::bytes_t &,
+                                        dsl::key_value_t const &,
+                                        layout::decode_context_t const *);
+};
+#elif LUMEX_PROTOCOL_BAD_CASE == 40
+// 40: a tokenized layer whose header names write_header.
+struct bad_header
+{
+  using layout_type = layout::tokenized_text_layout<','>;
+  static layout::encode_result_t
+  write_header (layout::bytes_t &, dsl::key_value_t const &,
+                layout::decode_context_t const *);
+};
+#elif LUMEX_PROTOCOL_BAD_CASE == 41
+// 41: a layer without a key reader (decimal digits, no reader named).
+struct bad_header
+{
+  using layout_type = layout::fixed_width_text_layout<10>;
+};
+#else
+// 42: a key reader without a writer twin and no write_header.
+struct read_only_key
+{
+  static bool
+  read (layout::bytes_view_t, index::key_read_t &)
+  {
+    return false;
+  }
+};
+struct bad_header
+{
+  using key_reader = read_only_key;
+};
+#endif
+#define BAD_ROWS(X, X_AS) X (ONE, 0x01, "One", (u8_<>), ("value"), (), ())
+LUMEX_PROTOCOL_DEFINE (bad_protocol, codec, bad_header, BAD_ROWS);
+struct visitor
+{
+  template <typename Row, typename Value>
+  void
+  request (Value const &)
+  {
+  }
+
+  template <typename Row, typename Value>
+  void
+  reply (Value const &)
+  {
+  }
+};
+void
+use_messages ()
+{
+  layout::bytes_t out;
+#if LUMEX_PROTOCOL_BAD_CASE == 41
+  (void)layout::dispatch_message<bad_protocol> (
+      layout::bytes_view_t (out.data (), out.size ()),
+      index::frame_direction::rx, visitor ());
+#else
+  (void)layout::encode_message<bad_protocol, bad_protocol::ONE_t> (out, 1);
+#endif
+}
 #endif
 } // namespace check_tables
 

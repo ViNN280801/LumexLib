@@ -41,8 +41,9 @@
  * @file LumexProtocolMessage.hpp
  * @brief Whole messages of a protocol row: the header and the key, then the
  * fields. `encode_header`, `encode_message`, `encode_message_record`,
- * `decode_message`, `encode_reply_message`, `decode_reply_message` and
- * `reply_message_of`.
+ * `decode_message`, `encode_reply_message`, `decode_reply_message`,
+ * `sample_reply_message`, `message_fields`, `reply_message_of` and
+ * `has_core_reply`.
  * @details The encoders of `LumexProtocolCodec.hpp` write and read the
  * fields of a row (and the key prefix of a tokenized layout); the key and
  * the header that precede the fields in the binary and fixed-width layouts
@@ -67,8 +68,12 @@
  * `tokenized_key`: nothing, the tokenized layout writes the key itself).
  * A layer whose reader has no writer twin (its own reader type,
  * `no_key_reader`) names `write_header`; the encoders do not compile
- * otherwise. The key given to the header is the key of the row as the wire
- * carries it (an integer cut to `index::key_width_of<P>`).
+ * otherwise. A `write_header` the encoders cannot call (private, other
+ * parameters, not static) does not compile either, and neither does one in
+ * a tokenized layer, whose layout writes the key itself. A layer without a
+ * key reader (`no_key_reader`) has no decoders and no dispatch. The key given
+ * to the header is the key of the row as the wire carries it (an integer cut
+ * to `index::key_width_of<P>`).
  *
  * The decoders read the key with the key reader of the layer and check that
  * it is the key of the row, then decode the fields from where the reader
@@ -76,8 +81,11 @@
  * request with another key `unknown_frame`, a reply with another key
  * `unexpected_reply`. A row without a reply has an empty reply message (the
  * header and the key): its value is `field::record<>`. A reply kind of the
- * dialogue layer is no message of the core (`reply_value_of` refuses it).
- * Every encoder leaves the buffer unchanged on failure.
+ * dialogue layer is no message of the core (`reply_value_of` refuses it):
+ * `has_core_reply<Row>` tells which rows the core decodes, and
+ * `message_fields<P>` gives the bytes after the header and the key of any
+ * message to the layer that decodes it. Every encoder leaves the buffer
+ * unchanged on failure, a failed allocation (`std::bad_alloc`) included.
  */
 #ifndef LUMEX_CORE_PROTOCOL_LAYOUT_MESSAGE_HPP
 #define LUMEX_CORE_PROTOCOL_LAYOUT_MESSAGE_HPP
@@ -91,7 +99,9 @@
 #include "lumex/core/protocol/dsl/LumexProtocolKey.hpp"
 #include "lumex/core/protocol/dsl/LumexProtocolRow.hpp"
 #include "lumex/core/protocol/error/LumexProtocolErrc.hpp"
+#include "lumex/core/protocol/field/LumexProtocolFieldTraits.hpp"
 #include "lumex/core/protocol/field/LumexProtocolRecord.hpp"
+#include "lumex/core/protocol/field/LumexProtocolSample.hpp"
 #include "lumex/core/protocol/index/LumexProtocolKeyReader.hpp"
 #include "lumex/core/protocol/layout/LumexProtocolCodec.hpp"
 #include "lumex/core/protocol/layout/LumexProtocolLayoutBase.hpp"
@@ -105,6 +115,13 @@
 // its own resize (a false positive: only references into the container are
 // invalidated, not the container).
 #pragma clang diagnostic ignored "-Wlifetime-safety-invalidation"
+#endif
+#if __has_warning("-Wlifetime-safety-intra-tu-constructor-suggestions")
+// Clang 23 suggests [[clang::lifetimebound]] for the constructor of the
+// buffer guard, which keeps a reference to the buffer (a suggestion, not a
+// finding).
+#pragma clang diagnostic ignored                                              \
+    "-Wlifetime-safety-intra-tu-constructor-suggestions"
 #endif
 #pragma clang diagnostic ignored "-Wpadded"
 #pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
@@ -134,12 +151,64 @@ struct has_header_writer : std::false_type
 {
 };
 
+// (a static member the encoders can call with the three arguments, whose
+// result is an encode_result_t).
 template <typename H>
 struct has_header_writer<
-    H, typename message_voider<decltype (H::write_header (
-           std::declval<bytes_t &> (),
-           std::declval<::lumex::core::protocol::dsl::key_value_t const &> (),
-           std::declval<decode_context_t const *> ()))>::type> : std::true_type
+    H,
+    typename std::enable_if<std::is_convertible<
+        decltype (H::write_header (
+            std::declval<bytes_t &> (),
+            std::declval<::lumex::core::protocol::dsl::key_value_t const &> (),
+            std::declval<decode_context_t const *> ())),
+        encode_result_t>::value>::type> : std::true_type
+{
+};
+
+// Whether header type H has a member named write_header at all (any
+// access, any signature): the name is ambiguous in a class derived from H
+// and from a class with that name.
+struct write_header_name
+{
+  int write_header;
+};
+
+template <typename H> struct write_header_probe : H, write_header_name
+{
+};
+
+#if __cplusplus >= 201402L || (defined(_MSVC_LANG) && _MSVC_LANG >= 201402L)
+template <typename H> struct header_is_final : std::is_final<H>
+{
+};
+#else
+template <typename H>
+struct header_is_final : std::integral_constant<bool, __is_final (H)>
+{
+};
+#endif
+
+template <typename H, typename = void>
+struct write_header_unambiguous : std::false_type
+{
+};
+
+template <typename H>
+struct write_header_unambiguous<
+    H, typename message_voider<
+           decltype (&write_header_probe<H>::write_header)>::type>
+    : std::true_type
+{
+};
+
+template <typename H,
+          bool Probe = std::is_class<H>::value && !header_is_final<H>::value>
+struct names_write_header
+    : std::integral_constant<bool, !write_header_unambiguous<H>::value>
+{
+};
+
+template <typename H> struct names_write_header<H, false> : std::false_type
 {
 };
 
@@ -197,6 +266,11 @@ template <typename P,
           bool Own = has_header_writer<typename P::header_type>::value>
 struct header_of
 {
+  static_assert (!is_tokenized_layer<P>::value,
+                 "LUMEX_PROTOCOL: a tokenized layer writes its key itself "
+                 "(the prefix of its fields): its header type does not name "
+                 "write_header");
+
   static encode_result_t
   write (bytes_t &out, ::lumex::core::protocol::dsl::key_value_t const &key,
          decode_context_t const *context)
@@ -209,6 +283,11 @@ template <typename P> struct header_of<P, false>
 {
   using reader =
       typename ::lumex::core::protocol::index::key_reader_of<P>::type;
+  static_assert (!names_write_header<typename P::header_type>::value,
+                 "LUMEX_PROTOCOL: the header type names write_header, but "
+                 "not as an accessible static encode_result_t write_header "
+                 "(bytes_t &, dsl::key_value_t const &, decode_context_t "
+                 "const *): the encoders cannot call it");
   static_assert (has_key_writer<reader>::value,
                  "LUMEX_PROTOCOL: the key reader of the layer has no writer "
                  "twin (static bool write (bytes_t &, dsl::key_value_t const "
@@ -289,6 +368,106 @@ key_is (::lumex::core::protocol::dsl::key_value_t const &read) LUMEX_NOEXCEPT
                 == own.integer;
 }
 
+// The reader of the key of layer P; a layer without one has no decoders.
+template <typename P> struct readable_key
+{
+  using reader =
+      typename ::lumex::core::protocol::index::key_reader_of<P>::type;
+  static_assert (
+      !std::is_same<reader,
+                    ::lumex::core::protocol::index::no_key_reader>::value,
+      "LUMEX_PROTOCOL: the layer has no key reader (index::no_key_reader): "
+      "its header type names key_reader (or key_width for a binary or "
+      "hexadecimal layer); a message of it can be neither read nor "
+      "dispatched");
+};
+
+// Where the fields of a message start after its key: where the reader says;
+// in a tokenized layer, after the key separator (the reader leaves the key
+// to the layout).
+template <typename Layout> struct fields_after_key
+{
+  static bytes_view_t
+  get (bytes_view_t message, std::size_t offset) LUMEX_NOEXCEPT
+  {
+    return message.subspan (offset < message.size () ? offset
+                                                     : message.size ());
+  }
+};
+
+template <char Separator, char KeySeparator, unsigned Radix, bool Trim>
+struct fields_after_key<
+    tokenized_text_layout<Separator, KeySeparator, Radix, Trim>>
+{
+  static bytes_view_t
+  get (bytes_view_t message, std::size_t) LUMEX_NOEXCEPT
+  {
+    std::size_t at = 0;
+    while (at < message.size ()
+           && static_cast<char> (message.data ()[at]) != KeySeparator)
+      ++at;
+    return message.subspan (at < message.size () ? at + 1u : at);
+  }
+};
+
+// The sample of the reply of a row; an empty record for a row without one.
+template <typename Row,
+          bool None
+          = std::is_same<typename Row::reply_type,
+                         ::lumex::core::protocol::dsl::no_reply>::value>
+struct sample_reply
+{
+  static typename reply_value_of<Row>::type
+  get ()
+  {
+    return ::lumex::core::protocol::field::sample_value<
+        typename Row::reply_type> ();
+  }
+};
+
+template <typename Row> struct sample_reply<Row, true>
+{
+  static ::lumex::core::protocol::field::record<>
+  get () LUMEX_NOEXCEPT
+  {
+    return ::lumex::core::protocol::field::record<> ();
+  }
+};
+
+// Restores the size of a buffer when an encoder leaves early, by an error or
+// by an exception (std::bad_alloc): shrinking a vector never throws.
+class buffer_rollback
+{
+public:
+  explicit buffer_rollback (bytes_t &out) LUMEX_NOEXCEPT
+      : m_out (out),
+        m_start (out.size ()),
+        m_kept (false)
+  {
+  }
+
+  ~buffer_rollback ()
+  {
+    if (!m_kept)
+      m_out.resize (m_start);
+  }
+
+  buffer_rollback (buffer_rollback const &) = delete;
+  buffer_rollback &operator= (buffer_rollback const &) = delete;
+
+  /// Keeps what was appended.
+  void
+  keep () LUMEX_NOEXCEPT
+  {
+    m_kept = true;
+  }
+
+private:
+  bytes_t &m_out;
+  std::size_t m_start;
+  bool m_kept;
+};
+
 // The fields of a message after its key: where the reader of P found them.
 // Returns false when the message has no readable key or another key.
 template <typename P, typename Row>
@@ -296,6 +475,7 @@ bool
 fields_of (bytes_view_t message, bytes_view_t &fields,
            bool &other_key) LUMEX_NOEXCEPT
 {
+  (void)sizeof (readable_key<P>);
   ::lumex::core::protocol::index::key_read_t read
       = ::lumex::core::protocol::index::key_read_t ();
   other_key = false;
@@ -370,6 +550,22 @@ template <typename Row> struct reply_message_select<Row, true>
 } // namespace detail
 
 /**
+ * @brief `has_core_reply<Row>`: true when the core decodes the reply of the
+ * row (a field, a layout, or no reply), false for a reply kind of the
+ * dialogue layer (`ack_nak<...>`), which `dispatch_message` hands over as
+ * the message itself.
+ */
+template <typename Row>
+struct has_core_reply
+    : std::integral_constant<
+          bool, std::is_same<typename Row::reply_type,
+                             ::lumex::core::protocol::dsl::no_reply>::value
+                    || ::lumex::core::protocol::field::is_field<
+                        typename Row::reply_type>::value>
+{
+};
+
+/**
  * @brief `reply_message_of<Row>::type`: the value of the reply message of
  * a row: the value of its reply, `field::record<>` for a row without a
  * reply (the message is the header and the key).
@@ -389,13 +585,13 @@ template <typename P, typename Row>
 encode_result_t
 encode_header (bytes_t &out, decode_context_t const *context = nullptr)
 {
-  std::size_t const start = out.size ();
+  detail::buffer_rollback rollback (out);
   encode_result_t const written = detail::header_of<P>::write (
       out, detail::wire_key<P, Row> (), context);
-  if (written)
-    return encode_result_t ();
-  out.resize (start);
-  return detail::failed (written.error ());
+  if (!written)
+    return detail::failed (written.error ());
+  rollback.keep ();
+  return encode_result_t ();
 }
 
 /**
@@ -408,16 +604,16 @@ encode_message_record (bytes_t &out,
                        typename request_of<Row>::type const &record,
                        decode_context_t const *context = nullptr)
 {
-  std::size_t const start = out.size ();
+  detail::buffer_rollback rollback (out);
   encode_result_t const header = encode_header<P, Row> (out, context);
   if (!header)
     return detail::failed (header.error ());
   encode_result_t const fields
       = encode_request_record<P, Row> (out, record, context);
-  if (fields)
-    return encode_result_t ();
-  out.resize (start);
-  return detail::failed (fields.error ());
+  if (!fields)
+    return detail::failed (fields.error ());
+  rollback.keep ();
+  return encode_result_t ();
 }
 
 /**
@@ -484,17 +680,17 @@ encode_reply_message (bytes_t &out,
                       typename reply_message_of<Row>::type const &value,
                       decode_context_t const *context = nullptr)
 {
-  std::size_t const start = out.size ();
+  detail::buffer_rollback rollback (out);
   encode_result_t const header = encode_header<P, Row> (out, context);
   if (!header)
     return detail::failed (header.error ());
   encode_result_t const fields
       = detail::reply_message_select<Row>::template encode<P> (out, value,
                                                                context);
-  if (fields)
-    return encode_result_t ();
-  out.resize (start);
-  return detail::failed (fields.error ());
+  if (!fields)
+    return detail::failed (fields.error ());
+  rollback.keep ();
+  return encode_result_t ();
 }
 
 /**
@@ -516,6 +712,38 @@ decode_reply_message (bytes_view_t message,
             : ::lumex::core::protocol::error::protocol_errc::unknown_frame);
   return detail::reply_message_select<Row>::template decode<P> (fields,
                                                                 context);
+}
+/**
+ * @brief Appends the sample reply message of `Row` in layer `P`: the header
+ * and the key, then `field::sample_value` of the reply (nothing for a row
+ * without a reply); what a simulated device answers by default.
+ * @param context The session values the header and the fields may read.
+ */
+template <typename P, typename Row>
+encode_result_t
+sample_reply_message (bytes_t &out, decode_context_t const *context = nullptr)
+{
+  return encode_reply_message<P, Row> (out, detail::sample_reply<Row>::get (),
+                                       context);
+}
+
+/**
+ * @brief The fields of `message` of layer `P`: the bytes after its header
+ * and its key, whatever row the key names (for a reply kind of the dialogue,
+ * which `dispatch_message` hands over whole); `unknown_frame` when the
+ * message has no readable key. The view points into `message`.
+ */
+template <typename P>
+decode_result_t<bytes_view_t>
+message_fields (bytes_view_t message)
+{
+  ::lumex::core::protocol::index::key_read_t read
+      = ::lumex::core::protocol::index::key_read_t ();
+  if (!detail::readable_key<P>::reader::read (message, read))
+    return detail::message_failed (
+        ::lumex::core::protocol::error::protocol_errc::unknown_frame);
+  return detail::fields_after_key<typename layout_of<P>::type>::get (
+      message, read.payload_offset);
 }
 } // namespace layout
 } // namespace protocol

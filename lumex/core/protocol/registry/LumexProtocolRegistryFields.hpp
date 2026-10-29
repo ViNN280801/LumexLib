@@ -66,6 +66,13 @@
  * so a registry that lists such entries is kept apart from the generic
  * commands and serves the exports and `verify_registry`.
  *
+ * The decoders are lenient: a value outside the limits of its entry, or an
+ * entry without the access the command needs, decodes (a client reads what
+ * the device reports, and the log line shows it). Only the encoder refuses
+ * them. `check_record<F> (record)` applies the checks of the encoder to a
+ * decoded record (a simulated device that refuses a write, the dialogue
+ * engine that reports a value outside its limits).
+ *
  * The key is written as one or two integer fields (an index, a Modbus
  * address: `registry_key_<R, u8_>`; `typed` and `unit_param` keys:
  * `registry_key_<R, u8_, u16_le_>`) or one text field for a mnemonic
@@ -88,7 +95,9 @@
 #include "lumex/core/protocol/field/LumexProtocolTextFields.hpp"
 #include "lumex/core/protocol/field/LumexProtocolValues.hpp"
 #include "lumex/core/protocol/registry/LumexProtocolRegistry.hpp"
+#include "lumex/core/utility/attr/LumexAttributes.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
+#include "lumex/core/utility/sequence/LumexIndexSequence.hpp"
 
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -659,6 +668,125 @@ private:
     return true;
   }
 };
+
+namespace detail
+{
+// The check of one field of a record: nothing for a field that holds no
+// registry value.
+template <typename Impl> struct record_check
+{
+  template <std::size_t I, typename Record>
+  static std::error_code
+  apply (Record const &) LUMEX_NOEXCEPT
+  {
+    return std::error_code ();
+  }
+};
+
+template <typename Sequence, typename... F> struct group_check;
+
+template <std::size_t... I, typename... F>
+struct group_check<::lumex::core::utility::sequence::index_sequence<I...>,
+                   F...>
+{
+  template <typename Record>
+  static std::error_code
+  apply (Record const &record)
+  {
+    std::error_code first;
+    bool const checked[] = {
+      true,
+      (first
+           ? true
+           : ((first
+               = record_check<typename ::lumex::core::protocol::field::impl_of<
+                   F>::type>::template apply<I> (record)),
+              true))...
+    };
+    LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (checked);
+    return first;
+  }
+};
+
+// A nested layout: its own fields.
+template <template <typename...> class List, typename... F>
+struct record_check<::lumex::core::protocol::field::group_impl<List<F...>>>
+{
+  template <std::size_t I, typename Record>
+  static std::error_code
+  apply (Record const &record)
+  {
+    return group_check<
+        ::lumex::core::utility::sequence::make_index_sequence<sizeof...(F)>,
+        F...>::apply (::lumex::core::protocol::field::get<I> (record));
+  }
+};
+
+// A registry value: the access of the command and the limits of the entry
+// its key names.
+template <typename R, std::size_t KeyIndex, typename RawField, access_t Needs>
+struct record_check<registry_value_<R, KeyIndex, RawField, Needs>>
+{
+  template <std::size_t I, typename Record>
+  static std::error_code
+  apply (Record const &record)
+  {
+    entries_t const entries = R::entries ();
+    std::size_t const at = static_cast<std::size_t> (
+        ::lumex::core::protocol::field::get<KeyIndex> (record));
+    if (at >= entries.size ())
+      return ::lumex::core::protocol::error::make_error_code (
+          ::lumex::core::protocol::error::protocol_errc::invalid_value);
+    registry_entry_t const &entry = entries.data ()[at];
+    std::error_code const denied = check_access (entry, Needs);
+    if (denied)
+      return denied;
+    parameter_value_t const &value
+        = ::lumex::core::protocol::field::get<I> (record);
+    return check_limits (entry, value.has_raw
+                                    ? to_engineering (entry, value.raw)
+                                    : value.engineering);
+  }
+};
+
+template <typename Impl> struct checked_group
+{
+  static_assert (sizeof (Impl) == 0,
+                 "registry::check_record<F>: F is a group of fields (a "
+                 "layout, Row::fields_type, a layout reply)");
+};
+
+template <template <typename...> class List, typename... F>
+struct checked_group<::lumex::core::protocol::field::group_impl<List<F...>>>
+{
+  template <typename Record>
+  static std::error_code
+  apply (Record const &record)
+  {
+    return group_check<
+        ::lumex::core::utility::sequence::make_index_sequence<sizeof...(F)>,
+        F...>::apply (record);
+  }
+};
+} // namespace detail
+
+/**
+ * @brief Checks the registry values of `record` (fields `F`: a layout,
+ * `Row::fields_type`, a layout reply) as the encoder does: for each
+ * `registry_value_`, in field order and in nested layouts, the access the
+ * command needs (`access_denied`) and the limits of the entry its key
+ * names (`out_of_limits`); `invalid_value` for a key outside the registry.
+ * @return The first error, or nothing when the encoder would take every
+ * value (see the file description: the decoders do not check these).
+ */
+template <typename F>
+std::error_code
+check_record (
+    typename ::lumex::core::protocol::field::value_of<F>::type const &record)
+{
+  return detail::checked_group<typename ::lumex::core::protocol::field::
+                                   impl_of<F>::type>::apply (record);
+}
 
 /**
  * @brief The vocabulary of a protocol whose rows use a registry: everything
