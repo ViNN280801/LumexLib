@@ -422,8 +422,7 @@ encode_message_record (bytes_t &out,
 
 /**
  * @brief Appends the request message of `Row` in layer `P` made of `args`
- * (one per field, see `make_request`); the header gets no session values
- * (`encode_message_record` takes them).
+ * (one per field, see `make_request`); the header gets no session values.
  */
 template <typename P, typename Row, typename... Args>
 encode_result_t
@@ -434,6 +433,27 @@ encode_message (bytes_t &out, Args const &...args)
   if (!record)
     return detail::failed (record.error ());
   return encode_message_record<P, Row> (out, *record);
+}
+
+/**
+ * @brief Appends the request message of `Row` in layer `P` made of `args`;
+ * the header and the fields read the session values of `context`
+ * (`session.decode_context ()`).
+ * @details The session comes before the arguments as a `decode_context_t`
+ * (no field takes one), so a call without it is never taken for a call with
+ * it, whatever the first field of the row is: `encode_message<P, Row> (out,
+ * session.decode_context (), 12.5, 3)`.
+ */
+template <typename P, typename Row, typename... Args>
+encode_result_t
+encode_message (bytes_t &out, decode_context_t const &context,
+                Args const &...args)
+{
+  decode_result_t<typename request_of<Row>::type> const record
+      = make_request<Row> (args...);
+  if (!record)
+    return detail::failed (record.error ());
+  return encode_message_record<P, Row> (out, *record, &context);
 }
 
 /**
