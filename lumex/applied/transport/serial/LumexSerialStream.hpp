@@ -46,11 +46,15 @@
  * but absent Bluetooth port. The handle is then given to `asio::serial_port`:
  * reads and writes are overlapped (Windows) or non-blocking (POSIX), and
  * `cancel ()` and `close ()` end them from any thread. An open in progress
- * is not ended by `cancel ()` nor by a terminal cancellation: it ends with
- * the bounded open, at the latest after `open_deadline`. The settings are the
- * `serial_port_settings_t` of `applied/serial`; a value the platform cannot
- * set (mark or space parity, 1.5 stop bits outside Windows, data bits outside
- * 5..8) fails the open with `std::errc::not_supported`.
+ * is ended at once by `cancel ()`, `close ()`, a terminal cancellation and
+ * the deadline of a synchronous `open` (`cancelled`, or `timeout` for the
+ * synchronous call): its worker thread cannot be stopped (the bounded open,
+ * or the `resolve_path` that no deadline bounds), so it is abandoned. It goes
+ * on to its end, closes the port it opened and changes nothing on the
+ * stream; an `open ()` that starts meanwhile is independent of it. The
+ * settings are the `serial_port_settings_t` of `applied/serial`; a value the
+ * platform cannot set (mark or space parity, 1.5 stop bits outside Windows,
+ * data bits outside 5..8) fails the open with `std::errc::not_supported`.
  */
 #ifndef LUMEX_APPLIED_TRANSPORT_SERIAL_SERIAL_STREAM_HPP
 #define LUMEX_APPLIED_TRANSPORT_SERIAL_SERIAL_STREAM_HPP

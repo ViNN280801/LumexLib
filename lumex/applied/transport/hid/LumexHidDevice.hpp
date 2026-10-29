@@ -60,11 +60,23 @@
  * report that arrives after the stop is dropped. The reader thread alone
  * closes the hidapi handle, after its last read. Open and writes run on a
  * small blocking executor (two threads at most), one write of a device at a
- * time, so the strand never blocks. A write that waits for a thread of the
- * executor ends with `cancelled` by `cancel ()`, `close ()` or the deadline
- * of a synchronous send and never reaches hidapi; a write stuck inside
- * hidapi (a driver that does not answer) occupies a thread, and the opens
- * and writes of the other devices queue behind it. The threads belong to the
+ * time, so the strand never blocks. A write or an open that waits for a
+ * thread of the executor ends with `cancelled` by `cancel ()`, `close ()` or
+ * the deadline of a synchronous call and never reaches hidapi (its task finds
+ * it taken back and does nothing). An open that is already running (the
+ * finder `resolve_path`, the enumeration, `hid_open_path`, the descriptor
+ * read) cannot be stopped, so `cancel ()`, `close ()` and the deadline end it
+ * at once with `cancelled` (the synchronous call returns `timeout`) and
+ * abandon it: its worker goes on, and when it returns it closes the handle it
+ * opened, starts no reader (or stops the one it started) and changes nothing
+ * on the device; the open's result is dropped. An `open ()` that starts while
+ * an abandoned open still runs is independent of it (each open has its own
+ * token, so the late result of the old one is never taken for the new one);
+ * at most as many abandoned opens run as the executor has threads. A write
+ * stuck inside hidapi (a driver that does not answer) occupies a thread, and
+ * the opens and writes of the other devices queue behind it; a write that
+ * reached hidapi cannot be abandoned (the report may be on the wire) and ends
+ * with its own result. The threads belong to the
  * module-wide `hid_runtime`: every open device holds a reference to it, and
  * its housekeeping thread joins every reader thread that ended, so no thread
  * ever joins itself (a device whose last reference goes away on its own
@@ -80,9 +92,10 @@
  * flag; the operating system ends the threads). `hid_exit` is never called:
  * another library's hidapi copy may share the process.
  *
- * Cancellation, deadlines and the statistics follow `message_transport`; a
- * write that reached hidapi completes with its own result (hidapi cannot
- * cancel it), a queued one with `cancelled`. A failed read ends the reader:
+ * Cancellation, deadlines and the statistics follow `message_transport`;
+ * `cancel ()` also ends an open in progress with `cancelled`. A write that
+ * reached hidapi completes with its own result (hidapi cannot cancel it), a
+ * queued one with `cancelled`. A failed read ends the reader:
  * the pending and every later receive complete with `disconnected` until
  * the device is closed and opened again.
  *
@@ -248,8 +261,9 @@ public:
    * `cancelled` once its executor runs them) and joins every thread of the
    * runtime within `deadline`. Devices can be opened again afterwards.
    * @return True when every thread ended and was joined; false when the
-   * deadline passed first (a write stuck in the driver, for example; the
-   * threads are joined later) or when called from a thread of the runtime.
+   * deadline passed first (a write stuck in the driver, or an abandoned
+   * open that is still inside hidapi, for example; the threads are joined
+   * later) or when called from a thread of the runtime.
    */
   static bool shutdown (deadline_t deadline);
 
