@@ -59,6 +59,7 @@
 #include <system_error>
 
 #include "lumex/applied/transport/detail/LumexAsio.hpp"
+#include "lumex/applied/transport/time/LumexTimerSource.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 
 #if defined(__clang__)
@@ -206,6 +207,12 @@ struct session_options_t
   state_callback_t on_state_change;
   /// The random source of the jitter; empty: a generator of the session.
   random_source_t random;
+  /// The clock of the retry delays, of `open_timeout` and of the time a link
+  /// must stay open to count as established; the default is
+  /// `time::steady_timer_source ()` (real time). A test gives the source of
+  /// a `testing::virtual_clock`. The synchronous calls (`open (deadline)`,
+  /// ...) keep their deadlines in real time.
+  time::timer_source timers;
 };
 
 /// @brief What a session counts besides its transport's statistics.

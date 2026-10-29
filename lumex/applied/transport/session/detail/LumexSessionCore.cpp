@@ -308,8 +308,9 @@ complete_status (session_core::strand_type const &strand,
 session_core::session_core (executor_type const &executor,
                             session_options_t options)
     : executor_ (executor), strand_ (asio::make_strand (executor)),
-      options_ (std::move (options)), retry_timer_ (strand_),
-      open_timer_ (strand_),
+      options_ (std::move (options)),
+      retry_timer_ (options_.timers.make_timer (strand_)),
+      open_timer_ (options_.timers.make_timer (strand_)),
       state_word_ (make_word (channel_state::closed, 0)), stop_epoch_ (0),
       detached_ (false), enlisted_ (false), next_waiter_id_ (1), attempts_ (0),
       failed_attempts_ (0), reconnects_ (0), running_ (false), run_epoch_ (0),
@@ -718,8 +719,8 @@ session_core::on_open_timer (unsigned generation, std::error_code const &error)
     return;
   LUMEX_TRANSPORT_LOG (warning, KSESSION_COMPONENT, name ().c_str (),
                        "open timed out", log::log_bytes_t ());
-  // The attempt fails now, not when the transport gives its open up (the
-  // bounded open of the serial stream ignores cancel): fail_attempt drops
+  // The attempt fails now, not when the transport gives its open up (a
+  // transport may still finish an open after its cancel): fail_attempt drops
   // the transport, whose close makes it close what it opens late, and its
   // completion sees a newer generation (REVIEW13 RT_B).
   fail_attempt (make_error_code (transport_errc::timeout));
@@ -745,7 +746,7 @@ session_core::on_opened (unsigned generation, std::error_code const &error)
   // attempt_ stays: the link counts as established only once it stayed
   // open (see lose_link). The device is there: a removal reported while the
   // open ran is stale (REVIEW13 re-review N3).
-  opened_at_ = std::chrono::steady_clock::now ();
+  opened_at_ = options_.timers.now ();
   carried_data_ = false;
   device_absent_ = false;
   set_state (channel_state::open, std::error_code ());
@@ -839,9 +840,8 @@ session_core::attempt ()
   unsigned const generation = generation_;
   if (options_.open_timeout.count () > 0)
     {
-      open_timer_.expires_after (options_.open_timeout);
       open_timer_done done = { shared_from_this (), generation };
-      open_timer_.async_wait (std::move (done));
+      open_timer_.async_wait_for (options_.open_timeout, std::move (done));
     }
   open_transport (generation);
 }
@@ -883,9 +883,8 @@ session_core::schedule_retry (std::uint32_t failed_attempt)
     delay = std::chrono::milliseconds (KMIN_RETRY_DELAY_MS);
   waiting_retry_ = true;
   unsigned const wait_id = ++wait_id_;
-  retry_timer_.expires_after (delay);
   retry_timer_done done = { shared_from_this (), wait_id };
-  retry_timer_.async_wait (std::move (done));
+  retry_timer_.async_wait_for (delay, std::move (done));
 }
 
 void
@@ -901,7 +900,7 @@ session_core::established () const
 {
   std::chrono::milliseconds::rep const after
       = std::max (options_.policy.initial_delay.count (), KMIN_RETRY_DELAY_MS);
-  return std::chrono::steady_clock::now () - opened_at_
+  return options_.timers.now () - opened_at_
          >= std::chrono::milliseconds (after);
 }
 

@@ -52,6 +52,7 @@
 #include "lumex/applied/transport/log/LumexTransportLog.hpp"
 #include "lumex/applied/transport/session/LumexDeviceWatcher.hpp"
 #include "lumex/applied/transport/session/LumexSessionSelectors.hpp"
+#include "lumex/applied/transport/time/LumexTimerSource.hpp"
 
 #if defined(__clang__)
 // The library's clang-cl set: -Wall there is -Weverything (as in the other
@@ -192,8 +193,10 @@ public:
   device_watcher_impl (executor_type const &executor,
                        std::chrono::milliseconds period,
                        serial_enumeration_t enumeration,
-                       hid::hid_enumeration_t hid_enumeration)
-      : strand_ (asio::make_strand (executor)), timer_ (strand_),
+                       hid::hid_enumeration_t hid_enumeration,
+                       time::timer_source const &timers)
+      : strand_ (asio::make_strand (executor)),
+        timer_ (timers.make_timer (strand_)),
         period_ (period.count () > 0 ? period : std::chrono::milliseconds (1)),
         enumeration_ (enumeration ? std::move (enumeration)
                                   : default_serial_enumeration ()),
@@ -457,9 +460,8 @@ private:
     if (stopped ())
       return;
     unsigned const wait_id = ++wait_id_;
-    timer_.expires_after (period_);
     timer_done done = { shared_from_this (), wait_id };
-    timer_.async_wait (std::move (done));
+    timer_.async_wait_for (period_, std::move (done));
   }
 
   void
@@ -559,7 +561,8 @@ private:
   }
 
   strand_type strand_;
-  asio::steady_timer timer_;
+  // From the options' timer source, bound to the strand.
+  time::timer timer_;
   std::chrono::milliseconds period_;
   serial_enumeration_t enumeration_;
 #if defined(LUMEX_TRANSPORT_WITH_HID)
@@ -585,7 +588,16 @@ device_watcher::device_watcher (executor_type const &executor,
                                 hid::hid_enumeration_t hid_enumeration)
     : impl_ (std::make_shared<device_watcher_impl> (
           executor, period, std::move (enumeration),
-          std::move (hid_enumeration)))
+          std::move (hid_enumeration), time::steady_timer_source ()))
+{
+  impl_->start ();
+}
+
+device_watcher::device_watcher (executor_type const &executor,
+                                device_watcher_options_t options)
+    : impl_ (std::make_shared<device_watcher_impl> (
+          executor, options.period, std::move (options.enumeration),
+          std::move (options.hid_enumeration), options.timers))
 {
   impl_->start ();
 }

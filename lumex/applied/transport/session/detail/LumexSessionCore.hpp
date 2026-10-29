@@ -62,7 +62,6 @@
 #define LUMEX_APPLIED_TRANSPORT_SESSION_DETAIL_SESSION_CORE_HPP
 
 #include <atomic>
-#include <chrono>
 #include <cstdint>
 #include <memory>
 #include <mutex>
@@ -76,6 +75,7 @@
 #include "lumex/applied/transport/session/LumexSessionTypes.hpp"
 #include "lumex/applied/transport/session/detail/LumexSessionHandlers.hpp"
 #include "lumex/applied/transport/stream/LumexStreamTypes.hpp"
+#include "lumex/applied/transport/time/LumexTimerSource.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 
 #if defined(__clang__)
@@ -335,8 +335,9 @@ private:
   executor_type executor_;
   strand_type strand_;
   session_options_t options_;
-  asio::steady_timer retry_timer_;
-  asio::steady_timer open_timer_;
+  // Both from options_.timers, bound to the strand.
+  time::timer retry_timer_;
+  time::timer open_timer_;
 
   // Any thread. The state (low 8 bits) and the number of its changes (the
   // rest) in one word: a snapshot reads both at once.
@@ -372,7 +373,8 @@ private:
   // transport `lost_generation_`.
   std::error_code lost_while_stopping_;
   unsigned lost_generation_;
-  std::chrono::steady_clock::time_point opened_at_;
+  // On the clock of options_.timers.
+  time::time_point_t opened_at_;
   std::vector<state_handler_t> state_waiters_;
   std::vector<snapshot_handler_t> snapshot_waiters_;
   std::vector<open_waiter> open_waiters_;
