@@ -196,6 +196,14 @@
 
 **Проверено:** Linux, GCC 13 (`LUMEX_WERROR=ON`) и GCC 8.3: новые тесты заглушек (104 в наборе C++11), `ctest` наборов `transport`, `serial`, `expected`, `span`, `contracts`, `utility`, `lint` проходит, кроме прежнего `serial.probe.LumexSerialProberPty`; ASan+UBSan и TSan `transport.testing` без сообщений, новые тесты по 20 повторов; 62 мутации пойманы (одна эквивалентна); строгий потребитель `cmake.consumer_transport_warnings` проходит.
 
+##### `core/protocol`: сообщение целиком, разбор принятого сообщения по строке, пробные значения, коды диалога
+
+**Файлы:** `lumex/core/protocol/layout/LumexProtocolMessage.hpp`, `layout/LumexProtocolDispatch.hpp`, `field/LumexProtocolSample.hpp` (новые), `index/LumexProtocolKeyReader.hpp`, `error/LumexProtocolErrc.hpp`, `.cpp`, `LumexProtocol`, `README.md`, `lumex/tests/LumexTestStandards.cmake`, `lumex/tests/core/protocol/` (новые наборы сообщений, разбора и пробных значений, тесты сообщений каждого прибора), `lumex/tests/cmake/consumer/protocol_warnings/main.cpp`.
+
+**Суть:** `layout::encode_message`, `encode_message_record` и `encode_reply_message` пишут сообщение целиком: заголовок и ключ строки так, как их читает читатель ключа слоя, затем поля. `decode_message` и `decode_reply_message` проверяют ключ: запрос с другим ключом дает `unknown_frame`, ответ `unexpected_reply`. У читателей ключа есть парные писатели (`key_at`, `key_at_digits`, `tokenized_key`); заголовок с адресом из сеанса объявляет `write_header`. `layout::dispatch<P>` находит строку по ключу принятого сообщения и передает посетителю запись запроса или значение ответа этой строки (ответу вида другого слоя - сообщение целиком). `field::sample_value<F> ()` дает наименьшее допустимое значение, которое кодируется. Коды диалога в `protocol_errc` начинаются со 100 (`timeout`, `retries_exhausted`, `nak`, `refused`, `unexpected_reply`, `not_accepted_in_state`, `link_lost`, `not_confirmed`). Наборы `protocol` собираются на C++11, 14 и 20.
+
+**Проверено:** Linux, `LUMEX_WERROR=ON`, без предупреждений: `protocol.*` 482, 482 и 485 тестов на C++11, 14 и 20 на GCC 13.2 и Clang 23.1; GCC 8.3 на C++11; ASan+UBSan `protocol.*` на C++11 и 14 без замечаний; `cmake.consumer_protocol_warnings` проходит; 25 мутаций пойманы; каждая строка каждого слоя всех 13 таблиц приборов кодируется пробным значением, находится индексом и разбором; время разбора самой большой таблицы (GCC 13, C++11) 412 мс до изменения и 418 после.
+
 #### Исправлено
 
 ##### `LumexFilesystem`: пути не в ASCII на Windows
@@ -405,6 +413,14 @@
 **Суть:** тест записывал ответ в pty до зонда, а зонд очищает буферы перед записью запроса (так задумано), поэтому на Linux 6.1 ответ терялся и тест падал с `no_response`. Теперь устройство на стороне master отвечает после получения запроса; библиотека не менялась.
 
 **Проверено:** Linux 6.1, GCC 13 (`LUMEX_WERROR=ON`): `serial.*` 58 из 58, тест 300 повторов без отказов; GCC 8.3 C++11: 50 повторов набора зонда.
+
+##### `core/protocol`: части слова с отражаемым перечислением отвергают неизвестное значение
+
+**Файлы:** `lumex/core/protocol/field/LumexProtocolBitFields.hpp`, `README.md`, `lumex/tests/core/protocol/field/LumexProtocolBitFields.cxx11.tests.cpp`, `lumex/tests/core/protocol/devices/device_j/LumexProtocolDeviceJTable.hpp`, `LumexProtocolDeviceJ.cxx11.tests.cpp`.
+
+**Суть:** `bits_`, `mask_` и части `split_` с `LUMEX_DEFINE_REFLECTED_ENUM` принимали значение, которого нет среди элементов перечисления, а `enum_` его отвергал; теперь правило одно (`invalid_value` при разборе, кодировании и присваивании). Слой отчетов тестовой таблицы прибора J читает ключ с начала сообщения: байт длины отчета несет кодек.
+
+**Проверено:** Linux, GCC 13.2 и Clang 23.1: новые тесты частей слова падали до изменения; тест прибора J о неизвестном значении состояния теперь ждет ошибку разбора; приватная проверка таблицы J на реальных значениях проходит.
 
 #### Изменено
 
