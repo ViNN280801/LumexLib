@@ -3,7 +3,7 @@
 // cancelled, not Asio's code), asio::cancel_after and a bound slot, the
 // executor of the handler, no outstanding work on it, destruction with a
 // pending wait and inside the handler, an empty timer, a deferred wait and
-// saturating_add.
+// saturating_add, and a signal after the timer was destroyed.
 
 #include <chrono>
 #include <cstddef>
@@ -19,7 +19,7 @@
 namespace
 {
 namespace tr = lumex::applied::transport;
-namespace ttime = lumex::applied::transport::time;
+namespace timing = lumex::applied::transport::timing;
 using ms = std::chrono::milliseconds;
 using steady = std::chrono::steady_clock;
 using strand_type = asio::strand<tr::executor_type>;
@@ -42,7 +42,7 @@ class LumexTimerSourceTest : public ::testing::Test
 protected:
   tr::stream::io_runner runner_{ 1 };
   strand_type strand_ = asio::make_strand (runner_.get_executor ());
-  ttime::timer_source source_ = ttime::steady_timer_source ();
+  timing::timer_source source_ = timing::steady_timer_source ();
 
   // Waits for `future` at most 10 s.
   template <typename T>
@@ -85,16 +85,18 @@ protected:
 TEST_F (LumexTimerSourceTest,
         GivenTheSteadySource_WhenAskedForTheTime_ThenItReadsTheSteadyClock)
 {
-  ttime::time_point_t const before = steady::now ();
-  ttime::time_point_t const read = source_.now ();
-  ttime::time_point_t const after = steady::now ();
-  EXPECT_LE (before, read);
-  EXPECT_LE (read, after);
-  EXPECT_TRUE (ttime::timer_source () == source_);
-  EXPECT_TRUE (ttime::timer_source (nullptr) == source_);
-  EXPECT_TRUE (ttime::steady_timer_source () == source_);
-  ttime::timer timer = source_.make_timer (strand_);
-  EXPECT_LE (after, timer.now ());
+  steady::time_point const before = steady::now ();
+  timing::time_point_t const read = source_.now ();
+  steady::time_point const after = steady::now ();
+  // The same time, on the seam's own clock type.
+  EXPECT_LE (before.time_since_epoch (), read.time_since_epoch ());
+  EXPECT_LE (read.time_since_epoch (), after.time_since_epoch ());
+  EXPECT_TRUE (timing::timer_clock::is_steady);
+  EXPECT_TRUE (timing::timer_source () == source_);
+  EXPECT_TRUE (timing::timer_source (nullptr) == source_);
+  EXPECT_TRUE (timing::steady_timer_source () == source_);
+  timing::timer timer = source_.make_timer (strand_);
+  EXPECT_LE (after.time_since_epoch (), timer.now ().time_since_epoch ());
   EXPECT_TRUE (timer.get_executor () == tr::executor_type (strand_));
   quiesce ();
 }
@@ -102,7 +104,7 @@ TEST_F (LumexTimerSourceTest,
 TEST_F (LumexTimerSourceTest,
         GivenASteadyWait_WhenItsTimeComes_ThenItEndsWithSuccessAfterTheDelay)
 {
-  ttime::timer timer = source_.make_timer (strand_);
+  timing::timer timer = source_.make_timer (strand_);
   wait_result result;
   steady::time_point const start = steady::now ();
   timer.async_wait_for (ms (40),
@@ -123,9 +125,9 @@ TEST_F (LumexTimerSourceTest,
 TEST_F (LumexTimerSourceTest,
         GivenASteadyWaitUntilAPastTime_WhenStarted_ThenItEndsSoonWithSuccess)
 {
-  ttime::timer timer = source_.make_timer (strand_);
+  timing::timer timer = source_.make_timer (strand_);
   std::promise<std::error_code> result;
-  timer.async_wait_until (steady::now () - ms (100),
+  timer.async_wait_until (timer.now () - ms (100),
                           [&result] (std::error_code const &error)
                             { result.set_value (error); });
   std::future<std::error_code> error = result.get_future ();
@@ -137,7 +139,7 @@ TEST_F (
     LumexTimerSourceTest,
     GivenASteadyWait_WhenCancelled_ThenItEndsWithTheTransportsCancelledNotAsiosCode)
 {
-  ttime::timer timer = source_.make_timer (strand_);
+  timing::timer timer = source_.make_timer (strand_);
   std::promise<std::error_code> result;
   std::size_t ended = 0;
   on_strand (
@@ -163,7 +165,7 @@ TEST_F (
     LumexTimerSourceTest,
     GivenAPendingSteadyWait_WhenANewWaitStarts_ThenTheFirstEndsWithCancelled)
 {
-  ttime::timer timer = source_.make_timer (strand_);
+  timing::timer timer = source_.make_timer (strand_);
   std::promise<std::error_code> first;
   std::promise<std::error_code> second;
   on_strand (
@@ -187,7 +189,7 @@ TEST_F (
     LumexTimerSourceTest,
     GivenASteadyWaitUnderCancelAfter_WhenTheDeadlinePasses_ThenItEndsWithCancelled)
 {
-  ttime::timer timer = source_.make_timer (strand_);
+  timing::timer timer = source_.make_timer (strand_);
   std::promise<std::error_code> result;
   // Started in the strand: Asio's rule for cancel_after.
   on_strand (
@@ -207,7 +209,7 @@ TEST_F (
     LumexTimerSourceTest,
     GivenASteadyWaitWithABoundSlot_WhenATerminalSignalIsEmitted_ThenItEndsWithCancelled)
 {
-  ttime::timer timer = source_.make_timer (strand_);
+  timing::timer timer = source_.make_timer (strand_);
   asio::cancellation_signal signal;
   std::promise<std::error_code> result;
   on_strand (
@@ -230,7 +232,7 @@ TEST_F (LumexTimerSourceTest,
         GivenAHandlerBoundToAnotherStrand_WhenTheWaitEnds_ThenItRunsThere)
 {
   strand_type other = asio::make_strand (runner_.get_executor ());
-  ttime::timer timer = source_.make_timer (strand_);
+  timing::timer timer = source_.make_timer (strand_);
   std::promise<bool> where;
   timer.async_wait_for (
       ms (5), asio::bind_executor (
@@ -246,7 +248,7 @@ TEST_F (
     GivenAHandlerBoundToAnotherContext_WhileTheSteadyWaitIsPending_ThenThatContextHoldsNoWork)
 {
   asio::io_context other;
-  ttime::timer timer = source_.make_timer (strand_);
+  timing::timer timer = source_.make_timer (strand_);
   std::promise<std::error_code> result;
   on_strand (
       [&] ()
@@ -282,7 +284,7 @@ TEST_F (
   on_strand (
       [&] ()
         {
-          ttime::timer timer = source_.make_timer (strand_);
+          timing::timer timer = source_.make_timer (strand_);
           timer.async_wait_for (ms (60000),
                                 [&result] (std::error_code const &error)
                                   { result.set_value (error); });
@@ -296,9 +298,9 @@ TEST_F (
     LumexTimerSourceTest,
     GivenASteadyTimer_WhenItIsDestroyedInsideItsOwnHandler_ThenTheWaitStartedThereEndsWithCancelled)
 {
-  std::shared_ptr<std::unique_ptr<ttime::timer>> const owner
-      = std::make_shared<std::unique_ptr<ttime::timer>> (
-          new ttime::timer (source_.make_timer (strand_)));
+  std::shared_ptr<std::unique_ptr<timing::timer>> const owner
+      = std::make_shared<std::unique_ptr<timing::timer>> (
+          new timing::timer (source_.make_timer (strand_)));
   std::promise<std::error_code> second;
   (*owner)->async_wait_for (ms (1),
                             [owner, &second] (std::error_code const &)
@@ -317,14 +319,14 @@ TEST_F (
 TEST_F (LumexTimerSourceTest,
         GivenASteadyWait_WhenItStarts_ThenItsHandlerIsNotCalledInsideTheCall)
 {
-  ttime::timer timer = source_.make_timer (strand_);
+  timing::timer timer = source_.make_timer (strand_);
   bool inside = true;
   bool called_inside = false;
   std::promise<void> done;
   on_strand (
       [&] ()
         {
-          timer.async_wait_until (ttime::time_point_t (),
+          timer.async_wait_until (timing::time_point_t (),
                                   [&] (std::error_code const &)
                                     {
                                       called_inside = inside;
@@ -341,7 +343,7 @@ TEST_F (LumexTimerSourceTest,
 TEST_F (LumexTimerSourceTest,
         GivenADeferredWait_WhenLaunchedLater_ThenItWaitsTheDelayFromTheLaunch)
 {
-  ttime::timer timer = source_.make_timer (strand_);
+  timing::timer timer = source_.make_timer (strand_);
   auto deferred = timer.async_wait_for (ms (50), asio::deferred);
   std::this_thread::sleep_for (ms (60));
   std::promise<std::error_code> result;
@@ -358,11 +360,11 @@ TEST (
     LumexTimerFrontTest,
     GivenAnEmptyTimer_WhenAWaitStarts_ThenItEndsWithCancelledAndCancelEndsNothing)
 {
-  ttime::timer timer;
+  timing::timer timer;
   EXPECT_EQ (timer.impl (), nullptr);
   EXPECT_FALSE (timer.get_executor ());
   EXPECT_EQ (timer.cancel (), 0u);
-  ttime::time_point_t const before = steady::now ();
+  timing::time_point_t const before = timing::timer_clock::now ();
   EXPECT_LE (before, timer.now ());
   std::promise<std::error_code> result;
   timer.async_wait_for (ms (10), [&result] (std::error_code const &error)
@@ -376,14 +378,62 @@ TEST (
 TEST (LumexTimerFrontTest,
       GivenSaturatingAdd_WhenTheSumWouldLeaveTheRange_ThenItStopsAtTheEnds)
 {
-  ttime::time_point_t const zero;
-  EXPECT_EQ (ttime::saturating_add (zero, ms (5)), zero + ms (5));
-  EXPECT_EQ (ttime::saturating_add (zero + ms (5), ms (-10)), zero + ms (5));
-  EXPECT_EQ (ttime::saturating_add (zero, ms::max ()),
-             ttime::time_point_t::max ());
-  EXPECT_EQ (
-      ttime::saturating_add (ttime::time_point_t::max () - ms (1), ms (2)),
-      ttime::time_point_t::max ());
-  EXPECT_EQ (ttime::saturating_add (ttime::time_point_t::max (), ms (0)),
-             ttime::time_point_t::max ());
+  timing::time_point_t const zero;
+  EXPECT_EQ (tr::detail::saturating_add (zero, ms (5)), zero + ms (5));
+  EXPECT_EQ (tr::detail::saturating_add (zero + ms (5), ms (-10)),
+             zero + ms (5));
+  EXPECT_EQ (tr::detail::saturating_add (zero, ms::max ()),
+             timing::time_point_t::max ());
+  EXPECT_EQ (tr::detail::saturating_add (timing::time_point_t::max () - ms (1),
+                                         ms (2)),
+             timing::time_point_t::max ());
+  EXPECT_EQ (tr::detail::saturating_add (timing::time_point_t::max (), ms (0)),
+             timing::time_point_t::max ());
+
+  // Before the epoch of the clock (a virtual clock may start there).
+  timing::time_point_t const early = zero - std::chrono::seconds (5);
+  EXPECT_EQ (tr::detail::saturating_add (early, ms (100)), early + ms (100));
+  EXPECT_EQ (tr::detail::saturating_add (early, ms (5000)), zero);
+  EXPECT_EQ (tr::detail::saturating_add (early, ms::max ()),
+             timing::time_point_t::max ());
+  timing::time_point_t const earliest = timing::time_point_t::min ();
+  EXPECT_EQ (tr::detail::saturating_add (earliest, ms (1)), earliest + ms (1));
+}
+
+TEST (
+    LumexTimerFrontTest,
+    GivenASteadyTimerDestroyedWithAWaitOnABoundSlot_WhenTheSignalComesBeforeTheCompletion_ThenItReachesNothing)
+{
+  asio::io_context context;
+  asio::cancellation_signal signal;
+  strand_type strand = asio::make_strand (context.get_executor ());
+  int calls = 0;
+  std::error_code seen;
+  {
+    timing::timer timer = timing::steady_timer_source ().make_timer (strand);
+    asio::post (strand,
+                [&] ()
+                  {
+                    timer.async_wait_for (ms (60000),
+                                          asio::bind_cancellation_slot (
+                                              signal.slot (),
+                                              [&] (std::error_code const &e)
+                                                {
+                                                  ++calls;
+                                                  seen = e;
+                                                }));
+                  });
+    context.run_one ();
+    context.restart ();
+  }
+  // The timer is gone, its cancelled completion not run yet: nothing runs
+  // the strand, so these signals are emitted on it.
+  signal.emit (asio::cancellation_type::terminal);
+  signal.emit (asio::cancellation_type::all);
+  context.run ();
+  EXPECT_EQ (calls, 1);
+  EXPECT_EQ (seen, cancelled ());
+  // And after the handler ran.
+  signal.emit (asio::cancellation_type::terminal);
+  EXPECT_EQ (calls, 1);
 }

@@ -711,6 +711,11 @@ session_core::on_retry_timer (unsigned wait_id)
 void
 session_core::on_open_timer (unsigned generation, std::error_code const &error)
 {
+  // Two guards for one case, kept on purpose: the open completed (or was
+  // dropped) and cancelled this timer, but the wait had already expired and
+  // its success was on its way. The generation names the transport the wait
+  // was armed for and opening_ says an open is still running; either alone
+  // ends a stale wait, both keep doing so if one of them is changed later.
   if (error || generation != generation_ || !opening_)
     return;
   opening_ = false;

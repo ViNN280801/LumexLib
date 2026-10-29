@@ -462,9 +462,9 @@ session_round (tr::stream::io_runner &runner)
 bool
 timer_round (tr::stream::io_runner &runner)
 {
-  namespace ttime = tr::time;
+  namespace timing = tr::timing;
   using ms = std::chrono::milliseconds;
-  ttime::timer steady = ttime::steady_timer_source ().make_timer (
+  timing::timer steady = timing::steady_timer_source ().make_timer (
       asio::make_strand (runner.get_executor ()));
   std::promise<std::error_code> called;
   steady.async_wait_for (ms (1), [&called] (std::error_code error)
@@ -486,14 +486,14 @@ timer_round (tr::stream::io_runner &runner)
          && fine;
 
   tr::testing::virtual_clock clock;
-  ttime::timer virtual_timer = clock.source ().make_timer (
+  timing::timer virtual_timer = clock.source ().make_timer (
       asio::make_strand (runner.get_executor ()));
   std::future<void> waited
       = virtual_timer.async_wait_for (ms (100), asio::use_future);
   fine = clock.advance (ms (100)) == 1 && fine;
   waited.get ();
   asio::io_context context;
-  ttime::timer polled = clock.source ().make_timer (context.get_executor ());
+  timing::timer polled = clock.source ().make_timer (context.get_executor ());
   bool ended = false;
   polled.async_wait_for (ms (50),
                          [&ended] (std::error_code error) { ended = !error; });

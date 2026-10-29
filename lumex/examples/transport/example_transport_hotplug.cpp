@@ -275,8 +275,10 @@ the_watcher_reports_arrivals_and_departures ()
 
   // The first poll runs at once, then one every period; poll_now () polls
   // without waiting for the period.
-  ss::device_watcher watcher (runner.get_executor (), ms (20),
-                              bus.enumeration ());
+  ss::device_watcher_options_t watching;
+  watching.period = ms (20);
+  watching.enumeration = bus.enumeration ();
+  ss::device_watcher watcher (runner.get_executor (), watching);
   watcher.watch (
       selector,
       [&events] (ss::device_event_t const &event)
@@ -327,8 +329,10 @@ presence_drives_a_session ()
   ss::serial_selector_t selector;
   selector.vid = "1234";
   selector.pid = "0042";
-  ss::device_watcher watcher (runner.get_executor (), ms (20),
-                              bus.enumeration ());
+  ss::device_watcher_options_t watching;
+  watching.period = ms (20);
+  watching.enumeration = bus.enumeration ();
+  ss::device_watcher watcher (runner.get_executor (), watching);
   event_log presence;
   watcher.watch_presence (
       selector, [&presence] (bool present)

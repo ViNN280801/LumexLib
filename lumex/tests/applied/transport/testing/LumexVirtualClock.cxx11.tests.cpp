@@ -23,7 +23,7 @@
 namespace
 {
 namespace tr = lumex::applied::transport;
-namespace ttime = lumex::applied::transport::time;
+namespace timing = lumex::applied::transport::timing;
 using ms = std::chrono::milliseconds;
 using tr::testing::virtual_clock;
 
@@ -39,7 +39,7 @@ struct wait_record
   int calls = 0;
   std::error_code error;
   bool on_strand = false;
-  ttime::time_point_t at;
+  timing::time_point_t at;
 };
 
 using strand_type = asio::strand<asio::io_context::executor_type>;
@@ -79,10 +79,10 @@ drain (asio::io_context &context)
     }
 }
 
-ttime::time_point_t
+timing::time_point_t
 at_ms (long value)
 {
-  return ttime::time_point_t () + ms (value);
+  return timing::time_point_t () + ms (value);
 }
 
 class LumexVirtualClockTest : public ::testing::Test
@@ -92,7 +92,7 @@ protected:
   strand_type strand_ = asio::make_strand (context_.get_executor ());
   virtual_clock clock_;
 
-  ttime::timer
+  timing::timer
   make_timer ()
   {
     return clock_.source ().make_timer (strand_);
@@ -110,17 +110,17 @@ protected:
 TEST_F (LumexVirtualClockTest,
         GivenANewClock_WhenNothingAdvancesIt_ThenItStandsAtItsStart)
 {
-  EXPECT_EQ (clock_.now (), ttime::time_point_t ());
+  EXPECT_EQ (clock_.now (), timing::time_point_t ());
   EXPECT_EQ (clock_.pending (), 0u);
-  EXPECT_EQ (clock_.next_expiry (), ttime::time_point_t::max ());
+  EXPECT_EQ (clock_.next_expiry (), timing::time_point_t::max ());
   virtual_clock later (at_ms (5000));
   EXPECT_EQ (later.now (), at_ms (5000));
   EXPECT_EQ (later.source ().now (), at_ms (5000));
   EXPECT_TRUE (clock_.source () == clock_.source ());
   EXPECT_TRUE (clock_.source () != later.source ());
-  EXPECT_TRUE (clock_.source () != ttime::steady_timer_source ());
+  EXPECT_TRUE (clock_.source () != timing::steady_timer_source ());
   std::this_thread::sleep_for (ms (5));
-  EXPECT_EQ (clock_.now (), ttime::time_point_t ());
+  EXPECT_EQ (clock_.now (), timing::time_point_t ());
 }
 
 TEST_F (
@@ -128,10 +128,10 @@ TEST_F (
     GivenWaitsStartedOutOfOrder_WhenTheClockAdvances_ThenTheyFireInTimeOrderThenInStartOrder)
 {
   std::vector<std::string> order;
-  ttime::timer a = make_timer ();
-  ttime::timer b = make_timer ();
-  ttime::timer c = make_timer ();
-  ttime::timer d = make_timer ();
+  timing::timer a = make_timer ();
+  timing::timer b = make_timer ();
+  timing::timer c = make_timer ();
+  timing::timer d = make_timer ();
   a.async_wait_for (ms (300), [&order] (std::error_code const &error)
                       { order.push_back (error ? "a!" : "a"); });
   b.async_wait_for (ms (100), [&order] (std::error_code const &error)
@@ -156,8 +156,8 @@ TEST_F (
 {
   wait_record first;
   wait_record second;
-  ttime::timer one = make_timer ();
-  ttime::timer two = make_timer ();
+  timing::timer one = make_timer ();
+  timing::timer two = make_timer ();
   one.async_wait_for (ms (100), record_into (first));
   two.async_wait_for (ms (250), record_into (second));
   EXPECT_EQ (clock_.advance (ms (99)), 0u);
@@ -179,7 +179,7 @@ TEST_F (LumexVirtualClockTest,
         GivenAPendingWait_WhenCancelled_ThenItEndsWithCancelledAndNeverFires)
 {
   wait_record record;
-  ttime::timer timer = make_timer ();
+  timing::timer timer = make_timer ();
   timer.async_wait_for (ms (100), record_into (record));
   EXPECT_EQ (timer.cancel (), 1u);
   EXPECT_EQ (clock_.pending (), 0u);
@@ -199,7 +199,7 @@ TEST_F (LumexVirtualClockTest,
 {
   wait_record first;
   wait_record second;
-  ttime::timer timer = make_timer ();
+  timing::timer timer = make_timer ();
   timer.async_wait_for (ms (100), record_into (first));
   timer.async_wait_for (ms (200), record_into (second));
   EXPECT_EQ (clock_.pending (), 1u);
@@ -220,8 +220,9 @@ TEST_F (
     GivenAStrandTimer_WhenTheClockAdvances_ThenTheHandlerRunsOnTheStrandAfterAdvanceReturned)
 {
   wait_record record;
-  ttime::timer timer = make_timer ();
-  EXPECT_TRUE (timer.get_executor () == ttime::timer::executor_type (strand_));
+  timing::timer timer = make_timer ();
+  EXPECT_TRUE (timer.get_executor ()
+               == timing::timer::executor_type (strand_));
   timer.async_wait_for (ms (10), record_into (record));
   EXPECT_EQ (clock_.advance (ms (10)), 1u);
   // Posted, never called inside advance ().
@@ -238,7 +239,7 @@ TEST_F (
   strand_type other = asio::make_strand (context_.get_executor ());
   wait_record record;
   recorder on_other = { &record, &other, &clock_ };
-  ttime::timer timer = make_timer ();
+  timing::timer timer = make_timer ();
   timer.async_wait_for (ms (10), asio::bind_executor (other, on_other));
   clock_.advance (ms (10));
   drain (context_);
@@ -252,8 +253,8 @@ TEST_F (LumexVirtualClockTest,
   clock_.advance (ms (500));
   wait_record past;
   wait_record zero;
-  ttime::timer one = make_timer ();
-  ttime::timer two = make_timer ();
+  timing::timer one = make_timer ();
+  timing::timer two = make_timer ();
   one.async_wait_until (at_ms (100), record_into (past));
   two.async_wait_for (ms (0), record_into (zero));
   drain (context_);
@@ -297,9 +298,9 @@ TEST_F (
   wait_record early;
   wait_record also_early;
   wait_record late;
-  ttime::timer one = make_timer ();
-  ttime::timer two = make_timer ();
-  ttime::timer three = make_timer ();
+  timing::timer one = make_timer ();
+  timing::timer two = make_timer ();
+  timing::timer three = make_timer ();
   three.async_wait_for (ms (300), record_into (late));
   one.async_wait_for (ms (100), record_into (early));
   two.async_wait_for (ms (100), record_into (also_early));
@@ -322,7 +323,7 @@ namespace
 // Waits `step` again and again on `timer` until `left` waits ended.
 struct chain
 {
-  ttime::timer *timer;
+  timing::timer *timer;
   int *left;
   ms step;
 
@@ -340,7 +341,7 @@ TEST_F (
     LumexVirtualClockTest,
     GivenAChainOfWaits_WhenRunUntilIsCalled_ThenItEndsWhenDoneOrAtTheEndOfTheBudget)
 {
-  ttime::timer timer = make_timer ();
+  timing::timer timer = make_timer ();
   int left = 3;
   chain step = { &timer, &left, ms (100) };
   timer.async_wait_for (ms (100), step);
@@ -368,11 +369,11 @@ TEST_F (LumexVirtualClockTest,
         GivenAWaitDueNow_WhenRunUntilIsCalled_ThenItFiresWithoutMovingTheClock)
 {
   wait_record record;
-  ttime::timer timer = make_timer ();
+  timing::timer timer = make_timer ();
   timer.async_wait_for (ms (0), record_into (record));
   EXPECT_TRUE (tr::testing::run_until (
       context_, clock_, [&record] { return record.calls == 1; }, ms (0)));
-  EXPECT_EQ (clock_.now (), ttime::time_point_t ());
+  EXPECT_EQ (clock_.now (), timing::time_point_t ());
 }
 
 TEST_F (
@@ -381,8 +382,8 @@ TEST_F (
 {
   wait_record cut;
   wait_record kept;
-  ttime::timer one = make_timer ();
-  ttime::timer two = make_timer ();
+  timing::timer one = make_timer ();
+  timing::timer two = make_timer ();
   recorder record_cut = record_into (cut);
   // Started in the strand: Asio's rule for cancel_after.
   asio::post (strand_,
@@ -398,7 +399,7 @@ TEST_F (
   EXPECT_EQ (cut.error, cancelled ());
   EXPECT_EQ (kept.calls, 0);
   EXPECT_EQ (clock_.pending (), 1u);
-  EXPECT_EQ (clock_.now (), ttime::time_point_t ());
+  EXPECT_EQ (clock_.now (), timing::time_point_t ());
   EXPECT_EQ (clock_.advance (ms (10000)), 1u);
   drain (context_);
   EXPECT_EQ (kept.calls, 1);
@@ -417,7 +418,7 @@ TEST_F (
     {
       asio::cancellation_signal signal;
       wait_record record;
-      ttime::timer timer = make_timer ();
+      timing::timer timer = make_timer ();
       timer.async_wait_for (
           ms (100),
           asio::bind_cancellation_slot (signal.slot (), record_into (record)));
@@ -442,7 +443,7 @@ TEST_F (
   asio::cancellation_signal signal;
   wait_record first;
   wait_record second;
-  ttime::timer timer = make_timer ();
+  timing::timer timer = make_timer ();
   timer.async_wait_for (ms (10), asio::bind_cancellation_slot (
                                      signal.slot (), record_into (first)));
   clock_.advance (ms (10));
@@ -463,7 +464,7 @@ namespace
 // destroys the timer.
 struct rearm_then_destroy
 {
-  std::unique_ptr<ttime::timer> *owner;
+  std::unique_ptr<timing::timer> *owner;
   wait_record *first;
   wait_record *second;
 
@@ -488,8 +489,8 @@ TEST_F (
     LumexVirtualClockTest,
     GivenATimer_WhenItIsDestroyedInsideItsOwnHandler_ThenTheWaitStartedThereEndsWithCancelled)
 {
-  std::unique_ptr<ttime::timer> timer (new ttime::timer (make_timer ()));
-  std::weak_ptr<ttime::timer_impl> const impl = timer->impl ();
+  std::unique_ptr<timing::timer> timer (new timing::timer (make_timer ()));
+  std::weak_ptr<timing::timer_impl> const impl = timer->impl ();
   wait_record first;
   wait_record second;
   rearm_then_destroy handler = { &timer, &first, &second };
@@ -511,7 +512,7 @@ TEST_F (LumexVirtualClockTest,
 {
   wait_record record;
   {
-    ttime::timer timer = make_timer ();
+    timing::timer timer = make_timer ();
     timer.async_wait_for (ms (100), record_into (record));
   }
   EXPECT_EQ (clock_.pending (), 0u);
@@ -526,9 +527,9 @@ TEST_F (
     GivenAMovedTimer_WhenTheMovedFromOneIsUsed_ThenItIsEmptyAndTheWaitStaysWithTheNewOwner)
 {
   wait_record moved;
-  ttime::timer first = make_timer ();
+  timing::timer first = make_timer ();
   first.async_wait_for (ms (100), record_into (moved));
-  ttime::timer second (std::move (first));
+  timing::timer second (std::move (first));
   EXPECT_EQ (first.impl (), nullptr);
   EXPECT_EQ (first.cancel (), 0u);
   // The system executor runs the answer of an empty timer.
@@ -546,7 +547,7 @@ TEST_F (
   EXPECT_FALSE (moved.error);
   // Assigning over a timer ends its pending wait.
   wait_record replaced;
-  ttime::timer third = make_timer ();
+  timing::timer third = make_timer ();
   third.async_wait_for (ms (100), record_into (replaced));
   third = make_timer ();
   drain (context_);
@@ -560,8 +561,8 @@ TEST (
 {
   asio::io_context context;
   std::unique_ptr<virtual_clock> clock (new virtual_clock (at_ms (70)));
-  ttime::timer_source const source = clock->source ();
-  ttime::timer timer = source.make_timer (context.get_executor ());
+  timing::timer_source const source = clock->source ();
+  timing::timer timer = source.make_timer (context.get_executor ());
   std::error_code first;
   int first_calls = 0;
   timer.async_wait_for (ms (100),
@@ -591,7 +592,7 @@ TEST (
   EXPECT_EQ (later, cancelled ());
 
   // A timer made after the clock is gone answers the same way.
-  ttime::timer made_late = source.make_timer (context.get_executor ());
+  timing::timer made_late = source.make_timer (context.get_executor ());
   int late_calls = 0;
   made_late.async_wait_for (ms (1), [&late_calls] (std::error_code const &)
                               { ++late_calls; });
@@ -605,7 +606,7 @@ TEST (
 {
   virtual_clock clock;
   std::unique_ptr<asio::io_context> context (new asio::io_context ());
-  ttime::timer timer = clock.source ().make_timer (
+  timing::timer timer = clock.source ().make_timer (
       asio::make_strand (context->get_executor ()));
   std::shared_ptr<int> token = std::make_shared<int> (1);
   std::weak_ptr<int> const watched = token;
@@ -639,7 +640,7 @@ TEST (LumexVirtualClockWorkTest,
   asio::io_context context;
   asio::io_context other;
   virtual_clock clock;
-  ttime::timer timer = clock.source ().make_timer (context.get_executor ());
+  timing::timer timer = clock.source ().make_timer (context.get_executor ());
   int calls = 0;
   timer.async_wait_for (ms (100),
                         asio::bind_executor (other.get_executor (),
@@ -664,10 +665,10 @@ namespace
 // until `rounds` waits ended, and checks the times never go back.
 struct stress_timer
 {
-  std::shared_ptr<ttime::timer> timer;
+  std::shared_ptr<timing::timer> timer;
   std::shared_ptr<std::atomic<int>> fired;
   std::shared_ptr<std::atomic<bool>> back_in_time;
-  ttime::time_point_t last;
+  timing::time_point_t last;
   int rounds;
 
   void
@@ -675,7 +676,7 @@ struct stress_timer
   {
     if (error)
       return;
-    ttime::time_point_t const seen = timer->now ();
+    timing::time_point_t const seen = timer->now ();
     if (seen < last)
       back_in_time->store (true);
     last = seen;
@@ -696,13 +697,13 @@ TEST (
   std::vector<std::shared_ptr<std::atomic<int>>> fired;
   std::shared_ptr<std::atomic<bool>> const back_in_time
       = std::make_shared<std::atomic<bool>> (false);
-  std::vector<std::shared_ptr<ttime::timer>> made;
+  std::vector<std::shared_ptr<timing::timer>> made;
   {
     tr::stream::io_runner runner (2);
     for (int i = 0; i < timers; ++i)
       {
-        std::shared_ptr<ttime::timer> const timer
-            = std::make_shared<ttime::timer> (clock.source ().make_timer (
+        std::shared_ptr<timing::timer> const timer
+            = std::make_shared<timing::timer> (clock.source ().make_timer (
                 asio::make_strand (runner.get_executor ())));
         made.push_back (timer);
         fired.push_back (std::make_shared<std::atomic<int>> (0));
@@ -725,7 +726,7 @@ TEST (
     // The timers die on their strands before the runner stops.
     for (int i = 0; i < timers; ++i)
       {
-        std::shared_ptr<ttime::timer> const timer
+        std::shared_ptr<timing::timer> const timer
             = made[static_cast<std::size_t> (i)];
         std::promise<void> gone;
         asio::post (timer->get_executor (),
@@ -741,4 +742,97 @@ TEST (
   for (int i = 0; i < timers; ++i)
     EXPECT_EQ (fired[static_cast<std::size_t> (i)]->load (), rounds) << i;
   EXPECT_FALSE (back_in_time->load ());
+}
+
+TEST (
+    LumexVirtualClockLifetimeTest,
+    GivenATimerThatNeverWaitedOnAStrand_WhenTheIoContextIsDestroyed_ThenItForgetsItsExecutorAndOutlivesIt)
+{
+  virtual_clock clock;
+  std::unique_ptr<asio::io_context> context (new asio::io_context ());
+  std::unique_ptr<timing::timer> timer (
+      new timing::timer (clock.source ().make_timer (
+          asio::make_strand (context->get_executor ()))));
+  EXPECT_TRUE (timer->get_executor ());
+  context.reset ();
+  // Its copy of the strand was dropped with the context's services.
+  EXPECT_FALSE (timer->get_executor ());
+  std::shared_ptr<int> token = std::make_shared<int> (1);
+  std::weak_ptr<int> const watched = token;
+  int calls = 0;
+  timer->async_wait_for (ms (10), [token, &calls] (std::error_code const &)
+                           { ++calls; });
+  token.reset ();
+  EXPECT_TRUE (watched.expired ());
+  EXPECT_EQ (clock.pending (), 0u);
+  timer.reset ();
+  EXPECT_EQ (clock.advance (ms (100)), 0u);
+  EXPECT_EQ (calls, 0);
+}
+
+TEST (LumexVirtualClockEpochTest,
+      GivenAClockStartedBeforeTheEpoch_WhenAWaitStarts_ThenItFiresAtItsTime)
+{
+  asio::io_context context;
+  virtual_clock clock (at_ms (-5000));
+  timing::timer timer = clock.source ().make_timer (context.get_executor ());
+  int calls = 0;
+  timing::time_point_t fired_at;
+  timer.async_wait_for (ms (100),
+                        [&] (std::error_code const &error)
+                          {
+                            calls += error ? 0 : 1;
+                            fired_at = clock.now ();
+                          });
+  EXPECT_EQ (clock.next_expiry (), at_ms (-4900));
+  EXPECT_EQ (clock.advance (ms (99)), 0u);
+  EXPECT_EQ (clock.advance (ms (1)), 1u);
+  drain (context);
+  EXPECT_EQ (calls, 1);
+  EXPECT_EQ (fired_at, at_ms (-4900));
+  // The whole range is reachable from there.
+  timer.async_wait_for (ms (5000), [] (std::error_code const &) {});
+  EXPECT_EQ (clock.next_expiry (), at_ms (100));
+  timer.cancel ();
+  drain (context);
+}
+
+namespace
+{
+// Waits for the time now again and again until told to stop.
+struct forever
+{
+  timing::timer *timer;
+  long *rounds;
+  bool const *stop;
+
+  void
+  operator() (std::error_code const &error) const
+  {
+    if (error || *stop)
+      return;
+    ++*rounds;
+    timer->async_wait_for (ms (0), *this);
+  }
+};
+} // namespace
+
+TEST_F (
+    LumexVirtualClockTest,
+    GivenAHandlerThatWaitsForTheTimeNowForEver_WhenRunUntilIsCalled_ThenItGivesUpWithFalse)
+{
+  timing::timer timer = make_timer ();
+  long rounds = 0;
+  bool stop = false;
+  forever step = { &timer, &rounds, &stop };
+  timer.async_wait_for (ms (0), step);
+  EXPECT_FALSE (tr::testing::run_until (
+      context_, clock_, [] { return false; }, ms (10)));
+  EXPECT_GE (rounds, 9999);
+  EXPECT_LT (rounds, 20000);
+  // The clock never moved.
+  EXPECT_EQ (clock_.now (), timing::time_point_t ());
+  stop = true;
+  timer.cancel ();
+  drain (context_);
 }

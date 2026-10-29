@@ -49,6 +49,8 @@
  * time, which moves only when the test advances it. Code that takes a
  * `timer_source` in its options (`session::session_options_t::timers`,
  * `session::device_watcher_options_t::timers`) behaves the same on both.
+ * Times are `time_point_t` of the library's `timer_clock`, never of
+ * `std::chrono::steady_clock` (see `timer_clock`).
  *
  * A `timer` is bound to the executor it was made for (a strand, as a rule):
  * a wait completes on the associated executor of its handler, by default that
@@ -61,12 +63,15 @@
  *
  * A wait ends with an empty error when its time came and with
  * `transport_errc::cancelled` when `cancel ()`, a new wait or the destruction
- * of the timer ended it (never with Asio's `operation_aborted`: see
- * `detail/LumexAsioErrors.hpp`). Per-operation cancellation works as on an
- * `asio::steady_timer`: a `terminal`, `partial` or `total` cancellation
- * emitted on the handler's cancellation slot (`asio::cancel_after`,
- * `asio::bind_cancellation_slot`, a coroutine) while the wait is pending ends
- * that wait with `cancelled`; emit it on the timer's strand, as Asio requires.
+ * of the timer ended it while it was pending (a wait whose time came and
+ * whose completion is on its way keeps its success, as on an Asio timer)
+ * (never with Asio's `operation_aborted`: see `detail/LumexAsioErrors.hpp`).
+ * Per-operation cancellation works as on an `asio::steady_timer`: a
+ * `terminal`, `partial` or `total` cancellation emitted on the handler's
+ * cancellation slot (`asio::cancel_after`, `asio::bind_cancellation_slot`, a
+ * coroutine) while the wait is pending ends that wait with `cancelled`; emit
+ * it on the timer's strand, as Asio requires. A signal emitted after the wait
+ * ended reaches nothing, also when the timer was destroyed meanwhile.
  *
  * Destroying a timer with a pending wait ends the wait with `cancelled`
  * (posted, the destructor never blocks). When the `io_context` is destroyed
@@ -79,8 +84,8 @@
  * handler. A pending steady wait keeps its own `io_context` running, as an
  * Asio timer does; a pending virtual wait keeps no work at all.
  */
-#ifndef LUMEX_APPLIED_TRANSPORT_TIME_TIMER_SOURCE_HPP
-#define LUMEX_APPLIED_TRANSPORT_TIME_TIMER_SOURCE_HPP
+#ifndef LUMEX_APPLIED_TRANSPORT_TIMING_TIMER_SOURCE_HPP
+#define LUMEX_APPLIED_TRANSPORT_TIMING_TIMER_SOURCE_HPP
 
 #include <chrono>
 #include <cstddef>
@@ -111,14 +116,58 @@ namespace applied
 {
 namespace transport
 {
-namespace time
+namespace detail
 {
-/// @brief The clock whose time points every timer source uses (a virtual
-/// clock keeps its own epoch in the same type).
-using clock_type = std::chrono::steady_clock;
+/**
+ * @brief The `is_steady` of `timing::timer_clock`, defined in the header for
+ * every standard: a code that binds it to a reference (`EXPECT_TRUE`, a
+ * generic function taking `bool const &`) needs a definition, which before
+ * C++17 a class member constant only gets out of line; a template member
+ * defined here is merged by the linker. From C++17 the member is an inline
+ * variable already.
+ */
+template <typename Tag> struct steady_flag
+{
+  static LUMEX_CONSTEXPR bool const is_steady = true;
+};
+
+#if !defined(__cpp_inline_variables)
+template <typename Tag> LUMEX_CONSTEXPR bool const steady_flag<Tag>::is_steady;
+#endif
+} // namespace detail
+
+namespace timing
+{
+/**
+ * @brief The clock of the timer seam: every timer source tells its time in
+ * `time_point_t` of this one type.
+ * @details It meets the Clock requirements. `now ()` is real time: the time
+ * of `std::chrono::steady_clock` (the steady source uses it); a virtual clock
+ * keeps its own epoch in the same type. The type is the library's own, not
+ * `steady_clock`, so that a time point of `std::chrono::steady_clock` does
+ * not mix with the seam: `async_wait_until (std::chrono::steady_clock::now ()
+ * + d, ...)` does not compile, and a deadline is computed from the source's
+ * own `now ()` (`timer::now ()`, `timer_source::now ()`). Durations are the
+ * usual `std::chrono` durations.
+ */
+class timer_clock
+    : public ::lumex::applied::transport::detail::steady_flag<void>
+{
+public:
+  using duration = std::chrono::nanoseconds;
+  using rep = duration::rep;
+  using period = duration::period;
+  using time_point = std::chrono::time_point<timer_clock, duration>;
+
+  // is_steady (true for every source: the time never goes back) comes from
+  // detail::steady_flag.
+
+  /// @brief Real time: `std::chrono::steady_clock::now ()` on this type.
+  static time_point now () LUMEX_NOEXCEPT;
+};
 
 /// @brief A point in time of a timer source.
-using time_point_t = clock_type::time_point;
+using time_point_t = timer_clock::time_point;
 
 /// @brief The completion of a wait: empty when the time came,
 /// `transport_errc::cancelled` when the wait was ended before.
@@ -127,13 +176,20 @@ using wait_signature_t = void (std::error_code);
 /// @brief The handler of a wait as an implementation receives it (erased
 /// once).
 using wait_handler_t = asio::any_completion_handler<wait_signature_t>;
+} // namespace timing
 
-/// @brief `from + delay`, kept within the range of `time_point_t` (a delay
-/// that would pass its end gives `time_point_t::max ()`, a negative one
-/// `from` itself).
-time_point_t saturating_add (time_point_t from,
-                             std::chrono::milliseconds delay) LUMEX_NOEXCEPT;
+namespace detail
+{
+/// @brief `from + delay`, kept within the range of `timing::time_point_t`
+/// (a delay that would pass its end gives `time_point_t::max ()`, a negative
+/// one `from` itself; `from` may lie before the epoch).
+timing::time_point_t
+saturating_add (timing::time_point_t from,
+                std::chrono::milliseconds delay) LUMEX_NOEXCEPT;
+} // namespace detail
 
+namespace timing
+{
 /**
  * @brief The implementation of one timer, made by a `timer_source_impl`.
  * @details `start_wait` and `cancel` are called on the timer's strand (see
@@ -272,7 +328,9 @@ class timer
                 std::chrono::milliseconds delay) const
     {
       time_point_t const at
-          = impl ? saturating_add (impl->now (), delay) : time_point_t ();
+          = impl ? ::lumex::applied::transport::detail::saturating_add (
+                       impl->now (), delay)
+                 : time_point_t ();
       start (std::forward<Handler> (handler), impl, at);
     }
   };
@@ -300,7 +358,7 @@ public:
   /// @brief The executor the timer was made for (empty for an empty timer).
   executor_type get_executor () const;
 
-  /// @brief The time of the timer's source (`clock_type::now ()` for an
+  /// @brief The time of the timer's source (`timer_clock::now ()` for an
   /// empty timer).
   time_point_t now () const;
 
@@ -346,8 +404,12 @@ private:
 
 /**
  * @brief Tells the time and makes timers (see the file description).
- * @details A handle: copies share one implementation and compare equal.
- * Never empty: the default and a null implementation give the steady source.
+ * @details A handle: copies share one implementation. Equality compares the
+ * implementations, not what they do: the steady source is one implementation
+ * per binary (the transport is a static library, so an executable and a
+ * shared library that each link it hold one each), and two virtual clocks
+ * never compare equal. Never empty: the default and a null implementation
+ * give the steady source.
  */
 class timer_source
 {
@@ -392,10 +454,10 @@ private:
   std::shared_ptr<timer_source_impl> impl_;
 };
 
-/// @brief The real-time source: `clock_type::now ()` and
+/// @brief The real-time source: `timer_clock::now ()` and
 /// `asio::steady_timer` (one implementation shared by every copy).
 timer_source steady_timer_source ();
-} // namespace time
+} // namespace timing
 } // namespace transport
 } // namespace applied
 } // namespace lumex
@@ -404,4 +466,4 @@ timer_source steady_timer_source ();
 #pragma clang diagnostic pop
 #endif
 
-#endif // !LUMEX_APPLIED_TRANSPORT_TIME_TIMER_SOURCE_HPP
+#endif // !LUMEX_APPLIED_TRANSPORT_TIMING_TIMER_SOURCE_HPP

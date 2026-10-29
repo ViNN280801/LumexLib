@@ -59,7 +59,7 @@
 #include <system_error>
 
 #include "lumex/applied/transport/detail/LumexAsio.hpp"
-#include "lumex/applied/transport/time/LumexTimerSource.hpp"
+#include "lumex/applied/transport/timing/LumexTimerSource.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 
 #if defined(__clang__)
@@ -197,9 +197,8 @@ struct session_options_t
   /// How the session retries.
   reconnect_policy_t policy;
   /// The longest one open attempt may take: then the attempt fails with
-  /// `timeout` and its transport is closed (one whose open cannot be
-  /// cancelled, such as the serial stream's bounded open, closes what it
-  /// opens late); 0: no limit.
+  /// `timeout` and its transport is closed (a transport that still finishes
+  /// an open after that closes what it opens late); 0: no limit.
   std::chrono::milliseconds open_timeout = std::chrono::milliseconds (10000);
   /// Called at every state change, on the strand; never after the session
   /// was destroyed (a call already running on another thread may still
@@ -209,10 +208,10 @@ struct session_options_t
   random_source_t random;
   /// The clock of the retry delays, of `open_timeout` and of the time a link
   /// must stay open to count as established; the default is
-  /// `time::steady_timer_source ()` (real time). A test gives the source of
+  /// `timing::steady_timer_source ()` (real time). A test gives the source of
   /// a `testing::virtual_clock`. The synchronous calls (`open (deadline)`,
   /// ...) keep their deadlines in real time.
-  time::timer_source timers;
+  timing::timer_source timers;
 };
 
 /// @brief What a session counts besides its transport's statistics.

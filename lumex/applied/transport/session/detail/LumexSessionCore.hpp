@@ -75,7 +75,7 @@
 #include "lumex/applied/transport/session/LumexSessionTypes.hpp"
 #include "lumex/applied/transport/session/detail/LumexSessionHandlers.hpp"
 #include "lumex/applied/transport/stream/LumexStreamTypes.hpp"
-#include "lumex/applied/transport/time/LumexTimerSource.hpp"
+#include "lumex/applied/transport/timing/LumexTimerSource.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 
 #if defined(__clang__)
@@ -336,8 +336,8 @@ private:
   strand_type strand_;
   session_options_t options_;
   // Both from options_.timers, bound to the strand.
-  time::timer retry_timer_;
-  time::timer open_timer_;
+  timing::timer retry_timer_;
+  timing::timer open_timer_;
 
   // Any thread. The state (low 8 bits) and the number of its changes (the
   // rest) in one word: a snapshot reads both at once.
@@ -374,7 +374,7 @@ private:
   std::error_code lost_while_stopping_;
   unsigned lost_generation_;
   // On the clock of options_.timers.
-  time::time_point_t opened_at_;
+  timing::time_point_t opened_at_;
   std::vector<state_handler_t> state_waiters_;
   std::vector<snapshot_handler_t> snapshot_waiters_;
   std::vector<open_waiter> open_waiters_;
