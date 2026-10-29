@@ -179,6 +179,9 @@ struct key_at
         || (key.integer & ~::lumex::core::protocol::dsl::width_mask (Width))
                != 0)
       return false;
+    // One allocation before the first byte: a failing one leaves `out` as it
+    // was.
+    out.reserve (out.size () + Offset + Width);
     out.insert (out.end (), Offset, static_cast<std::uint8_t> (0));
     for (std::size_t i = 0; i < Width; ++i)
       {
@@ -257,6 +260,7 @@ struct key_at_digits
       }
     if (rest != 0)
       return false;
+    out.reserve (out.size () + Offset + Digits);
     out.insert (out.end (), Offset, static_cast<std::uint8_t> ('0'));
     out.insert (out.end (), digits, digits + Digits);
     return true;

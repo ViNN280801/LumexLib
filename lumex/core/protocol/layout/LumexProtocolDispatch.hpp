@@ -39,8 +39,8 @@
 
 /**
  * @file LumexProtocolDispatch.hpp
- * @brief `dispatch<P> (message, direction, visitor)`: a received message to
- * the typed row its key names.
+ * @brief `dispatch_message<P> (message, direction, visitor)`: a received
+ * message to the typed row its key names.
  * @details The key reader of layer `P` reads the key of the message and the
  * rows of the table are compared with it as the run-time index compares
  * them (`LumexProtocolMessage.hpp`). For the row found, the visitor gets
@@ -122,11 +122,7 @@ visit_request (bytes_view_t, bytes_view_t fields, Visitor &visitor,
 }
 
 template <typename P, typename Row, typename Visitor,
-          bool Core
-          = std::is_same<typename Row::reply_type,
-                         ::lumex::core::protocol::dsl::no_reply>::value
-            || ::lumex::core::protocol::field::is_field<
-                typename Row::reply_type>::value>
+          bool Core = has_core_reply<Row>::value>
 struct visit_reply
 {
   static std::error_code
@@ -196,15 +192,14 @@ struct dispatch_table<P, Visitor,
  */
 template <typename P, typename Visitor>
 std::error_code
-dispatch (bytes_view_t message,
-          ::lumex::core::protocol::index::frame_direction direction,
-          Visitor &&visitor, decode_context_t const *context = nullptr)
+dispatch_message (bytes_view_t message,
+                  ::lumex::core::protocol::index::frame_direction direction,
+                  Visitor &&visitor, decode_context_t const *context = nullptr)
 {
   using visitor_type = typename std::remove_reference<Visitor>::type;
   ::lumex::core::protocol::index::key_read_t read
       = ::lumex::core::protocol::index::key_read_t ();
-  if (!::lumex::core::protocol::index::key_reader_of<P>::type::read (message,
-                                                                     read))
+  if (!detail::readable_key<P>::reader::read (message, read))
     return ::lumex::core::protocol::error::make_error_code (
         ::lumex::core::protocol::error::protocol_errc::unknown_frame);
   detail::dispatch_entry<visitor_type> const *const found

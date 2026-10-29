@@ -12,7 +12,6 @@
 #include <cstddef>
 #include <cstdint>
 #include <system_error>
-#include <type_traits>
 #include <vector>
 
 #include <gtest/gtest.h>
@@ -68,31 +67,10 @@ expect_length_prefixed (layout::bytes_t const &message,
   EXPECT_TRUE (
       dev::finds<Row> (dev::index_of<tables::old_g> (), payloads[0], 1u));
   dev::dispatch_record<tables::old_g> seen;
-  EXPECT_FALSE (layout::dispatch<tables::old_g> (dev::view_of (payloads[0]),
-                                                 direction, seen));
+  EXPECT_FALSE (layout::dispatch_message<tables::old_g> (
+      dev::view_of (payloads[0]), direction, seen));
   EXPECT_EQ (seen.row, Row::identifier ());
 }
-
-// The sample reply of a row; an empty record for a row without a reply.
-template <typename Row, bool None = std::is_same<typename Row::reply_type,
-                                                 dsl::no_reply>::value>
-struct sample_reply
-{
-  static typename layout::reply_message_of<Row>::type
-  get ()
-  {
-    return field::sample_value<typename Row::reply_type> ();
-  }
-};
-
-template <typename Row> struct sample_reply<Row, true>
-{
-  static field::record<>
-  get ()
-  {
-    return field::record<> ();
-  }
-};
 
 template <typename Row>
 void
@@ -104,9 +82,8 @@ expect_both_length_prefixed ()
                     .has_value ()));
   expect_length_prefixed<Row> (request, index::frame_direction::tx);
   layout::bytes_t reply;
-  ASSERT_TRUE ((layout::encode_reply_message<tables::old_g, Row> (
-                    reply, sample_reply<Row>::get ())
-                    .has_value ()));
+  ASSERT_TRUE (
+      (layout::sample_reply_message<tables::old_g, Row> (reply).has_value ()));
   expect_length_prefixed<Row> (reply, index::frame_direction::rx);
 }
 } // namespace

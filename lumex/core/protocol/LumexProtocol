@@ -57,8 +57,10 @@
  * `layout/` (`binary_layout`, `fixed_width_text_layout`,
  * `tokenized_text_layout`; `layout::encode_request`, `decode_reply`, ...;
  * whole messages with the header and the key, `encode_message`,
- * `decode_reply_message`, and `dispatch` of a received message to its row),
- * the sample value of a field in `field/` (`sample_value`),
+ * `decode_reply_message`, `sample_reply_message`, `message_fields`, and
+ * `dispatch_message` of a received message to its row), the sample value of
+ * a field in `field/` (`sample_value`), the check of a decoded record
+ * against its registries (`registry::check_record`),
  * the parameter and register tables in `registry/` (`LUMEX_PROTOCOL_REGISTRY`,
  * `registry_key_`, `registry_value_`, `verify_registry`), the run-time index
  * with `describe` and the session context in `index/` (`build_index`,

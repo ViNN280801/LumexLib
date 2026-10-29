@@ -57,8 +57,25 @@ template <typename P> struct dispatch_record
     ++calls;
     row = Row::identifier ();
     call = "reply";
+    encode_again<Row> (value, layout::has_core_reply<Row> ());
+  }
+
+private:
+  template <typename Row, typename Value>
+  void
+  encode_again (Value const &value, std::true_type)
+  {
     EXPECT_TRUE ((layout::encode_reply_message<P, Row> (again, value, context)
                       .has_value ()));
+  }
+
+  // A reply kind of the dialogue: dispatch hands over the message itself.
+  template <typename Row>
+  void
+  encode_again (layout::bytes_view_t const &message, std::false_type)
+  {
+    call = "reply message";
+    again.assign (message.begin (), message.end ());
   }
 };
 
@@ -77,8 +94,8 @@ expect_message_of_row (bytes_t const &message, std::size_t offset,
       << P::protocol_name () << " " << side << " " << dump (message);
   dispatch_record<P> seen;
   seen.context = context;
-  std::error_code const error
-      = layout::dispatch<P> (view_of (message), direction, seen, context);
+  std::error_code const error = layout::dispatch_message<P> (
+      view_of (message), direction, seen, context);
   EXPECT_FALSE (error) << P::protocol_name () << "." << Row::identifier ()
                        << " " << side << ": " << error.message () << ": "
                        << dump (message);
@@ -91,45 +108,17 @@ expect_message_of_row (bytes_t const &message, std::size_t offset,
 
 namespace detail
 {
-// The reply of a row: 0 none (an empty record), 1 a field or a layout, 2 a
-// reply kind of the dialogue (not a message of the core).
-template <typename Row>
-struct reply_kind
-    : std::integral_constant<
-          int,
-          std::is_same<typename Row::reply_type, dsl::no_reply>::value
-              ? 0
-              : (field::is_field<typename Row::reply_type>::value ? 1 : 2)>
-{
-};
-
+// A reply the core decodes (a field, a layout, or none): the sample reply
+// message.
 template <typename P, typename Row>
 void
-expect_reply (field::decode_context_t const *context,
-              std::integral_constant<int, 0>)
-{
-  bytes_t header;
-  ASSERT_TRUE ((layout::encode_header<P, Row> (header, context).has_value ()));
-  bytes_t message;
-  ASSERT_TRUE ((layout::encode_reply_message<P, Row> (
-                    message, field::record<> (), context)
-                    .has_value ()))
-      << P::protocol_name () << "." << Row::identifier ();
-  expect_message_of_row<P, Row> (message, header.size (),
-                                 index::frame_direction::rx, context);
-}
-
-template <typename P, typename Row>
-void
-expect_reply (field::decode_context_t const *context,
-              std::integral_constant<int, 1>)
+expect_reply (field::decode_context_t const *context, std::true_type)
 {
   bytes_t header;
   ASSERT_TRUE ((layout::encode_header<P, Row> (header, context).has_value ()));
   bytes_t message;
   layout::encode_result_t const encoded
-      = layout::encode_reply_message<P, Row> (
-          message, field::sample_value<typename Row::reply_type> (), context);
+      = layout::sample_reply_message<P, Row> (message, context);
   ASSERT_TRUE (encoded.has_value ())
       << P::protocol_name () << "." << Row::identifier ()
       << ": the sample reply does not encode: " << encoded.error ().message ();
@@ -137,10 +126,30 @@ expect_reply (field::decode_context_t const *context,
                                  index::frame_direction::rx, context);
 }
 
+// A reply kind of the dialogue: the message of the key alone reaches the
+// visitor of the row as it is, and its fields are empty.
 template <typename P, typename Row>
 void
-expect_reply (field::decode_context_t const *, std::integral_constant<int, 2>)
+expect_reply (field::decode_context_t const *context, std::false_type)
 {
+  using layout_type = typename layout::layout_of<P>::type;
+  bytes_t message;
+  ASSERT_TRUE (
+      (layout::encode_header<P, Row> (message, context).has_value ()));
+  typename layout_type::writer writer (message, context);
+  ASSERT_TRUE (layout_type::template write_prefix<Row> (writer));
+  dispatch_record<P> seen;
+  seen.context = context;
+  EXPECT_FALSE ((layout::dispatch_message<P> (
+      view_of (message), index::frame_direction::rx, seen, context)))
+      << P::protocol_name () << "." << Row::identifier ();
+  EXPECT_EQ (seen.row, Row::identifier ()) << P::protocol_name ();
+  EXPECT_EQ (seen.call, "reply message");
+  EXPECT_EQ (seen.again, message);
+  layout::decode_result_t<layout::bytes_view_t> const fields
+      = layout::message_fields<P> (view_of (message));
+  ASSERT_TRUE (fields.has_value ());
+  EXPECT_EQ (fields->size (), 0u);
 }
 
 template <typename P, typename Row>
@@ -165,7 +174,7 @@ expect_row (field::decode_context_t const *context)
              header);
   expect_message_of_row<P, Row> (message, header.size (),
                                  index::frame_direction::tx, context);
-  expect_reply<P, Row> (context, reply_kind<Row> ());
+  expect_reply<P, Row> (context, layout::has_core_reply<Row> ());
 }
 
 template <typename P, typename List> struct each_row;
