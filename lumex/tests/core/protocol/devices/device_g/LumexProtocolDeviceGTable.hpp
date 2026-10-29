@@ -101,7 +101,9 @@ LUMEX_PROTOCOL_EXTEND (device_g, family_g, DEVICE_G_ROWS);
 /// length counts the command and the arguments, the commands are letters.
 struct old_header
 {
-  using key_reader = index::key_at<1, 1>;
+  // The length byte is the length-prefix codec's: the message starts with
+  // the command.
+  using key_reader = index::key_at<0, 1>;
   static LUMEX_CONSTEXPR std::size_t key_width = 1;
 };
 

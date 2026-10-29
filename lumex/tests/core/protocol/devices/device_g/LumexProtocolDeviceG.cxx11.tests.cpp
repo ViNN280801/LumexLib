@@ -136,6 +136,14 @@ old_frame (char letter, std::initializer_list<int> arguments)
   out.insert (out.end (), tail.begin (), tail.end ());
   return out;
 }
+
+// The message of a frame of the older protocol: what the length-prefix codec
+// delivers, the frame without its length byte.
+layout::bytes_t
+old_message (layout::bytes_t const &frame)
+{
+  return layout::bytes_t (frame.begin () + 1, frame.end ());
+}
 } // namespace
 
 TEST (
@@ -306,15 +314,15 @@ TEST (
   expect_reply_round_trip<old_protocol, old_protocol::letter_a_t> (a_reply);
   expect_request_round_trip<old_protocol, old_protocol::letter_b_t> (b_both);
   expect_request_round_trip<old_protocol, old_protocol::letter_b_t> (b_none);
-  EXPECT_EQ (tx<old_protocol> (a_request),
+  EXPECT_EQ (tx<old_protocol> (old_message (a_request)),
              "TX old_g.letter_a (Letter command A)");
-  EXPECT_EQ (rx<old_protocol> (a_reply),
+  EXPECT_EQ (rx<old_protocol> (old_message (a_reply)),
              "RX old_g.letter_a (Letter command A) reply={first=true "
              "second=false}");
-  EXPECT_EQ (tx<old_protocol> (b_both),
+  EXPECT_EQ (tx<old_protocol> (old_message (b_both)),
              "TX old_g.letter_b (Letter command B) groups={first=true "
              "second=true}");
-  EXPECT_EQ (tx<old_protocol> (b_none),
+  EXPECT_EQ (tx<old_protocol> (old_message (b_none)),
              "TX old_g.letter_b (Letter command B) groups={first=false "
              "second=false}");
   layout::bytes_t out;
@@ -330,6 +338,6 @@ TEST (
     LumexProtocolDeviceGTest,
     GivenAFrameWithAKeyThatIsNoLetterOfTheTable_WhenDescribed_ThenItIsUnknown)
 {
-  EXPECT_EQ (tx<old_protocol> (old_frame ('X', {})),
-             "TX unknown key=0x58 len=2: 01 58");
+  EXPECT_EQ (tx<old_protocol> (old_message (old_frame ('X', {}))),
+             "TX unknown key=0x58 len=1: 58");
 }
