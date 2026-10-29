@@ -31,7 +31,12 @@
  * };` plus four `constexpr` companions declared right next to it -
  *          `EnumNameValues` (a `std::array` of every enumerator, in
  *          declaration order), `EnumNameFirst`, `EnumNameSize`, and
- *          `EnumNameLast` - and a `to_string(EnumName)` function.
+ *          `EnumNameLast` - a `to_string(EnumName)` function and a
+ *          `lumex_enum_values(EnumName)` function that returns the same
+ *          array as `EnumNameValues`. Generic code reaches the last two by
+ *          argument-dependent lookup (`lumex_enum_values (E ())`) without
+ *          knowing the name of the enumeration; at class scope they are
+ *          static members, which that lookup does not find.
  */
 #ifndef LUMEX_CORE_REFLECTION_REFLECTED_ENUM_HPP
 #define LUMEX_CORE_REFLECTION_REFLECTED_ENUM_HPP
@@ -274,7 +279,12 @@ last_of (T, Next next, Rest... rest) LUMEX_NOEXCEPT
     LUMEX_PP_CAT(EnumName, Values).size();                                                           \
   LUMEX_ATTRIBUTE_MAYBE_UNUSED LUMEX_PP_ENUM_CONSTANT EnumName LUMEX_PP_CAT(EnumName, Last) =                          \
     ::lumex::core::reflection::reflected_enum::detail::last_of(                                      \
-      LUMEX_PP_FOR_EACH_ARG(LUMEX_PP_ENUM_VALUE, EnumName, __VA_ARGS__));
+      LUMEX_PP_FOR_EACH_ARG(LUMEX_PP_ENUM_VALUE, EnumName, __VA_ARGS__));                            \
+  LUMEX_ATTRIBUTE_MAYBE_UNUSED static LUMEX_CONSTEXPR std::array<EnumName, LUMEX_PP_ARG_COUNT(__VA_ARGS__)>            \
+    lumex_enum_values(EnumName) LUMEX_NOEXCEPT                                                       \
+  {                                                                                                  \
+    return { { LUMEX_PP_FOR_EACH_ARG(LUMEX_PP_ENUM_VALUE, EnumName, __VA_ARGS__) } };                \
+  }
 
 #define LUMEX_PP_ENUM_TO_STRING_CASE(enumerator, str) \
   case LumexToStringEnum_::enumerator:                \
