@@ -1,8 +1,9 @@
 // Every public header of the transport and every token style in one
 // translation unit, built with strict warnings (see CMakeLists.txt). At run
 // time a mock stream and a mock datagram answer each style once, directly and
-// through a session (stream_session, message_session); exit code 0 when every
-// exchange returned what was fed, 1 otherwise. With the logger adapter
+// through a session (stream_session, message_session), and a steady and a
+// virtual timer wait with each token style; exit code 0 when every exchange
+// returned what was fed, 1 otherwise. With the logger adapter
 // (LUMEX_TRANSPORT_WITH_LOGGER) the run goes through the LumexLogger sink and
 // a lumex_logger_watch_timer. With the framing module
 // (LUMEX_TRANSPORT_WITH_FRAMING) every token style also runs through
@@ -455,6 +456,53 @@ session_round (tr::stream::io_runner &runner)
   messages.async_send (message, asio::use_future).get ();
   return fine;
 }
+// The timer seam: a steady timer with each token style (a callback, a
+// future, a deferred wait, cancel_after started in its strand) and a timer of
+// the virtual clock, advanced by hand and through run_until.
+bool
+timer_round (tr::stream::io_runner &runner)
+{
+  namespace ttime = tr::time;
+  using ms = std::chrono::milliseconds;
+  ttime::timer steady = ttime::steady_timer_source ().make_timer (
+      asio::make_strand (runner.get_executor ()));
+  std::promise<std::error_code> called;
+  steady.async_wait_for (ms (1), [&called] (std::error_code error)
+                           { called.set_value (error); });
+  bool fine = !called.get_future ().get ();
+  steady.async_wait_for (ms (1), asio::use_future).get ();
+  auto deferred = steady.async_wait_until (steady.now (), asio::deferred);
+  std::move (deferred) (asio::use_future).get ();
+  std::promise<std::error_code> cut;
+  asio::post (steady.get_executor (),
+              [&steady, &cut] ()
+                {
+                  steady.async_wait_for (
+                      ms (60000),
+                      asio::cancel_after (ms (1), [&cut] (std::error_code e)
+                                            { cut.set_value (e); }));
+                });
+  fine = cut.get_future ().get () == tr::error::transport_errc::cancelled
+         && fine;
+
+  tr::testing::virtual_clock clock;
+  ttime::timer virtual_timer = clock.source ().make_timer (
+      asio::make_strand (runner.get_executor ()));
+  std::future<void> waited
+      = virtual_timer.async_wait_for (ms (100), asio::use_future);
+  fine = clock.advance (ms (100)) == 1 && fine;
+  waited.get ();
+  asio::io_context context;
+  ttime::timer polled = clock.source ().make_timer (context.get_executor ());
+  bool ended = false;
+  polled.async_wait_for (ms (50),
+                         [&ended] (std::error_code error) { ended = !error; });
+  fine = tr::testing::run_until (
+             context, clock, [&ended] { return ended; }, ms (1000))
+         && fine;
+  return fine;
+}
+
 #if defined(LUMEX_TRANSPORT_WITH_HID)
 // --- the HID transport (hid_device over hidapi)
 // ------------------------------
@@ -527,6 +575,7 @@ main ()
 #endif
   fine = datagram_round (runner) && fine;
   fine = session_round (runner) && fine;
+  fine = timer_round (runner) && fine;
 #if defined(LUMEX_TRANSPORT_WITH_FRAMING)
   fine = framed_round (runner) && fine;
 #endif
