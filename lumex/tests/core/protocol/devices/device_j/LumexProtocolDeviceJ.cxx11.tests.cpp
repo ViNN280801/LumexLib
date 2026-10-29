@@ -97,13 +97,12 @@ expect_wire_frame (std::string const &digits)
   EXPECT_EQ (wire.substr (wire.size () - 3, 2), xor_text (digits));
 }
 
-// The frame of a report: the length of what follows it, the command, the
-// bytes.
+// The message of a report: the command, the bytes (the length of what
+// follows, before them, is the report codec's).
 layout::bytes_t
 report_frame (std::uint8_t key, layout::bytes_t const &payload)
 {
-  layout::bytes_t out
-      = bytes ({ static_cast<int> (payload.size ()) + 1, key });
+  layout::bytes_t out = bytes ({ key });
   out.insert (out.end (), payload.begin (), payload.end ());
   return out;
 }
@@ -164,7 +163,7 @@ expect_request_in_both_layers (std::uint8_t key,
   EXPECT_EQ (described<text> (digits_frame (key, payload),
                               index::frame_direction::tx),
              renamed (line));
-  EXPECT_EQ (index_of<hid> ().match (view_of (report)).payload_offset, 2u);
+  EXPECT_EQ (index_of<hid> ().match (view_of (report)).payload_offset, 1u);
   EXPECT_EQ (index_of<text> ()
                  .match (view_of (digits_frame (key, payload)))
                  .payload_offset,
@@ -263,8 +262,8 @@ TEST (
 {
   layout::bytes_t const payload = with_status (0x00, settings_bytes ());
   layout::bytes_t const report = report_frame (0x8D /*@r04*/, payload);
-  EXPECT_EQ (report[0], 37);
-  EXPECT_EQ (report.size (), 38u);
+  // The length byte of the report codec counts these 37 bytes.
+  EXPECT_EQ (report.size (), 37u);
   EXPECT_EQ (settings_bytes ().size (), 35u);
   expect_request_in_both_layers<text::param_get_8d_t> (
       0x8D /*@r04*/, layout::bytes_t (),
@@ -350,17 +349,20 @@ TEST (LumexProtocolDeviceJTest,
 
 TEST (
     LumexProtocolDeviceJTest,
-    GivenAStatusByteWithAValueOutsideTheEnumeration_WhenDescribed_ThenTheNumberIsShownInBothLayers)
+    GivenAStatusByteWithAValueOutsideTheEnumeration_WhenDescribed_ThenItIsADecodeErrorInBothLayers)
 {
-  // A nibble part is not a strict enumeration: the value decodes and the log
-  // shows it as a number.
+  // A nibble part of a reflected enumeration is strict, as enum_ is: the
+  // value is refused and the log shows the decode error.
   layout::bytes_t const odd = bytes ({ 0x73 });
-  EXPECT_FALSE ((reply_error<hid, hid::report_ac_t> (odd)));
-  EXPECT_FALSE ((reply_error<text, text::report_ac_t> (bytes_of ("73"))));
-  EXPECT_EQ (described<hid> (report_frame (0xAC /*@r04*/, odd),
-                             index::frame_direction::rx),
-             "RX j_hid.report_ac (Report the state) "
-             "status={result=7 state=s_3}");
+  EXPECT_TRUE ((reply_error<hid, hid::report_ac_t> (odd)
+                == protocol_errc::invalid_value));
+  EXPECT_TRUE ((reply_error<text, text::report_ac_t> (bytes_of ("73"))
+                == protocol_errc::invalid_value));
+  std::string const line = described<hid> (report_frame (0xAC /*@r04*/, odd),
+                                           index::frame_direction::rx);
+  EXPECT_EQ (line.substr (0, line.find (" len=")),
+             "RX j_hid.report_ac (Report the state) [decode error: field "
+             "value the field type cannot represent]");
 }
 
 TEST (
@@ -387,9 +389,8 @@ TEST (
 TEST (LumexProtocolDeviceJTest,
       GivenAFrameOfAnotherKey_WhenDescribed_ThenItIsUnknownInBothLayers)
 {
-  EXPECT_EQ (
-      described<hid> (bytes ({ 0x01, 0x77 }), index::frame_direction::tx),
-      "TX unknown key=0x77 len=2: 01 77");
+  EXPECT_EQ (described<hid> (bytes ({ 0x77 }), index::frame_direction::tx),
+             "TX unknown key=0x77 len=1: 77");
   EXPECT_EQ (described<text> (bytes_of ("77"), index::frame_direction::tx),
              "TX unknown key=0x77 len=2: 37 37");
 }
