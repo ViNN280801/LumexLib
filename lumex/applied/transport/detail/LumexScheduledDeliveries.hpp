@@ -46,14 +46,15 @@
  * the wait ends in time the owner's `deliver_scheduled (id)` is called on the
  * timer's strand. The wait handler holds the owner only weakly, so a mock that
  * is gone takes its deliveries with it. The class is not thread-safe: the
- * owner guards it with its own mutex.
+ * owner guards `add`, `attach`, `remove` and `take` with its own mutex;
+ * `start` is static and needs no lock.
  */
 #ifndef LUMEX_APPLIED_TRANSPORT_DETAIL_SCHEDULED_DELIVERIES_HPP
 #define LUMEX_APPLIED_TRANSPORT_DETAIL_SCHEDULED_DELIVERIES_HPP
 
 #include <chrono>
 #include <cstdint>
-#include <list>
+#include <map>
 #include <memory>
 #include <system_error>
 #include <utility>
@@ -75,47 +76,65 @@ namespace transport
 namespace detail
 {
 /// @brief The deliveries of one mock, each an `Item` waiting on its timer.
+/// @details Scheduling takes three steps so that the owner makes the timer
+/// and starts the wait outside its lock: `add` (under the lock) reserves the
+/// id and keeps the item, `start` (no lock) makes the timer and starts the
+/// wait, `attach` (under the lock) hands the timer to the delivery. A wait
+/// that ends before `attach` finds the delivery by its id and takes it; the
+/// timer `attach` then gets is dropped by the caller.
 template <typename Owner, typename Item> class scheduled_deliveries
 {
 public:
   /// @brief One delivery: the wait and what to deliver.
-  struct entry
+  struct entry_t
   {
-    entry (std::uint64_t entry_id, timing::timer entry_timer, Item entry_item)
-        : id (entry_id), timer (std::move (entry_timer)),
-          item (std::move (entry_item))
-    {
-    }
+    explicit entry_t (Item entry_item) : item (std::move (entry_item)) {}
 
-    std::uint64_t id;
     timing::timer timer;
     Item item;
   };
 
-  using entries_t = std::list<entry>;
+  using entries_t = std::map<std::uint64_t, entry_t>;
 
   scheduled_deliveries () : last_id_ (0) {}
 
-  /// @brief Starts the wait of `delay` on `timers` (the timer is made for
-  /// `executor`, the strand of the owner).
-  void
-  schedule (std::shared_ptr<Owner> const &owner,
-            timing::timer_source const &timers, executor_type const &executor,
-            std::chrono::milliseconds delay, Item item)
+  /// @brief Keeps `item` for a delivery and returns its id (under the
+  /// owner's lock).
+  std::uint64_t
+  add (Item item)
   {
     std::uint64_t const id = ++last_id_;
-    entries_.push_back (
-        entry (id, timers.make_timer (executor), std::move (item)));
-    try
-      {
-        entries_.back ().timer.async_wait_for (delay,
-                                               fire_handler (owner, id));
-      }
-    catch (...)
-      {
-        entries_.pop_back ();
-        throw;
-      }
+    entries_.insert (std::make_pair (id, entry_t (std::move (item))));
+    return id;
+  }
+
+  /// @brief Makes the timer for `executor` (the strand of the owner) and
+  /// starts the wait of `delay` for the delivery `id` (no lock held).
+  static timing::timer
+  start (std::shared_ptr<Owner> const &owner,
+         timing::timer_source const &timers, executor_type const &executor,
+         std::chrono::milliseconds delay, std::uint64_t id)
+  {
+    timing::timer timer = timers.make_timer (executor);
+    timer.async_wait_for (delay, fire_handler_t (owner, id));
+    return timer;
+  }
+
+  /// @brief Gives the started timer to the delivery `id` (under the owner's
+  /// lock); the timer stays with the caller when the delivery is gone.
+  void
+  attach (std::uint64_t id, timing::timer &timer)
+  {
+    typename entries_t::iterator const it = entries_.find (id);
+    if (it != entries_.end ())
+      it->second.timer = std::move (timer);
+  }
+
+  /// @brief Forgets the delivery `id` (its wait never started).
+  void
+  remove (std::uint64_t id)
+  {
+    entries_.erase (id);
   }
 
   /// @brief Takes the delivery `id` out: its item, and its timer so that the
@@ -123,26 +142,22 @@ public:
   bool
   take (std::uint64_t id, Item &item, timing::timer &timer)
   {
-    for (typename entries_t::iterator it = entries_.begin ();
-         it != entries_.end (); ++it)
-      {
-        if (it->id != id)
-          continue;
-        item = std::move (it->item);
-        timer = std::move (it->timer);
-        entries_.erase (it);
-        return true;
-      }
-    return false;
+    typename entries_t::iterator const it = entries_.find (id);
+    if (it == entries_.end ())
+      return false;
+    item = std::move (it->second.item);
+    timer = std::move (it->second.timer);
+    entries_.erase (it);
+    return true;
   }
 
 private:
   // The end of a wait: delivered when the time came, ignored when the wait
-  // was cancelled (the timer died with its delivery).
-  struct fire_handler
+  // was cancelled (the clock was destroyed).
+  struct fire_handler_t
   {
-    fire_handler (std::shared_ptr<Owner> const &owner_ptr,
-                  std::uint64_t entry_id)
+    fire_handler_t (std::shared_ptr<Owner> const &owner_ptr,
+                    std::uint64_t entry_id)
         : owner (owner_ptr), id (entry_id)
     {
     }
