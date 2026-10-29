@@ -143,7 +143,8 @@ struct pair_header
      ()) \
   X (PING, 0x05, "Liveness", (), (), (), ()) \
   X (LAMP, 0x07, "Lamp", (enum_<u8_, lamp>), ("lamp"), (enum_<u8_, lamp>), \
-     ())
+     ()) \
+  X (NAME, 0x09, "Name", (text_<4>, u8_), ("name", "slot"), (), ())
 #define PAIR_ROWS(X, X_AS) \
   X (READ, pair_key (3, 4), "Read", (u16_be_, u8_), ("value", "channel"), \
      (u8_), ()) \
@@ -175,6 +176,7 @@ using lumex::core::protocol::error::protocol_errc;
 using set_row = tables::first::SET_t;
 using ping_row = tables::first::PING_t;
 using lamp_row = tables::first::LAMP_t;
+using name_row = tables::first::NAME_t;
 
 layout::bytes_view_t
 view_of (layout::bytes_t const &bytes)
@@ -610,4 +612,71 @@ TEST (LumexProtocolMessageTest,
   EXPECT_FALSE ((index::key_at<0, 2>::write (out, text)));
   EXPECT_FALSE ((index::key_at_digits<0, 2, 16>::write (out, text)));
   EXPECT_EQ (out, (layout::bytes_t{ 0xEE }));
+}
+
+TEST (
+    LumexProtocolMessageTest,
+    GivenASessionBeforeTheArguments_WhenTheMessageIsEncoded_ThenTheHeaderReadsItAndTheArgumentsAreTheFields)
+{
+  address_session const session = { 0x2A };
+  field::decode_context_t const context = session.context ();
+  layout::bytes_t out;
+  ASSERT_TRUE ((layout::encode_message<tables::addressed, set_row> (
+                    out, context, 0x1234, 7)
+                    .has_value ()));
+  EXPECT_EQ (out, (layout::bytes_t{ 0x2A, 0x21, 0x12, 0x34, 0x07 }));
+  // A row without fields takes the session alone.
+  layout::bytes_t ping;
+  ASSERT_TRUE (
+      (layout::encode_message<tables::addressed, ping_row> (ping, context)
+           .has_value ()));
+  EXPECT_EQ (ping, (layout::bytes_t{ 0x2A, 0x05 }));
+  // The session of the index, through its decode context.
+  index::session_context_t known;
+  known.set ("address", 0x11);
+  layout::bytes_t again;
+  ASSERT_TRUE ((layout::encode_message<tables::addressed, set_row> (
+                    again, known.decode_context (), 0x1234, 7)
+                    .has_value ()));
+  EXPECT_EQ (again, (layout::bytes_t{ 0x11, 0x21, 0x12, 0x34, 0x07 }));
+  // A field that does not fit is refused with the session too.
+  layout::bytes_t refused{ 0xEE };
+  layout::encode_result_t const result
+      = layout::encode_message<tables::addressed, set_row> (refused, context,
+                                                            0x10000, 7);
+  ASSERT_FALSE (result.has_value ());
+  EXPECT_TRUE (result.error () == protocol_errc::invalid_value);
+  EXPECT_EQ (refused, (layout::bytes_t{ 0xEE }));
+}
+
+TEST (
+    LumexProtocolMessageTest,
+    GivenARowWhoseFirstFieldIsAText_WhenEncodedWithAndWithoutASession_ThenTheFirstArgumentChoosesTheOverload)
+{
+  layout::bytes_t const expected{ 0x00, 0x00, 0x00, 0x09, 'A',
+                                  'B',  0x00, 0x00, 0x03 };
+  layout::bytes_t plain;
+  ASSERT_TRUE (
+      (layout::encode_message<tables::after, name_row> (plain, "AB", 3)
+           .has_value ()));
+  EXPECT_EQ (plain, expected);
+  layout::bytes_t view;
+  ASSERT_TRUE ((layout::encode_message<tables::after, name_row> (
+                    view, field::text_view ("AB"), 3)
+                    .has_value ()));
+  EXPECT_EQ (view, expected);
+  address_session const session = { 0x2A };
+  field::decode_context_t const context = session.context ();
+  layout::bytes_t with_session;
+  ASSERT_TRUE ((layout::encode_message<tables::after, name_row> (
+                    with_session, context, "AB", 3)
+                    .has_value ()));
+  EXPECT_EQ (with_session, expected);
+  // The session reaches the header of a layer that reads it.
+  layout::bytes_t addressed;
+  ASSERT_TRUE ((layout::encode_message<tables::addressed, name_row> (
+                    addressed, context, "AB", 3)
+                    .has_value ()));
+  EXPECT_EQ (addressed,
+             (layout::bytes_t{ 0x2A, 0x09, 'A', 'B', 0x00, 0x00, 0x03 }));
 }

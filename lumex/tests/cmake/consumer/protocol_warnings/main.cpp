@@ -258,6 +258,11 @@ check_messages (field::decode_context_t const &context)
   failures += failed (
       layout::encode_message<P, typename P::READ_KINDS_t> (request, 7)
           .has_value ());
+  layout::bytes_t with_session;
+  failures += failed (layout::encode_message<P, typename P::READ_KINDS_t> (
+                          with_session, context, 7)
+                          .has_value ()
+                      && with_session == request);
   layout::bytes_t reply;
   failures
       += failed (layout::encode_reply_message<P, typename P::READ_KINDS_t> (
