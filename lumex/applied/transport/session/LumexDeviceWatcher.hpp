@@ -94,6 +94,7 @@
 #include "lumex/applied/transport/session/LumexSessionSelectors.hpp"
 #include "lumex/applied/transport/session/LumexSessionTypes.hpp"
 #include "lumex/applied/transport/stream/LumexStreamTypes.hpp"
+#include "lumex/applied/transport/time/LumexTimerSource.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 
 #if defined(LUMEX_TRANSPORT_WITH_HID)
@@ -162,6 +163,21 @@ using hid_device_callback_t = std::function<void (hid_device_event_t const &)>;
 
 class device_watcher_impl;
 
+/// @brief The settings of a `device_watcher`.
+struct device_watcher_options_t
+{
+  /// The time between two polls (at least 1 ms).
+  std::chrono::milliseconds period = std::chrono::milliseconds (1000);
+  /// The serial listing; empty: `default_serial_enumeration ()`.
+  serial_enumeration_t enumeration;
+  /// The HID listing; empty: `hid::default_hid_enumeration ()` (ignored
+  /// without `LUMEX_TRANSPORT_WITH_HID`).
+  hid::hid_enumeration_t hid_enumeration;
+  /// The clock of the period; the default is `time::steady_timer_source ()`
+  /// (real time), a test gives the source of a `testing::virtual_clock`.
+  time::timer_source timers;
+};
+
 /// @brief Polls the serial ports and the HID devices (see the file
 /// description).
 class device_watcher
@@ -179,6 +195,10 @@ public:
       std::chrono::milliseconds period = std::chrono::milliseconds (1000),
       serial_enumeration_t enumeration = serial_enumeration_t (),
       hid::hid_enumeration_t hid_enumeration = hid::hid_enumeration_t ());
+
+  /// @brief Starts polling with `options` (see `device_watcher_options_t`).
+  device_watcher (executor_type const &executor,
+                  device_watcher_options_t options);
 
   /// @brief Stops; no callback runs after it returns.
   ~device_watcher ();
