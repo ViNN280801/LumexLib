@@ -904,6 +904,45 @@ TEST (
   EXPECT_EQ (descriptors_to (pty.slave ()), before);
 }
 
+// A parked open that is cancelled gives the worker's wake-up reference back:
+// the stream is freed while the worker still blocks.
+TEST (
+    LumexSerialStreamTest,
+    GivenAnOpenParkedBehindAnAbandonedOne_WhenItIsCancelledAndTheStreamDestroyed_ThenTheStreamIsFreedWhileTheWorkerBlocks)
+{
+  test_pty pty;
+  if (!pty.ok ())
+    GTEST_SKIP () << "no pseudoterminal";
+  std::size_t const before = descriptors_to (pty.slave ());
+  open_fixture fixture (pty.slave ());
+  release_on_exit const leave = { *fixture.resolver };
+  int calls = 0;
+  fixture.stream->async_open ([&calls] (std::error_code) { ++calls; });
+  fixture.context->poll ();
+  ASSERT_TRUE (fixture.resolver->wait_entered ());
+  fixture.stream->cancel ();
+  fixture.context->restart ();
+  fixture.context->poll ();
+  fixture.stream->async_open ([&calls] (std::error_code) { ++calls; });
+  fixture.context->restart ();
+  fixture.context->poll ();
+  EXPECT_EQ (calls, 1);
+  fixture.stream->cancel ();
+  fixture.context->restart ();
+  fixture.context->poll ();
+  EXPECT_EQ (calls, 2);
+  fixture.stream.reset ();
+  fixture.context->restart ();
+  fixture.context->poll ();
+  EXPECT_TRUE (fixture.impl.expired ())
+      << "the parked open left the worker a reference to the stream";
+  fixture.resolver->release ();
+  EXPECT_TRUE (eventually ([&fixture] ()
+                             { return fixture.resolver.use_count () == 1; }));
+  EXPECT_EQ (fixture.resolver->entries (), 1u);
+  EXPECT_EQ (descriptors_to (pty.slave ()), before);
+}
+
 // An open parked behind an abandoned one dies with the context.
 TEST (
     LumexSerialStreamTest,
