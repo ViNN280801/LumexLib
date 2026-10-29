@@ -8,6 +8,7 @@
 // runtime's shutdown and the destruction of the context while an abandoned
 // open runs stay correct. The devices are synthetic.
 
+#include <atomic>
 #include <chrono>
 #include <condition_variable>
 #include <cstddef>
@@ -16,6 +17,7 @@
 #include <future>
 #include <memory>
 #include <mutex>
+#include <stdexcept>
 #include <string>
 #include <system_error>
 #include <thread>
@@ -245,6 +247,37 @@ error_of (std::future<std::error_code> &future)
 {
   return future.get ();
 }
+
+// A seam whose open_path throws once, after the inner seam opened the device
+// (a defective hidapi or std::bad_alloc inside the open's task).
+class throwing_once_seam final : public hid::detail::hidapi_seam
+{
+public:
+  explicit throwing_once_seam (std::shared_ptr<fake_seam> inner)
+      : inner_ (std::move (inner)), throws_ (1)
+  {
+  }
+
+  std::vector<hid::hid_device_info_t>
+  enumerate (std::uint16_t vendor_id, std::uint16_t product_id) override
+  {
+    return inner_->enumerate (vendor_id, product_id);
+  }
+
+  std::unique_ptr<hid::detail::hidapi_handle>
+  open_path (std::string const &path, std::error_code &error) override
+  {
+    std::unique_ptr<hid::detail::hidapi_handle> handle
+        = inner_->open_path (path, error);
+    if (throws_.exchange (0) == 1)
+      throw std::runtime_error ("the seam throws once");
+    return handle;
+  }
+
+private:
+  std::shared_ptr<fake_seam> inner_;
+  std::atomic<int> throws_;
+};
 
 // A device on a context nobody runs but the test (`poll`), so that the
 // context can be destroyed, or a step kept waiting in it, while the
@@ -1020,4 +1053,126 @@ TEST_F (
   EXPECT_TRUE (eventually ([&impl] () { return impl.expired (); }));
   EXPECT_TRUE (eventually (
       [] () { return hid::hid_runtime::stats ().reader_threads == 0; }));
+}
+
+// ---- a task that throws
+// -------------------------------------------------------
+
+// The step of an open ends its piece of work whatever the task did.
+TEST_F (
+    LumexHidOpenDeadlineTest,
+    GivenAnOpenTaskThatThrows_WhenOpened_ThenTheOpenFailsAndTheDeviceIsFreed)
+{
+  std::shared_ptr<fake_device> const device = add ("fake-a");
+  std::shared_ptr<throwing_once_seam> const seam
+      = std::make_shared<throwing_once_seam> (seam_);
+  hid::hid_options_t options;
+  options.path = "fake-a";
+  std::weak_ptr<tr::datagram::message_impl> impl;
+  {
+    hid::hid_device transport = hid::detail::make_hid_device_with (
+        seam, runner_.get_executor (), options);
+    impl = transport.impl ();
+    std::future<std::error_code> opened = open_async (transport);
+    ASSERT_EQ (opened.wait_for (std::chrono::seconds (2)),
+               std::future_status::ready);
+    EXPECT_TRUE (error_of (opened));
+    EXPECT_FALSE (transport.is_open ());
+    // The device opens afterwards.
+    EXPECT_TRUE (transport.open (deadline_t (2000)).has_value ());
+  }
+  EXPECT_TRUE (eventually ([&impl] () { return impl.expired (); }));
+}
+
+// An abandoned task that throws leaves no step: the open that waits for it
+// would wait for ever.
+TEST_F (
+    LumexHidOpenDeadlineTest,
+    GivenAnAbandonedTaskThatThrows_WhenTheDeviceOpensAgain_ThenItOpensAndTheDeviceIsFreed)
+{
+  std::shared_ptr<fake_device> const device = add ("fake-a");
+  device->set_hold_open (true);
+  std::shared_ptr<throwing_once_seam> const seam
+      = std::make_shared<throwing_once_seam> (seam_);
+  hid::hid_options_t options;
+  options.path = "fake-a";
+  std::weak_ptr<tr::datagram::message_impl> impl;
+  {
+    hid::hid_device transport = hid::detail::make_hid_device_with (
+        seam, runner_.get_executor (), options);
+    impl = transport.impl ();
+    backstop const guard (KBACKSTOP_MS,
+                          [&device] () { device->set_hold_open (false); });
+    std::future<std::error_code> first = open_async (transport);
+    ASSERT_TRUE (
+        device->wait_for ([&device] () { return device->open_waiting; }));
+    transport.cancel ();
+    ASSERT_EQ (first.wait_for (std::chrono::seconds (1)),
+               std::future_status::ready);
+    EXPECT_TRUE (error_of (first) == transport_errc::cancelled);
+    device->set_hold_open (false);
+    EXPECT_TRUE (eventually (
+        [] () { return hid::hid_runtime::stats ().pending_tasks == 0; }));
+    tr::status_result_t const again = transport.open (deadline_t (1000));
+    EXPECT_TRUE (again.has_value ());
+    EXPECT_TRUE (transport.is_open ());
+  }
+  EXPECT_TRUE (eventually ([&impl] () { return impl.expired (); }));
+}
+
+TEST_F (LumexHidOpenDeadlineTest,
+        GivenAWriteTaskThatThrows_WhenSent_ThenTheSendFailsAndTheNextOneWorks)
+{
+  std::shared_ptr<fake_device> const device = add ("fake-a");
+  std::weak_ptr<tr::datagram::message_impl> impl;
+  {
+    hid::hid_device transport = make ("fake-a");
+    impl = transport.impl ();
+    ASSERT_TRUE (transport.open (deadline_t (2000)).has_value ());
+    {
+      std::lock_guard<std::mutex> const lock (device->mutex);
+      device->throw_next_write = true;
+    }
+    tr::status_result_t const failed
+        = transport.send (message (0, { 1 }), deadline_t (2000));
+    ASSERT_FALSE (failed.has_value ());
+    EXPECT_FALSE (failed.error () == transport_errc::timeout)
+        << failed.error ();
+    EXPECT_TRUE (
+        transport.send (message (0, { 2 }), deadline_t (2000)).has_value ());
+    EXPECT_EQ (device->written ().size (), 1u);
+  }
+  EXPECT_TRUE (eventually ([&impl] () { return impl.expired (); }));
+}
+
+// ---- no thread for the task
+// ---------------------------------------------------
+
+// The open's task is not left in the queue when no worker could start for it:
+// the caller saw the failure, so the device must not open later.
+TEST_F (
+    LumexHidOpenDeadlineTest,
+    GivenNoWorkerThreadCanStart_WhenOpened_ThenTheOpenFailsAndTheTaskIsNotLeftToRun)
+{
+  std::shared_ptr<fake_device> const device = add ("fake-a");
+  ASSERT_TRUE (hid::hid_runtime::shutdown (deadline_t (2000)));
+  ASSERT_EQ (hid::hid_runtime::stats ().worker_threads, 0u);
+  std::weak_ptr<tr::datagram::message_impl> impl;
+  {
+    hid::hid_device transport = make ("fake-a");
+    impl = transport.impl ();
+    hid::detail::hid_runtime_core::instance ().fail_next_thread_starts (1);
+    std::future<std::error_code> failed = open_async (transport);
+    ASSERT_EQ (failed.wait_for (std::chrono::seconds (2)),
+               std::future_status::ready);
+    EXPECT_TRUE (error_of (failed)
+                 == std::errc::resource_unavailable_try_again);
+    EXPECT_EQ (hid::hid_runtime::stats ().pending_tasks, 0u);
+    // The next open starts a worker; the failed one's task must not run.
+    ASSERT_TRUE (transport.open (deadline_t (2000)).has_value ());
+    EXPECT_EQ (device->opens, 1u);
+  }
+  EXPECT_TRUE (eventually ([&impl] () { return impl.expired (); }));
+  EXPECT_TRUE (
+      device->wait_for ([&device] () { return device->closes == 1; }));
 }

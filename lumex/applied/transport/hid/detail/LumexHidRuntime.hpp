@@ -209,10 +209,13 @@ public:
   void release (std::size_t reference) LUMEX_NOEXCEPT;
 
   bool shutdown (deadline_t deadline);
-  /// @brief A seam for tests: `hook` runs once on the thread of the next
+  /// @brief For tests only: `hook` runs once on the thread of the next
   /// `shutdown`, without a lock, right after the workers were told to quit
   /// and before they are joined (empty: none).
   void set_shutdown_hook (task_t hook);
+  /// @brief For tests only: the next `count` attempts to start a worker
+  /// thread fail with `std::errc::resource_unavailable_try_again`.
+  void fail_next_thread_starts (int count);
   void abandon () LUMEX_NOEXCEPT;
   hid_runtime_stats_t stats ();
 
@@ -228,6 +231,7 @@ private:
     std::weak_ptr<hid_connection> connection;
   };
 
+  void start_worker ();
   void run_reader (task_t const &body);
   void housekeeping_main ();
   void worker_main ();
@@ -253,6 +257,7 @@ private:
   std::size_t running_tasks_;
   std::thread housekeeping_;
   task_t shutdown_hook_;
+  int failing_thread_starts_ = 0;
   bool quit_;
   bool accepting_;
 };

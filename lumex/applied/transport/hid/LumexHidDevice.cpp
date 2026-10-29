@@ -46,6 +46,7 @@
 #include <deque>
 #include <memory>
 #include <mutex>
+#include <new>
 #include <string>
 #include <system_error>
 #include <utility>
@@ -484,6 +485,10 @@ struct open_task
   std::shared_ptr<std::atomic<int>> token;
   bool abandoned () const;
   void operator() () const;
+
+private:
+  struct result_t;
+  void run (result_t &result) const;
 };
 
 struct write_task
@@ -493,6 +498,21 @@ struct write_task
   std::vector<std::uint8_t> report;
   std::shared_ptr<std::atomic<int>> token;
   void operator() () const;
+};
+
+// Ends the piece of work of a step when the step leaves, also by an
+// exception.
+class work_end
+{
+public:
+  explicit work_end (hid_device_impl &impl) : impl_ (impl) {}
+  ~work_end () { impl_.work_ended (); }
+
+  work_end (work_end const &) = delete;
+  work_end &operator= (work_end const &) = delete;
+
+private:
+  hid_device_impl &impl_;
 };
 
 // The steps carry the implementation the gate pins (set by runtime_gate::
@@ -508,9 +528,10 @@ struct finish_open_step
   void
   operator() ()
   {
+    // The piece of work ends even if the finish throws.
+    work_end const ended (*impl);
     std::shared_ptr<hid_connection> const taken = connection.take ();
     impl->finish_open (token, taken, layout, error, text);
-    impl->work_ended ();
   }
 };
 
@@ -522,8 +543,8 @@ struct finish_write_step
   void
   operator() ()
   {
+    work_end const ended (*impl);
     impl->finish_write (error, text);
-    impl->work_ended ();
   }
 };
 
@@ -650,10 +671,37 @@ write_task::operator() () const
                                        std::memory_order_acq_rel))
     return;
   std::string text;
-  std::error_code const error = connection->write (report, text);
-  finish_write_step step
-      = { std::shared_ptr<hid_device_impl> (), error, text };
-  gate->post (std::move (step));
+  std::error_code error;
+  try
+    {
+      error = connection->write (report, text);
+    }
+  catch (std::system_error const &failure)
+    {
+      error = failure.code ();
+      text = std::string ("the write failed: ") + failure.what ();
+    }
+  catch (std::bad_alloc const &)
+    {
+      error = std::make_error_code (std::errc::not_enough_memory);
+      text = "the write failed: out of memory";
+    }
+  catch (...)
+    {
+      error = std::make_error_code (std::errc::io_error);
+      text = "the write failed";
+    }
+  // The step is posted on every path: without it the write stays pending
+  // and the device keeps its pin.
+  try
+    {
+      finish_write_step step
+          = { std::shared_ptr<hid_device_impl> (), error, text };
+      gate->post (std::move (step));
+    }
+  catch (...)
+    {
+    }
 }
 
 bool
@@ -661,6 +709,43 @@ open_task::abandoned () const
 {
   return token->load (std::memory_order_acquire) == KOPEN_ABANDONED;
 }
+
+// What the task found; the step carries it to the strand.
+struct open_task::result_t
+{
+  std::shared_ptr<hid_connection> connection;
+  report_layout_t layout;
+  std::error_code error;
+  std::string text;
+};
+
+// Closes a handle that the task still owns when it unwinds.
+class handle_guard
+{
+public:
+  explicit handle_guard (std::unique_ptr<hidapi_handle> &handle)
+      : handle_ (handle)
+  {
+  }
+  ~handle_guard ()
+  {
+    if (!handle_)
+      return;
+    try
+      {
+        handle_->close ();
+      }
+    catch (...)
+      {
+      }
+  }
+
+  handle_guard (handle_guard const &) = delete;
+  handle_guard &operator= (handle_guard const &) = delete;
+
+private:
+  std::unique_ptr<hidapi_handle> &handle_;
+};
 
 void
 open_task::operator() () const
@@ -671,8 +756,60 @@ open_task::operator() () const
   if (!token->compare_exchange_strong (queued, KOPEN_STARTED,
                                        std::memory_order_acq_rel))
     return;
-  std::error_code error;
-  std::string text;
+  result_t result;
+  try
+    {
+      run (result);
+    }
+  catch (std::system_error const &failure)
+    {
+      result.error = failure.code ();
+      result.text = std::string ("the open failed: ") + failure.what ();
+    }
+  catch (std::bad_alloc const &)
+    {
+      result.error = std::make_error_code (std::errc::not_enough_memory);
+      result.text = "the open failed: out of memory";
+    }
+  catch (...)
+    {
+      result.error = std::make_error_code (std::errc::io_error);
+      result.text = "the open failed";
+    }
+  if (result.error && result.connection)
+    {
+      // Not handed on: a reader that started stops and closes the handle.
+      result.connection->request_stop ();
+      result.connection.reset ();
+    }
+  // The step is posted on every path: it ends the piece of work, and the
+  // open that waits for an abandoned task starts when it arrives. Posted
+  // under the gate's lock, and only while the context lives; the step owns
+  // the connection (its reader stops when the step dies uncalled).
+  try
+    {
+      finish_open_step step = { std::shared_ptr<hid_device_impl> (),
+                                token,
+                                connection_guard (result.connection),
+                                result.layout,
+                                result.error,
+                                result.text };
+      gate->post (std::move (step));
+    }
+  catch (...)
+    {
+      // Out of memory: the pin stays until the context goes; the connection
+      // (if any) is stopped by its guard.
+    }
+}
+
+void
+open_task::run (result_t &result) const
+{
+  std::error_code &error = result.error;
+  std::string &text = result.text;
+  report_layout_t &layout = result.layout;
+  std::shared_ptr<hid_connection> &connection = result.connection;
   std::string path = options.path;
   if (options.resolve_path)
     {
@@ -720,6 +857,7 @@ open_task::operator() () const
     }
 
   std::unique_ptr<hidapi_handle> handle;
+  handle_guard const guard (handle);
   // An open that was ended while it looked for the device does not open it.
   if (!error && abandoned ())
     error = make_error_code (transport_errc::cancelled);
@@ -753,7 +891,6 @@ open_task::operator() () const
         }
     }
 
-  report_layout_t layout;
   if (handle)
     {
       std::vector<std::uint8_t> descriptor (KMAX_DESCRIPTOR_SIZE);
@@ -786,7 +923,6 @@ open_task::operator() () const
         }
     }
 
-  std::shared_ptr<hid_connection> connection;
   if (handle)
     {
       // One byte more than the largest input report: its ID when numbered.
@@ -818,6 +954,10 @@ open_task::operator() () const
             {
               error = failure.code ();
             }
+          catch (...)
+            {
+              error = std::make_error_code (std::errc::not_enough_memory);
+            }
           if (!started)
             gate->unhold ();
         }
@@ -829,15 +969,6 @@ open_task::operator() () const
           connection.reset ();
         }
     }
-  // Posted under the gate's lock, and only while the context lives; the step
-  // owns the connection (its reader stops when the step dies uncalled).
-  finish_open_step step = { std::shared_ptr<hid_device_impl> (),
-                            token,
-                            connection_guard (connection),
-                            layout,
-                            error,
-                            text };
-  gate->post (std::move (step));
 }
 
 void
@@ -928,19 +1059,44 @@ hid_device_impl::do_open (status_handler_t handler)
 void
 hid_device_impl::start_open (status_handler_t handler)
 {
-  std::shared_ptr<std::atomic<int>> token
-      = std::make_shared<std::atomic<int>> (KOPEN_QUEUED);
-  open_task task = { gate_, seam_, options_, name (), token };
-  gate_->pin (self ());
+  std::shared_ptr<std::atomic<int>> token;
   try
     {
-      hid_runtime_core::instance ().post (task);
+      token = std::make_shared<std::atomic<int>> (KOPEN_QUEUED);
+      open_task task = { gate_, seam_, options_, name (), token };
+      gate_->pin (self ());
+      try
+        {
+          hid_runtime_core::instance ().post (task);
+        }
+      catch (...)
+        {
+          gate_->unpin ();
+          throw;
+        }
     }
   catch (...)
     {
-      gate_->unpin ();
-      complete (std::move (handler),
-                std::make_error_code (std::errc::not_enough_memory));
+      // The task may be queued still (the runtime takes it back when no
+      // worker can start, but never trust that): it must find the open
+      // ended and do nothing. The handler is called whatever failed: this
+      // also runs when an abandoned task's step wakes a parked open.
+      if (token)
+        token->store (KOPEN_CANCELLED, std::memory_order_release);
+      std::error_code failure
+          = std::make_error_code (std::errc::not_enough_memory);
+      try
+        {
+          throw;
+        }
+      catch (std::system_error const &error)
+        {
+          failure = error.code ();
+        }
+      catch (...)
+        {
+        }
+      complete (std::move (handler), failure);
       return;
     }
   open_token_ = std::move (token);
