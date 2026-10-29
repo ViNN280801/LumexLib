@@ -372,7 +372,7 @@ class blocking_resolver
 {
 public:
   explicit blocking_resolver (std::string const &port)
-      : port_ (port), entered_ (false), released_ (false)
+      : port_ (port), entered_ (false), entries_ (0), released_ (false)
   {
   }
 
@@ -381,9 +381,19 @@ public:
   {
     std::unique_lock<std::mutex> lock (mutex_);
     entered_ = true;
+    ++entries_;
     changed_.notify_all ();
     changed_.wait (lock, [this] () { return released_; });
     return port_;
+  }
+
+  // Waits until `count` calls have entered the resolver.
+  bool
+  wait_entries (std::size_t count)
+  {
+    std::unique_lock<std::mutex> lock (mutex_);
+    return changed_.wait_for (lock, std::chrono::seconds (5),
+                              [this, count] () { return entries_ >= count; });
   }
 
   bool
@@ -407,6 +417,7 @@ private:
   std::mutex mutex_;
   std::condition_variable changed_;
   bool entered_;
+  std::size_t entries_;
   bool released_;
 };
 
@@ -541,5 +552,335 @@ TEST (LumexSerialStreamTest,
   }
   EXPECT_TRUE (eventually ([&impl] () { return impl.expired (); }));
   EXPECT_EQ (descriptors_to (pty.slave ()), before);
+}
+namespace
+{
+long long const KSLACK_MS = 400;
+long long const KBACKSTOP_MS = 1500;
+
+long long
+elapsed_ms (std::chrono::steady_clock::time_point start)
+{
+  return static_cast<long long> (
+      std::chrono::duration_cast<std::chrono::milliseconds> (
+          std::chrono::steady_clock::now () - start)
+          .count ());
+}
+
+// Lets the resolver go after `milliseconds` (or when the test ends): a
+// defective open that waits for the resolver then shows as a late return and
+// not as a hang.
+class delayed_release
+{
+public:
+  delayed_release (blocking_resolver &resolver, long long milliseconds)
+      : resolver_ (resolver), cancelled_ (false),
+        thread_ ([this, milliseconds] () { run (milliseconds); })
+  {
+  }
+
+  ~delayed_release ()
+  {
+    {
+      std::lock_guard<std::mutex> const lock (mutex_);
+      cancelled_ = true;
+    }
+    changed_.notify_all ();
+    thread_.join ();
+  }
+
+  delayed_release (delayed_release const &) = delete;
+  delayed_release &operator= (delayed_release const &) = delete;
+
+private:
+  void
+  run (long long milliseconds)
+  {
+    std::unique_lock<std::mutex> lock (mutex_);
+    if (!changed_.wait_for (lock, std::chrono::milliseconds (milliseconds),
+                            [this] () { return cancelled_; }))
+      resolver_.release ();
+  }
+
+  blocking_resolver &resolver_;
+  std::mutex mutex_;
+  std::condition_variable changed_;
+  bool cancelled_;
+  std::thread thread_;
+};
+
+// A stream made on the runner, opening through `resolver`.
+tr::stream::byte_stream
+make_resolving_stream (tr::stream::io_runner &runner,
+                       std::shared_ptr<blocking_resolver> const &resolver)
+{
+  serial_stream_options_t options;
+  options.path = "by resolver";
+  options.resolve_path = [resolver] () { return resolver->resolve (); };
+  return tr::serial::make_serial_stream (runner.get_executor (), options);
+}
+
+// The error an open ends with, as a future of the code (no exception travels
+// between the threads: the exception_ptr of libstdc++ counts its references
+// where ThreadSanitizer cannot see it).
+std::future<std::error_code>
+open_async (tr::stream::byte_stream &stream)
+{
+  std::shared_ptr<std::promise<std::error_code>> const done
+      = std::make_shared<std::promise<std::error_code>> ();
+  stream.async_open ([done] (std::error_code error)
+                       { done->set_value (error); });
+  return done->get_future ();
+}
+
+std::error_code
+error_of (std::future<std::error_code> &future)
+{
+  return future.get ();
+}
+
+// The worker has ended: it held a copy of the resolver (and so does the
+// stream's options).
+bool
+worker_ended (std::shared_ptr<blocking_resolver> const &resolver)
+{
+  return eventually ([&resolver] () { return resolver.use_count () == 2; });
+}
+} // namespace
+
+// A synchronous open returns by its deadline also when the worker of the
+// open is held up (here by the finder of the port, which the open's own
+// deadline does not bound): the late port is closed and nothing else
+// happens.
+TEST (
+    LumexSerialStreamTest,
+    GivenAnOpenWaitingForTheResolver_WhenTheDeadlinePasses_ThenTimeoutAndTheLatePortIsClosed)
+{
+  test_pty pty;
+  if (!pty.ok ())
+    GTEST_SKIP () << "no pseudoterminal";
+  std::size_t const before = descriptors_to (pty.slave ());
+  std::shared_ptr<blocking_resolver> const resolver
+      = std::make_shared<blocking_resolver> (pty.slave ());
+  tr::stream::io_runner runner;
+  std::weak_ptr<tr::stream::stream_impl> impl;
+  {
+    tr::stream::byte_stream stream = make_resolving_stream (runner, resolver);
+    impl = stream.impl ();
+    delayed_release const guard (*resolver, KBACKSTOP_MS);
+
+    std::chrono::steady_clock::time_point const start
+        = std::chrono::steady_clock::now ();
+    tr::status_result_t const result = stream.open (deadline_t (100));
+    long long const took = elapsed_ms (start);
+
+    ASSERT_FALSE (result.has_value ());
+    EXPECT_TRUE (result.error () == transport_errc::timeout)
+        << result.error ();
+    EXPECT_LT (took, 100 + KSLACK_MS);
+    EXPECT_EQ (stream.statistics ().timeouts, 1u);
+    EXPECT_FALSE (stream.is_open ());
+
+    resolver->release ();
+    ASSERT_TRUE (worker_ended (resolver));
+    EXPECT_EQ (descriptors_to (pty.slave ()), before);
+    EXPECT_FALSE (stream.is_open ());
+    // The stream opens normally afterwards.
+    EXPECT_TRUE (open_error (stream) == std::error_code ());
+    EXPECT_TRUE (stream.is_open ());
+    EXPECT_EQ (descriptors_to (pty.slave ()), before + 1);
+  }
+  EXPECT_TRUE (eventually ([&impl] () { return impl.expired (); }));
+  EXPECT_EQ (descriptors_to (pty.slave ()), before);
+}
+
+TEST (
+    LumexSerialStreamTest,
+    GivenAnOpenWaitingForTheResolver_WhenCancelled_ThenItEndsCancelledAtOnceAndTheDeviceIsFreed)
+{
+  test_pty pty;
+  if (!pty.ok ())
+    GTEST_SKIP () << "no pseudoterminal";
+  std::size_t const before = descriptors_to (pty.slave ());
+  std::shared_ptr<blocking_resolver> const resolver
+      = std::make_shared<blocking_resolver> (pty.slave ());
+  tr::stream::io_runner runner;
+  std::weak_ptr<tr::stream::stream_impl> impl;
+  {
+    tr::stream::byte_stream stream = make_resolving_stream (runner, resolver);
+    impl = stream.impl ();
+    delayed_release const guard (*resolver, KBACKSTOP_MS);
+    std::future<std::error_code> opened = open_async (stream);
+    ASSERT_TRUE (resolver->wait_entered ());
+    stream.cancel ();
+    ASSERT_EQ (opened.wait_for (std::chrono::milliseconds (1000)),
+               std::future_status::ready);
+    EXPECT_TRUE (error_of (opened) == transport_errc::cancelled);
+    EXPECT_FALSE (stream.is_open ());
+    resolver->release ();
+    ASSERT_TRUE (worker_ended (resolver));
+    EXPECT_EQ (descriptors_to (pty.slave ()), before);
+    EXPECT_FALSE (stream.is_open ());
+  }
+  EXPECT_TRUE (eventually ([&impl] () { return impl.expired (); }));
+}
+
+TEST (
+    LumexSerialStreamTest,
+    GivenAnOpenWaitingForTheResolver_WhenClosed_ThenItEndsCancelledAtOnceAndTheLatePortIsClosed)
+{
+  test_pty pty;
+  if (!pty.ok ())
+    GTEST_SKIP () << "no pseudoterminal";
+  std::size_t const before = descriptors_to (pty.slave ());
+  std::shared_ptr<blocking_resolver> const resolver
+      = std::make_shared<blocking_resolver> (pty.slave ());
+  tr::stream::io_runner runner;
+  tr::stream::byte_stream stream = make_resolving_stream (runner, resolver);
+  delayed_release const guard (*resolver, KBACKSTOP_MS);
+  std::future<std::error_code> opened = open_async (stream);
+  ASSERT_TRUE (resolver->wait_entered ());
+  stream.close ();
+  ASSERT_EQ (opened.wait_for (std::chrono::milliseconds (1000)),
+             std::future_status::ready);
+  EXPECT_TRUE (error_of (opened) == transport_errc::cancelled);
+  resolver->release ();
+  ASSERT_TRUE (worker_ended (resolver));
+  EXPECT_EQ (descriptors_to (pty.slave ()), before);
+  EXPECT_FALSE (stream.is_open ());
+}
+
+// The decision for an open that starts while an abandoned one still runs: it
+// is independent of it; the late result of the old one changes nothing.
+TEST (
+    LumexSerialStreamTest,
+    GivenAnAbandonedOpenStillRunning_WhenTheStreamOpensAgain_ThenOnlyTheNewOpenCounts)
+{
+  test_pty pty;
+  if (!pty.ok ())
+    GTEST_SKIP () << "no pseudoterminal";
+  std::size_t const before = descriptors_to (pty.slave ());
+  std::shared_ptr<blocking_resolver> const resolver
+      = std::make_shared<blocking_resolver> (pty.slave ());
+  tr::stream::io_runner runner;
+  tr::stream::byte_stream stream = make_resolving_stream (runner, resolver);
+  delayed_release const guard (*resolver, KBACKSTOP_MS * 2);
+  std::future<std::error_code> first = open_async (stream);
+  ASSERT_TRUE (resolver->wait_entries (1));
+  stream.cancel ();
+  ASSERT_EQ (first.wait_for (std::chrono::milliseconds (1000)),
+             std::future_status::ready);
+  EXPECT_TRUE (error_of (first) == transport_errc::cancelled);
+
+  std::future<std::error_code> second = open_async (stream);
+  ASSERT_TRUE (resolver->wait_entries (2));
+  resolver->release ();
+  ASSERT_EQ (second.wait_for (std::chrono::seconds (5)),
+             std::future_status::ready);
+  EXPECT_FALSE (error_of (second));
+  EXPECT_TRUE (stream.is_open ());
+  // Both workers ended: the old one closed its port, the new one's is open.
+  ASSERT_TRUE (
+      eventually ([&resolver] () { return resolver.use_count () == 2; }));
+  EXPECT_EQ (descriptors_to (pty.slave ()), before + 1);
+  EXPECT_TRUE (stream.is_open ());
+}
+
+// The cancel is on the strand before the step that carries the result of the
+// open (the worker posts it while the cancel waits): the step finds the open
+// ended and closes the port.
+TEST (
+    LumexSerialStreamTest,
+    GivenAFinishedOpenWhoseStepFollowsACancel_WhenTheStrandRuns_ThenTheStepIsDroppedAndThePortClosed)
+{
+  test_pty pty;
+  if (!pty.ok ())
+    GTEST_SKIP () << "no pseudoterminal";
+  std::size_t const before = descriptors_to (pty.slave ());
+  open_fixture fixture (pty.slave ());
+  release_on_exit const leave = { *fixture.resolver };
+  std::error_code seen;
+  int calls = 0;
+  fixture.stream->async_open (
+      [&seen, &calls] (std::error_code error)
+        {
+          seen = error;
+          ++calls;
+        });
+  fixture.context->poll ();
+  ASSERT_TRUE (fixture.resolver->wait_entered ());
+  // Queued on the strand, not run: the context is driven by the test.
+  fixture.stream->cancel ();
+  fixture.resolver->release ();
+  ASSERT_TRUE (eventually (
+      [&pty, before] () { return descriptors_to (pty.slave ()) > before; }));
+  ASSERT_TRUE (eventually ([&fixture] ()
+                             { return fixture.resolver.use_count () == 2; }));
+  EXPECT_EQ (calls, 0);
+
+  fixture.context->restart ();
+  fixture.context->poll ();
+  EXPECT_EQ (calls, 1);
+  EXPECT_TRUE (seen == transport_errc::cancelled) << seen;
+  EXPECT_FALSE (fixture.stream->is_open ());
+  EXPECT_EQ (descriptors_to (pty.slave ()), before);
+}
+// The audit of the synchronous calls: a read and a write on an open port end
+// by their deadline, a read ends when another thread closes the stream.
+TEST (
+    LumexSerialStreamTest,
+    GivenAnOpenPortWithNoBytes_WhenTheReadDeadlinePasses_ThenTimeoutWithinTheSlack)
+{
+  test_pty pty;
+  if (!pty.ok ())
+    GTEST_SKIP () << "no pseudoterminal";
+  tr::stream::io_runner runner;
+  serial_stream_options_t options;
+  options.path = pty.slave ();
+  tr::stream::byte_stream stream
+      = tr::serial::make_serial_stream (runner.get_executor (), options);
+  ASSERT_TRUE (stream.open (deadline_t (2000)).has_value ());
+  std::vector<std::uint8_t> buffer (16);
+  std::chrono::steady_clock::time_point const start
+      = std::chrono::steady_clock::now ();
+  tr::io_result_t const got
+      = stream.read_some (tr::mutable_bytes_t (buffer), deadline_t (100));
+  long long const took = elapsed_ms (start);
+  ASSERT_FALSE (got.has_value ());
+  EXPECT_TRUE (got.error () == transport_errc::timeout) << got.error ();
+  EXPECT_LT (took, 100 + KSLACK_MS);
+  EXPECT_TRUE (stream.is_open ());
+}
+
+TEST (
+    LumexSerialStreamTest,
+    GivenABlockedRead_WhenAnotherThreadCloses_ThenItEndsCancelledWithinTheSlack)
+{
+  test_pty pty;
+  if (!pty.ok ())
+    GTEST_SKIP () << "no pseudoterminal";
+  tr::stream::io_runner runner;
+  serial_stream_options_t options;
+  options.path = pty.slave ();
+  tr::stream::byte_stream stream
+      = tr::serial::make_serial_stream (runner.get_executor (), options);
+  ASSERT_TRUE (stream.open (deadline_t (2000)).has_value ());
+  std::vector<std::uint8_t> buffer (16);
+  std::thread closer (
+      [&stream] ()
+        {
+          std::this_thread::sleep_for (std::chrono::milliseconds (50));
+          stream.close ();
+        });
+  std::chrono::steady_clock::time_point const start
+      = std::chrono::steady_clock::now ();
+  tr::io_result_t const got
+      = stream.read_some (tr::mutable_bytes_t (buffer), deadline_t (5000));
+  long long const took = elapsed_ms (start);
+  closer.join ();
+  ASSERT_FALSE (got.has_value ());
+  EXPECT_TRUE (got.error () == transport_errc::cancelled) << got.error ();
+  EXPECT_LT (took, 50 + KSLACK_MS);
+  EXPECT_FALSE (stream.is_open ());
 }
 #endif
