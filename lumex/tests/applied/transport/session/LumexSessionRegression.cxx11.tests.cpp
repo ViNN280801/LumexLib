@@ -552,7 +552,8 @@ TEST_F (LumexSessionRegressionTest,
   ports->push_back (a);
   ports->push_back (b);
   std::unique_ptr<ss::device_watcher> watcher (new ss::device_watcher (
-      runner_.get_executor (), ms (5), [ports] () { return *ports; }));
+      runner_.get_executor (),
+      watcher_options (ms (5), [ports] () { return *ports; })));
   ss::serial_selector_t selector;
   selector.vid = "16E0";
   std::atomic<int> calls (0);
@@ -583,13 +584,14 @@ TEST_F (LumexSessionRegressionTest,
   std::shared_ptr<std::mutex> const mutex = std::make_shared<std::mutex> ();
   std::shared_ptr<std::vector<ss::serial_port_info_t>> const ports
       = std::make_shared<std::vector<ss::serial_port_info_t>> ();
-  ss::device_watcher watcher (runner_.get_executor (), ms (5),
-                              [ports, mutex] ()
-                                {
-                                  std::lock_guard<std::mutex> const lock (
-                                      *mutex);
-                                  return *ports;
-                                });
+  ss::device_watcher watcher (
+      runner_.get_executor (),
+      watcher_options (ms (5),
+                       [ports, mutex] ()
+                         {
+                           std::lock_guard<std::mutex> const lock (*mutex);
+                           return *ports;
+                         }));
   ss::serial_selector_t selector;
   selector.path = "COM3";
   std::atomic<int> calls (0);
@@ -670,8 +672,10 @@ TEST_F (
   ASSERT_TRUE (session->open (ms (2000)).has_value ());
   {
     ss::device_watcher watcher (
-        runner_.get_executor (), ms (3600000),
-        [port] () { return std::vector<ss::serial_port_info_t> (1, port); });
+        runner_.get_executor (),
+        watcher_options (
+            ms (3600000), [port] ()
+              { return std::vector<ss::serial_port_info_t> (1, port); }));
     watcher.watch_presence (selector, session->presence_sink ());
     std::this_thread::sleep_for (ms (100));
     EXPECT_EQ (session->state (), state::open);
@@ -1015,8 +1019,9 @@ TEST_F (LumexSessionRegressionTest,
         GivenAMovedFromWatcher_WhenItsMembersAreCalled_ThenNothingCrashes)
 {
   ss::device_watcher first (
-      runner_.get_executor (), ms (1000),
-      [] () { return std::vector<ss::serial_port_info_t> (); });
+      runner_.get_executor (),
+      watcher_options (ms (1000), [] ()
+                         { return std::vector<ss::serial_port_info_t> (); }));
   ss::device_watcher second (std::move (first));
   ss::serial_selector_t selector;
   selector.path = "COM3";

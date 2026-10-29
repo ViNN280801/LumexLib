@@ -100,7 +100,7 @@
 #include "stream/LumexIoRunner.hpp"
 #include "stream/LumexStreamTypes.hpp"
 
-#include "time/LumexTimerSource.hpp"
+#include "timing/LumexTimerSource.hpp"
 
 // The mocks for tests of code built on the transport
 // (LUMEX_TRANSPORT_WITH_TESTING, off by default): the transport library

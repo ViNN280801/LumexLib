@@ -52,7 +52,7 @@
 #include "lumex/applied/transport/log/LumexTransportLog.hpp"
 #include "lumex/applied/transport/session/LumexDeviceWatcher.hpp"
 #include "lumex/applied/transport/session/LumexSessionSelectors.hpp"
-#include "lumex/applied/transport/time/LumexTimerSource.hpp"
+#include "lumex/applied/transport/timing/LumexTimerSource.hpp"
 
 #if defined(__clang__)
 // The library's clang-cl set: -Wall there is -Weverything (as in the other
@@ -194,7 +194,7 @@ public:
                        std::chrono::milliseconds period,
                        serial_enumeration_t enumeration,
                        hid::hid_enumeration_t hid_enumeration,
-                       time::timer_source const &timers)
+                       timing::timer_source const &timers)
       : strand_ (asio::make_strand (executor)),
         timer_ (timers.make_timer (strand_)),
         period_ (period.count () > 0 ? period : std::chrono::milliseconds (1)),
@@ -562,7 +562,7 @@ private:
 
   strand_type strand_;
   // From the options' timer source, bound to the strand.
-  time::timer timer_;
+  timing::timer timer_;
   std::chrono::milliseconds period_;
   serial_enumeration_t enumeration_;
 #if defined(LUMEX_TRANSPORT_WITH_HID)
@@ -581,17 +581,6 @@ private:
 #endif
   unsigned wait_id_;
 };
-
-device_watcher::device_watcher (executor_type const &executor,
-                                std::chrono::milliseconds period,
-                                serial_enumeration_t enumeration,
-                                hid::hid_enumeration_t hid_enumeration)
-    : impl_ (std::make_shared<device_watcher_impl> (
-          executor, period, std::move (enumeration),
-          std::move (hid_enumeration), time::steady_timer_source ()))
-{
-  impl_->start ();
-}
 
 device_watcher::device_watcher (executor_type const &executor,
                                 device_watcher_options_t options)

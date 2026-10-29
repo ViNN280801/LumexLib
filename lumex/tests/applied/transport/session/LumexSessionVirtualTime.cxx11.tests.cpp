@@ -24,24 +24,27 @@
 #include "lumex/applied/transport/session/LumexSessionSelectors.hpp"
 #include "lumex/applied/transport/stream/LumexIoRunner.hpp"
 #include "lumex/applied/transport/testing/LumexVirtualClock.hpp"
-#include "lumex/applied/transport/time/LumexTimerSource.hpp"
+#include "lumex/applied/transport/timing/LumexTimerSource.hpp"
 
 namespace
 {
 using namespace lumex_session_test;
-namespace ttime = tr::time;
+namespace timing = tr::timing;
 using state = ss::channel_state;
 using tr::testing::virtual_clock;
 
-// A run that needs the virtual delays in real time takes seconds; on the
-// virtual clock the whole test takes far less than this.
-ms const KREAL_TIME_GUARD = ms (500);
+// A backstop, not the check: the exact virtual times are. run_until never
+// waits in real time, so code that missed the virtual clock fails on those
+// times; the guard only catches a run that would wait for real (the
+// re-enumeration needs 25 s of it) and stays far from the time a slow
+// sanitizer run of the virtual one takes.
+ms const KREAL_TIME_GUARD = ms (5000);
 
 long
-since_start (ttime::time_point_t at)
+since_start (timing::time_point_t at)
 {
   return static_cast<long> (
-      std::chrono::duration_cast<ms> (at - ttime::time_point_t ()).count ());
+      std::chrono::duration_cast<ms> (at - timing::time_point_t ()).count ());
 }
 
 // One call of a factory: the node it opened and the virtual time.
@@ -403,7 +406,7 @@ TEST_F (
   EXPECT_EQ (clock_.advance (ms (100)), 0u);
   watched.poll_now ();
   ASSERT_TRUE (run ([&watched] { return watched.polls () == 5; }, ms (0)));
-  EXPECT_EQ (clock_.next_expiry (), ttime::time_point_t () + ms (1100));
+  EXPECT_EQ (clock_.next_expiry (), timing::time_point_t () + ms (1100));
   EXPECT_EQ (clock_.advance_to_next (), 1u);
   ASSERT_TRUE (run ([&watched] { return watched.polls () == 6; }, ms (0)));
   {
@@ -423,9 +426,9 @@ TEST (
     GivenDefaultOptions_WhenASessionRetries_ThenItWaitsInRealTimeOnTheSteadySource)
 {
   ss::session_options_t defaults;
-  EXPECT_TRUE (defaults.timers == ttime::steady_timer_source ());
+  EXPECT_TRUE (defaults.timers == timing::steady_timer_source ());
   ss::device_watcher_options_t watching;
-  EXPECT_TRUE (watching.timers == ttime::steady_timer_source ());
+  EXPECT_TRUE (watching.timers == timing::steady_timer_source ());
   EXPECT_EQ (watching.period, ms (1000));
 
   tr::stream::io_runner runner (2);

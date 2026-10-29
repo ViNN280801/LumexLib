@@ -55,7 +55,7 @@
 #include "lumex/applied/transport/error/LumexTransportErrc.hpp"
 #include "lumex/applied/transport/stream/LumexStreamTypes.hpp"
 #include "lumex/applied/transport/testing/LumexVirtualClock.hpp"
-#include "lumex/applied/transport/time/LumexTimerSource.hpp"
+#include "lumex/applied/transport/timing/LumexTimerSource.hpp"
 
 #if defined(__clang__)
 // The library's clang-cl set: -Wall there is -Weverything (as in the other
@@ -84,8 +84,8 @@ namespace testing
 {
 namespace
 {
-using time::time_point_t;
-using time::wait_handler_t;
+using timing::time_point_t;
+using timing::wait_handler_t;
 
 class virtual_timer_impl;
 
@@ -133,6 +133,10 @@ complete_all (std::vector<taken_wait> &waits,
     }
 }
 
+// The passes of run_until in a row that end waits due at one time before it
+// gives up (a handler that keeps waiting for the time now).
+std::size_t const KMAX_PASSES_AT_ONE_TIME = 10000;
+
 std::error_code
 cancelled_code () LUMEX_NOEXCEPT
 {
@@ -178,7 +182,7 @@ namespace
  * context), after which every wait is dropped the same way.
  */
 class virtual_timer_impl final
-    : public time::timer_impl,
+    : public timing::timer_impl,
       public ::lumex::applied::transport::detail::handler_keeper,
       public std::enable_shared_from_this<virtual_timer_impl>
 {
@@ -219,6 +223,27 @@ public:
   }
 
   void start_wait (time_point_t at, wait_handler_t handler) override;
+
+  /// Enlists the timer with the shutdown of its io_context (once; the
+  /// source does it when it makes the timer, so a timer that never waited
+  /// forgets its executor too). False when the context is gone already.
+  bool
+  enlist ()
+  {
+    executor_type executor;
+    {
+      std::lock_guard<std::mutex> const lock (clock_->mutex);
+      executor = executor_;
+    }
+    if (!executor)
+      return false;
+    ::lumex::applied::transport::detail::enlist_keeper (
+        enlisted_, executor,
+        std::static_pointer_cast<
+            ::lumex::applied::transport::detail::handler_keeper> (
+            shared_from_this ()));
+    return true;
+  }
 
   std::size_t
   cancel () LUMEX_NOEXCEPT override
@@ -327,20 +352,10 @@ struct wait_canceller
 void
 virtual_timer_impl::start_wait (time_point_t at, wait_handler_t handler)
 {
-  executor_type executor;
-  {
-    std::lock_guard<std::mutex> const lock (clock_->mutex);
-    executor = executor_;
-  }
   // The io_context is gone: the wait is dropped, as Asio drops what is
   // started on a context that shut down.
-  if (!executor)
+  if (!enlist ())
     return;
-  ::lumex::applied::transport::detail::enlist_keeper (
-      enlisted_, executor,
-      std::static_pointer_cast<
-          ::lumex::applied::transport::detail::handler_keeper> (
-          shared_from_this ()));
   std::uint64_t const id
       = next_wait_id_.fetch_add (1, std::memory_order_relaxed) + 1;
   asio::cancellation_slot slot = handler.get_cancellation_slot ();
@@ -382,7 +397,7 @@ virtual_timer_impl::start_wait (time_point_t at, wait_handler_t handler)
 }
 
 /// The source of one clock.
-class virtual_source_impl final : public time::timer_source_impl
+class virtual_source_impl final : public timing::timer_source_impl
 {
 public:
   explicit virtual_source_impl (std::shared_ptr<virtual_clock_impl> clock)
@@ -397,10 +412,13 @@ public:
     return clock_->now_;
   }
 
-  std::shared_ptr<time::timer_impl>
+  std::shared_ptr<timing::timer_impl>
   make_timer (executor_type const &executor) const override
   {
-    return std::make_shared<virtual_timer_impl> (clock_, executor);
+    std::shared_ptr<virtual_timer_impl> const made
+        = std::make_shared<virtual_timer_impl> (clock_, executor);
+    made->enlist ();
+    return made;
   }
 
 private:
@@ -468,7 +486,7 @@ virtual_clock_impl::close () LUMEX_NOEXCEPT
     }
 }
 
-virtual_clock::virtual_clock (time::time_point_t start)
+virtual_clock::virtual_clock (timing::time_point_t start)
     : impl_ (std::make_shared<virtual_clock_impl> (start)),
       source_ (std::make_shared<virtual_source_impl> (impl_))
 {
@@ -476,13 +494,13 @@ virtual_clock::virtual_clock (time::time_point_t start)
 
 virtual_clock::~virtual_clock () { impl_->close (); }
 
-time::timer_source
+timing::timer_source
 virtual_clock::source () const
 {
   return source_;
 }
 
-time::time_point_t
+timing::time_point_t
 virtual_clock::now () const
 {
   std::lock_guard<std::mutex> const lock (impl_->mutex);
@@ -492,7 +510,8 @@ virtual_clock::now () const
 std::size_t
 virtual_clock::advance (std::chrono::milliseconds by)
 {
-  return impl_->fire (time::saturating_add (now (), by), false);
+  return impl_->fire (
+      ::lumex::applied::transport::detail::saturating_add (now (), by), false);
 }
 
 std::size_t
@@ -508,7 +527,7 @@ virtual_clock::pending () const
   return impl_->queue_.size ();
 }
 
-time::time_point_t
+timing::time_point_t
 virtual_clock::next_expiry () const
 {
   std::lock_guard<std::mutex> const lock (impl_->mutex);
@@ -521,15 +540,26 @@ run_until (asio::io_context &context, virtual_clock &clock,
            std::function<bool ()> const &done,
            std::chrono::milliseconds budget)
 {
-  time_point_t const end = time::saturating_add (clock.now (), budget);
+  time_point_t const end
+      = ::lumex::applied::transport::detail::saturating_add (clock.now (),
+                                                             budget);
+  // Passes in a row that ended waits without moving the clock.
+  std::size_t still = 0;
   for (;;)
     {
       drain (context);
       if (done ())
         return true;
-      // The waits due now first (started for the time now or before it).
+      // The waits due now first (started for the time now or before it). A
+      // handler that waits for the time now again and again would keep the
+      // loop at one time for ever: it gives up after KMAX_PASSES_AT_ONE_TIME.
       if (clock.impl_->fire (clock.now (), false) > 0)
-        continue;
+        {
+          if (++still >= KMAX_PASSES_AT_ONE_TIME)
+            return false;
+          continue;
+        }
+      still = 0;
       // Nothing pending, or the next wait lies beyond the budget: the rest
       // of the budget passes.
       time_point_t const next = clock.next_expiry ();

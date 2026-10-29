@@ -748,6 +748,30 @@ set_tests_properties(${_ctest_name} PROPERTIES
     SKIP_REGULAR_EXPRESSION "LUMEX_CONSUMER_SKIP"
 )
 
+# Timer seam compile-time checks: a std::chrono::steady_clock time point
+# given to the seam (its time points are of timing::timer_clock) and the
+# removed device_watcher constructors must not compile; valid use must.
+# Header-only use: try_compile while configuring.
+lumex_test_name(_ctest_name timing_compile_checks)
+add_test(NAME ${_ctest_name}
+    COMMAND ${CMAKE_COMMAND}
+        -DCASE=timing_compile_checks
+        -DLUMEX_SOURCE_DIR=${LumexLib_SOURCE_DIR}
+        -DWORK_DIR=${CMAKE_CURRENT_BINARY_DIR}/consumer/timing_compile_checks
+        -DGENERATOR=${CMAKE_GENERATOR}
+        -DCXX_COMPILER=${CMAKE_CXX_COMPILER}
+        "-DCXX_FLAGS=${CMAKE_CXX_FLAGS}"
+        -DCLANG_STDLIB=${LUMEX_CLANG_STDLIB}
+        -DBUILD_TYPE=Release
+        -DCONFIGURE_ONLY=ON
+        -P ${_LUMEX_CONSUMER_RUN}
+)
+set_tests_properties(${_ctest_name} PROPERTIES
+    LABELS "cmake;consumer"
+    TIMEOUT 900
+    SKIP_REGULAR_EXPRESSION "LUMEX_CONSUMER_SKIP"
+)
+
 # span compile-time checks: the uses std::span rejects (a discarded result,
 # a constructor its constraints remove, an out-of-range static subview, an
 # implicit conversion the standard makes explicit) must not compile with

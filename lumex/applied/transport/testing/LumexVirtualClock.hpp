@@ -43,8 +43,9 @@
  * advances it, so that code on the transport's timer seam (sessions,
  * `device_watcher`) runs its delays without waiting for them.
  * @details The clock starts at the time given (by default the epoch of
- * `time::clock_type`, `time_point_t ()`) and stands still. `source ()` gives
- * the `time::timer_source` to put in the options of the code under test;
+ * `timing::timer_clock`, `time_point_t ()`; a start before it works too) and
+ * stands still. `source ()` gives
+ * the `timing::timer_source` to put in the options of the code under test;
  * every timer made from it waits on this clock. `advance (by)` moves the time
  * forward and ends every wait that is due by then, in the order of their
  * times and, for equal times, in the order they were started; each handler is
@@ -56,18 +57,27 @@
  * nothing pending it returns 0 and the time stays.
  *
  * The clock is thread-safe: a test may advance it while the handlers run on
- * an `io_context` thread. A pending virtual wait keeps no work on any
- * executor: `io_context::run ()` returns while one is pending. `run_until`
- * drives a context with `poll ()` and moves the clock wait by wait, which is
- * how a test lets a session go through its delays.
+ * an `io_context` thread. Advance it from one thread at a time: two threads
+ * that advance at once each post the waits they took, and the posts of the
+ * two may interleave. A wait that the clock already ended (its completion is
+ * posted) is not ended again by `cancel ()` or a new wait on its timer: it
+ * completes with success, as an Asio timer whose wait expired does. A pending
+ * virtual wait keeps no work on any executor: `io_context::run ()` returns
+ * while one is pending. `run_until` drives a context with `poll ()` and moves
+ * the clock wait by wait, which is how a test lets a session go through its
+ * delays.
  *
  * Lifetime. Destroying the clock ends every pending wait with
  * `transport_errc::cancelled`; a timer made from it may outlive it, and a
  * wait started on such a timer ends with `cancelled` at once (posted). A
  * timer may also outlive its `io_context`: the destruction of the context
  * destroys the pending handler without calling it and forgets the timer's
- * executor (also a strand), and a later wait on that timer is dropped the
- * same way. Available with `LUMEX_TRANSPORT_WITH_TESTING`.
+ * executor (also a strand; the timer is enlisted for that when it is made,
+ * so also a timer that never waited forgets it), and a later wait on that
+ * timer is dropped the same way. Its executor is then empty: a wait started
+ * with `asio::cancel_after`, which builds its own timer on that executor,
+ * throws `asio::execution::bad_executor`. Available with
+ * `LUMEX_TRANSPORT_WITH_TESTING`.
  */
 #ifndef LUMEX_APPLIED_TRANSPORT_TESTING_VIRTUAL_CLOCK_HPP
 #define LUMEX_APPLIED_TRANSPORT_TESTING_VIRTUAL_CLOCK_HPP
@@ -78,7 +88,7 @@
 #include <memory>
 
 #include "lumex/applied/transport/detail/LumexAsio.hpp"
-#include "lumex/applied/transport/time/LumexTimerSource.hpp"
+#include "lumex/applied/transport/timing/LumexTimerSource.hpp"
 
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -104,8 +114,10 @@ class virtual_clock;
  * are none, moves the clock to the next pending wait. When the next wait
  * lies beyond the budget (or nothing is pending), the clock moves to the end
  * of the budget, the context runs once more and the result is `done ()`. No
- * other thread may run `context` meanwhile; a handler that starts a wait for
- * the current time on every pass keeps the loop going.
+ * other thread may run `context` meanwhile. A handler that starts a wait for
+ * the current time on every pass would keep the clock at one time: after
+ * 10000 such passes in a row the call gives up and returns false. A handler
+ * that posts itself to `context` for ever keeps `poll ()` from returning.
  * @return True when `done ()` became true.
  */
 bool run_until (asio::io_context &context, virtual_clock &clock,
@@ -117,7 +129,8 @@ class virtual_clock
 {
 public:
   /// @brief A clock that stands at `start`.
-  explicit virtual_clock (time::time_point_t start = time::time_point_t ());
+  explicit virtual_clock (timing::time_point_t start
+                          = timing::time_point_t ());
 
   /// @brief Ends every pending wait with `cancelled`.
   ~virtual_clock ();
@@ -127,10 +140,10 @@ public:
 
   /// @brief The source to give the code under test (every call returns the
   /// same source).
-  time::timer_source source () const;
+  timing::timer_source source () const;
 
   /// @brief The time now.
-  time::time_point_t now () const;
+  timing::time_point_t now () const;
 
   /// @brief Moves the time `by` forward (a negative value as 0) and ends the
   /// waits due by then; returns how many it ended.
@@ -146,7 +159,7 @@ public:
 
   /// @brief The time of the earliest pending wait (`time_point_t::max ()`
   /// with nothing pending).
-  time::time_point_t next_expiry () const;
+  timing::time_point_t next_expiry () const;
 
 private:
   friend bool run_until (asio::io_context &context, virtual_clock &clock,
@@ -154,7 +167,7 @@ private:
                          std::chrono::milliseconds budget);
 
   std::shared_ptr<virtual_clock_impl> impl_;
-  time::timer_source source_;
+  timing::timer_source source_;
 };
 } // namespace testing
 } // namespace transport

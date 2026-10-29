@@ -17,9 +17,11 @@
 #include <string>
 #include <system_error>
 #include <thread>
+#include <utility>
 #include <vector>
 
 #include "lumex/applied/transport/detail/LumexAsio.hpp"
+#include "lumex/applied/transport/session/LumexDeviceWatcher.hpp"
 #include "lumex/applied/transport/session/LumexMessageSession.hpp"
 #include "lumex/applied/transport/session/LumexSessionTypes.hpp"
 #include "lumex/applied/transport/session/LumexStreamSession.hpp"
@@ -49,6 +51,17 @@ eventually (std::function<bool ()> const &condition, ms limit = ms (3000))
         return condition ();
       std::this_thread::sleep_for (ms (1));
     }
+}
+
+/// The options of a watcher that polls every `period` through
+/// `enumeration` in real time.
+inline ss::device_watcher_options_t
+watcher_options (ms period, ss::serial_enumeration_t enumeration)
+{
+  ss::device_watcher_options_t options;
+  options.period = period;
+  options.enumeration = std::move (enumeration);
+  return options;
 }
 
 /// The script and the record of a mock stream factory (thread-safe).

@@ -156,7 +156,8 @@ protected:
   manual_watcher ()
   {
     std::unique_ptr<ss::device_watcher> watcher (new ss::device_watcher (
-        runner_.get_executor (), ms (3600000), enumeration_of (fake_)));
+        runner_.get_executor (),
+        watcher_options (ms (3600000), enumeration_of (fake_))));
     ss::device_watcher &ref = *watcher;
     EXPECT_TRUE (eventually ([&ref] { return ref.polls () == 1; }));
     return watcher;
@@ -246,8 +247,9 @@ TEST_F (
 TEST_F (LumexDeviceWatcherTest,
         GivenAShortPeriod_WhenTimePasses_ThenTheWatcherPollsByItself)
 {
-  ss::device_watcher watcher (runner_.get_executor (), ms (20),
-                              enumeration_of (fake_));
+  ss::device_watcher watcher (
+      runner_.get_executor (),
+      watcher_options (ms (20), enumeration_of (fake_)));
   watcher.watch (lumex_device (), recorder ());
   ASSERT_TRUE (eventually ([this] { return fake_->call_count () >= 3; }));
   fake_->set ({ usb_port ("COM3", "0001") });
@@ -276,7 +278,8 @@ TEST_F (LumexDeviceWatcherTest,
         GivenAWatcher_WhenDestroyed_ThenItStopsPollingAndCallsNothing)
 {
   std::unique_ptr<ss::device_watcher> watcher (new ss::device_watcher (
-      runner_.get_executor (), ms (5), enumeration_of (fake_)));
+      runner_.get_executor (),
+      watcher_options (ms (5), enumeration_of (fake_))));
   watcher->watch (lumex_device (), recorder ());
   ASSERT_TRUE (eventually ([this] { return fake_->call_count () >= 2; }));
   watcher.reset ();

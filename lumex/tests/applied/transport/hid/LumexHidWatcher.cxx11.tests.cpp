@@ -13,6 +13,7 @@
 #include <stdexcept>
 #include <string>
 #include <thread>
+#include <utility>
 #include <vector>
 
 #include <gtest/gtest.h>
@@ -31,6 +32,18 @@ using lumex_fake_hidapi::fake_device;
 using lumex_fake_hidapi::fake_seam;
 using kind = ss::device_event_kind;
 using ms = std::chrono::milliseconds;
+
+// The options of a watcher that polls every `period` through both listings.
+ss::device_watcher_options_t
+watcher_options (ms period, ss::serial_enumeration_t serial,
+                 hid::hid_enumeration_t devices)
+{
+  ss::device_watcher_options_t options;
+  options.period = period;
+  options.enumeration = std::move (serial);
+  options.hid_enumeration = std::move (devices);
+  return options;
+}
 
 std::uint16_t const KVENDOR = 0x1234;
 std::uint16_t const KPRODUCT = 0x5678;
@@ -199,9 +212,10 @@ protected:
   std::unique_ptr<ss::device_watcher>
   manual_watcher ()
   {
-    std::unique_ptr<ss::device_watcher> watcher (
-        new ss::device_watcher (runner_.get_executor (), ms (3600000),
-                                serial_enumeration (), hid_enumeration ()));
+    std::unique_ptr<ss::device_watcher> watcher (new ss::device_watcher (
+        runner_.get_executor (),
+        watcher_options (ms (3600000), serial_enumeration (),
+                         hid_enumeration ())));
     ss::device_watcher &ref = *watcher;
     EXPECT_TRUE (eventually ([&ref] { return ref.polls () == 1; }));
     return watcher;
@@ -313,8 +327,9 @@ TEST_F (
     LumexHidWatcherTest,
     GivenAShortPeriod_WhenTimePasses_ThenTheWatcherPollsTheHidDevicesByItself)
 {
-  ss::device_watcher watcher (runner_.get_executor (), ms (20),
-                              serial_enumeration (), hid_enumeration ());
+  ss::device_watcher watcher (
+      runner_.get_executor (),
+      watcher_options (ms (20), serial_enumeration (), hid_enumeration ()));
   watcher.watch (lumex_device (), recorder ());
   ASSERT_TRUE (eventually ([this] { return hid_calls () >= 3; }));
   std::shared_ptr<fake_device> const device = plug ("hid-a");
@@ -473,9 +488,9 @@ TEST_F (LumexHidWatcherTest,
 TEST_F (LumexHidWatcherTest,
         GivenAWatcher_WhenDestroyed_ThenItStopsPollingAndCallsNothing)
 {
-  std::unique_ptr<ss::device_watcher> watcher (
-      new ss::device_watcher (runner_.get_executor (), ms (5),
-                              serial_enumeration (), hid_enumeration ()));
+  std::unique_ptr<ss::device_watcher> watcher (new ss::device_watcher (
+      runner_.get_executor (),
+      watcher_options (ms (5), serial_enumeration (), hid_enumeration ())));
   watcher->watch (lumex_device (), recorder ());
   ASSERT_TRUE (eventually ([this] { return hid_calls () >= 2; }));
   watcher.reset ();
