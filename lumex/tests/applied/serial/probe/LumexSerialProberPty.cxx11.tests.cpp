@@ -2,10 +2,13 @@
 #include <cstdint>
 #include <cstdlib>
 #include <string>
+#include <thread>
+#include <utility>
 #include <vector>
 
 #if defined(__linux__)
 #include <fcntl.h>
+#include <poll.h>
 #include <unistd.h>
 #endif
 
@@ -45,9 +48,50 @@ struct pty_pair_t
       ::close (master);
   }
 };
+
+// The device side: waits on the master for the request, then answers. The
+// prober purges the buffers before it writes (a response that is already
+// waiting is stale by design, and the Linux 6.1 pty drops it on the slave's
+// `tcflush`), so the answer has to follow the request.
+class answering_device_t
+{
+public:
+  answering_device_t (int master, std::vector<std::uint8_t> response)
+      : master_ (master), response_ (std::move (response)),
+        thread_ ([this] { run (); })
+  {
+  }
+
+  ~answering_device_t () { thread_.join (); }
+
+  answering_device_t (answering_device_t const &) = delete;
+  answering_device_t &operator= (answering_device_t const &) = delete;
+
+private:
+  void
+  run ()
+  {
+    struct pollfd descriptor = {};
+    descriptor.fd = master_;
+    descriptor.events = POLLIN;
+    if (::poll (&descriptor, 1, 3000) <= 0)
+      return;
+    std::uint8_t request[16];
+    if (::read (master_, request, sizeof (request)) <= 0)
+      return;
+    ssize_t const sent
+        = ::write (master_, response_.data (), response_.size ());
+    static_cast<void> (sent);
+  }
+
+  int master_;
+  std::vector<std::uint8_t> response_;
+  std::thread thread_;
+};
 } // namespace
 
-TEST (LumexSerialProberPty, GivenPreWrittenResponse_WhenProbe_ThenResponded)
+TEST (LumexSerialProberPty,
+      GivenDeviceAnswersTheRequest_WhenProbe_ThenResponded)
 {
   pty_pair_t pair;
   if (!pair.open_pair ())
@@ -60,14 +104,14 @@ TEST (LumexSerialProberPty, GivenPreWrittenResponse_WhenProbe_ThenResponded)
   ASSERT_TRUE (prober.is_open ());
 
   std::vector<std::uint8_t> const response = { 0x26U, 0x31U, 0x38U, 0x0DU };
-  ssize_t const pre_written
-      = ::write (pair.master, response.data (), response.size ());
-  ASSERT_EQ (pre_written, static_cast<ssize_t> (response.size ()));
-
-  serial_probe_result_t const result = prober.probe (
-      std::vector<std::uint8_t> (1U, 0x41U),
-      [] (std::vector<std::uint8_t> const &data)
-        { return data.size () >= 4U; }, std::chrono::milliseconds (1000));
+  serial_probe_result_t result;
+  {
+    answering_device_t const device (pair.master, response);
+    result = prober.probe (
+        std::vector<std::uint8_t> (1U, 0x41U),
+        [] (std::vector<std::uint8_t> const &data)
+          { return data.size () >= 4U; }, std::chrono::milliseconds (1000));
+  }
 
   EXPECT_EQ (result.status, serial_probe_status::responded);
   EXPECT_EQ (result.response, response);
