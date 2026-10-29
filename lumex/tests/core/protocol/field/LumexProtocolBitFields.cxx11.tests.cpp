@@ -194,3 +194,80 @@ TEST (LumexProtocolBitFieldsTest,
                == tables::gauge_letter::rest);
   EXPECT_EQ (letter::info ().binary_size, 1u);
 }
+
+TEST (
+    LumexProtocolBitFieldsTest,
+    GivenAReflectedEnumerationInARunOfBits_WhenAnUnknownValueComes_ThenInvalidValue)
+{
+  using mode = field::bits_<field::u8_<>, 0, 3, tables::gauge_mode>;
+  EXPECT_TRUE (*decoded<mode> (layout::bytes_t{ 0xF5 })
+               == tables::gauge_mode::hold);
+  layout::decode_result_t<tables::gauge_mode> const unknown
+      = decoded<mode> (layout::bytes_t{ 0x02 });
+  ASSERT_FALSE (unknown.has_value ());
+  EXPECT_TRUE (unknown.error () == protocol_errc::invalid_value);
+  EXPECT_EQ (encoded<mode> (tables::gauge_mode::run), (layout::bytes_t{ 1 }));
+  layout::bytes_t out;
+  layout::encode_result_t const refused = layout::encode<binary, mode> (
+      out, static_cast<tables::gauge_mode> (3));
+  ASSERT_FALSE (refused.has_value ());
+  EXPECT_TRUE (refused.error () == protocol_errc::invalid_value);
+  EXPECT_TRUE (out.empty ());
+  tables::gauge_mode value = tables::gauge_mode::idle;
+  EXPECT_FALSE (field::impl_of<mode>::type::assign (
+      value, static_cast<tables::gauge_mode> (4)));
+  EXPECT_TRUE (
+      field::impl_of<mode>::type::assign (value, tables::gauge_mode::hold));
+}
+
+TEST (
+    LumexProtocolBitFieldsTest,
+    GivenAReflectedEnumerationUnderAMask_WhenAnUnknownValueComes_ThenInvalidValue)
+{
+  // Bits 1, 3 and 5 carry the value: 0x22 is 0b101 (hold), 0x08 is 0b010.
+  using mode = field::mask_<field::u8_<>, 0x2A, tables::gauge_mode>;
+  EXPECT_TRUE (*decoded<mode> (layout::bytes_t{ 0x22 })
+               == tables::gauge_mode::hold);
+  layout::decode_result_t<tables::gauge_mode> const unknown
+      = decoded<mode> (layout::bytes_t{ 0x08 });
+  ASSERT_FALSE (unknown.has_value ());
+  EXPECT_TRUE (unknown.error () == protocol_errc::invalid_value);
+  layout::bytes_t out;
+  EXPECT_FALSE (
+      (layout::encode<binary, mode> (out, static_cast<tables::gauge_mode> (2))
+           .has_value ()));
+}
+
+TEST (
+    LumexProtocolBitFieldsTest,
+    GivenAReflectedEnumerationAsAPartOfASplit_WhenAnUnknownValueComes_ThenInvalidValue)
+{
+  using parts
+      = field::split_<field::u8_<>, field::bits_<field::u8_<>, 0, 3>,
+                      field::bits_<field::u8_<>, 4, 3, tables::gauge_mode>>;
+  using value_type = field::value_of<parts>::type;
+  layout::decode_result_t<value_type> const known
+      = decoded<parts> (layout::bytes_t{ 0x52 });
+  ASSERT_TRUE (known.has_value ());
+  EXPECT_TRUE (field::get<1> (known->parts) == tables::gauge_mode::hold);
+  layout::decode_result_t<value_type> const unknown
+      = decoded<parts> (layout::bytes_t{ 0x32 });
+  ASSERT_FALSE (unknown.has_value ());
+  EXPECT_TRUE (unknown.error () == protocol_errc::invalid_value);
+  value_type value = *known;
+  field::get<1> (value.parts) = static_cast<tables::gauge_mode> (6);
+  layout::bytes_t out;
+  layout::encode_result_t const refused
+      = layout::encode<binary, parts> (out, value);
+  ASSERT_FALSE (refused.has_value ());
+  EXPECT_TRUE (refused.error () == protocol_errc::invalid_value);
+}
+
+TEST (LumexProtocolBitFieldsTest,
+      GivenAPlainEnumerationInARunOfBits_WhenAnyValueComes_ThenItIsKept)
+{
+  using lamp_bits = field::bits_<field::u8_<>, 0, 3, lamp>;
+  EXPECT_EQ (static_cast<int> (*decoded<lamp_bits> (layout::bytes_t{ 7 })), 7);
+  EXPECT_EQ (encoded<lamp_bits> (static_cast<lamp> (6)),
+             (layout::bytes_t{ 6 }));
+}

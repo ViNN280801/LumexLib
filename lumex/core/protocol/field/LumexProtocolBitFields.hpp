@@ -50,9 +50,10 @@
  * too, so that bits no part covers come back unchanged on encode. A part
  * value is unsigned by default, `bool` for one bit, a signed type
  * (sign-extended) or an enumeration. `enum_` stores an enumeration in an
- * integer or character field; with a `LUMEX_DEFINE_REFLECTED_ENUM`
- * enumeration an unknown value is `invalid_value` and the names reach the
- * log line.
+ * integer or character field. With a `LUMEX_DEFINE_REFLECTED_ENUM`
+ * enumeration, in `enum_` and in a part of a word alike, a value that is no
+ * enumerator is `invalid_value` (decode, encode, assign) and the names reach
+ * the log line.
  */
 #ifndef LUMEX_CORE_PROTOCOL_FIELD_BIT_FIELDS_HPP
 #define LUMEX_CORE_PROTOCOL_FIELD_BIT_FIELDS_HPP
@@ -70,6 +71,7 @@
 #include "lumex/core/protocol/field/LumexProtocolNumeric.hpp"
 #include "lumex/core/protocol/field/LumexProtocolRecord.hpp"
 #include "lumex/core/protocol/field/LumexProtocolValues.hpp"
+#include "lumex/core/utility/attr/LumexAttributes.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 #include "lumex/core/utility/sequence/LumexIndexSequence.hpp"
 
@@ -175,6 +177,12 @@ template <typename T, std::size_t Bits, typename = void> struct part_value
   }
 
   static bool
+  valid (T) LUMEX_NOEXCEPT
+  {
+    return true;
+  }
+
+  static bool
   to (T value, std::uint64_t &bits) LUMEX_NOEXCEPT
   {
     if (std::is_signed<T>::value
@@ -198,6 +206,12 @@ template <std::size_t Bits> struct part_value<bool, Bits, void>
   }
 
   static bool
+  valid (bool) LUMEX_NOEXCEPT
+  {
+    return true;
+  }
+
+  static bool
   to (bool value, std::uint64_t &bits) LUMEX_NOEXCEPT
   {
     bits = value ? 1u : 0u;
@@ -215,6 +229,13 @@ struct part_value<E, Bits,
   from (std::uint64_t bits) LUMEX_NOEXCEPT
   {
     return static_cast<E> (part_value<underlying, Bits>::from (bits));
+  }
+
+  // A reflected enumeration takes only its enumerators, as enum_ does.
+  static bool
+  valid (E value) LUMEX_NOEXCEPT
+  {
+    return !enum_probe::has_name<E>::value || enum_name (value) != nullptr;
   }
 
   static bool
@@ -289,10 +310,16 @@ struct part_impl
   /// Puts `value` into the bits of `word_bits` this part uses; false when it
   /// does not fit.
   static bool
+  is_valid (T value) LUMEX_NOEXCEPT
+  {
+    return part_value<T, Bits>::valid (value);
+  }
+
+  static bool
   insert (T value, std::uint64_t &word_bits) LUMEX_NOEXCEPT
   {
     std::uint64_t bits = 0;
-    if (!part_value<T, Bits>::to (value, bits))
+    if (!is_valid (value) || !part_value<T, Bits>::to (value, bits))
       return false;
     std::uint64_t const placed = Kind == field_kind::mask
                                      ? scatter_bits (bits, Mask)
@@ -309,6 +336,8 @@ struct part_impl
     if (!storage_impl::template decode<Last> (reader, raw, siblings))
       return false;
     value = extract (storage_impl::to_bits (raw));
+    if (!is_valid (value))
+      return reader.fail (error::protocol_errc::invalid_value);
     return true;
   }
 
@@ -348,7 +377,8 @@ template <typename Storage> struct default_part
  * significant), as a value of type `T`.
  * @tparam Storage The word: an integer field without `scale<>`.
  * @tparam T The value: unsigned by default, `bool` for one bit, a signed
- * type (sign-extended) or an enumeration.
+ * type (sign-extended) or an enumeration (a reflected one takes only its
+ * enumerators: another value is `invalid_value`).
  */
 template <typename Storage, std::size_t First, std::size_t Count,
           typename T = typename detail::default_part<Storage>::type>
@@ -502,10 +532,15 @@ struct split_body<Word, part_list<P...>,
     if (!word_impl::template decode<Last> (reader, value.raw, siblings))
       return false;
     std::uint64_t const bits = word_impl::to_bits (value.raw);
-    int const results[]
-        = { 0,
-            (get<I> (value.parts) = impl_of<P>::type::extract (bits), 0)... };
-    (void)results;
+    bool valid = true;
+    bool const results[] = {
+      true,
+      (get<I> (value.parts) = impl_of<P>::type::extract (bits),
+       valid = valid && impl_of<P>::type::is_valid (get<I> (value.parts)))...
+    };
+    LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (results);
+    if (!valid)
+      return reader.fail (error::protocol_errc::invalid_value);
     return true;
   }
 

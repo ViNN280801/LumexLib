@@ -57,11 +57,11 @@ struct text_header
   static LUMEX_CONSTEXPR std::size_t key_width = 1;
 };
 
-/// The binary encoding: [length][command][data...], the key is the second
-/// byte.
+/// The binary encoding: [command][data...], the key is the first byte (the
+/// length byte before them is the report codec's).
 struct hid_header
 {
-  using key_reader = index::key_at<1, 1>;
+  using key_reader = index::key_at<0, 1>;
   static LUMEX_CONSTEXPR std::size_t key_width = 1;
 };
 
