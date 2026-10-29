@@ -1,10 +1,13 @@
 // Every macro, option, field and query of lumex/core/protocol in one
 // translation unit of a strict consumer: a synthetic table of an invented
 // device (no real protocol) with a layout, a layer, a framed layer, every row
-// option, the entries, the client methods and the error codes, and a layout
-// of every field kind encoded and decoded in the three layouts. Exit code 0
-// when every value read back is the one the table wrote.
+// option, the entries, the client methods and the error codes, a layout of
+// every field kind encoded and decoded in the three layouts, and its sample
+// value as whole messages (header, key, fields) dispatched back to their row
+// in a binary, a hexadecimal and a tokenized layer. Exit code 0 when every
+// value read back is the one the table wrote.
 
+#include <cstddef>
 #include <cstdint>
 #include <cstdio>
 #include <ratio>
@@ -118,6 +121,57 @@ LUMEX_PROTOCOL_LAYOUT (word_t, (u8_, token_), ("a", "b"));
 
 using kinds = field::record_of<kinds_t::fields_type>::type;
 
+// Whole messages: the key is one byte after an address byte, or two digits,
+// or the first token.
+struct message_header
+{
+  using key_reader = lumex::core::protocol::index::key_at<1, 1>;
+};
+
+struct hex_message_header
+{
+  using layout_type = layout::fixed_width_text_layout<16>;
+  static LUMEX_CONSTEXPR std::size_t key_width = 1;
+};
+
+struct text_message_header
+{
+  using layout_type = layout::tokenized_text_layout<';'>;
+};
+
+// clang-format off
+#define MESSAGE_ROWS(X, X_AS) \
+  X (READ_KINDS, 0x31, "Read every kind", (u8_), ("which"), (kinds_t), ()) \
+  X (QUIET, 0x32, "No reply", (u16_le_), ("value"), (), ())
+#define NO_ROWS(X, X_AS)
+// clang-format on
+LUMEX_PROTOCOL_DEFINE (message_protocol, codec, message_header, MESSAGE_ROWS);
+LUMEX_PROTOCOL_EXTEND_FRAMED (hex_messages, message_protocol, codec,
+                              hex_message_header, NO_ROWS);
+LUMEX_PROTOCOL_EXTEND_FRAMED (text_messages, message_protocol, codec,
+                              text_message_header, NO_ROWS);
+
+// Counts the rows a dispatch reached.
+struct row_counter
+{
+  int requests;
+  int replies;
+
+  template <typename Row>
+  void
+  request (typename layout::request_of<Row>::type const &)
+  {
+    ++requests;
+  }
+
+  template <typename Row, typename Value>
+  void
+  reply (Value const &)
+  {
+    ++replies;
+  }
+};
+
 namespace
 {
 // A failed check counts one; a function, so that the compiler does not see
@@ -187,6 +241,54 @@ round_trip_kinds (field::decode_context_t const &context)
   return back.has_value () && *back == value ? 0 : 1;
 }
 
+bool
+lookup_first_unit (void const *, char const *key, std::int64_t &value)
+{
+  value = 1;
+  return std::string (key) == "unit_type";
+}
+
+template <typename P>
+int
+check_messages (field::decode_context_t const &context)
+{
+  namespace index = lumex::core::protocol::index;
+  int failures = 0;
+  layout::bytes_t request;
+  failures += failed (
+      layout::encode_message<P, typename P::READ_KINDS_t> (request, 7)
+          .has_value ());
+  layout::bytes_t reply;
+  failures
+      += failed (layout::encode_reply_message<P, typename P::READ_KINDS_t> (
+                     reply, field::sample_value<kinds_t> (), &context)
+                     .has_value ());
+  failures += failed (
+      layout::decode_reply_message<P, typename P::READ_KINDS_t> (
+          layout::bytes_view_t (reply.data (), reply.size ()), &context)
+          .has_value ());
+  failures += failed (
+      !layout::decode_reply_message<P, typename P::QUIET_t> (
+           layout::bytes_view_t (reply.data (), reply.size ()), &context)
+           .has_value ());
+  row_counter counter = { 0, 0 };
+  failures += failed (!layout::dispatch<P> (
+      layout::bytes_view_t (request.data (), request.size ()),
+      index::frame_direction::tx, counter, &context));
+  failures += failed (!layout::dispatch<P> (
+      layout::bytes_view_t (reply.data (), reply.size ()),
+      index::frame_direction::rx, counter, &context));
+  layout::bytes_t quiet;
+  failures += failed (layout::encode_reply_message<P, typename P::QUIET_t> (
+                          quiet, field::record<> ())
+                          .has_value ());
+  failures += failed (!layout::dispatch<P> (
+      layout::bytes_view_t (quiet.data (), quiet.size ()),
+      index::frame_direction::rx, counter));
+  failures += failed (counter.requests == 1 && counter.replies == 2);
+  return failures;
+}
+
 int
 check_layouts ()
 {
@@ -245,6 +347,10 @@ check_layouts ()
       += layout::encode<layout::binary_layout<>, word_t> (bytes, word) ? 0 : 1;
   failures += failed (layout::is_aligned<fixture_protocol>::value);
   failures += failed (std::string (field::enum_name (lamp::on)) == "on");
+  field::decode_context_t const first_unit = { nullptr, &lookup_first_unit };
+  failures += check_messages<message_protocol> (first_unit)
+              + check_messages<hex_messages> (first_unit)
+              + check_messages<text_messages> (first_unit);
   return failures;
 }
 } // namespace
@@ -310,6 +416,9 @@ check ()
   std::error_code const code
       = lumex::core::protocol::error::protocol_errc::truncated;
   failures += failed (!code.message ().empty ());
+  std::error_code const dialogue
+      = lumex::core::protocol::error::protocol_errc::unexpected_reply;
+  failures += failed (dialogue.value () == 104);
   failures += check_layouts ();
   return failures;
 }

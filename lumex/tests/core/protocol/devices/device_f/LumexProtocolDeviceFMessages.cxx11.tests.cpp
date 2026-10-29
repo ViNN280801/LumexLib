@@ -1,0 +1,34 @@
+// The protocol below was intentionally altered (names, codes, constants,
+// strings) for NDA reasons; it does not describe any real device.
+//
+// Device F (lumex/tests/core/protocol/devices/device_f): every row of every
+// layer as a whole message. The sample request and reply of each row
+// encode with the header and the key, the run-time index finds the row the
+// header wrote with its fields right after the header, and dispatch hands
+// the message back to the same row.
+
+#include <gtest/gtest.h>
+
+#include "lumex/core/protocol/LumexProtocol"
+#include "lumex/tests/core/protocol/devices/LumexProtocolDevicesMessages.hpp"
+#include "lumex/tests/core/protocol/devices/device_f/LumexProtocolDeviceFTable.hpp"
+
+namespace
+{
+namespace dev = lumex_tests::devices;
+namespace dsl = lumex::core::protocol::dsl;
+namespace field = lumex::core::protocol::field;
+namespace tables = lumex_tests::tables_f;
+} // namespace
+
+TEST (
+    LumexProtocolDeviceFMessagesTest,
+    GivenEveryRowOfEveryLayer_WhenItsMessagesAreEncoded_ThenTheIndexAndDispatchFindTheSameRow)
+{
+  // The session union of the state reply takes its first case.
+  field::decode_context_t const context = dev::zero_session::context ();
+  EXPECT_EQ (dev::expect_every_row_message<tables::family_f> (&context),
+             dsl::command_count<tables::family_f>::value);
+  EXPECT_EQ (dev::expect_every_row_message<tables::device_f> (&context),
+             dsl::command_count<tables::device_f>::value);
+}

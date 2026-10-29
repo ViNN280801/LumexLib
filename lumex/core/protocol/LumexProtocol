@@ -55,7 +55,10 @@
  * floating, text, bits, enumerations, arrays, tails, unions, nested
  * messages) and the three layouts with their encoders and decoders in
  * `layout/` (`binary_layout`, `fixed_width_text_layout`,
- * `tokenized_text_layout`; `layout::encode_request`, `decode_reply`, ...),
+ * `tokenized_text_layout`; `layout::encode_request`, `decode_reply`, ...;
+ * whole messages with the header and the key, `encode_message`,
+ * `decode_reply_message`, and `dispatch` of a received message to its row),
+ * the sample value of a field in `field/` (`sample_value`),
  * the parameter and register tables in `registry/` (`LUMEX_PROTOCOL_REGISTRY`,
  * `registry_key_`, `registry_value_`, `verify_registry`), the run-time index
  * with `describe` and the session context in `index/` (`build_index`,
@@ -83,6 +86,7 @@
 #include "field/LumexProtocolModifiers.hpp"
 #include "field/LumexProtocolNumeric.hpp"
 #include "field/LumexProtocolRecord.hpp"
+#include "field/LumexProtocolSample.hpp"
 #include "field/LumexProtocolTextFields.hpp"
 #include "field/LumexProtocolValues.hpp"
 #include "index/LumexProtocolDescriptor.hpp"
@@ -92,7 +96,9 @@
 #include "index/LumexProtocolSession.hpp"
 #include "layout/LumexProtocolBinaryLayout.hpp"
 #include "layout/LumexProtocolCodec.hpp"
+#include "layout/LumexProtocolDispatch.hpp"
 #include "layout/LumexProtocolLayoutBase.hpp"
+#include "layout/LumexProtocolMessage.hpp"
 #include "layout/LumexProtocolTextLayouts.hpp"
 #include "registry/LumexProtocolRegistry.hpp"
 #include "registry/LumexProtocolRegistryFields.hpp"

@@ -52,6 +52,12 @@
  *  - anything else, or a header with another position, names its own reader
  *    in the header type: `using key_reader = key_at<2, 1>;` or a type with
  *    `static bool read (bytes_view_t frame, key_read_t &out)`.
+ * Each reader of the library has a writer twin, `static bool write
+ * (bytes_t &out, key_value_t const &key)`: it appends the bytes before the
+ * key (zero bytes, or `'0'` characters for digits) and the key where `read`
+ * finds it, so that the message an encoder starts with it is the message the
+ * index reads (`layout::encode_message`). The tokenized reader writes
+ * nothing: the tokenized layout writes the key itself.
  * A binary or hexadecimal fixed-width layer must name the width
  * (`static constexpr std::size_t key_width = N;`) or its own `key_reader`:
  * the width of the key type is not the width on the wire (`0x1D` is an
@@ -83,6 +89,12 @@
 
 #if defined(__clang__)
 #pragma clang diagnostic push
+#if __has_warning("-Wlifetime-safety-invalidation")
+// Clang 23 reports a reference parameter to a container as "invalidated" by
+// its own push_back or insert (a false positive: only references into the
+// container are invalidated, not the container).
+#pragma clang diagnostic ignored "-Wlifetime-safety-invalidation"
+#endif
 #pragma clang diagnostic ignored "-Wpadded"
 #pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
 #endif
@@ -151,6 +163,32 @@ struct key_at
     out.payload_offset = Offset + Width;
     return true;
   }
+
+  /**
+   * @brief Appends `Offset` zero bytes and the key in `Width` bytes, in byte
+   * order `Order`.
+   * @return false (and nothing appended) when the key is no integer or
+   * composite key, or does not fit `Width` bytes.
+   */
+  static bool
+  write (::lumex::core::protocol::layout::bytes_t &out,
+         ::lumex::core::protocol::dsl::key_value_t const &key)
+  {
+    if ((key.kind != ::lumex::core::protocol::dsl::key_kind::integer
+         && key.kind != ::lumex::core::protocol::dsl::key_kind::composite)
+        || (key.integer & ~::lumex::core::protocol::dsl::width_mask (Width))
+               != 0)
+      return false;
+    out.insert (out.end (), Offset, static_cast<std::uint8_t> (0));
+    for (std::size_t i = 0; i < Width; ++i)
+      {
+        std::size_t const byte
+            = Order == key_byte_order::big ? Width - 1u - i : i;
+        out.push_back (
+            static_cast<std::uint8_t> ((key.integer >> (8u * byte)) & 0xFFu));
+      }
+    return true;
+  }
 };
 
 /**
@@ -196,6 +234,33 @@ struct key_at_digits
     out.payload_offset = Offset + Digits;
     return true;
   }
+
+  /**
+   * @brief Appends `Offset` characters `'0'` and the key as `Digits` digits
+   * in radix `Radix` (upper case), zero-padded.
+   * @return false (and nothing appended) when the key is no integer or
+   * composite key, or needs more than `Digits` digits.
+   */
+  static bool
+  write (::lumex::core::protocol::layout::bytes_t &out,
+         ::lumex::core::protocol::dsl::key_value_t const &key)
+  {
+    if (key.kind != ::lumex::core::protocol::dsl::key_kind::integer
+        && key.kind != ::lumex::core::protocol::dsl::key_kind::composite)
+      return false;
+    char digits[Digits];
+    std::uint64_t rest = key.integer;
+    for (std::size_t i = Digits; i > 0; --i)
+      {
+        digits[i - 1u] = "0123456789ABCDEF"[rest % Radix];
+        rest /= Radix;
+      }
+    if (rest != 0)
+      return false;
+    out.insert (out.end (), Offset, static_cast<std::uint8_t> ('0'));
+    out.insert (out.end (), digits, digits + Digits);
+    return true;
+  }
 };
 
 /**
@@ -230,9 +295,19 @@ template <char KeySeparator, bool Trim = true> struct tokenized_key
     out.payload_offset = 0;
     return true;
   }
+
+  /// @brief Appends nothing: the tokenized layout writes the key as the
+  /// prefix of the fields.
+  static bool
+  write (::lumex::core::protocol::layout::bytes_t &,
+         ::lumex::core::protocol::dsl::key_value_t const &) LUMEX_NOEXCEPT
+  {
+    return true;
+  }
 };
 
-/// @brief A reader that finds no key: a frame is never matched to a row.
+/// @brief A reader that finds no key: a frame is never matched to a row
+/// (it has no writer: a header of such a layer writes its own header).
 struct no_key_reader
 {
   /// @brief Always false.
