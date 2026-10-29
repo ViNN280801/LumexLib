@@ -105,6 +105,22 @@ public:
         return "two entries of a table have the same key";
       case static_cast<int> (protocol_errc::out_of_limits):
         return "value outside the limits of the registry entry";
+      case static_cast<int> (protocol_errc::timeout):
+        return "no reply within the timeout";
+      case static_cast<int> (protocol_errc::retries_exhausted):
+        return "no reply after every retry";
+      case static_cast<int> (protocol_errc::nak):
+        return "the device answered with a negative acknowledgement";
+      case static_cast<int> (protocol_errc::refused):
+        return "the device refused the request";
+      case static_cast<int> (protocol_errc::unexpected_reply):
+        return "a reply other than the one expected";
+      case static_cast<int> (protocol_errc::not_accepted_in_state):
+        return "the device does not accept the request in its current state";
+      case static_cast<int> (protocol_errc::link_lost):
+        return "the link to the device was lost";
+      case static_cast<int> (protocol_errc::not_confirmed):
+        return "the device did not confirm the value it was sent";
       default:
         return "unknown protocol error";
       }

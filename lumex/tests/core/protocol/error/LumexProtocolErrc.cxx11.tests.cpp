@@ -1,6 +1,7 @@
 // The error codes of the protocol layer (lumex/core/protocol/error): the
-// category, the message of every value and the conversion to std::error_code
-// and std::error_condition.
+// category, the message of every value (the codes of the core from 1, the
+// codes of the dialogue from 100) and the conversion to std::error_code and
+// std::error_condition.
 
 #include <string>
 #include <system_error>
@@ -14,12 +15,24 @@ namespace
 using lumex::core::protocol::error::protocol_category;
 using lumex::core::protocol::error::protocol_errc;
 
-protocol_errc const kEveryValue[]
-    = { protocol_errc::truncated,      protocol_errc::trailing_bytes,
-        protocol_errc::invalid_value,  protocol_errc::unknown_frame,
-        protocol_errc::limit_exceeded, protocol_errc::unknown_case,
-        protocol_errc::access_denied,  protocol_errc::not_supported,
-        protocol_errc::duplicate_key,  protocol_errc::out_of_limits };
+protocol_errc const kEveryValue[] = { protocol_errc::truncated,
+                                      protocol_errc::trailing_bytes,
+                                      protocol_errc::invalid_value,
+                                      protocol_errc::unknown_frame,
+                                      protocol_errc::limit_exceeded,
+                                      protocol_errc::unknown_case,
+                                      protocol_errc::access_denied,
+                                      protocol_errc::not_supported,
+                                      protocol_errc::duplicate_key,
+                                      protocol_errc::out_of_limits,
+                                      protocol_errc::timeout,
+                                      protocol_errc::retries_exhausted,
+                                      protocol_errc::nak,
+                                      protocol_errc::refused,
+                                      protocol_errc::unexpected_reply,
+                                      protocol_errc::not_accepted_in_state,
+                                      protocol_errc::link_lost,
+                                      protocol_errc::not_confirmed };
 } // namespace
 
 TEST (LumexProtocolErrcTest, GivenTheCategory_WhenNamed_ThenItIsLumexProtocol)
@@ -86,6 +99,49 @@ TEST (LumexProtocolErrcTest,
              "two entries of a table have the same key");
   EXPECT_EQ (std::error_code (protocol_errc::out_of_limits).message (),
              "value outside the limits of the registry entry");
+}
+
+TEST (
+    LumexProtocolErrcTest,
+    GivenTheDialogueValues_WhenNumbered_ThenTheyStartAtOneHundredInDeclarationOrder)
+{
+  EXPECT_EQ (static_cast<int> (protocol_errc::timeout), 100);
+  EXPECT_EQ (static_cast<int> (protocol_errc::retries_exhausted), 101);
+  EXPECT_EQ (static_cast<int> (protocol_errc::nak), 102);
+  EXPECT_EQ (static_cast<int> (protocol_errc::refused), 103);
+  EXPECT_EQ (static_cast<int> (protocol_errc::unexpected_reply), 104);
+  EXPECT_EQ (static_cast<int> (protocol_errc::not_accepted_in_state), 105);
+  EXPECT_EQ (static_cast<int> (protocol_errc::link_lost), 106);
+  EXPECT_EQ (static_cast<int> (protocol_errc::not_confirmed), 107);
+}
+
+TEST (LumexProtocolErrcTest,
+      GivenTheDialogueValues_WhenMessaged_ThenTheTextIsTheDocumentedOne)
+{
+  EXPECT_EQ (std::error_code (protocol_errc::timeout).message (),
+             "no reply within the timeout");
+  EXPECT_EQ (std::error_code (protocol_errc::retries_exhausted).message (),
+             "no reply after every retry");
+  EXPECT_EQ (std::error_code (protocol_errc::nak).message (),
+             "the device answered with a negative acknowledgement");
+  EXPECT_EQ (std::error_code (protocol_errc::refused).message (),
+             "the device refused the request");
+  EXPECT_EQ (std::error_code (protocol_errc::unexpected_reply).message (),
+             "a reply other than the one expected");
+  EXPECT_EQ (std::error_code (protocol_errc::not_accepted_in_state).message (),
+             "the device does not accept the request in its current state");
+  EXPECT_EQ (std::error_code (protocol_errc::link_lost).message (),
+             "the link to the device was lost");
+  EXPECT_EQ (std::error_code (protocol_errc::not_confirmed).message (),
+             "the device did not confirm the value it was sent");
+}
+
+TEST (LumexProtocolErrcTest,
+      GivenTheGapBetweenTheBlocks_WhenMessaged_ThenTheTextSaysUnknown)
+{
+  EXPECT_EQ (protocol_category ().message (11), "unknown protocol error");
+  EXPECT_EQ (protocol_category ().message (99), "unknown protocol error");
+  EXPECT_EQ (protocol_category ().message (108), "unknown protocol error");
 }
 
 TEST (LumexProtocolErrcTest,
