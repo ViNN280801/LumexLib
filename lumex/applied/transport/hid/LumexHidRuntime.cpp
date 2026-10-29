@@ -290,7 +290,10 @@ hid_runtime_core::worker_main ()
       while (tasks_.empty () && !quit_)
         tasks_changed_.wait (lock);
       --idle_workers_;
-      if (tasks_.empty ())
+      // After the quit a task is left in the queue (shutdown starts workers
+      // for it once it joined): a task stuck in the driver would keep the
+      // join past the deadline.
+      if (tasks_.empty () || quit_)
         return;
       task_t task = std::move (tasks_.front ());
       tasks_.pop_front ();
@@ -417,12 +420,19 @@ hid_runtime_core::shutdown (deadline_t deadline)
       return false;
     }
   quit_ = true;
-  tasks_changed_.notify_all ();
-  finished_changed_.notify_all ();
   std::vector<std::thread> workers;
   workers.swap (workers_);
   std::thread housekeeping (std::move (housekeeping_));
+  task_t hook;
+  hook.swap (shutdown_hook_);
   lock.unlock ();
+  // The hook of the tests runs while the workers still sleep: the tasks it
+  // posts meet workers that were told to quit. Notifying without the lock
+  // loses nothing: a thread that has not waited yet sees quit_ set.
+  if (hook)
+    hook ();
+  tasks_changed_.notify_all ();
+  finished_changed_.notify_all ();
   for (std::size_t i = 0; i < workers.size (); ++i)
     workers[i].join ();
   if (housekeeping.joinable ())
@@ -430,10 +440,19 @@ hid_runtime_core::shutdown (deadline_t deadline)
   lock.lock ();
   quit_ = false;
   accepting_ = true;
-  // A task posted while the threads were quitting started no worker.
-  if (!tasks_.empty ())
+  // The tasks posted while the threads were quitting started no worker and
+  // the workers that quit left them: one worker per task, up to the limit.
+  for (std::size_t i = 0;
+       i < tasks_.size () && workers_.size () < KMAX_WORKERS; ++i)
     workers_.push_back (std::thread (&hid_runtime_core::worker_main, this));
   return true;
+}
+
+void
+hid_runtime_core::set_shutdown_hook (task_t hook)
+{
+  std::lock_guard<std::mutex> const lock (mutex_);
+  shutdown_hook_ = std::move (hook);
 }
 
 void

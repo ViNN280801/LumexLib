@@ -519,9 +519,11 @@ TEST_F (
 
 // ---- an open that starts while an abandoned one still runs -----------------
 
+// The device has one open worker at most: a new open waits (parked on the
+// strand, no task, no pin) for the abandoned one to return, then starts.
 TEST_F (
     LumexHidOpenDeadlineTest,
-    GivenAnAbandonedOpenStillInsideHidapi_WhenTheDeviceOpensAgain_ThenOnlyTheNewOpenCounts)
+    GivenAnAbandonedOpenStillInsideHidapi_WhenTheDeviceOpensAgain_ThenTheNewOpenWaitsForItAndThenRuns)
 {
   std::shared_ptr<fake_device> const device = add ("fake-a");
   device->set_hold_open (true);
@@ -536,11 +538,17 @@ TEST_F (
              std::future_status::ready);
   EXPECT_TRUE (error_of (first) == transport_errc::cancelled);
 
-  // The new open takes the other thread of the executor and waits in
-  // open_path too; the old one has not returned.
   std::future<std::error_code> second = open_async (transport);
-  ASSERT_TRUE (
-      device->wait_for ([&device] () { return device->open_waiters == 2; }));
+  // No second thread: the new open waits, the abandoned one is the only task.
+  EXPECT_EQ (second.wait_for (std::chrono::milliseconds (150)),
+             std::future_status::timeout);
+  {
+    std::lock_guard<std::mutex> const lock (device->mutex);
+    EXPECT_EQ (device->open_waiters, 1u);
+    EXPECT_EQ (device->opens, 0u);
+  }
+  EXPECT_EQ (hid::hid_runtime::stats ().pending_tasks, 1u);
+
   device->set_hold_open (false);
   ASSERT_EQ (second.wait_for (std::chrono::seconds (5)),
              std::future_status::ready);
@@ -550,6 +558,7 @@ TEST_F (
   ASSERT_TRUE (
       device->wait_for ([&device] () { return device->closes == 1; }));
   EXPECT_EQ (device->opens, 2u);
+  EXPECT_EQ (device->open_waiters_max, 1u);
   EXPECT_TRUE (device->open);
   device->push_raw ({ 0x22 });
   tr::datagram::message_result_t const report
@@ -558,6 +567,120 @@ TEST_F (
   EXPECT_EQ (report.value ().payload, (bytes{ 0x22 }));
   EXPECT_EQ (hid::detail::stale_events (transport), 0u);
   EXPECT_EQ (hid::hid_runtime::stats ().reader_threads, 1u);
+}
+
+TEST_F (
+    LumexHidOpenDeadlineTest,
+    GivenAnOpenWaitingForAnAbandonedOne_WhenItsDeadlinePasses_ThenTimeoutAndItNeverRuns)
+{
+  std::shared_ptr<fake_device> const device = add ("fake-a");
+  device->set_hold_open (true);
+  hid::hid_device transport = make ("fake-a");
+  backstop const guard (KBACKSTOP_MS,
+                        [&device] () { device->set_hold_open (false); });
+  std::future<std::error_code> first = open_async (transport);
+  ASSERT_TRUE (
+      device->wait_for ([&device] () { return device->open_waiting; }));
+  transport.cancel ();
+  ASSERT_EQ (first.wait_for (std::chrono::milliseconds (1000)),
+             std::future_status::ready);
+
+  clock_type::time_point const start = clock_type::now ();
+  tr::status_result_t const result = transport.open (deadline_t (100));
+  long long const took = elapsed_ms (start);
+  ASSERT_FALSE (result.has_value ());
+  EXPECT_TRUE (result.error () == transport_errc::timeout) << result.error ();
+  EXPECT_LT (took, 100 + KSLACK_MS);
+  device->set_hold_open (false);
+  ASSERT_TRUE (
+      device->wait_for ([&device] () { return device->closes == 1; }));
+  EXPECT_TRUE (eventually (
+      [] () { return hid::hid_runtime::stats ().pending_tasks == 0; }));
+  // The parked open ended with the deadline: it never started.
+  EXPECT_EQ (device->opens, 1u);
+  EXPECT_FALSE (transport.is_open ());
+  EXPECT_EQ (device->open_waiters_max, 1u);
+}
+
+TEST_F (
+    LumexHidOpenDeadlineTest,
+    GivenAnOpenWaitingForAnAbandonedOne_WhenCancelledOrClosed_ThenItEndsCancelledAtOnceAndNeverRuns)
+{
+  std::shared_ptr<fake_device> const device = add ("fake-a");
+  device->set_hold_open (true);
+  hid::hid_device transport = make ("fake-a");
+  backstop const guard (KBACKSTOP_MS * 2,
+                        [&device] () { device->set_hold_open (false); });
+  for (int round = 0; round < 2; ++round)
+    {
+      std::future<std::error_code> first = open_async (transport);
+      if (round == 0)
+        ASSERT_TRUE (
+            device->wait_for ([&device] () { return device->open_waiting; }));
+      // Round 1: the first open of the round is parked behind the abandoned
+      // one of round 0 and ends with the cancel as well.
+      transport.cancel ();
+      ASSERT_EQ (first.wait_for (std::chrono::milliseconds (1000)),
+                 std::future_status::ready);
+      EXPECT_TRUE (error_of (first) == transport_errc::cancelled);
+      std::future<std::error_code> parked = open_async (transport);
+      EXPECT_EQ (parked.wait_for (std::chrono::milliseconds (50)),
+                 std::future_status::timeout);
+      if (round == 0)
+        transport.cancel ();
+      else
+        transport.close ();
+      ASSERT_EQ (parked.wait_for (std::chrono::milliseconds (1000)),
+                 std::future_status::ready);
+      EXPECT_TRUE (error_of (parked) == transport_errc::cancelled);
+    }
+  device->set_hold_open (false);
+  ASSERT_TRUE (
+      device->wait_for ([&device] () { return device->closes == 1; }));
+  EXPECT_TRUE (eventually (
+      [] () { return hid::hid_runtime::stats ().pending_tasks == 0; }));
+  EXPECT_EQ (device->opens, 1u);
+  EXPECT_EQ (device->open_waiters_max, 1u);
+}
+
+// Retries of an open on a device that hangs do not take the threads of the
+// executor from the others.
+TEST_F (
+    LumexHidOpenDeadlineTest,
+    GivenOneDeviceHangingInOpenPath_WhenItsOpenIsRetriedInALoop_ThenAHealthyDeviceStillWorksAndOneThreadIsUsed)
+{
+  std::shared_ptr<fake_device> const a = add ("fake-a");
+  hid::hid_device good = make ("fake-a");
+  ASSERT_TRUE (good.open (deadline_t (2000)).has_value ());
+  std::shared_ptr<fake_device> const h = add ("fake-h");
+  h->set_hold_open (true);
+  hid::hid_device hung = make ("fake-h");
+  backstop const guard (4000, [&h] () { h->set_hold_open (false); });
+  for (int i = 0; i < 6; ++i)
+    {
+      tr::status_result_t const result = hung.open (deadline_t (100));
+      ASSERT_FALSE (result.has_value ());
+      EXPECT_TRUE (result.error () == transport_errc::timeout)
+          << result.error ();
+      clock_type::time_point const start = clock_type::now ();
+      EXPECT_TRUE (
+          good.send (message (0, { 1 }), deadline_t (1000)).has_value ())
+          << "round " << i;
+      a->push_raw ({ 0x33 });
+      EXPECT_TRUE (good.receive (deadline_t (1000)).has_value ())
+          << "round " << i;
+      EXPECT_LT (elapsed_ms (start), 500) << "round " << i;
+    }
+  {
+    std::lock_guard<std::mutex> const lock (h->mutex);
+    EXPECT_EQ (h->open_waiters_max, 1u);
+    EXPECT_EQ (h->opens, 0u);
+  }
+  h->set_hold_open (false);
+  // The last parked open ended with its deadline: the hung device is not
+  // open, the late handle of the first is closed.
+  ASSERT_TRUE (h->wait_for ([&h] () { return h->closes == 1; }));
+  EXPECT_FALSE (hung.is_open ());
 }
 
 // The cancel arrives on the strand after the worker finished everything but
@@ -706,4 +829,195 @@ TEST_F (
   finish_stalled_writes ();
   EXPECT_EQ (c->opens, 0u);
   EXPECT_EQ (hid::hid_runtime::stats ().reader_threads, readers);
+}
+
+// ---- the context dies
+// -------------------------------------------------------
+
+// An open still queued when the context is destroyed is taken back: it never
+// touches hidapi afterwards.
+TEST_F (
+    LumexHidOpenDeadlineTest,
+    GivenAnOpenQueuedBehindStuckWrites_WhenTheContextIsDestroyed_ThenTheTaskNeverOpensTheDevice)
+{
+  stall_workers ();
+  std::shared_ptr<fake_device> const c = add ("fake-c");
+  manual_device held (seam_, "fake-c");
+  held.transport->async_open ([] (std::error_code) {});
+  held.drive ();
+  held.transport.reset ();
+  held.context.reset ();
+  EXPECT_TRUE (held.impl.expired ());
+  finish_stalled_writes ();
+  EXPECT_EQ (c->opens, 0u);
+  EXPECT_EQ (c->closes, 0u);
+}
+
+// An open parked behind an abandoned one dies with the context: nothing is
+// called, nothing starts, nothing leaks.
+TEST_F (
+    LumexHidOpenDeadlineTest,
+    GivenAnOpenParkedBehindAnAbandonedOne_WhenTheContextIsDestroyed_ThenItNeverRuns)
+{
+  std::shared_ptr<fake_device> const device = add ("fake-a");
+  device->set_hold_open (true);
+  manual_device held (seam_, "fake-a");
+  int calls = 0;
+  held.transport->async_open ([&calls] (std::error_code) { ++calls; });
+  held.drive ();
+  ASSERT_TRUE (
+      device->wait_for ([&device] () { return device->open_waiting; }));
+  held.transport->cancel ();
+  held.drive ();
+  EXPECT_EQ (calls, 1);
+  held.transport->async_open ([&calls] (std::error_code) { ++calls; });
+  held.drive ();
+  EXPECT_EQ (calls, 1);
+  held.transport.reset ();
+  held.context.reset ();
+  EXPECT_TRUE (held.impl.expired ());
+  device->set_hold_open (false);
+  ASSERT_TRUE (
+      device->wait_for ([&device] () { return device->closes == 1; }));
+  EXPECT_TRUE (eventually (
+      [] () { return hid::hid_runtime::stats ().pending_tasks == 0; }));
+  EXPECT_EQ (device->opens, 1u);
+  EXPECT_EQ (calls, 1);
+  EXPECT_EQ (hid::hid_runtime::stats ().reader_threads, 0u);
+}
+
+// ---- the runtime's shutdown
+// -------------------------------------------------
+
+namespace
+{
+// A task for the executor that waits for the test.
+struct blocking_task
+{
+  std::shared_ptr<std::mutex> mutex;
+  std::shared_ptr<std::condition_variable> changed;
+  std::shared_ptr<int> entered;
+  std::shared_ptr<bool> released;
+
+  blocking_task ()
+      : mutex (std::make_shared<std::mutex> ()),
+        changed (std::make_shared<std::condition_variable> ()),
+        entered (std::make_shared<int> (0)),
+        released (std::make_shared<bool> (false))
+  {
+  }
+
+  void
+  operator() () const
+  {
+    std::unique_lock<std::mutex> lock (*mutex);
+    ++*entered;
+    changed->notify_all ();
+    changed->wait (lock, [this] () { return *released; });
+  }
+
+  void
+  release () const
+  {
+    {
+      std::lock_guard<std::mutex> const lock (*mutex);
+      *released = true;
+    }
+    changed->notify_all ();
+  }
+
+  bool
+  wait_entered (int count, long long milliseconds) const
+  {
+    std::unique_lock<std::mutex> lock (*mutex);
+    return changed->wait_for (lock, std::chrono::milliseconds (milliseconds),
+                              [this, count] () { return *entered >= count; });
+  }
+};
+} // namespace
+
+// Tasks posted after the workers were told to quit are not run by them (a
+// task stuck in the driver would keep the join past the deadline); the
+// shutdown starts workers for them once it joined.
+TEST_F (
+    LumexHidOpenDeadlineTest,
+    GivenTwoTasksPostedAfterTheWorkersWereToldToQuit_WhenShutdownRuns_ThenItReturnsAtOnceAndTwoWorkersRunThem)
+{
+  std::shared_ptr<fake_device> const warm_device = add ("fake-w");
+  {
+    hid::hid_device warm = make ("fake-w");
+    ASSERT_TRUE (warm.open (deadline_t (2000)).has_value ());
+  }
+  ASSERT_TRUE (eventually (
+      [] ()
+        {
+          hid::hid_runtime_stats_t const stats = hid::hid_runtime::stats ();
+          return stats.reader_threads == 0 && stats.pending_tasks == 0
+                 && stats.worker_threads > 0;
+        }));
+  blocking_task first;
+  blocking_task second;
+  hid::detail::hid_runtime_core &core
+      = hid::detail::hid_runtime_core::instance ();
+  core.set_shutdown_hook (
+      [&core, first, second] ()
+        {
+          core.post (first);
+          core.post (second);
+        });
+  backstop const guard (3 * KBACKSTOP_MS,
+                        [first, second] ()
+                          {
+                            first.release ();
+                            second.release ();
+                          });
+  clock_type::time_point const start = clock_type::now ();
+  bool const stopped = hid::hid_runtime::shutdown (deadline_t (300));
+  long long const took = elapsed_ms (start);
+  EXPECT_TRUE (stopped);
+  EXPECT_LT (took, 300 + KSLACK_MS);
+  // Both tasks run at the same time: two workers were started for them.
+  EXPECT_TRUE (first.wait_entered (1, 1000));
+  EXPECT_TRUE (second.wait_entered (1, 1000));
+  first.release ();
+  second.release ();
+  EXPECT_TRUE (eventually (
+      [] () { return hid::hid_runtime::stats ().pending_tasks == 0; }));
+}
+
+// ---- open and cancel at every moment
+// ----------------------------------------
+
+TEST_F (
+    LumexHidOpenDeadlineTest,
+    GivenManyOpensCancelledAtVaryingMoments_WhenTheyAreDone_ThenEveryHandleIsClosedAndTheDeviceIsFreed)
+{
+  std::shared_ptr<fake_device> const device = add ("fake-a");
+  std::weak_ptr<tr::datagram::message_impl> impl;
+  {
+    hid::hid_device transport = make ("fake-a");
+    impl = transport.impl ();
+    for (int i = 0; i < 80; ++i)
+      {
+        std::future<std::error_code> opened = open_async (transport);
+        std::this_thread::sleep_for (std::chrono::microseconds (i * 40));
+        transport.cancel ();
+        ASSERT_EQ (opened.wait_for (std::chrono::seconds (5)),
+                   std::future_status::ready);
+        std::error_code const error = error_of (opened);
+        EXPECT_TRUE (!error || error == transport_errc::cancelled) << error;
+        transport.close ();
+      }
+    ASSERT_TRUE (eventually (
+        [] () { return hid::hid_runtime::stats ().pending_tasks == 0; }));
+    ASSERT_TRUE (eventually (
+        [&device] ()
+          {
+            std::lock_guard<std::mutex> const lock (device->mutex);
+            return device->opens == device->closes;
+          }));
+  }
+  EXPECT_TRUE (eventually ([&impl] () { return impl.expired (); }));
+  EXPECT_TRUE (eventually (
+      [] () { return hid::hid_runtime::stats ().reader_threads == 0; }));
 }
