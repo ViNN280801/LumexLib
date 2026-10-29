@@ -210,6 +210,9 @@ struct open_gate
 {
   std::mutex mutex;
   serial_impl_ptr impl;
+  // Set by the worker, under the mutex, when it has nothing more to do with
+  // the gate (it posted its step or found no reference to post to).
+  bool done = false;
 };
 
 // The step on the strand. It owns the opened handle until finish_open takes
@@ -302,10 +305,23 @@ public:
     if (origin != open_gate_)
       {
         // The late result of an open that was ended meanwhile: its handler
-        // has run, and a later open may be in progress. The port it opened
-        // is closed, nothing else happens.
+        // has run. The port it opened is closed, nothing else happens to the
+        // stream, but when it is the result the stream waits for (an open is
+        // parked behind it) that open starts now.
         if (result.outcome == bounded::open_outcome::opened)
           bounded::close_serial_handle (result.handle);
+        if (origin == abandoned_gate_)
+          {
+            release (abandoned_gate_);
+            abandoned_gate_.reset ();
+            if (parked_)
+              {
+                parked_ = false;
+                status_handler_t waiting (std::move (parked_handler_));
+                parked_handler_ = nullptr;
+                start_worker (std::move (waiting));
+              }
+          }
         return;
       }
     opening_ = false;
@@ -403,11 +419,39 @@ protected:
         complete (std::move (handler), unsupported);
         return;
       }
-    if (opening_)
+    if (opening_ || parked_)
       {
         complete (std::move (handler), transport_errc::cancelled);
         return;
       }
+    if (abandoned_gate_)
+      {
+        // One worker thread per stream: while the worker of an abandoned
+        // open runs, the new open waits. The gate gets its reference back,
+        // so that the worker's step wakes it (under the gate's lock, the
+        // worker either is not done yet or has gone).
+        // A copy of the gate outlives the lock: the stream may hold the last
+        // reference, and the mutex must not die while it is locked.
+        std::shared_ptr<open_gate> const old = abandoned_gate_;
+        {
+          std::lock_guard<std::mutex> const lock (old->mutex);
+          if (!old->done)
+            {
+              old->impl = std::static_pointer_cast<serial_stream_impl> (
+                  shared_from_this ());
+              parked_handler_ = std::move (handler);
+              parked_ = true;
+              return;
+            }
+        }
+        abandoned_gate_.reset ();
+      }
+    start_worker (std::move (handler));
+  }
+
+  void
+  start_worker (status_handler_t handler)
+  {
     opening_ = true;
     open_handler_ = std::move (handler);
     open_gate_ = std::make_shared<open_gate> ();
@@ -467,7 +511,11 @@ protected:
   {
     // Not the last owner: the shutdown service holds this one for the call.
     release_gate ();
+    if (abandoned_gate_)
+      release (abandoned_gate_);
     status_handler_t const dropped (std::move (open_handler_));
+    status_handler_t const dropped_parked (std::move (parked_handler_));
+    parked_ = false;
   }
 
 private:
@@ -480,16 +528,42 @@ private:
   void
   end_open ()
   {
+    if (parked_)
+      {
+        // It waits for the worker of an abandoned open and has none: the
+        // worker gets no reference to wake it.
+        parked_ = false;
+        release (abandoned_gate_);
+        status_handler_t waiting (std::move (parked_handler_));
+        parked_handler_ = nullptr;
+        complete (std::move (waiting), transport_errc::cancelled);
+        return;
+      }
     if (!opening_)
       return;
     opening_ = false;
+    abandoned_gate_ = open_gate_;
     release_gate ();
     status_handler_t handler (std::move (open_handler_));
     open_handler_ = nullptr;
-    LUMEX_TRANSPORT_LOG (warning, KCOMPONENT, name ().c_str (),
-                         "open ended while its worker runs: abandoned",
-                         log::log_bytes_t ());
+    LUMEX_TRANSPORT_LOG (
+        warning, KCOMPONENT, name ().c_str (),
+        "open ended while its worker runs or its result is on the way: "
+        "abandoned",
+        log::log_bytes_t ());
     complete (std::move (handler), transport_errc::cancelled);
+  }
+
+  // Takes the stream's reference out of a gate (the strand, or the
+  // context's shutdown).
+  static void
+  release (std::shared_ptr<open_gate> const &gate) LUMEX_NOEXCEPT
+  {
+    if (!gate)
+      return;
+    serial_impl_ptr released;
+    std::lock_guard<std::mutex> const lock (gate->mutex);
+    released.swap (gate->impl);
   }
 
   // Lets the worker's reference go (the strand, or the context's shutdown):
@@ -514,6 +588,12 @@ private:
   // Strand data: the handler of the open in progress and its gate.
   status_handler_t open_handler_;
   std::shared_ptr<open_gate> open_gate_;
+  // The gate of the last open that was ended while its worker ran: the
+  // worker may still run until the gate says it is done.
+  std::shared_ptr<open_gate> abandoned_gate_;
+  // An open that waits for that worker (its handler; no worker of its own).
+  bool parked_ = false;
+  status_handler_t parked_handler_;
 };
 
 // The port of this open: `path`, or what `resolve` finds (on this thread:
@@ -574,6 +654,7 @@ open_worker::operator() ()
   std::lock_guard<std::mutex> const lock (gate->mutex);
   open_finished finished (gate->impl, gate, result,
                           std::move (permission_text), resolve_error);
+  gate->done = true;
   if (gate->impl)
     asio::post (gate->impl->strand (), std::move (finished));
 }
