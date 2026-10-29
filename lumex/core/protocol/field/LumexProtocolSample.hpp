@@ -48,20 +48,26 @@
  * command may access and stay inside its limits. The sample is, by kind:
  *  - a number, a text, a character, a token: value-initialized (0, empty);
  *  - an enumeration (`enum_`, a `bits_` or `mask_` part, `split_` parts):
- *    the enumerator nearest to 0 that the field accepts (0, 1, -1, 2, -2,
- *    ... up to 65535; a reflected enumeration accepts only its enumerators,
- *    a part only what fits its bits), value-initialized when none is found;
+ *    the enumerator nearest to 0 that the field accepts, the positive one
+ *    first at the same distance. A `LUMEX_DEFINE_REFLECTED_ENUM` at
+ *    namespace scope gives its enumerators (`lumex_enum_values`, found by
+ *    argument-dependent lookup), whatever their values; another enumeration
+ *    is tried at 0, 1, -1, 2, -2, ... up to 65535. A part takes only what
+ *    fits its bits. Value-initialized when nothing is accepted;
  *  - `array_`: every element sampled; `counted_`: no element;
  *    `computed_count_`: as many sampled elements as its expression gives for
  *    the sampled fields before it (none when that is not a valid count);
  *  - `optional_tail_`: absent; `by_length_`: the short form, sampled;
  *  - `union_by_`, `union_by_context_`: the first case, sampled, with its
- *    discriminant; with `field_<I>` field `I` of the group is set to it;
+ *    discriminant; with `field_<I>`, the first case whose discriminant field
+ *    `I` of the group accepts (an enumeration takes its enumerators only),
+ *    and field `I` is set to it;
  *  - `registry_key_`: the first entry; with a `registry_value_` of the same
  *    group, the first entry from there on that allows the access of the
  *    value, and the raw value 0, or the lower limit, or the upper limit,
  *    whichever the entry and the carrier accept;
- *  - `nested_`: the sampled key and no payload; a group (a layout, the
+ *  - `nested_`: the sampled key (an enumeration as above) and no payload;
+ *    a group (a layout, the
  *    fields of a row): every field sampled, then the fields that depend on
  *    earlier ones adjusted.
  * A union chosen by a session value decodes only with a session that knows
@@ -94,6 +100,8 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpadded"
 #pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
+// The lumex_enum_values of a reflected enumeration is declared maybe-unused.
+#pragma clang diagnostic ignored "-Wused-but-marked-unused"
 #endif
 
 namespace lumex
@@ -104,9 +112,35 @@ namespace protocol
 {
 namespace field
 {
+namespace sample_probe
+{
+// The probe of lumex_enum_values: an unqualified call from here finds this
+// declaration (which takes no argument) and, by argument-dependent lookup,
+// the function LUMEX_DEFINE_REFLECTED_ENUM declares next to the enumeration.
+void lumex_enum_values ();
+
+template <typename E, typename = void> struct has_values : std::false_type
+{
+};
+
+template <typename E>
+struct has_values<E, typename detail::voider<decltype (lumex_enum_values (
+                         std::declval<E> ()))>::type> : std::true_type
+{
+};
+
+template <typename E>
+auto
+values_of (E value) -> decltype (lumex_enum_values (value))
+{
+  return lumex_enum_values (value);
+}
+} // namespace sample_probe
+
 namespace detail
 {
-/// The farthest distance from 0 the sample of an enumeration looks at.
+/// The farthest distance from 0 the sample of an enumeration looks at when
+/// the enumeration does not list its enumerators.
 LUMEX_CONSTEXPR std::int64_t sample_enum_reach = 65535;
 
 // Whether `value` is a value of U.
@@ -124,10 +158,73 @@ fits_underlying (std::int64_t value) LUMEX_NOEXCEPT
                 (std::numeric_limits<U>::max) ());
 }
 
-// The enumerator of E nearest to 0 that field implementation Impl accepts.
+// The distance of an enumerator from 0 and its sign.
+template <typename E> struct enum_distance
+{
+  using underlying = typename std::underlying_type<E>::type;
+
+  std::uint64_t magnitude;
+  bool negative;
+
+  explicit enum_distance (E value) LUMEX_NOEXCEPT : magnitude (0),
+                                                    negative (false)
+  {
+    underlying const raw = static_cast<underlying> (value);
+    if (std::is_signed<underlying>::value
+        && static_cast<std::int64_t> (raw) < 0)
+      {
+        negative = true;
+        // -(raw + 1) + 1 does not overflow for the most negative value.
+        magnitude = static_cast<std::uint64_t> (
+                        -(static_cast<std::int64_t> (raw) + 1))
+                    + 1u;
+      }
+    else
+      magnitude = static_cast<std::uint64_t> (raw);
+  }
+
+  // Nearer to 0, or as near and positive while the other is negative.
+  bool
+  nearer_than (enum_distance const &other) const LUMEX_NOEXCEPT
+  {
+    return magnitude < other.magnitude
+           || (magnitude == other.magnitude && !negative && other.negative);
+  }
+};
+
+template <typename Impl, typename E>
+bool
+enum_accepted (E candidate) LUMEX_NOEXCEPT
+{
+  typename Impl::value_type probe = typename Impl::value_type ();
+  return Impl::assign (probe, candidate);
+}
+
+// The enumerator of E nearest to 0 that field implementation Impl accepts,
+// among the enumerators of a reflected enumeration.
 template <typename Impl, typename E>
 E
-first_accepted () LUMEX_NOEXCEPT
+first_accepted (std::true_type) LUMEX_NOEXCEPT
+{
+  E best = E ();
+  bool found = false;
+  auto const values = sample_probe::values_of (E ());
+  for (std::size_t i = 0; i < values.size (); ++i)
+    if (enum_accepted<Impl> (values[i])
+        && (!found
+            || enum_distance<E> (values[i]).nearer_than (
+                enum_distance<E> (best))))
+      {
+        best = values[i];
+        found = true;
+      }
+  return best;
+}
+
+// The same for another enumeration: the values near 0 are tried.
+template <typename Impl, typename E>
+E
+first_accepted (std::false_type) LUMEX_NOEXCEPT
 {
   using underlying = typename std::underlying_type<E>::type;
   for (std::int64_t distance = 0; distance <= sample_enum_reach; ++distance)
@@ -139,8 +236,7 @@ first_accepted () LUMEX_NOEXCEPT
             continue;
           E const candidate
               = static_cast<E> (static_cast<underlying> (candidates[side]));
-          typename Impl::value_type probe = typename Impl::value_type ();
-          if (Impl::assign (probe, candidate))
+          if (enum_accepted<Impl> (candidate))
             return candidate;
         }
     }
@@ -218,7 +314,9 @@ private:
   static void
   fill_value (value_type &value, std::true_type)
   {
-    static value_type const first = first_accepted<Impl, value_type> ();
+    static value_type const first = first_accepted<Impl, value_type> (
+        std::integral_constant<
+            bool, sample_probe::has_values<value_type>::value> ());
     value = first;
   }
 };
@@ -297,11 +395,70 @@ fill_first_case (Value &value)
   value.discriminant = head::value ();
 }
 
+// Whether field implementation Impl accepts `value`: a strict enumeration
+// (enum_, a part of a word) checks it, any other field takes what
+// from_discriminant could set.
+template <typename Impl, typename = void> struct accepts_value
+{
+  static bool
+  check (typename Impl::value_type const &) LUMEX_NOEXCEPT
+  {
+    return true;
+  }
+};
+
+template <typename Impl>
+struct accepts_value<Impl,
+                     typename voider<decltype (Impl::is_valid (
+                         std::declval<typename Impl::value_type> ()))>::type>
+{
+  static bool
+  check (typename Impl::value_type const &value) LUMEX_NOEXCEPT
+  {
+    return Impl::is_valid (value);
+  }
+};
+
+// Puts the first case from position K on whose discriminant field
+// implementation Impl accepts into `value` and `discriminant`.
+template <std::size_t K, typename... Cases> struct case_chooser
+{
+  template <typename Impl, typename Value, typename Discriminant>
+  static bool
+  apply (Value &, Discriminant &) LUMEX_NOEXCEPT
+  {
+    return false;
+  }
+};
+
+template <std::size_t K, typename Head, typename... Tail>
+struct case_chooser<K, Head, Tail...>
+{
+  template <typename Impl, typename Value, typename Discriminant>
+  static bool
+  apply (Value &value, Discriminant &discriminant)
+  {
+    Discriminant candidate = discriminant;
+    if (from_discriminant (candidate, Head::value ())
+        && accepts_value<Impl>::check (candidate))
+      {
+        discriminant = candidate;
+        sampler<typename impl_of<typename Head::layout_type>::type>::fill (
+            value.cases.template emplace<K> ());
+        value.discriminant = Head::value ();
+        return true;
+      }
+    return case_chooser<K + 1, Tail...>::template apply<Impl> (value,
+                                                               discriminant);
+  }
+};
+
 // Where the discriminant of a union comes from: nothing to adjust, unless
-// it is field J of the group, which gets the discriminant of the first case.
+// it is field J of the group, which gets the discriminant of the first case
+// it accepts.
 template <typename D> struct union_fix
 {
-  template <std::int64_t Value, typename Record>
+  template <std::size_t I, typename... Cases, typename Record>
   static void
   apply (Record &) LUMEX_NOEXCEPT
   {
@@ -310,11 +467,14 @@ template <typename D> struct union_fix
 
 template <std::size_t J> struct union_fix<field_<J>>
 {
-  template <std::int64_t Value, typename Record>
+  template <std::size_t I, typename... Cases, typename Record>
   static void
   apply (Record &record)
   {
-    from_discriminant (get<J> (record), Value);
+    using discriminant_impl =
+        typename impl_of<typename Record::template field_at<J>::type>::type;
+    case_chooser<0, Cases...>::template apply<discriminant_impl> (
+        get<I> (record), get<J> (record));
   }
 };
 
@@ -332,8 +492,18 @@ struct sampler<union_by_<Discriminant, Cases...>>
   static void
   fix (Record &record)
   {
-    union_fix<Discriminant>::template apply<
-        first_case<Cases...>::type::value ()> (record);
+    union_fix<Discriminant>::template apply<I, Cases...> (record);
+  }
+};
+
+template <typename Protocol, typename KeyField>
+struct sampler<nested_<Protocol, KeyField>> : no_fix
+{
+  static void
+  fill (typename nested_<Protocol, KeyField>::value_type &value)
+  {
+    value = typename nested_<Protocol, KeyField>::value_type ();
+    sampler<typename nested_<Protocol, KeyField>::key_impl>::fill (value.key);
   }
 };
 

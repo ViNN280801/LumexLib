@@ -36,7 +36,33 @@ LUMEX_DEFINE_REFLECTED_ENUM (offset, std::int8_t, (back, -2), (ahead, 4))
 // The enumerator nearest to 0 does not fit two signed bits, -2 does.
 LUMEX_DEFINE_REFLECTED_ENUM (narrow, std::int8_t, (wide, 2), (fits, -2))
 
+// Enumerators far from 0 (beyond any scan).
+LUMEX_DEFINE_REFLECTED_ENUM (far, std::uint32_t, (far_one, 70000),
+                             (far_two, 80000))
+LUMEX_DEFINE_REFLECTED_ENUM (far_negative, std::int32_t, (below, -70000))
+LUMEX_DEFINE_REFLECTED_ENUM (high_bit, std::uint64_t,
+                             (high, 0x8000000000000000ull))
+
+// Two enumerators at the same distance from 0: the positive one first.
+LUMEX_DEFINE_REFLECTED_ENUM (tie, std::int8_t, (minus_five, -5),
+                             (plus_five, 5))
+
 LUMEX_PROTOCOL_CONTEXT_KEY (sample_kind);
+
+struct inner_codec
+{
+};
+
+struct inner_header
+{
+  static LUMEX_CONSTEXPR std::size_t key_width = 1;
+};
+
+// clang-format off
+#define INNER_ROWS(X, X_AS) \
+  X (PING, 0x01, "Liveness", (), (), (), ())
+// clang-format on
+LUMEX_PROTOCOL_DEFINE (inner_protocol, inner_codec, inner_header, INNER_ROWS);
 
 // Two elements whatever the earlier fields hold.
 struct two_items
@@ -56,6 +82,27 @@ LUMEX_PROTOCOL_LAYOUT (stage_parts_t,
 LUMEX_PROTOCOL_LAYOUT (
     selected_t, (u8_, union_by_<field_<0>, case_<3, u8_>, case_<5, u16_le_>>),
     ("selector", "item"));
+
+// The discriminant is an enumeration: the first case whose value is no
+// enumerator cannot be sampled, the second one can.
+LUMEX_PROTOCOL_LAYOUT (
+    chosen_t,
+    (enum_<u8_, stage>,
+     union_by_<field_<0>, case_<5, u8_>, case_<3, u16_le_>>),
+    ("stage", "item"));
+
+// The union sets field 0, which the computed count before it reads: the
+// count is right only after a second pass.
+LUMEX_PROTOCOL_LAYOUT (
+    two_pass_t,
+    (u8_, computed_count_<u8_, count_from_<0>, 8>,
+     union_by_<field_<0>, case_<5, u8_>, case_<6, u16_le_>>),
+    ("count", "items", "item"));
+
+// A nested message whose key is an enumeration without 0.
+LUMEX_PROTOCOL_LAYOUT (tunnel_t,
+                       (u8_, nested_<inner_protocol, enum_<u8_, stage>>),
+                       ("lead", "inner"));
 
 LUMEX_PROTOCOL_LAYOUT (computed_t,
                        (u8_, computed_count_<u8_, count_from_<0>, 4>,
@@ -296,4 +343,72 @@ TEST (
   // The union by field 31 has its discriminant in field 31.
   EXPECT_EQ (field::get<31> (value), 1u);
   EXPECT_TRUE (field::get<24> (value) == gauge::gauge_mode::idle);
+}
+
+TEST (LumexProtocolSampleTest,
+      GivenEnumeratorsFarFromZero_WhenSampled_ThenTheNearestOneEncodes)
+{
+  using far_field = field::enum_<field::u32_le_<>, tables::far>;
+  EXPECT_TRUE (field::sample_value<far_field> () == tables::far::far_one);
+  EXPECT_EQ ((sample_bytes<binary, far_field> ()),
+             (layout::bytes_t{ 0x70, 0x11, 0x01, 0x00 }));
+  using negative_field = field::enum_<field::i32_le_<>, tables::far_negative>;
+  EXPECT_TRUE (field::sample_value<negative_field> ()
+               == tables::far_negative::below);
+  EXPECT_EQ ((sample_bytes<binary, negative_field> ()),
+             (layout::bytes_t{ 0x90, 0xEE, 0xFE, 0xFF }));
+  using high_field = field::enum_<field::u64_be_<>, tables::high_bit>;
+  EXPECT_TRUE (field::sample_value<high_field> () == tables::high_bit::high);
+  EXPECT_EQ ((sample_bytes<binary, high_field> ()),
+             (layout::bytes_t{ 0x80, 0, 0, 0, 0, 0, 0, 0 }));
+  using far_bits = field::bits_<field::u32_le_<>, 0, 20, tables::far>;
+  EXPECT_TRUE (field::sample_value<far_bits> () == tables::far::far_one);
+  EXPECT_EQ ((sample_bytes<binary, far_bits> ()),
+             (layout::bytes_t{ 0x70, 0x11, 0x01, 0x00 }));
+}
+
+TEST (
+    LumexProtocolSampleTest,
+    GivenTwoEnumeratorsAtTheSameDistance_WhenSampled_ThenThePositiveOneIsTaken)
+{
+  using tied = field::enum_<field::i8_<>, tables::tie>;
+  EXPECT_TRUE (field::sample_value<tied> () == tables::tie::plus_five);
+  EXPECT_EQ ((sample_bytes<binary, tied> ()), (layout::bytes_t{ 0x05 }));
+}
+
+TEST (
+    LumexProtocolSampleTest,
+    GivenANestedMessageWithAnEnumerationKey_WhenSampled_ThenTheKeyIsAnEnumerator)
+{
+  field::value_of<tables::tunnel_t>::type const value
+      = field::sample_value<tables::tunnel_t> ();
+  EXPECT_TRUE (field::get<1> (value).key == tables::stage::warm);
+  EXPECT_EQ (field::get<1> (value).payload.size (), 0u);
+  EXPECT_EQ ((sample_bytes<binary, tables::tunnel_t> ()),
+             (layout::bytes_t{ 0x00, 0x03 }));
+}
+
+TEST (
+    LumexProtocolSampleTest,
+    GivenAUnionWhoseFirstCaseTheDiscriminantFieldRefuses_WhenSampled_ThenTheFirstCaseItAcceptsIsTaken)
+{
+  field::value_of<tables::chosen_t>::type const value
+      = field::sample_value<tables::chosen_t> ();
+  EXPECT_TRUE (field::get<0> (value) == tables::stage::warm);
+  EXPECT_EQ (field::get<1> (value).cases.index (), 1u);
+  EXPECT_EQ (field::get<1> (value).discriminant, 3);
+  EXPECT_EQ ((sample_bytes<binary, tables::chosen_t> ()),
+             (layout::bytes_t{ 0x03, 0x00, 0x00 }));
+}
+
+TEST (
+    LumexProtocolSampleTest,
+    GivenACountReadByTheUnionAfterIt_WhenSampled_ThenTheCountIsTheOneTheUnionSet)
+{
+  field::value_of<tables::two_pass_t>::type const value
+      = field::sample_value<tables::two_pass_t> ();
+  EXPECT_EQ (field::get<0> (value), 5u);
+  EXPECT_EQ (field::get<1> (value).size (), 5u);
+  EXPECT_EQ ((sample_bytes<binary, tables::two_pass_t> ()),
+             (layout::bytes_t{ 0x05, 0, 0, 0, 0, 0, 0x00 }));
 }
