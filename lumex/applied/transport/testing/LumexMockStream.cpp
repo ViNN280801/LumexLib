@@ -99,6 +99,8 @@ public:
   feed (std::vector<std::uint8_t> const &bytes)
   {
     std::lock_guard<std::mutex> const lock (mutex_);
+    if (disconnected_)
+      return;
     received_.insert (received_.end (), bytes.begin (), bytes.end ());
     serve_reads ();
   }
@@ -211,10 +213,22 @@ public:
   }
 
   void
+  feed_after_on_link (std::chrono::milliseconds delay,
+                      std::vector<std::uint8_t> const &bytes)
+  {
+    scripted_step_t step;
+    step.kind = scripted_step_t::deliver_bytes;
+    step.on_link = true;
+    step.bytes = bytes;
+    schedule (delay, std::move (step));
+  }
+
+  void
   empty_read_after (std::chrono::milliseconds delay)
   {
     scripted_step_t step;
     step.kind = scripted_step_t::end_read_empty;
+    step.on_link = true;
     schedule (delay, std::move (step));
   }
 
@@ -223,6 +237,7 @@ public:
   {
     scripted_step_t step;
     step.kind = scripted_step_t::hang_up;
+    step.on_link = true;
     schedule (delay, std::move (step));
   }
 
@@ -247,11 +262,16 @@ public:
       std::lock_guard<std::mutex> const lock (mutex_);
       if (!scheduled_.take (id, step, expired))
         return;
+      // A step of a connection that is gone (closed or opened again) is
+      // dropped; so are bytes that come after a hang-up.
+      if (step.on_link && step.epoch != link_epoch_)
+        return;
       switch (step.kind)
         {
         case scripted_step_t::deliver_bytes:
-          received_.insert (received_.end (), step.bytes.begin (),
-                            step.bytes.end ());
+          if (!disconnected_)
+            received_.insert (received_.end (), step.bytes.begin (),
+                              step.bytes.end ());
           break;
         case scripted_step_t::end_read_empty:
           ++empty_reads_;
@@ -327,6 +347,7 @@ protected:
   void
   do_open (status_handler_t handler) override
   {
+    timing::time_point_t const now = timers_.now ();
     std::lock_guard<std::mutex> const lock (mutex_);
     if (open_error_)
       {
@@ -335,7 +356,7 @@ protected:
         complete (std::move (handler), error);
         return;
       }
-    if (open_fail_error_ && timers_.now () < open_fail_until_)
+    if (open_fail_error_ && now < open_fail_until_)
       {
         complete (std::move (handler), open_fail_error_);
         return;
@@ -348,6 +369,7 @@ protected:
         return;
       }
     ++open_count_;
+    ++link_epoch_;
     disconnected_ = false;
     set_open (true);
     complete (std::move (handler), std::error_code ());
@@ -374,7 +396,8 @@ protected:
   {
     {
       std::lock_guard<std::mutex> const lock (mutex_);
-      if (hold_writes_ || !writes_.empty ())
+      // On a hung-up link a write is not held: it fails (take_write).
+      if (!disconnected_ && (hold_writes_ || !writes_.empty ()))
         {
           // Behind the held writes, so that they keep their order.
           pending_write_t held = { data, std::move (handler) };
@@ -398,6 +421,7 @@ protected:
   do_close () override
   {
     std::lock_guard<std::mutex> const lock (mutex_);
+    ++link_epoch_;
     end_pending_open ();
     end_pending_reads (transport_errc::cancelled);
     end_pending_writes (transport_errc::cancelled);
@@ -415,6 +439,9 @@ private:
     };
 
     kind_t kind = deliver_bytes;
+    // Bound to the connection that was current when it was scheduled.
+    bool on_link = false;
+    std::size_t epoch = 0;
     std::vector<std::uint8_t> bytes;
   };
 
@@ -430,6 +457,7 @@ private:
     std::uint64_t id = 0;
     {
       std::lock_guard<std::mutex> const lock (mutex_);
+      step.epoch = link_epoch_;
       id = scheduled_.add (std::move (step));
     }
     // The timer is made and the wait started outside the lock.
@@ -544,6 +572,12 @@ private:
   take_write (const_bytes_t data, io_handler_t handler,
               observer_ptr_t &observer, std::vector<std::uint8_t> &chunk)
   {
+    if (disconnected_)
+      {
+        complete (std::move (handler),
+                  make_error_code (transport_errc::disconnected), 0);
+        return false;
+      }
     if (write_error_)
       {
         std::error_code const error = write_error_;
@@ -665,6 +699,8 @@ private:
   std::size_t read_chunk_ = 0;
   std::size_t empty_reads_ = 0;
   std::size_t open_count_ = 0;
+  // Bumped by every open and every close: what a bound step waits for.
+  std::size_t link_epoch_ = 0;
   std::error_code open_error_;
   std::error_code open_fail_error_;
   timing::time_point_t open_fail_until_;
@@ -752,6 +788,13 @@ mock_stream_control::feed_after (std::chrono::milliseconds delay,
                                  std::vector<std::uint8_t> const &bytes)
 {
   impl_->feed_after (delay, bytes);
+}
+
+void
+mock_stream_control::feed_after_on_link (
+    std::chrono::milliseconds delay, std::vector<std::uint8_t> const &bytes)
+{
+  impl_->feed_after_on_link (delay, bytes);
 }
 
 void
