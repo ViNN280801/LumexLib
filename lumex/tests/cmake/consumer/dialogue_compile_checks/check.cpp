@@ -9,6 +9,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <type_traits>
 
 #include "lumex/applied/transport/protocol/dsl/LumexDialogueVocabulary.hpp"
 #include "lumex/core/protocol/LumexProtocol"
@@ -85,14 +86,20 @@ LUMEX_PROTOCOL_DEFINE (other_t, codec_t, other_header_t, OTHER_ROWS);
 #elif LUMEX_DIALOGUE_CASE == 14
 // 14: max_in_flight<0>.
 #define CHECK_MORE , dialogue::max_in_flight<0>
+#elif LUMEX_DIALOGUE_CASE == 35
+// 35: by_order rows (GO, by default) with two requests in flight.
+#define CHECK_MORE , dialogue::max_in_flight<2>
 #else
 #define CHECK_MORE , dialogue::max_in_flight<1>
 #endif
 #if LUMEX_DIALOGUE_CASE == 15
 // 15: watchdog_ms<0>.
 #define CHECK_WATCHDOG dialogue::watchdog_ms<0>
+#elif LUMEX_DIALOGUE_CASE == 37
+// 37: a watchdog no longer than the keepalive period.
+#define CHECK_WATCHDOG dialogue::watchdog_ms<1000>
 #else
-#define CHECK_WATCHDOG dialogue::watchdog_ms<10>
+#define CHECK_WATCHDOG dialogue::watchdog_ms<5000>
 #endif
 
 struct header_t
@@ -186,6 +193,16 @@ private:
 #elif LUMEX_DIALOGUE_CASE == 29
 // 29: a two_phase whose Ack is no field, layout or row.
 #define CHECK_ROW(X) X (BAD, 0x50, "Bad", (), (), (two_phase<int, u8_>), ())
+#elif LUMEX_DIALOGUE_CASE == 34
+// 34: by_key on a row whose reply kind names a row.
+#define CHECK_ROW(X)                                                          \
+  X (BAD, 0x50, "Bad", (), (), (ack_nak<ACK_t, NAK_t>),                       \
+     (correlate (correlation::by_key)))
+#elif LUMEX_DIALOGUE_CASE == 36
+// 36: a correlation outside the enumeration.
+#define CHECK_ROW(X)                                                          \
+  X (BAD, 0x50, "Bad", (), (), (u8_),                                         \
+     (correlate (static_cast<correlation> (9))))
 #elif LUMEX_DIALOGUE_CASE == 30
 // 30: an echo_set of a type that is no field.
 #define CHECK_ROW(X) X (BAD, 0x50, "Bad", (), (), (echo_set<int>), ())
@@ -210,11 +227,43 @@ private:
 // clang-format on
 LUMEX_PROTOCOL_DEFINE (check_t, codec_t, header_t, CHECK_ROWS);
 
+// A layer, per case: a valid one replaces CHANGE and lists SET (which names
+// it) again, so SET of the layer names the CHANGE of the layer.
+#if LUMEX_DIALOGUE_CASE == 31
+// 31: a layer replaces CHANGE, which SET names, without listing SET.
+#define LAYER_ROWS(X, X_AS) X (CHANGE, 0x30, "Change", (), (), (info_t), ())
+#elif LUMEX_DIALOGUE_CASE == 32
+// 32: a layer replaces ACK, which GO names as a part, without listing GO.
+#define LAYER_ROWS(X, X_AS) X (ACK, 0x06, "Ack", (), (), (u8_), ())
+#else
+#define LAYER_ROWS(X, X_AS)                                                   \
+  X (CHANGE, 0x30, "Change", (), (), (info_t), ())                            \
+  X (SET, 0x02, "Set", (u8_), ("value"), (), (reply_row<CHANGE_t> ()))
+#endif
+#if LUMEX_DIALOGUE_CASE == 33
+// 33: a layer whose own header names, as a protocol option, a row the layer
+// replaces.
+struct layer_header_t
+{
+  using lumex_vocabulary = dialogue::vocabulary_t;
+  static constexpr std::size_t key_width = 1;
+  using dialogue_options
+      = dialogue::options<dialogue::keepalive<check_t::TICK_t, 100>>;
+};
+#define TICK_ROWS(X, X_AS)                                                    \
+  X (TICK, 0x11, "Tick", (u16_le_), ("seconds"), (), ())
+LUMEX_PROTOCOL_EXTEND_FRAMED (layer_t, check_t, codec_t, layer_header_t,
+                              TICK_ROWS);
+#else
+LUMEX_PROTOCOL_EXTEND (layer_t, check_t, LAYER_ROWS);
+#endif
+
 // The index asks the vocabulary for its checks: building it is enough.
 inline void
 use_index ()
 {
   (void)index::build_index<check_t> ();
+  (void)index::build_index<layer_t> ();
 }
 
 #if LUMEX_DIALOGUE_CASE == 0
@@ -225,5 +274,9 @@ static_assert (dialogue::protocol_traits_t<check_t>::max_in_flight () == 1,
 static_assert (dialogue::row_traits_t<check_t, check_t::SET_t>::how ()
                    == dialogue::correlation::by_reply_key,
                "the traits are read");
+static_assert (
+    std::is_same<dialogue::row_traits_t<layer_t, layer_t::SET_t>::reply_row,
+                 layer_t::CHANGE_t>::value,
+    "the layer that lists SET again names its own CHANGE");
 #endif
 } // namespace check_tables

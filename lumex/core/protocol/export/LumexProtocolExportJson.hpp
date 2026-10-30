@@ -221,8 +221,10 @@ json_options (::lumex::core::protocol::dsl::options_view_t const &o)
     flags.push_back ("deprecated");
   if (!flags.empty ())
     out["flags"] = flags;
-  // An option of another layer by its name: its text, else its number; the
-  // values of options with one name (two edges of one field) in an array.
+  // An option of another layer by its name: its text, else its number. An
+  // option that may repeat (option_repeats: the edges of a row) is always an
+  // array, with one value too; options of one name that do not say so are
+  // collected into an array when the name comes again.
   for (std::size_t i = 0; i < o.extra.size (); ++i)
     {
       ::lumex::core::protocol::dsl::extra_option_t const &extra
@@ -230,11 +232,14 @@ json_options (::lumex::core::protocol::dsl::options_view_t const &o)
       json_t const value = extra.text != nullptr
                                ? json_t (std::string (extra.text))
                                : json_t (static_cast<long long> (extra.value));
-      if (out.find (extra.name) == out.end ())
+      bool const present = out.find (extra.name) != out.end ();
+      if (!present && !extra.repeats)
         out[extra.name] = value;
       else
         {
-          if (!out[extra.name].is_array ())
+          if (!present)
+            out[extra.name] = json_t::array ();
+          else if (!out[extra.name].is_array ())
             {
               json_t const first = out[extra.name];
               out[extra.name] = json_t::array ();

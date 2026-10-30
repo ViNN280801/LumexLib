@@ -104,6 +104,22 @@ struct failing_header
   }
 };
 
+// A final header with its own write_header: the encoders use it all the
+// same (they look for a valid call first).
+struct final_header final
+{
+  using key_reader = index::key_at<1, 1>;
+
+  static layout::encode_result_t
+  write_header (layout::bytes_t &out, dsl::key_value_t const &key,
+                field::decode_context_t const *)
+  {
+    out.push_back (0x7E);
+    out.push_back (static_cast<std::uint8_t> (key.integer));
+    return layout::encode_result_t ();
+  }
+};
+
 // A strict enumeration: a value that is no enumerator fails at encode.
 LUMEX_DEFINE_REFLECTED_ENUM (lamp, std::uint8_t, (on, 1), (off, 2))
 
@@ -162,6 +178,8 @@ LUMEX_PROTOCOL_EXTEND_FRAMED (addressed, first, codec, addressed_header,
                               NO_ROWS);
 LUMEX_PROTOCOL_DEFINE (pairs, codec, pair_header, PAIR_ROWS);
 LUMEX_PROTOCOL_EXTEND_FRAMED (failing, first, codec, failing_header, NO_ROWS);
+LUMEX_PROTOCOL_EXTEND_FRAMED (final_framed, first, codec, final_header,
+                              NO_ROWS);
 
 // An address byte, then a key of one byte; the key of a row is -1, an int.
 struct negative_header
@@ -833,4 +851,14 @@ TEST (
                  "a field reply is the core's");
   static_assert (layout::has_core_reply<ping_row>::value,
                  "no reply is the core's too");
+}
+
+TEST (LumexProtocolMessageTest,
+      GivenAFinalHeaderWithItsWriteHeader_WhenEncoded_ThenItWritesTheHeader)
+{
+  layout::bytes_t out;
+  ASSERT_TRUE (
+      (layout::encode_message<tables::final_framed, tables::first::PING_t> (
+          out)));
+  EXPECT_EQ (out, (layout::bytes_t{ 0x7E, 0x05 }));
 }

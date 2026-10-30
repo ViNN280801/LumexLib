@@ -329,9 +329,15 @@ TEST (
   EXPECT_EQ (document["commands"][0]["reply"]["kind"], "yes_no (one field)");
   EXPECT_EQ (document["commands"][0]["options"]["mode"], "fast");
   ASSERT_TRUE (document["commands"][0]["options"]["step"].is_array ());
+  ASSERT_EQ (document["commands"][0]["options"]["step"].size (), 3u);
   EXPECT_EQ (document["commands"][0]["options"]["step"][0], 1);
   EXPECT_EQ (document["commands"][0]["options"]["step"][1], 2);
+  EXPECT_EQ (document["commands"][0]["options"]["step"][2], 3);
   EXPECT_EQ (document["commands"][1]["options"]["mode"], "slow");
+  // A name that may repeat is an array with one value too.
+  ASSERT_TRUE (document["commands"][1]["options"]["step"].is_array ());
+  ASSERT_EQ (document["commands"][1]["options"]["step"].size (), 1u);
+  EXPECT_EQ (document["commands"][1]["options"]["step"][0], 4);
   EXPECT_FALSE (document["commands"][1]["reply"].contains ("kind"));
 }
 

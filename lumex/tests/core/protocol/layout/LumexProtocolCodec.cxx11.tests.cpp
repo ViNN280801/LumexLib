@@ -68,7 +68,7 @@ struct rate_limit_t
   using option_kind = rate_limit_kind;
   std::uint32_t milliseconds;
 
-  static char const *
+  static LUMEX_CONSTEXPR char const *
   option_name ()
   {
     return "rate_limit";

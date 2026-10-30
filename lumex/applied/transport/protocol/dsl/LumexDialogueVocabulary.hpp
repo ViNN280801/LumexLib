@@ -451,6 +451,20 @@ struct zero_test_t<V,
 };
 
 template <typename V>
+struct zero_test_t<
+    V, typename std::enable_if<std::is_floating_point<V>::value>::type>
+{
+  using known = std::true_type;
+
+  // 0.0 and -0.0 are zero, a NaN is not.
+  static bool
+  apply (V const &value) LUMEX_NOEXCEPT
+  {
+    return value <= V (0) && value >= V (0);
+  }
+};
+
+template <typename V>
 struct zero_test_t<V, typename std::enable_if<std::is_enum<V>::value>::type>
 {
   using known = std::true_type;
@@ -510,7 +524,8 @@ describe_echo (layout::bytes_view_t payload,
  * @details Each part is a field type (the reply message of the row with
  * these fields) or a row of the protocol (a message of its own, as an
  * acknowledgement character: the reply then carries no key of the request
- * and the default correlation is `by_order`). Two field parts are told
+ * and the default correlation is `by_order`, the only one allowed besides
+ * `custom`). Two field parts are told
  * apart by their shape: the first that the whole message decodes as wins,
  * so give them different shapes. `describe` writes `ACK value=7` or `NAK
  * code=5` (a layout by its field names). The client returns the value of
@@ -775,7 +790,7 @@ struct correlation_t
   }
 
   /// @brief `"correlation"`.
-  static char const *
+  static LUMEX_CONSTEXPR char const *
   option_name () LUMEX_NOEXCEPT
   {
     return "correlation";
@@ -827,7 +842,7 @@ template <typename Row> struct reply_row_t
   reply_row_t () LUMEX_NOEXCEPT {}
 
   /// @brief `"reply_row"`.
-  static char const *
+  static LUMEX_CONSTEXPR char const *
   option_name () LUMEX_NOEXCEPT
   {
     return "reply_row";
@@ -867,7 +882,7 @@ struct min_interval_t
   }
 
   /// @brief `"min_interval"`.
-  static char const *
+  static LUMEX_CONSTEXPR char const *
   option_name () LUMEX_NOEXCEPT
   {
     return "min_interval";
@@ -926,6 +941,8 @@ struct edge_event_t
 
   /// The kind of the option: the edge itself (several edges per row).
   using option_kind = edge_event_t;
+  /// A row may hold several edges: the JSON export writes an array.
+  using option_repeats = std::true_type;
   /// A word of the table vocabulary.
   using lumex_vocabulary_word
       = ::lumex::core::protocol::dsl::vocabulary_word_tag;
@@ -956,7 +973,7 @@ struct edge_event_t
   }
 
   /// @brief `"edge_event"`.
-  static char const *
+  static LUMEX_CONSTEXPR char const *
   option_name () LUMEX_NOEXCEPT
   {
     return "edge_event";
@@ -996,7 +1013,7 @@ struct match_with_t
   }
 
   /// @brief `"match_with"`.
-  static char const *
+  static LUMEX_CONSTEXPR char const *
   option_name () LUMEX_NOEXCEPT
   {
     return "match_with";
@@ -1393,15 +1410,17 @@ struct options_member_t<H,
 {
 };
 
-// 0 none, 1 an alias template, 2 a type, 3 named but not usable.
+// 1 an alias template, 2 a type (both found by a valid use, a final header
+// too), 3 named but not usable, 0 none. The name of a member of a final
+// header cannot be probed: an unusable member there is ignored.
 template <typename P, typename H = typename P::header_type>
 struct options_form_t
     : std::integral_constant<
-          int, !names_dialogue_options_t<H>::value
-                   ? 0
-                   : (options_template_t<H, P>::value
-                          ? 1
-                          : (options_member_t<H>::value ? 2 : 3))>
+          int, options_template_t<H, P>::value
+                   ? 1
+                   : (options_member_t<H>::value
+                          ? 2
+                          : (names_dialogue_options_t<H>::value ? 3 : 0))>
 {
 };
 
@@ -1651,20 +1670,23 @@ names_how (correlation how) LUMEX_NOEXCEPT
   return named_how_t<Row>::named::value && named_how_t<Row>::get () == how;
 }
 
-// Whether the first part of a reply kind is a row (another message).
-template <typename Reply> struct first_part_is_row_t : std::false_type
+// Whether a part of a reply kind is a row (another message, without the
+// key of the request).
+template <typename Reply> struct any_part_is_row_t : std::false_type
 {
 };
 
 template <typename A, typename N>
-struct first_part_is_row_t<ack_nak_t<A, N>>
-    : std::integral_constant<bool, part_form_t<A>::value == 1>
+struct any_part_is_row_t<ack_nak_t<A, N>>
+    : std::integral_constant<bool, part_form_t<A>::value == 1
+                                       || part_form_t<N>::value == 1>
 {
 };
 
 template <typename A, typename C>
-struct first_part_is_row_t<two_phase_t<A, C>>
-    : std::integral_constant<bool, part_form_t<A>::value == 1>
+struct any_part_is_row_t<two_phase_t<A, C>>
+    : std::integral_constant<bool, part_form_t<A>::value == 1
+                                       || part_form_t<C>::value == 1>
 {
 };
 
@@ -1677,7 +1699,7 @@ template <typename Row> struct how_of_t
            : row_has_t<Row, reply_row_kind_t>::value
                ? correlation::by_reply_key
            : row_has_t<Row, match_with_t>::value ? correlation::custom
-           : first_part_is_row_t<typename Row::reply_type>::value
+           : any_part_is_row_t<typename Row::reply_type>::value
                ? correlation::by_order
                : correlation::by_key;
   }
@@ -1777,41 +1799,52 @@ template <typename T> struct kind_of_reply_t<state_instead_of_refusal_t<T>>
   }
 };
 
-// Whether a part is known to protocol P (a field part always is).
+// Where row R named for layer P is: 0 a row of P (or no row), 1 a row of a
+// layer P extends that P replaced (the engine finds rows through the index
+// of P, so the name would mean the replacement), 2 a row of another
+// protocol.
+template <typename P, typename R>
+struct row_state_t
+    : std::integral_constant<
+          int, dsl::list_contains<typename dsl::commands_of<P>::type, R>::value
+                   ? 0
+                   : (row_in_chain_t<P, R>::value ? 1 : 2)>
+{
+};
+
+template <typename P>
+struct row_state_t<P, void> : std::integral_constant<int, 0>
+{
+};
+
+// The same for a part of a reply kind (a field part is always 0).
 template <typename P, typename T, int Form = part_form_t<T>::value>
-struct part_known_t : std::true_type
+struct part_state_t : std::integral_constant<int, 0>
 {
 };
 
 template <typename P, typename T>
-struct part_known_t<P, T, 1> : row_in_chain_t<P, T>
+struct part_state_t<P, T, 1> : row_state_t<P, T>
 {
 };
 
-template <typename P, typename Reply> struct parts_known_t : std::true_type
+// Whether a part of the reply kind is in state State.
+template <typename P, typename Reply, int State>
+struct parts_in_state_t : std::false_type
 {
 };
 
-template <typename P, typename A, typename N>
-struct parts_known_t<P, ack_nak_t<A, N>>
-    : std::integral_constant<bool, part_known_t<P, A>::value
-                                       && part_known_t<P, N>::value>
+template <typename P, typename A, typename N, int State>
+struct parts_in_state_t<P, ack_nak_t<A, N>, State>
+    : std::integral_constant<bool, part_state_t<P, A>::value == State
+                                       || part_state_t<P, N>::value == State>
 {
 };
 
-template <typename P, typename A, typename C>
-struct parts_known_t<P, two_phase_t<A, C>>
-    : std::integral_constant<bool, part_known_t<P, A>::value
-                                       && part_known_t<P, C>::value>
-{
-};
-
-template <typename P, typename R>
-struct reply_row_known_t : row_in_chain_t<P, R>
-{
-};
-
-template <typename P> struct reply_row_known_t<P, void> : std::true_type
+template <typename P, typename A, typename C, int State>
+struct parts_in_state_t<P, two_phase_t<A, C>, State>
+    : std::integral_constant<bool, part_state_t<P, A>::value == State
+                                       || part_state_t<P, C>::value == State>
 {
 };
 
@@ -1874,13 +1907,41 @@ template <typename P, typename Row> struct row_check_t : std::true_type
           || std::is_same<typename Row::reply_type, dsl::no_reply>::value,
       "LUMEX_PROTOCOL: a row with reply_row<R> leaves its reply "
       "group empty: the message of R is its reply");
-  static_assert (reply_row_known_t<P, reply_row>::value,
+  static_assert (row_state_t<P, reply_row>::value != 2,
                  "LUMEX_PROTOCOL: reply_row<R> names a row of another "
                  "protocol (R is a row of this protocol or of its base)");
-  static_assert (parts_known_t<P, typename Row::reply_type>::value,
+  static_assert (row_state_t<P, reply_row>::value != 1,
+                 "LUMEX_PROTOCOL: reply_row<R> names a row the layer "
+                 "replaced: list the row that names it in the layer too, so "
+                 "that it names the row of the layer");
+  static_assert (!parts_in_state_t<P, typename Row::reply_type, 2>::value,
                  "LUMEX_PROTOCOL: a reply kind of the row names a row of "
                  "another protocol (an acknowledgement or a completion is a "
                  "row of this protocol or of its base)");
+  static_assert (!parts_in_state_t<P, typename Row::reply_type, 1>::value,
+                 "LUMEX_PROTOCOL: a reply kind of the row names a row the "
+                 "layer replaced: list the row that names it in the layer "
+                 "too, so that it names the row of the layer");
+  static_assert (
+      !named::value
+          || static_cast<int> (named_how_t<Row>::get ())
+                 <= static_cast<int> (correlation::custom),
+      "LUMEX_PROTOCOL: correlate (how) takes a correlation: by_key, "
+      "by_order, by_reply_key or custom");
+  static_assert (!names_how<Row> (correlation::by_key)
+                     || !any_part_is_row_t<typename Row::reply_type>::value,
+                 "LUMEX_PROTOCOL: correlation::by_key on a row whose reply "
+                 "kind names a row: that message does not carry the key of "
+                 "the request (by_order is the default)");
+  static_assert (
+      how_of_t<Row>::get () != correlation::by_order
+          || option_number_t<
+                 typename protocol_option_t<P, max_in_flight_kind_t>::type,
+                 1>::get ()
+                 == 1,
+      "LUMEX_PROTOCOL: a by_order row in a protocol with max_in_flight "
+      "greater than 1: a reply without the key of its request cannot be "
+      "told from the reply of another request");
   static_assert (
       edges_check_t<
           Row, typename edges_of_t<typename Row::options_type>::type>::value,
@@ -1903,17 +1964,24 @@ template <typename P, typename O> struct option_check_t : std::true_type
 template <typename P, typename Row, std::uint32_t Ms>
 struct option_check_t<P, keepalive_t<Row, Ms>> : std::true_type
 {
-  static_assert (row_in_chain_t<P, Row>::value,
+  static_assert (row_state_t<P, Row>::value != 2,
                  "LUMEX_PROTOCOL: keepalive<Row, PeriodMs> names a row of "
                  "another protocol");
+  static_assert (
+      row_state_t<P, Row>::value != 1,
+      "LUMEX_PROTOCOL: keepalive<Row, PeriodMs> names a row the layer "
+      "replaced: name it through the layer (typename P::ROW_t)");
 };
 
 template <typename P, typename Row>
 struct option_check_t<P, identify_with_t<Row>> : std::true_type
 {
-  static_assert (row_in_chain_t<P, Row>::value,
+  static_assert (row_state_t<P, Row>::value != 2,
                  "LUMEX_PROTOCOL: identify_with<Row> names a row of another "
                  "protocol");
+  static_assert (row_state_t<P, Row>::value != 1,
+                 "LUMEX_PROTOCOL: identify_with<Row> names a row the layer "
+                 "replaced: name it through the layer (typename P::ROW_t)");
   static_assert (reply_form_t<Row>::value == 1,
                  "LUMEX_PROTOCOL: identify_with<Row>: the row has a reply of "
                  "the core (a field or a layout), the identity the client "
@@ -1923,9 +1991,13 @@ struct option_check_t<P, identify_with_t<Row>> : std::true_type
 template <typename P, typename Row, std::size_t Field>
 struct option_check_t<P, state_from_t<Row, Field>> : std::true_type
 {
-  static_assert (row_in_chain_t<P, Row>::value,
+  static_assert (row_state_t<P, Row>::value != 2,
                  "LUMEX_PROTOCOL: state_from<Row, Field> names a row of "
                  "another protocol");
+  static_assert (
+      row_state_t<P, Row>::value != 1,
+      "LUMEX_PROTOCOL: state_from<Row, Field> names a row the layer "
+      "replaced: name it through the layer (typename P::ROW_t)");
   static_assert (
       Field < reply_field_count_t<typename Row::reply_type>::value,
       "LUMEX_PROTOCOL: state_from<Row, Field>: Field is not a field "
@@ -1935,6 +2007,26 @@ struct option_check_t<P, state_from_t<Row, Field>> : std::true_type
           || level_field_t<typename Row::reply_type, Field>::value,
       "LUMEX_PROTOCOL: state_from<Row, Field>: the field is an integer or "
       "an enumeration (the state)");
+};
+
+// Whether the keepalive period is shorter than the watchdog (true when the
+// protocol names only one of them).
+template <typename K, typename W> struct keepalive_shorter_t : std::true_type
+{
+};
+
+template <typename Row, std::uint32_t PeriodMs, std::uint32_t Ms>
+struct keepalive_shorter_t<keepalive_t<Row, PeriodMs>, watchdog_ms_t<Ms>>
+    : std::integral_constant<bool, (PeriodMs < Ms)>
+{
+};
+
+template <typename P>
+struct keepalive_fits_t
+    : keepalive_shorter_t<
+          typename protocol_option_t<P, keepalive_kind_t>::type,
+          typename protocol_option_t<P, watchdog_kind_t>::type>
+{
 };
 
 template <typename P, typename Options> struct options_check_t;
@@ -1952,9 +2044,22 @@ struct reply_value_select_t : message_value_t<ReplyRow>
 {
 };
 
+// The value of a reply kind: its value_type (a kind of the dialogue), void
+// for a kind of another layer the client cannot return.
+template <typename Reply, typename = void> struct kind_value_t
+{
+  using type = void;
+};
+
+template <typename Reply>
+struct kind_value_t<Reply, typename voider_t<typename Reply::value_type>::type>
+{
+  using type = typename Reply::value_type;
+};
+
 template <typename Row, int Form> struct reply_value_select_t<Row, void, Form>
 {
-  using type = typename Row::reply_type::value_type;
+  using type = typename kind_value_t<typename Row::reply_type>::type;
 };
 
 template <typename Row> struct reply_value_select_t<Row, void, 0>
@@ -1973,14 +2078,19 @@ template <typename Row> struct reply_value_select_t<Row, void, 1>
  * layer `P` is used as the dialogue needs it; otherwise it does not compile,
  * with the message of the failed check.
  * @details The checks: `reply_row<R>`, the rows a reply kind names, the
- * rows of the protocol options are rows of `P` or of its base;
- * `correlate (by_reply_key)` comes with `reply_row<R>` and `correlate
- * (custom)` with `match_with`, and neither with another correlation; a row
- * with `reply_row<R>` has no reply group of its own; `edge_event` is on a
+ * rows of the protocol options are rows of `P` (a row of a base that `P`
+ * replaced does not pass: the layer lists the naming row again, and a
+ * protocol option names the row through the layer); `correlate
+ * (by_reply_key)` comes with `reply_row<R>` and `correlate (custom)` with
+ * `match_with`, and neither with another correlation; `by_key` is not on a
+ * row whose reply kind names a row; a `by_order` row needs `max_in_flight`
+ * of 1; `correlate` takes a value of the enumeration; a row with
+ * `reply_row<R>` has no reply group of its own; `edge_event` is on a
  * `stream` row and names a reply field that holds an integer, a flag or an
  * enumeration; `state_from` names such a field; `identify_with` names a row
- * whose reply is a field or a layout. `index::build_index<P>` asks for it
- * through the vocabulary (`lumex_check_protocol`), and so do the traits.
+ * whose reply is a field or a layout; a `keepalive` period is shorter than
+ * `watchdog_ms`. `index::build_index<P>` asks for it through the vocabulary
+ * (`lumex_check_protocol`), and so do the traits.
  */
 template <typename P> struct check_protocol_t : std::true_type
 {
@@ -1993,6 +2103,11 @@ template <typename P> struct check_protocol_t : std::true_type
   static_assert (
       detail::options_check_t<P, typename options_of_t<P>::type>::value,
       "LUMEX_PROTOCOL: the protocol options of the dialogue are valid");
+  static_assert (
+      detail::keepalive_fits_t<P>::value,
+      "LUMEX_PROTOCOL: keepalive<Row, PeriodMs> with a period not shorter "
+      "than watchdog_ms<Ms>: the watchdog would end the link between two "
+      "keepalives");
   static_assert (
       detail::rows_check_t<
           P,
@@ -2020,8 +2135,8 @@ template <typename P, typename Row> struct row_traits_t
       Row, reply_row, detail::reply_form_t<Row>::value>::type;
 
   /// @brief The correlation: the one the row names; else `by_reply_key`
-  /// with `reply_row<R>`, `custom` with `match_with`, `by_order` when the
-  /// reply kind starts with another message (an acknowledgement row), and
+  /// with `reply_row<R>`, `custom` with `match_with`, `by_order` when a
+  /// part of the reply kind is another message (an acknowledgement row), and
   /// `by_key` otherwise.
   static LUMEX_CONSTEXPR correlation
   how () LUMEX_NOEXCEPT
@@ -2055,7 +2170,7 @@ template <typename P, typename Row> struct row_traits_t
  * @brief `reply_value_of_t<Row>::type`: what the client returns for `Row`:
  * the value of a field or a layout reply, `field::record<>` without a reply,
  * the value of the message of `reply_row<R>`, the `value_type` of a reply
- * kind of the dialogue.
+ * kind of the dialogue, `void` for a reply kind of another layer.
  */
 template <typename Row> struct reply_value_of_t
 {

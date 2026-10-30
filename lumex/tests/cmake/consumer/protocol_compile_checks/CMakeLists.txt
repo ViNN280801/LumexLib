@@ -51,6 +51,8 @@
 #  45 an option of another layer whose text is no member function
 #  46 a vocabulary whose protocol check is no member template
 #  47 a vocabulary whose protocol check refuses the table
+#  48 an option of another layer named like a key of the core options
+#  49 an option of another layer whose option_repeats is no type
 # The compiler's messages are matched in English. Everything runs at
 # configure time (try_compile), at C++11 (MSVC: C++14, its lowest) and C++20.
 
@@ -137,6 +139,8 @@ _lumex_case(44 "the reply kind names lumex_reply_text, but not as")
 _lumex_case(45 "the option names view_text, but not as")
 _lumex_case(46 "the vocabulary names lumex_check_protocol, but not as")
 _lumex_case(47 "the vocabulary of the protocol refuses its table")
+_lumex_case(48 "is a constexpr name other than the keys of the core")
+_lumex_case(49 "the option names option_repeats, but not")
 
 function(_lumex_protocol_try result_var tag standard)
     try_compile(_ok "${CMAKE_BINARY_DIR}/try_${tag}"
