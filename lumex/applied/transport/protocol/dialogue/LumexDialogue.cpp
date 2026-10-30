@@ -165,6 +165,27 @@ dialogue_engine::session () const
   return impl_->session ();
 }
 
+subscription_t
+dialogue_engine::subscribe (::lumex::core::protocol::index::row_t const *row,
+                            frame_handler_t handler)
+{
+  return impl_ ? impl_->subscribe (row, std::move (handler))
+               : subscription_t ();
+}
+
+bool
+dialogue_engine::unsubscribe (subscription_t subscription)
+{
+  return impl_ && impl_->unsubscribe (subscription);
+}
+
+void
+dialogue_engine::on_unknown (frame_handler_t handler)
+{
+  if (impl_)
+    impl_->set_unknown_handler (std::move (handler));
+}
+
 dialogue_statistics_t
 dialogue_engine::statistics () const LUMEX_NOEXCEPT
 {

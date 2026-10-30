@@ -11,16 +11,20 @@ if(LUMEX_TRANSPORT_WITH_SPAWN)
     lumex_setup_boost_context()
 endif()
 
-file(GLOB_RECURSE SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
+# The sources relative to this directory: the filters below match the path
+# inside the module, never a directory of the checkout that happens to have
+# the same name (a source tree under a directory called protocol or hid).
+file(GLOB_RECURSE SOURCES RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}"
+     "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
 if(NOT LUMEX_TRANSPORT_WITH_TESTING)
-    list(FILTER SOURCES EXCLUDE REGEX "/testing/")
+    list(FILTER SOURCES EXCLUDE REGEX "^testing/")
 endif()
 # The adapter to the logger module (log/adapter/: install_lumex_logger_sink,
 # lumex_logger_watch_timer) is compiled only when the logger is built. It is
 # no required edge: without the logger the transport builds as before.
 lumex_effective_on(_transport_with_logger LUMEX_BUILD_LOGGER)
 if(NOT _transport_with_logger)
-    list(FILTER SOURCES EXCLUDE REGEX "/log/adapter/")
+    list(FILTER SOURCES EXCLUDE REGEX "^log/adapter/")
 endif()
 
 # The framed adapters (framed/: framed_stream, framed_datagram) are compiled
@@ -28,7 +32,7 @@ endif()
 # edge, the transport builds as before without framing.
 lumex_effective_on(_transport_with_framing LUMEX_BUILD_FRAMING)
 if(NOT _transport_with_framing)
-    list(FILTER SOURCES EXCLUDE REGEX "/framed/")
+    list(FILTER SOURCES EXCLUDE REGEX "^framed/")
 endif()
 
 # The dialogue layer over the protocol tables (protocol/): its header-only
@@ -42,7 +46,7 @@ if(_transport_with_protocol AND _transport_with_framing)
     set(_transport_with_dialogue TRUE)
 endif()
 if(NOT _transport_with_dialogue)
-    list(FILTER SOURCES EXCLUDE REGEX "/protocol/")
+    list(FILTER SOURCES EXCLUDE REGEX "^protocol/")
 endif()
 
 # The HID transport (hid/: hid_device over the vendored hidapi, never
@@ -51,7 +55,7 @@ endif()
 if(LUMEX_TRANSPORT_WITH_HID)
     lumex_setup_hidapi()
 else()
-    list(FILTER SOURCES EXCLUDE REGEX "/hid/")
+    list(FILTER SOURCES EXCLUDE REGEX "^hid/")
 endif()
 
 # Always static (spec G6): the library holds Asio objects, and a static

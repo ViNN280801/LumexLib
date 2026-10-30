@@ -16,7 +16,7 @@
 // vocabulary is indexed, described, exported and read through its traits,
 // and with the dialogue engine (LUMEX_TRANSPORT_WITH_PROTOCOL) every token
 // style runs through dialogue_engine and frame_link over a framed mock
-// stream.
+// stream, and the reader of every reply kind reads a frame.
 
 #include <chrono>
 #include <cstddef>
@@ -630,6 +630,57 @@ engine_by_awaitable (tr::stream::io_runner &runner,
 #endif
 #endif
 
+// The reader of every reply kind of the fixture table, as the engine
+// applies it to a frame.
+template <typename Row>
+pr::reply_effect
+effect_of (std::vector<std::uint8_t> const &frame,
+           std::vector<std::uint8_t> const &request)
+{
+  namespace fx = dialogue_fixture;
+  pr::reply_reader_t const reader
+      = fx::dialogue::reply_reader_of<fx::fixture_t, Row> ();
+  if (reader == nullptr)
+    return pr::reply_effect::fail;
+  return reader (fx::layout::bytes_view_t (frame.data (), frame.size ()),
+                 nullptr,
+                 fx::layout::bytes_view_t (request.data (), request.size ()))
+      .effect;
+}
+
+bool
+readers_round ()
+{
+  namespace fx = dialogue_fixture;
+  bool fine
+      = fx::dialogue::reply_reader_of<fx::fixture_t, fx::fixture_t::STATE_t> ()
+        == nullptr;
+  fine = effect_of<fx::fixture_t::START_t> ({ 0x01, 0x07 }, { 0x01, 0x01 })
+             == pr::reply_effect::complete
+         && fine;
+  fine = effect_of<fx::fixture_t::START_t> ({ 0x01, 0x05, 0x01, 0x00 },
+                                            { 0x01, 0x01 })
+             == pr::reply_effect::nak
+         && fine;
+  fine = effect_of<fx::fixture_t::STOP_t> ({ 0x06 }, { 0x02 })
+             == pr::reply_effect::complete
+         && fine;
+  fine = effect_of<fx::fixture_t::PRIME_t> ({ 0x06 }, { 0x03, 0x01, 0x00 })
+             == pr::reply_effect::more
+         && fine;
+  fine = effect_of<fx::fixture_t::SET_FLOW_t> ({ 0x04, 0x02, 0x00 },
+                                               { 0x04, 0x01, 0x00 })
+             == pr::reply_effect::fail
+         && fine;
+  fine = effect_of<fx::fixture_t::SET_LIMIT_t> ({ 0x05, 0x00 }, { 0x05, 0x03 })
+             == pr::reply_effect::fail
+         && fine;
+  fine = effect_of<fx::fixture_t::SET_MODE_t> ({ 0x07, 0x02 }, { 0x07, 0x02 })
+             == pr::reply_effect::complete
+         && fine;
+  return fine;
+}
+
 // The engine over a framed mock stream whose device answers every request
 // with the state, a frame_link of its own, and the classification of a
 // reply kind.
@@ -678,6 +729,13 @@ engine_round (tr::stream::io_runner &runner)
 #if __cplusplus >= 202002L || (defined(_MSVC_LANG) && _MSVC_LANG >= 202002L)
   fine = engine_by_awaitable (runner, engine) && fine;
 #endif
+  // Frames that answer no exchange: a subscription and the handler of
+  // unknown frames (every frame here answers an exchange).
+  pr::subscription_t const subscribed = engine.subscribe (
+      fx::index::protocol_index<fx::fixture_t> ()->find_name ("STATE"),
+      [] (pr::reply_frame_t const &) {});
+  engine.on_unknown ([] (pr::reply_frame_t const &) {});
+  fine = subscribed.id != 0 && engine.unsubscribe (subscribed) && fine;
   pr::dialogue_statistics_t const counted = engine.statistics ();
   fine = counted.requests >= 4 && counted.replies == counted.requests
          && counted.timeouts == 0 && fine;
@@ -1114,6 +1172,7 @@ main ()
 #if defined(LUMEX_TRANSPORT_WITH_PROTOCOL)                                    \
     && defined(LUMEX_FIXTURE_WITH_PROTOCOL)
   fine = engine_round (runner) && fine;
+  fine = readers_round () && fine;
 #endif
 #if defined(LUMEX_TRANSPORT_WITH_LOGGER)
   tr::log::uninstall_lumex_logger_sink ();

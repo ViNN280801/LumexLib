@@ -11,7 +11,7 @@
 # requires the hidapi component.
 
 file(READ "${LUMEX_SOURCE_DIR}/lumex/applied/transport/CMakeLists.txt" _cmake)
-if(NOT _cmake MATCHES "if\\(LUMEX_TRANSPORT_WITH_HID\\)[ \t\r\n]*lumex_setup_hidapi\\(\\)[ \t\r\n]*else\\(\\)[ \t\r\n]*list\\(FILTER SOURCES EXCLUDE REGEX \"/hid/\"\\)")
+if(NOT _cmake MATCHES "if\\(LUMEX_TRANSPORT_WITH_HID\\)[ \t\r\n]*lumex_setup_hidapi\\(\\)[ \t\r\n]*else\\(\\)[ \t\r\n]*list\\(FILTER SOURCES EXCLUDE REGEX \"\\^hid/\"\\)")
     message(FATAL_ERROR "the transport does not set up hidapi and compile hid/ only with LUMEX_TRANSPORT_WITH_HID")
 endif()
 if(NOT _cmake MATCHES "if\\(LUMEX_TRANSPORT_WITH_HID\\)[^\n]*\n([ \t]*#[^\n]*\n)*[ \t]*target_link_libraries\\(\\$\\{LUMEX_TRANSPORT_NAME\\} PRIVATE lumex::3rdparty_hidapi\\)[ \t\r\n]*target_compile_definitions\\(\\$\\{LUMEX_TRANSPORT_NAME\\} PUBLIC[ \t\r\n]*LUMEX_TRANSPORT_WITH_HID=1\\)")

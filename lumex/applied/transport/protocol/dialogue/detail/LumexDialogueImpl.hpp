@@ -62,6 +62,7 @@
 #include <deque>
 #include <exception>
 #include <memory>
+#include <mutex>
 #include <string>
 #include <system_error>
 #include <vector>
@@ -73,6 +74,7 @@
 #include "lumex/applied/transport/protocol/dsl/LumexDialogueVocabulary.hpp"
 #include "lumex/applied/transport/protocol/link/LumexFrameLink.hpp"
 #include "lumex/applied/transport/timing/LumexTimerSource.hpp"
+#include "lumex/core/protocol/error/LumexProtocolErrc.hpp"
 #include "lumex/core/protocol/index/LumexProtocolIndex.hpp"
 #include "lumex/core/protocol/index/LumexProtocolSession.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
@@ -151,9 +153,16 @@ struct exchange_record_t
   /// The attempts made, and allowed so far (1 + retries + extra ones).
   std::uint64_t attempts = 0;
   std::uint64_t allowed = 1;
-  /// The number of the current attempt: a completion of an earlier one
-  /// (a timer, a write) changes nothing.
+  /// The number of the current attempt: the write of an earlier one changes
+  /// nothing.
   std::uint64_t epoch = 0;
+  /// The number of the current wait of the timer: a wait of the past (an
+  /// earlier attempt or phase) changes nothing.
+  std::uint64_t timer_epoch = 0;
+  /// The reader of the reply kind (null: the frame as it is).
+  reply_reader_t reader = nullptr;
+  /// The first phase of a two-phase reply came: no retry any more.
+  bool acknowledged = false;
   /// An attempt waits for its reply.
   bool awaiting = false;
   /// The next attempt waits for the late-reply window to end.
@@ -254,6 +263,19 @@ public:
   /// and pending exchanges die uncalled.
   void drop_kept_handlers () LUMEX_NOEXCEPT override;
 
+  /// @brief Calls `handler` with every frame of `row` that answers no
+  /// exchange; an id of 0 when the index has no such row or the handler is
+  /// empty.
+  subscription_t subscribe (::lumex::core::protocol::index::row_t const *row,
+                            frame_handler_t handler);
+
+  /// @brief Ends a subscription; false when there is none with its id.
+  bool unsubscribe (subscription_t subscription);
+
+  /// @brief Calls `handler` with every frame whose key matches no row (an
+  /// empty one removes it).
+  void set_unknown_handler (frame_handler_t handler);
+
   // --- on the strand (the posted steps and the handlers) ----------------
 
   void run_start ();
@@ -275,8 +297,23 @@ private:
   void start_reading ();
   bool can_start (exchange_record_t const &record) const;
   void pump ();
-  void start_attempt (exchange_record_t &record);
+  // False when the attempt could not start (it ended the exchange).
+  bool start_attempt (exchange_record_t &record);
+  static bool exact (exchange_record_t const &record) LUMEX_NOEXCEPT;
+  bool late_holds (::lumex::core::protocol::index::row_t const *row) const
+      LUMEX_NOEXCEPT;
   void attempt_timed_out (std::size_t at);
+  void next_attempt (std::size_t at,
+                     ::lumex::core::protocol::error::protocol_errc why);
+  void arm_timer (exchange_record_t &record);
+  void apply_reply (std::size_t at, link_frame_t &frame);
+  std::string
+  describe (link_frame_t const &frame,
+            ::lumex::core::protocol::index::frame_direction direction) const;
+  using handler_ptr = std::shared_ptr<frame_handler_t const>;
+  std::vector<handler_ptr>
+  subscribers_of (::lumex::core::protocol::index::row_t const *row) const;
+  std::vector<handler_ptr> unknown_handlers () const;
   void note_abandoned (exchange_record_t const &record);
   void handle_frame (link_frame_t &frame);
   bool accepts (exchange_record_t const &record,
@@ -315,7 +352,22 @@ private:
   std::uint64_t read_generation_;
   bool closed_;
   std::uint64_t attempt_sequence_;
+  std::uint64_t timer_sequence_;
+  // A burst of unknown frames is logged once at warning.
+  bool unknown_burst_;
   std::atomic<std::uint64_t> next_id_;
+  std::atomic<std::uint64_t> next_subscription_;
+  // The subscribers and the handler of unknown frames: changed from any
+  // thread, read on the strand (copied out, called outside the lock).
+  struct subscriber_t
+  {
+    std::uint64_t id = 0;
+    ::lumex::core::protocol::index::row_t const *row = nullptr;
+    handler_ptr handler;
+  };
+  mutable std::mutex handlers_mutex_;
+  std::vector<subscriber_t> subscribers_;
+  handler_ptr unknown_;
   std::atomic<bool> enlisted_;
   // The marks of the exchanges with a cancellation slot, settled when the
   // result is handed on.

@@ -12,6 +12,8 @@
 #include <functional>
 #include <initializer_list>
 #include <memory>
+#include <mutex>
+#include <new>
 #include <string>
 #include <system_error>
 #include <utility>
@@ -118,6 +120,7 @@ make_exchange (Args const &...args)
   out.how = traits::how ();
   out.reply_row = row_of_t<typename traits::reply_row>::get ();
   out.matcher = traits::matcher ();
+  out.reader = dialogue::reply_reader_of<pump, Row> ();
   return out;
 }
 
@@ -312,6 +315,236 @@ private:
   std::shared_ptr<device_state_t> state_;
   std::unique_ptr<tr::stream::byte_stream> stream_;
   pr::dialogue_options_t link_options_;
+};
+
+/// Captures the records of the transport log of this binary while it lives,
+/// at every level; restores the sink and the level afterwards.
+class log_capture_t
+{
+public:
+  struct record_t
+  {
+    tr::log::log_level level;
+    std::string message;
+  };
+
+  log_capture_t ()
+      : level_ (tr::log::get_log_level ()), sink_ (tr::log::get_log_sink ())
+  {
+    std::lock_guard<std::mutex> const lock (mutex ());
+    records ().clear ();
+    tr::log::set_log_sink (&log_capture_t::capture);
+    tr::log::set_log_level (tr::log::log_level::trace);
+  }
+
+  ~log_capture_t ()
+  {
+    tr::log::set_log_sink (sink_);
+    tr::log::set_log_level (level_);
+  }
+
+  log_capture_t (log_capture_t const &) = delete;
+  log_capture_t &operator= (log_capture_t const &) = delete;
+
+  /// The messages of `level` of the dialogue's component.
+  static std::vector<std::string>
+  messages (tr::log::log_level level)
+  {
+    std::lock_guard<std::mutex> const lock (mutex ());
+    std::vector<std::string> out;
+    for (std::size_t i = 0; i < records ().size (); ++i)
+      if (records ()[i].level == level)
+        out.push_back (records ()[i].message);
+    return out;
+  }
+
+  /// How many messages of `level` hold `needle`.
+  static std::size_t
+  count (tr::log::log_level level, std::string const &needle)
+  {
+    std::vector<std::string> const all = messages (level);
+    std::size_t found = 0;
+    for (std::size_t i = 0; i < all.size (); ++i)
+      if (all[i].find (needle) != std::string::npos)
+        ++found;
+    return found;
+  }
+
+private:
+  static std::mutex &
+  mutex ()
+  {
+    static std::mutex instance;
+    return instance;
+  }
+
+  static std::vector<record_t> &
+  records ()
+  {
+    static std::vector<record_t> instance;
+    return instance;
+  }
+
+  static void
+  capture (tr::log::log_record_t const &item)
+  {
+    if (std::string (item.component) != "transport.dialogue")
+      return;
+    std::lock_guard<std::mutex> const lock (mutex ());
+    record_t entry;
+    entry.level = item.level;
+    entry.message = item.message;
+    records ().push_back (entry);
+  }
+
+  tr::log::log_level level_;
+  tr::log::log_sink_t sink_;
+};
+
+/**
+ * A link the test drives by hand: a write completes at once (posted), a read
+ * waits until the test delivers a frame, and the completion of a delivery
+ * is posted to the strand at the moment of the call, so that a test can
+ * order it against a timer that the virtual clock ends afterwards.
+ */
+class manual_link_t : public pr::frame_link_impl
+{
+public:
+  explicit manual_link_t (asio::io_context &context)
+      : strand_ (
+            asio::make_strand (tr::executor_type (context.get_executor ()))),
+        name_ ("manual")
+  {
+  }
+
+  tr::executor_type
+  get_executor () const override
+  {
+    return strand_.get_inner_executor ();
+  }
+
+  strand_type
+  get_strand () const override
+  {
+    return strand_;
+  }
+
+  std::string const &
+  name () const override
+  {
+    return name_;
+  }
+
+  bool
+  is_open () const override
+  {
+    return true;
+  }
+
+  void
+  start_read (pr::link_read_handler_t handler) override
+  {
+    std::lock_guard<std::mutex> const lock (mutex_);
+    reads_.push_back (std::move (handler));
+  }
+
+  void
+  start_write (std::shared_ptr<pr::link_frame_t const> frame,
+               tr::status_handler_t handler) override
+  {
+    {
+      std::lock_guard<std::mutex> const lock (mutex_);
+      if (throw_on_write_)
+        throw std::bad_alloc ();
+      written_.push_back (*frame);
+    }
+    asio::post (strand_,
+                asio::append (std::move (handler), std::error_code ()));
+  }
+
+  void
+  cancel () LUMEX_NOEXCEPT override
+  {
+    end_reads ();
+  }
+
+  void
+  close () LUMEX_NOEXCEPT override
+  {
+    end_reads ();
+  }
+
+  /// Hands `frame` to the oldest pending read (posted); false without one.
+  bool
+  deliver (bytes_t const &frame)
+  {
+    pr::link_read_handler_t handler;
+    {
+      std::lock_guard<std::mutex> const lock (mutex_);
+      if (reads_.empty ())
+        return false;
+      handler = std::move (reads_.front ());
+      reads_.erase (reads_.begin ());
+    }
+    asio::post (strand_, asio::append (std::move (handler), std::error_code (),
+                                       pr::link_frame_t (frame)));
+    return true;
+  }
+
+  /// Ends the pending reads with `cancelled` while the link stays open (a
+  /// link of one's own that cancels its reads, a session between two
+  /// connections).
+  void
+  cancel_reads ()
+  {
+    end_reads ();
+  }
+
+  /// The next writes throw `std::bad_alloc` (or stop throwing).
+  void
+  throw_on_write (bool on)
+  {
+    std::lock_guard<std::mutex> const lock (mutex_);
+    throw_on_write_ = on;
+  }
+
+  /// How many reads wait.
+  std::size_t
+  pending_reads () const
+  {
+    std::lock_guard<std::mutex> const lock (mutex_);
+    return reads_.size ();
+  }
+
+  std::vector<bytes_t>
+  written () const
+  {
+    std::lock_guard<std::mutex> const lock (mutex_);
+    return written_;
+  }
+
+private:
+  void
+  end_reads () LUMEX_NOEXCEPT
+  {
+    std::vector<pr::link_read_handler_t> ended;
+    {
+      std::lock_guard<std::mutex> const lock (mutex_);
+      ended.swap (reads_);
+    }
+    for (std::size_t i = 0; i < ended.size (); ++i)
+      asio::post (strand_,
+                  asio::append (std::move (ended[i]),
+                                make_error_code (transport_errc::cancelled),
+                                pr::link_frame_t ()));
+  }
+
+  strand_type strand_;
+  std::string name_;
+  mutable std::mutex mutex_;
+  std::vector<pr::link_read_handler_t> reads_;
+  std::vector<bytes_t> written_;
+  bool throw_on_write_ = false;
 };
 
 /// The key of a request message (its first byte in the pump table).

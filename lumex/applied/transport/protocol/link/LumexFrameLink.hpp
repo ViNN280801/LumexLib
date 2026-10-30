@@ -97,7 +97,8 @@ namespace transport
 {
 namespace protocol
 {
-/// @brief One frame of a link: the codec payload.
+/// @brief One frame of a link: the codec payload (the same type as the
+/// dialogue's `reply_frame_t`).
 using link_frame_t = std::vector<std::uint8_t>;
 
 /// @brief The completion of a frame read of a link, as an implementation

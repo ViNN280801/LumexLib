@@ -399,7 +399,10 @@ struct part_decoder_t<P, Row, T, 0>
         = layout::decode_reply<P, as_reply_t<Row, part>> (fields, context);
     if (!decoded)
       return decoded.error ();
-    out = std::move (*decoded);
+    // Through a named reference: GCC reports the result of operator* as
+    // unused when the value is an empty record (-Wunused-result).
+    typename decltype (decoded)::value_type &value = *decoded;
+    out = std::move (value);
     return std::error_code ();
   }
 };
@@ -468,7 +471,10 @@ template <typename P, typename T> struct row_part_t<P, T, 1>
         = layout::decode_reply_message<P, T> (message, context);
     if (!decoded)
       return decoded.error ();
-    out = std::move (*decoded);
+    // Through a named reference: GCC reports the result of operator* as
+    // unused when the value is an empty record (-Wunused-result).
+    typename decltype (decoded)::value_type &value = *decoded;
+    out = std::move (value);
     return std::error_code ();
   }
 };
