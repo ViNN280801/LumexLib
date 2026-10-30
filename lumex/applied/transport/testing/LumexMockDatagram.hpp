@@ -105,8 +105,10 @@ public:
   void fail_next_receive (std::error_code error);
   /// @brief The next send fails with `error`.
   void fail_next_send (std::error_code error);
-  /// @brief The pending and later receives end with `disconnected`, and so do
-  /// the sends held by `hold_sends`.
+  /// @brief The pending and later receives end with `disconnected` (messages
+  /// delivered before are received first), and so do the sends held by
+  /// `hold_sends`. Until the next open, sends fail with `disconnected` (they
+  /// are not recorded) and messages delivered later are dropped.
   void disconnect ();
   /// @brief Every message sent so far.
   std::vector<datagram::message_t> sent () const;
@@ -117,9 +119,16 @@ public:
   /// source (the rules of `mock_stream_control::feed_after`).
   void deliver_after (std::chrono::milliseconds delay,
                       datagram::message_t const &message);
+  /// @brief As `deliver_after`, but bound to the connection that is current
+  /// now (every open and every close starts a new one): a delivery whose
+  /// connection is gone is dropped, as are messages that come after a
+  /// hang-up. (A plain `deliver_after` outlives a close and a reopen.)
+  void deliver_after_on_link (std::chrono::milliseconds delay,
+                              datagram::message_t const &message);
   /// @brief `disconnect ()` after `delay` of the mock's timer source;
   /// ordered with `deliver_after` by time and, for equal times, by the order
-  /// of the calls. A new open clears the disconnect.
+  /// of the calls. Bound to the connection that is current now: it never
+  /// hangs up one opened later. A new open clears the disconnect.
   void disconnect_after (std::chrono::milliseconds delay);
   /// @brief Every open that starts before `duration` of the mock's timer
   /// source has passed from now fails with `error` (a cable that is plugged

@@ -45,7 +45,9 @@
  * makes bytes available to reads (a read blocked on an empty stream ends as
  * soon as bytes arrive), `fail_*` makes the next operation end with an error,
  * `fail_write_after` lets some writes succeed and fails the next one,
- * `disconnect` ends the pending and later reads with `disconnected`,
+ * `disconnect` ends the pending and later reads with `disconnected` (bytes
+ * fed before it are read first; writes and bytes fed after it fail or are
+ * dropped until the next open),
  * `set_write_chunk` limits how many bytes one write takes (to exercise
  * `write_all`), `written` returns every byte the stream wrote. A read waits
  * for bytes indefinitely: a test bounds it with a deadline, `cancel` or
@@ -119,6 +121,9 @@ public:
   void fail_write_after (std::size_t writes, std::error_code error);
   /// @brief The pending and later reads end with `disconnected` (bytes fed
   /// before are read first), and so do the writes held by `hold_writes`.
+  /// Until the next open, writes fail with `disconnected` (they are not
+  /// recorded and the observer does not see them) and bytes fed later are
+  /// dropped.
   void disconnect ();
   /// @brief At most `bytes` per write (0: no limit, the default).
   void set_write_chunk (std::size_t bytes);
@@ -138,14 +143,24 @@ public:
   /// destroyed.
   void feed_after (std::chrono::milliseconds delay,
                    std::vector<std::uint8_t> const &bytes);
+  /// @brief As `feed_after`, but bound to the connection that is current now
+  /// (every open and every close starts a new one): a delivery whose
+  /// connection is gone is dropped, as are bytes that come after a hang-up.
+  /// A behaviour's plan uses it, so that the reply of a request does not
+  /// reach the link opened after the client gave up on the old one. (A plain
+  /// `feed_after` outlives a close and a reopen.)
+  void feed_after_on_link (std::chrono::milliseconds delay,
+                           std::vector<std::uint8_t> const &bytes);
   /// @brief Ends the next read with 0 bytes and no error after `delay` of
   /// the mock's timer source (`complete_next_read_empty` then); ordered with
   /// `feed_after` and `disconnect_after` by time and, for equal times, by the
-  /// order of the calls.
+  /// order of the calls. Bound to the connection that is current now, like
+  /// `feed_after_on_link`.
   void empty_read_after (std::chrono::milliseconds delay);
   /// @brief `disconnect ()` after `delay` of the mock's timer source (the
-  /// rules of `empty_read_after`). A new open clears the disconnect, as it
-  /// does for `disconnect ()`.
+  /// rules of `empty_read_after`), bound to the connection that is current
+  /// now: it never hangs up one opened later. A new open clears the
+  /// disconnect, as it does for `disconnect ()`.
   void disconnect_after (std::chrono::milliseconds delay);
   /// @brief Every open that starts before `duration` of the mock's timer
   /// source has passed from now fails with `error` (a cable that is plugged

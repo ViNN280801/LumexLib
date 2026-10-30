@@ -98,6 +98,8 @@ public:
   deliver (message_t const &message)
   {
     std::lock_guard<std::mutex> const lock (mutex_);
+    if (disconnected_)
+      return;
     incoming_.push_back (message);
     serve_receives ();
   }
@@ -193,10 +195,22 @@ public:
   }
 
   void
+  deliver_after_on_link (std::chrono::milliseconds delay,
+                         message_t const &message)
+  {
+    scripted_step_t step;
+    step.kind = scripted_step_t::deliver_message;
+    step.on_link = true;
+    step.message = message;
+    schedule (delay, std::move (step));
+  }
+
+  void
   disconnect_after (std::chrono::milliseconds delay)
   {
     scripted_step_t step;
     step.kind = scripted_step_t::hang_up;
+    step.on_link = true;
     schedule (delay, std::move (step));
   }
 
@@ -244,10 +258,15 @@ public:
       std::lock_guard<std::mutex> const lock (mutex_);
       if (!scheduled_.take (id, step, expired))
         return;
+      // A step of a connection that is gone (closed or opened again) is
+      // dropped; so are messages that come after a hang-up.
+      if (step.on_link && step.epoch != link_epoch_)
+        return;
       switch (step.kind)
         {
         case scripted_step_t::deliver_message:
-          incoming_.push_back (std::move (step.message));
+          if (!disconnected_)
+            incoming_.push_back (std::move (step.message));
           break;
         case scripted_step_t::hang_up:
           disconnected_ = true;
@@ -282,6 +301,7 @@ protected:
   void
   do_open (status_handler_t handler) override
   {
+    timing::time_point_t const now = timers_.now ();
     std::lock_guard<std::mutex> const lock (mutex_);
     if (open_error_)
       {
@@ -290,7 +310,7 @@ protected:
         complete (std::move (handler), error);
         return;
       }
-    if (open_fail_error_ && timers_.now () < open_fail_until_)
+    if (open_fail_error_ && now < open_fail_until_)
       {
         complete (std::move (handler), open_fail_error_);
         return;
@@ -302,6 +322,7 @@ protected:
         has_pending_open_ = true;
         return;
       }
+    ++link_epoch_;
     disconnected_ = false;
     set_open (true);
     complete (std::move (handler), std::error_code ());
@@ -327,7 +348,8 @@ protected:
   {
     {
       std::lock_guard<std::mutex> const lock (mutex_);
-      if (hold_sends_ || !sends_.empty ())
+      // On a hung-up link a send is not held: it fails (take_send).
+      if (!disconnected_ && (hold_sends_ || !sends_.empty ()))
         {
           // Behind the held sends, so that they keep their order.
           pending_send_t held = { std::move (message), std::move (handler) };
@@ -351,6 +373,7 @@ protected:
   do_close () override
   {
     std::lock_guard<std::mutex> const lock (mutex_);
+    ++link_epoch_;
     end_pending_open ();
     end_pending_receives (transport_errc::cancelled);
     end_pending_sends (transport_errc::cancelled);
@@ -367,6 +390,9 @@ private:
     };
 
     kind_t kind = deliver_message;
+    // Bound to the connection that was current when it was scheduled.
+    bool on_link = false;
+    std::size_t epoch = 0;
     message_t message;
   };
 
@@ -382,6 +408,7 @@ private:
     std::uint64_t id = 0;
     {
       std::lock_guard<std::mutex> const lock (mutex_);
+      step.epoch = link_epoch_;
       id = scheduled_.add (std::move (step));
     }
     // The timer is made and the wait started outside the lock.
@@ -491,6 +518,12 @@ private:
   take_send (message_t message, status_handler_t handler,
              observer_ptr_t &observer, message_t &seen)
   {
+    if (disconnected_)
+      {
+        complete (std::move (handler),
+                  make_error_code (transport_errc::disconnected));
+        return false;
+      }
     if (send_error_)
       {
         std::error_code const error = send_error_;
@@ -589,6 +622,8 @@ private:
   bool has_pending_open_ = false;
   bool hold_open_ = false;
   bool disconnected_ = false;
+  // Bumped by every open and every close: what a bound step waits for.
+  std::size_t link_epoch_ = 0;
   std::error_code open_error_;
   std::error_code open_fail_error_;
   timing::time_point_t open_fail_until_;
@@ -651,6 +686,13 @@ mock_datagram_control::deliver_after (std::chrono::milliseconds delay,
                                       message_t const &message)
 {
   impl_->deliver_after (delay, message);
+}
+
+void
+mock_datagram_control::deliver_after_on_link (
+    std::chrono::milliseconds delay, datagram::message_t const &message)
+{
+  impl_->deliver_after_on_link (delay, message);
 }
 
 void
