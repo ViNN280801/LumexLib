@@ -138,6 +138,21 @@ public:
   /// destroyed.
   void feed_after (std::chrono::milliseconds delay,
                    std::vector<std::uint8_t> const &bytes);
+  /// @brief Ends the next read with 0 bytes and no error after `delay` of
+  /// the mock's timer source (`complete_next_read_empty` then); ordered with
+  /// `feed_after` and `disconnect_after` by time and, for equal times, by the
+  /// order of the calls.
+  void empty_read_after (std::chrono::milliseconds delay);
+  /// @brief `disconnect ()` after `delay` of the mock's timer source (the
+  /// rules of `empty_read_after`). A new open clears the disconnect, as it
+  /// does for `disconnect ()`.
+  void disconnect_after (std::chrono::milliseconds delay);
+  /// @brief Every open that starts before `duration` of the mock's timer
+  /// source has passed from now fails with `error` (a cable that is plugged
+  /// back later); a zero or negative duration clears the window. `fail_open`
+  /// is served first.
+  void fail_opens_for (std::chrono::milliseconds duration,
+                       std::error_code error);
   /// @brief At most `bytes` per read (0: no limit, the default); the rest
   /// stays for the next read.
   void set_read_chunk (std::size_t bytes);
