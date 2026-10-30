@@ -9,6 +9,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <initializer_list>
+#include <ratio>
 #include <vector>
 
 #include "lumex/applied/transport/protocol/dsl/LumexDialogueVocabulary.hpp"
@@ -55,7 +56,7 @@ struct pump_header_t
       dialogue::keepalive<typename P::CLOCK_t, 1000>,
       dialogue::watchdog_ms<3000>, dialogue::min_interval_ms<20>,
       dialogue::state_from<typename P::STATUS_t, 1>,
-      dialogue::identify_with<typename P::INFO_t>, dialogue::max_in_flight<2>,
+      dialogue::identify_with<typename P::INFO_t>, dialogue::max_in_flight<1>,
       dialogue::default_timeout_ms<400>, dialogue::default_retries<1>,
       dialogue::late_reply_window_ms<150>>;
 };
@@ -81,7 +82,8 @@ LUMEX_PROTOCOL_LAYOUT (nothing_t, (), ());
   X (CLOCK, 0x11, "Set the clock", (u32_le_), ("seconds"), (), \
      (idempotent)) \
   X (STATUS, 0x12, "State", (), (), (status_t), \
-     (stream (100), edge_event<0, 0, 1> (), edge_event<0, 1, 0> ())) \
+     (stream (100), edge_event<0, 0, 1> (), edge_event<0, 1, 0> (), \
+      edge_event<1, -1, 2> ())) \
   X (START, 0x01, "Start", (u8_), ("channel"), (ack_nak<u8_, refusal_t>), \
      (min_interval (50))) \
   X (STOP, 0x02, "Stop", (), (), (ack_nak<ACK_t, NAK_t>), ()) \
@@ -101,15 +103,58 @@ LUMEX_PROTOCOL_LAYOUT (nothing_t, (), ());
      (match_with (&match_any))) \
   X (TOUCH, 0x0B, "Touch", (), (), (ack_nak<nothing_t, NAK_t>), ()) \
   X (POLL, 0x0C, "Poll", (), (), (u8_), ()) \
-  X (BOTH, 0x0D, "Two parts of one shape", (), (), (ack_nak<u8_, i8_>), ())
-// The layer replaces the change report that WRITE of the base names.
+  X (BOTH, 0x0D, "Two parts of one shape", (), (), (ack_nak<u8_, i8_>), ()) \
+  X (QUERY_NAMED, 0x0E, "Query, the correlation named", (), (), (u8_), \
+     (match_with (&match_any), correlate (correlation::custom))) \
+  X (WRITE_NAMED, 0x0F, "Write, the correlation named", (u8_), \
+     ("parameter"), (), \
+     (reply_row<CHANGE_t> (), correlate (correlation::by_reply_key))) \
+  X (SET_STATE, 0x16, "Set the state", (enum_<u8_, pump_state>), \
+     ("state"), (echo_zero_on_error<enum_<u8_, pump_state> >), ()) \
+  X (SET_GAIN, 0x17, "Set the gain", (u16_le_<scale<std::ratio<1, 100> > >), \
+     ("gain"), (echo_zero_on_error<u16_le_<scale<std::ratio<1, 100> > > >), \
+     ()) \
+  X (SET_RATE, 0x18, "Set the rate", (f32_le_), ("rate"), \
+     (echo_zero_on_error<f32_le_>), ())
+// The layer replaces the change report that WRITE of the base names, so it
+// lists WRITE again: there WRITE names the change report of the layer.
 #define PUMP_V2_ROWS(X, X_AS) \
   X (STATUS, 0x12, "State", (), (), (status_v2_t), (stream (50))) \
-  X (CHANGE, 0x30, "A parameter changed", (), (), (status_v2_t), ())
+  X (CHANGE, 0x30, "A parameter changed", (), (), (status_v2_t), ()) \
+  X (WRITE, 0x08, "Write a parameter", (u8_, u16_le_), \
+     ("parameter", "value"), (), (reply_row<CHANGE_t> ())) \
+  X (WRITE_NAMED, 0x0F, "Write, the correlation named", (u8_), \
+     ("parameter"), (), \
+     (reply_row<CHANGE_t> (), correlate (correlation::by_reply_key)))
 // clang-format on
 
 LUMEX_PROTOCOL_DEFINE (pump_t, codec_t, pump_header_t, PUMP_ROWS);
 LUMEX_PROTOCOL_EXTEND (pump_v2_t, pump_t, PUMP_V2_ROWS);
+
+/// A reply kind of another layer: the dialogue reports it as other.
+struct foreign_reply_t
+{
+  using lumex_protocol_reply = dsl::reply_tag;
+};
+
+struct foreign_vocabulary_t : dialogue::vocabulary_t
+{
+  using foreign = foreign_reply_t;
+};
+
+/// Final, with its protocol options: they are read all the same.
+struct final_header_t final
+{
+  using lumex_vocabulary = foreign_vocabulary_t;
+  static LUMEX_CONSTEXPR std::size_t key_width = 1;
+  using dialogue_options = dialogue::options<dialogue::watchdog_ms<700>>;
+};
+
+// clang-format off
+#define FOREIGN_ROWS(X, X_AS) \
+  X (ODD, 0x01, "A reply of another layer", (), (), (foreign), ())
+// clang-format on
+LUMEX_PROTOCOL_DEFINE (foreign_t, codec_t, final_header_t, FOREIGN_ROWS);
 
 /// Protocol options that name no row: the plain member form.
 struct fixed_header_t

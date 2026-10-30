@@ -649,7 +649,7 @@ TEST (LumexProtocolIndexTest,
   ASSERT_TRUE (result.has_value ());
   dsl::extra_options_t const extra
       = row_named (*result, "ASK").entry->options.extra;
-  ASSERT_EQ (extra.size (), 3u);
+  ASSERT_EQ (extra.size (), 4u);
   EXPECT_EQ (std::string (extra.data ()[0].name), "mode");
   EXPECT_EQ (extra.data ()[0].value, 1);
   ASSERT_NE (extra.data ()[0].text, nullptr);
@@ -657,11 +657,15 @@ TEST (LumexProtocolIndexTest,
   EXPECT_EQ (std::string (extra.data ()[1].name), "step");
   EXPECT_EQ (extra.data ()[1].value, 1);
   EXPECT_EQ (extra.data ()[1].text, nullptr);
+  EXPECT_FALSE (extra.data ()[0].repeats);
+  EXPECT_TRUE (extra.data ()[1].repeats);
   EXPECT_EQ (extra.data ()[2].value, 2);
+  EXPECT_EQ (extra.data ()[3].value, 3);
   dsl::extra_options_t const tell
       = row_named (*result, "TELL").entry->options.extra;
-  ASSERT_EQ (tell.size (), 1u);
+  ASSERT_EQ (tell.size (), 2u);
   EXPECT_EQ (std::string (tell.data ()[0].text), "slow");
+  EXPECT_TRUE (tell.data ()[1].repeats);
   dsl::extra_options_t const rate
       = row_named (
             *index::protocol_index<tables::dialogue::dialogue_protocol> (),
@@ -669,4 +673,5 @@ TEST (LumexProtocolIndexTest,
             .entry->options.extra;
   ASSERT_EQ (rate.size (), 1u);
   EXPECT_EQ (rate.data ()[0].text, nullptr);
+  EXPECT_FALSE (rate.data ()[0].repeats);
 }

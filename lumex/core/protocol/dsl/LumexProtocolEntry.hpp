@@ -83,13 +83,20 @@ using states_t = ::lumex::core::span::view::span<std::int64_t const>;
 /**
  * @brief An option of another layer (an option type whose kind is not one
  * of `dsl::kind`) in the run-time entry: its name, one number and a text.
- * @details Such an option type gives `static char const *option_name ()`
- * and `std::int64_t view_value () const` (the dialogue's correlation policy,
- * rate limit or keepalive period), and may give `char const *view_text ()
- * const` when the number alone does not say it (a policy by its name, the
- * row it names); the core keeps its typed value on the command type and
- * these values in the entry, for the index and the export. A member named
- * `view_text` that cannot be called so does not compile.
+ * @details Such an option type gives `static constexpr char const
+ * *option_name ()` and `std::int64_t view_value () const` (the dialogue's
+ * correlation policy, rate limit or keepalive period). It may give `char
+ * const *view_text () const` when the number alone does not say it (a policy
+ * by its name, the row it names) and `using option_repeats =
+ * std::true_type;` when a row may hold several options of that name (the
+ * JSON export then always writes an array). The core keeps its typed value
+ * on the command type and these values in the entry, for the index and the
+ * export. A name that is a key of the core options (`timeout_ms`,
+ * `retries`, `stream_interval_ms`, `log_level`, `firmware`, `models`,
+ * `accepted_in`, `flags`) does not compile, and neither does a member named
+ * `view_text` or `option_repeats` that cannot be used so (in a class that is
+ * not final: the name of a member of a final class cannot be probed, so
+ * there an unusable member is ignored).
  */
 struct extra_option_t
 {
@@ -100,6 +107,9 @@ struct extra_option_t
   /// Its value as text (`view_text ()`, static storage), `nullptr` when the
   /// option gives none.
   char const *text;
+  /// Whether a row may hold several options of this name
+  /// (`option_repeats`).
+  bool repeats;
 };
 
 /// @brief The options of other layers of a row.
@@ -392,6 +402,8 @@ template <typename... T> struct extras_of<option_set<T...>>
 
 LUMEX_PROTOCOL_DETAIL_NAME_PROBE (view_text);
 
+LUMEX_PROTOCOL_DETAIL_NAME_PROBE (option_repeats);
+
 // Whether option O has a view_text the entry can call.
 template <typename O, typename = void>
 struct callable_view_text_t : std::false_type
@@ -406,27 +418,12 @@ struct callable_view_text_t<
 {
 };
 
-template <typename O, bool Callable> struct view_text_call_t
-{
-  static char const *
-  get (O const &) LUMEX_NOEXCEPT
-  {
-    return nullptr;
-  }
-};
-
-template <typename O> struct view_text_call_t<O, true>
-{
-  static char const *
-  get (O const &option) LUMEX_NOEXCEPT
-  {
-    return option.view_text ();
-  }
-};
-
-// The text of an option: nullptr without view_text, a refusal of a
-// view_text the entry cannot call.
-template <typename O, bool Named = names_view_text_t<O>::value>
+// The text of an option: its view_text when the entry can call it (a final
+// class too), a refusal of a member of that name it cannot call, nullptr
+// without one. 2: callable, 1: named but unusable, 0: none.
+template <typename O, int Form = callable_view_text_t<O>::value
+                                     ? 2
+                                     : (names_view_text_t<O>::value ? 1 : 0)>
 struct extra_text_t
 {
   static char const *
@@ -436,7 +433,7 @@ struct extra_text_t
   }
 };
 
-template <typename O> struct extra_text_t<O, true>
+template <typename O> struct extra_text_t<O, 1>
 {
   static_assert (callable_view_text_t<O>::value,
                  "LUMEX_PROTOCOL: the option names view_text, but not as an "
@@ -444,20 +441,90 @@ template <typename O> struct extra_text_t<O, true>
                  "const *");
 
   static char const *
-  get (O const &option) LUMEX_NOEXCEPT
+  get (O const &) LUMEX_NOEXCEPT
   {
-    return view_text_call_t<O, callable_view_text_t<O>::value>::get (option);
+    return nullptr;
   }
 };
+
+template <typename O> struct extra_text_t<O, 2>
+{
+  static char const *
+  get (O const &option) LUMEX_NOEXCEPT
+  {
+    return option.view_text ();
+  }
+};
+
+// Whether option O says, as option_repeats, whether a row may hold several
+// options of its name.
+template <typename O, typename = void>
+struct usable_repeats_t : std::false_type
+{
+};
+
+template <typename O>
+struct usable_repeats_t<
+    O, typename std::enable_if<std::is_same<
+           bool, typename std::remove_cv<
+                     decltype (O::option_repeats::value)>::type>::value>::type>
+    : std::true_type
+{
+};
+
+template <typename O,
+          int Form = usable_repeats_t<O>::value
+                         ? 2
+                         : (names_option_repeats_t<O>::value ? 1 : 0)>
+struct extra_repeats_t : std::false_type
+{
+};
+
+template <typename O> struct extra_repeats_t<O, 1> : std::false_type
+{
+  static_assert (usable_repeats_t<O>::value,
+                 "LUMEX_PROTOCOL: the option names option_repeats, but not "
+                 "as an accessible type with a constant bool value "
+                 "(std::true_type)");
+};
+
+template <typename O>
+struct extra_repeats_t<O, 2>
+    : std::integral_constant<bool, O::option_repeats::value>
+{
+};
+
+// Whether two texts are the same, in a constant expression.
+LUMEX_CONSTEXPR inline bool
+same_text (char const *left, char const *right) LUMEX_NOEXCEPT
+{
+  return *left == *right && (*left == '\0' || same_text (left + 1, right + 1));
+}
+
+// Whether a name is a key the exports give a core option.
+LUMEX_CONSTEXPR inline bool
+is_core_option_key (char const *name) LUMEX_NOEXCEPT
+{
+  return same_text (name, "timeout_ms") || same_text (name, "retries")
+         || same_text (name, "stream_interval_ms")
+         || same_text (name, "log_level") || same_text (name, "firmware")
+         || same_text (name, "models") || same_text (name, "accepted_in")
+         || same_text (name, "flags");
+}
 
 template <typename Option>
 extra_option_t
 make_extra (Option const &option) LUMEX_NOEXCEPT
 {
+  static_assert (!is_core_option_key (Option::option_name ()),
+                 "LUMEX_PROTOCOL: the option_name () of an option of another "
+                 "layer is a constexpr name other than the keys of the core "
+                 "options (timeout_ms, retries, stream_interval_ms, "
+                 "log_level, firmware, models, accepted_in, flags)");
   extra_option_t const extra
       = { Option::option_name (),
           static_cast<std::int64_t> (option.view_value ()),
-          extra_text_t<Option>::get (option) };
+          extra_text_t<Option>::get (option), extra_repeats_t<Option>::value };
   return extra;
 }
 

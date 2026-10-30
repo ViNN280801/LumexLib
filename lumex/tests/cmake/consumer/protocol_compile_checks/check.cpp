@@ -477,7 +477,7 @@ use_messages ()
 #endif
 }
 
-#elif LUMEX_PROTOCOL_BAD_CASE >= 43 && LUMEX_PROTOCOL_BAD_CASE <= 47
+#elif LUMEX_PROTOCOL_BAD_CASE >= 43 && LUMEX_PROTOCOL_BAD_CASE <= 49
 namespace layout = ::lumex::core::protocol::layout;
 namespace dsl = ::lumex::core::protocol::dsl;
 namespace field = ::lumex::core::protocol::field;
@@ -504,10 +504,15 @@ struct text_kind
 struct text_option
 {
   using option_kind = text_kind;
-  static char const *
+  static constexpr char const *
   option_name ()
   {
+#if LUMEX_PROTOCOL_BAD_CASE == 48
+    // 48: an option named like a key of the core options.
+    return "firmware";
+#else
     return "texted";
+#endif
   }
   std::int64_t
   view_value () const
@@ -517,6 +522,9 @@ struct text_option
 #if LUMEX_PROTOCOL_BAD_CASE == 45
   // 45: the text of an option that is no member function.
   static int view_text;
+#elif LUMEX_PROTOCOL_BAD_CASE == 49
+  // 49: option_repeats that is no type with a constant.
+  static int option_repeats;
 #endif
 };
 template <typename P> struct refuses : std::false_type

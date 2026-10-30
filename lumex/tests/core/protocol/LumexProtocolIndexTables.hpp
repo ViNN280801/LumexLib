@@ -329,7 +329,7 @@ struct rate_limit_t
   using option_kind = rate_limit_kind;
   std::uint32_t milliseconds;
 
-  static char const *
+  static LUMEX_CONSTEXPR char const *
   option_name ()
   {
     return "rate_limit";
@@ -374,8 +374,9 @@ LUMEX_PROTOCOL_DEFINE (dialogue_protocol, codec, header, DIALOGUE_ROWS);
 // with a text, and a vocabulary whose check the index asks for.
 namespace hooked
 {
-// The reply is one field; a value 1 means yes, any other value no.
-template <typename Answer> struct yes_no_t
+// The reply is one field; a value 1 means yes, any other value no. The kind
+// is final: the index uses its hooks all the same.
+template <typename Answer> struct yes_no_t final
 {
   using lumex_protocol_reply = dsl::reply_tag;
 
@@ -404,12 +405,13 @@ template <typename Answer> struct yes_no_t
   }
 };
 
-struct mode_option_t
+// Final too: its text is read all the same.
+struct mode_option_t final
 {
   using option_kind = mode_option_t;
   bool fast;
 
-  static char const *
+  static LUMEX_CONSTEXPR char const *
   option_name ()
   {
     return "mode";
@@ -428,12 +430,14 @@ struct mode_option_t
   }
 };
 
-// Several steps of one row: one kind per number, one name for all.
+// Several steps of one row: one kind per number, one name for all, an array
+// in the JSON export whatever the count.
 template <int N> struct step_option_t
 {
   using option_kind = step_option_t;
+  using option_repeats = std::true_type;
 
-  static char const *
+  static LUMEX_CONSTEXPR char const *
   option_name ()
   {
     return "step";
@@ -475,8 +479,8 @@ struct header_t
 // clang-format off
 #define HOOKED_ROWS(X, X_AS) \
   X (ASK, 0x01, "Ask", (u8_), ("question"), (yes_no<u8_>), \
-     (mode (true), step<1> (), step<2> ())) \
-  X (TELL, 0x02, "Tell", (), (), (u8_), (mode (false)))
+     (mode (true), step<1> (), step<2> (), step<3> ())) \
+  X (TELL, 0x02, "Tell", (), (), (u8_), (mode (false), step<4> ()))
 // clang-format on
 LUMEX_PROTOCOL_DEFINE (hooked_protocol, codec, header_t, HOOKED_ROWS);
 } // namespace hooked

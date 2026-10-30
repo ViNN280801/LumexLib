@@ -105,20 +105,86 @@ TEST (LumexDialogueVocabularyTest,
              "RX pump_t.BOTH (Two parts of one shape) ACK value=5");
 }
 
-TEST (LumexDialogueVocabularyTest,
-      GivenALayerThatReplacesANamedRow_WhenIndexed_ThenTheBaseRowStillPasses)
+TEST (
+    LumexDialogueVocabularyTest,
+    GivenALayerThatReplacesANamedRowAndListsTheNamingRow_WhenRead_ThenItNamesTheRowOfTheLayer)
 {
-  index::index_result_t const &result
-      = index::protocol_index<tables::pump_v2_t> ();
+  using v2 = tables::pump_v2_t;
+  index::index_result_t const &result = index::protocol_index<v2> ();
   ASSERT_TRUE (result.has_value ());
   EXPECT_EQ (
       text_or_empty (
           row_named (*result, "WRITE").entry->options.extra.data ()[0].text),
       "CHANGE");
   EXPECT_TRUE (
-      (std::is_same<
-          dialogue::row_traits_t<tables::pump_v2_t, pump::WRITE_t>::reply_row,
-          pump::CHANGE_t>::value));
+      (std::is_same<dialogue::row_traits_t<v2, v2::WRITE_t>::reply_row,
+                    v2::CHANGE_t>::value));
+  EXPECT_FALSE ((std::is_same<v2::WRITE_t, pump::WRITE_t>::value));
+  EXPECT_TRUE (
+      (std::is_same<dialogue::reply_value_of_t<v2::WRITE_t>::type,
+                    layout::reply_value_of<v2::CHANGE_t>::type>::value));
+}
+
+TEST (LumexDialogueVocabularyTest,
+      GivenCorrelationsNamedByTheRow_WhenEntered_ThenEachHasItsName)
+{
+  dsl::extra_options_t const query
+      = row_named (pump_index (), "QUERY_NAMED").entry->options.extra;
+  ASSERT_EQ (query.size (), 2u);
+  EXPECT_EQ (std::string (query.data ()[1].name), "correlation");
+  EXPECT_EQ (query.data ()[1].value, 3);
+  EXPECT_EQ (text_or_empty (query.data ()[1].text), "custom");
+  dsl::extra_options_t const write
+      = row_named (pump_index (), "WRITE_NAMED").entry->options.extra;
+  ASSERT_EQ (write.size (), 2u);
+  EXPECT_EQ (write.data ()[1].value, 2);
+  EXPECT_EQ (text_or_empty (write.data ()[1].text), "by_reply_key");
+  EXPECT_TRUE (row_of<pump::QUERY_NAMED_t>::how ()
+               == dialogue::correlation::custom);
+  EXPECT_TRUE (row_of<pump::WRITE_NAMED_t>::how ()
+               == dialogue::correlation::by_reply_key);
+  EXPECT_EQ (
+      std::string (dialogue::correlation_name (dialogue::correlation::by_key)),
+      "by_key");
+}
+
+TEST (
+    LumexDialogueVocabularyTest,
+    GivenEchoZeroOfAnEnumAScaledNumberAndAFloat_WhenDescribed_ThenZeroIsTheRefusal)
+{
+  EXPECT_EQ (rx (pump_index (), { 0x16, 0x00 }),
+             "RX pump_t.SET_STATE (Set the state) REFUSED value=0");
+  EXPECT_EQ (rx (pump_index (), { 0x16, 0x01 }),
+             "RX pump_t.SET_STATE (Set the state) ECHO value=1");
+  EXPECT_EQ (rx (pump_index (), { 0x17, 0x00, 0x00 }),
+             "RX pump_t.SET_GAIN (Set the gain) REFUSED value=0");
+  EXPECT_EQ (rx (pump_index (), { 0x17, 0xFA, 0x00 }),
+             "RX pump_t.SET_GAIN (Set the gain) ECHO value=2.5");
+  EXPECT_EQ (rx (pump_index (), { 0x18, 0x00, 0x00, 0x00, 0x00 }),
+             "RX pump_t.SET_RATE (Set the rate) REFUSED value=0");
+  EXPECT_EQ (rx (pump_index (), { 0x18, 0x00, 0x00, 0x00, 0x80 })
+                 .find ("RX pump_t.SET_RATE (Set the rate) REFUSED value="),
+             0u);
+  EXPECT_EQ (rx (pump_index (), { 0x18, 0x00, 0x00, 0x80, 0x3F }),
+             "RX pump_t.SET_RATE (Set the rate) ECHO value=1");
+  EXPECT_TRUE (
+      (std::is_same<dialogue::reply_value_of_t<pump::SET_RATE_t>::type,
+                    float>::value));
+}
+
+TEST (LumexDialogueVocabularyTest,
+      GivenAReplyKindOfAnotherLayerAndAFinalHeader_WhenRead_ThenBothAreSeen)
+{
+  EXPECT_TRUE ((dialogue::row_traits_t<tables::foreign_t,
+                                       tables::foreign_t::ODD_t>::kind ()
+                == dialogue::reply_kind::other));
+  EXPECT_EQ (dialogue::protocol_traits_t<tables::foreign_t>::watchdog_ms (),
+             700u);
+  index::index_result_t const &result
+      = index::protocol_index<tables::foreign_t> ();
+  ASSERT_TRUE (result.has_value ());
+  EXPECT_EQ (rx (*result, { 0x01, 0x02 }),
+             "RX foreign_t.ODD (A reply of another layer) len=2: 01 02");
 }
 
 TEST (LumexDialogueVocabularyTest,
@@ -189,11 +255,14 @@ TEST (LumexDialogueVocabularyTest,
 {
   dsl::extra_options_t const status
       = row_named (pump_index (), "STATUS").entry->options.extra;
-  ASSERT_EQ (status.size (), 2u);
+  ASSERT_EQ (status.size (), 3u);
   EXPECT_EQ (std::string (status.data ()[0].name), "edge_event");
   EXPECT_EQ (status.data ()[0].value, 0);
+  EXPECT_TRUE (status.data ()[0].repeats);
   EXPECT_EQ (text_or_empty (status.data ()[0].text), "field 0: 0 -> 1");
   EXPECT_EQ (text_or_empty (status.data ()[1].text), "field 0: 1 -> 0");
+  EXPECT_EQ (status.data ()[2].value, 1);
+  EXPECT_EQ (text_or_empty (status.data ()[2].text), "field 1: -1 -> 2");
   dsl::extra_options_t const start
       = row_named (pump_index (), "START").entry->options.extra;
   ASSERT_EQ (start.size (), 1u);
@@ -238,7 +307,8 @@ TEST (LumexDialogueVocabularyTest,
                         "Options: min_interval 50.\n\n"),
              std::string::npos);
   EXPECT_NE (text.find ("Options: stream every 100 ms; edge_event field 0: "
-                        "0 -> 1; edge_event field 0: 1 -> 0.\n\n"),
+                        "0 -> 1; edge_event field 0: 1 -> 0; edge_event field "
+                        "1: -1 -> 2.\n\n"),
              std::string::npos);
   EXPECT_NE (text.find ("Options: reply_row CHANGE.\n\n"), std::string::npos);
   EXPECT_NE (text.find ("Options: correlation by_order.\n\n"),
@@ -250,7 +320,9 @@ TEST (LumexDialogueVocabularyTest,
 {
   EXPECT_TRUE (row_of<pump::POLL_t>::how () == dialogue::correlation::by_key);
   EXPECT_TRUE (row_of<pump::START_t>::how () == dialogue::correlation::by_key);
-  EXPECT_TRUE (row_of<pump::TOUCH_t>::how () == dialogue::correlation::by_key);
+  // A row part anywhere (here the NAK) means the reply may carry no key.
+  EXPECT_TRUE (row_of<pump::TOUCH_t>::how ()
+               == dialogue::correlation::by_order);
   EXPECT_TRUE (row_of<pump::STOP_t>::how ()
                == dialogue::correlation::by_order);
   EXPECT_TRUE (row_of<pump::PRIME_t>::how ()
@@ -294,7 +366,11 @@ TEST (LumexDialogueVocabularyTest,
   EXPECT_TRUE (row_of<pump::QUERY_t>::matcher () == &tables::match_any);
   EXPECT_TRUE (row_of<pump::READ_t>::matcher () == nullptr);
   using edges = row_of<pump::STATUS_t>::edge_events;
-  EXPECT_EQ (dsl::list_size<edges>::value, 2u);
+  EXPECT_EQ (dsl::list_size<edges>::value, 3u);
+  using third = dsl::list_at<2, edges>::type;
+  EXPECT_EQ (third::field (), 1u);
+  EXPECT_EQ (third::from (), -1);
+  EXPECT_EQ (third::to (), 2);
   using first = dsl::list_at<0, edges>::type;
   using second = dsl::list_at<1, edges>::type;
   EXPECT_EQ (first::field (), 0u);
@@ -308,7 +384,7 @@ TEST (LumexDialogueVocabularyTest,
 TEST (LumexDialogueVocabularyTest,
       GivenATemplateOfProtocolOptions_WhenRead_ThenEveryOptionIsThere)
 {
-  EXPECT_EQ (protocol_of::max_in_flight (), 2u);
+  EXPECT_EQ (protocol_of::max_in_flight (), 1u);
   EXPECT_EQ (protocol_of::watchdog_ms (), 3000u);
   EXPECT_EQ (protocol_of::min_interval_ms (), 20u);
   EXPECT_EQ (protocol_of::default_timeout_ms (), 400u);

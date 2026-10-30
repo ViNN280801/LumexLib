@@ -36,6 +36,13 @@
 #  28 identify_with a row of another protocol
 #  29 a two_phase whose Ack is no field, layout or row
 #  30 an echo_set of a type that is no field
+#  31 a layer that replaces the row of reply_row without listing its row
+#  32 a layer that replaces an acknowledgement row without listing its row
+#  33 a protocol option naming a row the layer replaces
+#  34 correlation::by_key on a row whose reply kind names a row
+#  35 a by_order row in a protocol with max_in_flight<2>
+#  36 a correlation outside the enumeration
+#  37 a keepalive period not shorter than the watchdog
 # The compiler's messages are matched in English. The headers are compiled
 # without the library. Everything runs at configure time (try_compile), at
 # C++11 (MSVC: C++14, its lowest) and C++20.
@@ -106,6 +113,13 @@ _lumex_case(27 "a reply kind of the row ${_another_regex}")
 _lumex_case(28 "identify_with<Row> ${_another_regex}")
 _lumex_case(29 "two_phase<Ack, Completion>: Ack is a field, a layout or a row")
 _lumex_case(30 "echo_set<T>: T is a field or a layout")
+_lumex_case(31 "reply_row<R> names a row the layer replaced: list the row")
+_lumex_case(32 "a reply kind of the row names a row the layer replaced")
+_lumex_case(33 "keepalive<Row, PeriodMs> names a row the layer replaced")
+_lumex_case(34 "correlation::by_key on a row whose reply kind names a row")
+_lumex_case(35 "a by_order row in a protocol with max_in_flight greater than 1")
+_lumex_case(36 "correlate \\(how\\) takes a correlation")
+_lumex_case(37 "with a period not shorter than watchdog_ms")
 
 function(_lumex_dialogue_try result_var tag standard)
     try_compile(_ok "${CMAKE_BINARY_DIR}/try_${tag}"

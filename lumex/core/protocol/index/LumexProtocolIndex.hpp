@@ -355,9 +355,14 @@ struct describer_pointer_t<P, Row, R, true>
   }
 };
 
-// The describe hook of reply kind R of Row: null without one.
+// The describe hook of reply kind R of Row: the hook when the index can use
+// it (a final class too), a refusal of a member of that name it cannot use,
+// null without one (2, 1, 0). The name of a member of a final class cannot
+// be probed: an unusable member there is ignored.
 template <typename P, typename Row, typename R = typename Row::reply_type,
-          bool Named = names_lumex_describe_reply_t<R>::value>
+          int Form = callable_describer_t<P, Row, R>::value
+                         ? 2
+                         : (names_lumex_describe_reply_t<R>::value ? 1 : 0)>
 struct kind_describer_t
 {
   static describe_hook_t
@@ -368,7 +373,7 @@ struct kind_describer_t
 };
 
 template <typename P, typename Row, typename R>
-struct kind_describer_t<P, Row, R, true>
+struct kind_describer_t<P, Row, R, 1>
 {
   static_assert (callable_describer_t<P, Row, R>::value,
                  "LUMEX_PROTOCOL: the reply kind names lumex_describe_reply, "
@@ -380,8 +385,17 @@ struct kind_describer_t<P, Row, R, true>
   static describe_hook_t
   get () LUMEX_NOEXCEPT
   {
-    return describer_pointer_t<P, Row, R,
-                               callable_describer_t<P, Row, R>::value>::get ();
+    return nullptr;
+  }
+};
+
+template <typename P, typename Row, typename R>
+struct kind_describer_t<P, Row, R, 2>
+{
+  static describe_hook_t
+  get () LUMEX_NOEXCEPT
+  {
+    return describer_pointer_t<P, Row, R, true>::get ();
   }
 };
 
@@ -416,8 +430,12 @@ template <typename R> struct reply_text_call_t<R, true>
   }
 };
 
-// The text of reply kind R for the export: "" without one.
-template <typename R, bool Named = names_lumex_reply_text_t<R>::value>
+// The text of reply kind R for the export, as the describe hook: 2 usable,
+// 1 named but unusable (refused), 0 none ("").
+template <typename R,
+          int Form = callable_reply_text_t<R>::value
+                         ? 2
+                         : (names_lumex_reply_text_t<R>::value ? 1 : 0)>
 struct kind_text_t
 {
   static char const *
@@ -427,7 +445,7 @@ struct kind_text_t
   }
 };
 
-template <typename R> struct kind_text_t<R, true>
+template <typename R> struct kind_text_t<R, 1>
 {
   static_assert (callable_reply_text_t<R>::value,
                  "LUMEX_PROTOCOL: the reply kind names lumex_reply_text, but "
@@ -437,7 +455,16 @@ template <typename R> struct kind_text_t<R, true>
   static char const *
   get ()
   {
-    return reply_text_call_t<R, callable_reply_text_t<R>::value>::get ();
+    return "";
+  }
+};
+
+template <typename R> struct kind_text_t<R, 2>
+{
+  static char const *
+  get ()
+  {
+    return reply_text_call_t<R, true>::get ();
   }
 };
 
@@ -680,20 +707,27 @@ struct check_value_t<V, P, true>
 {
 };
 
+// 2: the check is usable, 1: named but unusable (refused), 0: none.
 template <typename P, typename V = typename P::lumex_vocabulary,
-          bool Named = names_lumex_check_protocol_t<V>::value>
+          int Form = callable_check_t<V, P>::value
+                         ? 2
+                         : (names_lumex_check_protocol_t<V>::value ? 1 : 0)>
 struct vocabulary_accepts_t : std::true_type
 {
 };
 
 template <typename P, typename V>
-struct vocabulary_accepts_t<P, V, true>
-    : check_value_t<V, P, callable_check_t<V, P>::value>
+struct vocabulary_accepts_t<P, V, 1> : std::true_type
 {
   static_assert (callable_check_t<V, P>::value,
                  "LUMEX_PROTOCOL: the vocabulary names lumex_check_protocol, "
                  "but not as an accessible member template "
                  "lumex_check_protocol<P> with a constant bool value");
+};
+
+template <typename P, typename V>
+struct vocabulary_accepts_t<P, V, 2> : check_value_t<V, P, true>
+{
 };
 
 // The key of a row as the compile-time check compares it.

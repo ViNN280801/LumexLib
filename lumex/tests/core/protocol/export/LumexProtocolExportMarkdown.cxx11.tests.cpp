@@ -214,9 +214,9 @@ TEST (
   EXPECT_NE (text.find ("Reply: a reply kind of the dialogue, yes_no (one "
                         "field)."),
              std::string::npos);
-  EXPECT_NE (text.find ("Options: mode fast; step 1; step 2."),
+  EXPECT_NE (text.find ("Options: mode fast; step 1; step 2; step 3."),
              std::string::npos);
-  EXPECT_NE (text.find ("Options: mode slow."), std::string::npos);
+  EXPECT_NE (text.find ("Options: mode slow; step 4."), std::string::npos);
 }
 
 TEST (LumexProtocolExportMarkdownTest,
