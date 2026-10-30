@@ -21,6 +21,7 @@
 #include <iostream>
 #include <memory>
 #include <mutex>
+#include <string>
 #include <system_error>
 #include <utility>
 #include <vector>
@@ -636,6 +637,63 @@ scripted_round ()
   return fine;
 }
 
+// --- the behaviours: a plan, a mock that carries it out, the timed script
+bool
+behavior_round ()
+{
+  using ms = std::chrono::milliseconds;
+  asio::io_context context;
+  tr::testing::virtual_clock clock;
+  tr::testing::mock_options_t options;
+  options.name = "behaviors";
+  options.timers = clock.source ();
+  auto stream
+      = tr::testing::make_mock_stream (context.get_executor (), options);
+
+  bool opened = false;
+  stream.stream.async_open ([&opened] (std::error_code error)
+                              { opened = !error; });
+  bool fine = tr::testing::run_until (
+      context, clock, [&opened] { return opened; }, ms (10));
+
+  tr::testing::behavior_applier applier (
+      tr::testing::behavior::fragmented (1, 3, ms (2))
+          .then (tr::testing::behavior::repeating (1, ms (3))),
+      clock.source ());
+  tr::testing::reply_plan_t const plan = applier.plan (reply (), reply ());
+  fine = !plan.steps.empty () && plan.request_processed && fine;
+  applier.respond (stream.control, reply (), reply ());
+  std::vector<std::uint8_t> buffer (8);
+  std::size_t got = 0;
+  stream.stream.async_read_some (
+      tr::mutable_bytes_t (buffer),
+      [&got] (std::error_code error, std::size_t bytes)
+        { got = error ? 0 : bytes; });
+  stream.control.empty_read_after (ms (50));
+  stream.control.disconnect_after (ms (60));
+  stream.control.fail_opens_for (ms (70),
+                                 make_error_code (std::errc::io_error));
+  fine = !tr::testing::run_until (
+             context, clock, [] { return false; }, ms (100))
+         && got > 0 && fine;
+
+  tr::testing::row_shape_t shape;
+  shape.retries = 1;
+  shape.idempotent = true;
+  fine = tr::testing::expected_outcome (tr::testing::behavior_kind::silent,
+                                        shape)
+             == tr::testing::outcome_class::retries_exhausted
+         && std::string (tr::testing::behavior_kind_name (
+                tr::testing::behavior::of (tr::testing::behavior_kind::echo)
+                    .kind ()))
+                == "echo"
+         && tr::testing::all_behavior_kinds ().size () == 18 && fine;
+  stream.stream.close ();
+  static_cast<void> (
+      tr::testing::run_until (context, clock, [] { return false; }, ms (0)));
+  return fine;
+}
+
 #if defined(LUMEX_TRANSPORT_WITH_HID)
 // --- the HID transport (hid_device over hidapi)
 // ------------------------------
@@ -710,6 +768,7 @@ main ()
   fine = session_round (runner) && fine;
   fine = timer_round (runner) && fine;
   fine = scripted_round () && fine;
+  fine = behavior_round () && fine;
 #if defined(LUMEX_TRANSPORT_WITH_FRAMING)
   fine = framed_round (runner) && fine;
 #endif

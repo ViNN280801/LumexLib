@@ -212,6 +212,14 @@
 
 **Проверено:** Linux, `LUMEX_WERROR=ON`, без предупреждений: `protocol.*` 507, 507 и 510 тестов на C++11, 14 и 20 на GCC 13.2 и Clang 23.1; GCC 8.3 на C++11: 507 `protocol.*` и 143 `reflection.*`; ASan+UBSan `protocol` и `reflection.reflected_enum` на C++11 и 14 без замечаний; `cmake.consumer_protocol_warnings` и `cmake.protocol_compile_checks` проходят; 50 мутаций пойманы; фаззинг ревью (около 2.5 млн разборов по всем таблицам под ASan+UBSan) без замечаний; каждая строка каждого слоя всех 13 таблиц приборов кодируется пробным значением, находится индексом и разбором; время разбора самой большой таблицы (GCC 13, C++11) 412 мс до изменения и 418 после.
 
+##### Поведения устройств для симулятора и матрицы тестов
+
+**Файлы:** `lumex/applied/transport/testing/LumexBehaviors.hpp`, `.cpp` (новые), `LumexMockStream.hpp`, `.cpp`, `LumexMockDatagram.hpp`, `.cpp`, `LumexTransport`, `README.md`, `lumex/tests/applied/transport/testing/LumexBehaviors.cxx11.tests.cpp`, `LumexMockScriptTimed.cxx11.tests.cpp` (новые), `lumex/tests/cmake/consumer/transport_warnings/main.cpp`.
+
+**Суть:** `testing::behavior` и `testing::behavior_applier`: 18 поведений устройства (`perfect`, `echo`, `silent`, `frozen`, `partial_then_frozen`, `slow_trickle`, `fragmented`, `flood`, `repeating`, `garbage`, `corrupted_crc`, `oversized`, `zero_read`, `intermittent`, `disconnecting`, `works_then_disconnects`, `cable_unplugged`, `malicious`) как составные значения (`then`), детерминированные по явному начальному значению и выполняемые по источнику времени заглушки; `expected_outcome` дает ожидаемый класс исхода для вида поведения и формы строки (`row_shape_t`). Заглушки получили `disconnect_after`, `fail_opens_for` (и `empty_read_after` у потока): отложенный обрыв, отказ открытия на время, пустое чтение.
+
+**Проверено:** Linux, GCC 13 (`LUMEX_WERROR=ON`) и GCC 8.3: 98 новых тестов, `transport.*` и `lint.*` 3918 из 3918; ASan+UBSan и TSan `transport.testing` без сообщений, новые тесты по 20 повторов с перемешиванием; 71 мутация поймана; строгий потребитель проходит.
+
 #### Исправлено
 
 ##### `LumexFilesystem`: пути не в ASCII на Windows
