@@ -56,20 +56,33 @@
  * the write (or send) observer of its mock.
  *
  * Order. The reply (or nothing, for a row without one) enters the first
- * stage, each stage rewrites the steps of the one before, and the steps are
- * sorted by time at the end (stable: steps of equal time keep the order the
- * stages gave them). `fragmented ().then (corrupted_crc ())` therefore flips
- * a byte of the last fragment's frame as a whole, `corrupted_crc ().then
- * (fragmented ())` splits an already damaged frame. The stages that count
- * replies (`frozen`, `partial_then_frozen`, `intermittent`, `disconnecting`,
+ * stage and each stage rewrites the steps of the one before. For a stream
+ * the plan is one line, in the order of the steps: no step happens before
+ * the one in front of it, so a stage that moves bytes in time (`slow_trickle`,
+ * `fragmented`, `repeating`) carries what follows along (a hang-up or an
+ * empty read stays behind the bytes it followed) and never lets frames
+ * interleave. A datagram plan may overlap in time (each message is its own
+ * datagram), the steps are sorted by time (stable) and a hang-up comes after
+ * every message in front of it. `fragmented ().then (corrupted_crc ())`
+ * flips a byte of the frame as a whole, `corrupted_crc ().then (fragmented
+ * ())` splits an already damaged frame. The stages that count replies
+ * (`frozen`, `partial_then_frozen`, `intermittent`, `disconnecting`,
  * `works_then_disconnects`) and those that damage a reply (`corrupted_crc`,
  * `oversized`, `repeating`) look at the row: a request whose reply is empty
- * is not a reply for them. The stages that put bytes on the line (`flood`,
- * `garbage`, `malicious`, `echo`) act on every request. Stages without a
- * datagram meaning change nothing for a datagram (`zero_read`); the others
- * have a twin: `fragmented` splits across datagrams, `partial_then_frozen`
- * truncates the datagram, `slow_trickle` delays the whole datagram by one
- * period per byte.
+ * is not a reply for them. The damaging, cutting and repeating stages act on
+ * the bytes of the reply only (`plan_step_t::from_reply`), not on what
+ * `flood`, `garbage`, `malicious` or `echo` put on the line; those four act
+ * on every request. Stages without a datagram meaning change nothing for a
+ * datagram (`zero_read`); the others have a twin: `fragmented` splits across
+ * datagrams, `partial_then_frozen` truncates the datagram, `slow_trickle`
+ * delays the whole datagram by one period per byte.
+ *
+ * The connection. `respond` carries a plan out with the mock's
+ * connection-bound calls (`feed_after_on_link`, `deliver_after_on_link`,
+ * `empty_read_after`, `disconnect_after`), so what a plan has not delivered
+ * when the client closes the link or opens it again is dropped and never
+ * reaches the next connection. After a hang-up the mock refuses writes and
+ * drops bytes until the next open.
  *
  * Determinism. Every random choice comes from `splitmix64` seeded with the
  * stage's seed, so equal seeds give equal bytes on every platform and
@@ -86,6 +99,7 @@
 #include <chrono>
 #include <cstddef>
 #include <cstdint>
+#include <memory>
 #include <mutex>
 #include <system_error>
 #include <vector>
@@ -246,6 +260,11 @@ struct plan_step_t
   std::chrono::milliseconds at = std::chrono::milliseconds (0);
   /// The bytes of a `bytes` step.
   std::vector<std::uint8_t> bytes;
+  /// True for the bytes of the reply (and the pieces and copies made of
+  /// them), false for what a behaviour put on the line besides it (`echo`,
+  /// `flood`, `garbage`, `malicious`): the stages that damage, cut, count or
+  /// repeat a reply leave the other bytes alone.
+  bool from_reply = false;
 };
 
 /// @brief What a device does for one request, in time order.
@@ -259,37 +278,8 @@ struct reply_plan_t
 };
 
 class behavior_applier;
-
-/// @brief What a factory of `behavior` was given. The meaning of the fields
-/// is per kind and is set out where the stage is applied.
-struct behavior_stage_t
-{
-  behavior_kind kind = behavior_kind::perfect;
-  std::uint32_t seed = 0;
-  std::size_t count = 0;
-  std::size_t limit = 0;
-  std::chrono::milliseconds period = std::chrono::milliseconds (0);
-  std::uint8_t byte = 0;
-  malicious_mode mode = malicious_mode::mixed;
-  std::error_code error;
-};
-
-/// @brief The state of one stage in an applier.
-struct behavior_state_t
-{
-  std::uint64_t generator = 0;
-  std::size_t count = 0;
-  bool spent = false;
-  timing::time_point_t until;
-};
-
-/// @brief How long the opens still fail after an unplugged cable, and with
-/// what.
-struct behavior_window_t
-{
-  std::chrono::milliseconds remaining = std::chrono::milliseconds (0);
-  std::error_code error;
-};
+class behavior_impl;
+class behavior_applier_state;
 
 /// @brief A behaviour: a value that is cheap to copy.
 class behavior
@@ -393,9 +383,9 @@ public:
 private:
   friend class behavior_applier;
 
-  static behavior single (behavior_stage_t const &stage);
+  explicit behavior (std::shared_ptr<behavior_impl const> impl);
 
-  std::vector<behavior_stage_t> stages_;
+  std::shared_ptr<behavior_impl const> impl_;
 };
 
 /// @brief The name of a kind, as the CTest names of the matrix spell it
@@ -432,6 +422,8 @@ public:
                              timing::timer_source timers
                              = timing::timer_source ());
 
+  ~behavior_applier ();
+
   behavior_applier (behavior_applier const &) = delete;
   behavior_applier &operator= (behavior_applier const &) = delete;
 
@@ -439,7 +431,9 @@ public:
   behavior const &get () const;
 
   /// @brief Starts over: counters, generators, spent behaviours and the
-  /// unplugged window as at creation (the time is taken again).
+  /// unplugged window as at creation (the time is taken again). The mock
+  /// keeps what an earlier `attach` did to it; call `attach` again to
+  /// unplug the cable anew.
   void reset ();
 
   /// @brief What the device does for `request` with `reply` (empty for a
@@ -449,7 +443,9 @@ public:
                      bool datagram = false);
 
   /// @brief For a `cable_unplugged` stage: hangs the link up and makes the
-  /// opens fail for the rest of its window. Other stages do nothing.
+  /// opens fail for the rest of its window (with several such stages the
+  /// longest window wins; the time left is rounded up to whole
+  /// milliseconds). Other stages do nothing.
   void attach (mock_stream_control control);
   /// @brief As for a stream.
   void attach (mock_datagram_control control);
@@ -465,13 +461,10 @@ public:
                 std::vector<std::uint8_t> const &reply);
 
 private:
-  void start (timing::time_point_t now);
-  std::vector<behavior_window_t> unplugged_windows ();
-
   behavior behavior_;
   timing::timer_source timers_;
   std::mutex mutex_;
-  std::vector<behavior_state_t> states_;
+  std::unique_ptr<behavior_applier_state> state_;
 };
 } // namespace testing
 } // namespace transport

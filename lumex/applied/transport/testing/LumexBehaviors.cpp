@@ -41,6 +41,7 @@
 #include <chrono>
 #include <cstddef>
 #include <cstdint>
+#include <memory>
 #include <mutex>
 #include <system_error>
 #include <utility>
@@ -113,16 +114,65 @@ below (std::uint64_t &state, std::size_t bound)
     return 0;
   return static_cast<std::size_t> (value % static_cast<std::uint64_t> (bound));
 }
+} // namespace
+
+// What a factory of `behavior` was given. The meaning of the fields is per
+// kind and is set out where the stage is applied.
+struct behavior_stage_t
+{
+  behavior_kind kind = behavior_kind::perfect;
+  std::uint32_t seed = 0;
+  std::size_t count = 0;
+  std::size_t limit = 0;
+  ms period = ms (0);
+  std::uint8_t byte = 0;
+  malicious_mode mode = malicious_mode::mixed;
+  std::error_code error;
+};
+
+// The state of one stage in an applier.
+struct behavior_state_t
+{
+  std::uint64_t generator = 0;
+  std::size_t count = 0;
+  bool spent = false;
+  timing::time_point_t until;
+};
+
+// The stages of a behaviour (shared by its copies, never changed).
+class behavior_impl
+{
+public:
+  std::vector<behavior_stage_t> stages;
+};
+
+// The state of an applier: one entry per stage.
+class behavior_applier_state
+{
+public:
+  std::vector<behavior_state_t> states;
+};
+
+namespace
+{
+std::shared_ptr<behavior_impl const>
+one_stage (behavior_stage_t const &stage)
+{
+  std::shared_ptr<behavior_impl> made = std::make_shared<behavior_impl> ();
+  made->stages.push_back (stage);
+  return made;
+}
 
 // --- steps
 
 plan_step_t
-make_step (plan_step_kind kind, ms at, bytes_t const &bytes)
+make_step (plan_step_kind kind, ms at, bytes_t const &bytes, bool from_reply)
 {
   plan_step_t step;
   step.kind = kind;
   step.at = at;
   step.bytes = bytes;
+  step.from_reply = from_reply;
   return step;
 }
 
@@ -137,32 +187,28 @@ struct plan_context_t
 };
 
 bool
-has_bytes (steps_t const &steps)
+is_reply_bytes (plan_step_t const &step)
+{
+  return step.kind == plan_step_kind::bytes && step.from_reply;
+}
+
+bool
+has_reply_bytes (steps_t const &steps)
 {
   for (std::size_t index = 0; index < steps.size (); ++index)
-    if (steps[index].kind == plan_step_kind::bytes)
+    if (is_reply_bytes (steps[index]))
       return true;
   return false;
 }
 
 std::size_t
-total_bytes (steps_t const &steps)
+total_reply_bytes (steps_t const &steps)
 {
   std::size_t total = 0;
   for (std::size_t index = 0; index < steps.size (); ++index)
-    if (steps[index].kind == plan_step_kind::bytes)
+    if (is_reply_bytes (steps[index]))
       total += steps[index].bytes.size ();
   return total;
-}
-
-// The time of the first or last bytes step; zero without one.
-ms
-first_bytes_time (steps_t const &steps)
-{
-  for (std::size_t index = 0; index < steps.size (); ++index)
-    if (steps[index].kind == plan_step_kind::bytes)
-      return steps[index].at;
-  return ms (0);
 }
 
 ms
@@ -175,27 +221,17 @@ last_bytes_time (steps_t const &steps)
   return latest;
 }
 
+// Keeps the first `keep` bytes of the reply (steps of the reply that lose all
+// their bytes go; the other steps stay).
 void
-remove_bytes_steps (steps_t &steps)
-{
-  steps_t kept;
-  for (std::size_t index = 0; index < steps.size (); ++index)
-    if (steps[index].kind != plan_step_kind::bytes)
-      kept.push_back (steps[index]);
-  steps.swap (kept);
-}
-
-// Keeps the first `keep` bytes of the bytes steps (steps that lose all their
-// bytes go).
-void
-keep_first_bytes (steps_t &steps, std::size_t keep)
+keep_first_reply_bytes (steps_t &steps, std::size_t keep)
 {
   steps_t kept;
   std::size_t remaining = keep;
   for (std::size_t index = 0; index < steps.size (); ++index)
     {
       plan_step_t step = steps[index];
-      if (step.kind == plan_step_kind::bytes)
+      if (is_reply_bytes (step))
         {
           if (remaining == 0)
             continue;
@@ -212,6 +248,31 @@ void
 put_first (steps_t &steps, plan_step_t const &step)
 {
   steps.insert (steps.begin (), step);
+}
+
+// Puts the steps in the order of a line. A stream plan is one line: no step
+// happens before the one in front of it. A datagram plan keeps the times of
+// its messages (they may overlap), but a step that is no message does not
+// happen before a message in front of it.
+void
+settle (steps_t &steps, bool datagram)
+{
+  ms floor (0);
+  for (std::size_t index = 0; index < steps.size (); ++index)
+    {
+      plan_step_t &step = steps[index];
+      if (step.at < ms (0))
+        step.at = ms (0);
+      if (datagram && step.kind == plan_step_kind::bytes)
+        {
+          floor = std::max (floor, step.at);
+          continue;
+        }
+      if (step.at < floor)
+        step.at = floor;
+      if (!datagram)
+        floor = step.at;
+    }
 }
 
 // --- the attack patterns
@@ -281,7 +342,7 @@ attack_bytes (malicious_mode mode, std::size_t count)
 
 // --- the stages
 
-// echo: `period` is the delay.
+// echo: `period` is the delay. The echoed bytes are no reply.
 void
 apply_echo (behavior_stage_t const &stage, steps_t &steps, bool &processed,
             plan_context_t const &context)
@@ -289,8 +350,8 @@ apply_echo (behavior_stage_t const &stage, steps_t &steps, bool &processed,
   steps.clear ();
   processed = false;
   if (!context.request->empty ())
-    steps.push_back (
-        make_step (plan_step_kind::bytes, stage.period, *context.request));
+    steps.push_back (make_step (plan_step_kind::bytes, stage.period,
+                                *context.request, false));
 }
 
 // frozen: `count` is the number of replies answered.
@@ -325,19 +386,21 @@ apply_partial_then_frozen (behavior_stage_t const &stage,
     return;
   if (state.count == stage.count)
     {
-      std::size_t const total = total_bytes (steps);
-      keep_first_bytes (steps,
-                        std::min (stage.limit, total > 0 ? total - 1 : 0));
+      std::size_t const total = total_reply_bytes (steps);
+      keep_first_reply_bytes (
+          steps, std::min (stage.limit, total > 0 ? total - 1 : 0));
     }
   ++state.count;
 }
 
-// slow_trickle: `period` is the time per byte.
+// slow_trickle: `period` is the time per byte. A stream is one line, so the
+// bytes of all the steps follow each other; a datagram is delayed whole.
 void
 apply_slow_trickle (behavior_stage_t const &stage, steps_t &steps,
                     plan_context_t const &context)
 {
   long long const per_byte = millis (stage.period);
+  long long cursor = 0;
   steps_t out;
   for (std::size_t index = 0; index < steps.size (); ++index)
     {
@@ -357,23 +420,26 @@ apply_slow_trickle (behavior_stage_t const &stage, steps_t &steps,
         }
       for (std::size_t offset = 0; offset < step.bytes.size (); ++offset)
         {
-          bytes_t one (1, step.bytes[offset]);
-          out.push_back (make_step (
-              plan_step_kind::bytes,
-              step.at + ms (per_byte * static_cast<long long> (offset + 1)),
-              one));
+          cursor = std::max (cursor, static_cast<long long> (step.at.count ()))
+                   + per_byte;
+          out.push_back (make_step (plan_step_kind::bytes, ms (cursor),
+                                    bytes_t (1, step.bytes[offset]),
+                                    step.from_reply));
         }
     }
   steps.swap (out);
 }
 
-// fragmented: `count` is the largest piece, `period` the gap.
+// fragmented: `count` is the largest piece, `period` the gap. On a stream
+// the pieces of all the steps are one line, `gap` apart; datagrams are
+// spaced within their own step.
 void
 apply_fragmented (behavior_stage_t const &stage, behavior_state_t &state,
-                  steps_t &steps)
+                  steps_t &steps, plan_context_t const &context)
 {
   std::size_t const largest = std::max<std::size_t> (stage.count, 1);
   long long const gap = millis (stage.period);
+  long long previous = -1;
   steps_t out;
   for (std::size_t index = 0; index < steps.size (); ++index)
     {
@@ -393,8 +459,14 @@ apply_fragmented (behavior_stage_t const &stage, behavior_state_t &state,
               step.bytes.begin () + static_cast<std::ptrdiff_t> (offset),
               step.bytes.begin ()
                   + static_cast<std::ptrdiff_t> (offset + size));
-          out.push_back (make_step (plan_step_kind::bytes,
-                                    step.at + ms (gap * piece), part));
+          long long at = static_cast<long long> (step.at.count ());
+          if (context.datagram)
+            at += gap * piece;
+          else if (previous >= 0)
+            at = std::max (at, previous + gap);
+          previous = at;
+          out.push_back (make_step (plan_step_kind::bytes, ms (at), part,
+                                    step.from_reply));
           offset += size;
           ++piece;
         }
@@ -411,26 +483,52 @@ apply_flood (behavior_stage_t const &stage, steps_t &steps)
   bytes_t pattern (stage.count);
   for (std::size_t index = 0; index < pattern.size (); ++index)
     pattern[index] = static_cast<std::uint8_t> (index & 0xFFu);
-  put_first (steps, make_step (plan_step_kind::bytes, ms (0), pattern));
+  put_first (steps, make_step (plan_step_kind::bytes, ms (0), pattern, false));
 }
 
-// repeating: `count` copies, `period` the gap between copies.
+// repeating: `count` copies of the reply, `period` the gap between their
+// starts. A copy of a stream does not start before the one in front of it
+// ended.
 void
 apply_repeating (behavior_stage_t const &stage, steps_t &steps,
                  plan_context_t const &context)
 {
-  if (!context.has_reply || !has_bytes (steps))
+  if (!context.has_reply || !has_reply_bytes (steps))
     return;
-  steps_t const original = steps;
-  for (std::size_t copy = 1; copy <= stage.count; ++copy)
-    for (std::size_t index = 0; index < original.size (); ++index)
+  std::size_t first = steps.size ();
+  std::size_t last = 0;
+  for (std::size_t index = 0; index < steps.size (); ++index)
+    if (is_reply_bytes (steps[index]))
       {
-        if (original[index].kind != plan_step_kind::bytes)
-          continue;
-        plan_step_t again = original[index];
-        again.at += ms (millis (stage.period) * static_cast<long long> (copy));
-        steps.push_back (again);
+        if (first == steps.size ())
+          first = index;
+        last = index;
       }
+  steps_t group;
+  for (std::size_t index = first; index <= last; ++index)
+    if (is_reply_bytes (steps[index]))
+      group.push_back (steps[index]);
+  long long const begin = static_cast<long long> (group.front ().at.count ());
+  long long previous_end = static_cast<long long> (group.back ().at.count ());
+  steps_t copies;
+  for (std::size_t copy = 1; copy <= stage.count; ++copy)
+    {
+      long long start
+          = begin + millis (stage.period) * static_cast<long long> (copy);
+      if (!context.datagram)
+        start = std::max (start, previous_end);
+      for (std::size_t index = 0; index < group.size (); ++index)
+        {
+          plan_step_t again = group[index];
+          again.at = ms (
+              start
+              + (static_cast<long long> (group[index].at.count ()) - begin));
+          previous_end = static_cast<long long> (again.at.count ());
+          copies.push_back (again);
+        }
+    }
+  steps.insert (steps.begin () + static_cast<std::ptrdiff_t> (last + 1),
+                copies.begin (), copies.end ());
 }
 
 // garbage: `count` random bytes.
@@ -444,7 +542,7 @@ apply_garbage (behavior_stage_t const &stage, behavior_state_t &state,
   for (std::size_t index = 0; index < noise.size (); ++index)
     noise[index]
         = static_cast<std::uint8_t> (next_random (state.generator) >> 56);
-  put_first (steps, make_step (plan_step_kind::bytes, ms (0), noise));
+  put_first (steps, make_step (plan_step_kind::bytes, ms (0), noise, false));
 }
 
 // malicious: `mode`, `count` bytes.
@@ -458,22 +556,22 @@ apply_malicious (behavior_stage_t const &stage, behavior_state_t &state,
   if (mode == malicious_mode::mixed)
     mode = static_cast<malicious_mode> (below (state.generator, 9));
   put_first (steps, make_step (plan_step_kind::bytes, ms (0),
-                               attack_bytes (mode, stage.count)));
+                               attack_bytes (mode, stage.count), false));
 }
 
 // corrupted_crc: `count` is the rate in thousandths, `limit` the number of
-// frames to damage (0: any).
+// frames to damage (0: any). Only the bytes of the reply are damaged.
 void
 apply_corrupted_crc (behavior_stage_t const &stage, behavior_state_t &state,
                      steps_t &steps, plan_context_t const &context)
 {
-  if (!context.has_reply || !has_bytes (steps))
+  if (!context.has_reply || !has_reply_bytes (steps))
     return;
   if (stage.limit != 0 && state.count >= stage.limit)
     return;
   if (below (state.generator, 1000) >= stage.count)
     return;
-  std::size_t const total = total_bytes (steps);
+  std::size_t const total = total_reply_bytes (steps);
   if (total == 0)
     return;
   std::size_t const low = total >= 3 ? 1 : 0;
@@ -483,7 +581,7 @@ apply_corrupted_crc (behavior_stage_t const &stage, behavior_state_t &state,
       = static_cast<std::uint8_t> (1 + below (state.generator, 255));
   for (std::size_t index = 0; index < steps.size (); ++index)
     {
-      if (steps[index].kind != plan_step_kind::bytes)
+      if (!is_reply_bytes (steps[index]))
         continue;
       bytes_t &bytes = steps[index].bytes;
       if (position < bytes.size ())
@@ -501,12 +599,25 @@ void
 apply_oversized (behavior_stage_t const &stage, steps_t &steps,
                  plan_context_t const &context)
 {
-  if (!context.has_reply || !has_bytes (steps))
+  if (!context.has_reply || !has_reply_bytes (steps))
     return;
-  ms const at = first_bytes_time (steps);
-  remove_bytes_steps (steps);
-  put_first (steps, make_step (plan_step_kind::bytes, at,
-                               bytes_t (stage.count, stage.byte)));
+  steps_t out;
+  bool placed = false;
+  for (std::size_t index = 0; index < steps.size (); ++index)
+    {
+      if (!is_reply_bytes (steps[index]))
+        {
+          out.push_back (steps[index]);
+          continue;
+        }
+      if (!placed)
+        {
+          out.push_back (make_step (plan_step_kind::bytes, steps[index].at,
+                                    bytes_t (stage.count, stage.byte), true));
+          placed = true;
+        }
+    }
+  steps.swap (out);
 }
 
 // zero_read: `count` empty reads before each piece of data (stream only).
@@ -522,7 +633,7 @@ apply_zero_read (behavior_stage_t const &stage, steps_t &steps,
       if (steps[index].kind == plan_step_kind::bytes)
         for (std::size_t empty = 0; empty < stage.count; ++empty)
           out.push_back (make_step (plan_step_kind::empty_read,
-                                    steps[index].at, bytes_t ()));
+                                    steps[index].at, bytes_t (), false));
       out.push_back (steps[index]);
     }
   steps.swap (out);
@@ -552,7 +663,8 @@ apply_intermittent (behavior_stage_t const &stage, behavior_state_t &state,
 }
 
 // disconnecting: `count` is the byte budget over all replies; state.count is
-// what was delivered.
+// what was delivered. The bytes of the reply are counted; what else is on
+// the line in front of the cut stays, what is behind it goes.
 void
 apply_disconnecting (behavior_stage_t const &stage, behavior_state_t &state,
                      steps_t &steps, plan_context_t const &context)
@@ -566,14 +678,13 @@ apply_disconnecting (behavior_stage_t const &stage, behavior_state_t &state,
   for (std::size_t index = 0; index < steps.size (); ++index)
     {
       plan_step_t step = steps[index];
-      if (step.kind != plan_step_kind::bytes)
-        {
-          if (!fired)
-            kept.push_back (step);
-          continue;
-        }
       if (fired)
         continue;
+      if (!is_reply_bytes (step))
+        {
+          kept.push_back (step);
+          continue;
+        }
       last = step.at;
       if (step.bytes.size () <= remaining)
         {
@@ -594,7 +705,7 @@ apply_disconnecting (behavior_stage_t const &stage, behavior_state_t &state,
   if (fired)
     {
       kept.push_back (
-          make_step (plan_step_kind::disconnect, last, bytes_t ()));
+          make_step (plan_step_kind::disconnect, last, bytes_t (), false));
       state.spent = true;
     }
   steps.swap (kept);
@@ -612,7 +723,7 @@ apply_works_then_disconnects (behavior_stage_t const &stage,
     {
       steps.clear ();
       steps.push_back (
-          make_step (plan_step_kind::disconnect, ms (0), bytes_t ()));
+          make_step (plan_step_kind::disconnect, ms (0), bytes_t (), false));
       state.spent = true;
       return;
     }
@@ -620,7 +731,7 @@ apply_works_then_disconnects (behavior_stage_t const &stage,
   if (state.count == stage.count)
     {
       steps.push_back (make_step (plan_step_kind::disconnect,
-                                  last_bytes_time (steps), bytes_t ()));
+                                  last_bytes_time (steps), bytes_t (), false));
       state.spent = true;
     }
 }
@@ -662,7 +773,7 @@ apply_stage (behavior_stage_t const &stage, behavior_state_t &state,
       apply_slow_trickle (stage, steps, context);
       break;
     case behavior_kind::fragmented:
-      apply_fragmented (stage, state, steps);
+      apply_fragmented (stage, state, steps, context);
       break;
     case behavior_kind::flood:
       apply_flood (stage, steps);
@@ -723,7 +834,7 @@ carry_out (reply_plan_t const &plan, mock_stream_control &control)
           if (now)
             control.feed (step.bytes);
           else
-            control.feed_after (step.at, step.bytes);
+            control.feed_after_on_link (step.at, step.bytes);
           break;
         case plan_step_kind::empty_read:
           if (now)
@@ -761,7 +872,7 @@ carry_out (reply_plan_t const &plan, mock_datagram_control &control,
             if (now)
               control.deliver (message);
             else
-              control.deliver_after (step.at, message);
+              control.deliver_after_on_link (step.at, message);
           }
           break;
         case plan_step_kind::empty_read:
@@ -970,14 +1081,11 @@ expected_outcome (behavior_kind kind, row_shape_t const &shape)
 
 // --- behavior
 
-behavior::behavior () : stages_ (1, behavior_stage_t ()) {}
+behavior::behavior () : impl_ (one_stage (behavior_stage_t ())) {}
 
-behavior
-behavior::single (behavior_stage_t const &stage)
+behavior::behavior (std::shared_ptr<behavior_impl const> impl)
+    : impl_ (std::move (impl))
 {
-  behavior made;
-  made.stages_.assign (1, stage);
-  return made;
 }
 
 behavior
@@ -992,7 +1100,7 @@ behavior::echo (ms delay)
   behavior_stage_t stage;
   stage.kind = behavior_kind::echo;
   stage.period = delay;
-  return single (stage);
+  return behavior (one_stage (stage));
 }
 
 behavior
@@ -1000,7 +1108,7 @@ behavior::silent ()
 {
   behavior_stage_t stage;
   stage.kind = behavior_kind::silent;
-  return single (stage);
+  return behavior (one_stage (stage));
 }
 
 behavior
@@ -1009,7 +1117,7 @@ behavior::frozen (std::size_t after_replies)
   behavior_stage_t stage;
   stage.kind = behavior_kind::frozen;
   stage.count = after_replies;
-  return single (stage);
+  return behavior (one_stage (stage));
 }
 
 behavior
@@ -1020,7 +1128,7 @@ behavior::partial_then_frozen (std::size_t after_replies,
   stage.kind = behavior_kind::partial_then_frozen;
   stage.count = after_replies;
   stage.limit = partial_bytes;
-  return single (stage);
+  return behavior (one_stage (stage));
 }
 
 behavior
@@ -1029,7 +1137,7 @@ behavior::slow_trickle (ms per_byte)
   behavior_stage_t stage;
   stage.kind = behavior_kind::slow_trickle;
   stage.period = per_byte;
-  return single (stage);
+  return behavior (one_stage (stage));
 }
 
 behavior
@@ -1040,7 +1148,7 @@ behavior::fragmented (std::uint32_t seed, std::size_t max_fragment, ms gap)
   stage.seed = seed;
   stage.count = max_fragment;
   stage.period = gap;
-  return single (stage);
+  return behavior (one_stage (stage));
 }
 
 behavior
@@ -1049,7 +1157,7 @@ behavior::flood (std::size_t total_bytes)
   behavior_stage_t stage;
   stage.kind = behavior_kind::flood;
   stage.count = total_bytes;
-  return single (stage);
+  return behavior (one_stage (stage));
 }
 
 behavior
@@ -1059,7 +1167,7 @@ behavior::repeating (std::size_t copies, ms gap)
   stage.kind = behavior_kind::repeating;
   stage.count = copies;
   stage.period = gap;
-  return single (stage);
+  return behavior (one_stage (stage));
 }
 
 behavior
@@ -1069,7 +1177,7 @@ behavior::garbage (std::uint32_t seed, std::size_t bytes)
   stage.kind = behavior_kind::garbage;
   stage.seed = seed;
   stage.count = bytes;
-  return single (stage);
+  return behavior (one_stage (stage));
 }
 
 behavior
@@ -1081,7 +1189,7 @@ behavior::corrupted_crc (std::uint32_t seed, std::size_t rate_permille,
   stage.seed = seed;
   stage.count = rate_permille;
   stage.limit = max_frames;
-  return single (stage);
+  return behavior (one_stage (stage));
 }
 
 behavior
@@ -1091,7 +1199,7 @@ behavior::oversized (std::size_t total_bytes, std::uint8_t fill)
   stage.kind = behavior_kind::oversized;
   stage.count = total_bytes;
   stage.byte = fill;
-  return single (stage);
+  return behavior (one_stage (stage));
 }
 
 behavior
@@ -1100,7 +1208,7 @@ behavior::zero_read (std::size_t empty_reads)
   behavior_stage_t stage;
   stage.kind = behavior_kind::zero_read;
   stage.count = empty_reads;
-  return single (stage);
+  return behavior (one_stage (stage));
 }
 
 behavior
@@ -1113,7 +1221,7 @@ behavior::intermittent (std::uint32_t seed, std::size_t lose_permille,
   stage.count = lose_permille;
   stage.limit = max_outages;
   stage.period = outage;
-  return single (stage);
+  return behavior (one_stage (stage));
 }
 
 behavior
@@ -1122,7 +1230,7 @@ behavior::disconnecting (std::size_t bytes_before)
   behavior_stage_t stage;
   stage.kind = behavior_kind::disconnecting;
   stage.count = bytes_before;
-  return single (stage);
+  return behavior (one_stage (stage));
 }
 
 behavior
@@ -1131,7 +1239,7 @@ behavior::works_then_disconnects (std::size_t after_replies)
   behavior_stage_t stage;
   stage.kind = behavior_kind::works_then_disconnects;
   stage.count = after_replies;
-  return single (stage);
+  return behavior (one_stage (stage));
 }
 
 behavior
@@ -1141,7 +1249,7 @@ behavior::cable_unplugged (ms unplugged_for, std::error_code open_error)
   stage.kind = behavior_kind::cable_unplugged;
   stage.period = unplugged_for;
   stage.error = open_error;
-  return single (stage);
+  return behavior (one_stage (stage));
 }
 
 behavior
@@ -1153,7 +1261,7 @@ behavior::malicious (std::uint32_t seed, malicious_mode mode,
   stage.seed = seed;
   stage.mode = mode;
   stage.count = bytes;
-  return single (stage);
+  return behavior (one_stage (stage));
 }
 
 behavior
@@ -1206,56 +1314,107 @@ behavior::of (behavior_kind kind)
 behavior
 behavior::then (behavior const &next) const
 {
+  std::vector<behavior_stage_t> const &mine = impl_->stages;
+  std::vector<behavior_stage_t> const &theirs = next.impl_->stages;
   bool const mine_is_perfect
-      = stages_.size () == 1 && stages_[0].kind == behavior_kind::perfect;
+      = mine.size () == 1 && mine[0].kind == behavior_kind::perfect;
   bool const next_is_perfect
-      = next.stages_.size () == 1
-        && next.stages_[0].kind == behavior_kind::perfect;
+      = theirs.size () == 1 && theirs[0].kind == behavior_kind::perfect;
   if (mine_is_perfect)
     return next;
   if (next_is_perfect)
     return *this;
-  behavior made (*this);
-  made.stages_.insert (made.stages_.end (), next.stages_.begin (),
-                       next.stages_.end ());
-  return made;
+  std::shared_ptr<behavior_impl> made = std::make_shared<behavior_impl> ();
+  made->stages = mine;
+  made->stages.insert (made->stages.end (), theirs.begin (), theirs.end ());
+  return behavior (made);
 }
 
 behavior_kind
 behavior::kind () const
 {
-  return stages_[0].kind;
+  return impl_->stages[0].kind;
 }
 
 std::size_t
 behavior::stage_count () const
 {
-  return stages_.size ();
+  return impl_->stages.size ();
 }
 
 behavior_kind
 behavior::stage_kind (std::size_t index) const
 {
-  return stages_[index].kind;
+  return impl_->stages[index].kind;
 }
 
 bool
 behavior::applies_to_datagrams () const
 {
-  for (std::size_t index = 0; index < stages_.size (); ++index)
-    if (stages_[index].kind == behavior_kind::zero_read)
+  for (std::size_t index = 0; index < impl_->stages.size (); ++index)
+    if (impl_->stages[index].kind == behavior_kind::zero_read)
       return false;
   return true;
 }
 
 // --- behavior_applier
 
+namespace
+{
+// The window of the longest unplugged stage that is still open at `now`
+// (rounded up to whole milliseconds); false when none is.
+bool
+longest_window (behavior_impl const &shaped,
+                behavior_applier_state const &state, timing::time_point_t now,
+                ms &remaining, std::error_code &error)
+{
+  bool found = false;
+  for (std::size_t index = 0; index < state.states.size (); ++index)
+    {
+      if (shaped.stages[index].kind != behavior_kind::cable_unplugged
+          || !(now < state.states[index].until))
+        continue;
+      long long const nanoseconds = static_cast<long long> (
+          (state.states[index].until - now).count ());
+      long long const whole
+          = nanoseconds / 1000000 + (nanoseconds % 1000000 != 0 ? 1 : 0);
+      if (!found || ms (whole) > remaining)
+        {
+          remaining = ms (whole);
+          error = shaped.stages[index].error;
+          found = true;
+        }
+    }
+  return found;
+}
+
+void
+start_states (behavior_impl const &shaped, behavior_applier_state &state,
+              timing::time_point_t now)
+{
+  state.states.assign (shaped.stages.size (), behavior_state_t ());
+  for (std::size_t index = 0; index < state.states.size (); ++index)
+    {
+      behavior_stage_t const &stage = shaped.stages[index];
+      behavior_state_t &each = state.states[index];
+      each.generator = stage.seed;
+      each.until = timing::time_point_t::min ();
+      if (stage.kind == behavior_kind::cable_unplugged)
+        each.until = ::lumex::applied::transport::detail::saturating_add (
+            now, stage.period);
+    }
+}
+} // namespace
+
 behavior_applier::behavior_applier (behavior const &shaped,
                                     timing::timer_source timers)
-    : behavior_ (shaped), timers_ (std::move (timers))
+    : behavior_ (shaped), timers_ (std::move (timers)),
+      state_ (new behavior_applier_state ())
 {
-  start (timers_.now ());
+  start_states (*behavior_.impl_, *state_, timers_.now ());
 }
+
+behavior_applier::~behavior_applier () {}
 
 behavior const &
 behavior_applier::get () const
@@ -1264,26 +1423,12 @@ behavior_applier::get () const
 }
 
 void
-behavior_applier::start (timing::time_point_t now)
-{
-  states_.assign (behavior_.stages_.size (), behavior_state_t ());
-  for (std::size_t index = 0; index < states_.size (); ++index)
-    {
-      behavior_stage_t const &stage = behavior_.stages_[index];
-      behavior_state_t &state = states_[index];
-      state.generator = stage.seed;
-      state.until = timing::time_point_t::min ();
-      if (stage.kind == behavior_kind::cable_unplugged)
-        state.until = ::lumex::applied::transport::detail::saturating_add (
-            now, stage.period);
-    }
-}
-
-void
 behavior_applier::reset ()
 {
+  // The time is read before the lock: a timer source may take its own.
+  timing::time_point_t const now = timers_.now ();
   std::lock_guard<std::mutex> const lock (mutex_);
-  start (timers_.now ());
+  start_states (*behavior_.impl_, *state_, now);
 }
 
 reply_plan_t
@@ -1295,65 +1440,59 @@ behavior_applier::plan (std::vector<std::uint8_t> const &request,
   context.request = &request;
   context.has_reply = !reply.empty ();
   context.datagram = datagram;
+  context.now = timers_.now ();
   steps_t steps;
   if (!reply.empty ())
-    steps.push_back (make_step (plan_step_kind::bytes, ms (0), reply));
+    steps.push_back (make_step (plan_step_kind::bytes, ms (0), reply, true));
   bool processed = true;
   {
     std::lock_guard<std::mutex> const lock (mutex_);
-    context.now = timers_.now ();
-    for (std::size_t index = 0; index < behavior_.stages_.size (); ++index)
-      apply_stage (behavior_.stages_[index], states_[index], steps, processed,
-                   context);
+    std::vector<behavior_stage_t> const &stages = behavior_.impl_->stages;
+    for (std::size_t index = 0; index < stages.size (); ++index)
+      {
+        apply_stage (stages[index], state_->states[index], steps, processed,
+                     context);
+        settle (steps, datagram);
+      }
   }
-  for (std::size_t index = 0; index < steps.size (); ++index)
-    if (steps[index].at < ms (0))
-      steps[index].at = ms (0);
   std::stable_sort (steps.begin (), steps.end (), by_time);
   result.steps.swap (steps);
   result.request_processed = processed;
   return result;
 }
 
-std::vector<behavior_window_t>
-behavior_applier::unplugged_windows ()
-{
-  std::vector<behavior_window_t> windows;
-  std::lock_guard<std::mutex> const lock (mutex_);
-  timing::time_point_t const now = timers_.now ();
-  for (std::size_t index = 0; index < states_.size (); ++index)
-    if (behavior_.stages_[index].kind == behavior_kind::cable_unplugged
-        && now < states_[index].until)
-      {
-        behavior_window_t window;
-        window.remaining
-            = std::chrono::duration_cast<ms> (states_[index].until - now);
-        window.error = behavior_.stages_[index].error;
-        windows.push_back (window);
-      }
-  return windows;
-}
-
 void
 behavior_applier::attach (mock_stream_control control)
 {
-  std::vector<behavior_window_t> const windows = unplugged_windows ();
-  for (std::size_t index = 0; index < windows.size (); ++index)
-    {
-      control.disconnect ();
-      control.fail_opens_for (windows[index].remaining, windows[index].error);
-    }
+  timing::time_point_t const now = timers_.now ();
+  ms remaining (0);
+  std::error_code error;
+  bool found = false;
+  {
+    std::lock_guard<std::mutex> const lock (mutex_);
+    found = longest_window (*behavior_.impl_, *state_, now, remaining, error);
+  }
+  if (!found)
+    return;
+  control.disconnect ();
+  control.fail_opens_for (remaining, error);
 }
 
 void
 behavior_applier::attach (mock_datagram_control control)
 {
-  std::vector<behavior_window_t> const windows = unplugged_windows ();
-  for (std::size_t index = 0; index < windows.size (); ++index)
-    {
-      control.disconnect ();
-      control.fail_opens_for (windows[index].remaining, windows[index].error);
-    }
+  timing::time_point_t const now = timers_.now ();
+  ms remaining (0);
+  std::error_code error;
+  bool found = false;
+  {
+    std::lock_guard<std::mutex> const lock (mutex_);
+    found = longest_window (*behavior_.impl_, *state_, now, remaining, error);
+  }
+  if (!found)
+    return;
+  control.disconnect ();
+  control.fail_opens_for (remaining, error);
 }
 
 void

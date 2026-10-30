@@ -1342,33 +1342,6 @@ TEST (LumexBehaviors,
     EXPECT_EQ (plan.steps[index].at, ms (0));
 }
 
-TEST (
-    LumexBehaviors,
-    GivenLaterCopiesOfFragments_WhenPlanned_ThenTheStepsInterleaveByTimeStably)
-{
-  bytes_t reply;
-  for (std::size_t index = 0; index < 64; ++index)
-    reply.push_back (static_cast<std::uint8_t> (index));
-  // Piece n at n ms, its copy at n + 1 ms: the copy of piece n and piece n + 1
-  // share a time, and the piece (made first) comes first.
-  reply_plan_t const plan
-      = plan_of (behavior::fragmented (1, 1, ms (1))
-                     .then (behavior::repeating (1, ms (1))),
-                 request_bytes (), reply);
-  ASSERT_EQ (plan.steps.size (), 128u);
-  bytes_t expected;
-  for (std::size_t time = 0; time <= 64; ++time)
-    {
-      if (time < 64)
-        expected.push_back (reply[time]);
-      if (time >= 1)
-        expected.push_back (reply[time - 1]);
-    }
-  EXPECT_EQ (bytes_of_plan (plan), expected);
-  for (std::size_t index = 1; index < plan.steps.size (); ++index)
-    EXPECT_LE (plan.steps[index - 1].at, plan.steps[index].at);
-}
-
 TEST (LumexBehaviors,
       GivenZeroReadOnADatagram_WhenPlanned_ThenThereIsNoEmptyReadStep)
 {
@@ -1719,4 +1692,729 @@ TEST (LumexBehaviors, GivenAReset_WhenPlanned_ThenTheStatesStartOver)
   EXPECT_FALSE (
       applier.plan (request_bytes (), reply_bytes ()).steps.empty ());
   EXPECT_EQ (applier.get ().kind (), behavior_kind::frozen);
+}
+
+// --- one line for a stream
+
+namespace
+{
+void
+expect_line (reply_plan_t const &plan)
+{
+  for (std::size_t index = 1; index < plan.steps.size (); ++index)
+    EXPECT_LE (plan.steps[index - 1].at, plan.steps[index].at) << index;
+}
+
+bytes_t
+counting (std::size_t count)
+{
+  bytes_t bytes (count);
+  for (std::size_t index = 0; index < count; ++index)
+    bytes[index] = static_cast<std::uint8_t> (index);
+  return bytes;
+}
+
+bytes_t
+join (bytes_t first, bytes_t const &second)
+{
+  first.insert (first.end (), second.begin (), second.end ());
+  return first;
+}
+
+// The three stages that move bytes in time.
+std::vector<behavior>
+time_movers ()
+{
+  std::vector<behavior> movers;
+  movers.push_back (behavior::slow_trickle (ms (10)));
+  movers.push_back (behavior::fragmented (1, 3, ms (4)));
+  movers.push_back (behavior::repeating (1, ms (5)));
+  return movers;
+}
+
+// What the three time movers deliver for `reply`.
+bytes_t
+moved_reply (std::size_t mover, bytes_t const &reply)
+{
+  return mover == 2 ? join (reply, reply) : reply;
+}
+} // namespace
+
+TEST (
+    LumexBehaviors,
+    GivenLaterCopiesOfFragments_WhenPlannedForAStream_ThenTheCopyFollowsTheWholeReply)
+{
+  bytes_t reply;
+  for (std::size_t index = 0; index < 64; ++index)
+    reply.push_back (static_cast<std::uint8_t> (index));
+  reply_plan_t const plan
+      = plan_of (behavior::fragmented (1, 1, ms (1))
+                     .then (behavior::repeating (1, ms (1))),
+                 request_bytes (), reply);
+  ASSERT_EQ (plan.steps.size (), 128u);
+  EXPECT_EQ (bytes_of_plan (plan), join (reply, reply));
+  expect_line (plan);
+  // The copy follows the reply piece by piece, one millisecond apart.
+  EXPECT_EQ (plan.steps[63].at, ms (63));
+  EXPECT_EQ (plan.steps[64].at, ms (63));
+  EXPECT_EQ (plan.steps[127].at, ms (126));
+}
+
+TEST (
+    LumexBehaviors,
+    GivenLaterCopiesOfFragments_WhenPlannedForDatagrams_ThenTheStepsInterleaveByTimeStably)
+{
+  bytes_t reply;
+  for (std::size_t index = 0; index < 64; ++index)
+    reply.push_back (static_cast<std::uint8_t> (index));
+  // Piece n at n ms, its copy at n + 1 ms: the copy of piece n and piece n + 1
+  // share a time, and the piece (made first) comes first.
+  virtual_clock clock;
+  behavior_applier applier (behavior::fragmented (1, 1, ms (1))
+                                .then (behavior::repeating (1, ms (1))),
+                            clock.source ());
+  reply_plan_t const plan = applier.plan (request_bytes (), reply, true);
+  ASSERT_EQ (plan.steps.size (), 128u);
+  bytes_t expected;
+  for (std::size_t time = 0; time <= 64; ++time)
+    {
+      if (time < 64)
+        expected.push_back (reply[time]);
+      if (time >= 1)
+        expected.push_back (reply[time - 1]);
+    }
+  EXPECT_EQ (bytes_of_plan (plan), expected);
+  expect_line (plan);
+}
+
+TEST (
+    LumexBehaviors,
+    GivenATimeMoverAndABurstOfNoise_WhenComposedBothWays_ThenTheBytesStayInLineOrderAndTime)
+{
+  std::vector<behavior> const movers = time_movers ();
+  bytes_t const reply = reply_bytes ();
+  bytes_t const flood = counting (6);
+  bytes_t const garbage = plan_of (behavior::garbage (1, 4)).steps[0].bytes;
+  bytes_t const attack
+      = plan_of (behavior::malicious (1, malicious_mode::dense_escapes, 6))
+            .steps[0]
+            .bytes;
+  for (std::size_t mover = 0; mover < movers.size (); ++mover)
+    {
+      bytes_t const delivered = moved_reply (mover, reply);
+      reply_plan_t const plans[] = {
+        plan_of (behavior::flood (6).then (movers[mover])),
+        plan_of (movers[mover].then (behavior::flood (6))),
+        plan_of (behavior::garbage (1, 4).then (movers[mover])),
+        plan_of (movers[mover].then (behavior::garbage (1, 4))),
+        plan_of (behavior::malicious (1, malicious_mode::dense_escapes, 6)
+                     .then (movers[mover])),
+        plan_of (movers[mover].then (
+            behavior::malicious (1, malicious_mode::dense_escapes, 6))),
+      };
+      bytes_t const noise[]
+          = { flood, flood, garbage, garbage, attack, attack };
+      for (std::size_t index = 0; index < 6; ++index)
+        {
+          EXPECT_EQ (bytes_of_plan (plans[index]),
+                     join (noise[index], delivered))
+              << mover << "/" << index;
+          expect_line (plans[index]);
+        }
+    }
+}
+
+TEST (
+    LumexBehaviors,
+    GivenATimeMoverAndADisconnect_WhenComposedBothWays_ThenTheHangUpComesAfterTheLastByte)
+{
+  std::vector<behavior> const movers = time_movers ();
+  bytes_t const reply = reply_bytes ();
+  bytes_t const prefix (reply.begin (), reply.begin () + 4);
+  for (std::size_t mover = 0; mover < movers.size (); ++mover)
+    {
+      reply_plan_t const after
+          = plan_of (movers[mover].then (behavior::disconnecting (4)));
+      reply_plan_t const before
+          = plan_of (behavior::disconnecting (4).then (movers[mover]));
+      reply_plan_t const works_after = plan_of (
+          movers[mover].then (behavior::works_then_disconnects (1)));
+      reply_plan_t const works_before = plan_of (
+          behavior::works_then_disconnects (1).then (movers[mover]));
+      reply_plan_t const plans[]
+          = { after, before, works_after, works_before };
+      for (std::size_t index = 0; index < 4; ++index)
+        {
+          ASSERT_FALSE (plans[index].steps.empty ()) << mover << "/" << index;
+          expect_line (plans[index]);
+          EXPECT_EQ (plans[index].steps.back ().kind,
+                     plan_step_kind::disconnect)
+              << mover << "/" << index;
+          std::size_t hang_ups = 0;
+          for (std::size_t step = 0; step < plans[index].steps.size (); ++step)
+            if (plans[index].steps[step].kind == plan_step_kind::disconnect)
+              ++hang_ups;
+          EXPECT_EQ (hang_ups, 1u) << mover << "/" << index;
+        }
+      EXPECT_EQ (bytes_of_plan (after), prefix) << mover;
+      EXPECT_EQ (bytes_of_plan (works_after), moved_reply (mover, reply))
+          << mover;
+      EXPECT_EQ (bytes_of_plan (works_before), moved_reply (mover, reply))
+          << mover;
+      bytes_t const cut = bytes_of_plan (before);
+      EXPECT_EQ (bytes_t (cut.begin (), cut.begin () + 4), prefix) << mover;
+    }
+}
+
+TEST (
+    LumexBehaviors,
+    GivenARepeatingBehindATrailingHangUp_WhenPlanned_ThenTheCopiesComeBeforeTheHangUp)
+{
+  reply_plan_t const plan
+      = plan_of (behavior::works_then_disconnects (1).then (
+          behavior::repeating (2, ms (3))));
+  EXPECT_EQ (bytes_of_plan (plan).size (), 36u);
+  EXPECT_EQ (plan.steps.back ().kind, plan_step_kind::disconnect);
+  EXPECT_GE (plan.steps.back ().at, ms (6));
+}
+
+TEST (LumexBehaviors,
+      GivenARepeatingBehindEmptyReads_WhenPlanned_ThenOnlyTheDataIsCopied)
+{
+  reply_plan_t const plan
+      = plan_of (behavior::fragmented (1, 3, ms (2))
+                     .then (behavior::zero_read (1))
+                     .then (behavior::repeating (1, ms (0))));
+  std::size_t empties = 0;
+  std::size_t data = 0;
+  for (std::size_t index = 0; index < plan.steps.size (); ++index)
+    {
+      if (plan.steps[index].kind == plan_step_kind::empty_read)
+        ++empties;
+      else
+        ++data;
+    }
+  EXPECT_EQ (empties, 6u);
+  EXPECT_EQ (data, 12u);
+  EXPECT_EQ (bytes_of_plan (plan), join (reply_bytes (), reply_bytes ()));
+  expect_line (plan);
+}
+
+TEST (
+    LumexBehaviors,
+    GivenADatagramHangUpAndALaterMessage_WhenPlanned_ThenTheHangUpWaitsForTheMessage)
+{
+  virtual_clock clock;
+  behavior_applier applier (behavior::works_then_disconnects (1).then (
+                                behavior::slow_trickle (ms (10))),
+                            clock.source ());
+  reply_plan_t const plan
+      = applier.plan (request_bytes (), reply_bytes (), true);
+  ASSERT_EQ (plan.steps.size (), 2u);
+  EXPECT_EQ (plan.steps[0].kind, plan_step_kind::bytes);
+  EXPECT_EQ (plan.steps[0].at, ms (120));
+  EXPECT_EQ (plan.steps[1].kind, plan_step_kind::disconnect);
+  EXPECT_EQ (plan.steps[1].at, ms (120));
+}
+
+TEST (LumexBehaviors,
+      GivenAnEmptyReadBehindATimeMover_WhenPlanned_ThenItStaysInFrontOfItsData)
+{
+  reply_plan_t const plan = plan_of (
+      behavior::zero_read (1).then (behavior::slow_trickle (ms (10))));
+  ASSERT_EQ (plan.steps.size (), 13u);
+  EXPECT_EQ (plan.steps[0].kind, plan_step_kind::empty_read);
+  EXPECT_EQ (plan.steps[1].at, ms (10));
+  EXPECT_EQ (plan.steps[12].at, ms (120));
+  expect_line (plan);
+}
+
+// --- what is the reply and what is not
+
+TEST (LumexBehaviors,
+      GivenEveryStep_WhenPlanned_ThenTheFlagMarksTheReplyAndThePiecesOfIt)
+{
+  reply_plan_t const perfect = plan_of (behavior::perfect ());
+  ASSERT_EQ (perfect.steps.size (), 1u);
+  EXPECT_TRUE (perfect.steps[0].from_reply);
+  reply_plan_t const noisy = plan_of (behavior::flood (3));
+  ASSERT_EQ (noisy.steps.size (), 2u);
+  EXPECT_FALSE (noisy.steps[0].from_reply);
+  EXPECT_TRUE (noisy.steps[1].from_reply);
+  EXPECT_FALSE (plan_of (behavior::garbage (1, 3)).steps[0].from_reply);
+  EXPECT_FALSE (plan_of (behavior::malicious (1)).steps[0].from_reply);
+  EXPECT_FALSE (plan_of (behavior::echo ()).steps[0].from_reply);
+  reply_plan_t const pieces = plan_of (behavior::fragmented (1));
+  for (std::size_t index = 0; index < pieces.steps.size (); ++index)
+    EXPECT_TRUE (pieces.steps[index].from_reply);
+  reply_plan_t const copies = plan_of (behavior::repeating (2, ms (1)));
+  for (std::size_t index = 0; index < copies.steps.size (); ++index)
+    EXPECT_TRUE (copies.steps[index].from_reply);
+  EXPECT_TRUE (plan_of (behavior::oversized (10)).steps[0].from_reply);
+}
+
+TEST (LumexBehaviors,
+      GivenNoiseInFront_WhenTheReplyIsDamaged_ThenOnlyTheReplyIs)
+{
+  bytes_t const noise = counting (64);
+  bytes_t const reply = reply_bytes ();
+  for (std::uint32_t seed = 1; seed <= 100; ++seed)
+    {
+      bytes_t const all = bytes_of_plan (plan_of (
+          behavior::flood (64).then (behavior::corrupted_crc (seed))));
+      ASSERT_EQ (all.size (), 76u) << seed;
+      EXPECT_EQ (bytes_t (all.begin (), all.begin () + 64), noise) << seed;
+      EXPECT_EQ (differences (bytes_t (all.begin () + 64, all.end ()), reply),
+                 1u)
+          << seed;
+    }
+}
+
+TEST (LumexBehaviors,
+      GivenNoiseInFront_WhenTheReplyIsCutOrCounted_ThenTheNoiseIsLeftAlone)
+{
+  bytes_t const noise = counting (64);
+  bytes_t const reply = reply_bytes ();
+  bytes_t const partial = bytes_of_plan (plan_of (
+      behavior::flood (64).then (behavior::partial_then_frozen (0, 4))));
+  EXPECT_EQ (partial,
+             join (noise, bytes_t (reply.begin (), reply.begin () + 4)));
+  reply_plan_t const cut
+      = plan_of (behavior::flood (64).then (behavior::disconnecting (5)));
+  EXPECT_EQ (bytes_of_plan (cut),
+             join (noise, bytes_t (reply.begin (), reply.begin () + 5)));
+  EXPECT_EQ (cut.steps.back ().kind, plan_step_kind::disconnect);
+  EXPECT_EQ (bytes_of_plan (plan_of (
+                 behavior::flood (64).then (behavior::repeating (2, ms (5))))),
+             join (noise, join (reply, join (reply, reply))));
+  EXPECT_EQ (bytes_of_plan (plan_of (
+                 behavior::flood (64).then (behavior::oversized (100, 0x77)))),
+             join (noise, bytes_t (100, 0x77)));
+}
+
+TEST (
+    LumexBehaviors,
+    GivenNoiseInFront_WhenTheBudgetIsSpentOnTheReply_ThenTheNoiseDoesNotCount)
+{
+  // A budget of 4 bytes with 64 bytes of noise in front: the reply still
+  // gets its 4 bytes.
+  reply_plan_t const plan
+      = plan_of (behavior::garbage (1, 64).then (behavior::disconnecting (4)));
+  EXPECT_EQ (bytes_of_plan (plan).size (), 68u);
+}
+
+// --- hang-ups and stale plans through a mock
+
+TEST_F (LumexBehaviorsStreamTest,
+        SlowTrickleThenDisconnecting_HangsUpWhenTheBytesAreIn)
+{
+  ASSERT_NO_FATAL_FAILURE (start (
+      behavior::slow_trickle (ms (10)).then (behavior::disconnecting (3))));
+  send ();
+  run (ms (100));
+  bytes_t const reply = reply_bytes ();
+  EXPECT_EQ (log_->bytes, bytes_t (reply.begin (), reply.begin () + 3));
+  ASSERT_TRUE (log_->stopped);
+  ASSERT_EQ (log_->arrivals.size (), 4u);
+  EXPECT_EQ (log_->arrivals[0].at, ms (10));
+  EXPECT_EQ (log_->arrivals[2].at, ms (30));
+  EXPECT_EQ (log_->arrivals[3].error, code (transport_errc::disconnected));
+  EXPECT_EQ (log_->arrivals[3].at, ms (30));
+}
+
+TEST_F (LumexBehaviorsStreamTest,
+        WorksThenDisconnectsThenSlowTrickle_HangsUpAfterTheLastByte)
+{
+  ASSERT_NO_FATAL_FAILURE (start (behavior::works_then_disconnects (1).then (
+      behavior::slow_trickle (ms (10)))));
+  send ();
+  run (ms (500));
+  EXPECT_EQ (log_->bytes, reply_bytes ());
+  ASSERT_TRUE (log_->stopped);
+  EXPECT_EQ (log_->arrivals.back ().error,
+             code (transport_errc::disconnected));
+  EXPECT_EQ (log_->arrivals.back ().at, ms (120));
+}
+
+TEST_F (LumexBehaviorsStreamTest, NoAnswerOnAHungUpLinkWithoutReopen)
+{
+  ASSERT_NO_FATAL_FAILURE (start (behavior::works_then_disconnects (1)));
+  send ();
+  run (ms (10));
+  ASSERT_EQ (log_->bytes, reply_bytes ());
+  ASSERT_TRUE (log_->stopped);
+  std::shared_ptr<bytes_t> const data
+      = std::make_shared<bytes_t> (request_bytes ());
+  std::shared_ptr<std::error_code> const wrote
+      = std::make_shared<std::error_code> ();
+  mock_.stream.async_write_some (
+      tr::const_bytes_t (*data),
+      [data, wrote] (std::error_code const &error, std::size_t)
+        { *wrote = error; });
+  drain (context_);
+  log_ = std::make_shared<read_log_t> ();
+  keep_reading (mock_.stream, clock_, start_, log_);
+  run (ms (10));
+  EXPECT_EQ (*wrote, code (transport_errc::disconnected));
+  EXPECT_TRUE (log_->bytes.empty ());
+}
+
+TEST_F (LumexBehaviorsStreamTest, AStaleHangUpDoesNotKillTheReopenedLink)
+{
+  ASSERT_NO_FATAL_FAILURE (start (behavior::slow_trickle (ms (10)).then (
+      behavior::works_then_disconnects (1))));
+  send ();
+  run (ms (25));
+  // The client gives up and reopens before the trickle ends.
+  reopen ();
+  run (ms (300));
+  for (std::size_t index = 0; index < log_->arrivals.size (); ++index)
+    EXPECT_FALSE (log_->arrivals[index].error) << index;
+  EXPECT_TRUE (log_->bytes.empty ());
+  // The new link works: a request on it is answered (the behaviour is
+  // spent, so whole).
+  send ();
+  run (ms (200));
+  EXPECT_EQ (log_->bytes.size (), 12u);
+}
+
+TEST_F (LumexBehaviorsDatagramTest,
+        AStaleHangUpAndStaleDatagramsDoNotReachTheReopenedLink)
+{
+  ASSERT_NO_FATAL_FAILURE (
+      start (behavior::fragmented (1, 3, ms (10))
+                 .then (behavior::works_then_disconnects (1)),
+             3));
+  send ();
+  run (ms (15));
+  mock_.transport.close ();
+  drain (context_);
+  log_ = std::make_shared<read_log_t> ();
+  ASSERT_FALSE (open_now ());
+  keep_receiving (mock_.transport, clock_, start_, log_);
+  drain (context_);
+  run (ms (300));
+  EXPECT_TRUE (log_->arrivals.empty ());
+}
+
+TEST_F (LumexBehaviorsDatagramTest,
+        SlowTrickleThenWorksThenDisconnects_HangsUpWithTheMessage)
+{
+  ASSERT_NO_FATAL_FAILURE (start (behavior::slow_trickle (ms (10)).then (
+                                      behavior::works_then_disconnects (1)),
+                                  0));
+  send ();
+  run (ms (119));
+  EXPECT_TRUE (log_->arrivals.empty ());
+  run (ms (50));
+  EXPECT_EQ (log_->bytes, reply_bytes ());
+  ASSERT_TRUE (log_->stopped);
+  EXPECT_EQ (log_->arrivals.back ().error,
+             code (transport_errc::disconnected));
+  EXPECT_EQ (log_->arrivals.back ().at, ms (120));
+}
+
+TEST_F (LumexBehaviorsDatagramTest, NoAnswerOnAHungUpLinkWithoutReopen)
+{
+  ASSERT_NO_FATAL_FAILURE (start (behavior::works_then_disconnects (1), 0));
+  send ();
+  run (ms (10));
+  ASSERT_TRUE (log_->stopped);
+  message_t message;
+  message.payload = request_bytes ();
+  std::shared_ptr<std::error_code> const sent
+      = std::make_shared<std::error_code> ();
+  mock_.transport.async_send (message, [sent] (std::error_code const &error)
+                                { *sent = error; });
+  drain (context_);
+  EXPECT_EQ (*sent, code (transport_errc::disconnected));
+}
+
+// --- the defaults do the damage the outcomes assume
+
+namespace
+{
+std::vector<reply_plan_t>
+default_plans (behavior_kind kind, std::size_t count)
+{
+  virtual_clock clock;
+  behavior_applier applier (behavior::of (kind), clock.source ());
+  std::vector<reply_plan_t> plans;
+  for (std::size_t index = 0; index < count; ++index)
+    plans.push_back (applier.plan (request_bytes (), reply_bytes ()));
+  return plans;
+}
+} // namespace
+
+TEST (LumexBehaviorsDefaults, Frozen_AnswersTheFirstReplyOnly)
+{
+  std::vector<reply_plan_t> const plans
+      = default_plans (behavior_kind::frozen, 3);
+  EXPECT_EQ (bytes_of_plan (plans[0]), reply_bytes ());
+  EXPECT_TRUE (plans[1].steps.empty ());
+  EXPECT_TRUE (plans[2].steps.empty ());
+}
+
+TEST (LumexBehaviorsDefaults, PartialThenFrozen_CutsTheSecondReplyToFourBytes)
+{
+  std::vector<reply_plan_t> const plans
+      = default_plans (behavior_kind::partial_then_frozen, 3);
+  EXPECT_EQ (bytes_of_plan (plans[0]), reply_bytes ());
+  EXPECT_EQ (bytes_of_plan (plans[1]).size (), 4u);
+  EXPECT_TRUE (plans[2].steps.empty ());
+}
+
+TEST (LumexBehaviorsDefaults, Repeating_SendsOneCopy)
+{
+  EXPECT_EQ (bytes_of_plan (default_plans (behavior_kind::repeating, 1)[0]),
+             join (reply_bytes (), reply_bytes ()));
+}
+
+TEST (LumexBehaviorsDefaults, CorruptedCrc_DamagesTheFirstReplyOnly)
+{
+  std::vector<reply_plan_t> const plans
+      = default_plans (behavior_kind::corrupted_crc, 4);
+  EXPECT_NE (bytes_of_plan (plans[0]), reply_bytes ());
+  for (std::size_t index = 1; index < 4; ++index)
+    EXPECT_EQ (bytes_of_plan (plans[index]), reply_bytes ()) << index;
+}
+
+TEST (LumexBehaviorsDefaults, Intermittent_LosesTheFirstReplyOnly)
+{
+  std::vector<reply_plan_t> const plans
+      = default_plans (behavior_kind::intermittent, 4);
+  EXPECT_TRUE (plans[0].steps.empty ());
+  for (std::size_t index = 1; index < 4; ++index)
+    EXPECT_EQ (bytes_of_plan (plans[index]), reply_bytes ()) << index;
+}
+
+TEST (LumexBehaviorsDefaults, Disconnecting_HangsUpAfterFourBytes)
+{
+  reply_plan_t const plan = default_plans (behavior_kind::disconnecting, 1)[0];
+  EXPECT_EQ (bytes_of_plan (plan).size (), 4u);
+  EXPECT_EQ (plan.steps.back ().kind, plan_step_kind::disconnect);
+}
+
+TEST (LumexBehaviorsDefaults, WorksThenDisconnects_HangsUpAfterTheFirstReply)
+{
+  std::vector<reply_plan_t> const plans
+      = default_plans (behavior_kind::works_then_disconnects, 2);
+  EXPECT_EQ (bytes_of_plan (plans[0]), reply_bytes ());
+  ASSERT_EQ (plans[0].steps.size (), 2u);
+  EXPECT_EQ (plans[0].steps[1].kind, plan_step_kind::disconnect);
+  EXPECT_EQ (bytes_of_plan (plans[1]), reply_bytes ());
+  EXPECT_EQ (plans[1].steps.size (), 1u);
+}
+
+TEST (LumexBehaviorsDefaults, CableUnplugged_IsOutForOneHundredMilliseconds)
+{
+  virtual_clock clock;
+  behavior_applier applier (behavior::of (behavior_kind::cable_unplugged),
+                            clock.source ());
+  clock.advance (ms (99));
+  EXPECT_TRUE (applier.plan (request_bytes (), reply_bytes ()).steps.empty ());
+  clock.advance (ms (1));
+  EXPECT_EQ (bytes_of_plan (applier.plan (request_bytes (), reply_bytes ())),
+             reply_bytes ());
+}
+
+TEST (LumexBehaviorsDefaults, Malicious_MixedCoversEveryModeOverEnoughRequests)
+{
+  malicious_mode const modes[] = {
+    malicious_mode::end_flood,
+    malicious_mode::nul_flood,
+    malicious_mode::ff_flood,
+    malicious_mode::control_chars,
+    malicious_mode::alternating_extremes,
+    malicious_mode::bad_escape,
+    malicious_mode::long_unterminated,
+    malicious_mode::max_length_prefix,
+    malicious_mode::dense_escapes,
+  };
+  std::vector<bytes_t> attacks;
+  for (std::size_t index = 0; index < 9; ++index)
+    attacks.push_back (
+        plan_of (behavior::malicious (1, modes[index], 16)).steps[0].bytes);
+  virtual_clock clock;
+  behavior_applier applier (behavior::malicious (5, malicious_mode::mixed, 16),
+                            clock.source ());
+  std::set<std::size_t> seen;
+  for (int round = 0; round < 300; ++round)
+    {
+      bytes_t const bytes
+          = applier.plan (request_bytes (), reply_bytes ()).steps[0].bytes;
+      for (std::size_t index = 0; index < 9; ++index)
+        if (bytes == attacks[index])
+          seen.insert (index);
+    }
+  EXPECT_EQ (seen.size (), 9u);
+}
+
+TEST (
+    LumexBehaviors,
+    GivenIntermittentAndRowsWithoutAReply_WhenPlanned_ThenTheyDoNotSpendTheOutage)
+{
+  virtual_clock clock;
+  behavior_applier applier (behavior::intermittent (1, 1000, 1),
+                            clock.source ());
+  for (int round = 0; round < 3; ++round)
+    {
+      reply_plan_t const none = applier.plan (request_bytes (), bytes_t ());
+      EXPECT_TRUE (none.steps.empty ());
+      EXPECT_TRUE (none.request_processed);
+    }
+  EXPECT_TRUE (applier.plan (request_bytes (), reply_bytes ()).steps.empty ());
+  EXPECT_EQ (bytes_of_plan (applier.plan (request_bytes (), reply_bytes ())),
+             reply_bytes ());
+}
+
+TEST (LumexBehaviors,
+      GivenIntermittentAndNoiseWithoutAReply_WhenPlanned_ThenTheNoiseStays)
+{
+  virtual_clock clock;
+  behavior_applier applier (
+      behavior::flood (5).then (behavior::intermittent (1, 1000, 0)),
+      clock.source ());
+  EXPECT_EQ (applier.plan (request_bytes (), bytes_t ()).steps.size (), 1u);
+}
+
+// --- the unplugged cable
+
+namespace
+{
+// A source whose time the test sets, in nanoseconds.
+class manual_source_t : public tr::timing::timer_source_impl
+{
+public:
+  tr::timing::time_point_t
+  now () const override
+  {
+    return tr::timing::time_point_t (std::chrono::nanoseconds (nanoseconds));
+  }
+
+  std::shared_ptr<tr::timing::timer_impl>
+  make_timer (tr::executor_type const &) const override
+  {
+    return std::shared_ptr<tr::timing::timer_impl> ();
+  }
+
+  long long nanoseconds = 0;
+};
+} // namespace
+
+TEST_F (LumexBehaviorsStreamTest, CableUnplugged_SeveralWindowsTheLongestWins)
+{
+  ASSERT_FALSE (open_now ());
+  behavior_applier first (behavior::cable_unplugged (ms (100)).then (
+                              behavior::cable_unplugged (ms (300))),
+                          clock_.source ());
+  first.attach (mock_.control);
+  drain (context_);
+  mock_.stream.close ();
+  drain (context_);
+  run (ms (299));
+  EXPECT_TRUE (open_now ());
+  run (ms (1));
+  EXPECT_FALSE (open_now ());
+}
+
+TEST_F (LumexBehaviorsStreamTest, CableUnplugged_TheLongestWinsInEitherOrder)
+{
+  ASSERT_FALSE (open_now ());
+  behavior_applier second (behavior::cable_unplugged (ms (300)).then (
+                               behavior::cable_unplugged (ms (100))),
+                           clock_.source ());
+  second.attach (mock_.control);
+  drain (context_);
+  mock_.stream.close ();
+  drain (context_);
+  run (ms (299));
+  EXPECT_TRUE (open_now ());
+  run (ms (1));
+  EXPECT_FALSE (open_now ());
+}
+
+TEST_F (LumexBehaviorsStreamTest, CableUnplugged_TheTimeLeftIsRoundedUp)
+{
+  ASSERT_FALSE (open_now ());
+  std::shared_ptr<manual_source_t> const source
+      = std::make_shared<manual_source_t> ();
+  behavior_applier applier (behavior::cable_unplugged (ms (100)),
+                            tr::timing::timer_source (source));
+  source->nanoseconds = 1;
+  applier.attach (mock_.control);
+  drain (context_);
+  mock_.stream.close ();
+  drain (context_);
+  run (ms (99));
+  EXPECT_TRUE (open_now ());
+  run (ms (1));
+  EXPECT_FALSE (open_now ());
+}
+
+TEST_F (LumexBehaviorsStreamTest,
+        CableUnplugged_ResetNeedsAnAttachToUnplugAgain)
+{
+  ASSERT_FALSE (open_now ());
+  behavior_applier applier (behavior::cable_unplugged (ms (100)),
+                            clock_.source ());
+  applier.attach (mock_.control);
+  drain (context_);
+  mock_.stream.close ();
+  drain (context_);
+  run (ms (100));
+  EXPECT_FALSE (open_now ());
+  mock_.stream.close ();
+  drain (context_);
+  applier.reset ();
+  // The mock keeps no window of the first attach any more; the reset alone
+  // does not unplug it again.
+  EXPECT_FALSE (open_now ());
+  mock_.stream.close ();
+  drain (context_);
+  applier.attach (mock_.control);
+  drain (context_);
+  mock_.stream.close ();
+  drain (context_);
+  EXPECT_TRUE (open_now ());
+}
+
+TEST (
+    LumexBehaviors,
+    GivenASourceThatCallsTheApplier_WhenPlannedOrReset_ThenNoLockIsHeldMeanwhile)
+{
+  // The time is read before the applier takes its lock: a source may call the
+  // applier (which takes it) from `now ()`.
+  class reentrant_source_t : public tr::timing::timer_source_impl
+  {
+  public:
+    tr::timing::time_point_t
+    now () const override
+    {
+      if (applier != nullptr && !inside)
+        {
+          inside = true;
+          applier->reset ();
+          inside = false;
+        }
+      return tr::timing::time_point_t ();
+    }
+
+    std::shared_ptr<tr::timing::timer_impl>
+    make_timer (tr::executor_type const &) const override
+    {
+      return std::shared_ptr<tr::timing::timer_impl> ();
+    }
+
+    behavior_applier *applier = nullptr;
+    mutable bool inside = false;
+  };
+  std::shared_ptr<reentrant_source_t> const source
+      = std::make_shared<reentrant_source_t> ();
+  behavior_applier applier (behavior::cable_unplugged (ms (10)),
+                            tr::timing::timer_source (source));
+  source->applier = &applier;
+  EXPECT_TRUE (applier.plan (request_bytes (), reply_bytes ()).steps.empty ());
+  applier.reset ();
+  source->applier = nullptr;
 }
