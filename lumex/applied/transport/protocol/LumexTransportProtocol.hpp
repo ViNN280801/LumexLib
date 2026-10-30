@@ -52,6 +52,7 @@
 
 #include "lumex/applied/transport/protocol/LumexDialogueTypes.hpp"
 #include "lumex/applied/transport/protocol/dialogue/LumexDialogue.hpp"
+#include "lumex/applied/transport/protocol/dialogue/LumexReplyReader.hpp"
 #include "lumex/applied/transport/protocol/dsl/LumexDialogueVocabulary.hpp"
 #include "lumex/applied/transport/protocol/link/LumexFrameLink.hpp"
 

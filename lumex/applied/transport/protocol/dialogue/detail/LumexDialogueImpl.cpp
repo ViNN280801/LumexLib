@@ -43,6 +43,7 @@
 #include <deque>
 #include <exception>
 #include <memory>
+#include <mutex>
 #include <string>
 #include <system_error>
 #include <utility>
@@ -430,6 +431,9 @@ dialogue_impl::make (frame_link link, pindex::protocol_index_t const &index,
   LUMEX_CONTRACT_ASSERT (!link.empty ());
   std::shared_ptr<dialogue_impl> const made
       = std::make_shared<dialogue_impl> (std::move (link), index, options);
+  // At once, not with the first exchange: a subscriber may own the owner of
+  // the dialogue before any exchange is started.
+  made->enlist ();
   start_step_t step = { made };
   asio::post (made->strand_, std::move (step));
   return made;
@@ -447,7 +451,8 @@ dialogue_impl::dialogue_impl (frame_link link,
       window_timer_ (options.timers.make_timer (executor_type (strand_))),
       window_open_ (false), window_sequence_ (0), reading_ (false),
       read_generation_ (0), closed_ (false), attempt_sequence_ (0),
-      next_id_ (0), enlisted_ (false)
+      timer_sequence_ (0), unknown_burst_ (false), next_id_ (0),
+      next_subscription_ (0), enlisted_ (false)
 {
 }
 
@@ -472,20 +477,28 @@ void
 dialogue_impl::drop_kept_handlers () LUMEX_NOEXCEPT
 {
   std::vector<exchange_handler_t> taken;
+  // The policies too: an extra_retries that owns the owner of the dialogue
+  // is a cycle as well.
+  std::vector<std::shared_ptr<retry_policy_t const>> policies;
   try
     {
       taken.reserve (queue_.size () + flight_.size ());
+      policies.reserve (queue_.size () + flight_.size () + 1);
+      policies.push_back (defaults_);
     }
   catch (...)
     {
     }
+  defaults_.reset ();
   for (std::deque<record_ptr>::iterator it = queue_.begin ();
        it != queue_.end (); ++it)
     {
       exchange_handler_t handler (std::move ((*it)->handler));
+      std::shared_ptr<retry_policy_t const> policy (std::move ((*it)->policy));
       try
         {
           taken.push_back (std::move (handler));
+          policies.push_back (std::move (policy));
         }
       catch (...)
         {
@@ -495,13 +508,28 @@ dialogue_impl::drop_kept_handlers () LUMEX_NOEXCEPT
        it != flight_.end (); ++it)
     {
       exchange_handler_t handler (std::move ((*it)->handler));
+      std::shared_ptr<retry_policy_t const> policy (std::move ((*it)->policy));
       try
         {
           taken.push_back (std::move (handler));
+          policies.push_back (std::move (policy));
         }
       catch (...)
         {
         }
+    }
+  // The subscribers too: one that owns the owner of the dialogue is a cycle
+  // as well.
+  std::vector<subscriber_t> subscribers;
+  handler_ptr unknown;
+  try
+    {
+      std::lock_guard<std::mutex> const lock (handlers_mutex_);
+      subscribers.swap (subscribers_);
+      unknown.swap (unknown_);
+    }
+  catch (...)
+    {
     }
 }
 
@@ -667,6 +695,7 @@ dialogue_impl::run_enqueue (std::uint64_t id, exchange_t &request,
       = !(row != nullptr && row->reply == pindex::reply_form::none
           && reply_row == nullptr && request.matcher == nullptr);
   record->allowed = 1 + static_cast<std::uint64_t> (record->policy->retries);
+  record->reader = request.reader;
   if (queue_.empty () && can_start (*record))
     {
       flight_.push_back (std::move (record));
@@ -717,29 +746,71 @@ dialogue_impl::pump ()
     }
 }
 
-void
+bool
 dialogue_impl::start_attempt (exchange_record_t &record)
 {
   ++record.attempts;
   record.epoch = ++attempt_sequence_;
   record.waiting_window = false;
+  record.acknowledged = false;
   record.awaiting = record.expects_reply;
   dialogue_counters_t::bump (counters_.requests);
   if (record.attempts > 1)
     dialogue_counters_t::bump (counters_.retries);
-  start_reading ();
-  std::weak_ptr<dialogue_impl> const self (shared_from_this ());
-  write_done_t written = { self, strand_, record.id, record.epoch };
-  link_.impl ()->start_write (record.message,
-                              status_handler_t (std::move (written)));
+  try
+    {
+      start_reading ();
+      LUMEX_TRANSPORT_LOG (
+          debug, kcomponent, name_.c_str (),
+          describe (*record.message, pindex::frame_direction::tx),
+          log::log_bytes_t (record.message->data (), record.message->size ()));
+      write_done_t written
+          = { std::weak_ptr<dialogue_impl> (shared_from_this ()), strand_,
+              record.id, record.epoch };
+      link_.impl ()->start_write (record.message,
+                                  status_handler_t (std::move (written)));
+      arm_timer (record);
+    }
+  catch (...)
+    {
+      // Out of memory (or a link of one's own that throws): the exchange
+      // ends here, so that it never waits without a write or a timer. The
+      // caller starts the next one.
+      std::size_t const at = find_in_flight (record.id);
+      if (at != flight_.size ())
+        finish_in_flight (at, make_error_code (std::errc::not_enough_memory),
+                          link_frame_t ());
+      return false;
+    }
+  return true;
+}
+
+// Each wait has a number of its own: a wait that ended by its time just as
+// the attempt moved on (a NAK, an acknowledgement, a retry) is a wait of
+// the past, even when its completion was already on its way.
+void
+dialogue_impl::arm_timer (exchange_record_t &record)
+{
   std::uint32_t const timeout = record.policy->timeout_ms;
   if (!record.expects_reply || timeout == 0)
     return;
   if (!record.timer.impl ())
     record.timer = timers_.make_timer (executor_type (strand_));
-  timeout_done_t expired = { self, strand_, record.id, record.epoch };
+  record.timer_epoch = ++timer_sequence_;
+  timeout_done_t expired
+      = { std::weak_ptr<dialogue_impl> (shared_from_this ()), strand_,
+          record.id, record.timer_epoch };
   record.timer.async_wait_for (std::chrono::milliseconds (timeout),
                                std::move (expired));
+}
+
+std::string
+dialogue_impl::describe (link_frame_t const &frame,
+                         pindex::frame_direction direction) const
+{
+  return index_->describe (::lumex::core::protocol::layout::bytes_view_t (
+                               frame.data (), frame.size ()),
+                           direction, &session_);
 }
 
 void
@@ -774,7 +845,7 @@ dialogue_impl::timeout_done (std::uint64_t id, std::uint64_t epoch,
   if (error)
     return;
   std::size_t const at = find_in_flight (id);
-  if (at == flight_.size () || flight_[at]->epoch != epoch
+  if (at == flight_.size () || flight_[at]->timer_epoch != epoch
       || !flight_[at]->awaiting)
     return;
   attempt_timed_out (at);
@@ -791,15 +862,34 @@ dialogue_impl::attempt_timed_out (std::size_t at)
                        "no reply to " + row_name (record.row) + " within "
                            + std::to_string (record.policy->timeout_ms)
                            + " ms (attempt " + std::to_string (record.attempts)
-                           + ")",
+                           + (record.acknowledged ? ", acknowledged)" : ")"),
                        log::log_bytes_t ());
+  if (record.acknowledged)
+    {
+      // The device has the request: it is never sent again.
+      finish_in_flight (at, dialogue_error (protocol_errc::timeout),
+                        link_frame_t ());
+      pump ();
+      return;
+    }
+  next_attempt (at, protocol_errc::timeout);
+}
+
+// The attempt of flight_[at] ended without its reply (`why`: a timeout or a
+// NAK): another attempt while the policy allows, else the end of the
+// exchange (`timeout` after one attempt, `retries_exhausted` after more,
+// `nak` after a NAK).
+void
+dialogue_impl::next_attempt (std::size_t at, protocol_errc why)
+{
+  exchange_record_t &record = *flight_[at];
   std::exception_ptr thrown;
   if (record.attempts >= record.allowed && record.policy->extra_retries)
     {
       try
         {
-          record.allowed += record.policy->extra_retries (
-              session_, dialogue_error (protocol_errc::timeout));
+          record.allowed
+              += record.policy->extra_retries (session_, dialogue_error (why));
         }
       catch (...)
         {
@@ -809,20 +899,21 @@ dialogue_impl::attempt_timed_out (std::size_t at)
   if (record.attempts >= record.allowed || thrown)
     {
       // A predicate that throws ends the exchange as one that granted no
-      // more: retries_exhausted.
+      // more.
       bool const several = record.allowed > 1 || thrown;
-      if (several)
+      protocol_errc const ended = why == protocol_errc::nak
+                                      ? protocol_errc::nak
+                                  : several ? protocol_errc::retries_exhausted
+                                            : protocol_errc::timeout;
+      if (ended == protocol_errc::retries_exhausted)
         dialogue_counters_t::bump (counters_.retries_exhausted);
-      LUMEX_TRANSPORT_LOG (warning, kcomponent, name_.c_str (),
-                           "no reply to " + row_name (record.row) + " after "
-                               + std::to_string (record.attempts)
-                               + " attempt(s)",
-                           log::log_bytes_t ());
-      finish_in_flight (at,
-                        dialogue_error (several
-                                            ? protocol_errc::retries_exhausted
-                                            : protocol_errc::timeout),
-                        link_frame_t ());
+      LUMEX_TRANSPORT_LOG (
+          warning, kcomponent, name_.c_str (),
+          (why == protocol_errc::nak ? "a NAK to " : "no reply to ")
+              + row_name (record.row) + " after "
+              + std::to_string (record.attempts) + " attempt(s)",
+          log::log_bytes_t ());
+      finish_in_flight (at, dialogue_error (ended), link_frame_t ());
       pump ();
       if (thrown)
         std::rethrow_exception (thrown);
@@ -830,8 +921,8 @@ dialogue_impl::attempt_timed_out (std::size_t at)
     }
   if (window_open_)
     record.waiting_window = true;
-  else
-    start_attempt (record);
+  else if (!start_attempt (record))
+    pump ();
 }
 
 // An attempt that saw no reply (a timeout, a cancellation) may still be
@@ -876,10 +967,36 @@ dialogue_impl::window_done (std::uint64_t window, std::error_code error)
   if (error || window != window_sequence_ || closed_)
     return;
   window_open_ = false;
+  // By number: an attempt that fails at once leaves the flight.
+  std::vector<std::uint64_t> waiting;
   for (std::size_t i = 0; i < flight_.size (); ++i)
     if (flight_[i]->waiting_window)
-      start_attempt (*flight_[i]);
+      waiting.push_back (flight_[i]->id);
+  for (std::size_t i = 0; i < waiting.size (); ++i)
+    {
+      std::size_t const at = find_in_flight (waiting[i]);
+      if (at != flight_.size ())
+        start_attempt (*flight_[at]);
+    }
   pump ();
+}
+
+bool
+dialogue_impl::exact (exchange_record_t const &record) LUMEX_NOEXCEPT
+{
+  return record.how == dialogue::correlation::by_key
+         || record.how == dialogue::correlation::by_reply_key;
+}
+
+bool
+dialogue_impl::late_holds (pindex::row_t const *row) const LUMEX_NOEXCEPT
+{
+  for (std::deque<pindex::row_t const *>::const_iterator it
+       = late_rows_.begin ();
+       it != late_rows_.end (); ++it)
+    if (*it == row)
+      return true;
+  return false;
 }
 
 bool
@@ -907,7 +1024,9 @@ dialogue_impl::accepts (exchange_record_t const &record,
     case dialogue::correlation::by_reply_key:
       return row != nullptr && row == record.reply_row;
     case dialogue::correlation::by_order:
-      return row == nullptr || !row->is_event;
+      // A late reply of a keyed row is no reply of a by_order row: the late
+      // note takes it.
+      return row == nullptr || (!row->is_event && !late_holds (row));
     case dialogue::correlation::custom:
       try
         {
@@ -937,28 +1056,204 @@ dialogue_impl::handle_frame (link_frame_t &frame)
           frame.data (), frame.size ()));
   pindex::row_t const *const row = found.row;
   std::exception_ptr thrown;
-  for (std::size_t i = 0; i < flight_.size (); ++i)
-    if (flight_[i]->awaiting && accepts (*flight_[i], row, frame, thrown))
-      {
-        dialogue_counters_t::bump (counters_.replies);
-        finish_in_flight (i, std::error_code (), std::move (frame));
-        pump ();
-        if (thrown)
-          std::rethrow_exception (thrown);
-        return;
-      }
+  if (row != nullptr)
+    unknown_burst_ = false;
+  // An exact match (by_key, by_reply_key) first, then the exchanges that
+  // take a frame by their own rule (custom, by_order): a reply never goes to
+  // an earlier exchange that would accept anything.
+  for (int pass = 0; pass < 2; ++pass)
+    for (std::size_t i = 0; i < flight_.size (); ++i)
+      if (flight_[i]->awaiting && exact (*flight_[i]) == (pass == 0)
+          && accepts (*flight_[i], row, frame, thrown))
+        {
+          dialogue_counters_t::bump (counters_.replies);
+          apply_reply (i, frame);
+          if (thrown)
+            std::rethrow_exception (thrown);
+          return;
+        }
+  std::vector<handler_ptr> handlers;
   if (window_open_ && (row == nullptr || !row->is_event))
-    dialogue_counters_t::bump (counters_.late_replies);
+    {
+      dialogue_counters_t::bump (counters_.late_replies);
+      LUMEX_TRANSPORT_LOG (debug, kcomponent, name_.c_str (),
+                           "dropped a late reply", log::log_bytes_t ());
+    }
   else if (row != nullptr && take_late (row))
-    dialogue_counters_t::bump (counters_.late_replies);
+    {
+      dialogue_counters_t::bump (counters_.late_replies);
+      LUMEX_TRANSPORT_LOG (debug, kcomponent, name_.c_str (),
+                           "dropped a late reply", log::log_bytes_t ());
+    }
   else if (row == nullptr)
-    dialogue_counters_t::bump (counters_.unknown_frames);
-  else if (row->is_event)
-    dialogue_counters_t::bump (counters_.events);
+    {
+      dialogue_counters_t::bump (counters_.unknown_frames);
+      // One warning per burst of unknown frames (a burst ends with the next
+      // known frame): a device that sends noise for ever hides the rest of
+      // the log otherwise.
+      if (unknown_burst_)
+        LUMEX_TRANSPORT_LOG (
+            debug, kcomponent, name_.c_str (),
+            "a frame of no row: "
+                + describe (frame, pindex::frame_direction::rx),
+            log::log_bytes_t ());
+      else
+        LUMEX_TRANSPORT_LOG (
+            warning, kcomponent, name_.c_str (),
+            "a frame of no row: "
+                + describe (frame, pindex::frame_direction::rx),
+            log::log_bytes_t ());
+      unknown_burst_ = true;
+      handlers = unknown_handlers ();
+    }
   else
-    dialogue_counters_t::bump (counters_.unexpected_replies);
+    {
+      dialogue_counters_t::bump (row->is_event ? counters_.events
+                                               : counters_.unexpected_replies);
+      handlers = subscribers_of (row);
+    }
+  // The handlers run last, with the frame counted: one that throws or
+  // destroys the dialogue leaves the engine as it is; the others run too.
+  for (std::size_t i = 0; i < handlers.size (); ++i)
+    try
+      {
+        (*handlers[i]) (frame);
+      }
+    catch (...)
+      {
+        if (!thrown)
+          thrown = std::current_exception ();
+      }
   if (thrown)
     std::rethrow_exception (thrown);
+}
+
+// A frame that answers flight_[at], by the reader of its reply kind.
+void
+dialogue_impl::apply_reply (std::size_t at, link_frame_t &frame)
+{
+  exchange_record_t &record = *flight_[at];
+  if (record.reader == nullptr)
+    {
+      finish_in_flight (at, std::error_code (), std::move (frame));
+      pump ();
+      return;
+    }
+  reply_reading_t reading;
+  try
+    {
+      ::lumex::core::protocol::field::decode_context_t const context
+          = session_.decode_context ();
+      reading = record.reader (
+          ::lumex::core::protocol::layout::bytes_view_t (frame.data (),
+                                                         frame.size ()),
+          &context,
+          ::lumex::core::protocol::layout::bytes_view_t (
+              record.message->data (), record.message->size ()));
+    }
+  catch (...)
+    {
+      reading.effect = reply_effect::fail;
+      reading.error = make_error_code (std::errc::not_enough_memory);
+    }
+  switch (reading.effect)
+    {
+    case reply_effect::complete:
+      finish_in_flight (at, std::error_code (), std::move (frame));
+      pump ();
+      return;
+    case reply_effect::more:
+      // The acknowledgement of a two-phase row: the completion comes later,
+      // within a timeout of its own.
+      record.acknowledged = true;
+      arm_timer (record);
+      return;
+    case reply_effect::nak:
+      dialogue_counters_t::bump (counters_.naks);
+      record.awaiting = false;
+      record.timer.cancel ();
+      LUMEX_TRANSPORT_LOG (info, kcomponent, name_.c_str (),
+                           "a NAK to " + row_name (record.row) + " (attempt "
+                               + std::to_string (record.attempts) + ")",
+                           log::log_bytes_t ());
+      next_attempt (at, protocol_errc::nak);
+      return;
+    default:
+      LUMEX_TRANSPORT_LOG (
+          warning, kcomponent, name_.c_str (),
+          row_name (record.row) + " failed: " + reading.error.message ()
+              + "; sent: "
+              + describe (*record.message, pindex::frame_direction::tx)
+              + "; got: " + describe (frame, pindex::frame_direction::rx),
+          log::log_bytes_t ());
+      finish_in_flight (at, reading.error, std::move (frame));
+      pump ();
+      return;
+    }
+}
+
+std::vector<dialogue_impl::handler_ptr>
+dialogue_impl::subscribers_of (pindex::row_t const *row) const
+{
+  std::vector<handler_ptr> found;
+  std::lock_guard<std::mutex> const lock (handlers_mutex_);
+  for (std::size_t i = 0; i < subscribers_.size (); ++i)
+    if (subscribers_[i].row == row)
+      found.push_back (subscribers_[i].handler);
+  return found;
+}
+
+std::vector<dialogue_impl::handler_ptr>
+dialogue_impl::unknown_handlers () const
+{
+  std::vector<handler_ptr> found;
+  std::lock_guard<std::mutex> const lock (handlers_mutex_);
+  if (unknown_)
+    found.push_back (unknown_);
+  return found;
+}
+
+subscription_t
+dialogue_impl::subscribe (pindex::row_t const *row, frame_handler_t handler)
+{
+  subscription_t made;
+  pindex::row_t const *const own
+      = row != nullptr ? index_->find_name (row->entry->identifier) : nullptr;
+  if (own == nullptr || !handler)
+    return made;
+  subscriber_t added;
+  added.id = next_subscription_.fetch_add (1, std::memory_order_relaxed) + 1;
+  added.row = own;
+  added.handler
+      = std::make_shared<frame_handler_t const> (std::move (handler));
+  std::lock_guard<std::mutex> const lock (handlers_mutex_);
+  subscribers_.push_back (added);
+  made.id = added.id;
+  return made;
+}
+
+bool
+dialogue_impl::unsubscribe (subscription_t subscription)
+{
+  std::lock_guard<std::mutex> const lock (handlers_mutex_);
+  for (std::vector<subscriber_t>::iterator it = subscribers_.begin ();
+       it != subscribers_.end (); ++it)
+    if (it->id == subscription.id)
+      {
+        subscribers_.erase (it);
+        return true;
+      }
+  return false;
+}
+
+void
+dialogue_impl::set_unknown_handler (frame_handler_t handler)
+{
+  handler_ptr const made
+      = handler ? std::make_shared<frame_handler_t const> (std::move (handler))
+                : handler_ptr ();
+  std::lock_guard<std::mutex> const lock (handlers_mutex_);
+  unknown_ = made;
 }
 
 void
@@ -973,6 +1268,9 @@ dialogue_impl::read_done (std::uint64_t generation, std::error_code error,
       // The next read first: a frame whose handling throws must not stop
       // the reading.
       start_reading ();
+      LUMEX_TRANSPORT_LOG (debug, kcomponent, name_.c_str (),
+                           describe (frame, pindex::frame_direction::rx),
+                           log::log_bytes_t (frame.data (), frame.size ()));
       handle_frame (frame);
       return;
     }
@@ -1039,8 +1337,16 @@ dialogue_impl::run_close ()
   window_open_ = false;
   window_timer_.cancel ();
   end_all (make_error_code (transport_errc::cancelled), false);
-  late_rows_.clear ();
   link_.close ();
+  // A closed dialogue calls no handler any more; they die here, outside the
+  // lock (one may own the owner of the dialogue).
+  std::vector<subscriber_t> subscribers;
+  handler_ptr unknown;
+  {
+    std::lock_guard<std::mutex> const lock (handlers_mutex_);
+    subscribers.swap (subscribers_);
+    unknown.swap (unknown_);
+  }
 }
 
 void
@@ -1056,6 +1362,9 @@ dialogue_impl::run_cancel_exchange (std::uint64_t id,
         record_ptr record (std::move (*it));
         queue_.erase (it);
         finish (std::move (record), cancelled, link_frame_t ());
+        // The head of the queue may have held the others back (a by_order
+        // exchange waits for an empty flight).
+        pump ();
         return;
       }
   std::size_t const at = find_in_flight (id);

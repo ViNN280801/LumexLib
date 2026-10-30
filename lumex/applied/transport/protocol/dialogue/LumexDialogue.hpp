@@ -48,8 +48,13 @@
  * by the correlation of its row: `by_key` (a frame of the row), `by_reply_key`
  * (a frame of the reply row), `by_order` (the next frame that is no event;
  * such an exchange is alone in flight, nothing else is written meanwhile),
- * `custom` (a frame the matcher accepts). Frames that answer no exchange
- * are counted: as late replies, unexpected replies, events or unknown frames.
+ * `custom` (a frame the matcher accepts). A frame goes first to the
+ * exchanges with an exact match (`by_key`, `by_reply_key`), in the order
+ * they were started, and only then to the `custom` and `by_order` ones: an
+ * exact match never loses its reply to an earlier exchange that would take
+ * anything. A `by_order` exchange does not take a frame of a row whose late
+ * reply is still expected (see below). Frames that answer no exchange are
+ * counted: as late replies, unexpected replies, events or unknown frames.
  * A row without a reply ends its exchange when the write ends.
  *
  * At most `max_in_flight` exchanges wait for their reply; the others wait in
@@ -60,8 +65,12 @@
  * while the policy allows (`retries`, then `extra_retries`). The exchange
  * then ends with `protocol_errc::timeout` when it had one attempt and with
  * `protocol_errc::retries_exhausted` when it had more. A write that fails
- * ends the exchange with its error; a read of the link that fails ends the
- * exchanges in flight with `protocol_errc::link_lost`.
+ * ends the exchange with its error (a write the link refuses at once, out of
+ * memory, with `std::errc::not_enough_memory`); a read of the link that
+ * fails ends the exchanges in flight with `protocol_errc::link_lost`, and the
+ * queued ones start (their writes then fail the same way). A read of a
+ * link that is still open ending with `cancelled` only restarts the
+ * reading.
  *
  * Late replies. A frame of the row of an attempt that timed out or was
  * cancelled (`by_key`, `by_reply_key`) that answers no exchange is counted
@@ -251,6 +260,30 @@ public:
    */
   ::lumex::core::protocol::index::session_context_t &session ();
   ::lumex::core::protocol::index::session_context_t const &session () const;
+
+  /**
+   * @brief Calls `handler` with every frame of `row` that answers no
+   * exchange (an event of a `stream` row, a report the device sends by
+   * itself), on the strand of the dialogue, in the order of the frames.
+   * @details Any thread; the subscription acts on the frames that come after
+   * the call. A late reply is never handed over. The handler may call the
+   * dialogue (also destroy it); if it throws, the other handlers of the
+   * frame still run and the exception then leaves the `run ()` of the
+   * executor. `close ()` and the destruction drop every handler.
+   * @return The subscription; an id of 0 for a row the index of the dialogue
+   * has not, an empty handler or a moved-from dialogue.
+   */
+  subscription_t subscribe (::lumex::core::protocol::index::row_t const *row,
+                            frame_handler_t handler);
+
+  /// @brief Ends `subscription` (any thread); false when it was not one.
+  /// A frame being handed over may still reach the handler.
+  bool unsubscribe (subscription_t subscription);
+
+  /// @brief Calls `handler` with every frame whose key matches no row of the
+  /// index (also logged at warning), with the rules of `subscribe`; an empty
+  /// handler removes it.
+  void on_unknown (frame_handler_t handler);
 
   /// @brief A snapshot of the counters (any thread; zeros when moved from).
   dialogue_statistics_t statistics () const LUMEX_NOEXCEPT;

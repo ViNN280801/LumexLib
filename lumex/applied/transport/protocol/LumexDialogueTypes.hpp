@@ -41,8 +41,9 @@
  * @file LumexDialogueTypes.hpp
  * @brief The types of the dialogue engine of `applied/transport/protocol`:
  * the reply frame and the completion of an exchange, the retry policy, the
- * options and the statistics of a `dialogue_engine`, and `exchange_t`, what
- * one request needs.
+ * options and the statistics of a `dialogue_engine`, the verdict of a reply
+ * reader, the handler of unsolicited frames, and `exchange_t`, what one
+ * request needs.
  * @details An exchange is one request written to a `frame_link` and the
  * frame that answers it, matched by the correlation of its row
  * (`dialogue::correlation`). The engine works on the run-time index of a
@@ -65,6 +66,7 @@
 #include "lumex/applied/transport/timing/LumexTimerSource.hpp"
 #include "lumex/core/protocol/index/LumexProtocolIndex.hpp"
 #include "lumex/core/protocol/index/LumexProtocolSession.hpp"
+#include "lumex/core/protocol/layout/LumexProtocolLayoutBase.hpp"
 
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -80,7 +82,8 @@ namespace transport
 namespace protocol
 {
 /// @brief The frame that answered an exchange: the codec payload, a whole
-/// message of the protocol (empty for a row without a reply).
+/// message of the protocol (empty for a row without a reply). The same type
+/// as `link_frame_t` of the link underneath.
 using reply_frame_t = std::vector<std::uint8_t>;
 
 /// @brief The completion of an exchange.
@@ -97,9 +100,11 @@ using exchange_handler_t = asio::any_completion_handler<exchange_signature_t>;
  * @details The engine calls it on its strand each time the attempts run out,
  * so it must return 0 at some point (a device that initializes: more
  * attempts while the session says it initializes). It may keep state: the
- * engine calls the one object of its policy. If it throws, the exchange ends
- * with `retries_exhausted` and the exception leaves the `run ()` of the
- * executor.
+ * engine calls the one object of its policy, on the strand of the dialogue;
+ * one policy shared by dialogues on different strands is called from their
+ * threads at once, so its state then needs its own lock. If it throws, the
+ * exchange ends as one granted no more attempts (`retries_exhausted`, or
+ * `nak` after a NAK) and the exception leaves the `run ()` of the executor.
  */
 using extra_retries_t = std::function<std::uint32_t (
     ::lumex::core::protocol::index::session_context_t const &session,
@@ -182,6 +187,55 @@ struct dialogue_statistics_t
   std::size_t max_queued = 0;
 };
 
+/// @brief What a reply frame does to its exchange, as the reader of the
+/// reply kind of the row says (`reply_reading_t`).
+enum class reply_effect : std::uint8_t
+{
+  /// The exchange ends with the frame.
+  complete,
+  /// The exchange ends with `reply_reading_t::error` (`refused`,
+  /// `not_confirmed`, `unexpected_reply`, a decoding error).
+  fail,
+  /// A negative acknowledgement: the attempt is over; the request is sent
+  /// again while the policy allows (as after a timeout), else the exchange
+  /// ends with `protocol_errc::nak`.
+  nak,
+  /// The first phase of `two_phase`: the exchange waits for its completion,
+  /// with a fresh timeout and without retries (the device has the request).
+  more
+};
+
+/// @brief The verdict of a reply reader on one frame.
+struct reply_reading_t
+{
+  /// What the frame does.
+  reply_effect effect = reply_effect::complete;
+  /// The error of `reply_effect::fail`.
+  std::error_code error;
+};
+
+/**
+ * @brief Reads a frame that answers an exchange by the reply kind of its row
+ * (`dialogue::reply_reader_of<P, Row> ()` gives it): the frame, the session
+ * values of the decoders and the request message (for an echo).
+ */
+using reply_reader_t = reply_reading_t (*) (
+    ::lumex::core::protocol::layout::bytes_view_t message,
+    ::lumex::core::protocol::field::decode_context_t const *context,
+    ::lumex::core::protocol::layout::bytes_view_t request);
+
+/// @brief Receives a frame that answered no exchange: a frame of a
+/// subscribed row (`dialogue_engine::subscribe`), or a frame whose key
+/// matches no row (`dialogue_engine::on_unknown`).
+using frame_handler_t = std::function<void (reply_frame_t const &frame)>;
+
+/// @brief A subscription of `dialogue_engine::subscribe` (0: none).
+struct subscription_t
+{
+  /// The number of the subscription, 0 when it was refused.
+  std::uint64_t id = 0;
+};
+
 /**
  * @brief What one request needs: the message, its row and how its reply is
  * recognised.
@@ -209,6 +263,10 @@ struct exchange_t
   /// The policy; empty takes `dialogue_options_t::defaults`. One object may
   /// serve many exchanges (its `extra_retries` is called, never copied).
   std::shared_ptr<retry_policy_t const> policy;
+  /// The reader of the reply kind of the row
+  /// (`dialogue::reply_reader_of<P, Row> ()`); null takes the frame as the
+  /// reply as it is.
+  reply_reader_t reader = nullptr;
 };
 } // namespace protocol
 } // namespace transport
