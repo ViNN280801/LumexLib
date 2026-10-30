@@ -75,8 +75,8 @@ namespace error
  * and layouts, no I/O), 100 and up the codes of the dialogue (an exchange
  * with a device: `timeout`, `retries_exhausted`, `nak`, `refused`,
  * `unexpected_reply`, `not_accepted_in_state`, `link_lost`,
- * `not_confirmed`). New codes are appended to their block; the values of
- * the existing ones never change.
+ * `not_confirmed`, `queue_full`). New codes are appended to their block; the
+ * values of the existing ones never change.
  */
 enum class protocol_errc : int
 {
@@ -125,7 +125,9 @@ enum class protocol_errc : int
   /// The link to the device was lost during the exchange.
   link_lost = 106,
   /// The device did not confirm the value it was sent (its echo differs).
-  not_confirmed = 107
+  not_confirmed = 107,
+  /// The request queue of the dialogue is full: the request was not sent.
+  queue_full = 108
 };
 
 /**

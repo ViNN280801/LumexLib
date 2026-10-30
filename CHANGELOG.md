@@ -228,6 +228,14 @@
 
 **Проверено:** Linux, GCC 13 и Clang 23 (`LUMEX_WERROR=ON`, 0 предупреждений), GCC 8.3 C++11: наборы `transport` и `protocol` проходят (одно прежнее падение `cmake.build_info_report`), `cmake.dialogue_compile_checks` (37 случаев) и `protocol_compile_checks` (49) на C++11 и C++20, строгие потребители транспорта и протокола; ASan+UBSan без сообщений; мутации пойманы.
 
+##### Движок диалога (`applied/transport/protocol`)
+
+**Файлы:** `lumex/applied/transport/protocol/` (новые: `LumexDialogueTypes.hpp`, `LumexTransportProtocol.hpp`, `link/LumexFrameLink.hpp`, `.cpp`, `dialogue/LumexDialogue.hpp`, `.cpp`, `dialogue/detail/LumexDialogueImpl.hpp`, `.cpp`), `dsl/LumexDialogueVocabulary.hpp`, `LumexTransport`, `CMakeLists.txt`, `README.md`, `lumex/core/protocol/error/LumexProtocolErrc.hpp`, `.cpp`, `lumex/core/protocol/README.md`, `cmake/LumexOptions.cmake`, `conanfile.py`, `lumex/tests/applied/transport/protocol/`, `lumex/tests/core/protocol/error/`, `lumex/tests/cmake/`.
+
+**Суть:** `dialogue_engine` пишет запросы через `frame_link` (над `framed_stream` или `framed_datagram` с номером отчета, или своей реализацией `frame_link_impl`) и сопоставляет ответы по `by_key`, `by_reply_key`, `by_order` или своим правилом `matcher`; очередь с границей (переполнение дает новый код `protocol_errc::queue_full` = 108), предел запросов в полете, тайм-ауты на источнике таймеров, повторы по `retry_policy_t` и `extra_retries` по контексту сессии, опоздавшие ответы (`by_key`: отбрасываются и считаются, `by_order`: окно `late_reply_window_ms`), `cancel`, `close`, отмена одного обмена через его слот, счетчики `dialogue_statistics_t`. Обработчики вызываются через strand, ровно один раз и не изнутри вызова; уничтожение движка равно `close` и не блокирует. `dialogue::decode_reply_kind` разбирает ответ вида ответа так же, как его описывает `describe`. Слой собирается с модулями `protocol` и `framing` (`LUMEX_TRANSPORT_WITH_PROTOCOL`).
+
+**Проверено:** Linux, GCC 13 и Clang 23 (`LUMEX_WERROR=ON`, 0 предупреждений), GCC 8.3 C++11: наборы `transport`, `protocol`, `cmake` и `lint` проходят (одно прежнее падение `cmake.build_info_report`), строгие потребители транспорта и протокола, `wiring_transport_protocol`; ASan+UBSan и TSan наборов `transport.protocol` (и x20) без сообщений; MinGW компилирует новые `.cpp`; мутации пойманы (43 из 44, оставшаяся эквивалентна).
+
 #### Исправлено
 
 ##### `LumexFilesystem`: пути не в ASCII на Windows

@@ -121,6 +121,8 @@ public:
         return "the link to the device was lost";
       case static_cast<int> (protocol_errc::not_confirmed):
         return "the device did not confirm the value it was sent";
+      case static_cast<int> (protocol_errc::queue_full):
+        return "the request queue is full";
       default:
         return "unknown protocol error";
       }

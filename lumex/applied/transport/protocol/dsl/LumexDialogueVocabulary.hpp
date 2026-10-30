@@ -90,9 +90,11 @@
 #include <cstddef>
 #include <cstdint>
 #include <cstdio>
+#include <cstring>
 #include <string>
 #include <system_error>
 #include <type_traits>
+#include <utility>
 
 #include "lumex/core/protocol/dsl/LumexProtocolOptions.hpp"
 #include "lumex/core/protocol/dsl/LumexProtocolRow.hpp"
@@ -104,6 +106,7 @@
 #include "lumex/core/protocol/index/LumexProtocolFormat.hpp"
 #include "lumex/core/protocol/index/LumexProtocolIndex.hpp"
 #include "lumex/core/protocol/layout/LumexProtocolCodec.hpp"
+#include "lumex/core/protocol/layout/LumexProtocolMessage.hpp"
 #include "lumex/core/protocol/registry/LumexProtocolRegistryFields.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 
@@ -367,16 +370,16 @@ append_part (std::string &out, char const *word,
     }
 }
 
-// A part of a reply kind describes the payload when the payload is that
-// part; a row is another message, so the payload of Row is never it.
+// A part of a reply kind as the reply message of Row: a field part decodes
+// the fields after the key of Row; a row part is another message with a key
+// of its own, so the fields of Row are never it.
 template <typename P, typename Row, typename T,
           int Form = part_form_t<T>::value>
-struct part_describer_t
+struct part_decoder_t
 {
   static std::error_code
   apply (layout::bytes_view_t, field::decode_context_t const *,
-         index::describe_options_t const &, std::string &, char const *,
-         char const *)
+         typename part_value_t<T>::type &)
   {
     return ::lumex::core::protocol::error::make_error_code (
         ::lumex::core::protocol::error::protocol_errc::unexpected_reply);
@@ -384,45 +387,124 @@ struct part_describer_t
 };
 
 template <typename P, typename Row, typename T>
-struct part_describer_t<P, Row, T, 0>
+struct part_decoder_t<P, Row, T, 0>
 {
   using part = typename part_type_t<T>::type;
 
   static std::error_code
-  apply (layout::bytes_view_t payload, field::decode_context_t const *context,
-         index::describe_options_t const &options, std::string &out,
-         char const *word, char const *label)
+  apply (layout::bytes_view_t fields, field::decode_context_t const *context,
+         typename part_value_t<T>::type &out)
   {
-    layout::decode_result_t<typename field::value_of<part>::type> const decoded
-        = layout::decode_reply<P, as_reply_t<Row, part>> (payload, context);
+    layout::decode_result_t<typename field::value_of<part>::type> decoded
+        = layout::decode_reply<P, as_reply_t<Row, part>> (fields, context);
     if (!decoded)
       return decoded.error ();
-    append_part<part> (out, word, *decoded, options, label);
+    out = std::move (*decoded);
     return std::error_code ();
   }
 };
 
-// The first of two parts the payload is; the error of the last field part
-// tried when it is none (unexpected_reply when both are rows).
+// The first of two parts the fields are (`which` 0 or 1); the error of the
+// last field part tried when they are neither (unexpected_reply when both
+// are rows).
 template <typename P, typename Row, typename A, typename B>
 std::error_code
-describe_either (layout::bytes_view_t payload,
-                 field::decode_context_t const *context,
-                 index::describe_options_t const &options, std::string &out,
-                 char const *word_a, char const *label_a, char const *word_b,
-                 char const *label_b)
+decode_either (layout::bytes_view_t fields,
+               field::decode_context_t const *context, int &which,
+               typename part_value_t<A>::type &first,
+               typename part_value_t<B>::type &second)
 {
-  std::error_code const first = part_describer_t<P, Row, A>::apply (
-      payload, context, options, out, word_a, label_a);
-  if (!first)
-    return std::error_code ();
-  std::error_code const second = part_describer_t<P, Row, B>::apply (
-      payload, context, options, out, word_b, label_b);
-  if (!second)
-    return std::error_code ();
-  return part_form_t<B>::value == 1 ? std::error_code (first)
-                                    : std::error_code (second);
+  std::error_code const tried_a
+      = part_decoder_t<P, Row, A>::apply (fields, context, first);
+  if (!tried_a)
+    {
+      which = 0;
+      return std::error_code ();
+    }
+  std::error_code const tried_b
+      = part_decoder_t<P, Row, B>::apply (fields, context, second);
+  if (!tried_b)
+    {
+      which = 1;
+      return std::error_code ();
+    }
+  return part_form_t<B>::value == 1 ? std::error_code (tried_a)
+                                    : std::error_code (tried_b);
 }
+
+// A part as another message: whether the row the index found for a message
+// is the part (by identifier), and the value of that message.
+template <typename P, typename T, int Form = part_form_t<T>::value>
+struct row_part_t
+{
+  static bool
+  is (index::row_t const &) LUMEX_NOEXCEPT
+  {
+    return false;
+  }
+
+  static std::error_code
+  apply (layout::bytes_view_t, field::decode_context_t const *,
+         typename part_value_t<T>::type &)
+  {
+    return ::lumex::core::protocol::error::make_error_code (
+        ::lumex::core::protocol::error::protocol_errc::unexpected_reply);
+  }
+};
+
+template <typename P, typename T> struct row_part_t<P, T, 1>
+{
+  static bool
+  is (index::row_t const &row) LUMEX_NOEXCEPT
+  {
+    return std::strcmp (row.entry->identifier, T::identifier ()) == 0;
+  }
+
+  static std::error_code
+  apply (layout::bytes_view_t message, field::decode_context_t const *context,
+         typename part_value_t<T>::type &out)
+  {
+    layout::decode_result_t<typename layout::reply_message_of<T>::type> decoded
+        = layout::decode_reply_message<P, T> (message, context);
+    if (!decoded)
+      return decoded.error ();
+    out = std::move (*decoded);
+    return std::error_code ();
+  }
+};
+
+// The word of a part and its fields; a row part (never the fields of the
+// row itself) has the word alone.
+template <typename T, int Form = part_form_t<T>::value> struct part_writer_t
+{
+  static void
+  apply (std::string &out, char const *word,
+         typename part_value_t<T>::type const &,
+         index::describe_options_t const &, char const *)
+  {
+    out += word;
+  }
+};
+
+template <typename T> struct part_writer_t<T, 0>
+{
+  static void
+  apply (std::string &out, char const *word,
+         typename part_value_t<T>::type const &value,
+         index::describe_options_t const &options, char const *label)
+  {
+    append_part<typename part_type_t<T>::type> (out, word, value, options,
+                                                label);
+  }
+};
+
+// The describe hook of every reply kind of the dialogue: the classification
+// of decode_reply_fields, written as the log line (defined after the kinds).
+template <typename P, typename Row>
+std::error_code describe_reply_kind (layout::bytes_view_t payload,
+                                     field::decode_context_t const *context,
+                                     index::describe_options_t const &options,
+                                     std::string &out);
 
 // Whether a value is zero: a number, a flag, an enumeration or a scaled
 // number by its raw value; known is false for any other value.
@@ -496,26 +578,6 @@ struct zero_known_t : zero_test_t<typename field::value_of<T>::type>::known
 template <typename T> struct zero_known_t<T, false> : std::false_type
 {
 };
-
-// The echo of a value: ECHO, or REFUSED for a zero when ZeroRefuses.
-template <typename P, typename Row, typename T, bool ZeroRefuses>
-std::error_code
-describe_echo (layout::bytes_view_t payload,
-               field::decode_context_t const *context,
-               index::describe_options_t const &options, std::string &out)
-{
-  using part = typename field::resolve<T>::type;
-  using value_type = typename field::value_of<part>::type;
-  layout::decode_result_t<value_type> const decoded
-      = layout::decode_reply<P, as_reply_t<Row, part>> (payload, context);
-  if (!decoded)
-    return decoded.error ();
-  bool const refused
-      = ZeroRefuses && zero_test_t<value_type>::apply (*decoded);
-  append_part<part> (out, refused ? "REFUSED" : "ECHO", *decoded, options,
-                     "value");
-  return std::error_code ();
-}
 } // namespace detail
 
 /**
@@ -568,8 +630,8 @@ template <typename Ack, typename Nak> struct ack_nak_t
       ::lumex::core::protocol::index::describe_options_t const &options,
       std::string &out)
   {
-    return detail::describe_either<P, Row, Ack, Nak> (
-        payload, context, options, out, "ACK", "value", "NAK", "code");
+    return detail::describe_reply_kind<P, Row> (payload, context, options,
+                                                out);
   }
 
   /// @brief The kind and its parts for the export.
@@ -624,8 +686,8 @@ template <typename Ack, typename Completion> struct two_phase_t
       ::lumex::core::protocol::index::describe_options_t const &options,
       std::string &out)
   {
-    return detail::describe_either<P, Row, Ack, Completion> (
-        payload, context, options, out, "ACK", "value", "COMPLETION", "value");
+    return detail::describe_reply_kind<P, Row> (payload, context, options,
+                                                out);
   }
 
   /// @brief The kind and its parts for the export.
@@ -668,8 +730,8 @@ template <typename T> struct echo_set_t
       ::lumex::core::protocol::index::describe_options_t const &options,
       std::string &out)
   {
-    return detail::describe_echo<P, Row, T, false> (payload, context, options,
-                                                    out);
+    return detail::describe_reply_kind<P, Row> (payload, context, options,
+                                                out);
   }
 
   /// @brief The kind and its echo for the export.
@@ -713,8 +775,8 @@ template <typename T> struct echo_zero_on_error_t
       ::lumex::core::protocol::index::describe_options_t const &options,
       std::string &out)
   {
-    return detail::describe_echo<P, Row, T, true> (payload, context, options,
-                                                   out);
+    return detail::describe_reply_kind<P, Row> (payload, context, options,
+                                                out);
   }
 
   /// @brief The kind and its echo for the export.
@@ -757,8 +819,8 @@ template <typename T> struct state_instead_of_refusal_t
       ::lumex::core::protocol::index::describe_options_t const &options,
       std::string &out)
   {
-    return detail::describe_echo<P, Row, T, false> (payload, context, options,
-                                                    out);
+    return detail::describe_reply_kind<P, Row> (payload, context, options,
+                                                out);
   }
 
   /// @brief The kind and its echo for the export.
@@ -770,6 +832,354 @@ template <typename T> struct state_instead_of_refusal_t
     return text.c_str ();
   }
 };
+
+/// @brief Which part of a reply kind a reply message is; the names are the
+/// words `describe` writes (`reply_part_name`).
+enum class reply_part : std::uint8_t
+{
+  /// The positive acknowledgement of `ack_nak`, the acknowledgement of
+  /// `two_phase` (`ACK`).
+  ack,
+  /// The negative acknowledgement of `ack_nak` (`NAK`).
+  nak,
+  /// The completion of `two_phase` (`COMPLETION`).
+  completion,
+  /// The echo of `echo_set`, `echo_zero_on_error` and
+  /// `state_instead_of_refusal` (`ECHO`).
+  echo,
+  /// The zero echo of `echo_zero_on_error` (`REFUSED`).
+  refused
+};
+
+/// @brief The word of a part (`"NAK"`), `"unknown"` for a value outside the
+/// enumeration.
+LUMEX_CONSTEXPR inline char const *
+reply_part_name (reply_part part) LUMEX_NOEXCEPT
+{
+  return part == reply_part::ack          ? "ACK"
+         : part == reply_part::nak        ? "NAK"
+         : part == reply_part::completion ? "COMPLETION"
+         : part == reply_part::echo       ? "ECHO"
+         : part == reply_part::refused    ? "REFUSED"
+                                          : "unknown";
+}
+
+/**
+ * @brief `decoded_reply_t<Reply>`: a reply message of the reply kind
+ * `Reply`, classified by `decode_reply_kind`: the part it is and the value
+ * of that part (the member of the other part keeps its default value).
+ * @details A part that is a row of the protocol has the value of that row's
+ * message (`field::record<>` for a row without a reply).
+ */
+template <typename Reply> struct decoded_reply_t;
+
+/// @brief A reply of `ack_nak<Ack, Nak>`: `ack` or `nak`.
+template <typename Ack, typename Nak>
+struct decoded_reply_t<ack_nak_t<Ack, Nak>>
+{
+  /// `reply_part::ack` or `reply_part::nak`.
+  reply_part part = reply_part::ack;
+  /// The value of the ACK (when `part` is `ack`).
+  typename ack_nak_t<Ack, Nak>::value_type ack;
+  /// The value of the NAK (when `part` is `nak`).
+  typename ack_nak_t<Ack, Nak>::nak_value_type nak;
+};
+
+/// @brief A reply of `two_phase<Ack, Completion>`: `ack` or `completion`.
+template <typename Ack, typename Completion>
+struct decoded_reply_t<two_phase_t<Ack, Completion>>
+{
+  /// `reply_part::ack` or `reply_part::completion`.
+  reply_part part = reply_part::ack;
+  /// The value of the acknowledgement (when `part` is `ack`).
+  typename two_phase_t<Ack, Completion>::ack_value_type ack;
+  /// The value of the completion (when `part` is `completion`).
+  typename two_phase_t<Ack, Completion>::value_type completion;
+};
+
+/// @brief A reply of `echo_set<T>`: `echo`.
+template <typename T> struct decoded_reply_t<echo_set_t<T>>
+{
+  /// `reply_part::echo`.
+  reply_part part = reply_part::echo;
+  /// The value the device echoed.
+  typename echo_set_t<T>::value_type value;
+};
+
+/// @brief A reply of `echo_zero_on_error<T>`: `echo`, or `refused` for a
+/// zero.
+template <typename T> struct decoded_reply_t<echo_zero_on_error_t<T>>
+{
+  /// `reply_part::echo` or `reply_part::refused`.
+  reply_part part = reply_part::echo;
+  /// The value the device echoed (zero when refused).
+  typename echo_zero_on_error_t<T>::value_type value;
+};
+
+/// @brief A reply of `state_instead_of_refusal<T>`: `echo` (whether it is the
+/// value sent or the state instead of a refusal, only the request tells).
+template <typename T> struct decoded_reply_t<state_instead_of_refusal_t<T>>
+{
+  /// `reply_part::echo`.
+  reply_part part = reply_part::echo;
+  /// The value the device sent: the echo or its state.
+  typename state_instead_of_refusal_t<T>::value_type value;
+};
+
+namespace detail
+{
+// How each reply kind of the dialogue classifies a message and writes it.
+template <typename P, typename Row, typename Reply = typename Row::reply_type>
+struct kind_codec_t
+{
+  static_assert (dependent_false_t<Reply>::value,
+                 "decode_reply_kind<P, Row>: the reply of Row is not a reply "
+                 "kind of the dialogue (ack_nak, two_phase, echo_set, "
+                 "echo_zero_on_error, state_instead_of_refusal)");
+};
+
+template <typename P, typename Row, typename A, typename N>
+struct kind_codec_t<P, Row, ack_nak_t<A, N>>
+{
+  using result_type = decoded_reply_t<ack_nak_t<A, N>>;
+
+  static std::error_code
+  fields (layout::bytes_view_t fields, field::decode_context_t const *context,
+          result_type &out)
+  {
+    int which = 0;
+    std::error_code const error = decode_either<P, Row, A, N> (
+        fields, context, which, out.ack, out.nak);
+    out.part = which == 0 ? reply_part::ack : reply_part::nak;
+    return error;
+  }
+
+  static std::error_code
+  message (index::row_t const &row, layout::bytes_view_t message,
+           field::decode_context_t const *context, result_type &out)
+  {
+    if (row_part_t<P, A>::is (row))
+      {
+        out.part = reply_part::ack;
+        return row_part_t<P, A>::apply (message, context, out.ack);
+      }
+    if (row_part_t<P, N>::is (row))
+      {
+        out.part = reply_part::nak;
+        return row_part_t<P, N>::apply (message, context, out.nak);
+      }
+    return ::lumex::core::protocol::error::make_error_code (
+        ::lumex::core::protocol::error::protocol_errc::unexpected_reply);
+  }
+
+  static void
+  write (result_type const &decoded, index::describe_options_t const &options,
+         std::string &out)
+  {
+    if (decoded.part == reply_part::ack)
+      part_writer_t<A>::apply (out, "ACK", decoded.ack, options, "value");
+    else
+      part_writer_t<N>::apply (out, "NAK", decoded.nak, options, "code");
+  }
+};
+
+template <typename P, typename Row, typename A, typename C>
+struct kind_codec_t<P, Row, two_phase_t<A, C>>
+{
+  using result_type = decoded_reply_t<two_phase_t<A, C>>;
+
+  static std::error_code
+  fields (layout::bytes_view_t fields, field::decode_context_t const *context,
+          result_type &out)
+  {
+    int which = 0;
+    std::error_code const error = decode_either<P, Row, A, C> (
+        fields, context, which, out.ack, out.completion);
+    out.part = which == 0 ? reply_part::ack : reply_part::completion;
+    return error;
+  }
+
+  static std::error_code
+  message (index::row_t const &row, layout::bytes_view_t message,
+           field::decode_context_t const *context, result_type &out)
+  {
+    if (row_part_t<P, A>::is (row))
+      {
+        out.part = reply_part::ack;
+        return row_part_t<P, A>::apply (message, context, out.ack);
+      }
+    if (row_part_t<P, C>::is (row))
+      {
+        out.part = reply_part::completion;
+        return row_part_t<P, C>::apply (message, context, out.completion);
+      }
+    return ::lumex::core::protocol::error::make_error_code (
+        ::lumex::core::protocol::error::protocol_errc::unexpected_reply);
+  }
+
+  static void
+  write (result_type const &decoded, index::describe_options_t const &options,
+         std::string &out)
+  {
+    if (decoded.part == reply_part::ack)
+      part_writer_t<A>::apply (out, "ACK", decoded.ack, options, "value");
+    else
+      part_writer_t<C>::apply (out, "COMPLETION", decoded.completion, options,
+                               "value");
+  }
+};
+
+// The echo kinds: the fields of the row itself, never another message.
+template <typename P, typename Row, typename T, typename Reply,
+          bool ZeroRefuses>
+struct echo_codec_t
+{
+  using result_type = decoded_reply_t<Reply>;
+
+  static std::error_code
+  fields (layout::bytes_view_t fields, field::decode_context_t const *context,
+          result_type &out)
+  {
+    // One return of the one error: a header template returns no second
+    // object (Clang -Wnrvo).
+    std::error_code const error
+        = part_decoder_t<P, Row, T>::apply (fields, context, out.value);
+    if (!error)
+      out.part = ZeroRefuses
+                         && zero_test_t<typename Reply::value_type>::apply (
+                             out.value)
+                     ? reply_part::refused
+                     : reply_part::echo;
+    return error;
+  }
+
+  static std::error_code
+  message (index::row_t const &, layout::bytes_view_t,
+           field::decode_context_t const *, result_type &)
+  {
+    return ::lumex::core::protocol::error::make_error_code (
+        ::lumex::core::protocol::error::protocol_errc::unexpected_reply);
+  }
+
+  static void
+  write (result_type const &decoded, index::describe_options_t const &options,
+         std::string &out)
+  {
+    part_writer_t<T>::apply (out, reply_part_name (decoded.part),
+                             decoded.value, options, "value");
+  }
+};
+
+template <typename P, typename Row, typename T>
+struct kind_codec_t<P, Row, echo_set_t<T>>
+    : echo_codec_t<P, Row, T, echo_set_t<T>, false>
+{
+};
+
+template <typename P, typename Row, typename T>
+struct kind_codec_t<P, Row, echo_zero_on_error_t<T>>
+    : echo_codec_t<P, Row, T, echo_zero_on_error_t<T>, true>
+{
+};
+
+template <typename P, typename Row, typename T>
+struct kind_codec_t<P, Row, state_instead_of_refusal_t<T>>
+    : echo_codec_t<P, Row, T, state_instead_of_refusal_t<T>, false>
+{
+};
+} // namespace detail
+
+/**
+ * @brief Classifies the fields of a reply message of `Row` (the bytes after
+ * its header and its key, the payload the index describes) by the reply kind
+ * of the row: the first field part the whole payload decodes as wins; a part
+ * that is a row is another message and never matches here.
+ * @details The describe hooks of the reply kinds write exactly this
+ * classification, so the log line and the dialogue never read one reply two
+ * ways. `echo_zero_on_error` gives `refused` for a zero.
+ * @return The part and its value; the error of the last field part tried
+ * when the payload is no part (`unexpected_reply` when both parts are rows).
+ */
+template <typename P, typename Row>
+::lumex::core::protocol::layout::decode_result_t<
+    decoded_reply_t<typename Row::reply_type>>
+decode_reply_fields (
+    ::lumex::core::protocol::layout::bytes_view_t fields,
+    ::lumex::core::protocol::field::decode_context_t const *context = nullptr)
+{
+  using codec = detail::kind_codec_t<P, Row>;
+  typename codec::result_type decoded;
+  std::error_code const error = codec::fields (fields, context, decoded);
+  if (error)
+    return ::lumex::core::expected::error::unexpected<std::error_code> (error);
+  return ::lumex::core::protocol::layout::decode_result_t<
+      typename codec::result_type> (std::move (decoded));
+}
+
+/**
+ * @brief Classifies a whole reply message (the codec payload: header, key,
+ * fields) of `Row` of layer `P` by the reply kind of the row.
+ * @details The row of the message is the one the index of `P` matches
+ * (`index::protocol_index<P> ()`), compared by identifier: the key of `Row`
+ * itself gives the field parts (`decode_reply_fields`), the key of a row
+ * that is a part gives that part with the value of its message. The key of
+ * `Row` with both parts rows, and any other row, is `unexpected_reply`; a
+ * message whose key matches no row is `unknown_frame`.
+ * @return The part and its value, or the error.
+ */
+template <typename P, typename Row>
+::lumex::core::protocol::layout::decode_result_t<
+    decoded_reply_t<typename Row::reply_type>>
+decode_reply_kind (
+    ::lumex::core::protocol::layout::bytes_view_t message,
+    ::lumex::core::protocol::field::decode_context_t const *context = nullptr)
+{
+  using codec = detail::kind_codec_t<P, Row>;
+  ::lumex::core::protocol::index::index_result_t const &built
+      = ::lumex::core::protocol::index::protocol_index<P> ();
+  ::lumex::core::protocol::index::frame_match_t const found
+      = built.has_value ()
+            ? built->match (message)
+            : ::lumex::core::protocol::index::frame_match_t{
+                nullptr, false, ::lumex::core::protocol::dsl::key_value_t (), 0
+              };
+  if (found.row == nullptr)
+    return ::lumex::core::expected::error::unexpected<std::error_code> (
+        ::lumex::core::protocol::error::make_error_code (
+            ::lumex::core::protocol::error::protocol_errc::unknown_frame));
+  if (std::strcmp (found.row->entry->identifier, Row::identifier ()) == 0)
+    return decode_reply_fields<P, Row> (
+        message.subspan (found.payload_offset < message.size ()
+                             ? found.payload_offset
+                             : message.size ()),
+        context);
+  typename codec::result_type decoded;
+  std::error_code const error
+      = codec::message (*found.row, message, context, decoded);
+  if (error)
+    return ::lumex::core::expected::error::unexpected<std::error_code> (error);
+  return ::lumex::core::protocol::layout::decode_result_t<
+      typename codec::result_type> (std::move (decoded));
+}
+
+namespace detail
+{
+template <typename P, typename Row>
+std::error_code
+describe_reply_kind (layout::bytes_view_t payload,
+                     field::decode_context_t const *context,
+                     index::describe_options_t const &options,
+                     std::string &out)
+{
+  layout::decode_result_t<decoded_reply_t<typename Row::reply_type>> const
+      decoded
+      = decode_reply_fields<P, Row> (payload, context);
+  if (!decoded)
+    return decoded.error ();
+  kind_codec_t<P, Row>::write (*decoded, options, out);
+  return std::error_code ();
+}
+} // namespace detail
 
 /// @brief Row option `correlate (correlation::...)`: how the reply of the
 /// row is matched to it (the kind of `dsl::get_option<correlation_t>`).

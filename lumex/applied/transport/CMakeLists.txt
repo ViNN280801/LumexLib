@@ -31,10 +31,19 @@ if(NOT _transport_with_framing)
     list(FILTER SOURCES EXCLUDE REGEX "/framed/")
 endif()
 
-# The dialogue layer over the protocol tables (protocol/): for now its
-# header-only vocabulary (protocol/dsl), which needs core/protocol. Its
-# headers are installed only with that module.
+# The dialogue layer over the protocol tables (protocol/): its header-only
+# vocabulary (protocol/dsl), which needs core/protocol, and the engine
+# (frame_link, dialogue), which also needs the framed adapters. The engine is
+# compiled only when both modules are built, as the framed adapters are: no
+# required edge, the transport builds as before without them.
 lumex_effective_on(_transport_with_protocol LUMEX_BUILD_PROTOCOL)
+set(_transport_with_dialogue FALSE)
+if(_transport_with_protocol AND _transport_with_framing)
+    set(_transport_with_dialogue TRUE)
+endif()
+if(NOT _transport_with_dialogue)
+    list(FILTER SOURCES EXCLUDE REGEX "/protocol/")
+endif()
 
 # The HID transport (hid/: hid_device over the vendored hidapi, never
 # hid_exit) only with LUMEX_TRANSPORT_WITH_HID. lumex_setup_hidapi is a macro
@@ -101,6 +110,11 @@ if(_transport_with_framing)
     target_compile_definitions(${LUMEX_TRANSPORT_NAME} PUBLIC
         LUMEX_TRANSPORT_WITH_FRAMING=1)
 endif()
+if(_transport_with_dialogue)
+    target_link_libraries(${LUMEX_TRANSPORT_NAME} PUBLIC lumex::protocol)
+    target_compile_definitions(${LUMEX_TRANSPORT_NAME} PUBLIC
+        LUMEX_TRANSPORT_WITH_PROTOCOL=1)
+endif()
 # The lowest log level compiled in, for the library and its consumers
 # (LUMEX_TRANSPORT_LOG_MIN_LEVEL of log/LumexTransportLog.hpp: 0 trace .. 4
 # error; TRACE passes nothing).
@@ -148,9 +162,16 @@ if(LUMEX_INSTALL)
     if(NOT _transport_with_framing)
         list(APPEND _transport_install_excludes PATTERN "framed" EXCLUDE)
     endif()
-    # The dialogue vocabulary's headers only with the protocol module.
+    # The dialogue vocabulary's headers only with the protocol module, the
+    # engine's only with the protocol and the framing modules.
     if(NOT _transport_with_protocol)
         list(APPEND _transport_install_excludes PATTERN "protocol" EXCLUDE)
+    elseif(NOT _transport_with_dialogue)
+        list(APPEND _transport_install_excludes
+            PATTERN "link" EXCLUDE
+            PATTERN "dialogue" EXCLUDE
+            PATTERN "LumexDialogueTypes.hpp" EXCLUDE
+            PATTERN "LumexTransportProtocol.hpp" EXCLUDE)
     endif()
     install(
         DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/

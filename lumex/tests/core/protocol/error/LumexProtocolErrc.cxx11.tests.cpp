@@ -32,7 +32,8 @@ protocol_errc const kEveryValue[] = { protocol_errc::truncated,
                                       protocol_errc::unexpected_reply,
                                       protocol_errc::not_accepted_in_state,
                                       protocol_errc::link_lost,
-                                      protocol_errc::not_confirmed };
+                                      protocol_errc::not_confirmed,
+                                      protocol_errc::queue_full };
 } // namespace
 
 TEST (LumexProtocolErrcTest, GivenTheCategory_WhenNamed_ThenItIsLumexProtocol)
@@ -113,6 +114,7 @@ TEST (
   EXPECT_EQ (static_cast<int> (protocol_errc::not_accepted_in_state), 105);
   EXPECT_EQ (static_cast<int> (protocol_errc::link_lost), 106);
   EXPECT_EQ (static_cast<int> (protocol_errc::not_confirmed), 107);
+  EXPECT_EQ (static_cast<int> (protocol_errc::queue_full), 108);
 }
 
 TEST (LumexProtocolErrcTest,
@@ -134,6 +136,8 @@ TEST (LumexProtocolErrcTest,
              "the link to the device was lost");
   EXPECT_EQ (std::error_code (protocol_errc::not_confirmed).message (),
              "the device did not confirm the value it was sent");
+  EXPECT_EQ (std::error_code (protocol_errc::queue_full).message (),
+             "the request queue is full");
 }
 
 TEST (LumexProtocolErrcTest,
@@ -141,7 +145,7 @@ TEST (LumexProtocolErrcTest,
 {
   EXPECT_EQ (protocol_category ().message (11), "unknown protocol error");
   EXPECT_EQ (protocol_category ().message (99), "unknown protocol error");
-  EXPECT_EQ (protocol_category ().message (108), "unknown protocol error");
+  EXPECT_EQ (protocol_category ().message (109), "unknown protocol error");
 }
 
 TEST (LumexProtocolErrcTest,
