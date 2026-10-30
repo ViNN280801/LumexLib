@@ -746,3 +746,45 @@ TEST (
                                        options),
              "TX unknown key=0x99 len=2: ...");
 }
+
+TEST (
+    LumexProtocolDescribeTest,
+    GivenAReplyKindThatDescribesItself_WhenDescribed_ThenItsTextFollowsTheName)
+{
+  index::index_result_t const &result
+      = index::protocol_index<tables::hooked::hooked_protocol> ();
+  ASSERT_TRUE (result.has_value ());
+  layout::bytes_t const yes = bytes ({ 0x01, 0x01 });
+  EXPECT_EQ (result->describe (view_of (yes), index::frame_direction::rx),
+             "RX hooked_protocol.ASK (Ask) YES answer=1");
+  layout::bytes_t const no = bytes ({ 0x01, 0x07 });
+  EXPECT_EQ (result->describe (view_of (no), index::frame_direction::rx),
+             "RX hooked_protocol.ASK (Ask) NO answer=7");
+  layout::bytes_t const request = bytes ({ 0x01, 0x07 });
+  EXPECT_EQ (result->describe (view_of (request), index::frame_direction::tx),
+             "TX hooked_protocol.ASK (Ask) question=7");
+  layout::bytes_t const longer = bytes ({ 0x01, 0x01, 0x02 });
+  EXPECT_EQ (result->describe (view_of (longer), index::frame_direction::rx),
+             "RX hooked_protocol.ASK (Ask) [decode error: bytes after the "
+             "last field of a message] len=3: 01 01 02");
+}
+
+TEST (
+    LumexProtocolDescribeTest,
+    GivenAValueOfAField_WhenAppended_ThenAGroupGivesItsNamesAndOneFieldItsLabel)
+{
+  std::string single;
+  index::append_value<field::u16_le_<>> (single, 300,
+                                         index::describe_options_t (), "code");
+  EXPECT_EQ (single, "code=300");
+  std::string fallback = "x ";
+  index::append_value<field::u8_<>> (fallback, 7,
+                                     index::describe_options_t ());
+  EXPECT_EQ (fallback, "x reply=7");
+  field::value_of<tables::state_t>::type state
+      = field::value_of<tables::state_t>::type ();
+  std::string group;
+  index::append_value<tables::state_t> (group, state,
+                                        index::describe_options_t (), "code");
+  EXPECT_EQ (group, "mode=idle level=0");
+}

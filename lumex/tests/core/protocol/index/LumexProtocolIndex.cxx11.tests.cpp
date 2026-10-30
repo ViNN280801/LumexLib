@@ -615,3 +615,58 @@ TEST (LumexProtocolIndexTest,
              "protocol same_text: rows SIGNED and UNSIGNED have the same key "
              "\"7\"");
 }
+
+TEST (LumexProtocolIndexTest,
+      GivenAReplyKindWithItsHooks_WhenIndexed_ThenTheRowDescribesItAndNamesIt)
+{
+  index::index_result_t const &result
+      = index::protocol_index<tables::hooked::hooked_protocol> ();
+  ASSERT_TRUE (result.has_value ());
+  index::row_t const &ask = row_named (*result, "ASK");
+  EXPECT_TRUE (ask.reply == index::reply_form::dialogue);
+  EXPECT_NE (ask.describe_reply, nullptr);
+  EXPECT_EQ (std::string (ask.reply_kind), "yes_no (one field)");
+  index::row_t const &tell = row_named (*result, "TELL");
+  EXPECT_EQ (std::string (tell.reply_kind), "");
+}
+
+TEST (LumexProtocolIndexTest,
+      GivenAReplyKindWithoutHooks_WhenIndexed_ThenItHasNoDescriberAndNoName)
+{
+  index::index_result_t const &result
+      = index::protocol_index<tables::dialogue::dialogue_protocol> ();
+  ASSERT_TRUE (result.has_value ());
+  index::row_t const &start = row_named (*result, "START");
+  EXPECT_EQ (start.describe_reply, nullptr);
+  EXPECT_EQ (std::string (start.reply_kind), "");
+}
+
+TEST (LumexProtocolIndexTest,
+      GivenOptionsOfAnotherLayer_WhenEntered_ThenTheTextIsKeptWhenTheyHaveOne)
+{
+  index::index_result_t const &result
+      = index::protocol_index<tables::hooked::hooked_protocol> ();
+  ASSERT_TRUE (result.has_value ());
+  dsl::extra_options_t const extra
+      = row_named (*result, "ASK").entry->options.extra;
+  ASSERT_EQ (extra.size (), 3u);
+  EXPECT_EQ (std::string (extra.data ()[0].name), "mode");
+  EXPECT_EQ (extra.data ()[0].value, 1);
+  ASSERT_NE (extra.data ()[0].text, nullptr);
+  EXPECT_EQ (std::string (extra.data ()[0].text), "fast");
+  EXPECT_EQ (std::string (extra.data ()[1].name), "step");
+  EXPECT_EQ (extra.data ()[1].value, 1);
+  EXPECT_EQ (extra.data ()[1].text, nullptr);
+  EXPECT_EQ (extra.data ()[2].value, 2);
+  dsl::extra_options_t const tell
+      = row_named (*result, "TELL").entry->options.extra;
+  ASSERT_EQ (tell.size (), 1u);
+  EXPECT_EQ (std::string (tell.data ()[0].text), "slow");
+  dsl::extra_options_t const rate
+      = row_named (
+            *index::protocol_index<tables::dialogue::dialogue_protocol> (),
+            "START")
+            .entry->options.extra;
+  ASSERT_EQ (rate.size (), 1u);
+  EXPECT_EQ (rate.data ()[0].text, nullptr);
+}

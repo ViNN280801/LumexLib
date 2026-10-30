@@ -61,6 +61,12 @@
 
 #if defined(__clang__)
 #pragma clang diagnostic push
+#if __has_warning("-Wlifetime-safety-intra-tu-suggestions")
+// Clang 23 suggests [[clang::lifetimebound]] for option_value_at, which
+// returns a member of its argument (a suggestion, not a finding: the options
+// of a row are a constant of its command type).
+#pragma clang diagnostic ignored "-Wlifetime-safety-intra-tu-suggestions"
+#endif
 #pragma clang diagnostic ignored "-Wpadded"
 #endif
 

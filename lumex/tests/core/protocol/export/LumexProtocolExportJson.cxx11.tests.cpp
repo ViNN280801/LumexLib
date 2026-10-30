@@ -317,6 +317,24 @@ TEST (LumexProtocolExportJsonTest,
   EXPECT_EQ (document["commands"][1]["reply"]["fields"][0]["name"], "reply");
 }
 
+TEST (
+    LumexProtocolExportJsonTest,
+    GivenAReplyKindWithItsTextAndOptionsWithTexts_WhenExported_ThenTheTextsAreMembers)
+{
+  index::index_result_t const result
+      = index::build_index<tables::hooked::hooked_protocol> ();
+  ASSERT_TRUE (result.has_value ());
+  json const document = index::export_json (*result);
+  EXPECT_EQ (document["commands"][0]["reply"]["form"], "dialogue");
+  EXPECT_EQ (document["commands"][0]["reply"]["kind"], "yes_no (one field)");
+  EXPECT_EQ (document["commands"][0]["options"]["mode"], "fast");
+  ASSERT_TRUE (document["commands"][0]["options"]["step"].is_array ());
+  EXPECT_EQ (document["commands"][0]["options"]["step"][0], 1);
+  EXPECT_EQ (document["commands"][0]["options"]["step"][1], 2);
+  EXPECT_EQ (document["commands"][1]["options"]["mode"], "slow");
+  EXPECT_FALSE (document["commands"][1]["reply"].contains ("kind"));
+}
+
 // A description in a code page of 8 bits (not UTF-8).
 // clang-format off
 #define LEGACY_ROWS(X, X_AS) \

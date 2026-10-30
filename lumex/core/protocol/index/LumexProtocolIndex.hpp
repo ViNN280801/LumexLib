@@ -130,7 +130,8 @@ enum class reply_form : std::uint8_t
   single_field,
   /// A layout: its fields are the reply.
   layout,
-  /// A reply kind of the dialogue (`ack_nak<...>`): the dialogue decodes it.
+  /// A reply kind of the dialogue (`ack_nak<...>`): the dialogue decodes it;
+  /// the kind may describe its message for the log (see `row_t`).
   dialogue
 };
 
@@ -168,10 +169,15 @@ struct row_t
   bool is_event;
   /// Decodes a request payload.
   describe_hook_t describe_request;
-  /// Decodes a reply payload; null for a dialogue reply.
+  /// Decodes a reply payload; for a dialogue reply the kind's own
+  /// `lumex_describe_reply<P, Row>`, null when the kind has none.
   describe_hook_t describe_reply;
   /// The text key of a tokenized layout, null for another layout.
   text_key_hook_t text_key;
+  /// What a dialogue reply is, for the export: the kind's own
+  /// `lumex_reply_text ()` (`"ack_nak (ACK: one field; NAK: message `NAK`)"`),
+  /// `""` for another reply or a kind without it.
+  char const *reply_kind;
 };
 
 /// @brief A registry attached to the index.
@@ -259,29 +265,6 @@ describe_empty_reply (layout::bytes_view_t payload,
   return decoded ? std::error_code () : decoded.error ();
 }
 
-// A layout: its fields; one field: reply=value.
-template <typename R, bool Group = field::detail::has_fields<R>::value>
-struct reply_writer
-{
-  static void
-  apply (std::string &out, typename field::value_of<R>::type const &value,
-         describe_options_t const &options)
-  {
-    append_record (out, value, group_names<R>::get (), options);
-  }
-};
-
-template <typename R> struct reply_writer<R, false>
-{
-  static void
-  apply (std::string &out, typename field::value_of<R>::type const &value,
-         describe_options_t const &options)
-  {
-    out += "reply=";
-    value_formatter<R>::apply (out, value, options);
-  }
-};
-
 template <typename P, typename Row>
 std::error_code
 describe_reply_of (layout::bytes_view_t payload,
@@ -293,7 +276,7 @@ describe_reply_of (layout::bytes_view_t payload,
       = layout::decode_reply<P, Row> (payload, context);
   if (!decoded)
     return decoded.error ();
-  reply_writer<typename Row::reply_type>::apply (out, *decoded, options);
+  append_value<typename Row::reply_type> (out, *decoded, options);
   return std::error_code ();
 }
 
@@ -333,6 +316,131 @@ struct reply_kind_of
 {
 };
 
+// The hooks a reply kind of another layer may give the index, found by
+// their names: a member of that name the index cannot use does not compile.
+LUMEX_PROTOCOL_DETAIL_NAME_PROBE (lumex_describe_reply);
+LUMEX_PROTOCOL_DETAIL_NAME_PROBE (lumex_reply_text);
+
+template <typename P, typename Row, typename R, typename = void>
+struct callable_describer_t : std::false_type
+{
+};
+
+template <typename P, typename Row, typename R>
+struct callable_describer_t<
+    P, Row, R,
+    typename dsl::detail::row_voider<decltype (static_cast<describe_hook_t> (
+        &R::template lumex_describe_reply<P, Row>))>::type> : std::true_type
+{
+};
+
+template <typename P, typename Row, typename R, bool Callable>
+struct describer_pointer_t
+{
+  static describe_hook_t
+  get () LUMEX_NOEXCEPT
+  {
+    return nullptr;
+  }
+};
+
+template <typename P, typename Row, typename R>
+struct describer_pointer_t<P, Row, R, true>
+{
+  static describe_hook_t
+  get () LUMEX_NOEXCEPT
+  {
+    return static_cast<describe_hook_t> (
+        &R::template lumex_describe_reply<P, Row>);
+  }
+};
+
+// The describe hook of reply kind R of Row: null without one.
+template <typename P, typename Row, typename R = typename Row::reply_type,
+          bool Named = names_lumex_describe_reply_t<R>::value>
+struct kind_describer_t
+{
+  static describe_hook_t
+  get () LUMEX_NOEXCEPT
+  {
+    return nullptr;
+  }
+};
+
+template <typename P, typename Row, typename R>
+struct kind_describer_t<P, Row, R, true>
+{
+  static_assert (callable_describer_t<P, Row, R>::value,
+                 "LUMEX_PROTOCOL: the reply kind names lumex_describe_reply, "
+                 "but not as an accessible static member template "
+                 "lumex_describe_reply<P, Row> (bytes_view_t payload, "
+                 "decode_context_t const *, describe_options_t const &, "
+                 "std::string &) that returns std::error_code");
+
+  static describe_hook_t
+  get () LUMEX_NOEXCEPT
+  {
+    return describer_pointer_t<P, Row, R,
+                               callable_describer_t<P, Row, R>::value>::get ();
+  }
+};
+
+template <typename R, typename = void>
+struct callable_reply_text_t : std::false_type
+{
+};
+
+template <typename R>
+struct callable_reply_text_t<
+    R, typename std::enable_if<std::is_convertible<
+           decltype (R::lumex_reply_text ()), char const *>::value>::type>
+    : std::true_type
+{
+};
+
+template <typename R, bool Callable> struct reply_text_call_t
+{
+  static char const *
+  get ()
+  {
+    return "";
+  }
+};
+
+template <typename R> struct reply_text_call_t<R, true>
+{
+  static char const *
+  get ()
+  {
+    return R::lumex_reply_text ();
+  }
+};
+
+// The text of reply kind R for the export: "" without one.
+template <typename R, bool Named = names_lumex_reply_text_t<R>::value>
+struct kind_text_t
+{
+  static char const *
+  get ()
+  {
+    return "";
+  }
+};
+
+template <typename R> struct kind_text_t<R, true>
+{
+  static_assert (callable_reply_text_t<R>::value,
+                 "LUMEX_PROTOCOL: the reply kind names lumex_reply_text, but "
+                 "not as an accessible static function lumex_reply_text () "
+                 "that returns char const *");
+
+  static char const *
+  get ()
+  {
+    return reply_text_call_t<R, callable_reply_text_t<R>::value>::get ();
+  }
+};
+
 template <typename P, typename Row, int Kind> struct reply_support;
 
 template <typename P, typename Row> struct reply_support<P, Row, 0>
@@ -358,6 +466,12 @@ template <typename P, typename Row> struct reply_support<P, Row, 0>
 
   static char const *
   layout_name () LUMEX_NOEXCEPT
+  {
+    return "";
+  }
+
+  static char const *
+  kind_text ()
   {
     return "";
   }
@@ -390,6 +504,12 @@ template <typename P, typename Row> struct reply_support<P, Row, 1>
   {
     return layout_name_of<typename Row::reply_type>::get ();
   }
+
+  static char const *
+  kind_text ()
+  {
+    return "";
+  }
 };
 
 template <typename P, typename Row> struct reply_support<P, Row, 2>
@@ -403,7 +523,7 @@ template <typename P, typename Row> struct reply_support<P, Row, 2>
   static describe_hook_t
   hook () LUMEX_NOEXCEPT
   {
-    return nullptr;
+    return kind_describer_t<P, Row>::get ();
   }
 
   static descriptor_run_t
@@ -417,6 +537,12 @@ template <typename P, typename Row> struct reply_support<P, Row, 2>
   layout_name () LUMEX_NOEXCEPT
   {
     return "";
+  }
+
+  static char const *
+  kind_text ()
+  {
+    return kind_text_t<typename Row::reply_type>::get ();
   }
 };
 
@@ -479,7 +605,8 @@ make_row (dsl::command_entry_t const &entry)
                       entry.options.has_stream,
                       &describe_request_of<P, Row>,
                       reply::hook (),
-                      text_key_support<P, Row>::hook () };
+                      text_key_support<P, Row>::hook (),
+                      reply::kind_text () };
   return row;
 }
 
@@ -519,6 +646,54 @@ struct base_name_of<P, typename std::enable_if<!std::is_void<
   {
     return P::base_protocol::protocol_name ();
   }
+};
+
+// The check a vocabulary may ask the index to make of a protocol whose
+// tables use it (the dialogue checks its row and protocol options): found by
+// its name, refused when it is not a member template with a constant.
+LUMEX_PROTOCOL_DETAIL_NAME_PROBE (lumex_check_protocol);
+
+template <typename V, typename P, typename = void>
+struct callable_check_t : std::false_type
+{
+};
+
+template <typename V, typename P>
+struct callable_check_t<
+    V, P,
+    typename std::enable_if<std::is_same<
+        bool,
+        typename std::remove_cv<decltype (V::template lumex_check_protocol<
+                                          P>::value)>::type>::value>::type>
+    : std::true_type
+{
+};
+
+template <typename V, typename P, bool Callable>
+struct check_value_t : std::true_type
+{
+};
+
+template <typename V, typename P>
+struct check_value_t<V, P, true>
+    : std::integral_constant<bool, V::template lumex_check_protocol<P>::value>
+{
+};
+
+template <typename P, typename V = typename P::lumex_vocabulary,
+          bool Named = names_lumex_check_protocol_t<V>::value>
+struct vocabulary_accepts_t : std::true_type
+{
+};
+
+template <typename P, typename V>
+struct vocabulary_accepts_t<P, V, true>
+    : check_value_t<V, P, callable_check_t<V, P>::value>
+{
+  static_assert (callable_check_t<V, P>::value,
+                 "LUMEX_PROTOCOL: the vocabulary names lumex_check_protocol, "
+                 "but not as an accessible member template "
+                 "lumex_check_protocol<P> with a constant bool value");
 };
 
 // The key of a row as the compile-time check compares it.
@@ -987,6 +1162,9 @@ build_index ()
   static_assert (::lumex::core::protocol::dsl::is_protocol<P>::value,
                  "build_index<P>: P is a LUMEX_PROTOCOL_DEFINE or "
                  "LUMEX_PROTOCOL_EXTEND type");
+  static_assert (detail::vocabulary_accepts_t<P>::value,
+                 "LUMEX_PROTOCOL: the vocabulary of the protocol refuses its "
+                 "table (lumex_check_protocol<P>::value is false)");
   std::vector<registry_info_t> registries;
   int const placed[]
       = { 0, (registries.push_back (registry_info_t{

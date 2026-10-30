@@ -203,6 +203,22 @@ TEST (LumexProtocolExportMarkdownTest,
   EXPECT_NE (text.find ("Reply: one field."), std::string::npos);
 }
 
+TEST (
+    LumexProtocolExportMarkdownTest,
+    GivenAReplyKindWithItsTextAndOptionsWithTexts_WhenExported_ThenTheTextsAreShown)
+{
+  index::index_result_t const result
+      = index::build_index<tables::hooked::hooked_protocol> ();
+  ASSERT_TRUE (result.has_value ());
+  std::string const text = index::export_markdown (*result);
+  EXPECT_NE (text.find ("Reply: a reply kind of the dialogue, yes_no (one "
+                        "field)."),
+             std::string::npos);
+  EXPECT_NE (text.find ("Options: mode fast; step 1; step 2."),
+             std::string::npos);
+  EXPECT_NE (text.find ("Options: mode slow."), std::string::npos);
+}
+
 TEST (LumexProtocolExportMarkdownTest,
       GivenADescriptionWithLines_WhenExported_ThenItIsABlockQuoteAndNoHeading)
 {

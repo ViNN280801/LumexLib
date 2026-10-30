@@ -9,6 +9,8 @@
 #include <cstring>
 #include <ratio>
 #include <string>
+#include <system_error>
+#include <type_traits>
 
 #include "lumex/core/protocol/LumexProtocol"
 #include "lumex/core/reflection/reflected_enum/LumexReflectedEnum.hpp"
@@ -366,6 +368,118 @@ struct header
 // clang-format on
 LUMEX_PROTOCOL_DEFINE (dialogue_protocol, codec, header, DIALOGUE_ROWS);
 } // namespace dialogue
+
+// A layer above the core that also fills the hooks of the index: a reply
+// kind that describes its message and names itself for the export, options
+// with a text, and a vocabulary whose check the index asks for.
+namespace hooked
+{
+// The reply is one field; a value 1 means yes, any other value no.
+template <typename Answer> struct yes_no_t
+{
+  using lumex_protocol_reply = dsl::reply_tag;
+
+  template <typename P, typename Row>
+  static std::error_code
+  lumex_describe_reply (layout::bytes_view_t payload,
+                        field::decode_context_t const *context,
+                        index::describe_options_t const &options,
+                        std::string &out)
+  {
+    layout::decode_result_t<typename field::value_of<Answer>::type> const
+        decoded
+        = layout::decode<typename layout::layout_of<P>::type, Answer> (
+            payload, context);
+    if (!decoded)
+      return decoded.error ();
+    out += *decoded == 1 ? "YES " : "NO ";
+    index::append_value<Answer> (out, *decoded, options, "answer");
+    return std::error_code ();
+  }
+
+  static char const *
+  lumex_reply_text ()
+  {
+    return "yes_no (one field)";
+  }
+};
+
+struct mode_option_t
+{
+  using option_kind = mode_option_t;
+  bool fast;
+
+  static char const *
+  option_name ()
+  {
+    return "mode";
+  }
+
+  std::int64_t
+  view_value () const
+  {
+    return fast ? 1 : 0;
+  }
+
+  char const *
+  view_text () const
+  {
+    return fast ? "fast" : "slow";
+  }
+};
+
+// Several steps of one row: one kind per number, one name for all.
+template <int N> struct step_option_t
+{
+  using option_kind = step_option_t;
+
+  static char const *
+  option_name ()
+  {
+    return "step";
+  }
+
+  std::int64_t
+  view_value () const
+  {
+    return N;
+  }
+};
+
+// The check the index asks the vocabulary for: every protocol passes.
+template <typename P> struct accepts_t : std::true_type
+{
+};
+
+struct vocabulary_t : registry::table_vocabulary
+{
+  template <typename Answer> using yes_no = yes_no_t<Answer>;
+
+  template <int N> using step = step_option_t<N>;
+
+  static constexpr mode_option_t
+  mode (bool fast)
+  {
+    return mode_option_t{ fast };
+  }
+
+  template <typename P> using lumex_check_protocol = accepts_t<P>;
+};
+
+struct header_t
+{
+  using lumex_vocabulary = vocabulary_t;
+  static LUMEX_CONSTEXPR std::size_t key_width = 1;
+};
+
+// clang-format off
+#define HOOKED_ROWS(X, X_AS) \
+  X (ASK, 0x01, "Ask", (u8_), ("question"), (yes_no<u8_>), \
+     (mode (true), step<1> (), step<2> ())) \
+  X (TELL, 0x02, "Tell", (), (), (u8_), (mode (false)))
+// clang-format on
+LUMEX_PROTOCOL_DEFINE (hooked_protocol, codec, header_t, HOOKED_ROWS);
+} // namespace hooked
 
 /// The bytes of a buffer as a view.
 inline layout::bytes_view_t

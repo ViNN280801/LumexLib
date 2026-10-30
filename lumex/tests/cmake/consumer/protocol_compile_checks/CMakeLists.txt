@@ -46,6 +46,11 @@
 #  40 a tokenized layer whose header names write_header
 #  41 dispatch_message on a layer without a key reader
 #  42 encode_message on a layer whose key reader has no writer twin
+#  43 a reply kind whose describe hook has the wrong parameters
+#  44 a reply kind whose text is no static function
+#  45 an option of another layer whose text is no member function
+#  46 a vocabulary whose protocol check is no member template
+#  47 a vocabulary whose protocol check refuses the table
 # The compiler's messages are matched in English. Everything runs at
 # configure time (try_compile), at C++11 (MSVC: C++14, its lowest) and C++20.
 
@@ -127,6 +132,11 @@ _lumex_case(39 "${_header_regex}")
 _lumex_case(40 "a tokenized layer writes its key itself")
 _lumex_case(41 "the layer has no key reader")
 _lumex_case(42 "the key reader of the layer has no writer twin")
+_lumex_case(43 "the reply kind names lumex_describe_reply, but not as")
+_lumex_case(44 "the reply kind names lumex_reply_text, but not as")
+_lumex_case(45 "the option names view_text, but not as")
+_lumex_case(46 "the vocabulary names lumex_check_protocol, but not as")
+_lumex_case(47 "the vocabulary of the protocol refuses its table")
 
 function(_lumex_protocol_try result_var tag standard)
     try_compile(_ok "${CMAKE_BINARY_DIR}/try_${tag}"

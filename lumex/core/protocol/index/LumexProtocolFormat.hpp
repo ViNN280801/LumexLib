@@ -768,7 +768,52 @@ struct value_formatter<registry::registry_key_<R, F1, F2>, void>
       out += "?";
   }
 };
+
+// A value of a field type as describe writes it: the fields of a group by
+// their names, one field as label=value.
+template <typename F, bool Group = field::detail::has_fields<F>::value>
+struct value_writer_t
+{
+  static void
+  apply (std::string &out, typename field::value_of<F>::type const &value,
+         describe_options_t const &options, char const *)
+  {
+    append_record (out, value, group_names<F>::get (), options);
+  }
+};
+
+template <typename F> struct value_writer_t<F, false>
+{
+  static void
+  apply (std::string &out, typename field::value_of<F>::type const &value,
+         describe_options_t const &options, char const *label)
+  {
+    out += label;
+    out += '=';
+    value_formatter<F>::apply (out, value, options);
+  }
+};
 } // namespace detail
+
+/**
+ * @brief Appends a decoded value of field type `F` as `describe` writes it:
+ * the fields of a layout as `name=value` pairs (`mode=run level=3`), one
+ * field as `label=value` (`reply=7`).
+ * @details What a reply kind of another layer writes after its own word
+ * (`NAK code=5`) in its describe hook.
+ * @tparam F A field, a layout or a field list (a vocabulary name such as
+ * `u8_` is resolved).
+ */
+template <typename F>
+void
+append_value (
+    std::string &out,
+    typename ::lumex::core::protocol::field::value_of<F>::type const &value,
+    describe_options_t const &options, char const *label = "reply")
+{
+  detail::value_writer_t<typename ::lumex::core::protocol::field::resolve<
+      F>::type>::apply (out, value, options, label);
+}
 
 /// @brief Appends the hex dump of `data` (`15 0A FF`), cut after `limit`
 /// bytes with `...`.

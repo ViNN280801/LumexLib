@@ -221,9 +221,28 @@ json_options (::lumex::core::protocol::dsl::options_view_t const &o)
     flags.push_back ("deprecated");
   if (!flags.empty ())
     out["flags"] = flags;
+  // An option of another layer by its name: its text, else its number; the
+  // values of options with one name (two edges of one field) in an array.
   for (std::size_t i = 0; i < o.extra.size (); ++i)
-    out[o.extra.data ()[i].name]
-        = static_cast<long long> (o.extra.data ()[i].value);
+    {
+      ::lumex::core::protocol::dsl::extra_option_t const &extra
+          = o.extra.data ()[i];
+      json_t const value = extra.text != nullptr
+                               ? json_t (std::string (extra.text))
+                               : json_t (static_cast<long long> (extra.value));
+      if (out.find (extra.name) == out.end ())
+        out[extra.name] = value;
+      else
+        {
+          if (!out[extra.name].is_array ())
+            {
+              json_t const first = out[extra.name];
+              out[extra.name] = json_t::array ();
+              out[extra.name].push_back (first);
+            }
+          out[extra.name].push_back (value);
+        }
+    }
   return out;
 }
 
@@ -320,6 +339,8 @@ export_json (protocol_index_t const &index)
                                                           : "dialogue"));
       if (row.reply_layout[0] != '\0')
         reply["layout"] = row.reply_layout;
+      if (row.reply_kind != nullptr && row.reply_kind[0] != '\0')
+        reply["kind"] = row.reply_kind;
       reply["fields"]
           = detail::json_fields (row.reply_fields, row.reply_count, units);
       command["reply"] = reply;

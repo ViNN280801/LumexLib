@@ -110,7 +110,63 @@ template <typename T> struct row_voider
 {
   using type = void;
 };
+
+// Whether class T is final (a final class cannot be probed for a name).
+#if __cplusplus >= 201402L || (defined(_MSVC_LANG) && _MSVC_LANG >= 201402L)
+template <typename T> struct is_final_t : std::is_final<T>
+{
+};
+#else
+template <typename T>
+struct is_final_t : std::integral_constant<bool, __is_final (T)>
+{
+};
+#endif
 } // namespace detail
+
+/// @cond LUMEX_INTERNAL
+// LUMEX_PROTOCOL_DETAIL_NAME_PROBE (name_) defines, in the namespace where it
+// is used, names_<name_>_t<T>: whether class T has a member named name_ of
+// any kind and any access (a type, a template, a function, a data member,
+// private or public). The name is ambiguous in a class derived from T and
+// from a class with a data member of that name. False for a class that is
+// final and for a type that is no class. A customization point detected by
+// its name instead of by a valid use refuses a member it cannot use instead
+// of silently ignoring it.
+#define LUMEX_PROTOCOL_DETAIL_NAME_PROBE(name_)                               \
+  struct name_##_holder_t                                                     \
+  {                                                                           \
+    int name_;                                                                \
+  };                                                                          \
+  template <typename LumexT>                                                  \
+  struct name_##_probe_t : LumexT, name_##_holder_t                           \
+  {                                                                           \
+  };                                                                          \
+  template <typename LumexT, typename = void>                                 \
+  struct name_##_unambiguous_t : std::false_type                              \
+  {                                                                           \
+  };                                                                          \
+  template <typename LumexT>                                                  \
+  struct name_##_unambiguous_t<                                               \
+      LumexT, typename ::lumex::core::protocol::dsl::detail::row_voider<      \
+                  decltype (&name_##_probe_t<LumexT>::name_)>::type>          \
+      : std::true_type                                                        \
+  {                                                                           \
+  };                                                                          \
+  template <                                                                  \
+      typename LumexT,                                                        \
+      bool LumexProbe                                                         \
+      = std::is_class<LumexT>::value                                          \
+        && !::lumex::core::protocol::dsl::detail::is_final_t<LumexT>::value>  \
+  struct names_##name_##_t                                                    \
+      : std::integral_constant<bool, !name_##_unambiguous_t<LumexT>::value>   \
+  {                                                                           \
+  };                                                                          \
+  template <typename LumexT>                                                  \
+  struct names_##name_##_t<LumexT, false> : std::false_type                   \
+  {                                                                           \
+  }
+/// @endcond
 
 /**
  * @brief The fields of a row or layout, in wire order.
