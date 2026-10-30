@@ -51,8 +51,9 @@
  * (`stream_session`, `message_session`), the selectors and the
  * `device_watcher` in `session/`, the timer seam they wait on in `timing/`.
  * Behind their options the umbrella also includes the adapter to the logger
- * (`LUMEX_BUILD_LOGGER`, `log/adapter/`) and the mocks and the virtual clock
- * of `testing/` (`LUMEX_TRANSPORT_WITH_TESTING`).
+ * (`LUMEX_BUILD_LOGGER`, `log/adapter/`), the dialogue layer of `protocol/`
+ * (`LUMEX_BUILD_PROTOCOL` and `LUMEX_BUILD_FRAMING`) and the mocks and the
+ * virtual clock of `testing/` (`LUMEX_TRANSPORT_WITH_TESTING`).
  */
 #include "datagram/LumexMessageTransport.hpp"
 
@@ -84,6 +85,13 @@
 #endif
 
 #include "net/LumexNetTransports.hpp"
+
+// The dialogue layer needs the protocol and the framing modules
+// (LUMEX_BUILD_PROTOCOL, LUMEX_BUILD_FRAMING): the transport library defines
+// this macro for itself and its consumers then.
+#if defined(LUMEX_TRANSPORT_WITH_PROTOCOL)
+#include "protocol/LumexTransportProtocol.hpp"
+#endif
 
 #include "serial/LumexSerialStream.hpp"
 

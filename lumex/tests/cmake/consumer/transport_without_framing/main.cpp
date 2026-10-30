@@ -1,6 +1,6 @@
 // The transport without the framing module: the umbrella header does not
-// include the framed adapters, the macro is not defined, and a mock stream
-// still answers a read.
+// include the framed adapters nor the dialogue engine, their macros are not
+// defined, and a mock stream still answers a read.
 
 #include <cstdint>
 #include <iostream>
@@ -15,6 +15,12 @@
 #endif
 #if defined(LUMEX_APPLIED_TRANSPORT_FRAMED_FRAMED_STREAM_HPP)
 #error "the umbrella includes the framed adapters without the framing module"
+#endif
+#if defined(LUMEX_TRANSPORT_WITH_PROTOCOL)
+#error "LUMEX_TRANSPORT_WITH_PROTOCOL is defined without the framing module"
+#endif
+#if defined(LUMEX_APPLIED_TRANSPORT_PROTOCOL_DIALOGUE_DIALOGUE_HPP)
+#error "the umbrella includes the dialogue engine without the framing module"
 #endif
 
 int

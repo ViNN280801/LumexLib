@@ -5,7 +5,9 @@
 # LUMEX_BUILD_FRAMING OFF the transport configures, builds and runs, its
 # target does not link the framing module and does not define
 # LUMEX_TRANSPORT_WITH_FRAMING, and the umbrella header leaves the framed
-# headers out.
+# headers out. The dialogue engine (protocol/) needs the framing module too:
+# with the protocol module ON it stays out as well (no link to the protocol
+# module, no LUMEX_TRANSPORT_WITH_PROTOCOL, no source of protocol/).
 
 cmake_minimum_required(VERSION 3.16)
 project(LumexTransportWithoutFraming LANGUAGES CXX)
@@ -39,10 +41,22 @@ get_target_property(_transport_defs lumex::transport COMPILE_DEFINITIONS)
 if("${_transport_defs}" MATCHES "LUMEX_TRANSPORT_WITH_FRAMING")
     message(FATAL_ERROR "lumex::transport defines LUMEX_TRANSPORT_WITH_FRAMING: ${_transport_defs}")
 endif()
+if(NOT TARGET lumex::protocol)
+    message(FATAL_ERROR "the protocol module is missing: it does not need the framing module")
+endif()
+if("${_transport_libs}" MATCHES "protocol")
+    message(FATAL_ERROR "lumex::transport links the protocol module without the framing module: ${_transport_libs}")
+endif()
+if("${_transport_defs}" MATCHES "LUMEX_TRANSPORT_WITH_PROTOCOL")
+    message(FATAL_ERROR "lumex::transport defines LUMEX_TRANSPORT_WITH_PROTOCOL: ${_transport_defs}")
+endif()
 get_target_property(_transport_sources lumex::transport SOURCES)
 foreach(_source IN LISTS _transport_sources)
     if(_source MATCHES "/framed/")
         message(FATAL_ERROR "lumex::transport compiles a framed source: ${_source}")
+    endif()
+    if(_source MATCHES "/protocol/")
+        message(FATAL_ERROR "lumex::transport compiles a dialogue source: ${_source}")
     endif()
 endforeach()
 

@@ -81,6 +81,10 @@ option(LUMEX_TRANSPORT_WITH_TESTING "applied/transport: the public test doubles 
 # same way: no option of their own, no required edge. With LUMEX_BUILD_FRAMING
 # the transport compiles them, links lumex::framing and defines
 # LUMEX_TRANSPORT_WITH_FRAMING=1 for itself and its consumers.
+# The dialogue engine (protocol/: frame_link, dialogue) too: with
+# LUMEX_BUILD_PROTOCOL and LUMEX_BUILD_FRAMING the transport compiles it,
+# links lumex::protocol and defines LUMEX_TRANSPORT_WITH_PROTOCOL=1 for itself
+# and its consumers.
 option(LUMEX_BUILD_SETTINGS "Build applied/settings" ON)
 
 # The logger compiles exactly one config reader. Changing the format requires

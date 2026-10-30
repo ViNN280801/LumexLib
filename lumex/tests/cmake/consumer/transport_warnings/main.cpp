@@ -13,7 +13,10 @@
 // hidapi enumerates, and a device on a path that does not exist fails to
 // open under a hid_runtime owner object. With the protocol module
 // (LUMEX_FIXTURE_WITH_PROTOCOL) a table with every word of the dialogue
-// vocabulary is indexed, described, exported and read through its traits.
+// vocabulary is indexed, described, exported and read through its traits,
+// and with the dialogue engine (LUMEX_TRANSPORT_WITH_PROTOCOL) every token
+// style runs through dialogue_engine and frame_link over a framed mock
+// stream.
 
 #include <chrono>
 #include <cstddef>
@@ -511,6 +514,200 @@ framed_round (tr::stream::io_runner &runner)
 }
 #endif
 
+#if defined(LUMEX_TRANSPORT_WITH_PROTOCOL)                                    \
+    && defined(LUMEX_FIXTURE_WITH_PROTOCOL)
+// --- the dialogue engine over a framed mock stream: every token style of
+// dialogue_engine and frame_link, decode_reply_kind ------------------------
+namespace pr = lumex::applied::transport::protocol;
+
+pr::exchange_t
+state_exchange ()
+{
+  namespace fx = dialogue_fixture;
+  pr::exchange_t out;
+  if (!fx::layout::encode_message<fx::fixture_t, fx::fixture_t::STATE_t> (
+           out.message)
+           .has_value ())
+    out.message.clear ();
+  out.row = fx::index::protocol_index<fx::fixture_t> ()->find_name ("STATE");
+  out.how = fx::dialogue::row_traits_t<fx::fixture_t,
+                                       fx::fixture_t::STATE_t>::how ();
+  return out;
+}
+
+bool
+engine_by_callback (pr::dialogue_engine &engine)
+{
+  std::promise<std::size_t> done;
+  engine.async_exchange (state_exchange (), [&done] (std::error_code error,
+                                                     pr::reply_frame_t frame)
+                           { done.set_value (error ? 0 : frame.size ()); });
+  return done.get_future ().get () == 3;
+}
+
+bool
+engine_by_future (pr::dialogue_engine &engine)
+{
+  return engine.async_exchange (state_exchange (), asio::use_future)
+             .get ()
+             .size ()
+         == 3;
+}
+
+bool
+engine_by_deferred (pr::dialogue_engine &engine)
+{
+  auto exchange = engine.async_exchange (state_exchange (), asio::deferred);
+  return std::move (exchange) (asio::use_future).get ().size () == 3;
+}
+
+bool
+engine_by_cancel_after (tr::stream::io_runner &runner,
+                        pr::dialogue_engine &engine)
+{
+  std::promise<std::size_t> done;
+  engine.async_exchange (
+      state_exchange (),
+      asio::cancel_after (
+          std::chrono::seconds (10),
+          asio::bind_executor (
+              asio::make_strand (runner.get_executor ()),
+              [&done] (std::error_code error, pr::reply_frame_t frame)
+                { done.set_value (error ? 0 : frame.size ()); })));
+  return done.get_future ().get () == 3;
+}
+
+#if defined(LUMEX_TRANSPORT_WITH_SPAWN)
+bool
+engine_by_yield (tr::stream::io_runner &runner, pr::dialogue_engine &engine)
+{
+  std::promise<std::size_t> done;
+  asio::spawn (
+      runner.get_executor (),
+      [&engine, &done] (asio::yield_context yield)
+        {
+          std::error_code error;
+          pr::reply_frame_t const frame
+              = engine.async_exchange (state_exchange (), yield[error]);
+          done.set_value (error ? 0 : frame.size ());
+        },
+      [] (std::exception_ptr failure)
+        {
+          if (failure)
+            std::rethrow_exception (failure);
+        });
+  return done.get_future ().get () == 3;
+}
+#endif
+
+#if __cplusplus >= 202002L || (defined(_MSVC_LANG) && _MSVC_LANG >= 202002L)
+#if defined(__GNUC__) && !defined(__clang__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wswitch-default"
+#endif
+bool
+engine_by_awaitable (tr::stream::io_runner &runner,
+                     pr::dialogue_engine &engine)
+{
+  std::promise<std::size_t> done;
+  asio::co_spawn (
+      runner.get_executor (),
+      [&engine, &done] () -> asio::awaitable<void>
+        {
+          pr::reply_frame_t const frame = co_await engine.async_exchange (
+              state_exchange (), asio::use_awaitable);
+          done.set_value (frame.size ());
+        },
+      [] (std::exception_ptr failure)
+        {
+          if (failure)
+            std::rethrow_exception (failure);
+        });
+  return done.get_future ().get () == 3;
+}
+#if defined(__GNUC__) && !defined(__clang__)
+#pragma GCC diagnostic pop
+#endif
+#endif
+
+// The engine over a framed mock stream whose device answers every request
+// with the state, a frame_link of its own, and the classification of a
+// reply kind.
+bool
+engine_round (tr::stream::io_runner &runner)
+{
+  namespace codec = lumex::core::framing::codec;
+  namespace fx = dialogue_fixture;
+  tr::testing::mock_stream mock
+      = tr::testing::make_mock_stream (runner.get_executor (), "engine");
+  if (!mock.stream.open (tr::deadline_t (1000)).has_value ())
+    return false;
+  std::shared_ptr<codec_t> const decoder = std::make_shared<codec_t> ();
+  tr::testing::mock_stream_control control = mock.control;
+  mock.control.on_write (
+      [decoder, control] (std::vector<std::uint8_t> const &chunk) mutable
+        {
+          decoder->decode (
+              codec::bytes_view_t (chunk.data (), chunk.size ()),
+              [&control] (codec::bytes_view_t)
+                {
+                  std::vector<std::uint8_t> const state = { 0x12, 0x01, 0x02 };
+                  std::vector<std::uint8_t> wire;
+                  if (codec_t ()
+                          .encode (codec::bytes_view_t (state.data (),
+                                                        state.size ()),
+                                   wire)
+                          .has_value ())
+                    control.feed (wire);
+                });
+        });
+  pr::dialogue_options_t options;
+  options.name = "engine";
+  options.defaults.timeout_ms = 5000;
+  pr::dialogue_engine engine (
+      pr::frame_link (tr::framed::framed_stream<codec_t> (
+          std::move (mock.stream), codec_t ())),
+      *fx::index::protocol_index<fx::fixture_t> (), options);
+  bool fine = engine_by_callback (engine);
+  fine = engine_by_future (engine) && fine;
+  fine = engine_by_deferred (engine) && fine;
+  fine = engine_by_cancel_after (runner, engine) && fine;
+#if defined(LUMEX_TRANSPORT_WITH_SPAWN)
+  fine = engine_by_yield (runner, engine) && fine;
+#endif
+#if __cplusplus >= 202002L || (defined(_MSVC_LANG) && _MSVC_LANG >= 202002L)
+  fine = engine_by_awaitable (runner, engine) && fine;
+#endif
+  pr::dialogue_statistics_t const counted = engine.statistics ();
+  fine = counted.requests >= 4 && counted.replies == counted.requests
+         && counted.timeouts == 0 && fine;
+  engine.close ();
+  mock.control.on_write (tr::testing::write_observer_t ());
+
+  // A frame_link of its own: a write and a read by future.
+  tr::testing::mock_stream other
+      = tr::testing::make_mock_stream (runner.get_executor (), "link");
+  if (!other.stream.open (tr::deadline_t (1000)).has_value ())
+    return false;
+  pr::frame_link link (tr::framed::framed_stream<codec_t> (
+      std::move (other.stream), codec_t ()));
+  link.async_write_frame (frame_payload (), asio::use_future).get ();
+  other.control.feed (frame_wire ());
+  fine = link.async_read_frame (asio::use_future).get () == frame_payload ()
+         && fine;
+  link.close ();
+
+  std::vector<std::uint8_t> const nak = { 0x01, 0x05, 0x34, 0x12 };
+  auto const decoded
+      = fx::dialogue::decode_reply_kind<fx::fixture_t,
+                                        fx::fixture_t::START_t> (
+          fx::layout::bytes_view_t (nak.data (), nak.size ()));
+  fine = decoded.has_value () && decoded->part == fx::dialogue::reply_part::nak
+         && fine;
+  return fine;
+}
+#endif
+
 // The mock streams a session's factory made, for the script.
 struct made_streams
 {
@@ -913,6 +1110,10 @@ main ()
 #endif
 #if defined(LUMEX_FIXTURE_WITH_PROTOCOL)
   fine = dialogue_fixture::dialogue_round () && fine;
+#endif
+#if defined(LUMEX_TRANSPORT_WITH_PROTOCOL)                                    \
+    && defined(LUMEX_FIXTURE_WITH_PROTOCOL)
+  fine = engine_round (runner) && fine;
 #endif
 #if defined(LUMEX_TRANSPORT_WITH_LOGGER)
   tr::log::uninstall_lumex_logger_sink ();
