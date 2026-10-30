@@ -22,6 +22,13 @@ if(_transport_tests_with_framing)
     add_subdirectory(framed)
 endif()
 
+# The dialogue vocabulary (protocol/dsl) is written over the protocol tables
+# of core/protocol: its tests only with that module.
+lumex_effective_on(_transport_tests_with_protocol LUMEX_BUILD_PROTOCOL)
+if(_transport_tests_with_protocol)
+    add_subdirectory(protocol)
+endif()
+
 # The HID transport is compiled only with LUMEX_TRANSPORT_WITH_HID
 # (lumex/applied/transport/CMakeLists.txt), and so are its tests.
 if(LUMEX_TRANSPORT_WITH_HID)

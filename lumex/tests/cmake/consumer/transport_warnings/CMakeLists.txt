@@ -65,3 +65,14 @@ target_link_libraries(transport_warnings_consumer PRIVATE lumex::transport)
 target_compile_options(transport_warnings_consumer PRIVATE ${_strict})
 set_target_properties(transport_warnings_consumer PROPERTIES
     CXX_STANDARD 11 CXX_STANDARD_REQUIRED ON CXX_EXTENSIONS OFF)
+
+# The dialogue vocabulary (protocol/dsl) with the protocol module: its table,
+# hooks and traits meet the strict warnings too.
+if(TARGET lumex::protocol)
+    foreach(_target transport_warnings_cxx11 transport_warnings_cxx20
+            transport_warnings_consumer)
+        target_link_libraries(${_target} PRIVATE lumex::protocol)
+        target_compile_definitions(${_target} PRIVATE
+            LUMEX_FIXTURE_WITH_PROTOCOL=1)
+    endforeach()
+endif()

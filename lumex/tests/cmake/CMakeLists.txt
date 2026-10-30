@@ -772,6 +772,32 @@ set_tests_properties(${_ctest_name} PROPERTIES
     SKIP_REGULAR_EXPRESSION "LUMEX_CONSUMER_SKIP"
 )
 
+# Dialogue vocabulary compile-time checks: a reply kind, a row option or a
+# protocol option the dialogue cannot use (a part that is no field or row, a
+# row of another protocol, an edge of a row without stream, a field out of
+# range, a correlation without what it needs, an option given twice) must not
+# compile, most of them when the index of the table is built; the valid table
+# must. Header-only use: try_compile while configuring.
+lumex_test_name(_ctest_name dialogue_compile_checks)
+add_test(NAME ${_ctest_name}
+    COMMAND ${CMAKE_COMMAND}
+        -DCASE=dialogue_compile_checks
+        -DLUMEX_SOURCE_DIR=${LumexLib_SOURCE_DIR}
+        -DWORK_DIR=${CMAKE_CURRENT_BINARY_DIR}/consumer/dialogue_compile_checks
+        -DGENERATOR=${CMAKE_GENERATOR}
+        -DCXX_COMPILER=${CMAKE_CXX_COMPILER}
+        "-DCXX_FLAGS=${CMAKE_CXX_FLAGS}"
+        -DCLANG_STDLIB=${LUMEX_CLANG_STDLIB}
+        -DBUILD_TYPE=Release
+        -DCONFIGURE_ONLY=ON
+        -P ${_LUMEX_CONSUMER_RUN}
+)
+set_tests_properties(${_ctest_name} PROPERTIES
+    LABELS "cmake;consumer"
+    TIMEOUT 900
+    SKIP_REGULAR_EXPRESSION "LUMEX_CONSUMER_SKIP"
+)
+
 # span compile-time checks: the uses std::span rejects (a discarded result,
 # a constructor its constraints remove, an out-of-range static subview, an
 # implicit conversion the standard makes explicit) must not compile with
