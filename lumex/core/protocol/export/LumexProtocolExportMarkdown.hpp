@@ -294,10 +294,14 @@ options_text (::lumex::core::protocol::dsl::options_view_t const &o)
   if (!flags.empty ())
     out += std::string (out.empty () ? "" : separator) + flags;
   for (std::size_t i = 0; i < o.extra.size (); ++i)
-    out += std::string (out.empty () ? "" : separator)
-           + o.extra.data ()[i].name + " "
-           + std::to_string (
-               static_cast<long long> (o.extra.data ()[i].value));
+    {
+      ::lumex::core::protocol::dsl::extra_option_t const &extra
+          = o.extra.data ()[i];
+      out += std::string (out.empty () ? "" : separator) + extra.name + " "
+             + (extra.text != nullptr
+                    ? std::string (extra.text)
+                    : std::to_string (static_cast<long long> (extra.value)));
+    }
   return out;
 }
 
@@ -310,6 +314,8 @@ reply_text_of (row_t const &row)
     return "one field";
   if (row.reply == reply_form::layout)
     return std::string ("layout `") + row.reply_layout + "`";
+  if (row.reply_kind != nullptr && row.reply_kind[0] != '\0')
+    return std::string ("a reply kind of the dialogue, ") + row.reply_kind;
   return "a reply kind of the dialogue";
 }
 

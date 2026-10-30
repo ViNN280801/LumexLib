@@ -53,6 +53,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <type_traits>
+#include <utility>
 
 #include "lumex/core/protocol/dsl/LumexProtocolKey.hpp"
 #include "lumex/core/protocol/dsl/LumexProtocolOptions.hpp"
@@ -81,11 +82,14 @@ using states_t = ::lumex::core::span::view::span<std::int64_t const>;
 
 /**
  * @brief An option of another layer (an option type whose kind is not one
- * of `dsl::kind`) in the run-time entry: its name and one number.
+ * of `dsl::kind`) in the run-time entry: its name, one number and a text.
  * @details Such an option type gives `static char const *option_name ()`
  * and `std::int64_t view_value () const` (the dialogue's correlation policy,
- * rate limit or keepalive period); the core keeps its typed value on the
- * command type and this pair in the entry, for the index and the export.
+ * rate limit or keepalive period), and may give `char const *view_text ()
+ * const` when the number alone does not say it (a policy by its name, the
+ * row it names); the core keeps its typed value on the command type and
+ * these values in the entry, for the index and the export. A member named
+ * `view_text` that cannot be called so does not compile.
  */
 struct extra_option_t
 {
@@ -93,6 +97,9 @@ struct extra_option_t
   char const *name;
   /// Its value as one number.
   std::int64_t value;
+  /// Its value as text (`view_text ()`, static storage), `nullptr` when the
+  /// option gives none.
+  char const *text;
 };
 
 /// @brief The options of other layers of a row.
@@ -383,13 +390,74 @@ template <typename... T> struct extras_of<option_set<T...>>
       ::lumex::core::utility::sequence::index_sequence<>, 0, T...>::type;
 };
 
+LUMEX_PROTOCOL_DETAIL_NAME_PROBE (view_text);
+
+// Whether option O has a view_text the entry can call.
+template <typename O, typename = void>
+struct callable_view_text_t : std::false_type
+{
+};
+
+template <typename O>
+struct callable_view_text_t<
+    O, typename std::enable_if<std::is_convertible<
+           decltype (std::declval<O const &> ().view_text ()),
+           char const *>::value>::type> : std::true_type
+{
+};
+
+template <typename O, bool Callable> struct view_text_call_t
+{
+  static char const *
+  get (O const &) LUMEX_NOEXCEPT
+  {
+    return nullptr;
+  }
+};
+
+template <typename O> struct view_text_call_t<O, true>
+{
+  static char const *
+  get (O const &option) LUMEX_NOEXCEPT
+  {
+    return option.view_text ();
+  }
+};
+
+// The text of an option: nullptr without view_text, a refusal of a
+// view_text the entry cannot call.
+template <typename O, bool Named = names_view_text_t<O>::value>
+struct extra_text_t
+{
+  static char const *
+  get (O const &) LUMEX_NOEXCEPT
+  {
+    return nullptr;
+  }
+};
+
+template <typename O> struct extra_text_t<O, true>
+{
+  static_assert (callable_view_text_t<O>::value,
+                 "LUMEX_PROTOCOL: the option names view_text, but not as an "
+                 "accessible member view_text () const that returns char "
+                 "const *");
+
+  static char const *
+  get (O const &option) LUMEX_NOEXCEPT
+  {
+    return view_text_call_t<O, callable_view_text_t<O>::value>::get (option);
+  }
+};
+
 template <typename Option>
 extra_option_t
 make_extra (Option const &option) LUMEX_NOEXCEPT
 {
   extra_option_t const extra
       = { Option::option_name (),
-          static_cast<std::int64_t> (option.view_value ()) };
+          static_cast<std::int64_t> (option.view_value ()),
+          extra_text_t<Option>::get (option) };
   return extra;
 }
 

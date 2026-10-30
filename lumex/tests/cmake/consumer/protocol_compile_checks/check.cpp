@@ -5,7 +5,11 @@
 // of its own check (see CMakeLists.txt for the list). The tables are
 // synthetic: an invented device, no real protocol.
 
+#include <cstdint>
 #include <ratio>
+#include <string>
+#include <system_error>
+#include <type_traits>
 
 #include "lumex/core/protocol/LumexProtocol"
 
@@ -471,6 +475,81 @@ use_messages ()
 #else
   (void)layout::encode_message<bad_protocol, bad_protocol::ONE_t> (out, 1);
 #endif
+}
+
+#elif LUMEX_PROTOCOL_BAD_CASE >= 43 && LUMEX_PROTOCOL_BAD_CASE <= 47
+namespace layout = ::lumex::core::protocol::layout;
+namespace dsl = ::lumex::core::protocol::dsl;
+namespace field = ::lumex::core::protocol::field;
+namespace index = ::lumex::core::protocol::index;
+struct hook_reply
+{
+  using lumex_protocol_reply = dsl::reply_tag;
+#if LUMEX_PROTOCOL_BAD_CASE == 43
+  // 43: a describe hook of a reply kind with the wrong parameters.
+  template <typename P, typename Row>
+  static std::error_code
+  lumex_describe_reply (layout::bytes_view_t, std::string &)
+  {
+    return std::error_code ();
+  }
+#elif LUMEX_PROTOCOL_BAD_CASE == 44
+  // 44: the text of a reply kind that is no static function.
+  int lumex_reply_text;
+#endif
+};
+struct text_kind
+{
+};
+struct text_option
+{
+  using option_kind = text_kind;
+  static char const *
+  option_name ()
+  {
+    return "texted";
+  }
+  std::int64_t
+  view_value () const
+  {
+    return 0;
+  }
+#if LUMEX_PROTOCOL_BAD_CASE == 45
+  // 45: the text of an option that is no member function.
+  static int view_text;
+#endif
+};
+template <typename P> struct refuses : std::false_type
+{
+};
+struct hook_vocabulary : ::lumex::core::protocol::dsl::vocabulary
+{
+  template <typename R> using hooked = hook_reply;
+  static constexpr text_option
+  texted ()
+  {
+    return text_option ();
+  }
+#if LUMEX_PROTOCOL_BAD_CASE == 46
+  // 46: a check of the vocabulary that is no member template.
+  static constexpr bool lumex_check_protocol = true;
+#elif LUMEX_PROTOCOL_BAD_CASE == 47
+  // 47: a check of the vocabulary that refuses the protocol.
+  template <typename P> using lumex_check_protocol = refuses<P>;
+#endif
+};
+struct hook_header
+{
+  using lumex_vocabulary = hook_vocabulary;
+  static constexpr std::size_t key_width = 1;
+};
+#define BAD_ROWS(X, X_AS)                                                     \
+  X (ONE, 0x01, "One", (), (), (hooked<int>), (texted ()))
+LUMEX_PROTOCOL_DEFINE (bad_protocol, codec, hook_header, BAD_ROWS);
+void
+use_hooked_index ()
+{
+  (void)index::build_index<bad_protocol> ();
 }
 #endif
 } // namespace check_tables
