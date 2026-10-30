@@ -204,43 +204,63 @@ public:
   feed_after (std::chrono::milliseconds delay,
               std::vector<std::uint8_t> const &bytes)
   {
-    std::shared_ptr<mock_stream_impl> const self
-        = std::static_pointer_cast<mock_stream_impl> (shared_from_this ());
-    std::uint64_t id = 0;
-    {
-      std::lock_guard<std::mutex> const lock (mutex_);
-      id = scheduled_.add (bytes);
-    }
-    // The timer is made and the wait started outside the lock.
-    timing::timer timer;
-    try
-      {
-        timer = scheduled_t::start (self, timers_, executor_type (strand ()),
-                                    delay, id);
-      }
-    catch (...)
-      {
-        std::lock_guard<std::mutex> const lock (mutex_);
-        scheduled_.remove (id);
-        throw;
-      }
-    {
-      std::lock_guard<std::mutex> const lock (mutex_);
-      scheduled_.attach (id, timer);
-    }
+    scripted_step_t step;
+    step.kind = scripted_step_t::deliver_bytes;
+    step.bytes = bytes;
+    schedule (delay, std::move (step));
   }
 
-  // A delivery came due (on the strand): its bytes become readable.
+  void
+  empty_read_after (std::chrono::milliseconds delay)
+  {
+    scripted_step_t step;
+    step.kind = scripted_step_t::end_read_empty;
+    schedule (delay, std::move (step));
+  }
+
+  void
+  disconnect_after (std::chrono::milliseconds delay)
+  {
+    scripted_step_t step;
+    step.kind = scripted_step_t::hang_up;
+    schedule (delay, std::move (step));
+  }
+
+  void
+  fail_opens_for (std::chrono::milliseconds duration, std::error_code error)
+  {
+    timing::time_point_t const until
+        = detail::saturating_add (timers_.now (), duration);
+    std::lock_guard<std::mutex> const lock (mutex_);
+    open_fail_until_ = until;
+    open_fail_error_ = error;
+  }
+
+  // A scheduled step came due (on the strand): its bytes become readable, the
+  // next read ends empty, or the link goes down.
   void
   deliver_scheduled (std::uint64_t id)
   {
-    std::vector<std::uint8_t> bytes;
+    scripted_step_t step;
     timing::timer expired;
     {
       std::lock_guard<std::mutex> const lock (mutex_);
-      if (!scheduled_.take (id, bytes, expired))
+      if (!scheduled_.take (id, step, expired))
         return;
-      received_.insert (received_.end (), bytes.begin (), bytes.end ());
+      switch (step.kind)
+        {
+        case scripted_step_t::deliver_bytes:
+          received_.insert (received_.end (), step.bytes.begin (),
+                            step.bytes.end ());
+          break;
+        case scripted_step_t::end_read_empty:
+          ++empty_reads_;
+          break;
+        case scripted_step_t::hang_up:
+          disconnected_ = true;
+          end_pending_writes (transport_errc::disconnected);
+          break;
+        }
       serve_reads ();
     }
   }
@@ -315,6 +335,11 @@ protected:
         complete (std::move (handler), error);
         return;
       }
+    if (open_fail_error_ && timers_.now () < open_fail_until_)
+      {
+        complete (std::move (handler), open_fail_error_);
+        return;
+      }
     if (hold_open_)
       {
         hold_open_ = false;
@@ -379,9 +404,52 @@ protected:
   }
 
 private:
-  using scheduled_t = detail::scheduled_deliveries<mock_stream_impl,
-                                                   std::vector<std::uint8_t>>;
+  // What a scripted delivery does when its time comes.
+  struct scripted_step_t
+  {
+    enum kind_t
+    {
+      deliver_bytes,
+      end_read_empty,
+      hang_up
+    };
+
+    kind_t kind = deliver_bytes;
+    std::vector<std::uint8_t> bytes;
+  };
+
+  using scheduled_t
+      = detail::scheduled_deliveries<mock_stream_impl, scripted_step_t>;
   using observer_ptr_t = std::shared_ptr<write_observer_t const>;
+
+  void
+  schedule (std::chrono::milliseconds delay, scripted_step_t step)
+  {
+    std::shared_ptr<mock_stream_impl> const self
+        = std::static_pointer_cast<mock_stream_impl> (shared_from_this ());
+    std::uint64_t id = 0;
+    {
+      std::lock_guard<std::mutex> const lock (mutex_);
+      id = scheduled_.add (std::move (step));
+    }
+    // The timer is made and the wait started outside the lock.
+    timing::timer timer;
+    try
+      {
+        timer = scheduled_t::start (self, timers_, executor_type (strand ()),
+                                    delay, id);
+      }
+    catch (...)
+      {
+        std::lock_guard<std::mutex> const lock (mutex_);
+        scheduled_.remove (id);
+        throw;
+      }
+    {
+      std::lock_guard<std::mutex> const lock (mutex_);
+      scheduled_.attach (id, timer);
+    }
+  }
 
   struct pending_read_t
   {
@@ -598,6 +666,8 @@ private:
   std::size_t empty_reads_ = 0;
   std::size_t open_count_ = 0;
   std::error_code open_error_;
+  std::error_code open_fail_error_;
+  timing::time_point_t open_fail_until_;
   std::error_code read_error_;
   std::error_code write_error_;
   std::error_code delayed_write_error_;
@@ -682,6 +752,25 @@ mock_stream_control::feed_after (std::chrono::milliseconds delay,
                                  std::vector<std::uint8_t> const &bytes)
 {
   impl_->feed_after (delay, bytes);
+}
+
+void
+mock_stream_control::empty_read_after (std::chrono::milliseconds delay)
+{
+  impl_->empty_read_after (delay);
+}
+
+void
+mock_stream_control::disconnect_after (std::chrono::milliseconds delay)
+{
+  impl_->disconnect_after (delay);
+}
+
+void
+mock_stream_control::fail_opens_for (std::chrono::milliseconds duration,
+                                     std::error_code error)
+{
+  impl_->fail_opens_for (duration, error);
 }
 
 void

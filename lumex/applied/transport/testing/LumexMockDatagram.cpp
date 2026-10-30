@@ -186,30 +186,28 @@ public:
   void
   deliver_after (std::chrono::milliseconds delay, message_t const &message)
   {
-    std::shared_ptr<mock_datagram_impl> const self
-        = std::static_pointer_cast<mock_datagram_impl> (shared_from_this ());
-    std::uint64_t id = 0;
-    {
-      std::lock_guard<std::mutex> const lock (mutex_);
-      id = scheduled_.add (message);
-    }
-    // The timer is made and the wait started outside the lock.
-    timing::timer timer;
-    try
-      {
-        timer = scheduled_t::start (self, timers_, executor_type (strand ()),
-                                    delay, id);
-      }
-    catch (...)
-      {
-        std::lock_guard<std::mutex> const lock (mutex_);
-        scheduled_.remove (id);
-        throw;
-      }
-    {
-      std::lock_guard<std::mutex> const lock (mutex_);
-      scheduled_.attach (id, timer);
-    }
+    scripted_step_t step;
+    step.kind = scripted_step_t::deliver_message;
+    step.message = message;
+    schedule (delay, std::move (step));
+  }
+
+  void
+  disconnect_after (std::chrono::milliseconds delay)
+  {
+    scripted_step_t step;
+    step.kind = scripted_step_t::hang_up;
+    schedule (delay, std::move (step));
+  }
+
+  void
+  fail_opens_for (std::chrono::milliseconds duration, std::error_code error)
+  {
+    timing::time_point_t const until
+        = detail::saturating_add (timers_.now (), duration);
+    std::lock_guard<std::mutex> const lock (mutex_);
+    open_fail_until_ = until;
+    open_fail_error_ = error;
   }
 
   void
@@ -235,17 +233,27 @@ public:
     asio::post (strand (), std::move (step));
   }
 
-  // A delivery came due (on the strand): its message becomes receivable.
+  // A scheduled step came due (on the strand): its message becomes
+  // receivable, or the link goes down.
   void
   deliver_scheduled (std::uint64_t id)
   {
-    message_t message;
+    scripted_step_t step;
     timing::timer expired;
     {
       std::lock_guard<std::mutex> const lock (mutex_);
-      if (!scheduled_.take (id, message, expired))
+      if (!scheduled_.take (id, step, expired))
         return;
-      incoming_.push_back (std::move (message));
+      switch (step.kind)
+        {
+        case scripted_step_t::deliver_message:
+          incoming_.push_back (std::move (step.message));
+          break;
+        case scripted_step_t::hang_up:
+          disconnected_ = true;
+          end_pending_sends (transport_errc::disconnected);
+          break;
+        }
       serve_receives ();
     }
   }
@@ -280,6 +288,11 @@ protected:
         std::error_code const error = open_error_;
         open_error_ = std::error_code ();
         complete (std::move (handler), error);
+        return;
+      }
+    if (open_fail_error_ && timers_.now () < open_fail_until_)
+      {
+        complete (std::move (handler), open_fail_error_);
         return;
       }
     if (hold_open_)
@@ -344,9 +357,51 @@ protected:
   }
 
 private:
+  // What a scripted delivery does when its time comes.
+  struct scripted_step_t
+  {
+    enum kind_t
+    {
+      deliver_message,
+      hang_up
+    };
+
+    kind_t kind = deliver_message;
+    message_t message;
+  };
+
   using scheduled_t
-      = detail::scheduled_deliveries<mock_datagram_impl, message_t>;
+      = detail::scheduled_deliveries<mock_datagram_impl, scripted_step_t>;
   using observer_ptr_t = std::shared_ptr<send_observer_t const>;
+
+  void
+  schedule (std::chrono::milliseconds delay, scripted_step_t step)
+  {
+    std::shared_ptr<mock_datagram_impl> const self
+        = std::static_pointer_cast<mock_datagram_impl> (shared_from_this ());
+    std::uint64_t id = 0;
+    {
+      std::lock_guard<std::mutex> const lock (mutex_);
+      id = scheduled_.add (std::move (step));
+    }
+    // The timer is made and the wait started outside the lock.
+    timing::timer timer;
+    try
+      {
+        timer = scheduled_t::start (self, timers_, executor_type (strand ()),
+                                    delay, id);
+      }
+    catch (...)
+      {
+        std::lock_guard<std::mutex> const lock (mutex_);
+        scheduled_.remove (id);
+        throw;
+      }
+    {
+      std::lock_guard<std::mutex> const lock (mutex_);
+      scheduled_.attach (id, timer);
+    }
+  }
 
   struct pending_send_t
   {
@@ -535,6 +590,8 @@ private:
   bool hold_open_ = false;
   bool disconnected_ = false;
   std::error_code open_error_;
+  std::error_code open_fail_error_;
+  timing::time_point_t open_fail_until_;
   std::error_code receive_error_;
   std::error_code send_error_;
   std::error_code delayed_send_error_;
@@ -594,6 +651,19 @@ mock_datagram_control::deliver_after (std::chrono::milliseconds delay,
                                       message_t const &message)
 {
   impl_->deliver_after (delay, message);
+}
+
+void
+mock_datagram_control::disconnect_after (std::chrono::milliseconds delay)
+{
+  impl_->disconnect_after (delay);
+}
+
+void
+mock_datagram_control::fail_opens_for (std::chrono::milliseconds duration,
+                                       std::error_code error)
+{
+  impl_->fail_opens_for (duration, error);
 }
 
 void

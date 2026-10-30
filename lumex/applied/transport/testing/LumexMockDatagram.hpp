@@ -117,6 +117,16 @@ public:
   /// source (the rules of `mock_stream_control::feed_after`).
   void deliver_after (std::chrono::milliseconds delay,
                       datagram::message_t const &message);
+  /// @brief `disconnect ()` after `delay` of the mock's timer source;
+  /// ordered with `deliver_after` by time and, for equal times, by the order
+  /// of the calls. A new open clears the disconnect.
+  void disconnect_after (std::chrono::milliseconds delay);
+  /// @brief Every open that starts before `duration` of the mock's timer
+  /// source has passed from now fails with `error` (a cable that is plugged
+  /// back later); a zero or negative duration clears the window. `fail_open`
+  /// is served first.
+  void fail_opens_for (std::chrono::milliseconds duration,
+                       std::error_code error);
   /// @brief From now on sends stay pending (they are neither recorded nor
   /// completed) until `release_sends`, `cancel` or `close`; the latter two end
   /// them with `cancelled`.
