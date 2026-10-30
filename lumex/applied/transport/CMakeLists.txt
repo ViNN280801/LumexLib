@@ -31,6 +31,11 @@ if(NOT _transport_with_framing)
     list(FILTER SOURCES EXCLUDE REGEX "/framed/")
 endif()
 
+# The dialogue layer over the protocol tables (protocol/): for now its
+# header-only vocabulary (protocol/dsl), which needs core/protocol. Its
+# headers are installed only with that module.
+lumex_effective_on(_transport_with_protocol LUMEX_BUILD_PROTOCOL)
+
 # The HID transport (hid/: hid_device over the vendored hidapi, never
 # hid_exit) only with LUMEX_TRANSPORT_WITH_HID. lumex_setup_hidapi is a macro
 # that enables C: it runs here, in file scope.
@@ -142,6 +147,10 @@ if(LUMEX_INSTALL)
     # The framed adapters' headers only with the framing module.
     if(NOT _transport_with_framing)
         list(APPEND _transport_install_excludes PATTERN "framed" EXCLUDE)
+    endif()
+    # The dialogue vocabulary's headers only with the protocol module.
+    if(NOT _transport_with_protocol)
+        list(APPEND _transport_install_excludes PATTERN "protocol" EXCLUDE)
     endif()
     install(
         DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/

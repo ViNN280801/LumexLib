@@ -11,7 +11,9 @@
 // framed_stream, and framed_datagram answers a round. With the HID transport
 // (LUMEX_TRANSPORT_WITH_HID) a synthetic descriptor is analyzed, the real
 // hidapi enumerates, and a device on a path that does not exist fails to
-// open under a hid_runtime owner object.
+// open under a hid_runtime owner object. With the protocol module
+// (LUMEX_FIXTURE_WITH_PROTOCOL) a table with every word of the dialogue
+// vocabulary is indexed, described, exported and read through its traits.
 
 #include <chrono>
 #include <cstddef>
@@ -31,6 +33,140 @@
 #include "lumex/applied/transport/LumexTransport"
 #if defined(LUMEX_TRANSPORT_WITH_FRAMING)
 #include "lumex/core/framing/LumexFraming"
+#endif
+#if defined(LUMEX_FIXTURE_WITH_PROTOCOL)
+#include "lumex/applied/transport/protocol/dsl/LumexDialogueVocabulary.hpp"
+#include "lumex/core/protocol/LumexProtocol"
+#endif
+
+#if defined(LUMEX_FIXTURE_WITH_PROTOCOL)
+// --- the dialogue vocabulary over a protocol table: every reply kind, row
+// option and protocol option, the hooks of the index and the traits
+// ------------------------------------------------------------------------
+namespace dialogue_fixture
+{
+namespace dialogue = lumex::applied::transport::protocol::dialogue;
+namespace index = lumex::core::protocol::index;
+namespace layout = lumex::core::protocol::layout;
+
+struct codec_t
+{
+};
+
+inline bool
+match_any (index::row_t const *, layout::bytes_view_t, layout::bytes_view_t)
+{
+  return true;
+}
+
+LUMEX_PROTOCOL_LAYOUT (refusal_t, (u8_, u16_le_), ("code", "detail"));
+LUMEX_PROTOCOL_LAYOUT (state_t, (u8_, u8_), ("valve", "mode"));
+
+struct header_t
+{
+  using lumex_vocabulary = dialogue::vocabulary_t;
+  static constexpr std::size_t key_width = 1;
+  template <typename P>
+  using dialogue_options = dialogue::options<
+      dialogue::keepalive<typename P::TICK_t, 1000>,
+      dialogue::watchdog_ms<3000>, dialogue::min_interval_ms<20>,
+      dialogue::state_from<typename P::STATE_t, 1>,
+      dialogue::identify_with<typename P::STATE_t>, dialogue::max_in_flight<1>,
+      dialogue::default_timeout_ms<400>, dialogue::default_retries<1>,
+      dialogue::late_reply_window_ms<100>>;
+};
+
+// clang-format off
+#define FIXTURE_ROWS(X, X_AS) \
+  X (ACK, 0x06, "Accepted", (), (), (), ()) \
+  X (NAK, 0x15, "Refused", (), (), (u8_), ()) \
+  X (CHANGE, 0x30, "Changed", (), (), (state_t), ()) \
+  X (TICK, 0x11, "Tick", (u32_le_), ("seconds"), (), (idempotent)) \
+  X (STATE, 0x12, "State", (), (), (state_t), \
+     (stream (100), edge_event<0, 0, 1> ())) \
+  X (START, 0x01, "Start", (u8_), ("channel"), (ack_nak<u8_, refusal_t>), \
+     (min_interval (50))) \
+  X (STOP, 0x02, "Stop", (), (), (ack_nak<ACK_t, NAK_t>), ()) \
+  X (PRIME, 0x03, "Prime", (u16_le_), ("volume"), \
+     (two_phase<ACK_t, u16_le_>), ()) \
+  X (SET_FLOW, 0x04, "Flow", (u16_le_), ("flow"), (echo_set<u16_le_>), ()) \
+  X (SET_LIMIT, 0x05, "Limit", (u8_), ("limit"), \
+     (echo_zero_on_error<u8_>), ()) \
+  X (SET_MODE, 0x07, "Mode", (u8_), ("mode"), \
+     (state_instead_of_refusal<u8_>), ()) \
+  X (WRITE, 0x08, "Write", (u8_), ("value"), (), (reply_row<CHANGE_t> ())) \
+  X (READ, 0x09, "Read", (u8_), ("parameter"), (u16_le_), \
+     (correlate (correlation::by_order))) \
+  X (QUERY, 0x0A, "Query", (), (), (u8_), (match_with (&match_any)))
+// clang-format on
+LUMEX_PROTOCOL_DEFINE (fixture_t, codec_t, header_t, FIXTURE_ROWS);
+
+inline std::string
+rx (index::protocol_index_t const &where, std::vector<std::uint8_t> frame)
+{
+  return where.describe (layout::bytes_view_t (frame.data (), frame.size ()),
+                         index::frame_direction::rx);
+}
+
+inline bool
+dialogue_round ()
+{
+  static_assert (dialogue::check_protocol_t<fixture_t>::value,
+                 "the fixture table is valid");
+  index::index_result_t const &result = index::protocol_index<fixture_t> ();
+  if (!result.has_value ())
+    return false;
+  index::protocol_index_t const &where = *result;
+  bool fine = rx (where, { 0x01, 0x07 })
+              == "RX fixture_t.START (Start) ACK "
+                 "value=7";
+  fine = rx (where, { 0x01, 0x05, 0x34, 0x12 })
+             == "RX fixture_t.START (Start) NAK code=5 detail=4660"
+         && fine;
+  fine = rx (where, { 0x02 }).find ("decode error") != std::string::npos
+         && fine;
+  fine = rx (where, { 0x03, 0xE8, 0x03 })
+             == "RX fixture_t.PRIME (Prime) COMPLETION value=1000"
+         && fine;
+  fine = rx (where, { 0x04, 0x01, 0x00 })
+             == "RX fixture_t.SET_FLOW (Flow) ECHO value=1"
+         && fine;
+  fine = rx (where, { 0x05, 0x00 })
+             == "RX fixture_t.SET_LIMIT (Limit) REFUSED value=0"
+         && fine;
+  fine = rx (where, { 0x07, 0x02 })
+             == "RX fixture_t.SET_MODE (Mode) ECHO value=2"
+         && fine;
+  std::string const document = index::export_markdown (where);
+  fine = document.find ("ack_nak (ACK: message `ACK`; NAK: message `NAK`)")
+             != std::string::npos
+         && document.find ("edge_event field 0: 0 -> 1") != std::string::npos
+         && document.find ("reply_row CHANGE") != std::string::npos
+         && document.find ("correlation by_order") != std::string::npos
+         && document.find ("match_with custom") != std::string::npos && fine;
+  using traits = dialogue::protocol_traits_t<fixture_t>;
+  fine = traits::max_in_flight () == 1 && traits::watchdog_ms () == 3000
+         && traits::keepalive_period_ms () == 1000
+         && traits::min_interval_ms () == 20 && traits::state_field () == 1
+         && traits::default_timeout_ms () == 400
+         && traits::default_retries () == 1
+         && traits::late_reply_window_ms () == 100 && fine;
+  fine = dialogue::row_traits_t<fixture_t, fixture_t::STOP_t>::how ()
+             == dialogue::correlation::by_order
+         && dialogue::row_traits_t<fixture_t, fixture_t::WRITE_t>::how ()
+                == dialogue::correlation::by_reply_key
+         && dialogue::row_traits_t<fixture_t, fixture_t::QUERY_t>::matcher ()
+                != nullptr
+         && dialogue::row_traits_t<fixture_t, fixture_t::START_t>::kind ()
+                == dialogue::reply_kind::ack_nak
+         && dialogue::row_traits_t<fixture_t,
+                                   fixture_t::START_t>::min_interval_ms ()
+                == 50
+         && fine;
+  dialogue::reply_value_of_t<fixture_t::PRIME_t>::type const completion = 1;
+  return completion == 1 && fine;
+}
+} // namespace dialogue_fixture
 #endif
 
 namespace
@@ -774,6 +910,9 @@ main ()
 #endif
 #if defined(LUMEX_TRANSPORT_WITH_HID)
   fine = hid_round (runner) && fine;
+#endif
+#if defined(LUMEX_FIXTURE_WITH_PROTOCOL)
+  fine = dialogue_fixture::dialogue_round () && fine;
 #endif
 #if defined(LUMEX_TRANSPORT_WITH_LOGGER)
   tr::log::uninstall_lumex_logger_sink ();
