@@ -1,0 +1,1382 @@
+/*
+ * Copyright (c) 2026 Vladislav Semykin <vladislav.semykin@gmail.com>
+ *
+ *
+ * SPDX-License-Identifier: MIT
+ *
+ * Permission is hereby granted, free of
+ * charge, to any person obtaining a copy
+ * of this software and associated
+ * documentation files (the "Software"), to deal
+ * in the Software without
+ * restriction, including without limitation the rights
+ * to use, copy,
+ * modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the
+ * Software, and to permit persons to whom the Software is
+ * furnished to do
+ * so, subject to the following conditions:
+ *
+ * The above copyright notice
+ * and this permission notice shall be included in
+ * all copies or substantial
+ * portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT
+ * WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO
+ * THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH
+ * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+#include <algorithm>
+#include <chrono>
+#include <cstddef>
+#include <cstdint>
+#include <mutex>
+#include <system_error>
+#include <utility>
+#include <vector>
+
+#include "lumex/applied/transport/testing/LumexBehaviors.hpp"
+
+#if defined(__clang__)
+// The library's clang-cl set: -Wall there is -Weverything (as in the other
+// modules' sources).
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#pragma clang diagnostic ignored "-Wswitch-enum"
+#if __has_warning("-Wlifetime-safety-invalidation")
+#pragma clang diagnostic ignored "-Wlifetime-safety-invalidation"
+#endif
+#if __has_warning("-Wlifetime-safety-cross-tu-suggestions")
+#pragma clang diagnostic ignored "-Wlifetime-safety-cross-tu-suggestions"
+#endif
+#if __has_warning("-Wlifetime-safety-suggestions")
+#pragma clang diagnostic ignored "-Wlifetime-safety-suggestions"
+#endif
+#if __has_warning("-Wnrvo")
+#pragma clang diagnostic ignored "-Wnrvo"
+#endif
+#endif
+
+namespace lumex
+{
+namespace applied
+{
+namespace transport
+{
+namespace testing
+{
+namespace
+{
+using bytes_t = std::vector<std::uint8_t>;
+using ms = std::chrono::milliseconds;
+using steps_t = std::vector<plan_step_t>;
+
+// A duration in milliseconds, never negative.
+long long
+millis (ms value)
+{
+  return std::max<long long> (static_cast<long long> (value.count ()), 0);
+}
+
+// --- the generator
+
+// splitmix64: the same numbers on every platform and standard library.
+std::uint64_t
+next_random (std::uint64_t &state)
+{
+  state += 0x9E3779B97F4A7C15ULL;
+  std::uint64_t value = state;
+  value = (value ^ (value >> 30)) * 0xBF58476D1CE4E5B9ULL;
+  value = (value ^ (value >> 27)) * 0x94D049BB133111EBULL;
+  return value ^ (value >> 31);
+}
+
+// A number in [0, bound); 0 for a bound of 0.
+std::size_t
+below (std::uint64_t &state, std::size_t bound)
+{
+  std::uint64_t const value = next_random (state);
+  if (bound == 0)
+    return 0;
+  return static_cast<std::size_t> (value % static_cast<std::uint64_t> (bound));
+}
+
+// --- steps
+
+plan_step_t
+make_step (plan_step_kind kind, ms at, bytes_t const &bytes)
+{
+  plan_step_t step;
+  step.kind = kind;
+  step.at = at;
+  step.bytes = bytes;
+  return step;
+}
+
+// What a stage sees besides the steps.
+struct plan_context_t
+{
+  bytes_t const *request;
+  // The row has a reply (the request was not for a command without one).
+  bool has_reply;
+  timing::time_point_t now;
+  bool datagram;
+};
+
+bool
+has_bytes (steps_t const &steps)
+{
+  for (std::size_t index = 0; index < steps.size (); ++index)
+    if (steps[index].kind == plan_step_kind::bytes)
+      return true;
+  return false;
+}
+
+std::size_t
+total_bytes (steps_t const &steps)
+{
+  std::size_t total = 0;
+  for (std::size_t index = 0; index < steps.size (); ++index)
+    if (steps[index].kind == plan_step_kind::bytes)
+      total += steps[index].bytes.size ();
+  return total;
+}
+
+// The time of the first or last bytes step; zero without one.
+ms
+first_bytes_time (steps_t const &steps)
+{
+  for (std::size_t index = 0; index < steps.size (); ++index)
+    if (steps[index].kind == plan_step_kind::bytes)
+      return steps[index].at;
+  return ms (0);
+}
+
+ms
+last_bytes_time (steps_t const &steps)
+{
+  ms latest (0);
+  for (std::size_t index = 0; index < steps.size (); ++index)
+    if (steps[index].kind == plan_step_kind::bytes && steps[index].at > latest)
+      latest = steps[index].at;
+  return latest;
+}
+
+void
+remove_bytes_steps (steps_t &steps)
+{
+  steps_t kept;
+  for (std::size_t index = 0; index < steps.size (); ++index)
+    if (steps[index].kind != plan_step_kind::bytes)
+      kept.push_back (steps[index]);
+  steps.swap (kept);
+}
+
+// Keeps the first `keep` bytes of the bytes steps (steps that lose all their
+// bytes go).
+void
+keep_first_bytes (steps_t &steps, std::size_t keep)
+{
+  steps_t kept;
+  std::size_t remaining = keep;
+  for (std::size_t index = 0; index < steps.size (); ++index)
+    {
+      plan_step_t step = steps[index];
+      if (step.kind == plan_step_kind::bytes)
+        {
+          if (remaining == 0)
+            continue;
+          if (step.bytes.size () > remaining)
+            step.bytes.resize (remaining);
+          remaining -= step.bytes.size ();
+        }
+      kept.push_back (step);
+    }
+  steps.swap (kept);
+}
+
+void
+put_first (steps_t &steps, plan_step_t const &step)
+{
+  steps.insert (steps.begin (), step);
+}
+
+// --- the attack patterns
+
+bytes_t
+attack_unit (malicious_mode mode)
+{
+  bytes_t unit;
+  switch (mode)
+    {
+    case malicious_mode::end_flood:
+      unit.push_back (0xC0);
+      break;
+    case malicious_mode::nul_flood:
+      unit.push_back (0x00);
+      break;
+    case malicious_mode::ff_flood:
+      unit.push_back (0xFF);
+      break;
+    case malicious_mode::control_chars:
+      for (std::uint8_t value = 0; value < 0x20; ++value)
+        unit.push_back (value);
+      break;
+    case malicious_mode::alternating_extremes:
+      unit.push_back (0x00);
+      unit.push_back (0xFF);
+      break;
+    case malicious_mode::bad_escape:
+      {
+        std::uint8_t const pattern[] = { 0xC0, 0xDB, 0xAA, 0xC0, 0xDB, 0xC0 };
+        unit.assign (pattern, pattern + sizeof (pattern));
+      }
+      break;
+    case malicious_mode::long_unterminated:
+      unit.push_back (0xAB);
+      break;
+    case malicious_mode::max_length_prefix:
+      {
+        std::uint8_t const pattern[]
+            = { 0xFF, 0xFF, 0xFF, 0x7F, 0x7F, 0xFF, 0xFF, 0xFF };
+        unit.assign (pattern, pattern + sizeof (pattern));
+      }
+      break;
+    case malicious_mode::dense_escapes:
+      unit.push_back (0xDB);
+      unit.push_back (0xDC);
+      break;
+    case malicious_mode::mixed:
+      unit.push_back (0x00);
+      break;
+    default:
+      break;
+    }
+  return unit;
+}
+
+bytes_t
+attack_bytes (malicious_mode mode, std::size_t count)
+{
+  bytes_t const unit = attack_unit (mode);
+  bytes_t bytes;
+  bytes.reserve (count);
+  for (std::size_t index = 0; index < count; ++index)
+    bytes.push_back (unit[index % unit.size ()]);
+  return bytes;
+}
+
+// --- the stages
+
+// echo: `period` is the delay.
+void
+apply_echo (behavior_stage_t const &stage, steps_t &steps, bool &processed,
+            plan_context_t const &context)
+{
+  steps.clear ();
+  processed = false;
+  if (!context.request->empty ())
+    steps.push_back (
+        make_step (plan_step_kind::bytes, stage.period, *context.request));
+}
+
+// frozen: `count` is the number of replies answered.
+void
+apply_frozen (behavior_stage_t const &stage, behavior_state_t &state,
+              steps_t &steps, bool &processed, plan_context_t const &context)
+{
+  if (state.count >= stage.count)
+    {
+      steps.clear ();
+      processed = false;
+      return;
+    }
+  if (context.has_reply)
+    ++state.count;
+}
+
+// partial_then_frozen: `count` is the number of replies answered whole,
+// `limit` the bytes of the next one.
+void
+apply_partial_then_frozen (behavior_stage_t const &stage,
+                           behavior_state_t &state, steps_t &steps,
+                           bool &processed, plan_context_t const &context)
+{
+  if (state.count > stage.count)
+    {
+      steps.clear ();
+      processed = false;
+      return;
+    }
+  if (!context.has_reply)
+    return;
+  if (state.count == stage.count)
+    {
+      std::size_t const total = total_bytes (steps);
+      keep_first_bytes (steps,
+                        std::min (stage.limit, total > 0 ? total - 1 : 0));
+    }
+  ++state.count;
+}
+
+// slow_trickle: `period` is the time per byte.
+void
+apply_slow_trickle (behavior_stage_t const &stage, steps_t &steps,
+                    plan_context_t const &context)
+{
+  long long const per_byte = millis (stage.period);
+  steps_t out;
+  for (std::size_t index = 0; index < steps.size (); ++index)
+    {
+      plan_step_t const &step = steps[index];
+      if (step.kind != plan_step_kind::bytes)
+        {
+          out.push_back (step);
+          continue;
+        }
+      if (context.datagram)
+        {
+          plan_step_t late = step;
+          late.at
+              += ms (per_byte * static_cast<long long> (step.bytes.size ()));
+          out.push_back (late);
+          continue;
+        }
+      for (std::size_t offset = 0; offset < step.bytes.size (); ++offset)
+        {
+          bytes_t one (1, step.bytes[offset]);
+          out.push_back (make_step (
+              plan_step_kind::bytes,
+              step.at + ms (per_byte * static_cast<long long> (offset + 1)),
+              one));
+        }
+    }
+  steps.swap (out);
+}
+
+// fragmented: `count` is the largest piece, `period` the gap.
+void
+apply_fragmented (behavior_stage_t const &stage, behavior_state_t &state,
+                  steps_t &steps)
+{
+  std::size_t const largest = std::max<std::size_t> (stage.count, 1);
+  long long const gap = millis (stage.period);
+  steps_t out;
+  for (std::size_t index = 0; index < steps.size (); ++index)
+    {
+      plan_step_t const &step = steps[index];
+      if (step.kind != plan_step_kind::bytes)
+        {
+          out.push_back (step);
+          continue;
+        }
+      std::size_t offset = 0;
+      long long piece = 0;
+      while (offset < step.bytes.size ())
+        {
+          std::size_t size = 1 + below (state.generator, largest);
+          size = std::min (size, step.bytes.size () - offset);
+          bytes_t const part (
+              step.bytes.begin () + static_cast<std::ptrdiff_t> (offset),
+              step.bytes.begin ()
+                  + static_cast<std::ptrdiff_t> (offset + size));
+          out.push_back (make_step (plan_step_kind::bytes,
+                                    step.at + ms (gap * piece), part));
+          offset += size;
+          ++piece;
+        }
+    }
+  steps.swap (out);
+}
+
+// flood: `count` bytes of the counting pattern.
+void
+apply_flood (behavior_stage_t const &stage, steps_t &steps)
+{
+  if (stage.count == 0)
+    return;
+  bytes_t pattern (stage.count);
+  for (std::size_t index = 0; index < pattern.size (); ++index)
+    pattern[index] = static_cast<std::uint8_t> (index & 0xFFu);
+  put_first (steps, make_step (plan_step_kind::bytes, ms (0), pattern));
+}
+
+// repeating: `count` copies, `period` the gap between copies.
+void
+apply_repeating (behavior_stage_t const &stage, steps_t &steps,
+                 plan_context_t const &context)
+{
+  if (!context.has_reply || !has_bytes (steps))
+    return;
+  steps_t const original = steps;
+  for (std::size_t copy = 1; copy <= stage.count; ++copy)
+    for (std::size_t index = 0; index < original.size (); ++index)
+      {
+        if (original[index].kind != plan_step_kind::bytes)
+          continue;
+        plan_step_t again = original[index];
+        again.at += ms (millis (stage.period) * static_cast<long long> (copy));
+        steps.push_back (again);
+      }
+}
+
+// garbage: `count` random bytes.
+void
+apply_garbage (behavior_stage_t const &stage, behavior_state_t &state,
+               steps_t &steps)
+{
+  if (stage.count == 0)
+    return;
+  bytes_t noise (stage.count);
+  for (std::size_t index = 0; index < noise.size (); ++index)
+    noise[index]
+        = static_cast<std::uint8_t> (next_random (state.generator) >> 56);
+  put_first (steps, make_step (plan_step_kind::bytes, ms (0), noise));
+}
+
+// malicious: `mode`, `count` bytes.
+void
+apply_malicious (behavior_stage_t const &stage, behavior_state_t &state,
+                 steps_t &steps)
+{
+  if (stage.count == 0)
+    return;
+  malicious_mode mode = stage.mode;
+  if (mode == malicious_mode::mixed)
+    mode = static_cast<malicious_mode> (below (state.generator, 9));
+  put_first (steps, make_step (plan_step_kind::bytes, ms (0),
+                               attack_bytes (mode, stage.count)));
+}
+
+// corrupted_crc: `count` is the rate in thousandths, `limit` the number of
+// frames to damage (0: any).
+void
+apply_corrupted_crc (behavior_stage_t const &stage, behavior_state_t &state,
+                     steps_t &steps, plan_context_t const &context)
+{
+  if (!context.has_reply || !has_bytes (steps))
+    return;
+  if (stage.limit != 0 && state.count >= stage.limit)
+    return;
+  if (below (state.generator, 1000) >= stage.count)
+    return;
+  std::size_t const total = total_bytes (steps);
+  if (total == 0)
+    return;
+  std::size_t const low = total >= 3 ? 1 : 0;
+  std::size_t const high = total >= 3 ? total - 2 : total - 1;
+  std::size_t position = low + below (state.generator, high - low + 1);
+  std::uint8_t const mask
+      = static_cast<std::uint8_t> (1 + below (state.generator, 255));
+  for (std::size_t index = 0; index < steps.size (); ++index)
+    {
+      if (steps[index].kind != plan_step_kind::bytes)
+        continue;
+      bytes_t &bytes = steps[index].bytes;
+      if (position < bytes.size ())
+        {
+          bytes[position] = static_cast<std::uint8_t> (bytes[position] ^ mask);
+          break;
+        }
+      position -= bytes.size ();
+    }
+  ++state.count;
+}
+
+// oversized: `count` bytes of `byte` in place of the reply.
+void
+apply_oversized (behavior_stage_t const &stage, steps_t &steps,
+                 plan_context_t const &context)
+{
+  if (!context.has_reply || !has_bytes (steps))
+    return;
+  ms const at = first_bytes_time (steps);
+  remove_bytes_steps (steps);
+  put_first (steps, make_step (plan_step_kind::bytes, at,
+                               bytes_t (stage.count, stage.byte)));
+}
+
+// zero_read: `count` empty reads before each piece of data (stream only).
+void
+apply_zero_read (behavior_stage_t const &stage, steps_t &steps,
+                 plan_context_t const &context)
+{
+  if (context.datagram)
+    return;
+  steps_t out;
+  for (std::size_t index = 0; index < steps.size (); ++index)
+    {
+      if (steps[index].kind == plan_step_kind::bytes)
+        for (std::size_t empty = 0; empty < stage.count; ++empty)
+          out.push_back (make_step (plan_step_kind::empty_read,
+                                    steps[index].at, bytes_t ()));
+      out.push_back (steps[index]);
+    }
+  steps.swap (out);
+}
+
+// intermittent: `count` is the loss rate in thousandths, `limit` the number
+// of outages (0: any), `period` the length of one.
+void
+apply_intermittent (behavior_stage_t const &stage, behavior_state_t &state,
+                    steps_t &steps, plan_context_t const &context)
+{
+  if (!context.has_reply)
+    return;
+  if (context.now < state.until)
+    {
+      steps.clear ();
+      return;
+    }
+  if (stage.limit != 0 && state.count >= stage.limit)
+    return;
+  if (below (state.generator, 1000) >= stage.count)
+    return;
+  ++state.count;
+  state.until = ::lumex::applied::transport::detail::saturating_add (
+      context.now, stage.period);
+  steps.clear ();
+}
+
+// disconnecting: `count` is the byte budget over all replies; state.count is
+// what was delivered.
+void
+apply_disconnecting (behavior_stage_t const &stage, behavior_state_t &state,
+                     steps_t &steps, plan_context_t const &context)
+{
+  if (state.spent || !context.has_reply)
+    return;
+  std::size_t remaining = stage.count - std::min (stage.count, state.count);
+  steps_t kept;
+  bool fired = false;
+  ms last (0);
+  for (std::size_t index = 0; index < steps.size (); ++index)
+    {
+      plan_step_t step = steps[index];
+      if (step.kind != plan_step_kind::bytes)
+        {
+          if (!fired)
+            kept.push_back (step);
+          continue;
+        }
+      if (fired)
+        continue;
+      last = step.at;
+      if (step.bytes.size () <= remaining)
+        {
+          remaining -= step.bytes.size ();
+          kept.push_back (step);
+          fired = remaining == 0;
+          continue;
+        }
+      fired = true;
+      if (remaining > 0)
+        {
+          step.bytes.resize (remaining);
+          kept.push_back (step);
+        }
+      remaining = 0;
+    }
+  state.count = stage.count - remaining;
+  if (fired)
+    {
+      kept.push_back (
+          make_step (plan_step_kind::disconnect, last, bytes_t ()));
+      state.spent = true;
+    }
+  steps.swap (kept);
+}
+
+// works_then_disconnects: `count` replies, then the hang-up.
+void
+apply_works_then_disconnects (behavior_stage_t const &stage,
+                              behavior_state_t &state, steps_t &steps,
+                              plan_context_t const &context)
+{
+  if (state.spent || !context.has_reply)
+    return;
+  if (state.count >= stage.count)
+    {
+      steps.clear ();
+      steps.push_back (
+          make_step (plan_step_kind::disconnect, ms (0), bytes_t ()));
+      state.spent = true;
+      return;
+    }
+  ++state.count;
+  if (state.count == stage.count)
+    {
+      steps.push_back (make_step (plan_step_kind::disconnect,
+                                  last_bytes_time (steps), bytes_t ()));
+      state.spent = true;
+    }
+}
+
+// cable_unplugged: state.until is the end of the window.
+void
+apply_cable_unplugged (behavior_state_t const &state, steps_t &steps,
+                       bool &processed, plan_context_t const &context)
+{
+  if (context.now < state.until)
+    {
+      steps.clear ();
+      processed = false;
+    }
+}
+
+void
+apply_stage (behavior_stage_t const &stage, behavior_state_t &state,
+             steps_t &steps, bool &processed, plan_context_t const &context)
+{
+  switch (stage.kind)
+    {
+    case behavior_kind::perfect:
+      break;
+    case behavior_kind::echo:
+      apply_echo (stage, steps, processed, context);
+      break;
+    case behavior_kind::silent:
+      steps.clear ();
+      processed = false;
+      break;
+    case behavior_kind::frozen:
+      apply_frozen (stage, state, steps, processed, context);
+      break;
+    case behavior_kind::partial_then_frozen:
+      apply_partial_then_frozen (stage, state, steps, processed, context);
+      break;
+    case behavior_kind::slow_trickle:
+      apply_slow_trickle (stage, steps, context);
+      break;
+    case behavior_kind::fragmented:
+      apply_fragmented (stage, state, steps);
+      break;
+    case behavior_kind::flood:
+      apply_flood (stage, steps);
+      break;
+    case behavior_kind::repeating:
+      apply_repeating (stage, steps, context);
+      break;
+    case behavior_kind::garbage:
+      apply_garbage (stage, state, steps);
+      break;
+    case behavior_kind::corrupted_crc:
+      apply_corrupted_crc (stage, state, steps, context);
+      break;
+    case behavior_kind::oversized:
+      apply_oversized (stage, steps, context);
+      break;
+    case behavior_kind::zero_read:
+      apply_zero_read (stage, steps, context);
+      break;
+    case behavior_kind::intermittent:
+      apply_intermittent (stage, state, steps, context);
+      break;
+    case behavior_kind::disconnecting:
+      apply_disconnecting (stage, state, steps, context);
+      break;
+    case behavior_kind::works_then_disconnects:
+      apply_works_then_disconnects (stage, state, steps, context);
+      break;
+    case behavior_kind::cable_unplugged:
+      apply_cable_unplugged (state, steps, processed, context);
+      break;
+    case behavior_kind::malicious:
+      apply_malicious (stage, state, steps);
+      break;
+    default:
+      break;
+    }
+}
+
+bool
+by_time (plan_step_t const &left, plan_step_t const &right)
+{
+  return left.at < right.at;
+}
+
+// --- carrying a plan to a mock
+
+void
+carry_out (reply_plan_t const &plan, mock_stream_control &control)
+{
+  for (std::size_t index = 0; index < plan.steps.size (); ++index)
+    {
+      plan_step_t const &step = plan.steps[index];
+      bool const now = step.at <= ms (0);
+      switch (step.kind)
+        {
+        case plan_step_kind::bytes:
+          if (now)
+            control.feed (step.bytes);
+          else
+            control.feed_after (step.at, step.bytes);
+          break;
+        case plan_step_kind::empty_read:
+          if (now)
+            control.complete_next_read_empty ();
+          else
+            control.empty_read_after (step.at);
+          break;
+        case plan_step_kind::disconnect:
+          if (now)
+            control.disconnect ();
+          else
+            control.disconnect_after (step.at);
+          break;
+        default:
+          break;
+        }
+    }
+}
+
+void
+carry_out (reply_plan_t const &plan, mock_datagram_control &control,
+           std::uint8_t report_id)
+{
+  for (std::size_t index = 0; index < plan.steps.size (); ++index)
+    {
+      plan_step_t const &step = plan.steps[index];
+      bool const now = step.at <= ms (0);
+      switch (step.kind)
+        {
+        case plan_step_kind::bytes:
+          {
+            datagram::message_t message;
+            message.report_id = report_id;
+            message.payload = step.bytes;
+            if (now)
+              control.deliver (message);
+            else
+              control.deliver_after (step.at, message);
+          }
+          break;
+        case plan_step_kind::empty_read:
+          break;
+        case plan_step_kind::disconnect:
+          if (now)
+            control.disconnect ();
+          else
+            control.disconnect_after (step.at);
+          break;
+        default:
+          break;
+        }
+    }
+}
+} // namespace
+
+// --- names
+
+char const *
+behavior_kind_name (behavior_kind kind)
+{
+  switch (kind)
+    {
+    case behavior_kind::perfect:
+      return "perfect";
+    case behavior_kind::echo:
+      return "echo";
+    case behavior_kind::silent:
+      return "silent";
+    case behavior_kind::frozen:
+      return "frozen";
+    case behavior_kind::partial_then_frozen:
+      return "partial_then_frozen";
+    case behavior_kind::slow_trickle:
+      return "slow_trickle";
+    case behavior_kind::fragmented:
+      return "fragmented";
+    case behavior_kind::flood:
+      return "flood";
+    case behavior_kind::repeating:
+      return "repeating";
+    case behavior_kind::garbage:
+      return "garbage";
+    case behavior_kind::corrupted_crc:
+      return "corrupted_crc";
+    case behavior_kind::oversized:
+      return "oversized";
+    case behavior_kind::zero_read:
+      return "zero_read";
+    case behavior_kind::intermittent:
+      return "intermittent";
+    case behavior_kind::disconnecting:
+      return "disconnecting";
+    case behavior_kind::works_then_disconnects:
+      return "works_then_disconnects";
+    case behavior_kind::cable_unplugged:
+      return "cable_unplugged";
+    case behavior_kind::malicious:
+      return "malicious";
+    default:
+      break;
+    }
+  return "unknown";
+}
+
+char const *
+outcome_class_name (outcome_class outcome)
+{
+  switch (outcome)
+    {
+    case outcome_class::success:
+      return "success";
+    case outcome_class::success_after_retries:
+      return "success_after_retries";
+    case outcome_class::timeout:
+      return "timeout";
+    case outcome_class::retries_exhausted:
+      return "retries_exhausted";
+    case outcome_class::link_lost:
+      return "link_lost";
+    case outcome_class::protocol_error:
+      return "protocol_error";
+    case outcome_class::dropped_counted:
+      return "dropped_counted";
+    default:
+      break;
+    }
+  return "unknown";
+}
+
+std::vector<behavior_kind>
+all_behavior_kinds ()
+{
+  behavior_kind const kinds[] = {
+    behavior_kind::perfect,
+    behavior_kind::echo,
+    behavior_kind::silent,
+    behavior_kind::frozen,
+    behavior_kind::partial_then_frozen,
+    behavior_kind::slow_trickle,
+    behavior_kind::fragmented,
+    behavior_kind::flood,
+    behavior_kind::repeating,
+    behavior_kind::garbage,
+    behavior_kind::corrupted_crc,
+    behavior_kind::oversized,
+    behavior_kind::zero_read,
+    behavior_kind::intermittent,
+    behavior_kind::disconnecting,
+    behavior_kind::works_then_disconnects,
+    behavior_kind::cable_unplugged,
+    behavior_kind::malicious,
+  };
+  return std::vector<behavior_kind> (
+      kinds, kinds + sizeof (kinds) / sizeof (kinds[0]));
+}
+
+// --- the expected outcome
+
+outcome_class
+expected_outcome (behavior_kind kind, row_shape_t const &shape)
+{
+  bool const retried = shape.retries > 0;
+  outcome_class const lost
+      = retried ? outcome_class::retries_exhausted : outcome_class::timeout;
+  outcome_class const damaged = retried ? outcome_class::success_after_retries
+                                        : outcome_class::timeout;
+  outcome_class const cut = shape.reconnects && shape.idempotent
+                                ? outcome_class::success_after_retries
+                                : outcome_class::link_lost;
+  outcome_class const resumed = shape.reconnects
+                                    ? outcome_class::success_after_retries
+                                    : outcome_class::link_lost;
+  switch (shape.reply)
+    {
+    case reply_shape::none:
+      switch (kind)
+        {
+        case behavior_kind::echo:
+        case behavior_kind::flood:
+        case behavior_kind::garbage:
+        case behavior_kind::malicious:
+          return outcome_class::dropped_counted;
+        case behavior_kind::cable_unplugged:
+          return cut;
+        default:
+          return outcome_class::success;
+        }
+    case reply_shape::stream:
+      switch (kind)
+        {
+        case behavior_kind::echo:
+          return outcome_class::protocol_error;
+        case behavior_kind::silent:
+        case behavior_kind::frozen:
+        case behavior_kind::partial_then_frozen:
+        case behavior_kind::oversized:
+          return shape.watchdog ? outcome_class::link_lost
+                                : outcome_class::timeout;
+        case behavior_kind::flood:
+        case behavior_kind::repeating:
+        case behavior_kind::garbage:
+        case behavior_kind::corrupted_crc:
+        case behavior_kind::intermittent:
+        case behavior_kind::malicious:
+          return outcome_class::dropped_counted;
+        case behavior_kind::disconnecting:
+        case behavior_kind::works_then_disconnects:
+        case behavior_kind::cable_unplugged:
+          return resumed;
+        default:
+          return outcome_class::success;
+        }
+    case reply_shape::one:
+    case reply_shape::dialogue_ack:
+      switch (kind)
+        {
+        case behavior_kind::echo:
+          return outcome_class::protocol_error;
+        case behavior_kind::silent:
+        case behavior_kind::frozen:
+        case behavior_kind::partial_then_frozen:
+        case behavior_kind::oversized:
+          return lost;
+        case behavior_kind::corrupted_crc:
+        case behavior_kind::intermittent:
+          return damaged;
+        case behavior_kind::flood:
+        case behavior_kind::repeating:
+        case behavior_kind::garbage:
+        case behavior_kind::malicious:
+          return outcome_class::dropped_counted;
+        case behavior_kind::disconnecting:
+        case behavior_kind::works_then_disconnects:
+        case behavior_kind::cable_unplugged:
+          return cut;
+        default:
+          return outcome_class::success;
+        }
+    default:
+      break;
+    }
+  return outcome_class::success;
+}
+
+// --- behavior
+
+behavior::behavior () : stages_ (1, behavior_stage_t ()) {}
+
+behavior
+behavior::single (behavior_stage_t const &stage)
+{
+  behavior made;
+  made.stages_.assign (1, stage);
+  return made;
+}
+
+behavior
+behavior::perfect ()
+{
+  return behavior ();
+}
+
+behavior
+behavior::echo (ms delay)
+{
+  behavior_stage_t stage;
+  stage.kind = behavior_kind::echo;
+  stage.period = delay;
+  return single (stage);
+}
+
+behavior
+behavior::silent ()
+{
+  behavior_stage_t stage;
+  stage.kind = behavior_kind::silent;
+  return single (stage);
+}
+
+behavior
+behavior::frozen (std::size_t after_replies)
+{
+  behavior_stage_t stage;
+  stage.kind = behavior_kind::frozen;
+  stage.count = after_replies;
+  return single (stage);
+}
+
+behavior
+behavior::partial_then_frozen (std::size_t after_replies,
+                               std::size_t partial_bytes)
+{
+  behavior_stage_t stage;
+  stage.kind = behavior_kind::partial_then_frozen;
+  stage.count = after_replies;
+  stage.limit = partial_bytes;
+  return single (stage);
+}
+
+behavior
+behavior::slow_trickle (ms per_byte)
+{
+  behavior_stage_t stage;
+  stage.kind = behavior_kind::slow_trickle;
+  stage.period = per_byte;
+  return single (stage);
+}
+
+behavior
+behavior::fragmented (std::uint32_t seed, std::size_t max_fragment, ms gap)
+{
+  behavior_stage_t stage;
+  stage.kind = behavior_kind::fragmented;
+  stage.seed = seed;
+  stage.count = max_fragment;
+  stage.period = gap;
+  return single (stage);
+}
+
+behavior
+behavior::flood (std::size_t total_bytes)
+{
+  behavior_stage_t stage;
+  stage.kind = behavior_kind::flood;
+  stage.count = total_bytes;
+  return single (stage);
+}
+
+behavior
+behavior::repeating (std::size_t copies, ms gap)
+{
+  behavior_stage_t stage;
+  stage.kind = behavior_kind::repeating;
+  stage.count = copies;
+  stage.period = gap;
+  return single (stage);
+}
+
+behavior
+behavior::garbage (std::uint32_t seed, std::size_t bytes)
+{
+  behavior_stage_t stage;
+  stage.kind = behavior_kind::garbage;
+  stage.seed = seed;
+  stage.count = bytes;
+  return single (stage);
+}
+
+behavior
+behavior::corrupted_crc (std::uint32_t seed, std::size_t rate_permille,
+                         std::size_t max_frames)
+{
+  behavior_stage_t stage;
+  stage.kind = behavior_kind::corrupted_crc;
+  stage.seed = seed;
+  stage.count = rate_permille;
+  stage.limit = max_frames;
+  return single (stage);
+}
+
+behavior
+behavior::oversized (std::size_t total_bytes, std::uint8_t fill)
+{
+  behavior_stage_t stage;
+  stage.kind = behavior_kind::oversized;
+  stage.count = total_bytes;
+  stage.byte = fill;
+  return single (stage);
+}
+
+behavior
+behavior::zero_read (std::size_t empty_reads)
+{
+  behavior_stage_t stage;
+  stage.kind = behavior_kind::zero_read;
+  stage.count = empty_reads;
+  return single (stage);
+}
+
+behavior
+behavior::intermittent (std::uint32_t seed, std::size_t lose_permille,
+                        std::size_t max_outages, ms outage)
+{
+  behavior_stage_t stage;
+  stage.kind = behavior_kind::intermittent;
+  stage.seed = seed;
+  stage.count = lose_permille;
+  stage.limit = max_outages;
+  stage.period = outage;
+  return single (stage);
+}
+
+behavior
+behavior::disconnecting (std::size_t bytes_before)
+{
+  behavior_stage_t stage;
+  stage.kind = behavior_kind::disconnecting;
+  stage.count = bytes_before;
+  return single (stage);
+}
+
+behavior
+behavior::works_then_disconnects (std::size_t after_replies)
+{
+  behavior_stage_t stage;
+  stage.kind = behavior_kind::works_then_disconnects;
+  stage.count = after_replies;
+  return single (stage);
+}
+
+behavior
+behavior::cable_unplugged (ms unplugged_for, std::error_code open_error)
+{
+  behavior_stage_t stage;
+  stage.kind = behavior_kind::cable_unplugged;
+  stage.period = unplugged_for;
+  stage.error = open_error;
+  return single (stage);
+}
+
+behavior
+behavior::malicious (std::uint32_t seed, malicious_mode mode,
+                     std::size_t bytes)
+{
+  behavior_stage_t stage;
+  stage.kind = behavior_kind::malicious;
+  stage.seed = seed;
+  stage.mode = mode;
+  stage.count = bytes;
+  return single (stage);
+}
+
+behavior
+behavior::of (behavior_kind kind)
+{
+  switch (kind)
+    {
+    case behavior_kind::perfect:
+      return perfect ();
+    case behavior_kind::echo:
+      return echo ();
+    case behavior_kind::silent:
+      return silent ();
+    case behavior_kind::frozen:
+      return frozen (1);
+    case behavior_kind::partial_then_frozen:
+      return partial_then_frozen (1, 4);
+    case behavior_kind::slow_trickle:
+      return slow_trickle (ms (1));
+    case behavior_kind::fragmented:
+      return fragmented (1);
+    case behavior_kind::flood:
+      return flood (64);
+    case behavior_kind::repeating:
+      return repeating (1, ms (10));
+    case behavior_kind::garbage:
+      return garbage (1, 16);
+    case behavior_kind::corrupted_crc:
+      return corrupted_crc (1, 1000, 1);
+    case behavior_kind::oversized:
+      return oversized (70000);
+    case behavior_kind::zero_read:
+      return zero_read ();
+    case behavior_kind::intermittent:
+      return intermittent (1, 1000, 1);
+    case behavior_kind::disconnecting:
+      return disconnecting (4);
+    case behavior_kind::works_then_disconnects:
+      return works_then_disconnects (1);
+    case behavior_kind::cable_unplugged:
+      return cable_unplugged (ms (100));
+    case behavior_kind::malicious:
+      return malicious (1);
+    default:
+      break;
+    }
+  return perfect ();
+}
+
+behavior
+behavior::then (behavior const &next) const
+{
+  bool const mine_is_perfect
+      = stages_.size () == 1 && stages_[0].kind == behavior_kind::perfect;
+  bool const next_is_perfect
+      = next.stages_.size () == 1
+        && next.stages_[0].kind == behavior_kind::perfect;
+  if (mine_is_perfect)
+    return next;
+  if (next_is_perfect)
+    return *this;
+  behavior made (*this);
+  made.stages_.insert (made.stages_.end (), next.stages_.begin (),
+                       next.stages_.end ());
+  return made;
+}
+
+behavior_kind
+behavior::kind () const
+{
+  return stages_[0].kind;
+}
+
+std::size_t
+behavior::stage_count () const
+{
+  return stages_.size ();
+}
+
+behavior_kind
+behavior::stage_kind (std::size_t index) const
+{
+  return stages_[index].kind;
+}
+
+bool
+behavior::applies_to_datagrams () const
+{
+  for (std::size_t index = 0; index < stages_.size (); ++index)
+    if (stages_[index].kind == behavior_kind::zero_read)
+      return false;
+  return true;
+}
+
+// --- behavior_applier
+
+behavior_applier::behavior_applier (behavior const &shaped,
+                                    timing::timer_source timers)
+    : behavior_ (shaped), timers_ (std::move (timers))
+{
+  start (timers_.now ());
+}
+
+behavior const &
+behavior_applier::get () const
+{
+  return behavior_;
+}
+
+void
+behavior_applier::start (timing::time_point_t now)
+{
+  states_.assign (behavior_.stages_.size (), behavior_state_t ());
+  for (std::size_t index = 0; index < states_.size (); ++index)
+    {
+      behavior_stage_t const &stage = behavior_.stages_[index];
+      behavior_state_t &state = states_[index];
+      state.generator = stage.seed;
+      state.until = timing::time_point_t::min ();
+      if (stage.kind == behavior_kind::cable_unplugged)
+        state.until = ::lumex::applied::transport::detail::saturating_add (
+            now, stage.period);
+    }
+}
+
+void
+behavior_applier::reset ()
+{
+  std::lock_guard<std::mutex> const lock (mutex_);
+  start (timers_.now ());
+}
+
+reply_plan_t
+behavior_applier::plan (std::vector<std::uint8_t> const &request,
+                        std::vector<std::uint8_t> const &reply, bool datagram)
+{
+  reply_plan_t result;
+  plan_context_t context;
+  context.request = &request;
+  context.has_reply = !reply.empty ();
+  context.datagram = datagram;
+  steps_t steps;
+  if (!reply.empty ())
+    steps.push_back (make_step (plan_step_kind::bytes, ms (0), reply));
+  bool processed = true;
+  {
+    std::lock_guard<std::mutex> const lock (mutex_);
+    context.now = timers_.now ();
+    for (std::size_t index = 0; index < behavior_.stages_.size (); ++index)
+      apply_stage (behavior_.stages_[index], states_[index], steps, processed,
+                   context);
+  }
+  for (std::size_t index = 0; index < steps.size (); ++index)
+    if (steps[index].at < ms (0))
+      steps[index].at = ms (0);
+  std::stable_sort (steps.begin (), steps.end (), by_time);
+  result.steps.swap (steps);
+  result.request_processed = processed;
+  return result;
+}
+
+std::vector<behavior_window_t>
+behavior_applier::unplugged_windows ()
+{
+  std::vector<behavior_window_t> windows;
+  std::lock_guard<std::mutex> const lock (mutex_);
+  timing::time_point_t const now = timers_.now ();
+  for (std::size_t index = 0; index < states_.size (); ++index)
+    if (behavior_.stages_[index].kind == behavior_kind::cable_unplugged
+        && now < states_[index].until)
+      {
+        behavior_window_t window;
+        window.remaining
+            = std::chrono::duration_cast<ms> (states_[index].until - now);
+        window.error = behavior_.stages_[index].error;
+        windows.push_back (window);
+      }
+  return windows;
+}
+
+void
+behavior_applier::attach (mock_stream_control control)
+{
+  std::vector<behavior_window_t> const windows = unplugged_windows ();
+  for (std::size_t index = 0; index < windows.size (); ++index)
+    {
+      control.disconnect ();
+      control.fail_opens_for (windows[index].remaining, windows[index].error);
+    }
+}
+
+void
+behavior_applier::attach (mock_datagram_control control)
+{
+  std::vector<behavior_window_t> const windows = unplugged_windows ();
+  for (std::size_t index = 0; index < windows.size (); ++index)
+    {
+      control.disconnect ();
+      control.fail_opens_for (windows[index].remaining, windows[index].error);
+    }
+}
+
+void
+behavior_applier::respond (mock_stream_control control,
+                           std::vector<std::uint8_t> const &request,
+                           std::vector<std::uint8_t> const &reply)
+{
+  carry_out (plan (request, reply, false), control);
+}
+
+void
+behavior_applier::respond (mock_datagram_control control,
+                           std::uint8_t report_id,
+                           std::vector<std::uint8_t> const &request,
+                           std::vector<std::uint8_t> const &reply)
+{
+  carry_out (plan (request, reply, true), control, report_id);
+}
+} // namespace testing
+} // namespace transport
+} // namespace applied
+} // namespace lumex
+
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif

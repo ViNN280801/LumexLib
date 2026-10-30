@@ -106,6 +106,7 @@
 // (LUMEX_TRANSPORT_WITH_TESTING, off by default): the transport library
 // defines this macro for itself and its consumers then.
 #if defined(LUMEX_TRANSPORT_WITH_TESTING)
+#include "testing/LumexBehaviors.hpp"
 #include "testing/LumexMockDatagram.hpp"
 #include "testing/LumexMockScript.hpp"
 #include "testing/LumexMockStream.hpp"
