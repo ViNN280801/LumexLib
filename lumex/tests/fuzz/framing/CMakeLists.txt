@@ -5,9 +5,9 @@
 # pipelines, with AddressSanitizer; the checks are in
 # LumexFramingFuzzSupport.hpp. Like the other fuzz targets they compile the
 # sources they need (the error category of the framing, the CRC catalog, the
-# contract handler) instead of linking the module libraries, so that the
-# sanitized executable never mixes with libraries built without the sanitizer
-# or with another C runtime.
+# contract handler, the assertion handler) instead of linking the module
+# libraries, so that the sanitized executable never mixes with libraries built
+# without the sanitizer or with another C runtime.
 set(_runtime_dir "")
 if(MSVC)
     # clang-cl links libFuzzer and the AddressSanitizer runtime from the LLVM
@@ -34,13 +34,14 @@ function(lumex_add_framing_fuzzer name source)
         "${LumexLib_SOURCE_DIR}/lumex/core/framing/codec/LumexFramingErrc.cpp"
         "${LumexLib_SOURCE_DIR}/lumex/core/crc/catalog/LumexCrcCatalog.cpp"
         "${LumexLib_SOURCE_DIR}/lumex/core/contracts/handler/LumexContractsHandler.cpp"
+        "${LumexLib_SOURCE_DIR}/lumex/core/utility/assert/LumexAssert.cpp"
     )
     target_include_directories(${_target} PRIVATE "${LumexLib_SOURCE_DIR}")
     # The export macros of the sources resolve to this executable.
     target_compile_definitions(${_target} PRIVATE
         LumexCore_framing_EXPORTS LumexCore_crc_EXPORTS
         LumexCore_contracts_EXPORTS LUMEX_EXPORTS)
-    target_compile_options(${_target} PRIVATE -fsanitize=fuzzer,address)
+    target_compile_options(${_target} PRIVATE -fsanitize=fuzzer,address,undefined)
 
     set(_environment "")
     if(MSVC)
@@ -62,7 +63,7 @@ function(lumex_add_framing_fuzzer name source)
         string(REPLACE ";" "\;" _path "$ENV{PATH}")
         set(_environment "PATH=${_native_runtime_dir}\;${_path}")
     else()
-        target_link_options(${_target} PRIVATE -fsanitize=fuzzer,address)
+        target_link_options(${_target} PRIVATE -fsanitize=fuzzer,address,undefined)
     endif()
 
     # The target writes its seed corpus (frames made by the codec from

@@ -9,7 +9,7 @@ namespace
 {
 using namespace lumex_framing_fuzz;
 
-struct cobs_traits_t
+struct cobs_traits_t : default_traits_t
 {
   using codec_t = lumex::core::framing::cobs::cobs_codec;
 

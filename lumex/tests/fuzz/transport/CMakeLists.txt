@@ -59,7 +59,7 @@ if(_fuzz_with_protocol AND _fuzz_with_framing)
             LUMEX_TRANSPORT_WITH_TESTING=1
             LumexApplied_transport_EXPORTS LumexCore_protocol_EXPORTS
             LumexCore_framing_EXPORTS LUMEX_EXPORTS)
-        target_compile_options(${_target} PRIVATE -fsanitize=fuzzer,address)
+        target_compile_options(${_target} PRIVATE -fsanitize=fuzzer,address,undefined)
 
         set(_environment "")
         if(MSVC)
@@ -74,7 +74,7 @@ if(_fuzz_with_protocol AND _fuzz_with_framing)
             string(REPLACE ";" "\;" _path "$ENV{PATH}")
             set(_environment "PATH=${_native_runtime_dir}\;${_path}")
         else()
-            target_link_options(${_target} PRIVATE -fsanitize=fuzzer,address)
+            target_link_options(${_target} PRIVATE -fsanitize=fuzzer,address,undefined)
         endif()
 
         set(_corpus "${CMAKE_CURRENT_BINARY_DIR}/corpus_dialogue")
@@ -135,7 +135,7 @@ endif()
 # The export macros of the sources resolve to this executable.
 target_compile_definitions(${_target} PRIVATE
     LumexApplied_transport_EXPORTS LUMEX_EXPORTS)
-target_compile_options(${_target} PRIVATE -fsanitize=fuzzer,address)
+target_compile_options(${_target} PRIVATE -fsanitize=fuzzer,address,undefined)
 
 set(_environment "")
 if(MSVC)
@@ -157,7 +157,7 @@ if(MSVC)
     string(REPLACE ";" "\;" _path "$ENV{PATH}")
     set(_environment "PATH=${_native_runtime_dir}\;${_path}")
 else()
-    target_link_options(${_target} PRIVATE -fsanitize=fuzzer,address)
+    target_link_options(${_target} PRIVATE -fsanitize=fuzzer,address,undefined)
 endif()
 
 # The target writes its seed corpus (synthetic descriptors) into the corpus

@@ -20,7 +20,7 @@ function(lumex_add_protocol_fuzzer target test_name source)
     # The export macros of the sources resolve to this executable.
     target_compile_definitions(${target} PRIVATE
         LumexCore_protocol_EXPORTS LUMEX_EXPORTS)
-    target_compile_options(${target} PRIVATE -fsanitize=fuzzer,address)
+    target_compile_options(${target} PRIVATE -fsanitize=fuzzer,address,undefined)
 
     set(_environment "")
     if(MSVC)
@@ -46,7 +46,7 @@ function(lumex_add_protocol_fuzzer target test_name source)
         string(REPLACE ";" "\;" _path "$ENV{PATH}")
         set(_environment "PATH=${_native_runtime_dir}\;${_path}")
     else()
-        target_link_options(${target} PRIVATE -fsanitize=fuzzer,address)
+        target_link_options(${target} PRIVATE -fsanitize=fuzzer,address,undefined)
     endif()
 
     set(_corpus "${CMAKE_CURRENT_BINARY_DIR}/corpus_${test_name}")

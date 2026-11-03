@@ -10,7 +10,7 @@ namespace
 {
 using namespace lumex_framing_fuzz;
 
-struct length_traits_t
+struct length_traits_t : default_traits_t
 {
   using codec_t = lumex::core::framing::length::length_prefix_codec;
 
@@ -22,14 +22,14 @@ struct length_traits_t
   static std::size_t
   frame_limit (unsigned variant)
   {
-    return (variant & 16U) != 0 ? 16 : 300;
+    return variant >= 12U ? 16 : 300;
   }
   static codec_t
   make (unsigned variant)
   {
     static std::size_t const widths[] = { 1, 2, 4 };
     lumex::core::framing::length::length_prefix_options_t options;
-    options.width = widths[(variant % 12U) / 4U];
+    options.width = widths[(variant / 4U) % 3U];
     options.order = (variant & 1U) != 0 ? codec::byte_order::little
                                         : codec::byte_order::big;
     options.length_includes_prefix = (variant & 2U) != 0;

@@ -112,8 +112,13 @@ public:
                tr::status_handler_t handler) override
   {
     ++writes;
-    asio::post (strand_,
-                asio::append (std::move (handler), std::error_code ()));
+    std::error_code error;
+    if (fail_writes > 0)
+      {
+        --fail_writes;
+        error = make_error_code (tr::error::transport_errc::disconnected);
+      }
+    asio::post (strand_, asio::append (std::move (handler), error));
   }
 
   void
@@ -157,6 +162,7 @@ public:
   }
 
   std::uint64_t writes = 0;
+  unsigned fail_writes = 0;
 
 private:
   void
@@ -220,7 +226,7 @@ make_exchange (Args const &...args)
 pr::exchange_t
 exchange_of (unsigned which, std::uint8_t argument)
 {
-  switch (which % 14U)
+  switch (which % 19U)
     {
     case 0:
       return make_exchange<pump::START_t> (argument);
@@ -251,8 +257,22 @@ exchange_of (unsigned which, std::uint8_t argument)
       return make_exchange<pump::BOTH_t> ();
     case 12:
       return make_exchange<pump::WRITE_NAMED_t> (argument);
-    default:
+    case 13:
       return make_exchange<pump::QUERY_NAMED_t> ();
+    case 14:
+      return make_exchange<pump::SET_MODE_t> (
+          static_cast<tables::pump_state> (argument % 3U));
+    case 15:
+      return make_exchange<pump::SET_STATE_t> (
+          static_cast<tables::pump_state> (argument % 3U));
+    case 16:
+      return make_exchange<pump::SET_GAIN_t> (static_cast<double> (argument)
+                                              / 100.0);
+    case 17:
+      return make_exchange<pump::SET_RATE_t> (static_cast<float> (argument));
+    default:
+      return make_exchange<pump::CLOCK_t> (
+          static_cast<std::uint32_t> (argument) * 1000U);
     }
 }
 
@@ -265,15 +285,27 @@ std::uint8_t const keys[]
 struct completion_t
 {
   int calls = 0;
+  std::error_code error;
+  bool has_frame = false;
+  unsigned which = 0;
+  std::shared_ptr<asio::cancellation_signal> signal
+      = std::make_shared<asio::cancellation_signal> ();
 };
+
+// Exchanges that ended without an error, per row of exchange_of; printed at
+// exit when LUMEX_FUZZ_STATS is set.
+std::uint64_t ok_by_row[19];
+std::uint64_t started_by_row[19];
 
 struct complete_t
 {
   std::shared_ptr<completion_t> state;
   void
-  operator() (std::error_code, pr::reply_frame_t) const
+  operator() (std::error_code error, pr::reply_frame_t frame) const
   {
     ++state->calls;
+    state->error = error;
+    state->has_frame = frame.size () != 0;
     REQUIRE (state->calls == 1);
   }
 };
@@ -332,6 +364,13 @@ struct run_t
   std::uint64_t heard_unknown = 0;
   // One subscription per row: the calls counted are of one handler each.
   bool subscribed = false;
+  bool cancelled = false;
+  bool lost = false;
+  bool unknown_set = false;
+  bool closed = false;
+  std::vector<pr::subscription_t> subscriptions;
+  std::uint64_t allowed = 0;
+  std::uint32_t default_attempts = 1;
 
   void
   settle ()
@@ -364,6 +403,63 @@ check_counters (run_t &run)
   REQUIRE (run.heard_status + run.heard_change
            <= stats.events + stats.unexpected_replies);
   REQUIRE (run.heard_unknown <= stats.unknown_frames);
+  std::uint64_t exhausted = 0, succeeded = 0, naks = 0;
+  for (std::size_t i = 0; i < run.exchanges.size (); ++i)
+    {
+      std::error_code const e = run.exchanges[i]->error;
+      if (e
+          == lumex::core::protocol::error::make_error_code (
+              lumex::core::protocol::error::protocol_errc::retries_exhausted))
+        ++exhausted;
+      if (e
+          == lumex::core::protocol::error::make_error_code (
+              lumex::core::protocol::error::protocol_errc::nak))
+        ++naks;
+      if (!e)
+        {
+          // A row without a reply (18) ends with its write.
+          if (run.exchanges[i]->which != 18U)
+            ++succeeded;
+          ++ok_by_row[run.exchanges[i]->which];
+        }
+      if (e == make_error_code (tr::error::transport_errc::cancelled))
+        REQUIRE (run.cancelled);
+      if (e
+          == lumex::core::protocol::error::make_error_code (
+              lumex::core::protocol::error::protocol_errc::link_lost))
+        REQUIRE (run.lost);
+    }
+  REQUIRE (naks <= stats.naks);
+  REQUIRE (exhausted == stats.retries_exhausted);
+  REQUIRE (succeeded <= stats.replies);
+  REQUIRE (stats.requests <= run.allowed);
+}
+
+// Hands `frame` to the engine and checks that exactly one counter moved, and
+// that the handler of the frame was called when there is one.
+void
+deliver (run_t &run, bytes_t const &frame)
+{
+  pr::dialogue_statistics_t const a = run.engine->statistics ();
+  std::uint64_t const heard = run.heard_status + run.heard_change;
+  std::uint64_t const unknown = run.heard_unknown;
+  if (!run.link->deliver (frame))
+    return;
+  ++run.delivered;
+  run.settle ();
+  pr::dialogue_statistics_t const b = run.engine->statistics ();
+  REQUIRE ((b.late_replies - a.late_replies)
+               + (b.unknown_frames - a.unknown_frames) + (b.events - a.events)
+               + (b.unexpected_replies - a.unexpected_replies)
+               + (b.replies - a.replies)
+           == 1U);
+  if (run.unknown_set && b.unknown_frames != a.unknown_frames)
+    REQUIRE (run.heard_unknown == unknown + 1U);
+  if (run.subscribed && !frame.empty ()
+      && (frame[0] == 0x12 || frame[0] == 0x30)
+      && (b.events != a.events
+          || b.unexpected_replies != a.unexpected_replies))
+    REQUIRE (run.heard_status + run.heard_change == heard + 1U);
 }
 
 void
@@ -384,12 +480,13 @@ play (std::uint8_t const *data, std::size_t size)
   run.engine.reset (new pr::dialogue_engine (
       pr::frame_link (std::shared_ptr<pr::frame_link_impl> (std::move (link))),
       pump_index (), options));
+  run.default_attempts = 1U + options.defaults.retries;
   run.settle ();
 
   while (script.more ())
     {
       std::uint8_t const op = script.next ();
-      switch (op % 9U)
+      switch (op % 16U)
         {
         case 0:
         case 1:
@@ -398,11 +495,14 @@ play (std::uint8_t const *data, std::size_t size)
             std::uint8_t const argument = script.next ();
             std::uint8_t const how = script.next ();
             pr::exchange_t request = exchange_of (which, argument);
+            std::uint64_t attempts = run.default_attempts;
             if ((how & 0x0FU) != 0)
               {
                 pr::retry_policy_t policy;
                 policy.timeout_ms = 10U + (how & 0x0FU) * 20U;
                 policy.retries = (how >> 4U) & 3U;
+                attempts
+                    = 1U + policy.retries + ((how & 0x80U) != 0 ? 2U : 0U);
                 if ((how & 0x80U) != 0)
                   {
                     two_more_t more = { std::make_shared<int> (2) };
@@ -413,10 +513,15 @@ play (std::uint8_t const *data, std::size_t size)
               }
             std::shared_ptr<completion_t> state
                 = std::make_shared<completion_t> ();
+            state->which = which % 19U;
+            ++started_by_row[state->which];
+            run.allowed += attempts;
             run.exchanges.push_back (state);
             complete_t handler = { state };
-            run.engine->async_exchange (std::move (request),
-                                        std::move (handler));
+            run.engine->async_exchange (
+                std::move (request),
+                asio::bind_cancellation_slot (state->signal->slot (),
+                                              std::move (handler)));
             break;
           }
         case 2:
@@ -426,7 +531,7 @@ play (std::uint8_t const *data, std::size_t size)
             // random bytes (op 3).
             std::size_t length = script.next () % 12U;
             bytes_t frame;
-            if (op % 9U == 3U)
+            if (op % 16U == 3U)
               {
                 frame.push_back (keys[script.next () % sizeof keys]);
                 if (length > 0)
@@ -434,17 +539,18 @@ play (std::uint8_t const *data, std::size_t size)
               }
             for (std::size_t i = 0; i < length; ++i)
               frame.push_back (script.next ());
-            if (run.link->deliver (frame))
-              ++run.delivered;
+            deliver (run, frame);
             break;
           }
         case 4:
           run.advance (ms (script.next () * 10U));
           break;
         case 5:
+          run.cancelled = true;
           run.engine->cancel ();
           break;
         case 6:
+          run.lost = true;
           run.link->lose ();
           break;
         case 7:
@@ -454,23 +560,74 @@ play (std::uint8_t const *data, std::size_t size)
               {
                 if (run.subscribed)
                   break;
-                run.subscribed = true;
                 run_t *const owner = &run;
-                run.engine->subscribe (row_of_t<pump::STATUS_t>::get (),
-                                       [owner] (pr::reply_frame_t const &)
-                                         { ++owner->heard_status; });
-                run.engine->subscribe (row_of_t<pump::CHANGE_t>::get (),
-                                       [owner] (pr::reply_frame_t const &)
-                                         { ++owner->heard_change; });
+                pr::subscription_t const status = run.engine->subscribe (
+                    row_of_t<pump::STATUS_t>::get (),
+                    [owner] (pr::reply_frame_t const &)
+                      { ++owner->heard_status; });
+                pr::subscription_t const change = run.engine->subscribe (
+                    row_of_t<pump::CHANGE_t>::get (),
+                    [owner] (pr::reply_frame_t const &)
+                      { ++owner->heard_change; });
+                // A dialogue that was closed refuses them.
+                REQUIRE ((status.id != 0) == !run.closed);
+                REQUIRE ((change.id != 0) == !run.closed);
+                if (!run.closed)
+                  {
+                    run.subscribed = true;
+                    run.subscriptions.push_back (status);
+                    run.subscriptions.push_back (change);
+                  }
               }
             else
               {
                 run_t *const owner = &run;
+                run.unknown_set = !run.closed;
                 run.engine->on_unknown ([owner] (pr::reply_frame_t const &)
                                           { ++owner->heard_unknown; });
               }
             break;
           }
+        case 8:
+          // Ends the subscriptions.
+          for (std::size_t i = 0; i < run.subscriptions.size (); ++i)
+            REQUIRE (run.engine->unsubscribe (run.subscriptions[i])
+                     == !run.closed);
+          run.subscriptions.clear ();
+          run.subscribed = false;
+          break;
+        case 9:
+          {
+            // A frame of exactly the bytes of the script.
+            std::size_t length = script.next () % 16U;
+            bytes_t frame;
+            for (std::size_t i = 0; i < length; ++i)
+              frame.push_back (script.next ());
+            deliver (run, frame);
+            break;
+          }
+        case 10:
+          // The next write fails.
+          run.link->fail_writes = 1;
+          run.lost = true;
+          break;
+        case 11:
+          {
+            // The cancellation slot of one exchange.
+            std::uint8_t const which = script.next ();
+            if (!run.exchanges.empty ())
+              {
+                run.cancelled = true;
+                run.exchanges[which % run.exchanges.size ()]->signal->emit (
+                    asio::cancellation_type::terminal);
+              }
+            break;
+          }
+        case 12:
+          run.closed = true;
+          run.cancelled = true;
+          run.engine->close ();
+          break;
         default:
           break;
         }
@@ -478,8 +635,19 @@ play (std::uint8_t const *data, std::size_t size)
     }
 
   // The clock runs on: every exchange ends (the timeouts are finite).
-  for (int step = 0; step < 100; ++step)
-    run.advance (ms (500));
+  {
+    run_t *const r = &run;
+    tr::testing::run_until (
+        run.context, run.clock,
+        [r] ()
+          {
+            for (std::size_t i = 0; i < r->exchanges.size (); ++i)
+              if (r->exchanges[i]->calls == 0)
+                return false;
+            return true;
+          },
+        ms ((run.allowed + run.exchanges.size () + 1U) * 6000U));
+  }
   for (std::size_t i = 0; i < run.exchanges.size (); ++i)
     REQUIRE (run.exchanges[i]->calls == 1);
   check_counters (run);
@@ -493,19 +661,95 @@ play (std::uint8_t const *data, std::size_t size)
     REQUIRE (run.exchanges[i]->calls == 1);
 }
 
-// The scripts of the seed corpus.
+// A script of one exchange of row `which` answered by the frames `replies`
+// (each as exactly its bytes), then the clock moves on.
+bytes_t
+row_script (unsigned which, std::uint8_t argument,
+            std::vector<bytes_t> const &replies)
+{
+  bytes_t out;
+  out.push_back (0x00);
+  out.push_back (0);
+  out.push_back (static_cast<std::uint8_t> (which));
+  out.push_back (argument);
+  out.push_back (0);
+  for (std::size_t i = 0; i < replies.size (); ++i)
+    {
+      out.push_back (9);
+      out.push_back (static_cast<std::uint8_t> (replies[i].size ()));
+      out.insert (out.end (), replies[i].begin (), replies[i].end ());
+    }
+  out.push_back (4);
+  out.push_back (10);
+  return out;
+}
+
+bytes_t
+frame_of (std::initializer_list<int> values)
+{
+  bytes_t out;
+  for (int value : values)
+    out.push_back (static_cast<std::uint8_t> (value));
+  return out;
+}
+
+// The scripts of the seed corpus: one per row with the frame that answers it
+// the way its reply kind wants (the echo rows answer with the request itself),
+// and a few of the other ops.
 std::vector<bytes_t>
 seeds ()
 {
   std::vector<bytes_t> result;
-  // header, then ops: 0 which argument how; 2/3 frame; 4 advance; ...
+  std::vector<bytes_t> none;
+  std::vector<bytes_t> one (1);
+  // 0 START (ack_nak<u8, refusal>): the acknowledgement.
+  one[0] = frame_of ({ 0x01, 0x00 });
+  result.push_back (row_script (0, 3, one));
+  // 1 STOP (ack_nak<ACK, NAK>): ACK.
+  one[0] = frame_of ({ 0x06 });
+  result.push_back (row_script (1, 0, one));
+  // 2 PRIME (two_phase<ACK, u16>): ACK, then the completion.
   {
-    // POLL, answered by a frame of its key.
-    std::uint8_t const s[] = { 0x00, 0, 9, 0, 0, 3, 3, 16, 1, 0, 0, 0, 4, 20 };
-    result.push_back (bytes_t (s, s + sizeof s));
+    std::vector<bytes_t> two;
+    two.push_back (frame_of ({ 0x06 }));
+    two.push_back (frame_of ({ 0x03, 0x34, 0x12 }));
+    result.push_back (row_script (2, 1, two));
   }
+  // 3, 4, 14, 15, 16, 17: echo kinds, the reply is the request.
+  static unsigned const echoes[] = { 3, 4, 14, 15, 16, 17 };
+  for (std::size_t i = 0; i < sizeof echoes / sizeof echoes[0]; ++i)
+    {
+      pr::exchange_t const request = exchange_of (echoes[i], 2);
+      one[0] = request.message;
+      result.push_back (row_script (echoes[i], 2, one));
+    }
+  // 5 WRITE and 12 WRITE_NAMED: the change report of the row.
+  one[0] = frame_of ({ 0x30, 0x04, 0x14, 0x00 });
+  result.push_back (row_script (5, 4, one));
+  one[0] = frame_of ({ 0x30, 0x04, 0x00, 0x00 });
+  result.push_back (row_script (12, 4, one));
+  // 6 READ (by_order), 7 QUERY, 9 POLL, 13 QUERY_NAMED: the reply row.
+  one[0] = frame_of ({ 0x09, 0x01, 0x00 });
+  result.push_back (row_script (6, 1, one));
+  one[0] = frame_of ({ 0x0A, 0x01 });
+  result.push_back (row_script (7, 0, one));
+  one[0] = frame_of ({ 0x0C, 0x01 });
+  result.push_back (row_script (9, 0, one));
+  one[0] = frame_of ({ 0x0E, 0x01 });
+  result.push_back (row_script (13, 0, one));
+  // 8 TOUCH (ack_nak<nothing, NAK>): the acknowledgement.
+  one[0] = frame_of ({ 0x0B });
+  result.push_back (row_script (8, 0, one));
+  // 10 INFO: the model text and the firmware.
+  one[0] = frame_of ({ 0x10, 'A', 'B', 'C', 0, 0, 0, 0, 0, 0x02, 0x01 });
+  result.push_back (row_script (10, 0, one));
+  // 11 BOTH (ack_nak<u8, i8>).
+  one[0] = frame_of ({ 0x0D, 0x01 });
+  result.push_back (row_script (11, 0, one));
+  // 18 CLOCK: no reply, it ends with the write.
+  result.push_back (row_script (18, 5, none));
   {
-    // START, answered by an acknowledgement; then a timeout and a retry.
+    // START refused (NAK), a timeout and a retry.
     std::uint8_t const s[]
         = { 0x01, 0, 0, 7, 0, 3, 2, 0, 0, 4, 50, 0, 1, 0, 0, 4, 200 };
     result.push_back (bytes_t (s, s + sizeof s));
@@ -518,18 +762,30 @@ seeds ()
     result.push_back (bytes_t (s, s + sizeof s));
   }
   {
-    // PRIME (two phases), WRITE and its change report, a cancel.
-    std::uint8_t const s[] = { 0x1A, 0, 2, 9, 0, 0, 5, 3, 4, 0, 3, 3, 2,  6,
-                               0,    0, 5, 1, 0, 0, 3, 3, 2, 1, 0, 4, 30, 5 };
+    // A cancelled exchange, a write that fails, a close and an exchange after.
+    std::uint8_t const s[]
+        = { 0x00, 0,  9, 0, 0, 0, 7,  0, 0, 0, 10, 0, 0, 8, 0, 0,
+            0,    11, 0, 7, 1, 8, 12, 0, 9, 0, 0,  7, 1, 4, 20 };
     result.push_back (bytes_t (s, s + sizeof s));
   }
   return result;
+}
+
+void
+print_statistics ()
+{
+  for (unsigned i = 0; i < 19; ++i)
+    std::fprintf (stderr, "row %u: %llu of %llu ended without an error\n", i,
+                  static_cast<unsigned long long> (ok_by_row[i]),
+                  static_cast<unsigned long long> (started_by_row[i]));
 }
 } // namespace
 
 extern "C" int
 LLVMFuzzerInitialize (int *argc, char ***argv)
 {
+  if (std::getenv ("LUMEX_FUZZ_STATS") != nullptr)
+    std::atexit (&print_statistics);
   for (int i = 1; i < *argc; ++i)
     {
       std::string const argument ((*argv)[i]);

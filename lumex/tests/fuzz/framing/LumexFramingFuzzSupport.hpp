@@ -141,6 +141,9 @@ contains (bytes_t const &haystack, bytes_t const &needle)
 //   static bool payload_ok (unsigned variant, bytes_t const &);
 //     // encode then decode returns the payload
 //   static bool grows ();  // encode may refuse a frame that was decoded
+//   static void check_frame (unsigned variant, bytes_t const &frame);
+//   static void extra (unsigned variant, bytes_t const &stream);
+//     (both from default_traits_t)
 //   static bool canonical ();  // the encoded frame stands in the stream
 //   static std::vector<bytes_t> payloads ();  // seeds
 // Three codecs behind one interface, for a target whose variants differ in a
@@ -197,6 +200,19 @@ private:
   C c_;
 };
 
+// What a target need not say: no check of a frame of its own, no extra check.
+struct default_traits_t
+{
+  static void
+  check_frame (unsigned, bytes_t const &)
+  {
+  }
+  static void
+  extra (unsigned, bytes_t const &)
+  {
+  }
+};
+
 template <typename Traits>
 void
 check_input (std::uint8_t const *data, std::size_t size)
@@ -242,6 +258,7 @@ check_input (std::uint8_t const *data, std::size_t size)
           continue;
         }
       LUMEX_FUZZ_REQUIRE (event.frame.size () <= limit);
+      Traits::check_frame (variant, event.frame);
       codec_t encoder = Traits::make (variant);
       bytes_t wire;
       codec::encode_result_t const encoded = encoder.encode (
@@ -261,6 +278,8 @@ check_input (std::uint8_t const *data, std::size_t size)
       if (Traits::canonical ())
         LUMEX_FUZZ_REQUIRE (contains (stream, wire));
     }
+
+  Traits::extra (variant, stream);
 
   // The stream as a payload.
   if (Traits::payload_ok (variant, stream))

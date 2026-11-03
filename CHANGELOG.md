@@ -240,9 +240,9 @@
 
 **Файлы:** `lumex/tests/fuzz/framing/` (новые), `lumex/tests/fuzz/protocol/LumexProtocolDevicesFuzz.cpp`, `lumex/tests/fuzz/transport/LumexDialogueReceiveFuzz.cpp` (новые), `CMakeLists.txt` в `lumex/tests/fuzz/`, `lumex/core/framing/README.md` (новый), `lumex/core/protocol/README.md`, `lumex/applied/transport/README.md`.
 
-**Суть:** цели libFuzzer для кодеков кадров (`slip`, `cobs`, `delimiter`, `length_prefix`, `header`, `modbus_rtu`) и конвейера стадий (`fuzz.framing.*`), для слоев 13 таблиц приборов (`fuzz.protocol.devices`) и для приема кадров диалогом (`fuzz.transport.dialogue_receive`: каждый обмен завершается ровно один раз, каждый кадр попадает ровно в один счетчик). Начальные корпуса цели пишут сами, файлов векторов в репозитории нет.
+**Суть:** цели libFuzzer для кодеков кадров (`slip`, `cobs`, `delimiter`, `length_prefix`, `header`, `modbus_rtu`) и конвейера стадий (`fuzz.framing.*`), для слоев 13 таблиц приборов (`fuzz.protocol.devices`) и для приема кадров диалогом (`fuzz.transport.dialogue_receive`: каждый обмен завершается ровно один раз, каждый кадр попадает ровно в один счетчик). Начальные корпуса цели пишут сами, файлов векторов в репозитории нет. Цели собираются с AddressSanitizer и UndefinedBehaviorSanitizer; цель диалога проверяет исход каждого обмена (ошибку, счетчики, обработчики подписок) по всем видам ответа, отмену обмена, отписку, сбой записи и закрытие.
 
-**Проверено:** Linux, Clang 23, `LUMEX_BUILD_FUZZERS=ON`: `ctest -L fuzz` 11 из 11 (по 30 с на цель), внесенные ошибки найдены целями, кроме двух проверок, которые снаружи не видны; реальных ошибок фаззеры не нашли.
+**Проверено:** Linux, Clang 23, `LUMEX_BUILD_FUZZERS=ON`: `ctest -L fuzz` 11 из 11 (по 30 с на цель), сборка Debug компонуется, внесенные в кодеки и движок ошибки найдены целями за секунды (кроме проверок, которые снаружи не видны, и эквивалентных), чистый движок три прогона по 60 с без ложных срабатываний; реальных ошибок фаззеры не нашли.
 
 #### Исправлено
 
