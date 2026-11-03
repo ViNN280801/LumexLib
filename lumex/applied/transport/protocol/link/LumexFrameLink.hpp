@@ -140,6 +140,14 @@ public:
   virtual void cancel () LUMEX_NOEXCEPT = 0;
   /// @brief Ends them and closes the transport.
   virtual void close () LUMEX_NOEXCEPT = 0;
+  /// @brief The link is silent (the watchdog of the dialogue): gives up the
+  /// connection. By default it closes; a link that can connect again may do
+  /// that instead.
+  virtual void
+  drop_connection () LUMEX_NOEXCEPT
+  {
+    close ();
+  }
 };
 
 namespace detail

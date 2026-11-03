@@ -22,7 +22,7 @@ endif()
 if(NOT _cmake MATCHES "if\\(_transport_with_dialogue\\)[ \t\r\n]*target_link_libraries\\(\\$\\{LUMEX_TRANSPORT_NAME\\} PUBLIC lumex::protocol\\)[ \t\r\n]*target_compile_definitions\\(\\$\\{LUMEX_TRANSPORT_NAME\\} PUBLIC[ \t\r\n]*LUMEX_TRANSPORT_WITH_PROTOCOL=1\\)")
     message(FATAL_ERROR "the transport links lumex::protocol and defines LUMEX_TRANSPORT_WITH_PROTOCOL outside if(_transport_with_dialogue)")
 endif()
-if(NOT _cmake MATCHES "elseif\\(NOT _transport_with_dialogue\\)[ \t\r\n]*list\\(APPEND _transport_install_excludes[ \t\r\n]*PATTERN \"link\" EXCLUDE[ \t\r\n]*PATTERN \"dialogue\" EXCLUDE[ \t\r\n]*PATTERN \"LumexDialogueTypes.hpp\" EXCLUDE[ \t\r\n]*PATTERN \"LumexTransportProtocol.hpp\" EXCLUDE\\)")
+if(NOT _cmake MATCHES "elseif\\(NOT _transport_with_dialogue\\)[ \t\r\n]*list\\(APPEND _transport_install_excludes[ \t\r\n]*PATTERN \"link\" EXCLUDE[ \t\r\n]*PATTERN \"dialogue\" EXCLUDE[ \t\r\n]*PATTERN \"LumexDialogueTypes.hpp\" EXCLUDE[ \t\r\n]*PATTERN \"LumexTransportProtocol.hpp\" EXCLUDE[ \t\r\n]*PATTERN \"LumexProtocolScenario.hpp\" EXCLUDE\\)")
     message(FATAL_ERROR "the install does not leave the engine's headers out without the framing module")
 endif()
 # The filters match the path inside the module: the sources are globbed

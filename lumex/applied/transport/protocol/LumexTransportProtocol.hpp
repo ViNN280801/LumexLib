@@ -40,8 +40,8 @@
 /**
  * @file LumexTransportProtocol.hpp
  * @brief The dialogue layer of the transport over the protocol tables of
- * `core/protocol`: the dialogue vocabulary, `frame_link` and
- * `dialogue_engine`.
+ * `core/protocol`: the dialogue vocabulary, `frame_link`, `dialogue_engine`,
+ * its features from the table and the executor of the scenarios.
  * @details Built with the protocol and the framing modules
  * (`LUMEX_BUILD_PROTOCOL`, `LUMEX_BUILD_FRAMING`): the transport library then
  * defines `LUMEX_TRANSPORT_WITH_PROTOCOL` for itself and its consumers, links
@@ -52,8 +52,10 @@
 
 #include "lumex/applied/transport/protocol/LumexDialogueTypes.hpp"
 #include "lumex/applied/transport/protocol/dialogue/LumexDialogue.hpp"
+#include "lumex/applied/transport/protocol/dialogue/LumexDialogueFeatures.hpp"
 #include "lumex/applied/transport/protocol/dialogue/LumexReplyReader.hpp"
 #include "lumex/applied/transport/protocol/dsl/LumexDialogueVocabulary.hpp"
+#include "lumex/applied/transport/protocol/dsl/LumexProtocolScenario.hpp"
 #include "lumex/applied/transport/protocol/link/LumexFrameLink.hpp"
 
 #endif // !LUMEX_APPLIED_TRANSPORT_PROTOCOL_TRANSPORT_PROTOCOL_HPP

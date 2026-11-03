@@ -43,10 +43,11 @@
  * `applied/transport/protocol`: the reply kinds (`ack_nak`, `two_phase`,
  * `echo_set`, `echo_zero_on_error`, `state_instead_of_refusal`), the row
  * options (`correlate`, `reply_row`, `min_interval`, `edge_event`,
- * `match_with`), the protocol options a header names (`dialogue_options`),
- * the vocabulary `dialogue::vocabulary_t` that brings them into a table, and
- * the traits the dialogue engine and the client read (`row_traits_t`,
- * `protocol_traits_t`, `reply_value_of_t`, `check_protocol_t`).
+ * `match_with`, `enables_stream`), the protocol options a header names
+ * (`dialogue_options`), the vocabulary `dialogue::vocabulary_t` that brings
+ * them into a table, and the traits the dialogue engine and the client read
+ * (`row_traits_t`, `protocol_traits_t`, `reply_value_of_t`,
+ * `check_protocol_t`).
  * @details A table takes the words by its header:
  * @code
  * struct pump_header_t
@@ -1279,6 +1280,59 @@ template <typename Row> struct reply_row_t
   }
 };
 
+/// @brief The kind of `enables_stream<R>` (one per row, whatever `R`).
+struct enables_stream_kind_t
+{
+};
+
+/**
+ * @brief Row option `enables_stream<R> ()`: the request of this row makes the
+ * device send stream row `R`; `dialogue_engine::async_enable_streams` sends
+ * every such row in table order, and the dialogue watches the stream from
+ * the reply on. The row has no request fields (nothing would supply them).
+ * @tparam Row The `stream` row it turns on, of this protocol or its base.
+ */
+template <typename Row> struct enables_stream_t
+{
+  static_assert (::lumex::core::protocol::dsl::is_command<Row>::value,
+                 "LUMEX_PROTOCOL: enables_stream<R>: R is a row of the "
+                 "protocol (a type R_t of the table, written before the row "
+                 "that names it)");
+
+  /// The kind of the option.
+  using option_kind = enables_stream_kind_t;
+  /// A word of the table vocabulary.
+  using lumex_vocabulary_word
+      = ::lumex::core::protocol::dsl::vocabulary_word_tag;
+  /// The stream row it turns on.
+  using row_type = Row;
+
+  /// @brief `enables_stream<R> ()`.
+  LUMEX_CONSTEXPR_CTOR
+  enables_stream_t () LUMEX_NOEXCEPT {}
+
+  /// @brief `"enables_stream"`.
+  static LUMEX_CONSTEXPR char const *
+  option_name () LUMEX_NOEXCEPT
+  {
+    return "enables_stream";
+  }
+
+  /// @brief No number: 0.
+  std::int64_t
+  view_value () const LUMEX_NOEXCEPT
+  {
+    return 0;
+  }
+
+  /// @brief The specification name of the row.
+  char const *
+  view_text () const LUMEX_NOEXCEPT
+  {
+    return Row::specification_name ();
+  }
+};
+
 /// @brief Row option `min_interval (ms)`: at least this many milliseconds
 /// between two requests of the row (a rate limit).
 struct min_interval_t
@@ -2054,6 +2108,44 @@ struct reply_row_of_t<dsl::option_set<reply_row_t<R>, Tail...>>
   using type = R;
 };
 
+template <typename Set> struct enabled_row_of_t;
+
+template <> struct enabled_row_of_t<dsl::option_set<>>
+{
+  using type = void;
+};
+
+template <typename Head, typename... Tail>
+struct enabled_row_of_t<dsl::option_set<Head, Tail...>>
+    : enabled_row_of_t<dsl::option_set<Tail...>>
+{
+};
+
+template <typename R, typename... Tail>
+struct enabled_row_of_t<dsl::option_set<enables_stream_t<R>, Tail...>>
+{
+  using type = R;
+};
+
+// Whether a row with enables_stream names a stream row (true without one).
+template <typename R>
+struct stream_row_or_none_t : row_has_t<R, dsl::kind::stream>
+{
+};
+
+template <> struct stream_row_or_none_t<void> : std::true_type
+{
+};
+
+// Whether a row has the flag `dangerous`.
+template <typename Row>
+struct row_dangerous_t
+    : std::integral_constant<bool, (dsl::flags_of (Row::options ())
+                                    & dsl::row_flags::dangerous)
+                                       != 0>
+{
+};
+
 // The correlation a row names (by_key when it names none: ask named first).
 template <typename Row, bool Present = row_has_t<Row, correlation_t>::value>
 struct named_how_t
@@ -2358,6 +2450,27 @@ template <typename P, typename Row> struct row_check_t : std::true_type
       "LUMEX_PROTOCOL: a by_order row in a protocol with max_in_flight "
       "greater than 1: a reply without the key of its request cannot be "
       "told from the reply of another request");
+  using enabled_row =
+      typename enabled_row_of_t<typename Row::options_type>::type;
+  static_assert (row_state_t<P, enabled_row>::value != 2,
+                 "LUMEX_PROTOCOL: enables_stream<R> names a row of another "
+                 "protocol (R is a row of this protocol or of its base)");
+  static_assert (row_state_t<P, enabled_row>::value != 1,
+                 "LUMEX_PROTOCOL: enables_stream<R> names a row the layer "
+                 "replaced: list the row that names it in the layer too, so "
+                 "that it names the row of the layer");
+  static_assert (stream_row_or_none_t<enabled_row>::value,
+                 "LUMEX_PROTOCOL: enables_stream<R>: R is a row with a stream "
+                 "option");
+  static_assert (std::is_void<enabled_row>::value
+                     || dsl::list_size<typename Row::fields_type::types>::value
+                            == 0,
+                 "LUMEX_PROTOCOL: enables_stream<R> on a row with request "
+                 "fields: the dialogue sends it without arguments");
+  static_assert (std::is_void<enabled_row>::value
+                     || !row_dangerous_t<Row>::value,
+                 "LUMEX_PROTOCOL: enables_stream<R> on a dangerous row: the "
+                 "dialogue sends it without a confirmation");
   static_assert (
       edges_check_t<
           Row, typename edges_of_t<typename Row::options_type>::type>::value,
@@ -2387,6 +2500,10 @@ struct option_check_t<P, keepalive_t<Row, Ms>> : std::true_type
       row_state_t<P, Row>::value != 1,
       "LUMEX_PROTOCOL: keepalive<Row, PeriodMs> names a row the layer "
       "replaced: name it through the layer (typename P::ROW_t)");
+  static_assert (
+      !row_dangerous_t<Row>::value,
+      "LUMEX_PROTOCOL: keepalive<Row, PeriodMs> on a dangerous row: "
+      "the dialogue sends it without a confirmation");
 };
 
 template <typename P, typename Row>
@@ -2543,6 +2660,9 @@ template <typename P, typename Row> struct row_traits_t
   /// The row whose message answers (`reply_row<R>`), `void` without one.
   using reply_row =
       typename detail::reply_row_of_t<typename Row::options_type>::type;
+  /// The stream row it turns on (`enables_stream<R>`), `void` without one.
+  using enabled_row =
+      typename detail::enabled_row_of_t<typename Row::options_type>::type;
   /// The edges of the row (`edge_event_t` types) in table order.
   using edge_events =
       typename detail::edges_of_t<typename Row::options_type>::type;
@@ -2711,7 +2831,7 @@ template <typename P> struct protocol_traits_t
  * `echo_set<T>`, `echo_zero_on_error<T>`, `state_instead_of_refusal<T>`.
  * Row options: `correlate (correlation::...)`, `reply_row<R> ()`,
  * `min_interval (ms)`, `edge_event<Field, From, To> ()`, `match_with
- * (function)`.
+ * (function)`, `enables_stream<R> ()`.
  */
 struct vocabulary_t : ::lumex::core::protocol::registry::table_vocabulary
 {
@@ -2745,6 +2865,10 @@ struct vocabulary_t : ::lumex::core::protocol::registry::table_vocabulary
 
   /// @brief Row option `reply_row<R> ()`: the message of `R` answers.
   template <typename Row> using reply_row = reply_row_t<Row>;
+
+  /// @brief Row option `enables_stream<R> ()`: the request of the row turns
+  /// on stream row `R`.
+  template <typename Row> using enables_stream = enables_stream_t<Row>;
 
   /// @brief Row option: at least `milliseconds` between two requests of the
   /// row.

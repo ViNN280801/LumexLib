@@ -175,7 +175,8 @@ if(LUMEX_INSTALL)
             PATTERN "link" EXCLUDE
             PATTERN "dialogue" EXCLUDE
             PATTERN "LumexDialogueTypes.hpp" EXCLUDE
-            PATTERN "LumexTransportProtocol.hpp" EXCLUDE)
+            PATTERN "LumexTransportProtocol.hpp" EXCLUDE
+            PATTERN "LumexProtocolScenario.hpp" EXCLUDE)
     endif()
     install(
         DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/

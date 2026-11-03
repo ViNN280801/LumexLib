@@ -9,8 +9,10 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <tuple>
 #include <type_traits>
 
+#include "lumex/applied/transport/protocol/dialogue/LumexDialogueFeatures.hpp"
 #include "lumex/applied/transport/protocol/dialogue/LumexReplyReader.hpp"
 #include "lumex/applied/transport/protocol/dsl/LumexDialogueVocabulary.hpp"
 #include "lumex/core/protocol/LumexProtocol"
@@ -216,8 +218,35 @@ private:
 // request field.
 #define CHECK_ROW(X)                                                          \
   X (BAD, 0x50, "Bad", (label_t), ("value"), (echo_zero_on_error<u8_>), ())
+#elif LUMEX_DIALOGUE_CASE == 40
+// 40: enables_stream naming a row of another protocol.
+#define CHECK_ROW(X)                                                          \
+  X (BAD, 0x50, "Bad", (), (), (u8_), (enables_stream<other_t::FOREIGN_t> ()))
+#elif LUMEX_DIALOGUE_CASE == 41
+// 41: enables_stream of a type that is no row.
+#define CHECK_ROW(X)                                                          \
+  X (BAD, 0x50, "Bad", (), (), (u8_), (enables_stream<int> ()))
+#elif LUMEX_DIALOGUE_CASE == 42
+// 42: enables_stream naming a row without stream.
+#define CHECK_ROW(X)                                                          \
+  X (BAD, 0x50, "Bad", (), (), (u8_), (enables_stream<INFO_t> ()))
+#elif LUMEX_DIALOGUE_CASE == 43
+// 43: enables_stream on a row with request fields.
+#define CHECK_ROW(X)                                                          \
+  X (BAD, 0x50, "Bad", (u8_), ("value"), (u8_), (enables_stream<STATE_t> ()))
+#elif LUMEX_DIALOGUE_CASE == 44
+// 44: enables_stream on a dangerous row.
+#define CHECK_ROW(X)                                                          \
+  X (BAD, 0x50, "Bad", (), (), (u8_), (dangerous, enables_stream<STATE_t> ()))
 #else
 #define CHECK_ROW(X)
+#endif
+
+#if LUMEX_DIALOGUE_CASE == 45
+// 45: a keepalive naming a dangerous row.
+#define CHECK_TICK_FLAGS (dangerous)
+#else
+#define CHECK_TICK_FLAGS ()
 #endif
 
 // clang-format off
@@ -226,9 +255,10 @@ private:
   X (NAK, 0x15, "Nak", (), (), (u8_), ()) \
   X (CHANGE, 0x30, "Change", (), (), (state_t), ()) \
   X (INFO, 0x10, "Info", (), (), (info_t), ()) \
-  X (TICK, 0x11, "Tick", (u8_), ("seconds"), (), ()) \
+  X (TICK, 0x11, "Tick", (u8_), ("seconds"), (), CHECK_TICK_FLAGS) \
   X (STATE, 0x12, "State", (), (), (state_t), \
      (stream (100), edge_event<0, 0, 1> ())) \
+  X (TURN_ON, 0x13, "Turn on", (), (), (u8_), (enables_stream<STATE_t> ())) \
   X (GO, 0x01, "Go", (), (), (ack_nak<ACK_t, NAK_t>), (min_interval (10))) \
   X (SET, 0x02, "Set", (u8_), ("value"), (), (reply_row<CHANGE_t> ())) \
   X (ASK, 0x03, "Ask", (), (), (u8_), (match_with (&match_any))) \
@@ -245,6 +275,10 @@ LUMEX_PROTOCOL_DEFINE (check_t, codec_t, header_t, CHECK_ROWS);
 #elif LUMEX_DIALOGUE_CASE == 32
 // 32: a layer replaces ACK, which GO names as a part, without listing GO.
 #define LAYER_ROWS(X, X_AS) X (ACK, 0x06, "Ack", (), (), (u8_), ())
+#elif LUMEX_DIALOGUE_CASE == 46
+// 46: a layer replaces STATE, which TURN_ON names, without listing TURN_ON.
+#define LAYER_ROWS(X, X_AS)                                                   \
+  X (STATE, 0x12, "State", (), (), (info_t), (stream (100)))
 #else
 #define LAYER_ROWS(X, X_AS)                                                   \
   X (CHANGE, 0x30, "Change", (), (), (info_t), ())                            \
@@ -281,12 +315,21 @@ use_index ()
 inline void
 use_reader ()
 {
-#if LUMEX_DIALOGUE_CASE >= 38
+#if LUMEX_DIALOGUE_CASE == 38 || LUMEX_DIALOGUE_CASE == 39
   (void)dialogue::reply_reader_of<check_t, check_t::BAD_t> ();
 #else
   (void)dialogue::reply_reader_of<check_t, check_t::ZERO_t> ();
 #endif
 }
+
+#if LUMEX_DIALOGUE_CASE == 47
+// 47: keepalive_from on a protocol without a keepalive.
+inline void
+use_generator ()
+{
+  (void)dialogue::keepalive_from<other_t> ([] () { return std::tuple<> (); });
+}
+#endif
 
 #if LUMEX_DIALOGUE_CASE == 0
 static_assert (dialogue::check_protocol_t<check_t>::value,

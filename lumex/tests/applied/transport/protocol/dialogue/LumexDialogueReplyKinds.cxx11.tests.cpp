@@ -107,13 +107,14 @@ TEST (
   outcome_ptr const nak = run_one (bench, dt::make_exchange<pump::STOP_t> ());
   EXPECT_EQ (nak->error, protocol_errc::nak);
   // The row's own key is no part when both parts are rows; another row is
-  // no part either: the by_order exchange ends with unexpected_reply.
+  // no part either: the by_order exchange goes on waiting, to its timeout.
   outcome_ptr const own = run_one (bench, dt::make_exchange<pump::STOP_t> ());
-  EXPECT_EQ (own->error, protocol_errc::unexpected_reply);
+  EXPECT_EQ (own->error, protocol_errc::timeout);
   outcome_ptr const other
       = run_one (bench, dt::make_exchange<pump::STOP_t> ());
-  EXPECT_EQ (other->error, protocol_errc::unexpected_reply);
-  EXPECT_EQ (other->frame, bytes ({ 0x0C, 0x01 }));
+  EXPECT_EQ (other->error, protocol_errc::timeout);
+  EXPECT_TRUE (other->frame.empty ());
+  EXPECT_EQ (bench.the_dialogue->statistics ().unexpected_replies, 2u);
 }
 
 TEST (
