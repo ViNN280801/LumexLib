@@ -47,7 +47,7 @@ options_of (unsigned variant)
   return options;
 }
 
-struct header_traits_t
+struct header_traits_t : default_traits_t
 {
   using codec_t = select_t<plain_t, xor_t, crc_t>;
 

@@ -29,7 +29,7 @@ delimiter_of (unsigned variant)
     }
 }
 
-struct delimiter_traits_t
+struct delimiter_traits_t : default_traits_t
 {
   using codec_t = lumex::core::framing::delimiter::delimiter_codec;
 

@@ -12,7 +12,7 @@ namespace
 using namespace lumex_framing_fuzz;
 namespace mb = lumex::core::framing::modbus_rtu;
 
-struct modbus_traits_t
+struct modbus_traits_t : default_traits_t
 {
   using codec_t = mb::modbus_rtu_codec;
 
@@ -38,6 +38,13 @@ struct modbus_traits_t
     options.address = 0x11;
     options.max_frame_size = frame_limit (variant);
     return codec_t (options);
+  }
+  // With the address filter on, only frames for the address come out.
+  static void
+  check_frame (unsigned variant, bytes_t const &frame)
+  {
+    if ((variant & 4U) != 0)
+      LUMEX_FUZZ_REQUIRE (!frame.empty () && frame[0] == 0x11);
   }
   static bool
   payload_ok (unsigned, bytes_t const &)

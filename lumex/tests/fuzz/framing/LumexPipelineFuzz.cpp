@@ -32,7 +32,7 @@ using binary_t = st::pipeline<
                 codec::byte_order::little>>,
     st::word_reverse_stage<2>>;
 
-struct pipeline_traits_t
+struct pipeline_traits_t : default_traits_t
 {
   using codec_t = select_t<strict_t, optional_t, binary_t>;
 

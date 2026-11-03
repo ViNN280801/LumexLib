@@ -1,6 +1,7 @@
 // libFuzzer target of the thirteen de-identified device tables
 // (lumex/tests/core/protocol/devices, devices A..M, every layer of every
-// table): the first byte of an input chooses a layer, the second the
+// table but the aligned family of device B, which is left out on purpose):
+// the first byte of an input chooses a layer, the second the
 // direction of the message, the rest is the message. dispatch_message must
 // never read past the input (AddressSanitizer); when it accepts the message
 // it calls the visitor of exactly one row, the run-time index finds that same
@@ -182,7 +183,10 @@ run_layer (layout::bytes_view_t message, index::frame_direction direction,
   REQUIRE (found.row->entry->identifier == first.row);
   // Decode and encode are stable after one round.
   if (first.refused)
-    return;
+    {
+      REQUIRE (!sample);
+      return;
+    }
   REQUIRE (first.encoded);
   if (sample)
     REQUIRE (first.again
@@ -209,14 +213,14 @@ template <typename P> struct seeds_of
   {
     field::decode_context_t const context = session ();
     bytes_t request;
-    if (layout::encode_message_record<P, Row> (
-            request, field::sample_value<typename Row::fields_type> (),
-            &context)
-            .has_value ())
-      out.push_back (std::make_pair (request, true));
+    REQUIRE ((layout::encode_message_record<P, Row> (
+                  request, field::sample_value<typename Row::fields_type> (),
+                  &context)
+                  .has_value ()));
+    out.push_back (std::make_pair (request, true));
     bytes_t reply;
-    if (add_reply<Row> (reply, &context, layout::has_core_reply<Row> ()))
-      out.push_back (std::make_pair (reply, false));
+    REQUIRE (add_reply<Row> (reply, &context, layout::has_core_reply<Row> ()));
+    out.push_back (std::make_pair (reply, false));
   }
 
   template <typename Row>
