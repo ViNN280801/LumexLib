@@ -648,6 +648,81 @@ effect_of (std::vector<std::uint8_t> const &frame,
       .effect;
 }
 
+// The device simulator over the fixture table, on a mock stream and on a
+// mock datagram transport: every member of its template instantiated under
+// the strict warnings, then a request answered on the virtual clock.
+bool
+simulator_round ()
+{
+  namespace fx = dialogue_fixture;
+  using fixture = fx::fixture_t;
+  using sim = tr::testing::device_simulator<fixture>;
+  using ms = std::chrono::milliseconds;
+  asio::io_context context;
+  tr::testing::virtual_clock clock;
+  tr::testing::mock_options_t options;
+  options.timers = clock.source ();
+  options.name = "simulator";
+  tr::testing::mock_stream stream
+      = tr::testing::make_mock_stream (context.get_executor (), options);
+  tr::testing::mock_datagram datagrams
+      = tr::testing::make_mock_datagram (context.get_executor (), options);
+  stream.stream.async_open ([] (std::error_code) {});
+  datagrams.transport.async_open ([] (std::error_code) {});
+  context.poll ();
+  context.restart ();
+
+  bool fine = true;
+  {
+    tr::testing::simulator_options_t device_options;
+    device_options.name = "device";
+    device_options.answer_unknown = true;
+    sim device (stream.control, codec_t (), clock, device_options);
+    sim second (datagrams.control, codec_t (), 2, clock);
+    fine = device.valid () && second.valid () && fine;
+    // A handler of both forms, a fixed reply, the refusals and the streams.
+    fine = device.on<fixture::START_t> (
+               [] (sim::request_of<fixture::START_t> const &) {})
+           && fine;
+    fine = device.on<fixture::STATE_t> (
+               [] (sim::request_of<fixture::STATE_t> const &,
+                   lumex::core::protocol::index::session_context_t &session)
+                 {
+                   session.set ("seen", 1);
+                   return sim::reply_of<fixture::STATE_t> ();
+                 })
+           && fine;
+    fine = device.set_reply<fixture::SET_FLOW_t> (7) && fine;
+    fine = device.clear_reply<fixture::SET_FLOW_t> () && fine;
+    fine = device.refuse<fixture::STOP_t> () && fine;
+    fine = device.refuse<fixture::STOP_t> (false) && fine;
+    fine = device.start_stream<fixture::STATE_t> () && fine;
+    fine = device.start_stream<fixture::STATE_t> (ms (50)) && fine;
+    fine = device.start_stream<fixture::STATE_t> (
+               sim::reply_of<fixture::STATE_t> (), ms (70))
+           && fine;
+    fine = device.start_stream_with<fixture::STATE_t> (
+               [] () { return sim::reply_of<fixture::STATE_t> (); }, ms (90))
+           && fine;
+    device.stop_stream<fixture::STATE_t> ();
+    fine = device.start_streams () == 1 && fine;
+    device.stop_streams ();
+    device.set_state (1);
+    fine = device.state () == 1 && fine;
+    device.set_behavior (tr::testing::behavior::perfect ());
+    device.after (ms (10), [] () {});
+    device.session ().set_model ("fixture");
+    clock.advance (ms (20));
+    context.poll ();
+    tr::testing::simulator_statistics_t const counted = device.statistics ();
+    fine = counted.requests == 0 && counted.requests_of ("START") == 0 && fine;
+    device.reset_statistics ();
+  }
+  context.restart ();
+  context.poll ();
+  return fine && clock.pending () == 0;
+}
+
 bool
 readers_round ()
 {
@@ -1173,6 +1248,9 @@ main ()
     && defined(LUMEX_FIXTURE_WITH_PROTOCOL)
   fine = engine_round (runner) && fine;
   fine = readers_round () && fine;
+#if defined(LUMEX_TRANSPORT_WITH_TESTING)
+  fine = simulator_round () && fine;
+#endif
 #endif
 #if defined(LUMEX_TRANSPORT_WITH_LOGGER)
   tr::log::uninstall_lumex_logger_sink ();
