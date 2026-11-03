@@ -105,6 +105,10 @@ class mock_stream_control
 public:
   explicit mock_stream_control (std::shared_ptr<mock_stream_impl> impl);
 
+  /// @brief The strand of the mock: what a simulator makes its timers for,
+  /// so that they run beside the observer.
+  asio::strand<executor_type> get_strand () const;
+
   /// @brief Makes `bytes` available to reads.
   void feed (std::vector<std::uint8_t> const &bytes);
   /// @brief The next open fails with `error`.
