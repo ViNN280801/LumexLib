@@ -45,6 +45,14 @@
 #  37 a keepalive period not shorter than the watchdog
 #  38 an echo_set whose type cannot be compared with the last request field
 #  39 an echo_zero_on_error whose type cannot be compared with it
+#  40 enables_stream naming a row of another protocol
+#  41 enables_stream of a type that is no row
+#  42 enables_stream naming a row without stream
+#  43 enables_stream on a row with request fields
+#  44 enables_stream on a dangerous row
+#  45 a keepalive naming a dangerous row
+#  46 a layer that replaces the stream of enables_stream without listing it
+#  47 keepalive_from on a protocol without a keepalive
 # The compiler's messages are matched in English. The headers are compiled
 # without the library (the Asio headers only). Everything runs at configure
 # time (try_compile), at C++11 (MSVC: C++14, its lowest) and C++20.
@@ -61,8 +69,9 @@ set(ENV{LANGUAGE} C)
 
 set(_source "${CMAKE_CURRENT_SOURCE_DIR}/check.cpp")
 set(_includes "${LUMEX_SOURCE_DIR}")
-# The reader of the reply kinds (case 38, 39) includes the dialogue types,
-# which include Asio (headers only, no library).
+# The reader of the reply kinds (case 38, 39) and the features of a table (case
+# 47) include the dialogue types, which include Asio (headers only, no
+# library).
 set(_asio_include "${LUMEX_SOURCE_DIR}/3rdparty/asio/include")
 if(MSVC)
     set(_werror /WX /Zc:__cplusplus /permissive- /EHsc /DASIO_STANDALONE
@@ -129,6 +138,14 @@ _lumex_case(36 "correlate \\(how\\) takes a correlation")
 _lumex_case(37 "with a period not shorter than watchdog_ms")
 _lumex_case(38 "the echo of an echo kind can be compared with the last field")
 _lumex_case(39 "the echo of an echo kind can be compared with the last field")
+_lumex_case(40 "enables_stream<R> ${_another_regex}")
+_lumex_case(41 "enables_stream<R>: R is a row of the protocol")
+_lumex_case(42 "enables_stream<R>: R is a row with a stream option")
+_lumex_case(43 "enables_stream<R> on a row with request fields")
+_lumex_case(44 "enables_stream<R> on a dangerous row")
+_lumex_case(45 "keepalive<Row, PeriodMs> on a dangerous row")
+_lumex_case(46 "enables_stream<R> names a row the layer replaced")
+_lumex_case(47 "keepalive_from<P>: the protocol names no")
 
 function(_lumex_dialogue_try result_var tag standard)
     try_compile(_ok "${CMAKE_BINARY_DIR}/try_${tag}"

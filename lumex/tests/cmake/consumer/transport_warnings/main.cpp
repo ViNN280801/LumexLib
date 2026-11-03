@@ -16,7 +16,8 @@
 // vocabulary is indexed, described, exported and read through its traits,
 // and with the dialogue engine (LUMEX_TRANSPORT_WITH_PROTOCOL) every token
 // style runs through dialogue_engine and frame_link over a framed mock
-// stream, and the reader of every reply kind reads a frame.
+// stream, the reader of every reply kind reads a frame, and the features of
+// the table run: streams, edges, the state, the keepalive, a scenario.
 
 #include <chrono>
 #include <cstddef>
@@ -28,6 +29,7 @@
 #include <mutex>
 #include <string>
 #include <system_error>
+#include <tuple>
 #include <utility>
 #include <vector>
 
@@ -100,7 +102,9 @@ struct header_t
   X (WRITE, 0x08, "Write", (u8_), ("value"), (), (reply_row<CHANGE_t> ())) \
   X (READ, 0x09, "Read", (u8_), ("parameter"), (u16_le_), \
      (correlate (correlation::by_order))) \
-  X (QUERY, 0x0A, "Query", (), (), (u8_), (match_with (&match_any)))
+  X (QUERY, 0x0A, "Query", (), (), (u8_), (match_with (&match_any))) \
+  X (TURN_ON, 0x0B, "Turn on", (), (), (), (enables_stream<STATE_t> ())) \
+  X (ERASE, 0x0C, "Erase", (u8_), ("block"), (), (dangerous))
 // clang-format on
 LUMEX_PROTOCOL_DEFINE (fixture_t, codec_t, header_t, FIXTURE_ROWS);
 
@@ -681,6 +685,158 @@ readers_round ()
   return fine;
 }
 
+// A scenario of the fixture table: a send, a branch on its reply, a state that
+// is there already, a label.
+inline bool
+valve_is_one (lumex::core::protocol::field::value_of<
+              dialogue_fixture::state_t>::type const &state)
+{
+  return lumex::core::protocol::field::get<0> (state) == 1;
+}
+
+LUMEX_PROTOCOL_SCENARIO (
+    fixture_scenario, dialogue_fixture::fixture_t,
+    (send<dialogue_fixture::fixture_t::STATE_t> ()), (wait_state (2, 1000)),
+    (branch_on_reply<dialogue_fixture::fixture_t::STATE_t> (&valve_is_one,
+                                                            "end")),
+    (jump ("end")), (label ("end")));
+
+bool
+scenario_by_callback (pr::dialogue_engine &engine)
+{
+  std::promise<std::size_t> done;
+  pr::async_run_scenario<fixture_scenario> (
+      engine, [&done] (std::error_code error, std::size_t step)
+        { done.set_value (error ? 0 : step); });
+  return done.get_future ().get () == 5;
+}
+
+bool
+scenario_by_future (pr::dialogue_engine &engine)
+{
+  return pr::async_run_scenario<fixture_scenario> (engine, asio::use_future)
+             .get ()
+         == 5;
+}
+
+bool
+scenario_by_deferred (pr::dialogue_engine &engine)
+{
+  auto run = pr::async_run_scenario<fixture_scenario> (engine, asio::deferred);
+  return std::move (run) (asio::use_future).get () == 5;
+}
+
+bool
+scenario_by_cancel_after (tr::stream::io_runner &runner,
+                          pr::dialogue_engine &engine)
+{
+  std::promise<std::size_t> done;
+  pr::async_run_scenario<fixture_scenario> (
+      engine,
+      asio::cancel_after (std::chrono::seconds (10),
+                          asio::bind_executor (
+                              asio::make_strand (runner.get_executor ()),
+                              [&done] (std::error_code error, std::size_t step)
+                                { done.set_value (error ? 0 : step); })));
+  return done.get_future ().get () == 5;
+}
+
+#if defined(LUMEX_TRANSPORT_WITH_SPAWN)
+bool
+scenario_by_yield (tr::stream::io_runner &runner, pr::dialogue_engine &engine)
+{
+  std::promise<std::size_t> done;
+  asio::spawn (
+      runner.get_executor (),
+      [&engine, &done] (asio::yield_context yield)
+        {
+          std::error_code error;
+          std::size_t const step = pr::async_run_scenario<fixture_scenario> (
+              engine, yield[error]);
+          done.set_value (error ? 0 : step);
+        },
+      [] (std::exception_ptr failure)
+        {
+          if (failure)
+            std::rethrow_exception (failure);
+        });
+  return done.get_future ().get () == 5;
+}
+#endif
+
+#if __cplusplus >= 202002L || (defined(_MSVC_LANG) && _MSVC_LANG >= 202002L)
+#if defined(__GNUC__) && !defined(__clang__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wswitch-default"
+#endif
+bool
+scenario_by_awaitable (tr::stream::io_runner &runner,
+                       pr::dialogue_engine &engine)
+{
+  std::promise<std::size_t> done;
+  asio::co_spawn (
+      runner.get_executor (),
+      [&engine, &done] () -> asio::awaitable<void>
+        {
+          std::size_t const step
+              = co_await pr::async_run_scenario<fixture_scenario> (
+                  engine, asio::use_awaitable);
+          done.set_value (step);
+        },
+      [] (std::exception_ptr failure)
+        {
+          if (failure)
+            std::rethrow_exception (failure);
+        });
+  return done.get_future ().get () == 5;
+}
+#if defined(__GNUC__) && !defined(__clang__)
+#pragma GCC diagnostic pop
+#endif
+#endif
+
+// The features of the table: the options, the enabling of the stream by every
+// token style, an edge, the link state, the state, the keepalive generator.
+bool
+features_round (tr::stream::io_runner &runner, pr::dialogue_engine &engine)
+{
+  namespace fx = dialogue_fixture;
+  bool fine = true;
+  std::promise<std::size_t> enabled;
+  engine.async_enable_streams (
+      [&enabled] (std::error_code error, std::size_t step)
+        { enabled.set_value (error ? 99 : step); });
+  fine = enabled.get_future ().get () == 1 && fine;
+  fine = engine.async_enable_streams (asio::use_future).get () == 1 && fine;
+  auto later = engine.async_enable_streams (asio::deferred);
+  fine = std::move (later) (asio::use_future).get () == 1 && fine;
+  pr::subscription_t const edge = engine.on_edge (
+      fx::index::protocol_index<fx::fixture_t> ()->find_name ("STATE"),
+      [] (pr::edge_t const &) {});
+  fine = edge.id != 0 && engine.unsubscribe (edge) && fine;
+  engine.on_link_state ([] (pr::link_state, std::error_code const &) {});
+  fine = engine.link_is_up () && fine;
+  engine.set_state (2);
+  fine = engine.state_known () && engine.last_state () == 2 && fine;
+  fine = engine.set_keepalive (fx::dialogue::keepalive_from<fx::fixture_t> (
+             [] () { return std::make_tuple (std::uint32_t (1)); }))
+         && fine;
+  fine = engine.set_keepalive (pr::keepalive_generator_t ()) && fine;
+  fine = scenario_by_callback (engine) && fine;
+  fine = scenario_by_future (engine) && fine;
+  fine = scenario_by_deferred (engine) && fine;
+  fine = scenario_by_cancel_after (runner, engine) && fine;
+#if defined(LUMEX_TRANSPORT_WITH_SPAWN)
+  fine = scenario_by_yield (runner, engine) && fine;
+#endif
+#if __cplusplus >= 202002L || (defined(_MSVC_LANG) && _MSVC_LANG >= 202002L)
+  fine = scenario_by_awaitable (runner, engine) && fine;
+#endif
+  engine.clear_state ();
+  fine = !engine.state_known () && fine;
+  return fine;
+}
+
 // The engine over a framed mock stream whose device answers every request
 // with the state, a frame_link of its own, and the classification of a
 // reply kind.
@@ -712,7 +868,7 @@ engine_round (tr::stream::io_runner &runner)
                     control.feed (wire);
                 });
         });
-  pr::dialogue_options_t options;
+  pr::dialogue_options_t options = fx::dialogue::options_for<fx::fixture_t> ();
   options.name = "engine";
   options.defaults.timeout_ms = 5000;
   pr::dialogue_engine engine (
@@ -739,6 +895,7 @@ engine_round (tr::stream::io_runner &runner)
   pr::dialogue_statistics_t const counted = engine.statistics ();
   fine = counted.requests >= 4 && counted.replies == counted.requests
          && counted.timeouts == 0 && fine;
+  fine = features_round (runner, engine) && fine;
   engine.close ();
   mock.control.on_write (tr::testing::write_observer_t ());
 

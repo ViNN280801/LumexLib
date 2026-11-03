@@ -42,12 +42,14 @@
  * @brief `dialogue_engine`: the engine of the exchanges with a device over a
  * `frame_link`: the request queue, the exchanges in flight, the correlation
  * of the replies, the timeouts on the timer seam, the retries, the late
- * replies and the counters.
+ * replies and the counters; the streams, the keepalive, the watchdog, the edge
+ * events, the rate limits, the acceptance by state and the scenarios.
  * @details An exchange (`async_exchange`) writes the request message of an
  * `exchange_t` as one frame and ends with the frame that answers it, matched
  * by the correlation of its row: `by_key` (a frame of the row), `by_reply_key`
- * (a frame of the reply row), `by_order` (the next frame that is no event;
- * such an exchange is alone in flight, nothing else is written meanwhile),
+ * (a frame of the reply row), `by_order` (such an exchange is alone in flight,
+ * nothing else is written meanwhile: with a reader, the next frame the reader
+ * calls a part of the reply; without one, the next frame that is no event),
  * `custom` (a frame the matcher accepts). A frame goes first to the
  * exchanges with an exact match (`by_key`, `by_reply_key`), in the order
  * they were started, and only then to the `custom` and `by_order` ones: an
@@ -56,6 +58,19 @@
  * reply is still expected (see below). Frames that answer no exchange are
  * counted: as late replies, unexpected replies, events or unknown frames.
  * A row without a reply ends its exchange when the write ends.
+ *
+ * A `by_order` exchange with a reader (a reply kind) reads each frame once: a
+ * frame that does not decode as the kind goes on as a frame nobody waits for
+ * (its subscribers, `on_unknown`, a step of a scenario) and the exchange keeps
+ * waiting with its attempts, its acknowledgement and its timer as they were.
+ * So a reply of the wrong shape ends in `timeout` (or `retries_exhausted`),
+ * not in `unexpected_reply`. A frame that decodes is a part whatever its value
+ * (an echo that differs ends with `not_confirmed` or `refused`). What can
+ * still end an exchange with `unexpected_reply`: a `custom` row with a reader,
+ * when its matcher took a frame that is no part; and a reader of one's own
+ * that says so with `reply_reading_t::is_part` true. A `by_key` exchange takes
+ * only frames of its row and ends with the error of the decoder (`truncated`,
+ * `trailing_bytes`, ...) for one of the wrong shape.
  *
  * At most `max_in_flight` exchanges wait for their reply; the others wait in
  * a queue of `queue_bound`, in the order they were started; one more ends at
@@ -68,9 +83,32 @@
  * ends the exchange with its error (a write the link refuses at once, out of
  * memory, with `std::errc::not_enough_memory`); a read of the link that
  * fails ends the exchanges in flight with `protocol_errc::link_lost`, and the
- * queued ones start (their writes then fail the same way). A read of a
- * link that is still open ending with `cancelled` only restarts the
- * reading.
+ * queued ones start (their writes then fail the same way). The reading starts
+ * again by itself (`read_restart_ms`, twice as late each time it fails again
+ * up to `read_restart_max_ms`) and with the next request, so that frames and
+ * streams come back with the link; a frame brings the link state back to
+ * `up`. A read of a link that is still open ending with `cancelled` restarts
+ * the reading at once the first time, then as after a failure: such a link
+ * never spins.
+ *
+ * Streams. The frames of a `stream` row are watched from its first frame on
+ * (or from the reply of the row that enables it): a silence of two intervals
+ * counts one gap (`stream_gaps`, warning), once per silence; a late frame
+ * within two intervals is none. A lost link ends the watch. Rate limits. A
+ * request of a row with `min_interval` or of a protocol with `min_interval_ms`
+ * waits until the time since the last request allows it (`rate_limited`; a
+ * warning at most once a second of the timer source for the engine, with the
+ * number of the requests that went to debug since); it stays in the queue and
+ * the requests behind it may go past while it waits, unless they wait
+ * themselves; an attempt after a NAK or a timeout waits too and keeps its
+ * place in flight. The state. `accepted_in` is checked against the last known
+ * state when a request is about to start, after its wait in the queue: it then
+ * ends with `protocol_errc::not_accepted_in_state` and nothing is written
+ * (`state_refusals`, warning); with no known state it is sent. The watchdog
+ * (`watchdog_ms`): after that long without any frame, from the start or the
+ * last frame, the link is lost (error): the exchanges in flight end with
+ * `link_lost`, the transport is closed, and it watches again once a frame
+ * comes. A `dangerous` row logs each attempt at info.
  *
  * Reply kinds (see `LumexReplyReader.hpp`). The acknowledgement of a
  * `two_phase` row leaves the exchange waiting for its completion with a
@@ -115,15 +153,20 @@
  * transports, start an exchange with `asio::cancel_after` inside the strand
  * of the dialogue: the timer of `cancel_after` runs there.
  *
- * Handlers of the user called by the engine: the policy's `extra_retries` and
- * the matcher of a `custom` row run on the strand. If one throws, the engine
- * first ends its step (the exchange of a throwing `extra_retries` ends with
- * `retries_exhausted`, a throwing matcher accepts nothing) and then lets the
- * exception leave the `run ()` of the executor; the dialogue stays usable.
+ * Handlers of the user called by the engine: the policy's `extra_retries`,
+ * the matcher of a `custom` row, the subscribers and the handlers of edges and
+ * of the link state, the keepalive generator and the predicates of a scenario
+ * run on the strand. If one throws, the engine first ends its step (the
+ * exchange of a throwing `extra_retries` ends with `retries_exhausted`, a
+ * throwing matcher accepts nothing, the run of a throwing predicate ends) and
+ * then lets the exception leave the `run ()` of the executor; the dialogue
+ * stays usable. One of them may also destroy the dialogue.
  */
 #ifndef LUMEX_APPLIED_TRANSPORT_PROTOCOL_DIALOGUE_DIALOGUE_HPP
 #define LUMEX_APPLIED_TRANSPORT_PROTOCOL_DIALOGUE_DIALOGUE_HPP
 
+#include <cstddef>
+#include <cstdint>
 #include <memory>
 #include <string>
 #include <system_error>
@@ -136,6 +179,7 @@
 #include "lumex/applied/transport/protocol/LumexDialogueTypes.hpp"
 #include "lumex/applied/transport/protocol/dialogue/detail/LumexDialogueImpl.hpp"
 #include "lumex/applied/transport/protocol/link/LumexFrameLink.hpp"
+#include "lumex/core/protocol/dsl/LumexProtocolScenario.hpp"
 #include "lumex/core/protocol/index/LumexProtocolIndex.hpp"
 #include "lumex/core/protocol/index/LumexProtocolSession.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
@@ -200,6 +244,89 @@ class dialogue_engine
     executor_type executor_;
   };
 
+  struct initiate_scenario
+  {
+    using executor_type = transport::executor_type;
+
+    explicit initiate_scenario (executor_type const &executor)
+        : executor_ (executor)
+    {
+    }
+
+    executor_type
+    get_executor () const LUMEX_NOEXCEPT
+    {
+      return executor_;
+    }
+
+    template <typename Handler>
+    void
+    operator() (Handler &&handler,
+                std::shared_ptr<detail::dialogue_impl> const &impl,
+                ::lumex::core::protocol::dsl::scenario_t scenario,
+                protocol_features_t const *features) const
+    {
+      if (!impl)
+        {
+          ::lumex::applied::transport::detail::complete_detached (
+              std::forward<Handler> (handler),
+              make_error_code (error::transport_errc::not_open),
+              std::size_t (0));
+          return;
+        }
+      ::lumex::applied::transport::detail::operation_mark_ptr const mark
+          = ::lumex::applied::transport::detail::cancellation_mark (handler);
+      impl->start_scenario (
+          std::move (scenario), features,
+          ::lumex::applied::transport::detail::erase_once<sequence_handler_t> (
+              std::forward<Handler> (handler), mark),
+          mark);
+    }
+
+  private:
+    executor_type executor_;
+  };
+
+  struct initiate_enable_streams
+  {
+    using executor_type = transport::executor_type;
+
+    explicit initiate_enable_streams (executor_type const &executor)
+        : executor_ (executor)
+    {
+    }
+
+    executor_type
+    get_executor () const LUMEX_NOEXCEPT
+    {
+      return executor_;
+    }
+
+    template <typename Handler>
+    void
+    operator() (Handler &&handler,
+                std::shared_ptr<detail::dialogue_impl> const &impl) const
+    {
+      if (!impl)
+        {
+          ::lumex::applied::transport::detail::complete_detached (
+              std::forward<Handler> (handler),
+              make_error_code (error::transport_errc::not_open),
+              std::size_t (0));
+          return;
+        }
+      ::lumex::applied::transport::detail::operation_mark_ptr const mark
+          = ::lumex::applied::transport::detail::cancellation_mark (handler);
+      impl->start_enable_streams (
+          ::lumex::applied::transport::detail::erase_once<sequence_handler_t> (
+              std::forward<Handler> (handler), mark),
+          mark);
+    }
+
+  private:
+    executor_type executor_;
+  };
+
 public:
   /// @brief The executor type the initiating function reports.
   using executor_type = transport::executor_type;
@@ -245,6 +372,80 @@ public:
     return asio::async_initiate<Token, exchange_signature_t> (
         initiate_exchange (initiation_executor ()), token, impl_,
         std::move (request));
+  }
+
+  /**
+   * @brief Sends the rows that turn on streams (`enables_stream<R>`), one
+   * after the other in table order, each waiting for its reply as its row
+   * says; the token gets `void (std::error_code, std::size_t step)`: an empty
+   * error and how many rows were sent, or the error and the position of the
+   * row that failed (the later ones are not sent).
+   * @details A row that answered starts the watch of its stream at once, so a
+   * stream that never starts is a gap. Without features or enable rows it
+   * ends with no error and 0. A `terminal` or `partial` cancellation on the
+   * slot of the handler ends it with `cancelled`; `cancel ()` and `close ()`
+   * end it too.
+   */
+  template <typename Token>
+  auto
+  async_enable_streams (Token &&token)
+      -> decltype (asio::async_initiate<Token, sequence_signature_t> (
+          std::declval<initiate_enable_streams> (), token,
+          std::declval<std::shared_ptr<detail::dialogue_impl> &> ()))
+  {
+    return asio::async_initiate<Token, sequence_signature_t> (
+        initiate_enable_streams (initiation_executor ()), token, impl_);
+  }
+
+  /**
+   * @brief Runs the steps of `scenario`; the rows are those of the layer
+   * `features` describes (`async_run_scenario<Scenario> (engine, token)` gives
+   * both). The token gets `void (std::error_code, std::size_t step)`: an empty
+   * error and the number of steps, or the error and the index of the step
+   * that failed; `std::errc::invalid_argument` and 0 when a label is missing
+   * or given twice.
+   * @details How the steps run, on the strand of the dialogue:
+   * - `send` writes its message as an exchange of its row (the correlation
+   *   and the reply kind of the row, its `timeout` and `retries` in front of
+   *   the defaults of the options, the rate limits and `accepted_in` as for
+   *   any request) and ends with its reply; a row without a reply ends when
+   *   the write ends. An error of the exchange (or `invalid_value` for an
+   *   argument that did not fit, `not_supported` for a row the index has not)
+   *   fails the step.
+   * - `expect` ends with a frame of its row that answers no exchange; the
+   *   frame may have come since the step before began, so a frame right
+   *   before the reply of a `send` counts. Its time runs out with
+   *   `protocol_errc::timeout`. A frame of a `stream` row still counts as an
+   *   event and reaches the subscribers; a frame of another row is the reply
+   *   of the step (counted in `replies`, no subscriber).
+   * - `wait_state` ends when the last known state is the value, at once when
+   *   it already is; every value counts, also one that changes right after.
+   *   Its time runs out with `protocol_errc::timeout`.
+   * - `branch_on_reply` asks its predicate with the last frame of its row in
+   *   this run: the frame of a `send` of that row or of its reply row, or of
+   *   an `expect`; `unexpected_reply` when there is none, the error of the
+   *   decoder when it does not decode. A predicate that throws ends the run
+   *   with `std::errc::interrupted` and the exception leaves the `run ()` of
+   *   the executor.
+   * Several runs may go at once; each frame reaches each `expect`. A run of
+   * labels and branches without a wait gives way to the other handlers now
+   * and then, and a loop ends with its cancellation. A `terminal` or `partial`
+   * cancellation on the slot of the handler ends the run with `cancelled` and
+   * the exchange of its step; `cancel ()` and `close ()` end every run with
+   * `cancelled`; a later run on a closed dialogue ends with `closed`.
+   */
+  template <typename Token>
+  auto
+  async_run_scenario (::lumex::core::protocol::dsl::scenario_t scenario,
+                      protocol_features_t const *features, Token &&token)
+      -> decltype (asio::async_initiate<Token, sequence_signature_t> (
+          std::declval<initiate_scenario> (), token,
+          std::declval<std::shared_ptr<detail::dialogue_impl> &> (),
+          std::declval<::lumex::core::protocol::dsl::scenario_t> (), features))
+  {
+    return asio::async_initiate<Token, sequence_signature_t> (
+        initiate_scenario (initiation_executor ()), token, impl_,
+        std::move (scenario), features);
   }
 
   /// @brief The executor of the transport (an empty one when moved from).
@@ -297,6 +498,64 @@ public:
   /// the number of the frames that went to debug since the last warning;
   /// the others at debug.
   void on_unknown (frame_handler_t handler);
+
+  /**
+   * @brief Calls `handler` with every edge of `row` (`edge_event`), on the
+   * strand, after the frame was counted; with the rules of `subscribe`.
+   * @details An edge is a change between two frames of the row that decode:
+   * the first frame after the start or after the link was lost only sets the
+   * level. Any frame of the row counts, also a reply. Needs
+   * `dialogue_options_t::features`.
+   * @return The subscription for `unsubscribe`; an id of 0 as for `subscribe`.
+   */
+  subscription_t on_edge (::lumex::core::protocol::index::row_t const *row,
+                          edge_handler_t handler);
+
+  /**
+   * @brief Calls `handler` when the state of the link changes (with the rules
+   * of `subscribe`; an empty handler removes it): `link_state::lost` when a
+   * read fails or the watchdog ends the link, `link_state::up` with the next
+   * frame.
+   */
+  void on_link_state (link_state_handler_t handler);
+
+  /// @brief False while the link is lost, and when moved from (any thread).
+  bool link_is_up () const LUMEX_NOEXCEPT;
+
+  /**
+   * @brief Gives the keepalive of the table (`keepalive<Row, PeriodMs>`) what
+   * makes its requests (`dialogue::keepalive_from<P> (source)`; any thread);
+   * an empty one ends the keepalive of a row with fields.
+   * @details Every period, on the strand, the generator makes a request and
+   * the engine starts it as an exchange of the row, behind the queue. A row
+   * without request fields needs no generator: its keepalive runs from the
+   * start. No request starts while the previous one is pending or while the
+   * link is lost and closed. An error of the generator skips that request
+   * (warning). If the generator throws, the request is skipped, the period
+   * goes on and the exception leaves the `run ()` of the executor; it may also
+   * destroy the dialogue. `close ()` and the destruction drop it.
+   * @return False when the table names no keepalive (no features), the
+   * dialogue is closed or moved from.
+   */
+  bool set_keepalive (keepalive_generator_t generator);
+
+  /**
+   * @brief Sets the last known state of the device, for a table without
+   * `state_from` or beside it (any thread): `accepted_in` is checked against
+   * it from the next request on, and the runs waiting for it go on.
+   */
+  void set_state (std::int64_t state);
+
+  /// @brief Forgets the last known state (a new connection; any thread):
+  /// `accepted_in` then lets every request go.
+  void clear_state () LUMEX_NOEXCEPT;
+
+  /// @brief The last known state, 0 when none is known (any thread).
+  std::int64_t last_state () const LUMEX_NOEXCEPT;
+
+  /// @brief Whether a state is known: `set_state`, or a frame of the row of
+  /// `state_from` (any thread).
+  bool state_known () const LUMEX_NOEXCEPT;
 
   /// @brief A snapshot of the counters (any thread; zeros when moved from).
   dialogue_statistics_t statistics () const LUMEX_NOEXCEPT;

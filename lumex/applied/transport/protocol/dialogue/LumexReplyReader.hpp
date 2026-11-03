@@ -58,11 +58,15 @@
  * - `state_instead_of_refusal`: an echo equal to the value sent completes it,
  *   another value (the state of the device) fails it with
  *   `protocol_errc::refused`.
- * A frame that is no part of the kind fails the exchange with the error of
- * the decoder (`unexpected_reply`, `truncated`, ...). The value sent is the
- * last field of the request; an echo whose value is the whole request record
- * (a layout of the same fields) is compared with the record. A row whose
- * reply is no reply kind of the dialogue has no reader (`nullptr`): the
+ * A frame that is no part of the kind (it does not decode as the kind) has
+ * `reply_reading_t::is_part` false and the error of the decoder
+ * (`unexpected_reply`, `truncated`, ...): a `by_order` exchange leaves such a
+ * frame alone and goes on waiting, any other correlation ends with that
+ * error. A frame that decodes is a part whatever its value: an echo that
+ * differs still ends the exchange. The reader keeps no state. The value sent
+ * is the last field of the request; an echo whose value is the whole request
+ * record (a layout of the same fields) is compared with the record. A row
+ * whose reply is no reply kind of the dialogue has no reader (`nullptr`): the
  * engine takes its frame as the reply as it is.
  */
 #ifndef LUMEX_APPLIED_TRANSPORT_PROTOCOL_DIALOGUE_REPLY_READER_HPP
@@ -105,6 +109,15 @@ reading_of (reply_effect effect,
   reply_reading_t out;
   out.effect = effect;
   out.error = error;
+  return out;
+}
+
+// The frame does not decode as the reply kind.
+inline reply_reading_t
+no_part_of_reply (std::error_code const &error)
+{
+  reply_reading_t out = reading_of (reply_effect::fail, error);
+  out.is_part = false;
   return out;
 }
 
@@ -239,7 +252,7 @@ struct reader_t<P, Row, ack_nak_t<A, N>>
     layout::decode_result_t<decoded_reply_t<ack_nak_t<A, N>>> const decoded
         = decode_reply_kind<P, Row> (message, context);
     if (!decoded)
-      return reading_of (reply_effect::fail, decoded.error ());
+      return no_part_of_reply (decoded.error ());
     return reading_of (decoded->part == reply_part::ack
                            ? reply_effect::complete
                            : reply_effect::nak);
@@ -262,7 +275,7 @@ struct reader_t<P, Row, two_phase_t<A, C>>
     layout::decode_result_t<decoded_reply_t<two_phase_t<A, C>>> const decoded
         = decode_reply_kind<P, Row> (message, context);
     if (!decoded)
-      return reading_of (reply_effect::fail, decoded.error ());
+      return no_part_of_reply (decoded.error ());
     return reading_of (decoded->part == reply_part::ack
                            ? reply_effect::more
                            : reply_effect::complete);
@@ -285,7 +298,7 @@ struct reader_t<P, Row, echo_set_t<T>>
     layout::decode_result_t<decoded_reply_t<echo_set_t<T>>> const decoded
         = decode_reply_kind<P, Row> (message, context);
     if (!decoded)
-      return reading_of (reply_effect::fail, decoded.error ());
+      return no_part_of_reply (decoded.error ());
     bool equal = false;
     std::error_code const error
         = echo_equals<P, Row> (decoded->value, request, context, equal);
@@ -314,7 +327,7 @@ struct reader_t<P, Row, echo_zero_on_error_t<T>>
         decoded
         = decode_reply_kind<P, Row> (message, context);
     if (!decoded)
-      return reading_of (reply_effect::fail, decoded.error ());
+      return no_part_of_reply (decoded.error ());
     if (decoded->part != reply_part::refused)
       return reading_of (reply_effect::complete);
     // A zero echo: the refusal, unless the value sent was zero.
@@ -348,7 +361,7 @@ struct reader_t<P, Row, state_instead_of_refusal_t<T>>
         decoded_reply_t<state_instead_of_refusal_t<T>>> const decoded
         = decode_reply_kind<P, Row> (message, context);
     if (!decoded)
-      return reading_of (reply_effect::fail, decoded.error ());
+      return no_part_of_reply (decoded.error ());
     bool equal = false;
     std::error_code const error
         = echo_equals<P, Row> (decoded->value, request, context, equal);
