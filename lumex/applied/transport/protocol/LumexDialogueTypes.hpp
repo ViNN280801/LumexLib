@@ -202,6 +202,8 @@ enum class reply_effect : std::uint8_t
   nak,
   /// The first phase of `two_phase`: the exchange waits for its completion,
   /// with a fresh timeout and without retries (the device has the request).
+  /// Only the first acknowledgement arms the timeout: a repeated one leaves
+  /// the running timer alone, so the exchange always ends.
   more
 };
 

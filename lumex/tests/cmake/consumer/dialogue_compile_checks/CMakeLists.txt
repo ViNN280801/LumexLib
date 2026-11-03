@@ -43,9 +43,11 @@
 #  35 a by_order row in a protocol with max_in_flight<2>
 #  36 a correlation outside the enumeration
 #  37 a keepalive period not shorter than the watchdog
+#  38 an echo_set whose type cannot be compared with the last request field
+#  39 an echo_zero_on_error whose type cannot be compared with it
 # The compiler's messages are matched in English. The headers are compiled
-# without the library. Everything runs at configure time (try_compile), at
-# C++11 (MSVC: C++14, its lowest) and C++20.
+# without the library (the Asio headers only). Everything runs at configure
+# time (try_compile), at C++11 (MSVC: C++14, its lowest) and C++20.
 
 cmake_minimum_required(VERSION 3.16)
 project(LumexDialogueCompileChecks LANGUAGES CXX)
@@ -59,11 +61,16 @@ set(ENV{LANGUAGE} C)
 
 set(_source "${CMAKE_CURRENT_SOURCE_DIR}/check.cpp")
 set(_includes "${LUMEX_SOURCE_DIR}")
+# The reader of the reply kinds (case 38, 39) includes the dialogue types,
+# which include Asio (headers only, no library).
+set(_asio_include "${LUMEX_SOURCE_DIR}/3rdparty/asio/include")
 if(MSVC)
-    set(_werror /WX /Zc:__cplusplus /permissive- /EHsc)
+    set(_werror /WX /Zc:__cplusplus /permissive- /EHsc /DASIO_STANDALONE
+        /DASIO_NO_DEPRECATED "/I${_asio_include}")
     set(_all_standards 14 20)
 else()
-    set(_werror -Werror)
+    set(_werror -Werror -DASIO_STANDALONE -DASIO_NO_DEPRECATED
+        -isystem "${_asio_include}")
     set(_all_standards 11 20)
     if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
         # A --gcc-toolchain flag of the calling tree is unused when compiling.
@@ -120,6 +127,8 @@ _lumex_case(34 "correlation::by_key on a row whose reply kind names a row")
 _lumex_case(35 "a by_order row in a protocol with max_in_flight greater than 1")
 _lumex_case(36 "correlate \\(how\\) takes a correlation")
 _lumex_case(37 "with a period not shorter than watchdog_ms")
+_lumex_case(38 "the echo of an echo kind can be compared with the last field")
+_lumex_case(39 "the echo of an echo kind can be compared with the last field")
 
 function(_lumex_dialogue_try result_var tag standard)
     try_compile(_ok "${CMAKE_BINARY_DIR}/try_${tag}"

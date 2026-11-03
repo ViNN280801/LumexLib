@@ -50,8 +50,11 @@
  *   waits for the completion), the completion completes the exchange;
  * - `echo_set`: an echo equal to the value sent completes it, another one
  *   fails it with `protocol_errc::not_confirmed`;
- * - `echo_zero_on_error`: a zero fails it with `protocol_errc::refused`, any
- *   other echo completes it;
+ * - `echo_zero_on_error`: a zero echo fails it with `protocol_errc::refused`
+ *   when the value sent is not zero, any other echo completes it. Writing 0
+ *   and getting 0 back succeeds: a refusal of a write of 0 cannot be told
+ *   apart from the echo (a row without request fields has no value sent: a
+ *   zero fails it);
  * - `state_instead_of_refusal`: an echo equal to the value sent completes it,
  *   another value (the state of the device) fails it with
  *   `protocol_errc::refused`.
@@ -68,6 +71,7 @@
 #include <cstddef>
 #include <system_error>
 #include <type_traits>
+#include <utility>
 
 #include "lumex/applied/transport/protocol/LumexDialogueTypes.hpp"
 #include "lumex/applied/transport/protocol/dsl/LumexDialogueVocabulary.hpp"
@@ -111,6 +115,33 @@ failed_with (::lumex::core::protocol::error::protocol_errc code)
                      ::lumex::core::protocol::error::make_error_code (code));
 }
 
+// The type of the last request field (int for a record without fields: the
+// check of the missing field comes first).
+template <typename Record, bool Fields = (Record::size::value > 0)>
+struct last_field_t
+{
+  using type = int;
+};
+
+template <typename Record> struct last_field_t<Record, true>
+{
+  using type = typename std::decay<
+      decltype (::lumex::core::protocol::field::get<Record::size::value - 1> (
+          std::declval<Record const &> ()))>::type;
+};
+
+// Whether `A const &` can be compared with `B const &` with `==`.
+template <typename A, typename B> struct echo_comparable_t
+{
+  template <typename X, typename Y>
+  static auto test (int)
+      -> decltype (std::declval<X const &> () == std::declval<Y const &> (),
+                   std::true_type ());
+  template <typename X, typename Y> static std::false_type test (...);
+
+  static LUMEX_CONSTEXPR bool const value = decltype (test<A, B> (0))::value;
+};
+
 // The value sent: the whole request record when the echo is that record,
 // else its last field.
 template <typename Echo, typename Record,
@@ -119,8 +150,14 @@ struct echo_compare_t
 {
   static_assert (Record::size::value > 0,
                  "LUMEX_PROTOCOL: an echo kind (echo_set, "
-                 "state_instead_of_refusal) on a row without request fields: "
-                 "there is no value sent to compare the echo with");
+                 "echo_zero_on_error, state_instead_of_refusal) on a row "
+                 "without request fields: there is no value sent to compare "
+                 "the echo with");
+  static_assert (
+      echo_comparable_t<Echo, typename last_field_t<Record>::type>::value,
+      "LUMEX_PROTOCOL: the echo of an echo kind can be compared with the last "
+      "field of the request (or is the whole request record): the type of "
+      "the echo and the type of that field have no operator==");
 
   static bool
   equal (Echo const &echo, Record const &request)
@@ -155,6 +192,32 @@ echo_equals (Echo const &echo, layout::bytes_view_t request,
   equal = echo_compare_t<Echo, record_type>::equal (echo, *sent);
   return std::error_code ();
 }
+
+// Whether the value sent equals the (zero) echo of echo_zero_on_error; a
+// row without request fields has no value sent: never.
+template <typename P, typename Row, typename Echo,
+          bool Fields = (layout::request_of<Row>::type::size::value > 0)>
+struct zero_sent_t
+{
+  static std::error_code
+  apply (Echo const &echo, layout::bytes_view_t request,
+         field::decode_context_t const *context, bool &equal)
+  {
+    return echo_equals<P, Row> (echo, request, context, equal);
+  }
+};
+
+template <typename P, typename Row, typename Echo>
+struct zero_sent_t<P, Row, Echo, false>
+{
+  static std::error_code
+  apply (Echo const &, layout::bytes_view_t, field::decode_context_t const *,
+         bool &equal)
+  {
+    equal = false;
+    return std::error_code ();
+  }
+};
 
 template <typename P, typename Row, typename Reply = typename Row::reply_type>
 struct reader_t
@@ -245,17 +308,26 @@ struct reader_t<P, Row, echo_zero_on_error_t<T>>
 {
   static reply_reading_t
   read (layout::bytes_view_t message, field::decode_context_t const *context,
-        layout::bytes_view_t)
+        layout::bytes_view_t request)
   {
     layout::decode_result_t<decoded_reply_t<echo_zero_on_error_t<T>>> const
         decoded
         = decode_reply_kind<P, Row> (message, context);
     if (!decoded)
       return reading_of (reply_effect::fail, decoded.error ());
-    return decoded->part == reply_part::refused
-               ? failed_with (
-                     ::lumex::core::protocol::error::protocol_errc::refused)
-               : reading_of (reply_effect::complete);
+    if (decoded->part != reply_part::refused)
+      return reading_of (reply_effect::complete);
+    // A zero echo: the refusal, unless the value sent was zero.
+    bool zero_sent = false;
+    std::error_code const error
+        = zero_sent_t<P, Row, decltype (decoded->value)>::apply (
+            decoded->value, request, context, zero_sent);
+    if (error)
+      return reading_of (reply_effect::fail, error);
+    return zero_sent
+               ? reading_of (reply_effect::complete)
+               : failed_with (
+                     ::lumex::core::protocol::error::protocol_errc::refused);
   }
 
   static reply_reader_t

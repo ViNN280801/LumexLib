@@ -79,6 +79,22 @@
 #pragma clang diagnostic ignored "-Wexit-time-destructors"
 #endif
 
+// A log step between the change of the state of an exchange and its end: a
+// message that cannot be built (out of memory) must not leave the exchange
+// waiting with no timer, so it is dropped.
+#define LUMEX_DIALOGUE_LOG_QUIET(...)                                         \
+  do                                                                          \
+    {                                                                         \
+      try                                                                     \
+        {                                                                     \
+          LUMEX_TRANSPORT_LOG (__VA_ARGS__);                                  \
+        }                                                                     \
+      catch (...)                                                             \
+        {                                                                     \
+        }                                                                     \
+    }                                                                         \
+  while (false)
+
 namespace lumex
 {
 namespace applied
@@ -451,8 +467,9 @@ dialogue_impl::dialogue_impl (frame_link link,
       window_timer_ (options.timers.make_timer (executor_type (strand_))),
       window_open_ (false), window_sequence_ (0), reading_ (false),
       read_generation_ (0), closed_ (false), attempt_sequence_ (0),
-      timer_sequence_ (0), unknown_burst_ (false), next_id_ (0),
-      next_subscription_ (0), enlisted_ (false)
+      timer_sequence_ (0), unknown_warned_ (false), unknown_warned_at_ (),
+      unknown_skipped_ (0), next_id_ (0), next_subscription_ (0),
+      handlers_closed_ (false), enlisted_ (false)
 {
 }
 
@@ -525,6 +542,7 @@ dialogue_impl::drop_kept_handlers () LUMEX_NOEXCEPT
   try
     {
       std::lock_guard<std::mutex> const lock (handlers_mutex_);
+      handlers_closed_ = true;
       subscribers.swap (subscribers_);
       unknown.swap (unknown_);
     }
@@ -823,10 +841,10 @@ dialogue_impl::write_done (std::uint64_t id, std::uint64_t epoch,
   exchange_record_t const &record = *flight_[at];
   if (error)
     {
-      LUMEX_TRANSPORT_LOG (warning, kcomponent, name_.c_str (),
-                           "the request " + row_name (record.row)
-                               + " was not written: " + error.message (),
-                           log::log_bytes_t ());
+      LUMEX_DIALOGUE_LOG_QUIET (warning, kcomponent, name_.c_str (),
+                                "the request " + row_name (record.row)
+                                    + " was not written: " + error.message (),
+                                log::log_bytes_t ());
       finish_in_flight (at, error, link_frame_t ());
       pump ();
       return;
@@ -858,12 +876,13 @@ dialogue_impl::attempt_timed_out (std::size_t at)
   dialogue_counters_t::bump (counters_.timeouts);
   record.awaiting = false;
   note_abandoned (record);
-  LUMEX_TRANSPORT_LOG (info, kcomponent, name_.c_str (),
-                       "no reply to " + row_name (record.row) + " within "
-                           + std::to_string (record.policy->timeout_ms)
-                           + " ms (attempt " + std::to_string (record.attempts)
-                           + (record.acknowledged ? ", acknowledged)" : ")"),
-                       log::log_bytes_t ());
+  LUMEX_DIALOGUE_LOG_QUIET (
+      info, kcomponent, name_.c_str (),
+      "no reply to " + row_name (record.row) + " within "
+          + std::to_string (record.policy->timeout_ms) + " ms (attempt "
+          + std::to_string (record.attempts)
+          + (record.acknowledged ? ", acknowledged)" : ")"),
+      log::log_bytes_t ());
   if (record.acknowledged)
     {
       // The device has the request: it is never sent again.
@@ -907,7 +926,7 @@ dialogue_impl::next_attempt (std::size_t at, protocol_errc why)
                                             : protocol_errc::timeout;
       if (ended == protocol_errc::retries_exhausted)
         dialogue_counters_t::bump (counters_.retries_exhausted);
-      LUMEX_TRANSPORT_LOG (
+      LUMEX_DIALOGUE_LOG_QUIET (
           warning, kcomponent, name_.c_str (),
           (why == protocol_errc::nak ? "a NAK to " : "no reply to ")
               + row_name (record.row) + " after "
@@ -931,34 +950,46 @@ dialogue_impl::next_attempt (std::size_t at, protocol_errc why)
 void
 dialogue_impl::note_abandoned (exchange_record_t const &record)
 {
-  pindex::row_t const *expected = nullptr;
-  switch (record.how)
+  // Nothing here may throw: it runs while an exchange ends, and a late note
+  // that is lost only makes a late reply count as an unexpected one.
+  try
     {
-    case dialogue::correlation::by_key:
-      expected = record.row;
-      break;
-    case dialogue::correlation::by_reply_key:
-      expected = record.reply_row;
-      break;
-    case dialogue::correlation::by_order:
-      if (late_window_ms_ > 0)
+      pindex::row_t const *expected = nullptr;
+      switch (record.how)
         {
-          window_open_ = true;
-          window_done_t ended
-              = { std::weak_ptr<dialogue_impl> (shared_from_this ()), strand_,
-                  ++window_sequence_ };
-          window_timer_.async_wait_for (
-              std::chrono::milliseconds (late_window_ms_), std::move (ended));
+        case dialogue::correlation::by_key:
+          expected = record.row;
+          break;
+        case dialogue::correlation::by_reply_key:
+          expected = record.reply_row;
+          break;
+        case dialogue::correlation::by_order:
+          if (late_window_ms_ > 0)
+            {
+              // The window opens only when its timer runs: it never stays
+              // open without one.
+              window_done_t ended
+                  = { std::weak_ptr<dialogue_impl> (shared_from_this ()),
+                      strand_, ++window_sequence_ };
+              window_open_ = false;
+              window_timer_.async_wait_for (
+                  std::chrono::milliseconds (late_window_ms_),
+                  std::move (ended));
+              window_open_ = true;
+            }
+          return;
+        default:
+          return;
         }
-      return;
-    default:
-      return;
+      if (expected == nullptr)
+        return;
+      if (late_rows_.size () >= klate_rows)
+        late_rows_.pop_front ();
+      late_rows_.push_back (expected);
     }
-  if (expected == nullptr)
-    return;
-  if (late_rows_.size () >= klate_rows)
-    late_rows_.pop_front ();
-  late_rows_.push_back (expected);
+  catch (...)
+    {
+    }
 }
 
 void
@@ -1048,6 +1079,40 @@ dialogue_impl::accepts (exchange_record_t const &record,
     }
 }
 
+// A frame of no row: a warning at most once a second of the timer source
+// (a device that sends noise for ever hides the rest of the log otherwise),
+// carrying the number of the frames since the last warning that went to
+// debug.
+void
+dialogue_impl::log_unknown (link_frame_t const &frame)
+{
+  timing::time_point_t const now = timers_.now ();
+  bool const warn = !unknown_warned_ || now < unknown_warned_at_
+                    || now - unknown_warned_at_ >= std::chrono::seconds (1);
+  if (!warn)
+    {
+      ++unknown_skipped_;
+      LUMEX_DIALOGUE_LOG_QUIET (
+          debug, kcomponent, name_.c_str (),
+          "a frame of no row: "
+              + describe (frame, pindex::frame_direction::rx),
+          log::log_bytes_t ());
+      return;
+    }
+  std::uint64_t const skipped = unknown_skipped_;
+  unknown_warned_ = true;
+  unknown_warned_at_ = now;
+  unknown_skipped_ = 0;
+  LUMEX_DIALOGUE_LOG_QUIET (
+      warning, kcomponent, name_.c_str (),
+      "a frame of no row: " + describe (frame, pindex::frame_direction::rx)
+          + (skipped == 0 ? std::string ()
+                          : " (" + std::to_string (skipped)
+                                + " more since the last warning, logged at "
+                                  "debug)"),
+      log::log_bytes_t ());
+}
+
 void
 dialogue_impl::handle_frame (link_frame_t &frame)
 {
@@ -1056,8 +1121,6 @@ dialogue_impl::handle_frame (link_frame_t &frame)
           frame.data (), frame.size ()));
   pindex::row_t const *const row = found.row;
   std::exception_ptr thrown;
-  if (row != nullptr)
-    unknown_burst_ = false;
   // An exact match (by_key, by_reply_key) first, then the exchanges that
   // take a frame by their own rule (custom, by_order): a reply never goes to
   // an earlier exchange that would accept anything.
@@ -1088,22 +1151,7 @@ dialogue_impl::handle_frame (link_frame_t &frame)
   else if (row == nullptr)
     {
       dialogue_counters_t::bump (counters_.unknown_frames);
-      // One warning per burst of unknown frames (a burst ends with the next
-      // known frame): a device that sends noise for ever hides the rest of
-      // the log otherwise.
-      if (unknown_burst_)
-        LUMEX_TRANSPORT_LOG (
-            debug, kcomponent, name_.c_str (),
-            "a frame of no row: "
-                + describe (frame, pindex::frame_direction::rx),
-            log::log_bytes_t ());
-      else
-        LUMEX_TRANSPORT_LOG (
-            warning, kcomponent, name_.c_str (),
-            "a frame of no row: "
-                + describe (frame, pindex::frame_direction::rx),
-            log::log_bytes_t ());
-      unknown_burst_ = true;
+      log_unknown (frame);
       handlers = unknown_handlers ();
     }
   else
@@ -1165,21 +1213,27 @@ dialogue_impl::apply_reply (std::size_t at, link_frame_t &frame)
     case reply_effect::more:
       // The acknowledgement of a two-phase row: the completion comes later,
       // within a timeout of its own.
-      record.acknowledged = true;
-      arm_timer (record);
+      // Only the first acknowledgement arms the timer: a repeated one
+      // leaves it running, so that the exchange always ends.
+      if (!record.acknowledged)
+        {
+          record.acknowledged = true;
+          arm_timer (record);
+        }
       return;
     case reply_effect::nak:
       dialogue_counters_t::bump (counters_.naks);
       record.awaiting = false;
       record.timer.cancel ();
-      LUMEX_TRANSPORT_LOG (info, kcomponent, name_.c_str (),
-                           "a NAK to " + row_name (record.row) + " (attempt "
-                               + std::to_string (record.attempts) + ")",
-                           log::log_bytes_t ());
+      LUMEX_DIALOGUE_LOG_QUIET (info, kcomponent, name_.c_str (),
+                                "a NAK to " + row_name (record.row)
+                                    + " (attempt "
+                                    + std::to_string (record.attempts) + ")",
+                                log::log_bytes_t ());
       next_attempt (at, protocol_errc::nak);
       return;
     default:
-      LUMEX_TRANSPORT_LOG (
+      LUMEX_DIALOGUE_LOG_QUIET (
           warning, kcomponent, name_.c_str (),
           row_name (record.row) + " failed: " + reading.error.message ()
               + "; sent: "
@@ -1227,6 +1281,10 @@ dialogue_impl::subscribe (pindex::row_t const *row, frame_handler_t handler)
   added.handler
       = std::make_shared<frame_handler_t const> (std::move (handler));
   std::lock_guard<std::mutex> const lock (handlers_mutex_);
+  // A closed dialogue keeps no handler (one that owns the owner of the
+  // dialogue would be a cycle); `added` dies after the lock is released.
+  if (handlers_closed_)
+    return made;
   subscribers_.push_back (added);
   made.id = added.id;
   return made;
@@ -1253,6 +1311,8 @@ dialogue_impl::set_unknown_handler (frame_handler_t handler)
       = handler ? std::make_shared<frame_handler_t const> (std::move (handler))
                 : handler_ptr ();
   std::lock_guard<std::mutex> const lock (handlers_mutex_);
+  if (handlers_closed_)
+    return;
   unknown_ = made;
 }
 
@@ -1344,6 +1404,7 @@ dialogue_impl::run_close ()
   handler_ptr unknown;
   {
     std::lock_guard<std::mutex> const lock (handlers_mutex_);
+    handlers_closed_ = true;
     subscribers.swap (subscribers_);
     unknown.swap (unknown_);
   }
@@ -1386,6 +1447,8 @@ dialogue_impl::run_cancel_exchange (std::uint64_t id,
 } // namespace transport
 } // namespace applied
 } // namespace lumex
+
+#undef LUMEX_DIALOGUE_LOG_QUIET
 
 #if defined(__clang__)
 #pragma clang diagnostic pop

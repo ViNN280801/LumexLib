@@ -503,7 +503,7 @@ TEST (
 
 TEST (
     LumexDialogueReplyKindsTest,
-    GivenUnknownFrames_WhenTheyCome_ThenOnUnknownGetsEachAndOneWarningPerBurstIsLogged)
+    GivenUnknownFrames_WhenTheyCome_ThenOnUnknownGetsEachAndOneWarningPerSecondIsLogged)
 {
   log_capture_t const capture;
   bench_t bench;
@@ -525,18 +525,23 @@ TEST (
   EXPECT_EQ (log_capture_t::count (log_level::debug,
                                    "a frame of no row: RX unknown key=0x7D"),
              1u);
-  // A known frame ends the burst.
+  // A known frame does not end the second: the next one is debug as well.
   bench.reply (bytes ({ 0x12, 0x01, 0x01, 0x10, 0x00 }));
   bench.reply (bytes ({ 0x7C }));
   bench.settle ();
   EXPECT_EQ (log_capture_t::count (log_level::warning, "a frame of no row"),
+             1u);
+  bench.advance (ms (1000));
+  bench.reply (bytes ({ 0x7B }));
+  bench.settle ();
+  EXPECT_EQ (log_capture_t::count (log_level::warning, "a frame of no row"),
              2u);
-  EXPECT_EQ (bench.the_dialogue->statistics ().unknown_frames, 3u);
+  EXPECT_EQ (bench.the_dialogue->statistics ().unknown_frames, 4u);
   // Removed: no more calls.
   bench.the_dialogue->on_unknown (pr::frame_handler_t ());
   bench.reply (bytes ({ 0x7E }));
   bench.settle ();
-  EXPECT_EQ (unknown->seen.size (), 3u);
+  EXPECT_EQ (unknown->seen.size (), 4u);
 }
 
 TEST (

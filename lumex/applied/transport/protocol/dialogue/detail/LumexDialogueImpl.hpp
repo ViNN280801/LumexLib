@@ -315,6 +315,7 @@ private:
   subscribers_of (::lumex::core::protocol::index::row_t const *row) const;
   std::vector<handler_ptr> unknown_handlers () const;
   void note_abandoned (exchange_record_t const &record);
+  void log_unknown (link_frame_t const &frame);
   void handle_frame (link_frame_t &frame);
   bool accepts (exchange_record_t const &record,
                 ::lumex::core::protocol::index::row_t const *row,
@@ -353,8 +354,12 @@ private:
   bool closed_;
   std::uint64_t attempt_sequence_;
   std::uint64_t timer_sequence_;
-  // A burst of unknown frames is logged once at warning.
-  bool unknown_burst_;
+  // Unknown frames are warned about at most once a second (the time of the
+  // timer source): when the last warning was, and how many frames of no row
+  // went to debug since.
+  bool unknown_warned_;
+  timing::time_point_t unknown_warned_at_;
+  std::uint64_t unknown_skipped_;
   std::atomic<std::uint64_t> next_id_;
   std::atomic<std::uint64_t> next_subscription_;
   // The subscribers and the handler of unknown frames: changed from any
@@ -368,6 +373,8 @@ private:
   mutable std::mutex handlers_mutex_;
   std::vector<subscriber_t> subscribers_;
   handler_ptr unknown_;
+  // Set by close (), under the mutex: no handler is kept any more.
+  bool handlers_closed_;
   std::atomic<bool> enlisted_;
   // The marks of the exchanges with a cancellation slot, settled when the
   // result is handed on.
