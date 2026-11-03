@@ -1431,34 +1431,77 @@ behavior_applier::reset ()
   start_states (*behavior_.impl_, *state_, now);
 }
 
+namespace
+{
+// The stages applied to `states` for one request (the caller holds the lock
+// of the states it passes).
 reply_plan_t
-behavior_applier::plan (std::vector<std::uint8_t> const &request,
-                        std::vector<std::uint8_t> const &reply, bool datagram)
+run_stages (behavior_impl const &shaped, std::vector<behavior_state_t> &states,
+            bytes_t const &request, bytes_t const &reply, bool datagram,
+            timing::time_point_t now)
 {
   reply_plan_t result;
   plan_context_t context;
   context.request = &request;
   context.has_reply = !reply.empty ();
   context.datagram = datagram;
-  context.now = timers_.now ();
+  context.now = now;
   steps_t steps;
   if (!reply.empty ())
     steps.push_back (make_step (plan_step_kind::bytes, ms (0), reply, true));
   bool processed = true;
-  {
-    std::lock_guard<std::mutex> const lock (mutex_);
-    std::vector<behavior_stage_t> const &stages = behavior_.impl_->stages;
-    for (std::size_t index = 0; index < stages.size (); ++index)
-      {
-        apply_stage (stages[index], state_->states[index], steps, processed,
-                     context);
-        settle (steps, datagram);
-      }
-  }
+  for (std::size_t index = 0; index < shaped.stages.size (); ++index)
+    {
+      apply_stage (shaped.stages[index], states[index], steps, processed,
+                   context);
+      settle (steps, datagram);
+    }
   std::stable_sort (steps.begin (), steps.end (), by_time);
   result.steps.swap (steps);
   result.request_processed = processed;
   return result;
+}
+} // namespace
+
+reply_plan_t
+behavior_applier::plan (std::vector<std::uint8_t> const &request,
+                        std::vector<std::uint8_t> const &reply, bool datagram)
+{
+  // The time is read before the lock: a timer source may take its own.
+  timing::time_point_t const now = timers_.now ();
+  std::lock_guard<std::mutex> const lock (mutex_);
+  return run_stages (*behavior_.impl_, state_->states, request, reply,
+                     datagram, now);
+}
+
+reply_plan_t
+behavior_applier::plan (std::vector<std::uint8_t> const &request,
+                        bool has_reply, reply_maker_t const &make_reply,
+                        bool datagram)
+{
+  // What the stages decide about processing depends on the counters, the
+  // time and whether there is a reply, never on its bytes: a trial run of
+  // them on a copy of the state, with a one-byte reply in its place, tells
+  // whether the device processes the request before anything is made.
+  bytes_t const stand_in = has_reply ? bytes_t (1, 0) : bytes_t ();
+  timing::time_point_t const now = timers_.now ();
+  bool processed = true;
+  {
+    std::lock_guard<std::mutex> const lock (mutex_);
+    std::vector<behavior_state_t> trial = state_->states;
+    processed = run_stages (*behavior_.impl_, trial, request, stand_in,
+                            datagram, now)
+                    .request_processed;
+  }
+  bytes_t reply;
+  // Outside the lock: the maker is the code of a test.
+  if (processed && make_reply)
+    reply = make_reply ();
+  else if (!processed)
+    reply = stand_in;
+  std::lock_guard<std::mutex> const lock (mutex_);
+  return run_stages (*behavior_.impl_, state_->states, request, reply,
+                     datagram, now);
 }
 
 void
@@ -1501,6 +1544,27 @@ behavior_applier::respond (mock_stream_control control,
                            std::vector<std::uint8_t> const &reply)
 {
   carry_out (plan (request, reply, false), control);
+}
+
+bool
+behavior_applier::respond (mock_stream_control control,
+                           std::vector<std::uint8_t> const &request,
+                           bool has_reply, reply_maker_t const &make_reply)
+{
+  reply_plan_t const made = plan (request, has_reply, make_reply, false);
+  carry_out (made, control);
+  return made.request_processed;
+}
+
+bool
+behavior_applier::respond (mock_datagram_control control,
+                           std::uint8_t report_id,
+                           std::vector<std::uint8_t> const &request,
+                           bool has_reply, reply_maker_t const &make_reply)
+{
+  reply_plan_t const made = plan (request, has_reply, make_reply, true);
+  carry_out (made, control, report_id);
+  return made.request_processed;
 }
 
 void

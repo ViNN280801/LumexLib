@@ -716,6 +716,12 @@ mock_stream_control::mock_stream_control (
 {
 }
 
+asio::strand<executor_type>
+mock_stream_control::get_strand () const
+{
+  return impl_->strand ();
+}
+
 void
 mock_stream_control::feed (std::vector<std::uint8_t> const &bytes)
 {

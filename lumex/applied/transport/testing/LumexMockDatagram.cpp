@@ -639,6 +639,12 @@ mock_datagram_control::mock_datagram_control (
 {
 }
 
+asio::strand<executor_type>
+mock_datagram_control::get_strand () const
+{
+  return impl_->strand ();
+}
+
 void
 mock_datagram_control::deliver (message_t const &message)
 {
