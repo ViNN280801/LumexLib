@@ -560,6 +560,84 @@ use_hooked_index ()
   (void)index::build_index<bad_protocol> ();
 }
 #endif
+
+#if LUMEX_PROTOCOL_BAD_CASE >= 50
+// 50 to 56: the words of a scenario.
+template <typename A, typename N> struct scenario_kind_t
+{
+  using lumex_protocol_reply = ::lumex::core::protocol::dsl::reply_tag;
+};
+struct scenario_header_t
+{
+  static constexpr std::size_t key_width = 1;
+};
+#define SCENARIO_ROWS(X, X_AS)                                                \
+  X (READ, 0x01, "Read", (), (), (u8_), ())                                   \
+  X (ERASE, 0x02, "Erase", (), (), (u8_), (dangerous))                        \
+  X (KIND, 0x03, "Kind", (), (), (scenario_kind_t<u8_<>, u8_<>>), ())
+#define OTHER_SCENARIO_ROWS(X, X_AS) X (FOREIGN, 0x40, "F", (), (), (u8_), ())
+LUMEX_PROTOCOL_DEFINE (scenario_protocol, codec, scenario_header_t,
+                       SCENARIO_ROWS);
+LUMEX_PROTOCOL_DEFINE (other_scenario_protocol, codec, scenario_header_t,
+                       OTHER_SCENARIO_ROWS);
+inline bool
+any_value (std::uint8_t const &)
+{
+  return true;
+}
+#if LUMEX_PROTOCOL_BAD_CASE == 50
+LUMEX_PROTOCOL_SCENARIO (bad_scenario, scenario_protocol,
+                         (send<scenario_protocol::ERASE_t> ()));
+#elif LUMEX_PROTOCOL_BAD_CASE == 51
+LUMEX_PROTOCOL_SCENARIO (bad_scenario, scenario_protocol,
+                         (send<scenario_protocol::READ_t> (confirm)));
+#elif LUMEX_PROTOCOL_BAD_CASE == 52
+LUMEX_PROTOCOL_SCENARIO (bad_scenario, scenario_protocol,
+                         (send<other_scenario_protocol::FOREIGN_t> ()));
+#elif LUMEX_PROTOCOL_BAD_CASE == 53
+LUMEX_PROTOCOL_SCENARIO (bad_scenario, scenario_protocol,
+                         (expect<other_scenario_protocol::FOREIGN_t> ()));
+#elif LUMEX_PROTOCOL_BAD_CASE == 54
+LUMEX_PROTOCOL_SCENARIO (
+    bad_scenario, scenario_protocol,
+    (branch_on_reply<other_scenario_protocol::FOREIGN_t> (&any_value, "end")),
+    (label ("end")));
+#elif LUMEX_PROTOCOL_BAD_CASE == 55
+LUMEX_PROTOCOL_SCENARIO (
+    bad_scenario, scenario_protocol,
+    (branch_on_reply<scenario_protocol::KIND_t> (&any_value, "end")),
+    (label ("end")));
+#elif LUMEX_PROTOCOL_BAD_CASE == 56
+LUMEX_PROTOCOL_SCENARIO (bad_scenario, scenario_protocol,
+                         (wait_state (1.5, 100)));
+#endif
+inline void
+use_scenario ()
+{
+  (void)bad_scenario::make ();
+}
+#elif !defined(LUMEX_PROTOCOL_BAD_CASE)
+// The valid form of the words of a scenario.
+struct scenario_header_t
+{
+  static constexpr std::size_t key_width = 1;
+};
+#define SCENARIO_ROWS(X, X_AS)                                                \
+  X (READ, 0x01, "Read", (), (), (u8_), ())                                   \
+  X (ERASE, 0x02, "Erase", (), (), (u8_), (dangerous))
+LUMEX_PROTOCOL_DEFINE (scenario_protocol, codec, scenario_header_t,
+                       SCENARIO_ROWS);
+LUMEX_PROTOCOL_SCENARIO (good_scenario, scenario_protocol,
+                         (send<scenario_protocol::READ_t> ()),
+                         (send<scenario_protocol::ERASE_t> (confirm)),
+                         (expect<scenario_protocol::READ_t> (100)),
+                         (wait_state (1, 100)), (label ("end")));
+inline void
+use_scenario ()
+{
+  (void)good_scenario::make ();
+}
+#endif
 } // namespace check_tables
 
 int

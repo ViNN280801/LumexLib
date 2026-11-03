@@ -385,8 +385,62 @@ struct client : fixture_layer::lumex_methods<client>
   }
 };
 
+// A scenario of the table: every step, a lambda and a function as predicates.
+inline bool
+is_two (std::uint8_t const &value)
+{
+  return value == 2;
+}
+
+struct scenario_header_t
+{
+  static constexpr std::size_t key_width = 1;
+};
+
+#define SCENARIO_ROWS(X, X_AS)                                                \
+  X (READ, 0x01, "Read", (), (), (u8_), ())                                   \
+  X (WRITE, 0x02, "Write", (u8_, u16_le_), ("slot", "value"), (u8_), ())      \
+  X (ERASE, 0x03, "Erase", (u8_), ("block"), (u8_), (dangerous))
+LUMEX_PROTOCOL_DEFINE (scenario_protocol, codec, scenario_header_t,
+                       SCENARIO_ROWS);
+
+LUMEX_PROTOCOL_SCENARIO (
+    every_step_scenario, scenario_protocol, (label ("start")),
+    (send<scenario_protocol::WRITE_t> (1, 500)),
+    (expect<scenario_protocol::READ_t> ()),
+    (expect<scenario_protocol::READ_t> (100)), (wait_state (mode::busy)),
+    (wait_state (2, 100)),
+    (branch_on_reply<scenario_protocol::READ_t> (&is_two, "start")),
+    (branch_on_reply<scenario_protocol::READ_t> ([] (std::uint8_t const &value)
+                                                   { return value == 3; },
+                                                 "end")),
+    (jump ("start")), (send<scenario_protocol::ERASE_t> (confirm, 7)),
+    (label ("end")));
+
 namespace
 {
+
+int
+check_scenario ()
+{
+  namespace layout = lumex::core::protocol::layout;
+  dsl::scenario_t const made = every_step_scenario::make ();
+  int failures = 0;
+  failures += failed (made.steps.size () == 11 && !made.check ());
+  failures += failed (made.find_label ("end") == 10);
+  lumex::core::protocol::index::session_context_t const session;
+  layout::bytes_t message;
+  failures
+      += failed (!made.steps[1].encode (message, session.decode_context ())
+                 && message.size () == 4 && message[0] == 0x02);
+  layout::bytes_t const reply = { 0x01, 0x02 };
+  bool taken = false;
+  failures += failed (!made.steps[6].decide (
+                          layout::bytes_view_t (reply.data (), reply.size ()),
+                          session.decode_context (), taken)
+                      && taken);
+  return failures;
+}
 
 int
 check ()
@@ -436,6 +490,7 @@ check ()
       = lumex::core::protocol::error::protocol_errc::unexpected_reply;
   failures += failed (dialogue.value () == 104);
   failures += check_layouts ();
+  failures += check_scenario ();
   return failures;
 }
 } // namespace

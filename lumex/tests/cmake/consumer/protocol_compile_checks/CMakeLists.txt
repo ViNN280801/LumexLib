@@ -53,6 +53,13 @@
 #  47 a vocabulary whose protocol check refuses the table
 #  48 an option of another layer named like a key of the core options
 #  49 an option of another layer whose option_repeats is no type
+#  50 a scenario sending a dangerous row without confirm
+#  51 a scenario with confirm on a row that is not dangerous
+#  52 a scenario sending a row of another protocol
+#  53 a scenario expecting a row of another protocol
+#  54 a scenario branching on a row of another protocol
+#  55 a scenario branching on a reply kind of the dialogue
+#  56 a scenario waiting for a state that is no integer or enumerator
 # The compiler's messages are matched in English. Everything runs at
 # configure time (try_compile), at C++11 (MSVC: C++14, its lowest) and C++20.
 
@@ -141,6 +148,13 @@ _lumex_case(46 "the vocabulary names lumex_check_protocol, but not as")
 _lumex_case(47 "the vocabulary of the protocol refuses its table")
 _lumex_case(48 "is a constexpr name other than the keys of the core")
 _lumex_case(49 "the option names option_repeats, but not")
+_lumex_case(50 "send<Row> of a dangerous row needs confirm")
+_lumex_case(51 "confirm on a row that is not dangerous")
+_lumex_case(52 "send<Row>: Row is a row of the protocol of the scenario")
+_lumex_case(53 "expect<Row>: Row is a row of the protocol of the scenario")
+_lumex_case(54 "branch_on_reply<Row>: Row is a row of the protocol of the scenario")
+_lumex_case(55 "branch_on_reply<Row>: the reply of Row is a field or a layout")
+_lumex_case(56 "wait_state \\(state\\): the state is an integer or an enumerator")
 
 function(_lumex_protocol_try result_var tag standard)
     try_compile(_ok "${CMAKE_BINARY_DIR}/try_${tag}"
