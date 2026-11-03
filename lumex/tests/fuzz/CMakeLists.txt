@@ -12,5 +12,6 @@ if(NOT CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     return()
 endif()
 
+lumex_add_subdirectory_if(LUMEX_BUILD_FRAMING framing)
 lumex_add_subdirectory_if(LUMEX_BUILD_PROTOCOL protocol)
 lumex_add_subdirectory_if(LUMEX_BUILD_TRANSPORT transport)
