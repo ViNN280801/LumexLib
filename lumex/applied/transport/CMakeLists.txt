@@ -47,6 +47,10 @@ if(_transport_with_protocol AND _transport_with_framing)
 endif()
 if(NOT _transport_with_dialogue)
     list(FILTER SOURCES EXCLUDE REGEX "^protocol/")
+    # The device simulator (testing/simulator) answers over the protocol
+    # tables with the engine's vocabulary and the codecs of the framing
+    # module: it needs the same two modules.
+    list(FILTER SOURCES EXCLUDE REGEX "^testing/simulator/")
 endif()
 
 # The HID transport (hid/: hid_device over the vendored hidapi, never
@@ -177,6 +181,10 @@ if(LUMEX_INSTALL)
             PATTERN "LumexDialogueTypes.hpp" EXCLUDE
             PATTERN "LumexTransportProtocol.hpp" EXCLUDE
             PATTERN "LumexProtocolScenario.hpp" EXCLUDE)
+    endif()
+    # The simulator's header only with the engine's modules.
+    if(NOT _transport_with_dialogue)
+        list(APPEND _transport_install_excludes PATTERN "simulator" EXCLUDE)
     endif()
     install(
         DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/
