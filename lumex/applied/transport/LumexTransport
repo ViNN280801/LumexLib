@@ -52,8 +52,10 @@
  * `device_watcher` in `session/`, the timer seam they wait on in `timing/`.
  * Behind their options the umbrella also includes the adapter to the logger
  * (`LUMEX_BUILD_LOGGER`, `log/adapter/`), the dialogue layer of `protocol/`
- * (`LUMEX_BUILD_PROTOCOL` and `LUMEX_BUILD_FRAMING`) and the mocks and the
- * virtual clock of `testing/` (`LUMEX_TRANSPORT_WITH_TESTING`).
+ * (`LUMEX_BUILD_PROTOCOL` and `LUMEX_BUILD_FRAMING`) and the mocks, the
+ * virtual clock and the behaviours of `testing/`
+ * (`LUMEX_TRANSPORT_WITH_TESTING`), with the device simulator of
+ * `testing/simulator/` when the dialogue layer is built too.
  */
 #include "datagram/LumexMessageTransport.hpp"
 
@@ -119,4 +121,10 @@
 #include "testing/LumexMockScript.hpp"
 #include "testing/LumexMockStream.hpp"
 #include "testing/LumexVirtualClock.hpp"
+
+// The device simulator also needs the dialogue layer's modules
+// (LUMEX_TRANSPORT_WITH_PROTOCOL).
+#if defined(LUMEX_TRANSPORT_WITH_PROTOCOL)
+#include "testing/simulator/LumexDeviceSimulator.hpp"
+#endif
 #endif

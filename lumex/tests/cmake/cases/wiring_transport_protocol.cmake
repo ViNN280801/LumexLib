@@ -80,3 +80,21 @@ file(GLOB_RECURSE _sources "${LUMEX_SOURCE_DIR}/lumex/applied/transport/protocol
 if(NOT _sources)
     message(FATAL_ERROR "the dialogue engine has no compiled source")
 endif()
+
+# The device simulator (testing/simulator) needs the same two modules as the
+# engine: it is left out of the sources and the install without them, the
+# umbrella includes it under both macros, and its tests are added only with
+# both modules.
+if(NOT _cmake MATCHES "if\\(NOT _transport_with_dialogue\\)[ \t\r\n]*list\\(FILTER SOURCES EXCLUDE REGEX \"\\^protocol/\"\\)[ \t\r\n]*(#[^\r\n]*[ \t\r\n]*)*list\\(FILTER SOURCES EXCLUDE REGEX \"\\^testing/simulator/\"\\)")
+    message(FATAL_ERROR "the transport does not leave testing/simulator/ out of its sources without the engine")
+endif()
+if(NOT _cmake MATCHES "if\\(NOT _transport_with_dialogue\\)[ \t\r\n]*list\\(APPEND _transport_install_excludes PATTERN \"simulator\" EXCLUDE\\)")
+    message(FATAL_ERROR "the install does not leave the simulator's header out without the engine")
+endif()
+if(NOT _umbrella MATCHES "#if defined\\(LUMEX_TRANSPORT_WITH_PROTOCOL\\)[ \t\r\n]*#include \"testing/simulator/LumexDeviceSimulator.hpp\"[ \t\r\n]*#endif[ \t\r\n]*#endif")
+    message(FATAL_ERROR "the umbrella does not include the simulator under the protocol macro inside the testing macro")
+endif()
+file(READ "${LUMEX_SOURCE_DIR}/lumex/tests/applied/transport/testing/CMakeLists.txt" _testing_tests)
+if(NOT _testing_tests MATCHES "LUMEX_BUILD_PROTOCOL\\)[ \t\r\n]*lumex_effective_on\\(_transport_tests_with_simulator_framing LUMEX_BUILD_FRAMING\\)[ \t\r\n]*if\\(_transport_tests_with_simulator_protocol AND _transport_tests_with_simulator_framing\\)[ \t\r\n]*add_subdirectory\\(simulator\\)")
+    message(FATAL_ERROR "the tests of the simulator are not added only with the protocol and the framing modules")
+endif()
