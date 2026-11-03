@@ -18,7 +18,7 @@
 | --- | --- | --- |
 | `LUMEX_BUILD_PROTOCOL` | `ON` | Собирать модуль (требует `reflection`, `expected`, `span`, `string_view`, `utility`) |
 | `LUMEX_PROTOCOL_WITH_JSON` | `ON` | Определить макрос `LUMEX_PROTOCOL_WITH_JSON` для потребителей модуля: заголовок `export/LumexProtocolExportJson.hpp` (`export_json`) собирается с nlohmann/json потребителя; без опции заголовок отказывается компилироваться, остальной модуль не меняется |
-| `LUMEX_BUILD_FUZZERS` | `OFF` | Цели libFuzzer в `lumex/tests/fuzz` (только Clang, нужен `LUMEX_BUILD_TESTS`): `fuzz.protocol.layouts`, метка CTest `fuzz` |
+| `LUMEX_BUILD_FUZZERS` | `OFF` | Цели libFuzzer в `lumex/tests/fuzz` (только Clang, нужен `LUMEX_BUILD_TESTS`): `fuzz.protocol.layouts`, `fuzz.protocol.devices` (раздел "Фаззинг"), метка CTest `fuzz` |
 
 Библиотека компилируется ради одного объекта: категории ошибок `"lumex.protocol"` (`LUMEX_PROTOCOL_API`). Поэтому код ошибки, созданный в одной DLL, равен перечислителю в другом модуле процесса. Макросы, шаблоны, поля и раскладки находятся только в заголовках.
 
@@ -327,6 +327,15 @@ X_AS (ERASE_LOG, "DELETE", 0x03, "Очистка журнала", (), (), (), ()
 ## Примеры
 
 `lumex/examples/protocol/` (выдуманный прибор, общая таблица в `example_protocol_beacon.hpp`, без реальных протоколов): `example_protocol_index.cpp` строит индекс и печатает строки `describe` для запросов, принятых ответов, неизвестного и поврежденного кадров; `example_protocol_export.cpp` печатает `export_markdown` и, при `LUMEX_PROTOCOL_WITH_JSON`, `export_json_text`. Оба зарегистрированы в CTest (`examples.protocol.LumexProtocolExampleIndex`, `examples.protocol.LumexProtocolExampleExport`).
+
+## Фаззинг
+
+С `LUMEX_BUILD_FUZZERS=ON` (Clang, `LUMEX_BUILD_TESTS`) собираются две цели libFuzzer в `lumex/tests/fuzz/protocol/`, обе с AddressSanitizer; CTest запускает каждую на 30 секунд под меткой `fuzz` (`ctest -L fuzz`).
+
+- `fuzz.protocol.layouts`: первый байт входа выбирает раскладку и строку синтетической таблицы с полями всех видов, остальное - сообщение. Декодер не должен читать за концом входа, а сообщение, которое декодируется, кодируется в байты, которые декодируются и кодируются в те же байты.
+- `fuzz.protocol.devices`: слои всех 13 таблиц приборов A..M из `lumex/tests/core/protocol/devices/` (35 слоев). Первый байт входа выбирает слой, второй - направление, остальное - сообщение. `dispatch_message` не читает за концом входа; принятое сообщение попадает ровно в одного посетителя, индекс времени выполнения находит ту же строку, значение кодируется обратно в сообщение, и повторная отправка этого сообщения приходит в ту же строку с теми же байтами. Образцы таблиц (`sample_value` строки как запрос и образец ответа) обязаны вернуться из `dispatch_message` байт в байт. Декодеры снисходительны, кодировщик отказывает значению вне пределов записи реестра (`out_of_limits`) и записи без нужного доступа (`access_denied`): такой отказ целью допускается. Слои с значениями сеанса получают сеанс, в котором каждое значение равно 0.
+
+Начальный корпус цели пишут сами при запуске: для `layouts` из синтетических сообщений, для `devices` из `sample_value` каждой строки (запрос) и образца ответа. Файлов векторов в репозитории нет (таблицы приборов обезличены). Найденное становится модульным тестом набора модуля с минимальным синтетическим входом.
 
 ## Ограничения
 
