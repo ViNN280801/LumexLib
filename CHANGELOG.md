@@ -236,6 +236,14 @@
 
 **Проверено:** Linux, GCC 13 и Clang 23 (`LUMEX_WERROR=ON`, 0 предупреждений), GCC 8.3 C++11: наборы `transport`, `protocol`, `cmake` и `lint` проходят (одно прежнее падение `cmake.build_info_report`), строгий потребитель с `-Weverything` на C++11 и C++20, `wiring_transport_protocol`; ASan+UBSan и TSan наборов `transport.protocol` без сообщений, новые тесты 20 раз подряд; MinGW компилирует новые `.cpp`; мутации пойманы (73 из 73).
 
+##### Цели фаззинга кадров, таблиц приборов и диалога
+
+**Файлы:** `lumex/tests/fuzz/framing/` (новые), `lumex/tests/fuzz/protocol/LumexProtocolDevicesFuzz.cpp`, `lumex/tests/fuzz/transport/LumexDialogueReceiveFuzz.cpp` (новые), `CMakeLists.txt` в `lumex/tests/fuzz/`, `lumex/core/framing/README.md` (новый), `lumex/core/protocol/README.md`, `lumex/applied/transport/README.md`.
+
+**Суть:** цели libFuzzer для кодеков кадров (`slip`, `cobs`, `delimiter`, `length_prefix`, `header`, `modbus_rtu`) и конвейера стадий (`fuzz.framing.*`), для слоев 13 таблиц приборов (`fuzz.protocol.devices`) и для приема кадров диалогом (`fuzz.transport.dialogue_receive`: каждый обмен завершается ровно один раз, каждый кадр попадает ровно в один счетчик). Начальные корпуса цели пишут сами, файлов векторов в репозитории нет.
+
+**Проверено:** Linux, Clang 23, `LUMEX_BUILD_FUZZERS=ON`: `ctest -L fuzz` 11 из 11 (по 30 с на цель), внесенные ошибки найдены целями, кроме двух проверок, которые снаружи не видны; реальных ошибок фаззеры не нашли.
+
 #### Исправлено
 
 ##### `LumexFilesystem`: пути не в ASCII на Windows
