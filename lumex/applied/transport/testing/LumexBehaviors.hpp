@@ -53,7 +53,8 @@
  * `feed_after`, `deliver_after`, `empty_read_after` and `disconnect_after`
  * carry the plan out, so the plan runs on a `virtual_clock` with no real
  * waiting. `respond` does both in one call and is what a simulator calls from
- * the write (or send) observer of its mock.
+ * the write (or send) observer of its mock; its lazy form takes a function
+ * that makes the reply and calls it only for a request the device processes.
  *
  * Order. The reply (or nothing, for a row without one) enters the first
  * stage and each stage rewrites the steps of the one before. For a stream
@@ -99,6 +100,7 @@
 #include <chrono>
 #include <cstddef>
 #include <cstdint>
+#include <functional>
 #include <memory>
 #include <mutex>
 #include <system_error>
@@ -277,6 +279,11 @@ struct reply_plan_t
   bool request_processed = true;
 };
 
+/// @brief Makes the reply of a request the device processes (called once,
+/// only then, outside every lock of the applier); the bytes as they go on
+/// the line, empty for no reply.
+using reply_maker_t = std::function<std::vector<std::uint8_t> ()>;
+
 class behavior_applier;
 class behavior_impl;
 class behavior_applier_state;
@@ -442,6 +449,18 @@ public:
                      std::vector<std::uint8_t> const &reply,
                      bool datagram = false);
 
+  /// @brief As `plan`, but the reply is made only when the device processes
+  /// the request: `make_reply` is not called for a silent, frozen,
+  /// unplugged or echoing device (`request_processed` is false then and the
+  /// plan holds what the behaviour puts on the line besides a reply), so
+  /// the code that makes the reply (a handler of a simulator, its state
+  /// change) does not run for a request the device never saw. `has_reply`
+  /// says whether the row has a reply at all, as an empty `reply` does for
+  /// `plan`. If `make_reply` throws, the applier is left as it was and the
+  /// exception goes on.
+  reply_plan_t plan (std::vector<std::uint8_t> const &request, bool has_reply,
+                     reply_maker_t const &make_reply, bool datagram = false);
+
   /// @brief For a `cable_unplugged` stage: hangs the link up and makes the
   /// opens fail for the rest of its window (with several such stages the
   /// longest window wins; the time left is rounded up to whole
@@ -459,6 +478,17 @@ public:
   void respond (mock_datagram_control control, std::uint8_t report_id,
                 std::vector<std::uint8_t> const &request,
                 std::vector<std::uint8_t> const &reply);
+
+  /// @brief The lazy `plan` for a mock stream, carried out on `control`;
+  /// returns `request_processed`.
+  bool respond (mock_stream_control control,
+                std::vector<std::uint8_t> const &request, bool has_reply,
+                reply_maker_t const &make_reply);
+  /// @brief The lazy `plan` for a mock datagram transport, each message with
+  /// `report_id`; returns `request_processed`.
+  bool respond (mock_datagram_control control, std::uint8_t report_id,
+                std::vector<std::uint8_t> const &request, bool has_reply,
+                reply_maker_t const &make_reply);
 
 private:
   behavior behavior_;
