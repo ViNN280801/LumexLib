@@ -97,6 +97,10 @@ class mock_datagram_control
 public:
   explicit mock_datagram_control (std::shared_ptr<mock_datagram_impl> impl);
 
+  /// @brief The strand of the mock: what a simulator makes its timers for,
+  /// so that they run beside the observer.
+  asio::strand<executor_type> get_strand () const;
+
   /// @brief Queues a message for receives.
   void deliver (datagram::message_t const &message);
   /// @brief The next open fails with `error`.
