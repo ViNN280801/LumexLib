@@ -254,6 +254,39 @@ layout::encode_request<lamp_protocol, lamp_protocol::SET_PARAMETER_t> (
 
 Реестр сравнивается с самоописанием прибора: `registry::verify_registry<lamp> (описание)`, где `описание (номер, device_entry_t &)` заполняет запись прибора с этим номером и возвращает `false` на последней. С `session_context_t` записи, которых нет в прошивке или модели прибора, пропускаются и перечисляются в `verify_report_t::skipped` (`verify_registry<lamp> (описание, 65536, &сеанс)`). Результат `verify_report_t` перечисляет расхождения: записи только в таблице (`missing_in_device`) или только в приборе (`missing_in_table`), имя, ширину, знак, масштаб, пределы и доступ. Сравнивается только то, что прибор сообщил (`size` 0 и признаки `has_*`).
 
+## Сценарии
+
+`LUMEX_PROTOCOL_SCENARIO` (`dsl/LumexProtocolScenario.hpp`) описывает упорядоченные шаги над строками одного слоя протокола: без ввода-вывода, рядом с таблицей. Выполняет его движок диалога `applied/transport` (`async_run_scenario<Scenario> (engine, token)`), симулятор прибора может читать его как скрипт.
+
+```cpp
+bool is_ready (status_t_value const &status) { return field::get<0> (status) == 1; }
+
+LUMEX_PROTOCOL_SCENARIO (injection, my_proto,
+  (send<my_proto::WASH_t> (2, 500)),          // запрос и его ответ
+  (expect<my_proto::STATUS_t> ()),            // кадр строки
+  (wait_state (my_state::idle, 10000)),       // состояние прибора, не дольше 10 с
+  (label ("poll")),
+  (send<my_proto::STATUS_t> ()),
+  (branch_on_reply<my_proto::STATUS_t> (&is_ready, "go")),
+  (jump ("poll")),
+  (label ("go")),
+  (send<my_proto::INJECT_t> ()),
+  (send<my_proto::ERASE_t> (confirm, 7)));    // строка dangerous
+```
+
+Макрос определяет тип `injection`: `injection::make ()` дает `dsl::scenario_t` (имя и шаги `scenario_step_t`), `injection::protocol_type` слой. Каждый шаг стоит в своих скобках; нужен хотя бы один шаг. Предикат может быть лямбдой: шаги это значения, которые строятся в теле функции.
+
+| Шаг | Что делает |
+| --- | --- |
+| `send<Row> (args...)` | пишет сообщение строки (аргументы как у `layout::make_request`) и ждет ответа; аргумент, который не помещается, это ошибка шага при выполнении (`invalid_value`) |
+| `expect<Row> ()`, `expect<Row> (ms)` | ждет кадр строки, который не ответил запросу; без времени берет время по умолчанию исполнителя, 0 ждет без срока |
+| `wait_state (state)`, `wait_state (state, ms)` | ждет последнего известного состояния `state` (целое или перечислитель) |
+| `branch_on_reply<Row> (predicate, "label")` | идет к метке, если `predicate` говорит да про значение последнего ответа строки в этом запуске, иначе к следующему шагу |
+| `jump ("label")` | идет к метке |
+| `label ("name")` | место перехода, ничего не делает |
+
+При компиляции не проходят: строка другого слоя; `dangerous` без `confirm` первым аргументом и `confirm` у строки не `dangerous`; `branch_on_reply` у строки с видом ответа диалога (ветвиться можно по полю или раскладке, для `reply_row<R>` по строке `R`); `wait_state` не с целым и не с перечислителем. `scenario_t::check ()` говорит, все ли метки известны и даны по разу, это проверяет и исполнитель перед первым шагом.
+
 ## Индекс времени выполнения
 
 `index::build_index<P, Реестры...> ()` строит индекс слоя `P` (`index::protocol_index_t`), `index::protocol_index<P, Реестры...> ()` дает один экземпляр на программу. Индекс хранит строки в порядке таблицы (`row_t`): запись `dsl::command_entry_t` (имена, описание, ключ, параметры), ключ, приведенный к ширине провода, дескрипторы полей запроса и ответа (`field_descriptor_t`: имя, `field_info_t`, имя раскладки, составные части, роль), вид ответа (`reply_form`), признак события (у строки есть `stream`). Поиск: `find (ключ)`, `find_integer`, `find_text`, `find_name` (имя из спецификации или идентификатор), `find_registry`, и по принятому кадру: `match (кадр)` читает ключ и возвращает строку и смещение, с которого начинаются поля.
