@@ -37,6 +37,7 @@
  * SOFTWARE.
  */
 
+#include <cstdint>
 #include <memory>
 #include <string>
 #include <utility>
@@ -184,6 +185,59 @@ dialogue_engine::on_unknown (frame_handler_t handler)
 {
   if (impl_)
     impl_->set_unknown_handler (std::move (handler));
+}
+
+subscription_t
+dialogue_engine::on_edge (::lumex::core::protocol::index::row_t const *row,
+                          edge_handler_t handler)
+{
+  return impl_ ? impl_->subscribe_edge (row, std::move (handler))
+               : subscription_t ();
+}
+
+void
+dialogue_engine::on_link_state (link_state_handler_t handler)
+{
+  if (impl_)
+    impl_->set_link_handler (std::move (handler));
+}
+
+bool
+dialogue_engine::link_is_up () const LUMEX_NOEXCEPT
+{
+  return impl_ && impl_->link_up ();
+}
+
+bool
+dialogue_engine::set_keepalive (keepalive_generator_t generator)
+{
+  return impl_ && impl_->set_keepalive (std::move (generator));
+}
+
+void
+dialogue_engine::set_state (std::int64_t state)
+{
+  if (impl_)
+    impl_->set_state (state);
+}
+
+void
+dialogue_engine::clear_state () LUMEX_NOEXCEPT
+{
+  if (impl_)
+    impl_->clear_state ();
+}
+
+std::int64_t
+dialogue_engine::last_state () const LUMEX_NOEXCEPT
+{
+  return impl_ ? impl_->last_state () : 0;
+}
+
+bool
+dialogue_engine::state_known () const LUMEX_NOEXCEPT
+{
+  return impl_ && impl_->state_known ();
 }
 
 dialogue_statistics_t
