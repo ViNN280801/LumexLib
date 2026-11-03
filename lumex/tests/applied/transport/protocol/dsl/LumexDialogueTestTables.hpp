@@ -115,7 +115,13 @@ LUMEX_PROTOCOL_LAYOUT (nothing_t, (), ());
      ("gain"), (echo_zero_on_error<u16_le_<scale<std::ratio<1, 100> > > >), \
      ()) \
   X (SET_RATE, 0x18, "Set the rate", (f32_le_), ("rate"), \
-     (echo_zero_on_error<f32_le_>), ())
+     (echo_zero_on_error<f32_le_>), ()) \
+  X (PAIR_SET, 0x19, "Set a pair", (u8_, u8_), ("slot", "value"), \
+     (echo_set<u8_>), ()) \
+  X (PAIR_ZERO, 0x1A, "Set a pair, zero refuses", (u8_, u8_), \
+     ("slot", "value"), (echo_zero_on_error<u8_>), ()) \
+  X (PRIME_KEY, 0x1B, "Prime, the phases of the row itself", (u16_le_), \
+     ("volume"), (two_phase<u8_, u16_le_>), (timeout (5000)))
 // The layer replaces the change report that WRITE of the base names, so it
 // lists WRITE again: there WRITE names the change report of the layer.
 #define PUMP_V2_ROWS(X, X_AS) \

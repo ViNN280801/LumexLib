@@ -11,6 +11,7 @@
 #include <cstdint>
 #include <type_traits>
 
+#include "lumex/applied/transport/protocol/dialogue/LumexReplyReader.hpp"
 #include "lumex/applied/transport/protocol/dsl/LumexDialogueVocabulary.hpp"
 #include "lumex/core/protocol/LumexProtocol"
 
@@ -206,6 +207,15 @@ private:
 #elif LUMEX_DIALOGUE_CASE == 30
 // 30: an echo_set of a type that is no field.
 #define CHECK_ROW(X) X (BAD, 0x50, "Bad", (), (), (echo_set<int>), ())
+#elif LUMEX_DIALOGUE_CASE == 38
+// 38: an echo_set whose type cannot be compared with the last request field.
+#define CHECK_ROW(X)                                                          \
+  X (BAD, 0x50, "Bad", (u8_), ("value"), (echo_set<label_t>), ())
+#elif LUMEX_DIALOGUE_CASE == 39
+// 39: an echo_zero_on_error whose type cannot be compared with the last
+// request field.
+#define CHECK_ROW(X)                                                          \
+  X (BAD, 0x50, "Bad", (label_t), ("value"), (echo_zero_on_error<u8_>), ())
 #else
 #define CHECK_ROW(X)
 #endif
@@ -264,6 +274,18 @@ use_index ()
 {
   (void)index::build_index<check_t> ();
   (void)index::build_index<layer_t> ();
+}
+
+// The reader of a reply kind compares the echo with the value sent: a pair
+// that cannot be compared is refused when the reader is made.
+inline void
+use_reader ()
+{
+#if LUMEX_DIALOGUE_CASE >= 38
+  (void)dialogue::reply_reader_of<check_t, check_t::BAD_t> ();
+#else
+  (void)dialogue::reply_reader_of<check_t, check_t::ZERO_t> ();
+#endif
 }
 
 #if LUMEX_DIALOGUE_CASE == 0

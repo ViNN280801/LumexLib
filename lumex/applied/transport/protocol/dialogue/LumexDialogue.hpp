@@ -72,6 +72,15 @@
  * link that is still open ending with `cancelled` only restarts the
  * reading.
  *
+ * Reply kinds (see `LumexReplyReader.hpp`). The acknowledgement of a
+ * `two_phase` row leaves the exchange waiting for its completion with a
+ * timeout of its own and no retries; only the first acknowledgement arms that
+ * timeout, so a device that keeps acknowledging cannot hold the exchange: it
+ * ends with `timeout` the timeout after the first acknowledgement. An
+ * `echo_zero_on_error` row fails with `refused` for a zero echo only when
+ * the value sent is not zero: writing 0 and getting 0 back succeeds, and a
+ * refusal of a write of 0 cannot be told apart from that echo.
+ *
  * Late replies. A frame of the row of an attempt that timed out or was
  * cancelled (`by_key`, `by_reply_key`) that answers no exchange is counted
  * as a late reply and dropped; it is never kept for a later exchange. An
@@ -269,9 +278,10 @@ public:
    * the call. A late reply is never handed over. The handler may call the
    * dialogue (also destroy it); if it throws, the other handlers of the
    * frame still run and the exception then leaves the `run ()` of the
-   * executor. `close ()` and the destruction drop every handler.
+   * executor. `close ()` and the destruction drop every handler, and a
+   * closed dialogue keeps none.
    * @return The subscription; an id of 0 for a row the index of the dialogue
-   * has not, an empty handler or a moved-from dialogue.
+   * has not, an empty handler, a closed or a moved-from dialogue.
    */
   subscription_t subscribe (::lumex::core::protocol::index::row_t const *row,
                             frame_handler_t handler);
@@ -281,8 +291,11 @@ public:
   bool unsubscribe (subscription_t subscription);
 
   /// @brief Calls `handler` with every frame whose key matches no row of the
-  /// index (also logged at warning), with the rules of `subscribe`; an empty
-  /// handler removes it.
+  /// index, with the rules of `subscribe` (a closed dialogue ignores the
+  /// handler); an empty handler removes it. Such a frame is also logged: at
+  /// warning at most once a second of the timer source of the options, with
+  /// the number of the frames that went to debug since the last warning;
+  /// the others at debug.
   void on_unknown (frame_handler_t handler);
 
   /// @brief A snapshot of the counters (any thread; zeros when moved from).
