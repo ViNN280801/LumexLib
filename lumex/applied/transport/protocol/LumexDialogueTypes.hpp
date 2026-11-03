@@ -42,8 +42,9 @@
  * @brief The types of the dialogue engine of `applied/transport/protocol`:
  * the reply frame and the completion of an exchange, the retry policy, the
  * options and the statistics of a `dialogue_engine`, the verdict of a reply
- * reader, the handler of unsolicited frames, and `exchange_t`, what one
- * request needs.
+ * reader, the handlers of unsolicited frames, edges and the link state, the
+ * run-time description of what a table says (`protocol_features_t`), and
+ * `exchange_t`, what one request needs.
  * @details An exchange is one request written to a `frame_link` and the
  * frame that answers it, matched by the correlation of its row
  * (`dialogue::correlation`). The engine works on the run-time index of a
@@ -64,6 +65,7 @@
 #include "lumex/applied/transport/detail/LumexAsio.hpp"
 #include "lumex/applied/transport/protocol/dsl/LumexDialogueVocabulary.hpp"
 #include "lumex/applied/transport/timing/LumexTimerSource.hpp"
+#include "lumex/core/protocol/dsl/LumexProtocolScenario.hpp"
 #include "lumex/core/protocol/index/LumexProtocolIndex.hpp"
 #include "lumex/core/protocol/index/LumexProtocolSession.hpp"
 #include "lumex/core/protocol/layout/LumexProtocolLayoutBase.hpp"
@@ -123,6 +125,8 @@ struct retry_policy_t
   extra_retries_t extra_retries;
 };
 
+struct protocol_features_t;
+
 /// @brief The options of a `dialogue_engine`.
 struct dialogue_options_t
 {
@@ -141,9 +145,21 @@ struct dialogue_options_t
   /// late reply (0: no window, a late reply of a `by_order` row is taken for
   /// the reply of the next one).
   std::uint32_t late_reply_window_ms = 0;
-  /// The timers of the timeouts and of the window (the steady source by
-  /// default; a `testing::virtual_clock` in tests).
+  /// The timers of the engine (the steady source by default; a
+  /// `testing::virtual_clock` in tests).
   timing::timer_source timers;
+  /// What the table says of the features of the engine: keepalive, watchdog,
+  /// rate limits, state, edges (`dialogue::features_of<P> ()`, or everything
+  /// the protocol options say at once: `dialogue::options_for<P> ()`); static
+  /// data of the program, null without them.
+  protocol_features_t const *features = nullptr;
+  /// After a read of the link failed, reading starts again this many
+  /// milliseconds later, then twice as late each time it fails again up to
+  /// `read_restart_max_ms`, so that frames and streams come back with the
+  /// link. 0: reading starts again only with the next request.
+  std::uint32_t read_restart_ms = 100;
+  /// The longest wait between two reads that fail.
+  std::uint32_t read_restart_max_ms = 5000;
 };
 
 /**
@@ -155,7 +171,8 @@ struct dialogue_statistics_t
 {
   /// Requests written: every attempt, the retries included.
   std::uint64_t requests = 0;
-  /// Frames that answered an exchange.
+  /// Frames that answered an exchange (each phase of a two-phase reply is
+  /// one) or a step of a scenario that expected them.
   std::uint64_t replies = 0;
   /// Attempts after the first one of an exchange.
   std::uint64_t retries = 0;
@@ -175,14 +192,24 @@ struct dialogue_statistics_t
   /// Frames of a row the device sends by itself (a `stream` row) that
   /// answered no exchange.
   std::uint64_t events = 0;
-  /// Stream frames that came later than their interval allows.
+  /// Silences of a watched stream of at least two of its intervals, one per
+  /// silence.
   std::uint64_t stream_gaps = 0;
-  /// Requests delayed by a minimum interval.
+  /// Requests delayed by a minimum interval (each attempt once).
   std::uint64_t rate_limited = 0;
   /// Times the link was opened again.
   std::uint64_t reconnects = 0;
   /// Exchanges refused because the queue was full.
   std::uint64_t queue_refusals = 0;
+  /// Exchanges refused before sending: `accepted_in` and the last known state
+  /// (`protocol_errc::not_accepted_in_state`).
+  std::uint64_t state_refusals = 0;
+  /// Edges of `edge_event` seen.
+  std::uint64_t edge_events = 0;
+  /// Keepalive requests started.
+  std::uint64_t keepalives = 0;
+  /// Times the watchdog ended the link.
+  std::uint64_t watchdog_expiries = 0;
   /// The most exchanges that waited in the queue at once.
   std::size_t max_queued = 0;
 };
@@ -194,7 +221,8 @@ enum class reply_effect : std::uint8_t
   /// The exchange ends with the frame.
   complete,
   /// The exchange ends with `reply_reading_t::error` (`refused`,
-  /// `not_confirmed`, `unexpected_reply`, a decoding error).
+  /// `not_confirmed`, a decoding error); with `is_part` false a `by_order`
+  /// exchange goes on waiting instead.
   fail,
   /// A negative acknowledgement: the attempt is over; the request is sent
   /// again while the policy allows (as after a timeout), else the exchange
@@ -214,6 +242,11 @@ struct reply_reading_t
   reply_effect effect = reply_effect::complete;
   /// The error of `reply_effect::fail`.
   std::error_code error;
+  /// False when the frame is no part of the reply at all (it does not decode
+  /// as the reply kind): a `by_order` exchange then leaves it to whoever
+  /// else may want it and goes on waiting; any other correlation already knows
+  /// the frame is its reply and ends with `error`.
+  bool is_part = true;
 };
 
 /**
@@ -226,10 +259,139 @@ using reply_reader_t = reply_reading_t (*) (
     ::lumex::core::protocol::field::decode_context_t const *context,
     ::lumex::core::protocol::layout::bytes_view_t request);
 
+/// @brief An edge of a row at run time: reply field `field` goes from `from`
+/// to `to` (`dialogue::edge_event<Field, From, To>`).
+struct edge_spec_t
+{
+  /// The index of the field in the reply of the row.
+  std::size_t field = 0;
+  /// The value before the edge.
+  std::int64_t from = 0;
+  /// The value after it.
+  std::int64_t to = 0;
+};
+
+/**
+ * @brief Reads integer fields of a reply message: `values[i]` gets field
+ * `fields[i]`; false when the message does not decode.
+ */
+using level_reader_t = bool (*) (
+    ::lumex::core::protocol::layout::bytes_view_t message,
+    ::lumex::core::protocol::field::decode_context_t const *context,
+    std::size_t const *fields, std::size_t count, std::int64_t *values);
+
+/// @brief Appends the message of a request without fields.
+using empty_request_t = std::error_code (*) (
+    ::lumex::core::protocol::layout::bytes_t &message,
+    ::lumex::core::protocol::field::decode_context_t const &context);
+
+/**
+ * @brief What the dialogue needs to know of one row at run time, made from
+ * the table by `dialogue::features_of<P> ()`.
+ */
+struct row_features_t
+{
+  /// The identifier of the row (the engine finds it in its index by it).
+  char const *identifier = nullptr;
+  /// How its reply is matched.
+  dialogue::correlation how = dialogue::correlation::by_key;
+  /// The identifier of `reply_row<R>`, else null.
+  char const *reply_row = nullptr;
+  /// The function of `match_with`, else null.
+  dialogue::reply_matcher_t matcher = nullptr;
+  /// The reader of its reply kind, else null.
+  reply_reader_t reader = nullptr;
+  /// `min_interval (ms)`, 0 without it.
+  std::uint32_t min_interval_ms = 0;
+  /// The edges of the row in table order, null without them.
+  edge_spec_t const *edges = nullptr;
+  /// How many.
+  std::size_t edge_count = 0;
+  /// Reads its reply fields; null unless the row has edges or is the row of
+  /// `state_from`.
+  level_reader_t read_levels = nullptr;
+  /// The identifier of the stream row of `enables_stream<R>`, else null.
+  char const *enables = nullptr;
+  /// The message of a row without request fields, else null.
+  empty_request_t empty_request = nullptr;
+};
+
+/**
+ * @brief What the protocol options and the rows of a layer tell the engine,
+ * as static data of the program (`dialogue::features_of<P> ()`).
+ * @details Without it (`dialogue_options_t::features` null) the engine does
+ * what the index alone allows: gaps of `stream` rows, `accepted_in`, the log
+ * of `dangerous` rows.
+ */
+struct protocol_features_t
+{
+  /// The rows in table order.
+  row_features_t const *rows = nullptr;
+  /// How many.
+  std::size_t row_count = 0;
+  /// The identifier of the row of `keepalive`, else null.
+  char const *keepalive_row = nullptr;
+  /// Its period in milliseconds.
+  std::uint32_t keepalive_period_ms = 0;
+  /// `watchdog_ms<Ms>`, 0 without it.
+  std::uint32_t watchdog_ms = 0;
+  /// `min_interval_ms<Ms>`, 0 without it.
+  std::uint32_t min_interval_ms = 0;
+  /// The identifier of the row of `state_from`, else null.
+  char const *state_row = nullptr;
+  /// The field of `state_from`.
+  std::size_t state_field = 0;
+};
+
 /// @brief Receives a frame that answered no exchange: a frame of a
 /// subscribed row (`dialogue_engine::subscribe`), or a frame whose key
 /// matches no row (`dialogue_engine::on_unknown`).
 using frame_handler_t = std::function<void (reply_frame_t const &frame)>;
+
+/// @brief An edge that happened (`dialogue_engine::on_edge`).
+struct edge_t
+{
+  /// The row of the frame.
+  ::lumex::core::protocol::index::row_t const *row = nullptr;
+  /// The index of the field in its reply.
+  std::size_t field = 0;
+  /// The value before the edge.
+  std::int64_t from = 0;
+  /// The value after it.
+  std::int64_t to = 0;
+};
+
+/// @brief Receives the edges of a row.
+using edge_handler_t = std::function<void (edge_t const &edge)>;
+
+/// @brief What the engine knows of its link.
+enum class link_state : std::uint8_t
+{
+  /// Nothing says it is gone (also before the first frame).
+  up,
+  /// A read failed or the watchdog ended it; a frame brings it back.
+  lost
+};
+
+/// @brief Receives the changes of the state of the link; `reason` says why it
+/// was lost (empty for `up`).
+using link_state_handler_t
+    = std::function<void (link_state state, std::error_code const &reason)>;
+
+/**
+ * @brief Appends the message of the next keepalive request; the error skips
+ * this one. Called on the strand of the dialogue, once per period (the
+ * "arguments generator" of the table's `keepalive<Row, PeriodMs>`).
+ */
+using keepalive_generator_t = ::lumex::core::protocol::dsl::request_encoder_t;
+
+/// @brief The completion of a sequence of steps (a scenario, the enabling of
+/// the streams): the error and the step it ended at, the number of steps on
+/// success.
+using sequence_signature_t = void (std::error_code, std::size_t);
+
+/// @brief The completion of a sequence as the engine keeps it (erased once).
+using sequence_handler_t = asio::any_completion_handler<sequence_signature_t>;
 
 /// @brief A subscription of `dialogue_engine::subscribe` (0: none).
 struct subscription_t
@@ -245,10 +407,10 @@ struct subscription_t
  * index of the same layer works too: the engine finds them again by
  * identifier). The correlation decides which frame answers the exchange:
  * `by_key`, a frame of `row`; `by_reply_key`, a frame of `reply_row`;
- * `by_order`, the next frame that is no event (the exchange is then alone in
- * flight); `custom`, a frame `matcher` accepts. A row without a reply (and
- * no `reply_row`, no `matcher`) expects no frame: its exchange ends when the
- * write ends.
+ * `by_order`, the next frame that is no event and, with a `reader`, a part of
+ * the reply (the exchange is then alone in flight); `custom`, a frame
+ * `matcher` accepts. A row without a reply (and no `reply_row`, no `matcher`)
+ * expects no frame: its exchange ends when the write ends.
  */
 struct exchange_t
 {

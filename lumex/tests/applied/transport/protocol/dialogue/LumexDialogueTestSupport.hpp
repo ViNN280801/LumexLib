@@ -192,9 +192,16 @@ public:
   void
   start ()
   {
+    start_with (pump_index ());
+  }
+
+  /// Makes the dialogue over the rows of `table`.
+  void
+  start_with (index::protocol_index_t const &table)
+  {
     pr::frame_link link (make_link ());
-    the_dialogue.reset (new pr::dialogue_engine (
-        std::move (link), pump_index (), link_options_));
+    the_dialogue.reset (
+        new pr::dialogue_engine (std::move (link), table, link_options_));
     settle ();
   }
 
@@ -438,13 +445,15 @@ public:
   bool
   is_open () const override
   {
-    return true;
+    std::lock_guard<std::mutex> const lock (mutex_);
+    return open_;
   }
 
   void
   start_read (pr::link_read_handler_t handler) override
   {
     std::lock_guard<std::mutex> const lock (mutex_);
+    ++reads_started_;
     reads_.push_back (std::move (handler));
   }
 
@@ -471,7 +480,45 @@ public:
   void
   close () LUMEX_NOEXCEPT override
   {
+    {
+      std::lock_guard<std::mutex> const lock (mutex_);
+      open_ = false;
+      ++closes_;
+    }
     end_reads ();
+  }
+
+  /// Ends the oldest pending read with `error` (posted); false without one.
+  bool
+  fail_read (std::error_code error)
+  {
+    pr::link_read_handler_t handler;
+    {
+      std::lock_guard<std::mutex> const lock (mutex_);
+      if (reads_.empty ())
+        return false;
+      handler = std::move (reads_.front ());
+      reads_.erase (reads_.begin ());
+    }
+    asio::post (strand_, asio::append (std::move (handler), error,
+                                       pr::link_frame_t ()));
+    return true;
+  }
+
+  /// How many reads were started.
+  std::size_t
+  reads_started () const
+  {
+    std::lock_guard<std::mutex> const lock (mutex_);
+    return reads_started_;
+  }
+
+  /// How many times the link was closed.
+  std::size_t
+  closes () const
+  {
+    std::lock_guard<std::mutex> const lock (mutex_);
+    return closes_;
   }
 
   /// Hands `frame` to the oldest pending read (posted); false without one.
@@ -545,6 +592,9 @@ private:
   std::vector<pr::link_read_handler_t> reads_;
   std::vector<bytes_t> written_;
   bool throw_on_write_ = false;
+  bool open_ = true;
+  std::size_t reads_started_ = 0;
+  std::size_t closes_ = 0;
 };
 
 /// The key of a request message (its first byte in the pump table).

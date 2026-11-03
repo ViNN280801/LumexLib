@@ -41,7 +41,11 @@
  * @file LumexDialogueImpl.hpp
  * @brief `dialogue_impl`: the engine behind a `dialogue_engine`: the queue,
  * the exchanges in flight, the correlation of the frames, the timeouts, the
- * retries, the late replies and the counters.
+ * retries, the late replies and the counters
+ * (`LumexDialogueImpl.cpp`); the streams, the keepalive, the watchdog, the
+ * rate limits, the state, the edges and the restart of the reading
+ * (`LumexDialogueImplFeatures.cpp`); the sequences of steps, scenarios and the
+ * enabling of streams (`LumexDialogueImplRuns.cpp`).
  * @details Internal to the transport library. Everything runs on the strand
  * of the link (`frame_link::get_strand ()`): the reads and writes of the
  * link complete there, the timers are made for it, and the calls of the
@@ -52,6 +56,12 @@
  * strongly, and so does every posted step until it ran. The engine keeps
  * the handlers of the queued and the pending exchanges in its members: it is
  * a `handler_keeper`, so the `io_context` shutdown destroys them uncalled.
+ *
+ * The timers of the features are lazy: a wait is armed for the nearest time
+ * known when it is armed, and what its completion does is decided by the clock
+ * and the state at that moment, so a frame or a request that moved the time
+ * meanwhile needs no re-arm and a due wait racing it does no harm. A wait of a
+ * step of a run carries a number, as the timeout of an attempt does.
  */
 #ifndef LUMEX_APPLIED_TRANSPORT_PROTOCOL_DIALOGUE_DETAIL_DIALOGUE_IMPL_HPP
 #define LUMEX_APPLIED_TRANSPORT_PROTOCOL_DIALOGUE_DETAIL_DIALOGUE_IMPL_HPP
@@ -65,6 +75,8 @@
 #include <mutex>
 #include <string>
 #include <system_error>
+#include <unordered_map>
+#include <utility>
 #include <vector>
 
 #include "lumex/applied/transport/detail/LumexAsio.hpp"
@@ -74,6 +86,7 @@
 #include "lumex/applied/transport/protocol/dsl/LumexDialogueVocabulary.hpp"
 #include "lumex/applied/transport/protocol/link/LumexFrameLink.hpp"
 #include "lumex/applied/transport/timing/LumexTimerSource.hpp"
+#include "lumex/core/protocol/dsl/LumexProtocolScenario.hpp"
 #include "lumex/core/protocol/error/LumexProtocolErrc.hpp"
 #include "lumex/core/protocol/index/LumexProtocolIndex.hpp"
 #include "lumex/core/protocol/index/LumexProtocolSession.hpp"
@@ -116,6 +129,10 @@ struct dialogue_counters_t
   std::atomic<std::uint64_t> rate_limited;
   std::atomic<std::uint64_t> reconnects;
   std::atomic<std::uint64_t> queue_refusals;
+  std::atomic<std::uint64_t> state_refusals;
+  std::atomic<std::uint64_t> edge_events;
+  std::atomic<std::uint64_t> keepalives;
+  std::atomic<std::uint64_t> watchdog_expiries;
   std::atomic<std::size_t> max_queued;
 
   dialogue_counters_t () LUMEX_NOEXCEPT;
@@ -163,12 +180,90 @@ struct exchange_record_t
   reply_reader_t reader = nullptr;
   /// The first phase of a two-phase reply came: no retry any more.
   bool acknowledged = false;
+  /// The current attempt was already counted as delayed by a rate limit.
+  bool rate_counted = false;
+  /// The next attempt waits for a rate limit.
+  bool waiting_rate = false;
   /// An attempt waits for its reply.
   bool awaiting = false;
   /// The next attempt waits for the late-reply window to end.
   bool waiting_window = false;
   /// The timeout of the current attempt.
   timing::timer timer;
+};
+
+/// @brief What the engine keeps of a row with a feature: a stream, a rate
+/// limit, edges, the state.
+struct row_watch_t
+{
+  /// The row, in the index of the dialogue.
+  ::lumex::core::protocol::index::row_t const *row = nullptr;
+  /// What the table says of it (null without features).
+  row_features_t const *features = nullptr;
+  /// `stream (interval_ms)`, 0 for no stream.
+  std::uint32_t stream_interval_ms = 0;
+  /// The stream is watched: a frame came, or the row that enables it answered.
+  bool watching = false;
+  /// When its last frame came (or the watch began).
+  timing::time_point_t last_frame;
+  /// This silence was counted.
+  bool gap_counted = false;
+  /// The time of its last request, when one was sent.
+  bool sent = false;
+  timing::time_point_t last_sent;
+  /// The reply fields read from each frame: the fields of the edges in their
+  /// order, then the field of the state.
+  std::vector<std::size_t> fields;
+  /// Their values in the last frame that decoded.
+  std::vector<std::int64_t> levels;
+  /// `levels` holds a frame.
+  bool levels_known = false;
+  /// Whether the last of `fields` is the field of the state.
+  bool reads_state = false;
+};
+
+/// @brief One sequence of steps the engine runs (a scenario, the enabling of
+/// the streams).
+struct sequence_run_t
+{
+  /// What a run waits for.
+  enum class waiting_t : std::uint8_t
+  {
+    nothing,
+    exchange,
+    frame,
+    state
+  };
+
+  /// Its number.
+  std::uint64_t id = 0;
+  /// The steps.
+  ::lumex::core::protocol::dsl::scenario_t scenario;
+  /// What the table of the scenario says of its rows.
+  protocol_features_t const *features = nullptr;
+  /// The user's handler, erased once.
+  sequence_handler_t handler;
+  /// The current step.
+  std::size_t step = 0;
+  /// What it waits for.
+  waiting_t waiting = waiting_t::nothing;
+  /// The exchange of a `send` under way.
+  std::uint64_t exchange_id = 0;
+  /// The row of an `expect` under way.
+  ::lumex::core::protocol::index::row_t const *expected = nullptr;
+  /// The row the next step expects, kept while this one runs: its frame may
+  /// come right before the reply that ends this step.
+  ::lumex::core::protocol::index::row_t const *held_row = nullptr;
+  bool has_held = false;
+  /// The number of the wait of the current step: a wait of the past changes
+  /// nothing.
+  std::uint64_t timer_epoch = 0;
+  /// The time of an `expect` or a `wait_state`.
+  timing::timer timer;
+  /// The last frame of each row seen in this run, for a branch.
+  std::vector<
+      std::pair<::lumex::core::protocol::index::row_t const *, link_frame_t>>
+      replies;
 };
 
 /// @brief The engine of a dialogue (see the file description).
@@ -276,6 +371,55 @@ public:
   /// empty one removes it).
   void set_unknown_handler (frame_handler_t handler);
 
+  /// @brief Calls `handler` with the edges of `row`.
+  subscription_t
+  subscribe_edge (::lumex::core::protocol::index::row_t const *row,
+                  edge_handler_t handler);
+
+  /// @brief Calls `handler` when the state of the link changes.
+  void set_link_handler (link_state_handler_t handler);
+
+  /// @brief Whether nothing says the link is gone.
+  bool
+  link_up () const LUMEX_NOEXCEPT
+  {
+    return link_up_.load (std::memory_order_acquire);
+  }
+
+  /// @brief Takes the generator of the keepalive requests; false when the
+  /// table names no keepalive or the dialogue is closed.
+  bool set_keepalive (keepalive_generator_t generator);
+
+  /// @brief Sets the last known state (it counts at once; the runs that wait
+  /// for it hear it on the strand).
+  void set_state (std::int64_t state);
+
+  /// @brief Forgets the last known state.
+  void clear_state () LUMEX_NOEXCEPT;
+
+  /// @brief The last known state, 0 when none.
+  std::int64_t last_state () const LUMEX_NOEXCEPT;
+
+  /// @brief Whether a state is known.
+  bool state_known () const LUMEX_NOEXCEPT;
+
+  /// @brief Starts a sequence: the handler arrives erased, with the mark of
+  /// its cancellation slot (none without a slot).
+  void start_scenario (
+      ::lumex::core::protocol::dsl::scenario_t scenario,
+      protocol_features_t const *features, sequence_handler_t handler,
+      ::lumex::applied::transport::detail::operation_mark_ptr const &mark);
+
+  /// @brief Sends the rows that enable streams, in table order.
+  void start_enable_streams (
+      sequence_handler_t handler,
+      ::lumex::applied::transport::detail::operation_mark_ptr const &mark);
+
+  /// @brief Posts the cancellation a signal on the slot of run `id` requested.
+  void request_run_cancel (
+      std::uint64_t id,
+      std::weak_ptr<::lumex::applied::transport::detail::operation_mark> mark);
+
   // --- on the strand (the posted steps and the handlers) ----------------
 
   void run_start ();
@@ -291,6 +435,25 @@ public:
   void timeout_done (std::uint64_t id, std::uint64_t epoch,
                      std::error_code error);
   void window_done (std::uint64_t window, std::error_code error);
+  void rate_done (std::error_code error);
+  void gap_done (std::error_code error);
+  void watchdog_done (std::error_code error);
+  void keepalive_done (std::error_code error);
+  void keepalive_ended (std::error_code error);
+  void read_restart_done (std::error_code error);
+  void run_keepalive_start ();
+  void run_state_set (std::int64_t state);
+  void run_begin_sequence (std::uint64_t id,
+                           ::lumex::core::protocol::dsl::scenario_t &scenario,
+                           protocol_features_t const *features,
+                           sequence_handler_t &handler);
+  void run_enable_streams (std::uint64_t id, sequence_handler_t &handler);
+  void run_cancel_sequence (std::uint64_t id);
+  void sequence_advance (std::uint64_t id);
+  void sequence_exchange_ended (std::uint64_t id, std::uint64_t exchange,
+                                std::error_code error, link_frame_t frame);
+  void sequence_timer_done (std::uint64_t id, std::uint64_t epoch,
+                            std::error_code error);
 
 private:
   void enlist ();
@@ -299,6 +462,9 @@ private:
   void pump ();
   // False when the attempt could not start (it ended the exchange).
   bool start_attempt (exchange_record_t &record);
+  // The next attempt of an exchange in flight, now or after a rate limit;
+  // false when it could not start (it ended the exchange).
+  bool begin_attempt (exchange_record_t &record);
   static bool exact (exchange_record_t const &record) LUMEX_NOEXCEPT;
   bool late_holds (::lumex::core::protocol::index::row_t const *row) const
       LUMEX_NOEXCEPT;
@@ -306,7 +472,9 @@ private:
   void next_attempt (std::size_t at,
                      ::lumex::core::protocol::error::protocol_errc why);
   void arm_timer (exchange_record_t &record);
-  void apply_reply (std::size_t at, link_frame_t &frame);
+  // `known`: what the reader already said of the frame, or null.
+  void apply_reply (std::size_t at, link_frame_t &frame,
+                    reply_reading_t const *known);
   std::string
   describe (link_frame_t const &frame,
             ::lumex::core::protocol::index::frame_direction direction) const;
@@ -317,9 +485,15 @@ private:
   void note_abandoned (exchange_record_t const &record);
   void log_unknown (link_frame_t const &frame);
   void handle_frame (link_frame_t &frame);
+  // Whether the exchange takes the frame. The reader of a by_order exchange
+  // decides, and what it said is in `reading` (with `read` true), so that the
+  // frame is not read twice.
   bool accepts (exchange_record_t const &record,
                 ::lumex::core::protocol::index::row_t const *row,
-                link_frame_t const &frame, std::exception_ptr &thrown) const;
+                link_frame_t const &frame, std::exception_ptr &thrown,
+                reply_reading_t &reading, bool &read) const;
+  reply_reading_t read_reply (exchange_record_t const &record,
+                              link_frame_t const &frame) const;
   bool take_late (::lumex::core::protocol::index::row_t const *row);
   std::size_t find_in_flight (std::uint64_t id) const;
   void finish (record_ptr record, std::error_code error, link_frame_t frame);
@@ -329,6 +503,80 @@ private:
                  link_frame_t frame);
   void end_all (std::error_code error, bool abandoned);
   void link_lost (std::error_code error);
+
+  // --- the features (LumexDialogueImplFeatures.cpp) ----------------------
+
+  void build_watches (protocol_features_t const *features);
+  row_watch_t *
+  watch_of (::lumex::core::protocol::index::row_t const *row) LUMEX_NOEXCEPT;
+  row_watch_t const *watch_of (
+      ::lumex::core::protocol::index::row_t const *row) const LUMEX_NOEXCEPT;
+  std::shared_ptr<retry_policy_t const>
+  row_policy (::lumex::core::protocol::index::row_t const *row) const;
+  void fill_exchange (exchange_t &request, row_features_t const *features,
+                      ::lumex::core::protocol::index::row_t const *row) const;
+  // The rate limits.
+  timing::time_point_t
+  rate_due (exchange_record_t const &record) const LUMEX_NOEXCEPT;
+  void note_sent (exchange_record_t const &record) LUMEX_NOEXCEPT;
+  void note_rate_limited (exchange_record_t &record);
+  void arm_rate_timer (timing::time_point_t at);
+  void fail_rate_waiters ();
+  // The state.
+  bool refused_by_state (exchange_record_t const &record) const LUMEX_NOEXCEPT;
+  void refuse_by_state (record_ptr record);
+  void store_state (std::int64_t state) LUMEX_NOEXCEPT;
+  // The frames: the stream of a row, its levels.
+  void note_stream_frame (row_watch_t &watch);
+  void count_gap (row_watch_t &watch);
+  void start_watching (row_watch_t &watch, timing::time_point_t now);
+  void arm_gap_timer (timing::time_point_t at);
+  void note_success (exchange_record_t const &record);
+  void read_levels (row_watch_t &watch, link_frame_t const &frame,
+                    std::vector<edge_t> &edges, bool &state_changed,
+                    std::int64_t &state);
+  std::vector<std::shared_ptr<edge_handler_t const>>
+  edge_handlers_of (::lumex::core::protocol::index::row_t const *row) const;
+  // The link.
+  void frame_seen (std::exception_ptr &thrown);
+  void notify_link_state (link_state state, std::error_code const &reason);
+  void forget_watches () LUMEX_NOEXCEPT;
+  void schedule_read_restart ();
+  void arm_watchdog (timing::time_point_t at);
+  // The keepalive.
+  void arm_keepalive ();
+  void cancel_feature_timers () LUMEX_NOEXCEPT;
+  struct feature_handlers_t;
+  void take_feature_handlers (feature_handlers_t &out) LUMEX_NOEXCEPT;
+
+  // --- the runs (LumexDialogueImplRuns.cpp) ------------------------------
+
+  sequence_run_t *find_run (std::uint64_t id) const LUMEX_NOEXCEPT;
+  void end_run (std::uint64_t id, std::error_code error);
+  void end_all_runs (std::error_code error);
+  void begin_sequence (std::uint64_t id,
+                       ::lumex::core::protocol::dsl::scenario_t scenario,
+                       protocol_features_t const *features,
+                       sequence_handler_t handler);
+  void complete_sequence (sequence_handler_t handler, std::error_code error,
+                          std::size_t step);
+  void remember_reply (sequence_run_t &run,
+                       ::lumex::core::protocol::index::row_t const *row,
+                       link_frame_t const &frame);
+  void note_held_row (sequence_run_t &run);
+  bool
+  run_send_step (sequence_run_t &run,
+                 ::lumex::core::protocol::dsl::scenario_step_t const &step);
+  bool
+  run_wait_timer (sequence_run_t &run,
+                  ::lumex::core::protocol::dsl::scenario_step_t const &step);
+  // Offers a frame that answered no exchange to the runs: true when one took
+  // it; the runs to go on are added to `ready`.
+  bool offer_to_runs (::lumex::core::protocol::index::row_t const *row,
+                      link_frame_t const &frame,
+                      std::vector<std::uint64_t> &ready);
+  // The runs that wait for this state go on.
+  void wake_state_waiters (std::int64_t state);
 
   frame_link link_;
   strand_type strand_;
@@ -362,17 +610,81 @@ private:
   std::uint64_t unknown_skipped_;
   std::atomic<std::uint64_t> next_id_;
   std::atomic<std::uint64_t> next_subscription_;
-  // The subscribers and the handler of unknown frames: changed from any
-  // thread, read on the strand (copied out, called outside the lock).
+  // What the table says (null without features), and the rows with a feature.
+  protocol_features_t const *features_;
+  std::vector<row_watch_t> watches_;
+  std::unordered_map<::lumex::core::protocol::index::row_t const *,
+                     std::size_t>
+      watch_index_;
+  // The rate limits: the time of the last request, and the wait.
+  std::uint32_t min_interval_ms_;
+  bool any_sent_;
+  timing::time_point_t last_sent_;
+  timing::timer rate_timer_;
+  bool rate_armed_;
+  timing::time_point_t rate_armed_for_;
+  // Delayed requests are warned about at most once a second (the time of the
+  // timer source): when the last warning was, and how many went to debug
+  // since.
+  bool rate_warned_;
+  timing::time_point_t rate_warned_at_;
+  std::uint64_t rate_skipped_;
+  // The gaps of the streams.
+  timing::timer gap_timer_;
+  bool gap_armed_;
+  timing::time_point_t gap_armed_for_;
+  // The link state, the restart of the reading.
+  std::atomic<bool> link_up_;
+  std::uint32_t read_restart_ms_;
+  std::uint32_t read_restart_max_ms_;
+  timing::timer read_restart_timer_;
+  bool read_restart_armed_;
+  std::uint32_t read_failures_;
+  bool read_restarted_at_once_;
+  // The watchdog.
+  std::uint32_t watchdog_ms_;
+  timing::timer watchdog_timer_;
+  bool watchdog_armed_;
+  timing::time_point_t last_frame_at_;
+  // The keepalive.
+  std::uint32_t keepalive_ms_;
+  row_features_t const *keepalive_row_;
+  timing::timer keepalive_timer_;
+  bool keepalive_armed_;
+  bool keepalive_pending_;
+  // The last known state: any thread (a value, then the flag).
+  std::atomic<std::int64_t> state_value_;
+  std::atomic<bool> state_known_;
+  // The sequences under way.
+  std::vector<std::unique_ptr<sequence_run_t>> runs_;
+  // The subscribers and the handlers of unknown frames, of edges and of the
+  // link state, the keepalive generator: changed from any thread, read on the
+  // strand (copied out, called outside the lock).
   struct subscriber_t
   {
     std::uint64_t id = 0;
     ::lumex::core::protocol::index::row_t const *row = nullptr;
     handler_ptr handler;
   };
+  struct edge_subscriber_t
+  {
+    std::uint64_t id = 0;
+    ::lumex::core::protocol::index::row_t const *row = nullptr;
+    std::shared_ptr<edge_handler_t const> handler;
+  };
   mutable std::mutex handlers_mutex_;
   std::vector<subscriber_t> subscribers_;
   handler_ptr unknown_;
+  std::vector<edge_subscriber_t> edge_subscribers_;
+  std::shared_ptr<link_state_handler_t const> link_handler_;
+  std::shared_ptr<keepalive_generator_t const> keepalive_generator_;
+  // What close () and the shutdown take out of the members under the lock.
+  struct feature_handlers_t
+  {
+    std::vector<edge_subscriber_t> edges;
+    std::shared_ptr<link_state_handler_t const> link;
+    std::shared_ptr<keepalive_generator_t const> generator;
+  };
   // Set by close (), under the mutex: no handler is kept any more.
   bool handlers_closed_;
   std::atomic<bool> enlisted_;
