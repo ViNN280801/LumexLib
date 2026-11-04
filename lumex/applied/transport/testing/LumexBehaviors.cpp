@@ -1546,13 +1546,25 @@ behavior_applier::respond (mock_stream_control control,
   carry_out (plan (request, reply, false), control);
 }
 
+namespace
+{
+bool
+holds_reply_bytes (reply_plan_t const &made)
+{
+  return has_reply_bytes (made.steps);
+}
+} // namespace
+
 bool
 behavior_applier::respond (mock_stream_control control,
                            std::vector<std::uint8_t> const &request,
-                           bool has_reply, reply_maker_t const &make_reply)
+                           bool has_reply, reply_maker_t const &make_reply,
+                           bool *reply_reached)
 {
   reply_plan_t const made = plan (request, has_reply, make_reply, false);
   carry_out (made, control);
+  if (reply_reached != nullptr)
+    *reply_reached = holds_reply_bytes (made);
   return made.request_processed;
 }
 
@@ -1560,10 +1572,13 @@ bool
 behavior_applier::respond (mock_datagram_control control,
                            std::uint8_t report_id,
                            std::vector<std::uint8_t> const &request,
-                           bool has_reply, reply_maker_t const &make_reply)
+                           bool has_reply, reply_maker_t const &make_reply,
+                           bool *reply_reached)
 {
   reply_plan_t const made = plan (request, has_reply, make_reply, true);
   carry_out (made, control, report_id);
+  if (reply_reached != nullptr)
+    *reply_reached = holds_reply_bytes (made);
   return made.request_processed;
 }
 

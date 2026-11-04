@@ -82,13 +82,24 @@
  * firmware or the model of the session (`session ().available (...)`) does
  * not exist for the device: it is an unknown request.
  *
+ * What a client cannot tell. The refusal of `ack_nak` is a message of the
+ * shape of the negative part; when the two parts have one wire shape (a byte
+ * and a signed byte) the client reads the refusal as the acknowledgement, and
+ * when `state_instead_of_refusal` is refused with a state equal to the value
+ * sent, the client reads it as the echo: give the parts of a table different
+ * shapes. The default reply of a watching handler (one that returns nothing)
+ * is made after it ran, with the state it saw before: a state it sets shows
+ * in the next reply.
+ *
  * Unknown and malformed requests are untrusted input. A frame whose key is no
  * row's, and a request of a known row that does not decode, are counted
  * (`unknown_requests`, `malformed_requests`) and answered with nothing, or,
  * with `simulator_options_t::answer_unknown`, with the bytes of the frame
  * sent back unchanged (so a client sees a frame it cannot match). The
- * simulator never reads past a frame; a damaged frame the codec drops is
- * counted as a framing error.
+ * simulator never reads past a frame; a damaged frame the codec drops, and a
+ * datagram of the device's own report with no frame in it (empty or cut), are
+ * counted as framing errors. A cut frame after a whole one in the same
+ * datagram goes unnoticed: the codecs do not tell of it.
  *
  * Streams. `start_stream<Row> ()` makes the device send the row by itself, at
  * the interval of its `stream (ms)` option (or the one given), on the timer
@@ -96,7 +107,9 @@
  * the stream by advancing the clock. `start_stream<Row> (value)` repeats a
  * value, `start_stream_with<Row> (function)` asks a function for each
  * message (a state that changes), `start_streams ()` starts every `stream`
- * row with its sample. `after (delay, function)` runs a function at a
+ * row with its sample. A stream of a row that is not in the session (firmware,
+ * model) sends nothing while the session says so; it goes on when the session
+ * changes back. `after (delay, function)` runs a function at a
  * virtual time on the same strand (a scripted sequence: change the state, the
  * reply, the behaviour, start or stop a stream).
  *
@@ -106,19 +119,34 @@
  * process the request at all (its handler does not run and the registry and
  * the state are not touched), the other behaviours shape the bytes. A reply
  * of two messages (`two_phase`) is two replies for the behaviours that count
- * replies.
+ * replies. The counters follow it: `not_processed` counts requests the device
+ * did not process (not stream messages), `replies` and `stream_messages` count
+ * messages that reach the mock (not one the behaviour dropped), and
+ * `registry_writes` counts values kept (a handler that throws keeps none).
  *
  * Threads. The mock calls the simulator on its strand, and so do its timers.
  * The configuration (`on`, `set_reply`, `refuse`, `set_state`,
  * `set_behavior`, the streams and `after`) may be called from any thread,
  * also while requests are served; `session ()` is a plain value that is
- * changed while no request is served or from `after`.
+ * changed while no request is served or from `after`. The destructor, called
+ * from another thread, returns while a handler may still be running on the
+ * strand of the mock (that call finishes, sends nothing and drops what it
+ * holds).
  *
  * Lifetime. The simulator owns its handlers and its timers. Destroying it
  * stops the streams, drops the handlers and detaches it from the mock; it
  * may be destroyed inside one of its own handlers (the request being served
  * is answered with nothing), while a stream runs, and after the
- * `io_context` is gone. A handler that throws leaves the exception to the
+ * `io_context` is gone. When the context shuts down the simulator lets go of
+ * the mock (so that nothing of the context outlives it) and of the functions
+ * of the test, and is dead from then on: `start_stream` and
+ * `start_stream_with` return false, `after` does nothing and `statistics ()`
+ * goes on. Its timers on a virtual clock outlive the context; with a real
+ * clock
+ * (`steady_timer_source`) they are Asio timers, which must not: destroy the
+ * simulator before the `io_context` then. A mock that is not given to a
+ * simulator has the same limit (see `LumexMockStream.hpp`). A handler that
+ * throws leaves the exception to the
  * code that runs the mock's strand (the mock keeps the write it saw
  * complete); the simulator counts it (`handler_errors`), sends nothing for
  * that request and goes on. Nothing the simulator hands to the mock keeps
@@ -138,9 +166,8 @@
  * testing::device_simulator<pump_t> device (
  *     mock.control, core::framing::slip::slip_codec (), clock);
  * device.on<pump_t::INFO_t> (
- *     [] (pump_t::INFO_t::request_type const &)
- *       { return my_info (); });
- * device.start_stream<pump_t::STATUS_t> ();
+ *     [] (testing::device_simulator<pump_t>::request_of<pump_t::INFO_t> const
+ * &) { return my_info (); }); device.start_stream<pump_t::STATUS_t> ();
  * @endcode
  */
 #ifndef LUMEX_APPLIED_TRANSPORT_TESTING_SIMULATOR_DEVICE_SIMULATOR_HPP
@@ -165,6 +192,7 @@
 #include "lumex/applied/transport/testing/LumexVirtualClock.hpp"
 #include "lumex/core/framing/codec/LumexFramingCodec.hpp"
 #include "lumex/core/protocol/LumexProtocol"
+#include "lumex/core/utility/attr/LumexAttributes.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 #include "lumex/core/utility/sequence/LumexIndexSequence.hpp"
 
@@ -222,13 +250,14 @@ struct simulator_statistics_t
   /// Requests of a known row of the device (also those it refused or did
   /// not process).
   std::uint64_t requests = 0;
-  /// Messages handed to the mock as replies of requests (a stream message is
-  /// no reply).
+  /// Messages that reached the mock as replies of requests (a stream message
+  /// is no reply; a reply the behaviour dropped did not reach it).
   std::uint64_t replies = 0;
   /// Requests the device refused (state, registry, `refuse<Row>`); whether
   /// the refusal is a message depends on the reply kind of the row.
   std::uint64_t refused = 0;
-  /// Requests the behaviour did not let the device process.
+  /// Requests the behaviour did not let the device process (not stream
+  /// messages).
   std::uint64_t not_processed = 0;
   /// Frames of no known row (or of a row the session does not have).
   std::uint64_t unknown_requests = 0;
@@ -236,15 +265,17 @@ struct simulator_statistics_t
   std::uint64_t malformed_requests = 0;
   /// Datagrams with another report ID than the device's.
   std::uint64_t foreign_reports = 0;
-  /// Frames the codec dropped (damaged, too large, cut).
+  /// Frames the codec dropped (damaged, too large, cut), and datagrams of the
+  /// device's report with no frame in them.
   std::uint64_t framing_errors = 0;
-  /// Stream messages handed to the mock.
+  /// Stream messages that reached the mock.
   std::uint64_t stream_messages = 0;
   /// Replies the table could not encode (a value the encoder refuses).
   std::uint64_t encode_errors = 0;
   /// Handlers and generators that threw.
   std::uint64_t handler_errors = 0;
-  /// Registry values kept (a refused request keeps none).
+  /// Registry values kept (a refused request, or a handler that threw, keeps
+  /// none).
   std::uint64_t registry_writes = 0;
   /// The rows that were requested, in the order of the table.
   std::vector<simulator_row_count_t> by_row;
@@ -355,6 +386,14 @@ struct registry_write_t
   std::int64_t raw = 0;
 };
 
+/// An entry a request changed: its slot and the raw value it held before.
+struct registry_undo_t
+{
+  registry_slot_t slot;
+  bool had = false;
+  std::int64_t raw = 0;
+};
+
 /// What a request names in its registry fields.
 struct registry_names_t
 {
@@ -451,7 +490,7 @@ struct group_walk_t<::lumex::core::utility::sequence::index_sequence<I...>,
            record, field::get<I> (record), names),
        0)...
     };
-    (void)done;
+    LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (done);
   }
 
   template <typename Record>
@@ -464,7 +503,7 @@ struct group_walk_t<::lumex::core::utility::sequence::index_sequence<I...>,
            I> (record, field::get<I> (record), names),
        0)...
     };
-    (void)done;
+    LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (done);
   }
 
   static void
@@ -474,7 +513,7 @@ struct group_walk_t<::lumex::core::utility::sequence::index_sequence<I...>,
         = { 0, (registry_walk_t<typename field::impl_of<F>::type>::precheck (
                     names, denied),
                 0)... };
-    (void)done;
+    LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (done);
   }
 
   template <typename Record>
@@ -486,7 +525,7 @@ struct group_walk_t<::lumex::core::utility::sequence::index_sequence<I...>,
               template patch_values<I> (record, field::get<I> (record), store),
           0)...
     };
-    (void)done;
+    LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (done);
   }
 };
 
@@ -679,6 +718,8 @@ struct request_call_t
   bool encode_failed = false;
   /// How many registry values the request kept.
   std::size_t kept = 0;
+  /// What the entries it kept held before, to put back if the handler throws.
+  std::vector<registry_undo_t> undone;
 };
 
 /// What answers a request of a row: fills `messages` of the call.
@@ -888,8 +929,35 @@ struct request_registry_t
     if (call.store == nullptr)
       return;
     for (std::size_t i = 0; i < call.names.writes.size (); ++i)
-      (*call.store)[call.names.writes[i].slot] = call.names.writes[i].raw;
+      {
+        registry_store_t::iterator const held
+            = call.store->find (call.names.writes[i].slot);
+        registry_undo_t before;
+        before.slot = call.names.writes[i].slot;
+        before.had = held != call.store->end ();
+        before.raw = before.had ? held->second : 0;
+        call.undone.push_back (before);
+        (*call.store)[call.names.writes[i].slot] = call.names.writes[i].raw;
+      }
     call.kept = call.names.writes.size ();
+  }
+
+  // Puts back what `keep` changed (a handler threw: nothing is kept).
+  static void
+  undo (request_call_t &call)
+  {
+    if (call.store == nullptr)
+      return;
+    for (std::size_t i = call.undone.size (); i != 0; --i)
+      {
+        registry_undo_t const &each = call.undone[i - 1];
+        if (each.had)
+          (*call.store)[each.slot] = each.raw;
+        else
+          call.store->erase (each.slot);
+      }
+    call.undone.clear ();
+    call.kept = 0;
   }
 
 private:
@@ -1016,6 +1084,7 @@ template <typename P, typename Row, typename T> struct part_t<P, Row, T, 1>
   {
     value_type value = sample ();
     reply_patch_t<T>::apply (value, call);
+    state_patch_t<P, T>::apply (value, call.state);
     return value;
   }
 
@@ -1040,19 +1109,14 @@ template <typename P, typename Row, typename T> struct part_t<P, Row, T, 1>
 // The echo of the value sent, as the reply reader compares it: the whole
 // request when the echo is that record, else the last field of the request.
 template <typename Echo, typename Sent,
-          int Category
-          = std::is_same<Echo, Sent>::value
-                ? 0
-                : (std::is_same<Sent, registry::parameter_value_t>::value
-                           && (std::is_arithmetic<Echo>::value
-                               || std::is_enum<Echo>::value)
-                       ? 1
-                       : ((std::is_arithmetic<Echo>::value
-                           || std::is_enum<Echo>::value)
-                                  && (std::is_arithmetic<Sent>::value
-                                      || std::is_enum<Sent>::value)
-                              ? 2
-                              : 3))>
+          int Category = std::is_same<Echo, Sent>::value
+                             ? 0
+                             : ((std::is_arithmetic<Echo>::value
+                                 || std::is_enum<Echo>::value)
+                                        && (std::is_arithmetic<Sent>::value
+                                            || std::is_enum<Sent>::value)
+                                    ? 2
+                                    : 3)>
 struct echo_convert_t
 {
   static Echo
@@ -1068,15 +1132,6 @@ template <typename Echo, typename Sent> struct echo_convert_t<Echo, Sent, 0>
   get (Sent const &sent)
   {
     return sent;
-  }
-};
-
-template <typename Echo, typename Sent> struct echo_convert_t<Echo, Sent, 1>
-{
-  static Echo
-  get (Sent const &sent)
-  {
-    return static_cast<Echo> (sent.raw);
   }
 };
 
@@ -1496,7 +1551,15 @@ answer_request (request_call_t &call, Producer &producer)
       return;
     }
   request_registry_t<Row, request_type>::keep (call);
-  answerer::accept (call, producer (call, request));
+  try
+    {
+      answerer::accept (call, producer (call, request));
+    }
+  catch (...)
+    {
+      request_registry_t<Row, request_type>::undo (call);
+      throw;
+    }
 }
 
 // The default answer of a row.
