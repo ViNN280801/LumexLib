@@ -111,9 +111,9 @@
                  "field type (u8_, u16_le_<...>, a LUMEX_PROTOCOL_LAYOUT, "   \
                  "...)")
 
-#define LUMEX_PROTOCOL_DETAIL_ROW_BODY(type_, id_text_, expanded_, spec_,     \
-                                       key_, desc_, fields_, names_, reply_,  \
-                                       options_)                              \
+#define LUMEX_PROTOCOL_DETAIL_ROW_BODY(type_, name_, id_text_, expanded_,     \
+                                       spec_, key_, desc_, fields_, names_,   \
+                                       reply_, options_)                      \
   struct type_                                                                \
   {                                                                           \
     struct lumex_row : lumex_vocabulary                                       \
@@ -144,6 +144,21 @@
       }                                                                       \
     };                                                                        \
     using lumex_protocol_command = ::lumex::core::protocol::dsl::command_tag; \
+    struct lumex_name_probe_t                                                 \
+    {                                                                         \
+      void name_ ();                                                          \
+    };                                                                        \
+    template <typename LumexOwner> struct lumex_name_free_in_t                \
+    {                                                                         \
+      struct both_t : LumexOwner, lumex_name_probe_t                          \
+      {                                                                       \
+      };                                                                      \
+      template <typename LumexType>                                           \
+      static char (&test (decltype (&LumexType::name_) *))[1];                \
+      template <typename LumexType> static char (&test (...))[2];             \
+      static LUMEX_CONSTEXPR bool const value                                 \
+          = sizeof (test<both_t> (nullptr)) == 1;                             \
+    };                                                                        \
     using fields_type = lumex_row::fields_type;                               \
     using reply_type = lumex_row::reply_type;                                 \
     using key_type = lumex_row::key_type;                                     \
@@ -208,12 +223,12 @@
 #define LUMEX_PROTOCOL_DETAIL_ROW(id_, key_, desc_, fields_, names_, reply_,  \
                                   options_)                                   \
   LUMEX_PROTOCOL_DETAIL_ROW_BODY (                                            \
-      id_##_t, #id_, LUMEX_PROTOCOL_DETAIL_EXPANDED (id_), #id_, key_, desc_, \
-      fields_, names_, reply_, options_)
+      id_##_t, id_, #id_, LUMEX_PROTOCOL_DETAIL_EXPANDED (id_), #id_, key_,   \
+      desc_, fields_, names_, reply_, options_)
 #define LUMEX_PROTOCOL_DETAIL_ROW_AS(id_, spec_, key_, desc_, fields_,        \
                                      names_, reply_, options_)                \
   LUMEX_PROTOCOL_DETAIL_ROW_BODY (                                            \
-      id_##_t, #id_, LUMEX_PROTOCOL_DETAIL_EXPANDED (id_), spec_, key_,       \
+      id_##_t, id_, #id_, LUMEX_PROTOCOL_DETAIL_EXPANDED (id_), spec_, key_,  \
       desc_, fields_, names_, reply_, options_)
 
 // One `, typename Layer::id_t` per row, after a leading void (list_of).

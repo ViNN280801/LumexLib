@@ -504,7 +504,7 @@ dialogue_impl::note_held_row (sequence_run_t &run)
   std::size_t const next = run.step + 1;
   if (next < run.scenario.steps.size ()
       && run.scenario.steps[next].kind == pdsl::scenario_step_kind::expect)
-    run.held_row = index_->find_name (run.scenario.steps[next].row);
+    run.held_row = index_now ().find_name (run.scenario.steps[next].row);
 }
 
 bool
@@ -512,7 +512,7 @@ dialogue_impl::run_send_step (sequence_run_t &run,
                               pdsl::scenario_step_t const &step)
 {
   std::uint64_t const id = run.id;
-  pindex::row_t const *const row = index_->find_name (step.row);
+  pindex::row_t const *const row = index_now ().find_name (step.row);
   if (row == nullptr)
     {
       end_run (id, dialogue_error (protocol_errc::not_supported));
@@ -605,7 +605,7 @@ dialogue_impl::sequence_advance (std::uint64_t id)
           return;
         case pdsl::scenario_step_kind::expect:
           {
-            pindex::row_t const *const row = index_->find_name (step.row);
+            pindex::row_t const *const row = index_now ().find_name (step.row);
             if (row == nullptr)
               {
                 end_run (id, dialogue_error (protocol_errc::not_supported));
@@ -643,7 +643,8 @@ dialogue_impl::sequence_advance (std::uint64_t id)
             bool taken = true;
             if (step.decide)
               {
-                pindex::row_t const *const row = index_->find_name (step.row);
+                pindex::row_t const *const row
+                    = index_now ().find_name (step.row);
                 link_frame_t const *last = nullptr;
                 for (std::size_t i = 0; i < run->replies.size (); ++i)
                   if (run->replies[i].first == row)
@@ -714,11 +715,12 @@ dialogue_impl::sequence_exchange_ended (std::uint64_t id,
       // Under the row of the request and the row of the frame (the reply of
       // reply_row, an acknowledgement row).
       remember_reply (
-          *run, index_->find_name (run->scenario.steps[run->step].row), frame);
+          *run, index_now ().find_name (run->scenario.steps[run->step].row),
+          frame);
       remember_reply (
           *run,
-          index_
-              ->match (::lumex::core::protocol::layout::bytes_view_t (
+          index_now ()
+              .match (::lumex::core::protocol::layout::bytes_view_t (
                   frame.data (), frame.size ()))
               .row,
           frame);

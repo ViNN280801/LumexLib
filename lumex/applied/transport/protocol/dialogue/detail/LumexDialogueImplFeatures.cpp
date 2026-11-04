@@ -171,6 +171,19 @@ struct keepalive_start_step_t
   }
 };
 
+struct select_layer_step_t
+{
+  std::shared_ptr<dialogue_impl> impl;
+  pindex::protocol_index_t const *index;
+  protocol_features_t const *features;
+
+  void
+  operator() ()
+  {
+    impl->run_select_layer (index, features);
+  }
+};
+
 struct state_step_t
 {
   std::shared_ptr<dialogue_impl> impl;
@@ -207,7 +220,7 @@ dialogue_impl::build_watches (protocol_features_t const *features)
 {
   std::vector<row_watch_t> made;
   ::lumex::core::span::view::span<pindex::row_t const> const rows
-      = index_->rows ();
+      = index_now ().rows ();
   // A watch for a row that needs one, in table order.
   for (std::size_t i = 0; i < rows.size (); ++i)
     {
@@ -242,13 +255,215 @@ dialogue_impl::build_watches (protocol_features_t const *features)
       made.push_back (std::move (watch));
     }
   watches_.swap (made);
+  watch_index_.clear ();
   for (std::size_t i = 0; i < watches_.size (); ++i)
     watch_index_[watches_[i].row] = i;
+  row_features_t const *keepalive = nullptr;
   if (features != nullptr && features->keepalive_row != nullptr)
     for (std::size_t j = 0; j < features->row_count; ++j)
       if (std::strcmp (features->rows[j].identifier, features->keepalive_row)
           == 0)
-        keepalive_row_ = &features->rows[j];
+        keepalive = &features->rows[j];
+  // set_keepalive reads it from any thread.
+  std::lock_guard<std::mutex> const lock (handlers_mutex_);
+  keepalive_row_ = keepalive;
+}
+
+// --- the change of layer
+// -------------------------------------------------------
+
+void
+dialogue_impl::start_select_layer (pindex::protocol_index_t const &index,
+                                   protocol_features_t const *features)
+{
+  select_layer_step_t step = { shared_from_this (), &index, features };
+  asio::post (strand_, std::move (step));
+}
+
+pindex::row_t const *
+dialogue_impl::row_again (pindex::row_t const *row) const
+{
+  return row != nullptr ? index_now ().find_name (row->entry->identifier)
+                        : nullptr;
+}
+
+// What was learned of a row stays with the row of the same identifier.
+void
+dialogue_impl::take_old_watches (std::vector<row_watch_t> const &old)
+{
+  for (std::size_t i = 0; i < old.size (); ++i)
+    {
+      row_watch_t *const now = watch_of (row_again (old[i].row));
+      if (now == nullptr)
+        continue;
+      now->sent = old[i].sent;
+      now->last_sent = old[i].last_sent;
+      if (now->stream_interval_ms != 0 && old[i].watching)
+        {
+          now->watching = true;
+          now->last_frame = old[i].last_frame;
+          now->gap_counted = old[i].gap_counted;
+          if (!now->gap_counted)
+            arm_gap_timer (after (
+                now->last_frame,
+                2 * static_cast<std::uint64_t> (now->stream_interval_ms)));
+        }
+      if (now->fields == old[i].fields)
+        {
+          now->levels = old[i].levels;
+          now->levels_known = old[i].levels_known;
+        }
+    }
+}
+
+// What is under way follows by the identifier of its row.
+void
+dialogue_impl::follow_layer ()
+{
+  std::deque<record_ptr> queued;
+  queued.swap (queue_);
+  for (std::deque<record_ptr>::iterator it = queued.begin ();
+       it != queued.end (); ++it)
+    {
+      record_ptr record (std::move (*it));
+      pindex::row_t const *const row = row_again (record->row);
+      pindex::row_t const *const reply = row_again (record->reply_row);
+      if ((record->row != nullptr && row == nullptr)
+          || (record->reply_row != nullptr && reply == nullptr))
+        {
+          finish (std::move (record),
+                  dialogue_error (protocol_errc::not_supported),
+                  link_frame_t ());
+          continue;
+        }
+      record->row = row;
+      record->reply_row = reply;
+      queue_.push_back (std::move (record));
+    }
+  for (std::size_t at = flight_.size (); at != 0; --at)
+    {
+      exchange_record_t &record = *flight_[at - 1];
+      pindex::row_t const *const row = row_again (record.row);
+      pindex::row_t const *const reply = row_again (record.reply_row);
+      if ((record.row != nullptr && row == nullptr)
+          || (record.reply_row != nullptr && reply == nullptr))
+        {
+          finish_in_flight (at - 1,
+                            dialogue_error (protocol_errc::not_supported),
+                            link_frame_t ());
+          continue;
+        }
+      record.row = row;
+      record.reply_row = reply;
+    }
+  std::deque<pindex::row_t const *> late;
+  for (std::size_t i = 0; i < late_rows_.size (); ++i)
+    {
+      pindex::row_t const *const row = row_again (late_rows_[i]);
+      if (row != nullptr)
+        late.push_back (row);
+    }
+  late_rows_.swap (late);
+  for (std::size_t i = 0; i < runs_.size (); ++i)
+    {
+      sequence_run_t &run = *runs_[i];
+      run.expected = row_again (run.expected);
+      run.held_row = row_again (run.held_row);
+      run.has_held = run.has_held && run.held_row != nullptr;
+      std::vector<std::pair<pindex::row_t const *, link_frame_t>> replies;
+      for (std::size_t r = 0; r < run.replies.size (); ++r)
+        {
+          pindex::row_t const *const row = row_again (run.replies[r].first);
+          if (row != nullptr)
+            replies.push_back (std::make_pair (row, run.replies[r].second));
+        }
+      run.replies.swap (replies);
+    }
+}
+
+// The waits whose time the layer changes start again.
+void
+dialogue_impl::apply_layer_times (std::uint32_t watchdog_ms,
+                                  std::uint32_t keepalive_ms,
+                                  row_features_t const *old_keepalive)
+{
+  if (watchdog_ms != watchdog_ms_)
+    {
+      watchdog_timer_.cancel ();
+      watchdog_armed_ = false;
+      watchdog_ms_ = watchdog_ms;
+      if (link_up ())
+        arm_watchdog (after (timers_.now (), watchdog_ms_));
+    }
+  if (keepalive_ms != keepalive_ms_ || old_keepalive != keepalive_row_)
+    {
+      keepalive_timer_.cancel ();
+      keepalive_armed_ = false;
+      keepalive_ms_ = keepalive_ms;
+      arm_keepalive ();
+    }
+}
+
+void
+dialogue_impl::run_select_layer (pindex::protocol_index_t const *index,
+                                 protocol_features_t const *features)
+{
+  if (closed_ || (index == &index_now () && features == features_))
+    return;
+  // The handlers that go die after the lock is released: they may call the
+  // engine.
+  std::shared_ptr<keepalive_generator_t const> dropped;
+  char const *const old_identifier
+      = keepalive_row_ != nullptr ? keepalive_row_->identifier : nullptr;
+  {
+    std::lock_guard<std::mutex> const lock (handlers_mutex_);
+    index_.store (index, std::memory_order_release);
+    for (std::size_t i = 0; i < subscribers_.size (); ++i)
+      subscribers_[i].row = index->find_name (subscribers_[i].identifier);
+    for (std::size_t i = 0; i < edge_subscribers_.size (); ++i)
+      edge_subscribers_[i].row
+          = index->find_name (edge_subscribers_[i].identifier);
+  }
+  std::vector<row_watch_t> old;
+  old.swap (watches_);
+  row_features_t const *const old_keepalive = keepalive_row_;
+  features_ = features;
+  build_watches (features);
+  if (keepalive_row_ == nullptr || old_identifier == nullptr
+      || std::strcmp (keepalive_row_->identifier, old_identifier) != 0)
+    {
+      std::lock_guard<std::mutex> const lock (handlers_mutex_);
+      dropped.swap (keepalive_generator_);
+    }
+  // Rows of a table that keeps them: the old pointer still names the row until
+  // follow_layer moves it.
+  take_old_watches (old);
+  min_interval_ms_ = features != nullptr ? features->min_interval_ms : 0;
+  if (features != nullptr)
+    {
+      // A value that is not what the layer in use gives was set by the
+      // application and stays; one that is takes what the new layer gives.
+      layer_values_t const gives
+          = layer_values_of (*features, base_timeout_ms_);
+      retry_policy_t made;
+      if (defaults_)
+        made = *defaults_;
+      if (made.timeout_ms == table_.timeout_ms)
+        made.timeout_ms = gives.timeout_ms;
+      if (made.retries == table_.retries)
+        made.retries = gives.retries;
+      defaults_ = std::make_shared<retry_policy_t const> (std::move (made));
+      if (max_in_flight_ == table_.max_in_flight)
+        max_in_flight_ = gives.max_in_flight;
+      if (late_window_ms_ == table_.late_window_ms)
+        late_window_ms_ = gives.late_window_ms;
+      table_ = gives;
+    }
+  apply_layer_times (features != nullptr ? features->watchdog_ms : 0,
+                     features != nullptr ? features->keepalive_period_ms : 0,
+                     old_keepalive);
+  follow_layer ();
+  pump ();
 }
 
 row_watch_t *
@@ -272,7 +487,14 @@ dialogue_impl::watch_of (pindex::row_t const *row) const LUMEX_NOEXCEPT
 std::shared_ptr<retry_policy_t const>
 dialogue_impl::row_policy (pindex::row_t const *row) const
 {
-  retry_policy_t made = *defaults_;
+  // The extra retries stay with the defaults (next_attempt): a copy here
+  // would lose what a predicate with state counted.
+  retry_policy_t made;
+  if (defaults_)
+    {
+      made.timeout_ms = defaults_->timeout_ms;
+      made.retries = defaults_->retries;
+    }
   if (row != nullptr)
     {
       if (row->entry->options.has_timeout)
@@ -289,14 +511,14 @@ dialogue_impl::fill_exchange (exchange_t &request,
                               pindex::row_t const *row) const
 {
   request.row = row;
-  request.policy = row_policy (row);
+  request.row_policy = true;
   if (features == nullptr)
     return;
   request.how = features->how;
   request.matcher = features->matcher;
   request.reader = features->reader;
   if (features->reply_row != nullptr)
-    request.reply_row = index_->find_name (features->reply_row);
+    request.reply_row = index_now ().find_name (features->reply_row);
 }
 
 // --- the rate limits
@@ -630,7 +852,7 @@ dialogue_impl::note_success (exchange_record_t const &record)
   try
     {
       row_watch_t *const stream
-          = watch_of (index_->find_name (watch->features->enables));
+          = watch_of (index_now ().find_name (watch->features->enables));
       if (stream != nullptr && stream->stream_interval_ms != 0)
         start_watching (*stream, timers_.now ());
     }
@@ -713,17 +935,16 @@ dialogue_impl::subscribe_edge (pindex::row_t const *row,
                                edge_handler_t handler)
 {
   subscription_t made;
-  pindex::row_t const *const own
-      = row != nullptr ? index_->find_name (row->entry->identifier) : nullptr;
-  if (own == nullptr || !handler)
+  if (row == nullptr || !handler)
     return made;
   edge_subscriber_t added;
   added.id = next_subscription_.fetch_add (1, std::memory_order_relaxed) + 1;
-  added.row = own;
   added.handler = std::make_shared<edge_handler_t const> (std::move (handler));
   std::lock_guard<std::mutex> const lock (handlers_mutex_);
-  if (handlers_closed_)
+  added.row = index_now ().find_name (row->entry->identifier);
+  if (handlers_closed_ || added.row == nullptr)
     return made;
+  added.identifier = added.row->entry->identifier;
   edge_subscribers_.push_back (added);
   made.id = added.id;
   return made;
@@ -874,7 +1095,9 @@ dialogue_impl::watchdog_done (std::error_code error)
   if (error)
     return;
   watchdog_armed_ = false;
-  if (closed_ || !link_up ())
+  // watchdog_ms_ of 0: a wait that fired just as a layer without a watchdog
+  // was selected.
+  if (closed_ || !link_up () || watchdog_ms_ == 0)
     return;
   timing::time_point_t const deadline = after (last_frame_at_, watchdog_ms_);
   if (timers_.now () < deadline)
@@ -898,15 +1121,13 @@ dialogue_impl::watchdog_done (std::error_code error)
 bool
 dialogue_impl::set_keepalive (keepalive_generator_t generator)
 {
-  if (keepalive_row_ == nullptr)
-    return false;
   std::shared_ptr<keepalive_generator_t const> old
       = generator ? std::make_shared<keepalive_generator_t const> (
                         std::move (generator))
                   : std::shared_ptr<keepalive_generator_t const> ();
   {
     std::lock_guard<std::mutex> const lock (handlers_mutex_);
-    if (handlers_closed_)
+    if (handlers_closed_ || keepalive_row_ == nullptr)
       return false;
     keepalive_generator_.swap (old);
   }
@@ -961,7 +1182,9 @@ dialogue_impl::keepalive_done (std::error_code error)
   if (error)
     return;
   keepalive_armed_ = false;
-  if (closed_)
+  // No row: a wait that fired just as a layer without a keepalive was
+  // selected.
+  if (closed_ || keepalive_row_ == nullptr)
     return;
   // The next period first: a generator that throws must not stop it.
   arm_keepalive ();
@@ -998,7 +1221,7 @@ dialogue_impl::keepalive_done (std::error_code error)
       return;
     }
   fill_exchange (request, keepalive_row_,
-                 index_->find_name (keepalive_row_->identifier));
+                 index_now ().find_name (keepalive_row_->identifier));
   keepalive_end_t ended
       = { std::weak_ptr<dialogue_impl> (shared_from_this ()), strand_ };
   exchange_handler_t handler (std::move (ended));

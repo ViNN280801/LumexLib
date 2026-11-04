@@ -133,6 +133,9 @@ struct confirm_t
 {
 };
 
+/// @brief `send<Row> (confirm, args...)`, `client.ROW (confirm, args...)`.
+LUMEX_CONSTEXPR confirm_t confirm{};
+
 /// @brief What a step of a scenario is.
 enum class scenario_step_kind : std::uint8_t
 {

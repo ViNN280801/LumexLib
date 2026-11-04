@@ -152,6 +152,15 @@ dialogue_engine::index () const
   return impl_->index ();
 }
 
+void
+dialogue_engine::select_layer (
+    ::lumex::core::protocol::index::protocol_index_t const &index,
+    protocol_features_t const *features)
+{
+  if (impl_)
+    impl_->start_select_layer (index, features);
+}
+
 ::lumex::core::protocol::index::session_context_t &
 dialogue_engine::session ()
 {

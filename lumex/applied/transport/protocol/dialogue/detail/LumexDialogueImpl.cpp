@@ -482,7 +482,8 @@ dialogue_impl::dialogue_impl (frame_link link,
       read_generation_ (0), closed_ (false), attempt_sequence_ (0),
       timer_sequence_ (0), unknown_warned_ (false), unknown_warned_at_ (),
       unknown_skipped_ (0), next_id_ (0), next_subscription_ (0),
-      features_ (options.features),
+      features_ (options.features), table_ (layer_values_at_start (options)),
+      base_timeout_ms_ (options.defaults.timeout_ms),
       min_interval_ms_ (
           options.features != nullptr ? options.features->min_interval_ms : 0),
       any_sent_ (false), last_sent_ (),
@@ -722,12 +723,13 @@ dialogue_impl::run_enqueue (std::uint64_t id, exchange_t &request,
   bool known = true;
   if (request.row != nullptr)
     {
-      row = index_->find_name (request.row->entry->identifier);
+      row = index_now ().find_name (request.row->entry->identifier);
       known = known && row != nullptr;
     }
   if (request.reply_row != nullptr)
     {
-      reply_row = index_->find_name (request.reply_row->entry->identifier);
+      reply_row
+          = index_now ().find_name (request.reply_row->entry->identifier);
       known = known && reply_row != nullptr;
     }
   if (!known)
@@ -762,7 +764,10 @@ dialogue_impl::run_enqueue (std::uint64_t id, exchange_t &request,
   record->reply_row = reply_row;
   record->how = request.how;
   record->matcher = request.matcher;
-  record->policy = request.policy ? request.policy : defaults_;
+  record->row_policy = !request.policy && request.row_policy;
+  record->policy = request.policy
+                       ? request.policy
+                       : (record->row_policy ? row_policy (row) : defaults_);
   record->handler = std::move (handler);
   record->expects_reply
       = !(row != nullptr && row->reply == pindex::reply_form::none
@@ -937,9 +942,9 @@ std::string
 dialogue_impl::describe (link_frame_t const &frame,
                          pindex::frame_direction direction) const
 {
-  return index_->describe (::lumex::core::protocol::layout::bytes_view_t (
-                               frame.data (), frame.size ()),
-                           direction, &session_);
+  return index_now ().describe (::lumex::core::protocol::layout::bytes_view_t (
+                                    frame.data (), frame.size ()),
+                                direction, &session_);
 }
 
 void
@@ -1014,12 +1019,15 @@ dialogue_impl::next_attempt (std::size_t at, protocol_errc why)
 {
   exchange_record_t &record = *flight_[at];
   std::exception_ptr thrown;
-  if (record.attempts >= record.allowed && record.policy->extra_retries)
+  // Called through the one object: it may keep state.
+  extra_retries_t const *const extra
+      = record.row_policy ? (defaults_ ? &defaults_->extra_retries : nullptr)
+                          : &record.policy->extra_retries;
+  if (record.attempts >= record.allowed && extra != nullptr && *extra)
     {
       try
         {
-          record.allowed
-              += record.policy->extra_retries (session_, dialogue_error (why));
+          record.allowed += (*extra) (session_, dialogue_error (why));
         }
       catch (...)
         {
@@ -1274,7 +1282,7 @@ void
 dialogue_impl::handle_frame (link_frame_t &frame)
 {
   pindex::frame_match_t const found
-      = index_->match (::lumex::core::protocol::layout::bytes_view_t (
+      = index_now ().match (::lumex::core::protocol::layout::bytes_view_t (
           frame.data (), frame.size ()));
   pindex::row_t const *const row = found.row;
   // What the frame says of the stream and the levels of its row comes first:
@@ -1463,20 +1471,21 @@ subscription_t
 dialogue_impl::subscribe (pindex::row_t const *row, frame_handler_t handler)
 {
   subscription_t made;
-  pindex::row_t const *const own
-      = row != nullptr ? index_->find_name (row->entry->identifier) : nullptr;
-  if (own == nullptr || !handler)
+  if (row == nullptr || !handler)
     return made;
   subscriber_t added;
   added.id = next_subscription_.fetch_add (1, std::memory_order_relaxed) + 1;
-  added.row = own;
   added.handler
       = std::make_shared<frame_handler_t const> (std::move (handler));
   std::lock_guard<std::mutex> const lock (handlers_mutex_);
   // A closed dialogue keeps no handler (one that owns the owner of the
-  // dialogue would be a cycle); `added` dies after the lock is released.
-  if (handlers_closed_)
+  // dialogue would be a cycle); `added` dies after the lock is released. The
+  // row is looked up under the lock: select_layer moves the subscribers to
+  // the rows of the new index under it.
+  added.row = index_now ().find_name (row->entry->identifier);
+  if (handlers_closed_ || added.row == nullptr)
     return made;
+  added.identifier = added.row->entry->identifier;
   subscribers_.push_back (added);
   made.id = added.id;
   return made;

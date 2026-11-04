@@ -176,6 +176,22 @@ dialogue_round ()
 } // namespace dialogue_fixture
 #endif
 
+#if defined(LUMEX_TRANSPORT_WITH_PROTOCOL)                                    \
+    && defined(LUMEX_FIXTURE_WITH_PROTOCOL)
+template <>
+struct lumex::applied::transport::protocol::identity_of_t<
+    dialogue_fixture::fixture_t>
+{
+  static std::error_code
+  read (reply_of<dialogue_fixture::fixture_t::STATE_t> const &,
+        identity_t &identity)
+  {
+    identity.model = "fixture";
+    return std::error_code ();
+  }
+};
+#endif
+
 namespace
 {
 namespace tr = lumex::applied::transport;
@@ -655,6 +671,128 @@ effect_of (std::vector<std::uint8_t> const &frame,
 // The device simulator over the fixture table, on a mock stream and on a
 // mock datagram transport: every member of its template instantiated under
 // the strict warnings, then a request answered on the virtual clock.
+// --- the generated client: every form of a method, identify (), a layer
+// ------------------------------------------------------------------------
+#if __cplusplus >= 202002L || (defined(_MSVC_LANG) && _MSVC_LANG >= 202002L)
+#if defined(__GNUC__) && !defined(__clang__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wswitch-default"
+#endif
+bool
+client_by_awaitable (tr::stream::io_runner &runner,
+                     pr::client<dialogue_fixture::fixture_t> &client)
+{
+  std::promise<std::uint8_t> done;
+  asio::co_spawn (
+      runner.get_executor (),
+      [&client, &done] () -> asio::awaitable<void>
+        {
+          std::uint8_t const value
+              = co_await client.QUERY (asio::use_awaitable);
+          done.set_value (value);
+        },
+      [] (std::exception_ptr failure)
+        {
+          if (failure)
+            std::rethrow_exception (failure);
+        });
+  return done.get_future ().get () == 0;
+}
+#if defined(__GNUC__) && !defined(__clang__)
+#pragma GCC diagnostic pop
+#endif
+#endif
+
+bool
+client_round ()
+{
+  namespace fx = dialogue_fixture;
+  using fixture = fx::fixture_t;
+  using sim = tr::testing::device_simulator<fixture>;
+  tr::stream::io_runner runner;
+  tr::testing::virtual_clock clock;
+  tr::testing::mock_stream stream
+      = tr::testing::make_mock_stream (runner.get_executor ());
+  std::promise<void> opened;
+  stream.stream.async_open ([&opened] (std::error_code)
+                              { opened.set_value (); });
+  opened.get_future ().wait ();
+  bool fine = true;
+  {
+    sim device (stream.control, codec_t (), clock);
+    fine = device.valid () && fine;
+    pr::client_options_t options = pr::client_options_for<fixture> ();
+    options.dialogue.name = "client";
+    pr::client<fixture> client (
+        pr::frame_link (tr::framed::framed_stream<codec_t> (
+            std::move (stream.stream), codec_t ())),
+        options);
+    // Sync, with a deadline, with every token.
+    fine = client.READ (std::uint8_t (1)).has_value () && fine;
+    fine = client.READ (std::uint8_t (1), tr::deadline_t (5000)).has_value ()
+           && fine;
+    fine = client.ERASE (pr::confirm, std::uint8_t (1)).has_value () && fine;
+    fine = client.SET_FLOW (std::uint16_t (1)).has_value () && fine;
+    fine = !client.READ (300).has_value () && fine;
+    fine = client.TURN_ON ().has_value () && fine;
+    std::promise<std::error_code> called;
+    client.PRIME (std::uint16_t (2),
+                  [&called] (std::error_code error, std::uint16_t)
+                    { called.set_value (error); });
+    fine = !called.get_future ().get () && fine;
+    (void)client.WRITE (std::uint8_t (1), asio::use_future).get ();
+    auto later = client.START (std::uint8_t (1), asio::deferred);
+    fine = std::move (later) (asio::use_future).get () == 0 && fine;
+#if defined(LUMEX_TRANSPORT_WITH_SPAWN)
+    std::promise<std::error_code> yielded;
+    asio::spawn (
+        runner.get_executor (),
+        [&client, &yielded] (asio::yield_context yield)
+          {
+            std::error_code error;
+            client.QUERY (yield[error]);
+            yielded.set_value (error);
+          },
+        asio::detached);
+    fine = !yielded.get_future ().get () && fine;
+#endif
+#if __cplusplus >= 202002L || (defined(_MSVC_LANG) && _MSVC_LANG >= 202002L)
+    fine = client_by_awaitable (runner, client) && fine;
+#endif
+    // Identify, a layer, the events and the rest of the front.
+    pr::identity_result_t const identity = client.identify ();
+    fine = identity.has_value () && identity->layer == "fixture_t" && fine;
+    fine = client.identify (tr::deadline_t (5000)).has_value () && fine;
+    fine = client.async_identify (asio::use_future).get ().layer == "fixture_t"
+           && fine;
+    pr::client_layer<fixture, fixture> layer = client.as<fixture> ();
+    fine = layer.READ (std::uint8_t (1)).has_value () && fine;
+    pr::subscription_t const made = client.on<fixture::STATE_t> (
+        [] (pr::reply_of<fixture::STATE_t> const &) {});
+    pr::subscription_t const also = layer.on<fixture::STATE_t> (
+        [] (pr::reply_of<fixture::STATE_t> const &) {});
+    fine = client.unsubscribe (made) && client.unsubscribe (also) && fine;
+    client.on_unknown ([] (pr::reply_frame_t const &) {});
+    client.on_unknown (nullptr);
+    fine = client.async_enable_streams (asio::use_future).get () == 1 && fine;
+    lumex::core::protocol::index::session_context_t session
+        = client.session ();
+    session.set ("seen", 1);
+    client.set_session (session);
+    fine = client.session ().layer () == "fixture_t" && fine;
+    fine = client.statistics ().requests != 0 && fine;
+    fine = client.get_strand ().get_inner_executor () == client.get_executor ()
+           && fine;
+    fine = client.engine ().link_is_up () && fine;
+    client.engine ().select_layer (
+        *lumex::core::protocol::index::protocol_index<fixture> (),
+        fx::dialogue::features_of<fixture> ());
+    client.cancel ();
+    client.close ();
+  }
+  return fine;
+}
+
 bool
 simulator_round ()
 {
@@ -1407,6 +1545,7 @@ main ()
   fine = readers_round () && fine;
 #if defined(LUMEX_TRANSPORT_WITH_TESTING)
   fine = simulator_round () && fine;
+  fine = client_round () && fine;
 #endif
 #endif
 #if defined(LUMEX_TRANSPORT_WITH_LOGGER)

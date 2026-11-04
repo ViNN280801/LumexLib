@@ -258,6 +258,14 @@
 
 **Проверено:** Linux, GCC 13 и Clang 23 (`LUMEX_WERROR=ON`): наборы `transport.testing` на C++11 и C++20, `cmake.consumer_transport_warnings`, проверки подключения; GCC 8.3 C++11, ASan+UBSan и TSan набора симулятора; компиляция MinGW новых `.cpp`. Самый большой файл теста (прибор M) компилируется при 1302 МБ на GCC 13 (предел 1,5 ГБ). На Windows (cl, clang-cl) не собиралось.
 
+##### Сгенерированный клиент протокола
+
+**Файлы:** `lumex/applied/transport/protocol/client/`, `protocol/dialogue/`, `protocol/dsl/LumexDialogueVocabulary.hpp`, `lumex/core/protocol/dsl/`, тесты `lumex/tests/applied/transport/protocol/client/`, `dialogue_compile_checks`.
+
+**Суть:** `protocol::client<P>` дает метод на каждую строку таблицы в трех формах: синхронно, с дедлайном и с токеном (колбэк, `use_future`, `deferred`, `yield_context`, `use_awaitable`). Опасная строка без `confirm` не компилируется, аргумент, который не помещается в поле, дает `invalid_value` без отправки, синхронный вызов на потоке executor дает `would_deadlock`. `identify ()` с `identity_of_t<P>` и опцией протокола `layer_set<L...>` находит слой прибора, `client.as<L> ()` дает его строки и до `identify ()` отвечает `not_supported`, как и строка, которую найденный слой заменил. `dialogue_engine::select_layer` переводит на найденный слой очередь, обмены в полете, подписчиков и сценарии; поле опций, которое приложение изменило относительно таблицы текущего слоя, остается, остальные берутся у нового слоя. `exchange_t::row_policy` применяет таймаут и повторы строки поверх значений диалога, поэтому `extra_retries` хранит состояние в одном объекте. Строка с именем члена `client` или `client_layer` не компилируется, выход дает `X_AS`.
+
+**Проверено:** GCC 13 и Clang 23 `LUMEX_WERROR=ON` по 1522 из 1522 (`transport.protocol`, `transport.testing.simulator`, `protocol.dsl`, `cmake`-проверки), GCC 8.3 418 из 418, MinGW компиляция, ASan+UBSan и TSan по 500 из 500, тесты времени жизни и потоков x20. Компиляция клиента с методом на строку самого большого слоя 885 МБ. Windows cl и clang-cl не запускались.
+
 #### Исправлено
 
 ##### `LumexFilesystem`: пути не в ASCII на Windows
