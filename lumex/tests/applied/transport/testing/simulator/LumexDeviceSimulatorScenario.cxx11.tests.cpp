@@ -1173,52 +1173,61 @@ TEST (LumexDeviceSimulatorScenario,
     }
 }
 
-// --- a completion or an acknowledgement that comes by a row that streams
+// --- a completion or an acknowledgement that comes by a row of its own
 
-// The rule of the engine as it stands (a frame of a row that streams is an
-// event and never reaches the reader of a by_order exchange; see
-// ByOrder_AnEventOrALateRowDoesNotReachTheReader): a table whose completion
-// or acknowledgement comes by the state row is answered by the device and
-// timed out by the client.
+// The completion and the acknowledgement are rows that do not stream (a table
+// that names a row with stream does not compile: a frame of such a row is an
+// event for the engine, see ByOrder_AnEventOrALateRowDoesNotReachTheReader).
 TEST (LumexDeviceSimulatorScenario,
-      Simulator_ReplyKindCompletedByARowThatStreamsIsAnEventForTheEngine)
+      Simulator_ReplyKindCompletedByARowWithoutStreamReachesTheClient)
 {
   for (int datagram = 0; datagram < 2; ++datagram)
     {
       std::unique_ptr<bench_t> const bench = make_bench (datagram != 0);
       st::outcome_ptr const phase = bench->call<lab::PHASE_STATE_t> (1);
-      EXPECT_EQ (phase->error, code (protocol_errc::timeout));
+      EXPECT_FALSE (phase->error) << phase->error.message ();
       EXPECT_EQ (bench->device->statistics ().replies, 2u);
       st::outcome_ptr const ack = bench->call<lab::ASK_STATE_ACK_t> ();
-      EXPECT_EQ (ack->error, code (protocol_errc::timeout));
+      EXPECT_FALSE (ack->error) << ack->error.message ();
+      EXPECT_EQ (bench->device->statistics ().replies, 3u);
     }
 }
 
-LUMEX_PROTOCOL_SCENARIO (phase_state_branch_script, lab,
-                         (send<lab::PHASE_STATE_t> (1)),
-                         (branch_on_reply<lab::STATE_t> (&is_busy, "high")),
-                         (send<lab::STOP_t> ()), (jump ("end")),
-                         (label ("high")), (send<lab::RESET_t> ()),
-                         (label ("end")));
+LUMEX_PROTOCOL_SCENARIO (
+    phase_state_branch_script, lab, (send<lab::PHASE_STATE_t> (1)),
+    (branch_on_reply<lab::STATE_NOTE_t> (&is_busy, "high")),
+    (send<lab::STOP_t> ()), (jump ("end")), (label ("high")),
+    (send<lab::RESET_t> ()), (label ("end")));
 
 // The device keeps the last message of a two-phase reply, the completion, as
-// the client does (the client of such a table needs reply_row, see above).
+// the client does: both take the branch the completion says, on both ways of
+// the line.
 TEST (LumexDeviceSimulatorScenario,
       Simulator_ScenarioKeepsTheLastMessageOfATwoPhaseReply)
 {
-  bench_t bench;
-  layout::reply_message_of<lab::STATE_t>::type busy
-      = layout::reply_message_of<lab::STATE_t>::type ();
-  field::get<0> (busy) = tables::lab_state::busy;
-  bench.device->set_reply<lab::PHASE_STATE_t> (busy);
-  ASSERT_TRUE (bench.device->play<phase_state_branch_script> ());
-  // The completion says busy; the acknowledgement before it is no STATE
-  // message: the device takes the high branch and waits at RESET.
-  bench.call<lab::PHASE_STATE_t> (1);
-  bench.settle ();
-  expect_playback (bench, playback_state::playing, 5, 7);
-  EXPECT_FALSE (bench.call<lab::RESET_t> ()->error);
-  expect_playback (bench, playback_state::finished, 7, 7);
+  for (int datagram = 0; datagram < 2; ++datagram)
+    for (int busy = 0; busy < 2; ++busy)
+      {
+        std::unique_ptr<bench_t> const bench = make_bench (datagram != 0);
+        layout::reply_message_of<lab::STATE_NOTE_t>::type completion
+            = layout::reply_message_of<lab::STATE_NOTE_t>::type ();
+        field::get<0> (completion)
+            = busy != 0 ? tables::lab_state::busy : tables::lab_state::idle;
+        bench->device->set_reply<lab::PHASE_STATE_t> (completion);
+        // The acknowledgement before the completion is no STATE_NOTE message:
+        // a device that kept it would find no reply to branch on.
+        std::shared_ptr<run_outcome_t> const client
+            = run_both<phase_state_branch_script> (*bench);
+        ASSERT_EQ (client->calls, 1) << "datagram " << datagram;
+        EXPECT_FALSE (client->error) << client->error.message ();
+        EXPECT_EQ (bench->device->statistics ().requests_of ("RESET"),
+                   busy != 0 ? 1u : 0u)
+            << "datagram " << datagram << " busy " << busy;
+        EXPECT_EQ (bench->device->statistics ().requests_of ("STOP"),
+                   busy != 0 ? 0u : 1u)
+            << "datagram " << datagram << " busy " << busy;
+        expect_playback (*bench, playback_state::finished, 7, 7);
+      }
 }
 
 // The one behaviour the ordering cannot help: fragments of a message are

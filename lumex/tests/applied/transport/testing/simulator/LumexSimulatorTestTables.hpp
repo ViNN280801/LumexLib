@@ -124,10 +124,12 @@ LUMEX_PROTOCOL_LAYOUT (param_t,
      (ack_nak<u8_, i8_>), ()) \
   X (ASK_STATE, 0x54, "Ask for the state, the state row answers", (), (), (), \
      (reply_row<STATE_t> ())) \
-  X (PHASE_STATE, 0x55, "Two phases, the state row completes", (u8_), ("t"), \
-     (two_phase<ACK_t, STATE_t>), ()) \
-  X (ASK_STATE_ACK, 0x56, "Acknowledged by the state row", (), (), \
-     (ack_nak<STATE_t, code_t>), ()) \
+  X (STATE_NOTE, 0x5a, "A state report that does not stream", (), (), \
+     (status_t), ()) \
+  X (PHASE_STATE, 0x55, "Two phases, a state report completes", (u8_), ("t"), \
+     (two_phase<ACK_t, STATE_NOTE_t>), ()) \
+  X (ASK_STATE_ACK, 0x56, "Acknowledged by a state report", (), (), \
+     (ack_nak<STATE_NOTE_t, code_t>), ()) \
   X (ECHO_WHOLE, 0x57, "Echo of the whole record", (u8_, u16_le_), \
      ("a", "b"), (echo_set<pair_t>), ()) \
   X (OLD_STREAM, 0x58, "A stream of an old firmware", (), (), (u8_), \

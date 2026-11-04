@@ -53,6 +53,15 @@
 #  45 a keepalive naming a dangerous row
 #  46 a layer that replaces the stream of enables_stream without listing it
 #  47 keepalive_from on a protocol without a keepalive
+#  48 a two_phase whose completion is a row with stream
+#  49 a two_phase whose acknowledgement is a row with stream
+#  50 an ack_nak whose positive part is a row with stream
+#  51 an ack_nak whose negative part is a row with stream
+#  52 a row of a layer naming a row with stream that the layer inherits
+#  53 a layer that replaces an acknowledgement row with a row with stream
+#  54 the same without listing the row that names it
+# The good case also holds a row with reply_row naming a row with stream and a
+# two_phase naming a row without it.
 # The compiler's messages are matched in English. The headers are compiled
 # without the library (the Asio headers only). Everything runs at configure
 # time (try_compile), at C++11 (MSVC: C++14, its lowest) and C++20.
@@ -146,6 +155,14 @@ _lumex_case(44 "enables_stream<R> on a dangerous row")
 _lumex_case(45 "keepalive<Row, PeriodMs> on a dangerous row")
 _lumex_case(46 "enables_stream<R> names a row the layer replaced")
 _lumex_case(47 "keepalive_from<P>: the protocol names no")
+set(_stream_regex "names a row with stream: use reply_row<R>")
+_lumex_case(48 "${_stream_regex}")
+_lumex_case(49 "${_stream_regex}")
+_lumex_case(50 "${_stream_regex}")
+_lumex_case(51 "${_stream_regex}")
+_lumex_case(52 "${_stream_regex}")
+_lumex_case(53 "${_stream_regex}")
+_lumex_case(54 "a reply kind of the row names a row the layer replaced")
 
 function(_lumex_dialogue_try result_var tag standard)
     try_compile(_ok "${CMAKE_BINARY_DIR}/try_${tag}"

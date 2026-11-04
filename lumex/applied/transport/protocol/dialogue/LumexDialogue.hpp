@@ -49,7 +49,10 @@
  * by the correlation of its row: `by_key` (a frame of the row), `by_reply_key`
  * (a frame of the reply row), `by_order` (such an exchange is alone in flight,
  * nothing else is written meanwhile: with a reader, the next frame the reader
- * calls a part of the reply; without one, the next frame that is no event),
+ * calls a part of the reply; without one, the next frame that is no event; a
+ * frame of a row with `stream` never reaches the reader of an exchange, so a
+ * table whose reply kind names such a row does not compile: use
+ * `reply_row`),
  * `custom` (a frame the matcher accepts). A frame goes first to the
  * exchanges with an exact match (`by_key`, `by_reply_key`), in the order
  * they were started, and only then to the `custom` and `by_order` ones: an

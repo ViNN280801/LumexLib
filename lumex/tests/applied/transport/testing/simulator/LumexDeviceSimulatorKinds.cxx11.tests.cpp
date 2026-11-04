@@ -46,6 +46,26 @@ struct one_header_t
   X (STAT, 0x12, "State", (), (), (enum_<u8_, lab_state>), (stream (100)))
 // clang-format on
 LUMEX_PROTOCOL_DEFINE (one_t, codec_t, one_header_t, ONE_ROWS);
+
+struct note_header_t
+{
+  using lumex_vocabulary = dialogue::vocabulary_t;
+  static LUMEX_CONSTEXPR std::size_t key_width = 1;
+
+  template <typename P>
+  using dialogue_options
+      = dialogue::options<dialogue::state_from<typename P::STAT_t, 0>>;
+};
+
+// A state row that does not stream: a reply kind may name it.
+// clang-format off
+#define NOTE_ROWS(X, X_AS) \
+  X (ACK, 0x06, "Accepted", (), (), (), ()) \
+  X (STAT, 0x12, "State", (), (), (enum_<u8_, lab_state>), ()) \
+  X (PHASE, 0x55, "Two phases", (), (), (two_phase<ACK_t, STAT_t>), ()) \
+  X (ASK, 0x56, "Acknowledged", (), (), (ack_nak<STAT_t, ACK_t>), ())
+// clang-format on
+LUMEX_PROTOCOL_DEFINE (note_t, codec_t, note_header_t, NOTE_ROWS);
 } // namespace one_field_tables
 } // namespace lumex_tests
 
@@ -58,6 +78,7 @@ namespace layout = lumex::core::protocol::layout;
 namespace tr = lumex::applied::transport;
 using lab = tables::lab_t;
 using one = lumex_tests::one_field_tables::one_t;
+using note = lumex_tests::one_field_tables::note_t;
 using bytes_t = std::vector<std::uint8_t>;
 using ms = std::chrono::milliseconds;
 using st::framed;
@@ -121,8 +142,11 @@ TEST (LumexDeviceSimulatorKinds,
 {
   st::raw_bench_t bench;
   bench.device->set_state (2);
-  bench.write (framed (bytes ({ 0x12 })));       // its own reply
-  bench.write (framed (bytes ({ 0x54 })));       // reply_row<STATE>
+  bench.write (framed (bytes ({ 0x12 }))); // its own reply
+  bench.write (framed (bytes ({ 0x54 }))); // reply_row<STATE>
+  // A reply kind cannot name the state row (it streams: the table would not
+  // compile), so a completion and an acknowledgement are rows of their own and
+  // carry no state.
   bench.write (framed (bytes ({ 0x55, 0x01 }))); // two_phase completion
   bench.write (framed (bytes ({ 0x56 })));       // ack_nak acknowledgement
   std::vector<bytes_t> const replies = bench.replies ();
@@ -130,8 +154,8 @@ TEST (LumexDeviceSimulatorKinds,
   EXPECT_EQ (replies[0], bytes ({ 0x12, 0x02, 0x00 }));
   EXPECT_EQ (replies[1], bytes ({ 0x12, 0x02, 0x00 }));
   EXPECT_EQ (replies[2], bytes ({ 0x06 }));
-  EXPECT_EQ (replies[3], bytes ({ 0x12, 0x02, 0x00 }));
-  EXPECT_EQ (replies[4], bytes ({ 0x12, 0x02, 0x00 }));
+  EXPECT_EQ (replies[3], bytes ({ 0x5a, 0x00, 0x00 }));
+  EXPECT_EQ (replies[4], bytes ({ 0x5a, 0x00, 0x00 }));
 }
 
 TEST (LumexDeviceSimulatorKinds, Simulator_StateRowOfOneFieldShowsTheState)
@@ -141,6 +165,20 @@ TEST (LumexDeviceSimulatorKinds, Simulator_StateRowOfOneFieldShowsTheState)
   st::outcome_ptr const out = bench.call<one::STAT_t> ();
   ASSERT_FALSE (out->error) << out->error.message ();
   EXPECT_EQ (out->frame, bytes ({ 0x12, 0x02 }));
+}
+
+// A completion or an acknowledgement by the state row shows the state, when
+// that row does not stream.
+TEST (LumexDeviceSimulatorKinds, Simulator_StateRowAsAPartOfAKindShowsTheState)
+{
+  st::bench_t<note> bench;
+  bench.device->set_state (2);
+  st::outcome_ptr const phase = bench.call<note::PHASE_t> ();
+  ASSERT_FALSE (phase->error) << phase->error.message ();
+  EXPECT_EQ (phase->frame, bytes ({ 0x12, 0x02 }));
+  st::outcome_ptr const ask = bench.call<note::ASK_t> ();
+  ASSERT_FALSE (ask->error) << ask->error.message ();
+  EXPECT_EQ (ask->frame, bytes ({ 0x12, 0x02 }));
 }
 
 TEST (LumexDeviceSimulatorKinds,
