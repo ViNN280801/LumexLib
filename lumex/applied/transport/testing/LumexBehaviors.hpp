@@ -480,15 +480,19 @@ public:
                 std::vector<std::uint8_t> const &reply);
 
   /// @brief The lazy `plan` for a mock stream, carried out on `control`;
-  /// returns `request_processed`.
+  /// returns `request_processed`. `reply_reached`, when given, is set to
+  /// whether the plan holds bytes of the reply (a reply an `intermittent`
+  /// device loses has none).
   bool respond (mock_stream_control control,
                 std::vector<std::uint8_t> const &request, bool has_reply,
-                reply_maker_t const &make_reply);
+                reply_maker_t const &make_reply,
+                bool *reply_reached = nullptr);
   /// @brief The lazy `plan` for a mock datagram transport, each message with
   /// `report_id`; returns `request_processed`.
   bool respond (mock_datagram_control control, std::uint8_t report_id,
                 std::vector<std::uint8_t> const &request, bool has_reply,
-                reply_maker_t const &make_reply);
+                reply_maker_t const &make_reply,
+                bool *reply_reached = nullptr);
 
 private:
   behavior behavior_;
