@@ -1527,6 +1527,9 @@ struct state_from_kind_t
 struct identify_with_kind_t
 {
 };
+struct layer_set_kind_t
+{
+};
 struct max_in_flight_kind_t
 {
 };
@@ -1650,6 +1653,36 @@ template <typename Row> struct identify_with_t
   using dialogue_option_kind = detail::identify_with_kind_t;
   /// The row of the identity.
   using row_type = Row;
+
+  /// @brief No number: 0.
+  static LUMEX_CONSTEXPR std::uint64_t
+  number () LUMEX_NOEXCEPT
+  {
+    return 0;
+  }
+};
+
+/**
+ * @brief Protocol option `layer_set<Layers...>`: the layers `identify ()` may
+ * select among, by the `protocol_name ()` the identity of the device names.
+ * @details The layers are `LUMEX_PROTOCOL_DEFINE` or `LUMEX_PROTOCOL_EXTEND`
+ * types of one family, each named once. The header comes before them, so it
+ * names them through forward declarations; they are complete when the table
+ * is used.
+ */
+template <typename... Layers> struct layer_set_t
+{
+  static_assert (sizeof...(Layers) > 0,
+                 "LUMEX_PROTOCOL: layer_set<Layers...> names at least one "
+                 "layer");
+  /// A protocol option of the dialogue.
+  using lumex_dialogue_option = protocol_option_tag_t;
+  /// Its kind.
+  using dialogue_option_kind = detail::layer_set_kind_t;
+  /// No row.
+  using row_type = void;
+  /// The layers in the order given.
+  using layers = ::lumex::core::protocol::dsl::type_list<Layers...>;
 
   /// @brief No number: 0.
   static LUMEX_CONSTEXPR std::uint64_t
@@ -1803,7 +1836,8 @@ template <typename... Options> struct options_t
       detail::all_t<detail::is_protocol_option_t<Options>::value...>::value,
       "LUMEX_PROTOCOL: every element of dialogue::options<...> is a protocol "
       "option of the dialogue (keepalive, watchdog_ms, min_interval_ms, "
-      "state_from, identify_with, max_in_flight, default_timeout_ms, "
+      "state_from, identify_with, layer_set, max_in_flight, "
+      "default_timeout_ms, "
       "default_retries, late_reply_window_ms)");
   static_assert (
       detail::all_t<(
@@ -1831,6 +1865,8 @@ template <typename Row, std::size_t Field>
 using state_from = state_from_t<Row, Field>;
 /// @brief `identify_with<Row>`.
 template <typename Row> using identify_with = identify_with_t<Row>;
+/// @brief `layer_set<Layers...>`.
+template <typename... Layers> using layer_set = layer_set_t<Layers...>;
 /// @brief `max_in_flight<N>`.
 template <std::size_t N> using max_in_flight = max_in_flight_t<N>;
 /// @brief `default_timeout_ms<Ms>`.
@@ -1977,6 +2013,28 @@ template <typename O> struct option_row_t
 template <> struct option_row_t<void>
 {
   using type = void;
+};
+
+// The layers of layer_set<...>; the layer itself without the option.
+template <typename P, typename O> struct option_layers_t
+{
+  using type = typename O::layers;
+};
+
+template <typename P> struct option_layers_t<P, void>
+{
+  using type = dsl::type_list<P>;
+};
+
+// The layer a chain of LUMEX_PROTOCOL_EXTEND starts from.
+template <typename P, typename Base = typename P::base_protocol>
+struct root_protocol_t : root_protocol_t<Base>
+{
+};
+
+template <typename P> struct root_protocol_t<P, void>
+{
+  using type = P;
 };
 
 template <typename P, typename K>
@@ -2521,6 +2579,47 @@ struct option_check_t<P, identify_with_t<Row>> : std::true_type
                  "reads");
 };
 
+// Whether every type of the list stands in it once.
+template <typename List> struct all_distinct_t;
+
+template <> struct all_distinct_t<dsl::type_list<>> : std::true_type
+{
+};
+
+template <typename Head, typename... Tail>
+struct all_distinct_t<dsl::type_list<Head, Tail...>>
+    : std::integral_constant<
+          bool, !dsl::list_contains<dsl::type_list<Tail...>, Head>::value
+                    && all_distinct_t<dsl::type_list<Tail...>>::value>
+{
+};
+
+template <typename P, typename L, bool Protocol = dsl::is_protocol<L>::value>
+struct layer_of_family_t : std::false_type
+{
+};
+
+template <typename P, typename L>
+struct layer_of_family_t<P, L, true>
+    : std::is_same<typename root_protocol_t<P>::type,
+                   typename root_protocol_t<L>::type>
+{
+};
+
+template <typename P, typename... L>
+struct option_check_t<P, layer_set_t<L...>> : std::true_type
+{
+  static_assert (all_t<dsl::is_protocol<L>::value...>::value,
+                 "LUMEX_PROTOCOL: layer_set<Layers...>: every element is a "
+                 "protocol layer (LUMEX_PROTOCOL_DEFINE, "
+                 "LUMEX_PROTOCOL_EXTEND)");
+  static_assert (all_t<layer_of_family_t<P, L>::value...>::value,
+                 "LUMEX_PROTOCOL: layer_set<Layers...> names a layer of "
+                 "another protocol: the layers extend one base");
+  static_assert (all_distinct_t<dsl::type_list<L...>>::value,
+                 "LUMEX_PROTOCOL: layer_set<Layers...> names a layer twice");
+};
+
 template <typename P, typename Row, std::size_t Field>
 struct option_check_t<P, state_from_t<Row, Field>> : std::true_type
 {
@@ -2739,6 +2838,11 @@ template <typename P> struct protocol_traits_t
   using identify_row =
       typename detail::option_row_t<typename detail::protocol_option_t<
           P, detail::identify_with_kind_t>::type>::type;
+  /// The layers `identify ()` selects among (`layer_set<...>`), `P` alone
+  /// without the option.
+  using layers = typename detail::option_layers_t<
+      P, typename detail::protocol_option_t<
+             P, detail::layer_set_kind_t>::type>::type;
 
   /// @brief `max_in_flight<N>`, 1 without it.
   static LUMEX_CONSTEXPR std::size_t

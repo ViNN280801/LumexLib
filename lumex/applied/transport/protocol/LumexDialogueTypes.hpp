@@ -345,6 +345,18 @@ struct protocol_features_t
   char const *state_row = nullptr;
   /// The field of `state_from`.
   std::size_t state_field = 0;
+  /// `max_in_flight<N>`; what a layer `dialogue_engine::select_layer` selects
+  /// says for the rest of the dialogue, as the next three, where the
+  /// application did not set the value (one that differs from what the layer
+  /// in use gives).
+  std::size_t max_in_flight = 1;
+  /// `default_timeout_ms<Ms>`, 0 gives the timeout the dialogue was made
+  /// with.
+  std::uint32_t default_timeout_ms = 0;
+  /// `default_retries<N>`.
+  std::uint32_t default_retries = 0;
+  /// `late_reply_window_ms<Ms>`.
+  std::uint32_t late_reply_window_ms = 0;
 };
 
 /// @brief Receives a frame that answered no exchange: a frame of a
@@ -431,6 +443,11 @@ struct exchange_t
   /// The policy; empty takes `dialogue_options_t::defaults`. One object may
   /// serve many exchanges (its `extra_retries` is called, never copied).
   std::shared_ptr<retry_policy_t const> policy;
+  /// With an empty `policy`: the `timeout` and the `retries` of the row in
+  /// front of the defaults the dialogue has when the exchange starts, as for
+  /// the requests the engine makes itself (the keepalive, a step of a
+  /// scenario); the `extra_retries` of the defaults still count.
+  bool row_policy = false;
   /// The reader of the reply kind of the row
   /// (`dialogue::reply_reader_of<P, Row> ()`); null takes the frame as the
   /// reply as it is.
