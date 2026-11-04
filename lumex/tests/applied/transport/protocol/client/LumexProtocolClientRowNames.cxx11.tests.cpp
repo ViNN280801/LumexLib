@@ -1,7 +1,8 @@
 // The names a row may take on the generated client: a row named like a member
-// of client<P> or client_layer<Owner, L> would hide its own method, so the
+// of client<P> or client_layer<Owner, L> would make the call ambiguous, so the
 // check refuses it (the compile checks hold the refusals); a row of another
-// identifier whose specification name is that of a member is no clash.
+// identifier whose specification name is that of a member is no clash, and the
+// names the members keep inside (they carry the prefix lumex_) are free.
 
 #include <cstdint>
 #include <memory>
@@ -20,6 +21,17 @@ namespace cdetail = lumex::applied::transport::protocol::detail;
 
 using named = tables::spec_named_t;
 using members = tables::members_t;
+using inner = tables::inner_names_t;
+
+/// The value a call gave, or why it did not.
+template <typename Result>
+void
+expect_value (char const *row, Result const &result, int expected)
+{
+  ASSERT_TRUE (result.has_value ())
+      << row << ": " << result.error ().message ();
+  EXPECT_EQ (*result, expected) << row;
+}
 
 /// Whether the identifier of every row of the list is taken (`Taken`) or free
 /// in `Own`.
@@ -89,4 +101,42 @@ TEST (LumexProtocolClientRowNames, Layer_EveryMemberNameIsTakenAndNoRowNameIs)
               cdetail::client_layer_names_t<mixer, mixer_v2>, false>::value,
       "the identifiers of a layer are free");
   SUCCEED ();
+}
+
+TEST (LumexProtocolClientRowNames, Client_TheInnerNamesAreFreeForRows)
+{
+  // core, traits, state_ and the others were once names of private members:
+  // a row so named compiles on the client and on a layer of it, and works.
+  static_assert (names_t<dsl::commands_of<inner>::type,
+                         cdetail::client_names_t<inner>, false>::value,
+                 "the inner names are free on client<P>");
+  static_assert (
+      names_t<dsl::commands_of<inner>::type,
+              cdetail::client_layer_names_t<inner, inner>, false>::value,
+      "the inner names are free on client_layer<Owner, L>");
+  thread_bench_t<inner> bench;
+  bench.device->set_reply<inner::core_t> (std::uint8_t (1));
+  bench.device->set_reply<inner::traits_t> (std::uint8_t (2));
+  bench.device->set_reply<inner::identify_signature_t> (std::uint8_t (3));
+  bench.device->set_reply<inner::identify_sync_t> (std::uint8_t (4));
+  bench.device->set_reply<inner::state__t> (std::uint8_t (5));
+  bench.device->set_reply<inner::engine__t> (std::uint8_t (6));
+  bench.device->set_reply<inner::core__t> (std::uint8_t (7));
+  expect_value ("core", bench.client->core (), 1);
+  expect_value ("traits", bench.client->traits (), 2);
+  expect_value ("identify_signature", bench.client->identify_signature (), 3);
+  expect_value ("identify_sync", bench.client->identify_sync (), 4);
+  expect_value ("state_", bench.client->state_ (), 5);
+  expect_value ("engine_", bench.client->engine_ (), 6);
+  expect_value ("core_", bench.client->core_ (), 7);
+  // A layer of a client that never identified answers not_supported: the
+  // methods of the layer are there and were reached.
+  pr::call_result_t<inner::core__t> const layer_core_
+      = bench.client->as<inner> ().core_ ();
+  ASSERT_FALSE (layer_core_.has_value ());
+  EXPECT_EQ (layer_core_.error (), protocol_errc::not_supported);
+  pr::call_result_t<inner::core_t> const layer_core
+      = bench.client->as<inner> ().core ();
+  ASSERT_FALSE (layer_core.has_value ());
+  EXPECT_EQ (layer_core.error (), protocol_errc::not_supported);
 }

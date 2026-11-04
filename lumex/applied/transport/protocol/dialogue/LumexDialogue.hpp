@@ -493,10 +493,13 @@ public:
    * `late_reply_window_ms` stay when the application set them: a value that
    * differs from what the layer in use gives was set; one that equals it, a
    * value the application set to the same number included, takes what the new
-   * layer gives. A layer with no default timeout gives the timeout the
-   * dialogue was made with. Selecting the layer in use again changes nothing.
-   * The codec of the link stays: a layer of another wire form needs a link of
-   * its own.
+   * layer gives. A layer that says nothing of one of the four gives the value
+   * of the library (one in flight, 1000 ms, no retry, no window), as a new
+   * dialogue over it does. A queued exchange that has not started takes the
+   * timeout and the retries of its row in the layer it starts in; one that
+   * started keeps what it has. Selecting the layer in use again changes
+   * nothing. The codec of the link stays: a layer of another wire form needs a
+   * link of its own.
    */
   void
   select_layer (::lumex::core::protocol::index::protocol_index_t const &index,

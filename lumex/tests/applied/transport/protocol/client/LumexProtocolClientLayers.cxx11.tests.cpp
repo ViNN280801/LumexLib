@@ -405,6 +405,31 @@ TEST (LumexProtocolClientLayers, Client_ASubscriberFollowsTheLayer)
   EXPECT_EQ (levels.size (), 1u);
 }
 
+TEST (LumexProtocolClientLayers,
+      Client_ASubscriberOfARowTheLayerReplacedWarnsOnce)
+{
+  // PING of the base has another key in mixer_v2: the row of the layer found
+  // has the identifier but not the layout the subscriber decodes with. It
+  // hears nothing, and the log says so once, not with every frame.
+  log_capture_t const log;
+  client_bench_t<mixer_v2, mixer> bench;
+  int heard = 0;
+  pr::subscription_t const made = bench.client->on<mixer::PING_t> (
+      [&heard] (pr::reply_of<mixer::PING_t> const &) { ++heard; });
+  EXPECT_NE (made.id, 0u);
+  bench.device->set_reply<mixer_v2::INFO_t> (mixer_info ("M200", 15, 2));
+  EXPECT_FALSE (identify (bench)->error);
+  bench.settle ();
+  for (int i = 0; i < 3; ++i)
+    {
+      bench.control->feed (wire_of ({ 0x42, 0x01, 0x00 }));
+      bench.settle ();
+    }
+  EXPECT_EQ (heard, 0);
+  EXPECT_EQ (log_capture_t::count_holding ("a frame of PING does not decode"),
+             1u);
+}
+
 TEST (LumexProtocolClientLayers, Client_AsOnGivesARowOfTheLayerAfterIdentify)
 {
   client_bench_t<mixer_v2, mixer> bench;
@@ -789,4 +814,245 @@ TEST (LumexDialogueSelectLayer,
   bench.advance (ms (250));
   EXPECT_GT (bench.client->statistics ().keepalives, started);
   EXPECT_EQ (made, 1);
+}
+
+// --- what select_layer carries over, each part by itself ---
+
+namespace
+{
+/// An exchange of WRITE, whose reply is the frame of CHANGE.
+pr::exchange_t
+write_exchange ()
+{
+  pr::exchange_t request = exchange_of<mixer, mixer::WRITE_t> (
+      std::uint8_t (1), std::uint16_t (2));
+  request.how = dialogue::correlation::by_reply_key;
+  request.reply_row = index::protocol_index<mixer> ()->find_name ("CHANGE");
+  EXPECT_NE (request.reply_row, nullptr);
+  return request;
+}
+
+/// The frame of CHANGE that answers write_exchange ().
+std::vector<std::uint8_t>
+change_wire ()
+{
+  return wire_of ({ 0x30, 0x01, 0x02, 0x00 });
+}
+} // namespace
+
+TEST (LumexDialogueSelectLayer,
+      GivenAnExchangeInFlightWithAReplyRow_ThenTheFrameOfThatRowEndsIt)
+{
+  engine_bench_t bench;
+  pr::dialogue_engine &engine = bench.client->engine ();
+  bench.device->set_behavior (tr::testing::behavior::silent ());
+  auto const out = std::make_shared<outcome_t<pr::reply_frame_t>> ();
+  record_t<pr::reply_frame_t> done = { out };
+  engine.async_exchange (write_exchange (), done);
+  bench.settle ();
+  engine.select_layer (index_of_v2 (), dialogue::features_of<mixer_v2> ());
+  bench.settle ();
+  EXPECT_EQ (out->calls, 0);
+  bench.control->feed (change_wire ());
+  bench.settle ();
+  ASSERT_EQ (out->calls, 1);
+  EXPECT_FALSE (out->error) << out->error.message ();
+}
+
+TEST (LumexDialogueSelectLayer,
+      GivenAQueuedExchangeWithAReplyRow_ThenTheFrameOfThatRowEndsIt)
+{
+  engine_bench_t bench;
+  pr::dialogue_engine &engine = bench.client->engine ();
+  bench.device->set_behavior (tr::testing::behavior::silent ());
+  auto const first = std::make_shared<outcome_t<pr::reply_frame_t>> ();
+  auto const queued = std::make_shared<outcome_t<pr::reply_frame_t>> ();
+  record_t<pr::reply_frame_t> first_done = { first };
+  record_t<pr::reply_frame_t> queued_done = { queued };
+  engine.async_exchange (exchange_of<mixer, mixer::RATE_t> (std::uint8_t (1)),
+                         first_done);
+  engine.async_exchange (write_exchange (), queued_done);
+  bench.settle ();
+  engine.select_layer (index_of_v2 (), dialogue::features_of<mixer_v2> ());
+  bench.settle ();
+  bench.control->feed (wire_of ({ 0x21, 0x07 }));
+  bench.settle ();
+  ASSERT_EQ (first->calls, 1);
+  EXPECT_EQ (queued->calls, 0);
+  bench.control->feed (change_wire ());
+  bench.settle ();
+  ASSERT_EQ (queued->calls, 1);
+  EXPECT_FALSE (queued->error) << queued->error.message ();
+}
+
+TEST (LumexDialogueSelectLayer,
+      GivenARowWithAMinimumInterval_ThenItsLastRequestCountsAtTheNextLayer)
+{
+  using plain = tables::plain_t;
+  using paced_a = tables::paced_a_t;
+  using paced_b = tables::paced_b_t;
+  client_bench_t<plain, plain> bench;
+  pr::dialogue_engine &engine = bench.client->engine ();
+  bench.device->set_behavior (tr::testing::behavior::silent ());
+  engine.select_layer (*index::protocol_index<paced_a> (),
+                       dialogue::features_of<paced_a> ());
+  bench.settle ();
+  // Far from the start of the clock: a request time lost on the way would
+  // pass for one long ago.
+  bench.advance (ms (1000));
+  auto const first = std::make_shared<outcome_t<pr::reply_frame_t>> ();
+  record_t<pr::reply_frame_t> first_done = { first };
+  engine.async_exchange (
+      exchange_of<paced_a, paced_a::PACED_t> (std::uint8_t (1)), first_done);
+  bench.settle ();
+  EXPECT_EQ (first->calls, 1);
+  EXPECT_EQ (bench.client->statistics ().requests, 1u);
+  bench.advance (ms (50));
+  engine.select_layer (*index::protocol_index<paced_b> (),
+                       dialogue::features_of<paced_b> ());
+  bench.settle ();
+  auto const second = std::make_shared<outcome_t<pr::reply_frame_t>> ();
+  record_t<pr::reply_frame_t> second_done = { second };
+  engine.async_exchange (
+      exchange_of<paced_b, paced_b::PACED_t> (std::uint8_t (2)), second_done);
+  bench.settle ();
+  // 200 ms after the first request, which was 50 ms ago.
+  EXPECT_EQ (bench.client->statistics ().requests, 1u);
+  bench.advance (ms (100));
+  EXPECT_EQ (bench.client->statistics ().requests, 1u);
+  bench.advance (ms (60));
+  EXPECT_EQ (bench.client->statistics ().requests, 2u);
+  EXPECT_EQ (second->calls, 1);
+}
+
+TEST (LumexDialogueSelectLayer,
+      GivenASilenceAlreadyCounted_ThenItIsNotCountedAgain)
+{
+  engine_bench_t bench;
+  bench.settle ();
+  pr::reply_of<mixer::LEVEL_t> level;
+  EXPECT_TRUE (bench.device->start_stream<mixer_v2::LEVEL_t> (level));
+  bench.advance (ms (150));
+  bench.device->stop_stream<mixer_v2::LEVEL_t> ();
+  bench.advance (ms (300));
+  EXPECT_EQ (bench.client->statistics ().stream_gaps, 1u);
+  bench.client->engine ().select_layer (index_of_v2 (),
+                                        dialogue::features_of<mixer_v2> ());
+  bench.settle ();
+  bench.advance (ms (1000));
+  EXPECT_EQ (bench.client->statistics ().stream_gaps, 1u);
+}
+
+TEST (LumexDialogueSelectLayer,
+      GivenALevelSeenBeforeTheLayer_ThenTheEdgeAfterItCounts)
+{
+  engine_bench_t bench;
+  pr::dialogue_engine &engine = bench.client->engine ();
+  int edges = 0;
+  pr::subscription_t const made
+      = engine.on_edge (index::protocol_index<mixer> ()->find_name ("LEVEL"),
+                        [&edges] (pr::edge_t const &) { ++edges; });
+  EXPECT_NE (made.id, 0u);
+  bench.control->feed (wire_of ({ 0x12, 0x00, 0x01 }));
+  bench.settle ();
+  engine.select_layer (index_of_v2 (), dialogue::features_of<mixer_v2> ());
+  bench.settle ();
+  EXPECT_EQ (edges, 0);
+  // The level the first frame set is the one this frame changes.
+  bench.control->feed (wire_of ({ 0x12, 0x01, 0x01 }));
+  bench.settle ();
+  EXPECT_EQ (edges, 1);
+}
+
+TEST (LumexDialogueSelectLayer,
+      GivenARunThatHeardARowBeforeTheLayer_ThenItsBranchFindsTheReply)
+{
+  engine_bench_t bench;
+  pr::dialogue_engine &engine = bench.client->engine ();
+  namespace pdsl = lumex::core::protocol::dsl;
+  pdsl::scenario_t scenario;
+  pdsl::scenario_step_t level;
+  level.kind = pdsl::scenario_step_kind::expect;
+  level.row = "LEVEL";
+  scenario.steps.push_back (level);
+  pdsl::scenario_step_t rate;
+  rate.kind = pdsl::scenario_step_kind::expect;
+  rate.row = "RATE";
+  scenario.steps.push_back (rate);
+  int decided = 0;
+  std::size_t seen = 0;
+  pdsl::scenario_step_t branch;
+  branch.kind = pdsl::scenario_step_kind::branch;
+  branch.row = "LEVEL";
+  branch.label = "end";
+  branch.decide = [&decided, &seen] (layout::bytes_view_t message,
+                                     field::decode_context_t const &,
+                                     bool &taken) -> std::error_code
+    {
+      ++decided;
+      seen = message.size ();
+      taken = false;
+      return std::error_code ();
+    };
+  scenario.steps.push_back (branch);
+  pdsl::scenario_step_t end;
+  end.kind = pdsl::scenario_step_kind::label;
+  end.label = "end";
+  scenario.steps.push_back (end);
+  auto const out = std::make_shared<outcome_t<std::size_t>> ();
+  record_t<std::size_t> done = { out };
+  engine.async_run_scenario (scenario, dialogue::features_of<mixer> (), done);
+  bench.settle ();
+  bench.control->feed (wire_of ({ 0x12, 0x00, 0x01 }));
+  bench.settle ();
+  EXPECT_EQ (out->calls, 0);
+  engine.select_layer (index_of_v2 (), dialogue::features_of<mixer_v2> ());
+  bench.settle ();
+  bench.control->feed (wire_of ({ 0x21, 0x07 }));
+  bench.settle ();
+  ASSERT_EQ (out->calls, 1);
+  EXPECT_FALSE (out->error) << out->error.message ();
+  EXPECT_EQ (decided, 1);
+  EXPECT_EQ (seen, 3u);
+}
+
+TEST (LumexDialogueSelectLayer,
+      GivenARunWhoseNextStepWaitsForARow_ThenAFrameOfItDuringTheSendIsHeld)
+{
+  engine_bench_t bench;
+  pr::dialogue_engine &engine = bench.client->engine ();
+  bench.device->set_behavior (tr::testing::behavior::silent ());
+  namespace pdsl = lumex::core::protocol::dsl;
+  pdsl::scenario_t scenario;
+  pdsl::scenario_step_t send;
+  send.kind = pdsl::scenario_step_kind::send;
+  send.row = "RATE";
+  send.encode = [] (layout::bytes_t &message,
+                    field::decode_context_t const &) -> std::error_code
+    {
+      layout::encode_result_t const encoded
+          = layout::encode_message<mixer, mixer::RATE_t> (message,
+                                                          std::uint8_t (1));
+      return encoded ? std::error_code () : encoded.error ();
+    };
+  scenario.steps.push_back (send);
+  pdsl::scenario_step_t level;
+  level.kind = pdsl::scenario_step_kind::expect;
+  level.row = "LEVEL";
+  scenario.steps.push_back (level);
+  auto const out = std::make_shared<outcome_t<std::size_t>> ();
+  record_t<std::size_t> done = { out };
+  engine.async_run_scenario (scenario, dialogue::features_of<mixer> (), done);
+  bench.settle ();
+  engine.select_layer (index_of_v2 (), dialogue::features_of<mixer_v2> ());
+  bench.settle ();
+  // The frame of the next step's row comes right before the reply that ends
+  // this one.
+  bench.control->feed (wire_of ({ 0x12, 0x00, 0x01 }));
+  bench.settle ();
+  EXPECT_EQ (out->calls, 0);
+  bench.control->feed (wire_of ({ 0x21, 0x07 }));
+  bench.settle ();
+  ASSERT_EQ (out->calls, 1);
+  EXPECT_FALSE (out->error) << out->error.message ();
 }

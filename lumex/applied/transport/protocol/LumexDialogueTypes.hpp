@@ -350,8 +350,8 @@ struct protocol_features_t
   /// application did not set the value (one that differs from what the layer
   /// in use gives).
   std::size_t max_in_flight = 1;
-  /// `default_timeout_ms<Ms>`, 0 gives the timeout the dialogue was made
-  /// with.
+  /// `default_timeout_ms<Ms>`, 0 gives the timeout of the library
+  /// (`retry_policy_t ().timeout_ms`).
   std::uint32_t default_timeout_ms = 0;
   /// `default_retries<N>`.
   std::uint32_t default_retries = 0;

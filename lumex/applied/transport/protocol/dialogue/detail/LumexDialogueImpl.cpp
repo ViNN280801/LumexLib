@@ -483,7 +483,6 @@ dialogue_impl::dialogue_impl (frame_link link,
       timer_sequence_ (0), unknown_warned_ (false), unknown_warned_at_ (),
       unknown_skipped_ (0), next_id_ (0), next_subscription_ (0),
       features_ (options.features), table_ (layer_values_at_start (options)),
-      base_timeout_ms_ (options.defaults.timeout_ms),
       min_interval_ms_ (
           options.features != nullptr ? options.features->min_interval_ms : 0),
       any_sent_ (false), last_sent_ (),
@@ -512,7 +511,8 @@ dialogue_impl::dialogue_impl (frame_link link,
       keepalive_arm_failed_ (false), state_known_ (false), state_value_ (0),
       handlers_closed_ (false), enlisted_ (false)
 {
-  build_watches (options.features);
+  std::shared_ptr<keepalive_generator_t const> none;
+  build_watches (options.features, none);
 }
 
 dialogue_impl::~dialogue_impl () {}

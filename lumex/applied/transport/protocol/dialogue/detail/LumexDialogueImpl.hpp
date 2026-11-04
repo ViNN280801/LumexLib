@@ -205,16 +205,17 @@ struct layer_values_t
   std::uint32_t late_window_ms = 0;
 };
 
-/// @brief What `table` gives; a table with no default timeout gives the
-/// timeout the dialogue was made with, `base_timeout_ms`.
+/// @brief What `table` gives; what it says nothing of is the value of the
+/// library (`retry_policy_t ()`, one in flight, no retry, no window), the same
+/// as for a new dialogue over that table.
 inline layer_values_t
-layer_values_of (protocol_features_t const &table,
-                 std::uint32_t base_timeout_ms)
+layer_values_of (protocol_features_t const &table)
 {
   layer_values_t made;
   made.max_in_flight = table.max_in_flight == 0 ? 1 : table.max_in_flight;
-  made.timeout_ms = table.default_timeout_ms != 0 ? table.default_timeout_ms
-                                                  : base_timeout_ms;
+  made.timeout_ms = table.default_timeout_ms != 0
+                        ? table.default_timeout_ms
+                        : retry_policy_t ().timeout_ms;
   made.retries = table.default_retries;
   made.late_window_ms = table.late_reply_window_ms;
   return made;
@@ -227,7 +228,7 @@ inline layer_values_t
 layer_values_at_start (dialogue_options_t const &options)
 {
   if (options.features != nullptr)
-    return layer_values_of (*options.features, options.defaults.timeout_ms);
+    return layer_values_of (*options.features);
   layer_values_t made;
   made.max_in_flight = options.max_in_flight == 0 ? 1 : options.max_in_flight;
   made.timeout_ms = options.defaults.timeout_ms;
@@ -567,7 +568,10 @@ private:
 
   // --- the features (LumexDialogueImplFeatures.cpp) ----------------------
 
-  void build_watches (protocol_features_t const *features);
+  // `dropped` takes the keepalive generator of a row that is gone, in the
+  // section that sets the row, so that no set_keepalive falls between the two.
+  void build_watches (protocol_features_t const *features,
+                      std::shared_ptr<keepalive_generator_t const> &dropped);
   // The rows of what is under way, found again in the index of a new layer.
   ::lumex::core::protocol::index::row_t const *
   row_again (::lumex::core::protocol::index::row_t const *row) const;
@@ -684,11 +688,9 @@ private:
   std::atomic<std::uint64_t> next_subscription_;
   // What the table says (null without features), and the rows with a feature.
   protocol_features_t const *features_;
-  // What the table in use gave the four values of a change of layer, and the
-  // timeout the dialogue was made with: a value that is not what the table
-  // gave was set by the application and stays.
+  // What the table in use gave the four values of a change of layer: a value
+  // that is not what the table gave was set by the application and stays.
   layer_values_t table_;
-  std::uint32_t base_timeout_ms_;
   std::vector<row_watch_t> watches_;
   std::unordered_map<::lumex::core::protocol::index::row_t const *,
                      std::size_t>

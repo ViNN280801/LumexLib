@@ -10,6 +10,7 @@
 #include <memory>
 #include <system_error>
 #include <utility>
+#include <vector>
 
 #include <gtest/gtest.h>
 
@@ -84,14 +85,35 @@ private:
   std::unique_ptr<pr::dialogue_engine> engine_;
 };
 
-/// A bench of a client; what the measures need of any bench.
-template <typename Layer> class layer_bench_t
+/// A bench of a client; what the measures need of any bench. `Device` is the
+/// layer the simulated device speaks, `Client` the one the client is typed by.
+template <typename Device, typename Client = Device> class layer_bench_t
 {
 public:
   explicit layer_bench_t (pr::client_options_t options
-                          = pr::client_options_for<Layer> ())
+                          = pr::client_options_for<Client> ())
       : bench_ (std::move (options))
   {
+    bench_.device->set_behavior (tr::testing::behavior::silent ());
+  }
+
+  /// identify () against a device that answers `reply`; silent again after.
+  template <typename Row>
+  void
+  identify_as (pr::reply_of<Row> const &reply)
+  {
+    bench_.device->template set_reply<Row> (reply);
+    bench_.device->set_behavior (tr::testing::behavior::perfect ());
+    bool done = false;
+    std::error_code ended;
+    bench_.client->async_identify (
+        [&done, &ended] (std::error_code error, pr::identity_t)
+          {
+            ended = error;
+            done = true;
+          });
+    EXPECT_TRUE (bench_.run_until ([&done] () { return done; }));
+    EXPECT_FALSE (ended) << ended.message ();
     bench_.device->set_behavior (tr::testing::behavior::silent ());
   }
 
@@ -114,7 +136,7 @@ public:
   }
 
 private:
-  client_bench_t<Layer, Layer> bench_;
+  client_bench_t<Device, Client> bench_;
 };
 
 /// The request of `row` (no request fields) for the layer in use.
@@ -409,24 +431,25 @@ TEST (LumexDialogueLayerValues,
 }
 
 TEST (LumexDialogueLayerValues,
-      GivenALayerThatGivesNoTimeout_ThenTheOneOfTheStartIsBack)
+      GivenALayerThatGivesNoTimeout_ThenTheLibrarysValueIsBack)
 {
-  // plain says nothing of the timeout: the dialogue's own (1000 ms) is the
-  // value of that layer, which quick replaced and plain gives back.
-  layer_bench_t<plain> bench;
+  // plain says nothing of the timeout: its value is the library's (1000 ms),
+  // as that of a new client over plain, and not the 300 ms the dialogue was
+  // made with on slow.
+  layer_bench_t<slow> bench;
+  {
+    SCOPED_TRACE ("slow");
+    expect_values (bench, 4, 300, 2);
+  }
+  change_to<plain> (bench);
   {
     SCOPED_TRACE ("plain");
     expect_values (bench, 1, 1000, 0);
   }
-  change_to<quick> (bench);
+  change_to<slow> (bench);
   {
-    SCOPED_TRACE ("quick");
-    expect_values (bench, 2, 100, 1);
-  }
-  change_to<plain> (bench);
-  {
-    SCOPED_TRACE ("plain again");
-    expect_values (bench, 1, 1000, 0);
+    SCOPED_TRACE ("slow again");
+    expect_values (bench, 4, 300, 2);
   }
 }
 
@@ -450,10 +473,11 @@ TEST (LumexDialogueLayerValues,
 }
 
 TEST (LumexDialogueLayerValues,
-      GivenATimeoutSetOnALayerWithNone_ThenItIsTheOneBack)
+      GivenATimeoutSetOnALayerWithNone_ThenItStaysOverTheLayers)
 {
-  // plain gives no timeout, so 250 ms is the timeout the dialogue was made
-  // with and the value of plain; quick replaces it and plain gives it back.
+  // plain gives no timeout, so the library's 1000 ms is what it gives and
+  // 250 ms differs from it: set by the application, it stays, also on plain
+  // again.
   pr::client_options_t options = pr::client_options_for<plain> ();
   options.dialogue.defaults.timeout_ms = 250;
   layer_bench_t<plain> bench (options);
@@ -464,12 +488,40 @@ TEST (LumexDialogueLayerValues,
   change_to<quick> (bench);
   {
     SCOPED_TRACE ("quick");
-    expect_values (bench, 2, 100, 1);
+    expect_values (bench, 2, 250, 1);
   }
   change_to<plain> (bench);
   {
     SCOPED_TRACE ("plain again");
     expect_values (bench, 1, 250, 0);
+  }
+}
+
+TEST (LumexDialogueLayerValues,
+      GivenATimeoutSetOnALayerWithNone_ThenItStaysOverIdentify)
+{
+  using base = tables::timed_base_t;
+  using fast = tables::timed_fast_t;
+  pr::reply_of<fast::WHO_t> fast_one;
+  field::get<0> (fast_one) = 1;
+  // Found like a device: the base gives no timeout, so 1000 ms is what it
+  // gives and the 2000 ms set differs from it; the layer found gives 100 ms.
+  {
+    pr::client_options_t options = pr::client_options_for<base> ();
+    options.dialogue.defaults.timeout_ms = 2000;
+    layer_bench_t<fast, base> bench (options);
+    bench.identify_as<fast::WHO_t> (fast_one);
+    attempts_t const made = measure_attempts (bench);
+    EXPECT_EQ (made.timeout_ms, 2000u);
+    EXPECT_EQ (made.attempts, 2u);
+  }
+  // Nothing set: the timeout follows to the layer found.
+  {
+    layer_bench_t<fast, base> bench;
+    bench.identify_as<fast::WHO_t> (fast_one);
+    attempts_t const made = measure_attempts (bench);
+    EXPECT_EQ (made.timeout_ms, 100u);
+    EXPECT_EQ (made.attempts, 2u);
   }
 }
 
@@ -500,4 +552,40 @@ TEST (LumexDialogueLayerValues, GivenFeaturesOfNoneInFlight_ThenOneIsInFlight)
   EXPECT_EQ (measure_in_flight (bench), 1u);
   change_to<slow> (bench);
   EXPECT_EQ (measure_in_flight (bench), 4u);
+}
+
+TEST (LumexDialogueLayerValues,
+      GivenAQueuedExchange_ThenItTakesThePolicyOfTheLayerItStartsIn)
+{
+  // quick lets two go out (100 ms, one retry); the third waits and goes out
+  // on slow (300 ms, two retries) once slow is the layer: three attempts of
+  // 300 ms. The two that started keep what they have: two of 100 ms.
+  layer_bench_t<quick> bench;
+  pr::dialogue_engine &engine = bench.engine ();
+  std::vector<std::shared_ptr<outcome_t<pr::reply_frame_t>>> outs;
+  for (int i = 0; i < 3; ++i)
+    {
+      outs.push_back (std::make_shared<outcome_t<pr::reply_frame_t>> ());
+      record_t<pr::reply_frame_t> done = { outs.back () };
+      engine.async_exchange (exchange_now (engine, "ASK", false), done);
+    }
+  bench.settle ();
+  EXPECT_EQ (engine.statistics ().requests, 2u);
+  change_to<slow> (bench);
+  EXPECT_EQ (engine.statistics ().requests, 3u);
+  unsigned ended[3] = { 0, 0, 0 };
+  unsigned elapsed = 0;
+  while ((outs[0]->calls == 0 || outs[1]->calls == 0 || outs[2]->calls == 0)
+         && elapsed < 5000)
+    {
+      bench.advance (ms (10));
+      elapsed += 10;
+      for (std::size_t i = 0; i < 3; ++i)
+        if (outs[i]->calls != 0 && ended[i] == 0)
+          ended[i] = elapsed;
+    }
+  EXPECT_EQ (ended[0], 200u);
+  EXPECT_EQ (ended[1], 200u);
+  EXPECT_EQ (ended[2], 900u);
+  EXPECT_EQ (engine.statistics ().requests, 7u);
 }
