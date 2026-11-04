@@ -156,9 +156,13 @@ struct dialogue_options_t
   /// After a read of the link failed, reading starts again this many
   /// milliseconds later, then twice as late each time it fails again up to
   /// `read_restart_max_ms`, so that frames and streams come back with the
-  /// link. 0: reading starts again only with the next request.
+  /// link. 0: no read starts by itself, only with the next request (a read
+  /// of an open link that ends `cancelled` starts again once at once), so
+  /// nothing spins either way.
   std::uint32_t read_restart_ms = 100;
-  /// The longest wait between two reads that fail.
+  /// The longest wait between two reads that fail; a value under
+  /// `read_restart_ms` counts as `read_restart_ms`, so a dead link is never
+  /// read without a wait.
   std::uint32_t read_restart_max_ms = 5000;
 };
 

@@ -63,11 +63,13 @@
  * (`unexpected_reply`, `truncated`, ...): a `by_order` exchange leaves such a
  * frame alone and goes on waiting, any other correlation ends with that
  * error. A frame that decodes is a part whatever its value: an echo that
- * differs still ends the exchange. The reader keeps no state. The value sent
- * is the last field of the request; an echo whose value is the whole request
- * record (a layout of the same fields) is compared with the record. A row
- * whose reply is no reply kind of the dialogue has no reader (`nullptr`): the
- * engine takes its frame as the reply as it is.
+ * differs still ends the exchange. An echo kind by order needs the echo to
+ * carry the key of the row: a frame without it is no part, and the exchange
+ * ends in `timeout`. The reader keeps no state. The value sent is the last
+ * field of the request; an echo whose value is the whole request record (a
+ * layout of the same fields) is compared with the record. A row whose reply is
+ * no reply kind of the dialogue has no reader (`nullptr`): the engine takes
+ * its frame as the reply as it is.
  */
 #ifndef LUMEX_APPLIED_TRANSPORT_PROTOCOL_DIALOGUE_REPLY_READER_HPP
 #define LUMEX_APPLIED_TRANSPORT_PROTOCOL_DIALOGUE_REPLY_READER_HPP

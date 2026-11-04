@@ -35,6 +35,8 @@ if(_fuzz_with_protocol AND _fuzz_with_framing)
             LumexDialogueReceiveFuzz.cpp
             "${_transport}/protocol/dialogue/LumexDialogue.cpp"
             "${_transport}/protocol/dialogue/detail/LumexDialogueImpl.cpp"
+            "${_transport}/protocol/dialogue/detail/LumexDialogueImplFeatures.cpp"
+            "${_transport}/protocol/dialogue/detail/LumexDialogueImplRuns.cpp"
             "${_transport}/protocol/link/LumexFrameLink.cpp"
             "${_transport}/error/LumexTransportErrc.cpp"
             "${_transport}/log/LumexTransportLog.cpp"

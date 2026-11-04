@@ -442,16 +442,15 @@ dialogue_impl::rate_done (std::error_code error)
 // ---------------------------------------------------------------
 
 bool
-dialogue_impl::refused_by_state (exchange_record_t const &record) const
-    LUMEX_NOEXCEPT
+dialogue_impl::refused_by_state (exchange_record_t const &record,
+                                 std::int64_t &state) const LUMEX_NOEXCEPT
 {
-  if (record.row == nullptr || !state_known ())
+  if (record.row == nullptr)
     return false;
   ::lumex::core::protocol::dsl::states_t const states
       = record.row->entry->options.accepted_states;
-  if (states.empty ())
+  if (states.empty () || !read_state (state))
     return false;
-  std::int64_t const state = last_state ();
   for (std::size_t i = 0; i < states.size (); ++i)
     if (states[i] == state)
       return false;
@@ -459,13 +458,13 @@ dialogue_impl::refused_by_state (exchange_record_t const &record) const
 }
 
 void
-dialogue_impl::refuse_by_state (record_ptr record)
+dialogue_impl::refuse_by_state (record_ptr record, std::int64_t state)
 {
   dialogue_counters_t::bump (counters_.state_refusals);
   LUMEX_DIALOGUE_LOG_QUIET (warning, kcomponent, name_.c_str (),
                             "refused " + row_name (record->row)
                                 + " before sending: not accepted in state "
-                                + std::to_string (last_state ()),
+                                + std::to_string (state),
                             log::log_bytes_t ());
   finish (std::move (record),
           dialogue_error (protocol_errc::not_accepted_in_state),
@@ -475,8 +474,9 @@ dialogue_impl::refuse_by_state (record_ptr record)
 void
 dialogue_impl::store_state (std::int64_t state) LUMEX_NOEXCEPT
 {
-  state_value_.store (state, std::memory_order_relaxed);
-  state_known_.store (true, std::memory_order_release);
+  std::lock_guard<std::mutex> const lock (state_mutex_);
+  state_value_ = state;
+  state_known_ = true;
 }
 
 void
@@ -490,22 +490,32 @@ dialogue_impl::set_state (std::int64_t state)
 void
 dialogue_impl::clear_state () LUMEX_NOEXCEPT
 {
-  state_known_.store (false, std::memory_order_release);
-  state_value_.store (0, std::memory_order_relaxed);
+  std::lock_guard<std::mutex> const lock (state_mutex_);
+  state_known_ = false;
+  state_value_ = 0;
+}
+
+bool
+dialogue_impl::read_state (std::int64_t &state) const LUMEX_NOEXCEPT
+{
+  std::lock_guard<std::mutex> const lock (state_mutex_);
+  state = state_value_;
+  return state_known_;
 }
 
 std::int64_t
 dialogue_impl::last_state () const LUMEX_NOEXCEPT
 {
-  return state_known_.load (std::memory_order_acquire)
-             ? state_value_.load (std::memory_order_relaxed)
-             : 0;
+  std::int64_t state = 0;
+  read_state (state);
+  return state;
 }
 
 bool
 dialogue_impl::state_known () const LUMEX_NOEXCEPT
 {
-  return state_known_.load (std::memory_order_acquire);
+  std::int64_t state = 0;
+  return read_state (state);
 }
 
 void
@@ -756,10 +766,13 @@ dialogue_impl::frame_seen (std::exception_ptr &thrown)
   read_restarted_at_once_ = false;
   timing::time_point_t const now = timers_.now ();
   last_frame_at_ = now;
-  if (link_up_.exchange (true, std::memory_order_acq_rel))
-    return;
+  // Armed already, as a rule; a re-arm that threw comes back with a frame.
   if (watchdog_ms_ > 0)
     arm_watchdog (after (now, watchdog_ms_));
+  if (keepalive_arm_failed_)
+    arm_keepalive ();
+  if (link_up_.exchange (true, std::memory_order_acq_rel))
+    return;
   try
     {
       notify_link_state (link_state::up, std::error_code ());
@@ -911,6 +924,7 @@ dialogue_impl::run_keepalive_start ()
 void
 dialogue_impl::arm_keepalive ()
 {
+  keepalive_arm_failed_ = false;
   if (closed_ || keepalive_row_ == nullptr || keepalive_ms_ == 0
       || keepalive_armed_)
     return;
@@ -931,8 +945,10 @@ dialogue_impl::arm_keepalive ()
     }
   catch (...)
     {
-      // Out of memory: set_keepalive arms it again.
+      // Out of memory: the next frame, the end of a pending keepalive or
+      // set_keepalive arms it again.
       keepalive_armed_ = false;
+      keepalive_arm_failed_ = true;
       LUMEX_DIALOGUE_LOG_QUIET (warning, kcomponent, name_.c_str (),
                                 "the keepalive could not be armed",
                                 log::log_bytes_t ());
@@ -1008,6 +1024,8 @@ void
 dialogue_impl::keepalive_ended (std::error_code error)
 {
   keepalive_pending_ = false;
+  if (keepalive_arm_failed_)
+    arm_keepalive ();
   if (error)
     LUMEX_DIALOGUE_LOG_QUIET (debug, kcomponent, name_.c_str (),
                               "a keepalive ended: " + error.message (),

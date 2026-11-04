@@ -14,6 +14,9 @@
 //     exhausted exchanges within the exchanges started, negative
 //     acknowledgements within the replies, the subscribers heard within the
 //     events counted.
+// A script whose header has its top bit set runs with the features of the
+// table (features_of): the state, rate limits, edges, gaps, the watchdog, and
+// ops for the state and the keepalive.
 // Only the public API is used (dialogue_engine, frame_link, frame_link_impl,
 // exchange_t, reply_reader_of). Anything else stops the run. Built with
 // LUMEX_BUILD_FUZZERS (Clang only); CTest runs it for a short bounded time
@@ -30,6 +33,7 @@
 #include <memory>
 #include <string>
 #include <system_error>
+#include <tuple>
 #include <vector>
 
 #include "lumex/applied/transport/error/LumexTransportErrc.hpp"
@@ -391,7 +395,8 @@ check_counters (run_t &run)
   pr::dialogue_statistics_t const stats = run.engine->statistics ();
   REQUIRE (stats.requests == run.link->writes);
   REQUIRE (stats.retries <= stats.requests);
-  REQUIRE (stats.requests - stats.retries <= run.exchanges.size ());
+  REQUIRE (stats.requests - stats.retries - stats.keepalives
+           <= run.exchanges.size ());
   // A negative acknowledgement is a reply to its attempt.
   REQUIRE (stats.naks <= stats.replies);
   REQUIRE (stats.retries_exhausted <= run.exchanges.size ());
@@ -432,7 +437,7 @@ check_counters (run_t &run)
   REQUIRE (naks <= stats.naks);
   REQUIRE (exhausted == stats.retries_exhausted);
   REQUIRE (succeeded <= stats.replies);
-  REQUIRE (stats.requests <= run.allowed);
+  REQUIRE (stats.requests - stats.keepalives <= run.allowed);
 }
 
 // Hands `frame` to the engine and checks that exactly one counter moved, and
@@ -475,6 +480,14 @@ play (std::uint8_t const *data, std::size_t size)
   options.defaults.timeout_ms = 50U + (header >> 4U) * 10U;
   options.defaults.retries = (header >> 6U) & 1U;
   options.timers = run.clock.source ();
+  // The features of the table: the state, the rate limits, the edges, the
+  // watchdog (a link it ends is a lost one).
+  bool const features = (header & 0x80U) != 0;
+  if (features)
+    {
+      options.features = dialogue::features_of<pump> ();
+      run.lost = true;
+    }
   std::unique_ptr<hand_link_t> link (new hand_link_t (run.context));
   run.link = link.get ();
   run.engine.reset (new pr::dialogue_engine (
@@ -628,6 +641,19 @@ play (std::uint8_t const *data, std::size_t size)
           run.cancelled = true;
           run.engine->close ();
           break;
+        case 13:
+          // The last known state, as the table's accepted_in reads it.
+          if ((script.next () & 1U) != 0)
+            run.engine->set_state (script.next () % 3);
+          else
+            run.engine->clear_state ();
+          break;
+        case 14:
+          // The keepalive of the table (with the features); its requests are
+          // counted apart.
+          run.engine->set_keepalive (dialogue::keepalive_from<pump> (
+              [] () { return std::make_tuple (std::uint32_t (1)); }));
+          break;
         default:
           break;
         }
@@ -768,6 +794,16 @@ seeds ()
             0,    11, 0, 7, 1, 8, 12, 0, 9, 0, 0,  7, 1, 4, 20 };
     result.push_back (bytes_t (s, s + sizeof s));
   }
+  // The same with the features of the table, and the ops of the state and the
+  // keepalive in front.
+  std::size_t const without = result.size ();
+  for (std::size_t i = 0; i < without; ++i)
+    {
+      bytes_t script = result[i];
+      script[0] = 0x80;
+      script.insert (script.begin () + 1, { 14, 13, 1, 1 });
+      result.push_back (script);
+    }
   return result;
 }
 

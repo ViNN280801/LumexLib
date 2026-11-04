@@ -65,7 +65,9 @@
  * waiting with its attempts, its acknowledgement and its timer as they were.
  * So a reply of the wrong shape ends in `timeout` (or `retries_exhausted`),
  * not in `unexpected_reply`. A frame that decodes is a part whatever its value
- * (an echo that differs ends with `not_confirmed` or `refused`). What can
+ * (an echo that differs ends with `not_confirmed` or `refused`). An echo kind
+ * by order needs the echo to carry the key of the row: a frame without it is
+ * no part, and the exchange ends in `timeout`. What can
  * still end an exchange with `unexpected_reply`: a `custom` row with a reader,
  * when its matcher took a frame that is no part; and a reader of one's own
  * that says so with `reply_reading_t::is_part` true. A `by_key` exchange takes
@@ -104,11 +106,14 @@
  * place in flight. The state. `accepted_in` is checked against the last known
  * state when a request is about to start, after its wait in the queue: it then
  * ends with `protocol_errc::not_accepted_in_state` and nothing is written
- * (`state_refusals`, warning); with no known state it is sent. The watchdog
+ * (`state_refusals`, warning); with no known state it is sent. An attempt
+ * after a timeout or a NAK is not checked again. The watchdog
  * (`watchdog_ms`): after that long without any frame, from the start or the
  * last frame, the link is lost (error): the exchanges in flight end with
- * `link_lost`, the transport is closed, and it watches again once a frame
- * comes. A `dangerous` row logs each attempt at info.
+ * `link_lost`, the transport is closed (`frame_link_impl::drop_connection`),
+ * and it watches again once a frame comes: on a link that can connect again,
+ * since the default of `drop_connection` closes for good. A `dangerous` row
+ * logs each attempt at info.
  *
  * Reply kinds (see `LumexReplyReader.hpp`). The acknowledgement of a
  * `two_phase` row leaves the exchange waiting for its completion with a
@@ -412,6 +417,8 @@ public:
    *   the write ends. An error of the exchange (or `invalid_value` for an
    *   argument that did not fit, `not_supported` for a row the index has not)
    *   fails the step.
+   * - An `expect` or a `wait_state` with a time of 0 waits for ever, also on a
+   *   lost link: only a cancellation ends it.
    * - `expect` ends with a frame of its row that answers no exchange; the
    *   frame may have come since the step before began, so a frame right
    *   before the reply of a `send` counts. Its time runs out with

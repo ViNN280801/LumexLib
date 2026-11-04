@@ -7,6 +7,7 @@
 #include <memory>
 #include <stdexcept>
 #include <system_error>
+#include <tuple>
 #include <vector>
 
 #include <gtest/gtest.h>
@@ -707,5 +708,145 @@ TEST (LumexDialogueWatchdogTest, Features_ListEveryRowInTableOrder)
   EXPECT_NE (features->rows[8].empty_request, nullptr);
   EXPECT_NE (features->rows[11].reader, nullptr);
   EXPECT_EQ (features->rows[12].how, ft::dialogue::correlation::by_order);
+}
+// --- findings of the review
+// --------------------------------------------------
+
+TEST (LumexDialogueLinkTest, Read_TheLongestWaitIsNeverUnderTheFirstWait)
+{
+  manual_bench_t<quiet_t> bench;
+  bench.options.read_restart_ms = 100;
+  bench.options.read_restart_max_ms = 0;
+  bench.start ();
+  std::error_code const failed = std::make_error_code (std::errc::io_error);
+  for (int i = 0; i < 4; ++i)
+    {
+      std::size_t const before = bench.link->reads_started ();
+      ASSERT_TRUE (bench.link->fail_read (failed));
+      bench.settle ();
+      // No time passed: no read, or a dead link would spin.
+      bench.clock.advance (ms (0));
+      bench.settle ();
+      EXPECT_EQ (bench.link->reads_started (), before) << i;
+      bench.advance (ms (99));
+      EXPECT_EQ (bench.link->reads_started (), before) << i;
+      bench.advance (ms (1));
+      EXPECT_EQ (bench.link->reads_started (), before + 1) << i;
+    }
+}
+
+TEST (LumexDialogueLinkTest,
+      Read_WithoutARestartTimeNothingSpinsWhateverTheCap)
+{
+  manual_bench_t<quiet_t> bench;
+  bench.options.read_restart_ms = 0;
+  bench.options.read_restart_max_ms = 0;
+  bench.start ();
+  ASSERT_TRUE (
+      bench.link->fail_read (std::make_error_code (std::errc::io_error)));
+  bench.settle ();
+  bench.advance (ms (10000));
+  EXPECT_EQ (bench.link->reads_started (), 1u);
+  EXPECT_EQ (bench.clock.pending (), 0u);
+  // Reads of an open link that end cancelled: once at once, then no more.
+  bench.start_exchange (ft::make_exchange<quiet_t, quiet_t::NOTHING_t> ());
+  bench.settle ();
+  EXPECT_EQ (bench.link->reads_started (), 2u);
+  bench.link->cancel_reads ();
+  bench.settle ();
+  EXPECT_EQ (bench.link->reads_started (), 3u);
+  bench.link->cancel_reads ();
+  bench.settle ();
+  bench.advance (ms (10000));
+  EXPECT_EQ (bench.link->reads_started (), 3u);
+}
+
+TEST (LumexDialogueLinkTest,
+      Read_AFrameBetweenTwoCancelledReadsAllowsTheRestartAtOnceAgain)
+{
+  manual_bench_t<quiet_t> bench;
+  bench.start ();
+  bench.link->cancel_reads ();
+  bench.settle ();
+  EXPECT_EQ (bench.link->reads_started (), 2u);
+  bench.deliver (status_frame (0));
+  EXPECT_EQ (bench.link->reads_started (), 3u);
+  // At once again: the link talked in between.
+  bench.link->cancel_reads ();
+  bench.settle ();
+  EXPECT_EQ (bench.link->reads_started (), 4u);
+}
+
+TEST (LumexDialogueWatchdogTest,
+      Watchdog_AThrowingRearmIsArmedAgainByTheNextFrame)
+{
+  manual_bench_t<watched_t> bench;
+  std::shared_ptr<ft::flaky_timers_t> const timers
+      = std::make_shared<ft::flaky_timers_t> (bench.clock.source ());
+  bench.options.timers = tr::timing::timer_source (timers);
+  bench.start ();
+  bench.advance (ms (200));
+  bench.deliver (status_frame (0));
+  // The wait armed at 0 ends at 300 with the deadline at 500: its re-arm
+  // throws.
+  bench.advance (ms (99));
+  timers->set_throwing (true);
+  bench.advance (ms (2));
+  timers->set_throwing (false);
+  EXPECT_TRUE (bench.engine->link_is_up ());
+  bench.deliver (status_frame (0));
+  bench.advance (ms (299));
+  EXPECT_EQ (bench.engine->statistics ().watchdog_expiries, 0u);
+  bench.advance (ms (1));
+  EXPECT_EQ (bench.engine->statistics ().watchdog_expiries, 1u);
+}
+
+TEST (LumexDialogueLifetimeOfTimersTest,
+      Close_LeavesNoWaitOfAnyFeatureOnTheClock)
+{
+  manual_bench_t<tank_t> bench;
+  bench.options.max_in_flight = 4;
+  bench.start ();
+  bench.engine->set_keepalive (ft::dialogue::keepalive_from<tank_t> (
+      [] () { return std::make_tuple (std::uint32_t (1)); }));
+  bench.settle ();
+  // A gap, a request held by a rate limit, the watchdog, the keepalive.
+  bench.deliver (status_frame (0));
+  bench.start_exchange (ft::make_exchange<tank_t, tank_t::SLOW_t> ());
+  bench.start_exchange (ft::make_exchange<tank_t, tank_t::SLOW_t> ());
+  bench.settle ();
+  EXPECT_GE (bench.clock.pending (), 4u);
+  bench.engine->close ();
+  bench.settle ();
+  EXPECT_EQ (bench.clock.pending (), 0u);
+}
+
+TEST (LumexDialogueLifetimeOfTimersTest, Close_EndsTheLateWindow)
+{
+  manual_bench_t<quiet_t> bench;
+  bench.options.late_reply_window_ms = 5000;
+  bench.start ();
+  pr::exchange_t request = ft::make_exchange<quiet_t, quiet_t::ORDERED_t> ();
+  request.policy = lumex_dialogue_test::policy (100, 0);
+  bench.start_exchange (std::move (request));
+  bench.settle ();
+  bench.advance (ms (100));
+  ASSERT_EQ (bench.clock.pending (), 1u);
+  bench.engine->close ();
+  bench.settle ();
+  EXPECT_EQ (bench.clock.pending (), 0u);
+}
+
+TEST (LumexDialogueLifetimeOfTimersTest, Close_EndsAWaitToRestartTheReading)
+{
+  manual_bench_t<quiet_t> bench;
+  bench.start ();
+  ASSERT_TRUE (
+      bench.link->fail_read (std::make_error_code (std::errc::io_error)));
+  bench.settle ();
+  ASSERT_EQ (bench.clock.pending (), 1u);
+  bench.engine->close ();
+  bench.settle ();
+  EXPECT_EQ (bench.clock.pending (), 0u);
 }
 } // namespace

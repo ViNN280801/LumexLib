@@ -626,11 +626,14 @@ dialogue_impl::sequence_advance (std::uint64_t id)
             return;
           }
         case pdsl::scenario_step_kind::wait_state:
-          if (state_known () && last_state () == step.state)
-            {
-              ++run->step;
-              break;
-            }
+          {
+            std::int64_t state = 0;
+            if (read_state (state) && state == step.state)
+              {
+                ++run->step;
+                break;
+              }
+          }
           if (!run_wait_timer (*run, step))
             return;
           run->waiting = sequence_run_t::waiting_t::state;

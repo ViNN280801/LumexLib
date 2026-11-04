@@ -249,7 +249,8 @@ class flaky_timers_t : public tr::timing::timer_source_impl
 {
 public:
   explicit flaky_timers_t (tr::timing::timer_source inner)
-      : inner_ (std::move (inner)), throwing_ (std::make_shared<bool> (false))
+      : inner_ (std::move (inner)), throwing_ (std::make_shared<bool> (false)),
+        next_throws_ (std::make_shared<int> (0))
   {
   }
 
@@ -257,6 +258,13 @@ public:
   set_throwing (bool on)
   {
     *throwing_ = on;
+  }
+
+  /// The next `count` waits throw, the others do not.
+  void
+  throw_next (int count)
+  {
+    *next_throws_ = count;
   }
 
   tr::timing::time_point_t
@@ -269,7 +277,7 @@ public:
   make_timer (tr::executor_type const &executor) const override
   {
     return std::make_shared<flaky_timer_t> (
-        inner_.make_timer (executor).impl (), throwing_);
+        inner_.make_timer (executor).impl (), throwing_, next_throws_);
   }
 
 private:
@@ -277,8 +285,10 @@ private:
   {
   public:
     flaky_timer_t (std::shared_ptr<tr::timing::timer_impl> inner,
-                   std::shared_ptr<bool> throwing)
-        : inner_ (std::move (inner)), throwing_ (std::move (throwing))
+                   std::shared_ptr<bool> throwing,
+                   std::shared_ptr<int> next_throws)
+        : inner_ (std::move (inner)), throwing_ (std::move (throwing)),
+          next_throws_ (std::move (next_throws))
     {
     }
 
@@ -300,6 +310,11 @@ private:
     {
       if (*throwing_)
         throw std::bad_alloc ();
+      if (*next_throws_ > 0)
+        {
+          --*next_throws_;
+          throw std::bad_alloc ();
+        }
       inner_->start_wait (at, std::move (handler));
     }
 
@@ -312,10 +327,12 @@ private:
   private:
     std::shared_ptr<tr::timing::timer_impl> inner_;
     std::shared_ptr<bool> throwing_;
+    std::shared_ptr<int> next_throws_;
   };
 
   tr::timing::timer_source inner_;
   std::shared_ptr<bool> throwing_;
+  std::shared_ptr<int> next_throws_;
 };
 
 /**

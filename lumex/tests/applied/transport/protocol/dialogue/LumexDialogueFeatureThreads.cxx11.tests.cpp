@@ -166,4 +166,38 @@ TEST (LumexDialogueFeatureThreadsTest,
   context.stop ();
   runner.join ();
 }
+TEST (LumexDialogueFeatureThreadsTest,
+      Threads_ClearingTheStateNeverRefusesARequestWithStateZero)
+{
+  // DRAIN is accepted in state 1 and not in state 0. The state flips between 1
+  // and unknown: both send, so no request may be refused, also when the two
+  // meet in the check.
+  ft::manual_bench_t<ft::quiet_t> bench;
+  bench.start ();
+  std::atomic<bool> stop (false);
+  pr::dialogue_engine *const front = bench.engine.get ();
+  std::thread flipping (
+      [front, &stop] ()
+        {
+          while (!stop.load ())
+            {
+              front->set_state (1);
+              front->clear_state ();
+            }
+        });
+  for (int round = 0; round < 40; ++round)
+    {
+      for (int i = 0; i < 200; ++i)
+        bench.start_exchange (
+            ft::make_exchange<ft::quiet_t, ft::quiet_t::DRAIN_t> (1));
+      bench.settle ();
+      bench.engine->cancel ();
+      bench.settle ();
+    }
+  stop.store (true);
+  flipping.join ();
+  bench.settle ();
+  EXPECT_EQ (bench.engine->statistics ().state_refusals, 0u);
+}
+
 } // namespace
