@@ -598,7 +598,10 @@ template <typename T> struct zero_known_t<T, false> : std::false_type
  * apart by their shape: the first that the whole message decodes as wins,
  * so give them different shapes. `describe` writes `ACK value=7` or `NAK
  * code=5` (a layout by its field names). The client returns the value of
- * `Ack`; a NAK ends the call with `protocol_errc::nak`.
+ * `Ack`; a NAK ends the call with `protocol_errc::nak`. A part is never a
+ * row with `stream` (the table does not compile): its frame is an event for
+ * the engine and never reaches the reader of the exchange, so use
+ * `reply_row<R>`.
  * @tparam Ack The positive acknowledgement.
  * @tparam Nak The negative acknowledgement.
  */
@@ -658,7 +661,10 @@ template <typename Ack, typename Nak> struct ack_nak_t
  * @details The parts are field types or rows, as in `ack_nak_t`; the first
  * reply is the acknowledgement, the next one the completion (`describe`
  * writes the first part a message decodes as: `ACK`, `COMPLETION
- * value=1000`). The client returns the value of the completion.
+ * value=1000`). The client returns the value of the completion. A part is
+ * never a row with `stream` (the table does not compile): its frame is an
+ * event for the engine and never reaches the reader of the exchange, so use
+ * `reply_row<R>`.
  * @tparam Ack The acknowledgement.
  * @tparam Completion The completion.
  */
@@ -2356,6 +2362,42 @@ struct parts_in_state_t<P, two_phase_t<A, C>, State>
 {
 };
 
+// Whether a part of a reply kind is a row of layer P with stream, as the layer
+// has it (a row of a base that P replaced is another check: the name would
+// mean the replacement). A frame of such a row is an event for the engine:
+// it never reaches the reader of an exchange.
+template <typename P, typename T, int Form = part_form_t<T>::value>
+struct part_streams_t : std::false_type
+{
+};
+
+template <typename P, typename T>
+struct part_streams_t<P, T, 1>
+    : std::integral_constant<bool,
+                             part_state_t<P, T>::value == 0
+                                 && row_has_t<T, dsl::kind::stream>::value>
+{
+};
+
+// Whether any part of the reply kind is a row with stream.
+template <typename P, typename Reply> struct parts_stream_t : std::false_type
+{
+};
+
+template <typename P, typename A, typename N>
+struct parts_stream_t<P, ack_nak_t<A, N>>
+    : std::integral_constant<bool, part_streams_t<P, A>::value
+                                       || part_streams_t<P, N>::value>
+{
+};
+
+template <typename P, typename A, typename C>
+struct parts_stream_t<P, two_phase_t<A, C>>
+    : std::integral_constant<bool, part_streams_t<P, A>::value
+                                       || part_streams_t<P, C>::value>
+{
+};
+
 // The checks of one edge of a row.
 template <typename Row, typename Edge> struct edge_check_t : std::true_type
 {
@@ -2430,6 +2472,11 @@ template <typename P, typename Row> struct row_check_t : std::true_type
                  "LUMEX_PROTOCOL: a reply kind of the row names a row the "
                  "layer replaced: list the row that names it in the layer "
                  "too, so that it names the row of the layer");
+  static_assert (!parts_stream_t<P, typename Row::reply_type>::value,
+                 "LUMEX_PROTOCOL: a reply kind of the row names a row with "
+                 "stream: use reply_row<R> (a frame of a row with stream is "
+                 "an event, the dialogue never gives it to the reader of an "
+                 "exchange, so the call would time out)");
   static_assert (
       !named::value
           || static_cast<int> (named_how_t<Row>::get ())
@@ -2613,7 +2660,10 @@ template <typename Row> struct reply_value_select_t<Row, void, 1>
  * @details The checks: `reply_row<R>`, the rows a reply kind names, the
  * rows of the protocol options are rows of `P` (a row of a base that `P`
  * replaced does not pass: the layer lists the naming row again, and a
- * protocol option names the row through the layer); `correlate
+ * protocol option names the row through the layer); no part of `ack_nak` or
+ * `two_phase` is a row with `stream` as `P` has it, inherited or replaced
+ * (a frame of such a row is an event: it never reaches the reader of an
+ * exchange; use `reply_row<R>`); `correlate
  * (by_reply_key)` comes with `reply_row<R>` and `correlate (custom)` with
  * `match_with`, and neither with another correlation; `by_key` is not on a
  * row whose reply kind names a row; a `by_order` row needs `max_in_flight`

@@ -238,6 +238,22 @@ private:
 // 44: enables_stream on a dangerous row.
 #define CHECK_ROW(X)                                                          \
   X (BAD, 0x50, "Bad", (), (), (u8_), (dangerous, enables_stream<STATE_t> ()))
+#elif LUMEX_DIALOGUE_CASE == 48
+// 48: a two_phase whose completion is a row with stream.
+#define CHECK_ROW(X)                                                          \
+  X (BAD, 0x50, "Bad", (), (), (two_phase<ACK_t, STATE_t>), ())
+#elif LUMEX_DIALOGUE_CASE == 49
+// 49: a two_phase whose acknowledgement is a row with stream.
+#define CHECK_ROW(X)                                                          \
+  X (BAD, 0x50, "Bad", (), (), (two_phase<STATE_t, CHANGE_t>), ())
+#elif LUMEX_DIALOGUE_CASE == 50
+// 50: an ack_nak whose positive part is a row with stream.
+#define CHECK_ROW(X)                                                          \
+  X (BAD, 0x50, "Bad", (), (), (ack_nak<STATE_t, NAK_t>), ())
+#elif LUMEX_DIALOGUE_CASE == 51
+// 51: an ack_nak whose negative part is a row with stream.
+#define CHECK_ROW(X)                                                          \
+  X (BAD, 0x50, "Bad", (), (), (ack_nak<ACK_t, STATE_t>), ())
 #else
 #define CHECK_ROW(X)
 #endif
@@ -263,6 +279,8 @@ private:
   X (SET, 0x02, "Set", (u8_), ("value"), (), (reply_row<CHANGE_t> ())) \
   X (ASK, 0x03, "Ask", (), (), (u8_), (match_with (&match_any))) \
   X (ZERO, 0x04, "Zero", (u8_), ("value"), (echo_zero_on_error<u8_>), ()) \
+  X (WATCH, 0x05, "Watch", (), (), (), (reply_row<STATE_t> ())) \
+  X (BOTH, 0x07, "Both", (), (), (two_phase<ACK_t, INFO_t>), ()) \
   CHECK_ROW (X)
 // clang-format on
 LUMEX_PROTOCOL_DEFINE (check_t, codec_t, header_t, CHECK_ROWS);
@@ -279,6 +297,20 @@ LUMEX_PROTOCOL_DEFINE (check_t, codec_t, header_t, CHECK_ROWS);
 // 46: a layer replaces STATE, which TURN_ON names, without listing TURN_ON.
 #define LAYER_ROWS(X, X_AS)                                                   \
   X (STATE, 0x12, "State", (), (), (info_t), (stream (100)))
+#elif LUMEX_DIALOGUE_CASE == 52
+// 52: a row of the layer names STATE, a row with stream that the layer
+// inherits.
+#define LAYER_ROWS(X, X_AS)                                                   \
+  X (LBAD, 0x51, "Lbad", (), (), (ack_nak<ACK_t, STATE_t>), ())
+#elif LUMEX_DIALOGUE_CASE == 53
+// 53: a layer replaces ACK with a row that has stream and lists GO, which
+// names it, again.
+#define LAYER_ROWS(X, X_AS)                                                   \
+  X (ACK, 0x06, "Ack", (), (), (), (stream (100)))                            \
+  X (GO, 0x01, "Go", (), (), (ack_nak<ACK_t, NAK_t>), (min_interval (10)))
+#elif LUMEX_DIALOGUE_CASE == 54
+// 54: a layer replaces ACK with a row that has stream and does not list GO.
+#define LAYER_ROWS(X, X_AS) X (ACK, 0x06, "Ack", (), (), (), (stream (100)))
 #else
 #define LAYER_ROWS(X, X_AS)                                                   \
   X (CHANGE, 0x30, "Change", (), (), (info_t), ())                            \
@@ -343,5 +375,11 @@ static_assert (
     std::is_same<dialogue::row_traits_t<layer_t, layer_t::SET_t>::reply_row,
                  layer_t::CHANGE_t>::value,
     "the layer that lists SET again names its own CHANGE");
+static_assert (dialogue::row_traits_t<check_t, check_t::WATCH_t>::how ()
+                   == dialogue::correlation::by_reply_key,
+               "reply_row names a row with stream");
+static_assert (dialogue::row_traits_t<check_t, check_t::BOTH_t>::how ()
+                   == dialogue::correlation::by_order,
+               "a kind names a row without stream");
 #endif
 } // namespace check_tables
