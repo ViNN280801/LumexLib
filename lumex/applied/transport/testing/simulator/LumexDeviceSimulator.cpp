@@ -176,6 +176,19 @@ struct simulator_gone_t
 {
 };
 
+// Why a message is sent: the reply to a request, a stream message, or a
+// message a played scenario makes the device send by itself.
+enum class send_kind : std::uint8_t
+{
+  request,
+  stream,
+  scripted
+};
+
+// How many jumps back, one after the other with no `send` between, a script
+// may take: a loop that never waits would not end (it would flood the mock).
+LUMEX_CONSTEXPR std::size_t kmax_idle_loops = 1000;
+
 class simulator_core;
 
 // The mock the simulator sits on: a stream or a datagram transport.
@@ -219,6 +232,7 @@ public:
         std::size_t const rows = table_->rows ().size ();
         ops_.assign (rows, static_cast<row_ops_t const *> (nullptr));
         answers_.assign (rows, std::shared_ptr<answer_fn_t const> ());
+        messages_.assign (rows, std::shared_ptr<answer_fn_t const> ());
         refusing_.assign (rows, 0);
         row_requests_.assign (rows, 0);
         for (std::size_t i = 0; i < rows; ++i)
@@ -262,16 +276,21 @@ public:
   shutdown () override
   {
     answers_t answers;
+    answers_t messages;
     streams_t streams;
     scheduled_t scheduled;
+    std::shared_ptr<play_t> played;
     std::shared_ptr<target_t> target;
     {
       std::lock_guard<std::mutex> const lock (mutex_);
       if (dead_.exchange (true))
         return;
       answers.swap (answers_);
+      messages.swap (messages_);
       streams.swap (streams_);
       scheduled.swap (scheduled_);
+      played.swap (play_);
+      cancel_playback ();
       target = target_;
     }
     if (table_ != nullptr && target)
@@ -290,6 +309,8 @@ public:
   drop_kept_handlers () LUMEX_NOEXCEPT override
   {
     answers_t answers;
+    answers_t messages;
+    std::shared_ptr<play_t> played;
     std::vector<std::shared_ptr<answer_fn_t const>> makes;
     std::vector<std::function<void ()>> actions;
     std::shared_ptr<target_t> target;
@@ -298,6 +319,9 @@ public:
       dead_.store (true);
       target.swap (target_);
       answers.swap (answers_);
+      messages.swap (messages_);
+      played.swap (play_);
+      cancel_playback ();
       for (streams_t::iterator at = streams_.begin (); at != streams_.end ();
            ++at)
         {
@@ -311,6 +335,8 @@ public:
           actions.back ().swap (at->second->action);
         }
       answers_.assign (answers.size (), std::shared_ptr<answer_fn_t const> ());
+      messages_.assign (messages.size (),
+                        std::shared_ptr<answer_fn_t const> ());
     }
     // The functions die here, outside the lock.
   }
@@ -347,6 +373,71 @@ public:
       old = answers_[position (row)];
       answers_[position (row)] = kept;
     }
+  }
+
+  void
+  set_message (index::row_t const *row, answer_fn_t message) override
+  {
+    std::shared_ptr<answer_fn_t const> kept;
+    if (message)
+      kept = std::make_shared<answer_fn_t const> (std::move (message));
+    std::shared_ptr<answer_fn_t const> old;
+    std::lock_guard<std::mutex> const lock (mutex_);
+    if (dead_.load ())
+      return;
+    old = messages_[position (row)];
+    messages_[position (row)] = kept;
+    // `old` dies after the lock: declared before it.
+  }
+
+  bool
+  play (dsl::scenario_t scenario, char const *state_row) override
+  {
+    std::shared_ptr<target_t> const mock = target ();
+    if (table_ == nullptr || !mock)
+      return false;
+    std::error_code const invalid = scenario.check ();
+    // Both die after the lock: the predicates of the test are in them.
+    std::shared_ptr<play_t> fresh = std::make_shared<play_t> ();
+    std::shared_ptr<play_t> replaced;
+    fresh->scenario = std::move (scenario);
+    fresh->state_row = state_row;
+    {
+      std::lock_guard<std::mutex> const lock (mutex_);
+      if (dead_.load () || play_status_.state == playback_state::playing)
+        return false;
+      replaced.swap (play_);
+      play_status_ = playback_status_t ();
+      play_status_.steps = fresh->scenario.steps.size ();
+      if (invalid)
+        {
+          play_status_.state = playback_state::failed;
+          play_status_.error = invalid;
+          return false;
+        }
+      play_status_.state = playback_state::playing;
+      fresh->id = ++next_id_;
+      play_ = fresh;
+    }
+    std::weak_ptr<simulator_core> const weak = shared_from_this ();
+    std::uint64_t const id = fresh->id;
+    // The first steps run on the strand, also when play () is called from
+    // another thread or from a handler of the simulator.
+    asio::post (mock->strand (),
+                [weak, id] ()
+                  {
+                    std::shared_ptr<simulator_core> const self = weak.lock ();
+                    if (self)
+                      self->play_advance (id);
+                  });
+    return true;
+  }
+
+  playback_status_t
+  playback () const override
+  {
+    std::lock_guard<std::mutex> const lock (mutex_);
+    return play_status_;
   }
 
   void
@@ -590,6 +681,21 @@ private:
     std::function<void ()> action;
   };
 
+  // The scenario being played; the strand owns everything but `id`.
+  struct play_t
+  {
+    dsl::scenario_t scenario;
+    // The identifier of the row of `state_from`, null without one.
+    char const *state_row = nullptr;
+    std::uint64_t id = 0;
+    // The step it stands at.
+    std::size_t step = 0;
+    // It ended or failed.
+    bool over = false;
+    // The last message of each row, as the dialogue keeps the last reply.
+    std::vector<std::pair<index::row_t const *, bytes_t>> last;
+  };
+
   using answers_t = std::vector<std::shared_ptr<answer_fn_t const>>;
   using streams_t = std::map<std::size_t, std::unique_ptr<stream_t>>;
   using scheduled_t = std::map<std::uint64_t, std::unique_ptr<step_t>>;
@@ -652,7 +758,260 @@ private:
     call.state = state;
     call.store = &store_;
     bytes_t const no_request;
-    deliver (*applier, no_request, true, call, *make, false);
+    deliver (*applier, no_request, true, call, *make, send_kind::stream);
+  }
+
+  // --- the scenario (on the strand)
+
+  // A playback that is still on the shutdown is cancelled (the lock is held).
+  void
+  cancel_playback () LUMEX_NOEXCEPT
+  {
+    if (play_status_.state != playback_state::playing)
+      return;
+    play_status_.state = playback_state::failed;
+    play_status_.error = std::make_error_code (std::errc::operation_canceled);
+  }
+
+  // The playback `id` when it is still on (0: the current one), else null.
+  std::shared_ptr<play_t>
+  running_play (std::uint64_t id)
+  {
+    std::lock_guard<std::mutex> const lock (mutex_);
+    if (dead_.load () || play_status_.state != playback_state::playing
+        || !play_ || (id != 0 && play_->id != id))
+      return std::shared_ptr<play_t> ();
+    return play_;
+  }
+
+  // The first steps of a playback came due.
+  void
+  play_advance (std::uint64_t id)
+  {
+    std::shared_ptr<play_t> const run = running_play (id);
+    if (run)
+      run_script (run);
+  }
+
+  // The script is at a `send` and a request of the row came in, was
+  // processed and not refused: it goes on.
+  void
+  play_request (index::row_t const &row, request_call_t const &call)
+  {
+    std::shared_ptr<play_t> const run = running_play (0);
+    if (!run || run->over || run->step >= run->scenario.steps.size ())
+      return;
+    dsl::scenario_step_t const &step = run->scenario.steps[run->step];
+    if (step.kind != dsl::scenario_step_kind::send || step.row == nullptr
+        || std::strcmp (step.row, row.entry->identifier) != 0)
+      return;
+    if (!call.messages.empty ())
+      remember (*run, &row, call.messages.back ());
+    ++run->step;
+    run_script (run);
+  }
+
+  void
+  run_script (std::shared_ptr<play_t> const &run)
+  {
+    try
+      {
+        advance_script (*run);
+      }
+    catch (simulator_gone_t const &)
+      {
+      }
+    catch (...)
+      {
+        end_play (*run, playback_state::failed,
+                  std::make_error_code (std::errc::interrupted));
+        throw;
+      }
+  }
+
+  void
+  end_play (play_t &run, playback_state state, std::error_code error)
+  {
+    run.over = true;
+    std::lock_guard<std::mutex> const lock (mutex_);
+    if (!play_ || play_->id != run.id)
+      return;
+    play_status_.state = state;
+    play_status_.step = run.step;
+    play_status_.error = error;
+  }
+
+  // Runs the steps that do not wait, up to the next `send` or the end.
+  void
+  advance_script (play_t &run)
+  {
+    std::size_t loops = 0;
+    for (;;)
+      {
+        if (dead_.load () || run.over)
+          return;
+        if (run.step >= run.scenario.steps.size ())
+          {
+            end_play (run, playback_state::finished, std::error_code ());
+            return;
+          }
+        dsl::scenario_step_t const &step = run.scenario.steps[run.step];
+        switch (step.kind)
+          {
+          case dsl::scenario_step_kind::send:
+            {
+              std::lock_guard<std::mutex> const lock (mutex_);
+              if (play_ && play_->id == run.id)
+                play_status_.step = run.step;
+              return;
+            }
+          case dsl::scenario_step_kind::expect:
+            send_scripted (run, step.row, false);
+            ++run.step;
+            break;
+          case dsl::scenario_step_kind::wait_state:
+            set_state (step.state);
+            send_scripted (run, run.state_row, true);
+            ++run.step;
+            break;
+          case dsl::scenario_step_kind::branch:
+            if (!branch_step (run, step, loops))
+              return;
+            break;
+          default:
+            ++run.step;
+            break;
+          }
+      }
+  }
+
+  // Decides a branch as the client does, from the last message the device
+  // sent for the row; false when the playback ended.
+  bool
+  branch_step (play_t &run, dsl::scenario_step_t const &step,
+               std::size_t &loops)
+  {
+    namespace perror = ::lumex::core::protocol::error;
+    bool taken = true;
+    if (step.decide)
+      {
+        index::row_t const *const row
+            = step.row == nullptr ? nullptr : find_row (step.row);
+        bytes_t const *last = nullptr;
+        for (std::size_t i = 0; i < run.last.size (); ++i)
+          if (run.last[i].first == row)
+            last = &run.last[i].second;
+        if (last == nullptr)
+          {
+            end_play (run, playback_state::failed,
+                      perror::make_error_code (
+                          perror::protocol_errc::unexpected_reply));
+            return false;
+          }
+        field::decode_context_t const context = session_.decode_context ();
+        std::error_code decided;
+        taken = false;
+        try
+          {
+            decided = step.decide (
+                layout::bytes_view_t (last->data (), last->size ()), context,
+                taken);
+          }
+        catch (...)
+          {
+            {
+              std::lock_guard<std::mutex> const lock (mutex_);
+              ++stats_.handler_errors;
+            }
+            end_play (run, playback_state::failed,
+                      std::make_error_code (std::errc::interrupted));
+            throw;
+          }
+        if (dead_.load ())
+          return false;
+        if (decided)
+          {
+            end_play (run, playback_state::failed, decided);
+            return false;
+          }
+      }
+    std::size_t const target
+        = taken ? run.scenario.find_label (step.label) : run.step + 1;
+    if (taken && target <= run.step && ++loops > kmax_idle_loops)
+      {
+        end_play (
+            run, playback_state::failed,
+            std::make_error_code (std::errc::resource_deadlock_would_occur));
+        return false;
+      }
+    run.step = target;
+    return true;
+  }
+
+  // Remembers `payload` as the last message of `row` and of the row it
+  // matches (the way the client keeps a reply under both).
+  void
+  remember (play_t &run, index::row_t const *row, bytes_t const &payload)
+  {
+    index::row_t const *const matched
+        = table_
+              ->match (layout::bytes_view_t (payload.data (), payload.size ()))
+              .row;
+    index::row_t const *const rows[2] = { row, matched };
+    for (std::size_t n = 0; n < 2; ++n)
+      {
+        if (rows[n] == nullptr || (n == 1 && rows[1] == rows[0]))
+          continue;
+        bool found = false;
+        for (std::size_t i = 0; i < run.last.size (); ++i)
+          if (run.last[i].first == rows[n])
+            {
+              run.last[i].second = payload;
+              found = true;
+            }
+        if (!found)
+          run.last.push_back (std::make_pair (rows[n], payload));
+      }
+  }
+
+  // The device sends a message of the row by itself: the configured one, or
+  // the sample (`sample_only`: the state shown with the state set).
+  void
+  send_scripted (play_t &run, char const *identifier, bool sample_only)
+  {
+    index::row_t const *const row
+        = identifier == nullptr ? nullptr : find_row (identifier);
+    if (row == nullptr)
+      return;
+    std::size_t const at = position (row);
+    row_ops_t const *const ops = ops_[at];
+    if (ops == nullptr || ops->message == nullptr
+        || !session_.available (*row->entry))
+      return;
+    std::shared_ptr<answer_fn_t const> configured;
+    std::shared_ptr<behavior_applier> applier;
+    std::int64_t state = 0;
+    {
+      std::lock_guard<std::mutex> const lock (mutex_);
+      if (dead_.load ())
+        return;
+      if (!sample_only)
+        configured = messages_[at];
+      applier = applier_;
+      state = state_;
+    }
+    request_call_t call;
+    field::decode_context_t const context = session_.decode_context ();
+    call.context = &context;
+    call.session = &session_;
+    call.state = state;
+    call.store = &store_;
+    answer_fn_t const sample (ops->message);
+    answer_fn_t const &make = configured ? *configured : sample;
+    bytes_t const no_request;
+    deliver (*applier, no_request, true, call, make, send_kind::scripted);
+    if (!call.messages.empty () && !call.encode_failed)
+      remember (run, row, call.messages.back ());
   }
 
   // A scheduled step came due (on the strand).
@@ -760,7 +1119,7 @@ private:
       {
         // No such row: nothing, or the frame back.
         deliver (*applier, request_wire, options_.answer_unknown, call,
-                 answer_fn_t (), true);
+                 answer_fn_t (), send_kind::request);
         return;
       }
     dsl::states_t const accepted = found.row->entry->options.accepted_states;
@@ -779,20 +1138,25 @@ private:
     // it from one request to the next (`answer` keeps it alive meanwhile).
     answer_fn_t const standard (chosen->answer);
     answer_fn_t const &run = answer ? *answer : standard;
-    deliver (*applier, request_wire,
-             chosen->replies || options_.answer_unknown, call, run, true);
+    bool const processed = deliver (*applier, request_wire,
+                                    chosen->replies || options_.answer_unknown,
+                                    call, run, send_kind::request);
+    // A scripted `send` goes on for a request the device processed and did
+    // not refuse.
+    if (processed && !call.refused && !call.malformed && !call.encode_failed)
+      play_request (*found.row, call);
   }
 
   // Lets the behaviour decide, makes the reply of a request the device
   // processes, sends it and what follows; the counters.
-  void
+  bool
   deliver (behavior_applier &applier, bytes_t const &request_wire,
            bool has_reply, request_call_t &call, answer_fn_t const &run,
-           bool is_request)
+           send_kind kind)
   {
     std::shared_ptr<target_t> const mock = target ();
     if (!mock)
-      return;
+      return false;
     bool made_first = false;
     bool echo_back = false;
     reply_maker_t const make = [&] () -> bytes_t
@@ -828,7 +1192,7 @@ private:
     catch (simulator_gone_t const &)
       {
         // Destroyed inside the code that makes the reply: nothing is sent.
-        return;
+        return false;
       }
     catch (...)
       {
@@ -864,11 +1228,11 @@ private:
       {
         // A request the device did not process; a stream message it did not
         // send is no request and is not counted.
-        if (is_request)
+        if (kind == send_kind::request)
           ++stats_.not_processed;
-        return;
+        return false;
       }
-    if (is_request)
+    if (kind == send_kind::request)
       {
         stats_.replies += sent;
         stats_.registry_writes += call.kept;
@@ -877,10 +1241,13 @@ private:
         if (call.malformed)
           ++stats_.malformed_requests;
       }
+    else if (kind == send_kind::scripted)
+      stats_.scripted_messages += sent;
     else
       stats_.stream_messages += sent;
     if (call.encode_failed)
       ++stats_.encode_errors;
+    return true;
   }
 
   index::protocol_index_t const *table_;
@@ -898,12 +1265,16 @@ private:
   std::int64_t state_;
   std::uint64_t next_id_;
   answers_t answers_;
+  // The message of each row for a scenario (the value of `set_reply`).
+  answers_t messages_;
   std::vector<char> refusing_;
   std::vector<std::uint64_t> row_requests_;
   std::shared_ptr<behavior_applier> applier_;
   streams_t streams_;
   scheduled_t scheduled_;
   simulator_statistics_t stats_;
+  std::shared_ptr<play_t> play_;
+  playback_status_t play_status_;
 };
 
 // The device on a mock stream.

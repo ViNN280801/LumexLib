@@ -258,6 +258,14 @@
 
 **Проверено:** Linux, GCC 13 и Clang 23 (`LUMEX_WERROR=ON`): наборы `transport.testing` на C++11 и C++20, `cmake.consumer_transport_warnings`, проверки подключения; GCC 8.3 C++11, ASan+UBSan и TSan набора симулятора; компиляция MinGW новых `.cpp`. Самый большой файл теста (прибор M) компилируется при 1302 МБ на GCC 13 (предел 1,5 ГБ). На Windows (cl, clang-cl) не собиралось.
 
+##### Сценарии в симуляторе прибора
+
+**Файлы:** `lumex/applied/transport/testing/simulator/LumexDeviceSimulator.hpp`, `.cpp`, `lumex/applied/transport/README.md`; тесты: `lumex/tests/applied/transport/testing/simulator/LumexDeviceSimulatorScenario.cxx11.tests.cpp` (новый), `lumex/tests/cmake/consumer/transport_warnings/main.cpp`.
+
+**Суть:** `testing::device_simulator<P>::play<Scenario> ()` и `playback ()`: прибор проигрывает свою роль в сценарии клиента (`LUMEX_PROTOCOL_SCENARIO`, тот же `Scenario::make ()`, что исполняет движок диалога). `send<Row>` ждет запрос строки и отвечает как настроено; `expect<Row>` сам шлет сообщение строки (значение `set_reply<Row>` или пробное); `wait_state (s)` ставит состояние и шлет сообщение строки `state_from`; ветки идут по тому же предикату от последнего сообщения строки. Запрос другой строки обслуживается как обычно и сценарий не двигает, отказанный, не обработанный или не разобранный запрос тоже. `playback ()` дает `playback_status_t`: состояние, шаг и ошибку; сообщения сценария считает `scripted_messages`. Сценарий, не прошедший `check ()`, не проигрывается; цикл без `send` кончается ошибкой после 1000 переходов назад; предикат, бросивший исключение, считается в `handler_errors` и пропускается в `run ()` заглушки. Сценарий другого слоя не компилируется.
+
+**Проверено:** Linux, GCC 13 и Clang 23 (`LUMEX_WERROR=ON`): `transport.testing` на C++11 и C++20, `cmake.consumer_transport_warnings`, `cmake.wiring_transport_protocol`; GCC 8.3 C++11, ASan+UBSan и TSan набора симулятора; компиляция MinGW. Сценарии выполнялись только на тестовой таблице, на таблицах приборов проверена компиляция.
+
 #### Исправлено
 
 ##### `LumexFilesystem`: пути не в ASCII на Windows

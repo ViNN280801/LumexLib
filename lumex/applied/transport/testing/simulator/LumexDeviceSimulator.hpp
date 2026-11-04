@@ -113,6 +113,40 @@
  * virtual time on the same strand (a scripted sequence: change the state, the
  * reply, the behaviour, start or stop a stream).
  *
+ * Scenarios. `play<Scenario> ()` makes the device play its side of a scenario
+ * written for the client (`LUMEX_PROTOCOL_SCENARIO`, the same
+ * `Scenario::make ()` the dialogue engine runs): one description, read from
+ * the other end. `send<Row>` is the device waiting for a request of `Row`
+ * and answering it as the row is configured; `expect<Row>` is the device
+ * sending a message of `Row` by itself (the value of `set_reply<Row>`, else
+ * the sample, as a stream does); `wait_state (s)` is the device setting the
+ * state `s` and, when the protocol has a `state_from` row, sending a message
+ * of that row that shows it (the way the client learns it);
+ * `branch_on_reply`, `jump` and `label` follow the decision the client takes,
+ * with the predicate of the scenario on the last message the device sent for
+ * the row (a reply, or a message by itself). Everything but a `send` runs at
+ * once, on the strand of the mock, after the step before it; a `send` waits.
+ * A request of another row is served as usual and does not advance the
+ * script, nor does a request of the row that the device refused, did not
+ * process (a silent or frozen device) or could not decode. The time of a step
+ * is not the device's: it never times out (use `after` for a delay). What
+ * the device sends by itself the client has to be waiting for: start the
+ * client's run before `play`, as the messages of a real device are lost when
+ * nobody listens. A message of a row outside the session (firmware, model)
+ * is not sent, the script goes on. `playback ()` tells whether the script
+ * waits (`playing` at the step of the `send`), ended (`finished`, the step is
+ * the number of steps) or failed (`failed`, the step that failed and the
+ * error): a scenario whose `check ()` fails is not played (`play` returns
+ * false, `invalid_argument`); a branch on a row with no message yet is
+ * `unexpected_reply`; a predicate that throws fails it with `interrupted`
+ * and the exception goes on to the code that runs the strand, as that of a
+ * handler; a loop that never reaches a `send` (a thousand jumps back in a
+ * row) fails with `resource_deadlock_would_occur`. A second `play` while one
+ * runs, and `play` after the `io_context` is gone, return false and change
+ * nothing; after a script ended or failed another one starts from its first
+ * step. A scenario of another protocol does not compile. The messages the
+ * script sends by itself are `scripted_messages`.
+ *
  * Behaviours. Every message the device sends, a reply or a stream message,
  * goes through the `behavior_applier` of the simulator (`set_behavior`,
  * perfect by default): a silent, frozen or unplugged device does not
@@ -139,10 +173,10 @@
  * is answered with nothing), while a stream runs, and after the
  * `io_context` is gone. When the context shuts down the simulator lets go of
  * the mock (so that nothing of the context outlives it) and of the functions
- * of the test, and is dead from then on: `start_stream` and
- * `start_stream_with` return false, `after` does nothing and `statistics ()`
- * goes on. Its timers on a virtual clock outlive the context; with a real
- * clock
+ * of the test, and is dead from then on: `start_stream`,
+ * `start_stream_with` and `play` return false, `after` does nothing and
+ * `statistics ()` and `playback ()` go on. Its timers on a virtual clock
+ * outlive the context; with a real clock
  * (`steady_timer_source`) they are Asio timers, which must not: destroy the
  * simulator before the `io_context` then. A mock that is not given to a
  * simulator has the same limit (see `LumexMockStream.hpp`). A handler that
@@ -192,6 +226,7 @@
 #include "lumex/applied/transport/testing/LumexVirtualClock.hpp"
 #include "lumex/core/framing/codec/LumexFramingCodec.hpp"
 #include "lumex/core/protocol/LumexProtocol"
+#include "lumex/core/protocol/dsl/LumexProtocolScenario.hpp"
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 #include "lumex/core/utility/sequence/LumexIndexSequence.hpp"
@@ -244,6 +279,33 @@ struct simulator_row_count_t
   std::uint64_t requests = 0;
 };
 
+/// @brief Where the playback of a scenario is.
+enum class playback_state : std::uint8_t
+{
+  /// Nothing was played.
+  idle,
+  /// The script waits at a `send` (or has not run its first steps yet).
+  playing,
+  /// Every step was played.
+  finished,
+  /// The script stopped at a step with an error.
+  failed
+};
+
+/// @brief The playback of the scenario of a `device_simulator` (a snapshot).
+struct playback_status_t
+{
+  /// Where it is.
+  playback_state state = playback_state::idle;
+  /// The step it waits at, the number of steps when it is finished, the step
+  /// that failed when it failed.
+  std::size_t step = 0;
+  /// The number of steps of the scenario.
+  std::size_t steps = 0;
+  /// The error of a failed playback.
+  std::error_code error;
+};
+
 /// @brief The counters of a `device_simulator` (a snapshot).
 struct simulator_statistics_t
 {
@@ -274,6 +336,9 @@ struct simulator_statistics_t
   std::uint64_t encode_errors = 0;
   /// Handlers and generators that threw.
   std::uint64_t handler_errors = 0;
+  /// Messages a played scenario made the device send by itself (an `expect`
+  /// or a `wait_state`) that reached the mock.
+  std::uint64_t scripted_messages = 0;
   /// Registry values kept (a refused request, or a handler that threw, keeps
   /// none).
   std::uint64_t registry_writes = 0;
@@ -735,6 +800,9 @@ struct row_ops_t
   /// Makes the stream message of the row from its sample (null for a row
   /// without `stream`).
   void (*stream) (request_call_t &);
+  /// Makes the message of the row from its sample with no request (the
+  /// stream message, for every row; a scenario sends it).
+  void (*message) (request_call_t &);
   /// Whether the row has a reply at all.
   bool replies;
 };
@@ -1631,9 +1699,9 @@ struct ops_table_t<P, dsl::type_list<Rows...>>
     // One entry more than rows: a table without rows still has an array.
     static row_ops_t const table[sizeof...(Rows) + 1]
         = { { Rows::identifier (), &row_thunk_t<P, Rows>::answer,
-              stream_thunk_t<P, Rows>::get (),
+              stream_thunk_t<P, Rows>::get (), &row_thunk_t<P, Rows>::stream,
               answerer_t<P, Rows>::replies () }...,
-            { nullptr, nullptr, nullptr, false } };
+            { nullptr, nullptr, nullptr, nullptr, false } };
     count = sizeof...(Rows);
     return table;
   }
@@ -1772,6 +1840,15 @@ public:
   virtual index::row_t const *find_row (char const *identifier) const = 0;
   /// The answer of the test for the row; empty goes back to the default.
   virtual void set_answer (index::row_t const *row, answer_fn_t answer) = 0;
+  /// The message the device sends by itself for the row in a scenario (the
+  /// value of `set_reply`); empty goes back to the sample.
+  virtual void set_message (index::row_t const *row, answer_fn_t message) = 0;
+  /// Plays the scenario (see the file description): false when one runs, the
+  /// device is dead or the scenario fails its check. `state_row` is the
+  /// identifier of the row of `state_from`, null without one.
+  virtual bool play (dsl::scenario_t scenario, char const *state_row) = 0;
+  /// Where the playback is.
+  virtual playback_status_t playback () const = 0;
   /// Marks the row refused (or not).
   virtual void set_refusing (index::row_t const *row, bool refusing) = 0;
   /// Sends the message `make` builds every `interval`; false when the
@@ -1926,7 +2003,11 @@ public:
   {
     check_row<Row> ();
     simulator_detail::value_producer_t<P, Row> producer = { value };
-    return set_answer<Row> (simulator_detail::make_answer<P, Row> (producer));
+    // The same value is the message the device sends by itself for the row.
+    simulator_detail::stream_answer_t<P, Row, value_maker_t<Row>> message
+        = { value_maker_t<Row>{ value } };
+    return set_answer<Row> (simulator_detail::make_answer<P, Row> (producer),
+                            simulator_detail::answer_fn_t (message));
   }
 
   /// @brief Goes back to the default reply of `Row`.
@@ -1936,6 +2017,31 @@ public:
   {
     check_row<Row> ();
     return set_answer<Row> (simulator_detail::answer_fn_t ());
+  }
+
+  /**
+   * @brief Plays the device's side of `Scenario` (see the file description).
+   * @tparam Scenario A type of `LUMEX_PROTOCOL_SCENARIO` of the layer `P`;
+   * one of another layer does not compile.
+   * @return False when a script is running, the scenario fails its
+   * `check ()` or the simulator is dead (the context is gone); true when it
+   * started (its first steps run on the strand of the mock).
+   */
+  template <typename Scenario>
+  typename std::enable_if<
+      std::is_same<typename Scenario::protocol_type, P>::value, bool>::type
+  play ()
+  {
+    return api_->play (
+        Scenario::make (),
+        state_row_identifier (typename std::is_void<state_row_type>::type ()));
+  }
+
+  /// @brief Where the playback of the last scenario is.
+  playback_status_t
+  playback () const
+  {
+    return api_->playback ();
   }
 
   /// @brief Makes the device refuse (or accept again) the requests of
@@ -2124,13 +2230,39 @@ private:
 
   template <typename Row>
   bool
-  set_answer (simulator_detail::answer_fn_t answer)
+  set_answer (simulator_detail::answer_fn_t answer,
+              simulator_detail::answer_fn_t message
+              = simulator_detail::answer_fn_t ())
   {
     simulator_detail::index::row_t const *const row = row_of<Row> ();
     if (row == nullptr)
       return false;
     api_->set_answer (row, std::move (answer));
+    api_->set_message (row, std::move (message));
     return true;
+  }
+
+  // The row of `state_from`, void without one.
+  using state_row_type = typename ::lumex::applied::transport::protocol::
+      dialogue::protocol_traits_t<P>::state_row;
+
+  static char const *
+  state_row_identifier (std::true_type) LUMEX_NOEXCEPT
+  {
+    return nullptr;
+  }
+
+  static char const *
+  state_row_identifier (std::false_type)
+  {
+    return state_row_name<state_row_type> ();
+  }
+
+  template <typename Row>
+  static char const *
+  state_row_name ()
+  {
+    return Row::identifier ();
   }
 
   template <typename Codec>
