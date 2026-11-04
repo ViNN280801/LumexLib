@@ -403,6 +403,9 @@ public:
   /// @brief Whether a state is known.
   bool state_known () const LUMEX_NOEXCEPT;
 
+  /// @brief Whether a state is known, and which (0 when none): one snapshot.
+  bool read_state (std::int64_t &state) const LUMEX_NOEXCEPT;
+
   /// @brief Starts a sequence: the handler arrives erased, with the mark of
   /// its cancellation slot (none without a slot).
   void start_scenario (
@@ -523,8 +526,10 @@ private:
   void arm_rate_timer (timing::time_point_t at);
   void fail_rate_waiters ();
   // The state.
-  bool refused_by_state (exchange_record_t const &record) const LUMEX_NOEXCEPT;
-  void refuse_by_state (record_ptr record);
+  // Whether the state in `state` does not accept the request.
+  bool refused_by_state (exchange_record_t const &record,
+                         std::int64_t &state) const LUMEX_NOEXCEPT;
+  void refuse_by_state (record_ptr record, std::int64_t state);
   void store_state (std::int64_t state) LUMEX_NOEXCEPT;
   // The frames: the stream of a row, its levels.
   void note_stream_frame (row_watch_t &watch);
@@ -652,9 +657,12 @@ private:
   timing::timer keepalive_timer_;
   bool keepalive_armed_;
   bool keepalive_pending_;
-  // The last known state: any thread (a value, then the flag).
-  std::atomic<std::int64_t> state_value_;
-  std::atomic<bool> state_known_;
+  // An arm threw: a frame or the end of a keepalive tries again.
+  bool keepalive_arm_failed_;
+  // The last known state: any thread, read as one snapshot of the two.
+  mutable std::mutex state_mutex_;
+  bool state_known_;
+  std::int64_t state_value_;
   // The sequences under way.
   std::vector<std::unique_ptr<sequence_run_t>> runs_;
   // The subscribers and the handlers of unknown frames, of edges and of the

@@ -74,9 +74,11 @@
  *   a row takes it: a mistake does not compile.
  * - `expect<Row> ()`, `expect<Row> (ms)`: waits for a frame of `Row` that
  *   answers no request, with the time of the step (the time the executor
- *   takes by default, or `ms`; 0 waits for ever).
+ *   takes by default, or `ms`; 0 waits for ever, also on a lost link: only a
+ *   cancellation ends it).
  * - `wait_state (state)`, `wait_state (state, ms)`: waits until the last known
- *   state of the device is `state` (an integer or an enumerator).
+ *   state of the device is `state` (an integer or an enumerator); `ms` of 0
+ *   waits for ever, as for `expect`.
  * - `branch_on_reply<Row> (predicate, "label")`: goes on at the label when
  *   `predicate` says so for the value of the last reply of `Row` in this run
  *   (`bool (value const &)`, the value `layout::decode_reply_message<P, Row>`
@@ -85,7 +87,9 @@
  * - `jump ("label")`: goes on at the label.
  * - `label ("name")`: a place to go to; it does nothing.
  *
- * `scenario_t::check ()` says whether every label is known and given once.
+ * A label is a string with static storage, a literal as a rule: the step keeps
+ * the pointer (a `std::string::c_str ()` dangles). `scenario_t::check ()` says
+ * whether every label is not null, known and given once.
  */
 #ifndef LUMEX_CORE_PROTOCOL_DSL_SCENARIO_HPP
 #define LUMEX_CORE_PROTOCOL_DSL_SCENARIO_HPP
@@ -192,21 +196,29 @@ struct scenario_t
   std::size_t
   find_label (char const *wanted) const
   {
+    if (wanted == nullptr)
+      return steps.size ();
     for (std::size_t i = 0; i < steps.size (); ++i)
       if (steps[i].kind == scenario_step_kind::label
+          && steps[i].label != nullptr
           && std::strcmp (steps[i].label, wanted) == 0)
         return i;
     return steps.size ();
   }
 
-  /// @brief `std::errc::invalid_argument` when a branch goes to a label that
-  /// does not exist or a label is given twice, otherwise empty.
+  /// @brief `std::errc::invalid_argument` when a label is null, a branch goes
+  /// to a label that does not exist or a label is given twice, otherwise
+  /// empty.
   std::error_code
   check () const
   {
     for (std::size_t i = 0; i < steps.size (); ++i)
       {
         scenario_step_t const &step = steps[i];
+        if ((step.kind == scenario_step_kind::branch
+             || step.kind == scenario_step_kind::label)
+            && step.label == nullptr)
+          return std::make_error_code (std::errc::invalid_argument);
         if (step.kind == scenario_step_kind::branch
             && find_label (step.label) == steps.size ())
           return std::make_error_code (std::errc::invalid_argument);

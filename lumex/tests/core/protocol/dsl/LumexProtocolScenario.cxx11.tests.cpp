@@ -70,6 +70,10 @@ LUMEX_PROTOCOL_SCENARIO (
 LUMEX_PROTOCOL_SCENARIO (lost_label_scenario, mixer_t, (jump ("nowhere")));
 LUMEX_PROTOCOL_SCENARIO (twice_label_scenario, mixer_t, (label ("here")),
                          (label ("here")));
+LUMEX_PROTOCOL_SCENARIO (null_jump_scenario, mixer_t, (jump (nullptr)),
+                         (label ("here")));
+LUMEX_PROTOCOL_SCENARIO (null_label_scenario, mixer_t, (label (nullptr)),
+                         (jump ("here")), (label ("here")));
 LUMEX_PROTOCOL_SCENARIO (too_big_scenario, mixer_t,
                          (send<mixer_t::WASH_t> (300, 1)));
 LUMEX_PROTOCOL_SCENARIO (
@@ -230,4 +234,16 @@ TEST (LumexProtocolScenarioTest,
   EXPECT_EQ (twice_label_scenario::make ().check (),
              std::make_error_code (std::errc::invalid_argument));
   EXPECT_FALSE (lambda_scenario::make ().check ());
+}
+
+TEST (LumexProtocolScenarioTest,
+      GivenANullLabel_WhenChecked_ThenItIsRefusedAndFindingStaysSafe)
+{
+  EXPECT_EQ (null_jump_scenario::make ().check (),
+             std::make_error_code (std::errc::invalid_argument));
+  EXPECT_EQ (null_label_scenario::make ().check (),
+             std::make_error_code (std::errc::invalid_argument));
+  dsl::scenario_t const made = null_label_scenario::make ();
+  EXPECT_EQ (made.find_label ("here"), 2u);
+  EXPECT_EQ (made.find_label (nullptr), made.steps.size ());
 }

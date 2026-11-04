@@ -408,4 +408,50 @@ TEST (LumexDialogueKeepaliveTest,
   context.restart ();
   context.poll ();
 }
+TEST (LumexDialogueKeepaliveTest,
+      Keepalive_AThrowingRearmIsArmedAgainByTheNextFrame)
+{
+  manual_bench_t<clocked_t> bench;
+  std::shared_ptr<ft::flaky_timers_t> const timers
+      = std::make_shared<ft::flaky_timers_t> (bench.clock.source ());
+  bench.options.timers = tr::timing::timer_source (timers);
+  bench.start ();
+  bench.engine->set_keepalive (dialogue::keepalive_from<clocked_t> (
+      [] () { return std::make_tuple (std::uint32_t (1)); }));
+  bench.settle ();
+  bench.advance (ms (999));
+  timers->set_throwing (true);
+  bench.advance (ms (1));
+  timers->set_throwing (false);
+  EXPECT_EQ (bench.link->written ().size (), 1u);
+  bench.deliver (bytes ({ 0x33, 0x01 }));
+  bench.advance (ms (999));
+  EXPECT_EQ (bench.link->written ().size (), 1u);
+  bench.advance (ms (1));
+  EXPECT_EQ (bench.link->written ().size (), 2u);
+}
+
+TEST (LumexDialogueKeepaliveTest,
+      Keepalive_AThrowingRearmIsArmedAgainWhenThePendingRequestEnds)
+{
+  manual_bench_t<answered_t> bench;
+  std::shared_ptr<ft::flaky_timers_t> const timers
+      = std::make_shared<ft::flaky_timers_t> (bench.clock.source ());
+  bench.options.timers = tr::timing::timer_source (timers);
+  bench.options.defaults.timeout_ms = 50;
+  bench.start ();
+  // The period ends at 100: its re-arm throws, the request goes all the same.
+  bench.advance (ms (99));
+  timers->throw_next (1);
+  bench.advance (ms (1));
+  EXPECT_EQ (bench.count (0x33), 1u);
+  // No frame: the request ends by its timeout at 150, which arms the next
+  // period.
+  bench.advance (ms (50));
+  EXPECT_EQ (bench.engine->statistics ().timeouts, 1u);
+  bench.advance (ms (99));
+  EXPECT_EQ (bench.count (0x33), 1u);
+  bench.advance (ms (1));
+  EXPECT_EQ (bench.count (0x33), 2u);
+}
 } // namespace

@@ -37,6 +37,7 @@
  * SOFTWARE.
  */
 
+#include <algorithm>
 #include <chrono>
 #include <cstddef>
 #include <cstdint>
@@ -491,7 +492,8 @@ dialogue_impl::dialogue_impl (frame_link link,
       gap_timer_ (options.timers.make_timer (executor_type (strand_))),
       gap_armed_ (false), gap_armed_for_ (), link_up_ (true),
       read_restart_ms_ (options.read_restart_ms),
-      read_restart_max_ms_ (options.read_restart_max_ms),
+      read_restart_max_ms_ (
+          (std::max)(options.read_restart_max_ms, options.read_restart_ms)),
       read_restart_timer_ (
           options.timers.make_timer (executor_type (strand_))),
       read_restart_armed_ (false), read_failures_ (0),
@@ -505,8 +507,9 @@ dialogue_impl::dialogue_impl (frame_link link,
                          : 0),
       keepalive_row_ (nullptr),
       keepalive_timer_ (options.timers.make_timer (executor_type (strand_))),
-      keepalive_armed_ (false), keepalive_pending_ (false), state_value_ (0),
-      state_known_ (false), handlers_closed_ (false), enlisted_ (false)
+      keepalive_armed_ (false), keepalive_pending_ (false),
+      keepalive_arm_failed_ (false), state_known_ (false), state_value_ (0),
+      handlers_closed_ (false), enlisted_ (false)
 {
   build_watches (options.features);
 }
@@ -769,9 +772,10 @@ dialogue_impl::run_enqueue (std::uint64_t id, exchange_t &request,
   if (queue_.empty () && can_start (*record)
       && rate_due (*record) <= timers_.now ())
     {
-      if (refused_by_state (*record))
+      std::int64_t state = 0;
+      if (refused_by_state (*record, state))
         {
-          refuse_by_state (std::move (record));
+          refuse_by_state (std::move (record), state);
           return;
         }
       flight_.push_back (std::move (record));
@@ -838,9 +842,10 @@ dialogue_impl::pump ()
         }
       record_ptr record (std::move (queue_[at]));
       queue_.erase (queue_.begin () + static_cast<std::ptrdiff_t> (at));
-      if (refused_by_state (*record))
+      std::int64_t state = 0;
+      if (refused_by_state (*record, state))
         {
-          refuse_by_state (std::move (record));
+          refuse_by_state (std::move (record), state);
           continue;
         }
       flight_.push_back (std::move (record));
@@ -1477,14 +1482,19 @@ dialogue_impl::subscribe (pindex::row_t const *row, frame_handler_t handler)
   return made;
 }
 
+// The handler dies after the lock is released: its destructor may call the
+// engine.
 bool
 dialogue_impl::unsubscribe (subscription_t subscription)
 {
+  handler_ptr removed;
+  std::shared_ptr<edge_handler_t const> removed_edge;
   std::lock_guard<std::mutex> const lock (handlers_mutex_);
   for (std::vector<subscriber_t>::iterator it = subscribers_.begin ();
        it != subscribers_.end (); ++it)
     if (it->id == subscription.id)
       {
+        removed.swap (it->handler);
         subscribers_.erase (it);
         return true;
       }
@@ -1493,6 +1503,7 @@ dialogue_impl::unsubscribe (subscription_t subscription)
        it != edge_subscribers_.end (); ++it)
     if (it->id == subscription.id)
       {
+        removed_edge.swap (it->handler);
         edge_subscribers_.erase (it);
         return true;
       }
@@ -1502,13 +1513,15 @@ dialogue_impl::unsubscribe (subscription_t subscription)
 void
 dialogue_impl::set_unknown_handler (frame_handler_t handler)
 {
-  handler_ptr const made
+  // The old one dies after the lock is released: its destructor may call the
+  // engine.
+  handler_ptr made
       = handler ? std::make_shared<frame_handler_t const> (std::move (handler))
                 : handler_ptr ();
   std::lock_guard<std::mutex> const lock (handlers_mutex_);
   if (handlers_closed_)
     return;
-  unknown_ = made;
+  unknown_.swap (made);
 }
 
 void

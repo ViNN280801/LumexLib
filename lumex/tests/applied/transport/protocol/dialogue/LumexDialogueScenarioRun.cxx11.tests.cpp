@@ -122,6 +122,10 @@ LUMEX_PROTOCOL_SCENARIO (
                                             { return value == 4; }, "end")),
     (send<quiet_t::QUERY_t> ()), (label ("end")));
 
+LUMEX_PROTOCOL_SCENARIO (null_jump_scenario, quiet_t, (jump (nullptr)));
+LUMEX_PROTOCOL_SCENARIO (null_label_scenario, quiet_t, (label (nullptr)),
+                         (jump ("somewhere")), (label ("somewhere")));
+
 template <typename Scenario>
 sequence_outcome_ptr
 start (manual_bench_t<quiet_t> &bench)
@@ -908,4 +912,21 @@ TEST (LumexDialogueScenarioTest, Token_AMovedFromEngineAnswersNotOpen)
       EXPECT_EQ (error.code (), transport_errc::not_open);
     }
 }
+TEST (LumexDialogueScenarioTest,
+      Scenario_ANullLabelRefusesTheScenarioAtTheStart)
+{
+  manual_bench_t<quiet_t> bench;
+  bench.start ();
+  sequence_outcome_ptr const jump_out = start<null_jump_scenario> (bench);
+  sequence_outcome_ptr const label_out = start<null_label_scenario> (bench);
+  bench.settle ();
+  ASSERT_EQ (jump_out->calls, 1);
+  EXPECT_EQ (jump_out->error,
+             std::make_error_code (std::errc::invalid_argument));
+  EXPECT_EQ (jump_out->step, 0u);
+  ASSERT_EQ (label_out->calls, 1);
+  EXPECT_EQ (label_out->error,
+             std::make_error_code (std::errc::invalid_argument));
+}
+
 } // namespace
