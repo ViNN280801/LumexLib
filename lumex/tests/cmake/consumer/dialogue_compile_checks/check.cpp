@@ -23,6 +23,14 @@
 #define LUMEX_DIALOGUE_CASE LUMEX_DIALOGUE_BAD_CASE
 #endif
 
+#if LUMEX_DIALOGUE_CASE == 0                                                  \
+    || (LUMEX_DIALOGUE_CASE >= 52 && LUMEX_DIALOGUE_CASE <= 71)
+#include <future>
+#include <system_error>
+
+#include "lumex/applied/transport/protocol/client/LumexProtocolClient.hpp"
+#endif
+
 namespace check_tables
 {
 namespace dialogue = ::lumex::applied::transport::protocol::dialogue;
@@ -105,6 +113,25 @@ LUMEX_PROTOCOL_DEFINE (other_t, codec_t, other_header_t, OTHER_ROWS);
 #define CHECK_WATCHDOG dialogue::watchdog_ms<5000>
 #endif
 
+struct check_t;
+struct layer_t;
+
+#if LUMEX_DIALOGUE_CASE == 48
+// 48: a layer_set without layers.
+#define CHECK_LAYERS dialogue::layer_set<>
+#elif LUMEX_DIALOGUE_CASE == 49
+// 49: a layer_set of a type that is no layer.
+#define CHECK_LAYERS dialogue::layer_set<check_t, int>
+#elif LUMEX_DIALOGUE_CASE == 50
+// 50: a layer_set naming a layer of another protocol.
+#define CHECK_LAYERS dialogue::layer_set<check_t, other_t>
+#elif LUMEX_DIALOGUE_CASE == 51
+// 51: a layer_set naming a layer twice.
+#define CHECK_LAYERS dialogue::layer_set<check_t, check_t>
+#else
+#define CHECK_LAYERS dialogue::layer_set<check_t, layer_t>
+#endif
+
 struct header_t
 {
   using lumex_vocabulary = dialogue::vocabulary_t;
@@ -120,7 +147,7 @@ private:
   template <typename P>
   using dialogue_options
       = dialogue::options<CHECK_KEEPALIVE, CHECK_WATCHDOG, CHECK_STATE,
-                          CHECK_IDENTIFY CHECK_MORE>;
+                          CHECK_IDENTIFY, CHECK_LAYERS CHECK_MORE>;
 #endif
 };
 
@@ -238,20 +265,20 @@ private:
 // 44: enables_stream on a dangerous row.
 #define CHECK_ROW(X)                                                          \
   X (BAD, 0x50, "Bad", (), (), (u8_), (dangerous, enables_stream<STATE_t> ()))
-#elif LUMEX_DIALOGUE_CASE == 48
-// 48: a two_phase whose completion is a row with stream.
+#elif LUMEX_DIALOGUE_CASE == 72
+// 72: a two_phase whose completion is a row with stream.
 #define CHECK_ROW(X)                                                          \
   X (BAD, 0x50, "Bad", (), (), (two_phase<ACK_t, STATE_t>), ())
-#elif LUMEX_DIALOGUE_CASE == 49
-// 49: a two_phase whose acknowledgement is a row with stream.
+#elif LUMEX_DIALOGUE_CASE == 73
+// 73: a two_phase whose acknowledgement is a row with stream.
 #define CHECK_ROW(X)                                                          \
   X (BAD, 0x50, "Bad", (), (), (two_phase<STATE_t, CHANGE_t>), ())
-#elif LUMEX_DIALOGUE_CASE == 50
-// 50: an ack_nak whose positive part is a row with stream.
+#elif LUMEX_DIALOGUE_CASE == 74
+// 74: an ack_nak whose positive part is a row with stream.
 #define CHECK_ROW(X)                                                          \
   X (BAD, 0x50, "Bad", (), (), (ack_nak<STATE_t, NAK_t>), ())
-#elif LUMEX_DIALOGUE_CASE == 51
-// 51: an ack_nak whose negative part is a row with stream.
+#elif LUMEX_DIALOGUE_CASE == 75
+// 75: an ack_nak whose negative part is a row with stream.
 #define CHECK_ROW(X)                                                          \
   X (BAD, 0x50, "Bad", (), (), (ack_nak<ACK_t, STATE_t>), ())
 #else
@@ -297,19 +324,19 @@ LUMEX_PROTOCOL_DEFINE (check_t, codec_t, header_t, CHECK_ROWS);
 // 46: a layer replaces STATE, which TURN_ON names, without listing TURN_ON.
 #define LAYER_ROWS(X, X_AS)                                                   \
   X (STATE, 0x12, "State", (), (), (info_t), (stream (100)))
-#elif LUMEX_DIALOGUE_CASE == 52
-// 52: a row of the layer names STATE, a row with stream that the layer
+#elif LUMEX_DIALOGUE_CASE == 76
+// 76: a row of the layer names STATE, a row with stream that the layer
 // inherits.
 #define LAYER_ROWS(X, X_AS)                                                   \
   X (LBAD, 0x51, "Lbad", (), (), (ack_nak<ACK_t, STATE_t>), ())
-#elif LUMEX_DIALOGUE_CASE == 53
-// 53: a layer replaces ACK with a row that has stream and lists GO, which
+#elif LUMEX_DIALOGUE_CASE == 77
+// 77: a layer replaces ACK with a row that has stream and lists GO, which
 // names it, again.
 #define LAYER_ROWS(X, X_AS)                                                   \
   X (ACK, 0x06, "Ack", (), (), (), (stream (100)))                            \
   X (GO, 0x01, "Go", (), (), (ack_nak<ACK_t, NAK_t>), (min_interval (10)))
-#elif LUMEX_DIALOGUE_CASE == 54
-// 54: a layer replaces ACK with a row that has stream and does not list GO.
+#elif LUMEX_DIALOGUE_CASE == 78
+// 78: a layer replaces ACK with a row that has stream and does not list GO.
 #define LAYER_ROWS(X, X_AS) X (ACK, 0x06, "Ack", (), (), (), (stream (100)))
 #else
 #define LAYER_ROWS(X, X_AS)                                                   \
@@ -383,3 +410,248 @@ static_assert (dialogue::row_traits_t<check_t, check_t::BOTH_t>::how ()
                "a kind names a row without stream");
 #endif
 } // namespace check_tables
+
+#if LUMEX_DIALOGUE_CASE == 0                                                  \
+    || (LUMEX_DIALOGUE_CASE >= 52 && LUMEX_DIALOGUE_CASE <= 71)
+// The generated client: what a call cannot be.
+namespace check_client
+{
+namespace dialogue = ::lumex::applied::transport::protocol::dialogue;
+namespace pr = ::lumex::applied::transport::protocol;
+
+struct client_codec_t
+{
+};
+
+// A header with identify_with, one without, one naming a row with fields.
+struct named_header_t
+{
+  using lumex_vocabulary = dialogue::vocabulary_t;
+  static constexpr std::size_t key_width = 1;
+  template <typename P>
+  using dialogue_options
+      = dialogue::options<dialogue::identify_with<typename P::INFO_t>>;
+};
+
+struct fields_header_t
+{
+  using lumex_vocabulary = dialogue::vocabulary_t;
+  static constexpr std::size_t key_width = 1;
+  template <typename P>
+  using dialogue_options
+      = dialogue::options<dialogue::identify_with<typename P::SET_t>>;
+};
+
+struct plain_header_t
+{
+  using lumex_vocabulary = dialogue::vocabulary_t;
+  static constexpr std::size_t key_width = 1;
+};
+
+LUMEX_PROTOCOL_LAYOUT (who_t, (u16_le_), ("firmware"));
+LUMEX_PROTOCOL_LAYOUT (bad_t, (u8_, u8_), ("a", "b"));
+
+// clang-format off
+#define CLIENT_ROWS(X, X_AS) \
+  X (INFO, 0x01, "Info", (), (), (who_t), ()) \
+  X (SET, 0x02, "Set", (u8_), ("value"), (u8_), ()) \
+  X (ERASE, 0x03, "Erase", (u8_), ("block"), (u8_), (dangerous)) \
+  X (MOVE, 0x04, "Move", (u8_), ("to"), (ack_nak<u8_, bad_t>), ())
+// clang-format on
+LUMEX_PROTOCOL_DEFINE (client_t, client_codec_t, named_header_t, CLIENT_ROWS);
+LUMEX_PROTOCOL_DEFINE (no_identify_t, client_codec_t, plain_header_t,
+                       CLIENT_ROWS);
+LUMEX_PROTOCOL_DEFINE (no_reader_t, client_codec_t, named_header_t,
+                       CLIENT_ROWS);
+LUMEX_PROTOCOL_DEFINE (with_fields_t, client_codec_t, fields_header_t,
+                       CLIENT_ROWS);
+
+// Rows named like a member of the client: a plain function, an overloaded one,
+// a template, a row of the base layer, the class name, a member type; and a
+// row of another identifier whose specification name is that of a member.
+// clang-format off
+#define STATISTICS_ROWS(X, X_AS) \
+  X (statistics, 0x01, "Statistics", (), (), (u8_), ())
+#define IDENTIFY_ROWS(X, X_AS) \
+  X (identify, 0x01, "Identify", (), (), (u8_), ())
+#define ON_ROWS(X, X_AS) \
+  X (on, 0x01, "On", (), (), (u8_), ())
+#define SESSION_ROWS(X, X_AS) \
+  X (session, 0x01, "Session", (), (), (u8_), ())
+#define CLIENT_NAME_ROWS(X, X_AS) \
+  X (client, 0x01, "Client", (), (), (u8_), ())
+#define EXECUTOR_ROWS(X, X_AS) \
+  X (executor_type, 0x01, "Executor", (), (), (u8_), ())
+#define LAYER_NAME_ROWS(X, X_AS) \
+  X (client_layer, 0x01, "Client layer", (), (), (u8_), ())
+#define NO_ROWS(X, X_AS)
+#define OTHER_ID_ROWS(X, X_AS) \
+  X (ASK, 0x01, "Ask", (), (), (u8_), ()) \
+  X_AS (SHUT, "close", 0x02, "Shut", (), (), (u8_), ()) \
+  X_AS (ATTACH, "on", 0x03, "Attach", (u8_), ("what"), (u8_), ())
+// clang-format on
+LUMEX_PROTOCOL_DEFINE (hides_plain_t, client_codec_t, plain_header_t,
+                       STATISTICS_ROWS);
+LUMEX_PROTOCOL_DEFINE (hides_overloaded_t, client_codec_t, plain_header_t,
+                       IDENTIFY_ROWS);
+LUMEX_PROTOCOL_DEFINE (hides_template_t, client_codec_t, plain_header_t,
+                       ON_ROWS);
+LUMEX_PROTOCOL_DEFINE (hides_in_base_t, client_codec_t, plain_header_t,
+                       SESSION_ROWS);
+LUMEX_PROTOCOL_EXTEND (hides_in_layer_t, hides_in_base_t, NO_ROWS);
+LUMEX_PROTOCOL_DEFINE (hides_class_name_t, client_codec_t, plain_header_t,
+                       CLIENT_NAME_ROWS);
+LUMEX_PROTOCOL_DEFINE (hides_type_t, client_codec_t, plain_header_t,
+                       EXECUTOR_ROWS);
+LUMEX_PROTOCOL_DEFINE (layer_name_t, client_codec_t, plain_header_t,
+                       LAYER_NAME_ROWS);
+LUMEX_PROTOCOL_DEFINE (other_identifier_t, client_codec_t, plain_header_t,
+                       OTHER_ID_ROWS);
+
+// A client whose layer set holds a layer with a row named like a member of
+// client_layer.
+struct layer_with_on_t;
+
+struct layered_header_t
+{
+  using lumex_vocabulary = dialogue::vocabulary_t;
+  static constexpr std::size_t key_width = 1;
+  template <typename P>
+  using dialogue_options
+      = dialogue::options<dialogue::layer_set<P, layer_with_on_t>>;
+};
+// clang-format off
+#define LAYERED_ROWS(X, X_AS) \
+  X (ASK, 0x01, "Ask", (), (), (u8_), ())
+// clang-format on
+LUMEX_PROTOCOL_DEFINE (layered_t, client_codec_t, layered_header_t,
+                       LAYERED_ROWS);
+LUMEX_PROTOCOL_EXTEND (layer_with_on_t, layered_t, ON_ROWS);
+} // namespace check_client
+
+namespace lumex
+{
+namespace applied
+{
+namespace transport
+{
+namespace protocol
+{
+template <> struct identity_of_t<::check_client::client_t>
+{
+  static std::error_code
+  read (reply_of<::check_client::client_t::INFO_t> const &, identity_t &)
+  {
+    return std::error_code ();
+  }
+};
+
+template <> struct identity_of_t<::check_client::with_fields_t>
+{
+  static std::error_code
+  read (reply_of<::check_client::with_fields_t::SET_t> const &, identity_t &)
+  {
+    return std::error_code ();
+  }
+};
+} // namespace protocol
+} // namespace transport
+} // namespace applied
+} // namespace lumex
+
+namespace check_client
+{
+using value_handler_t = void (*) (std::error_code, std::uint8_t);
+
+inline void
+use_client (pr::client<client_t> &client, value_handler_t handler)
+{
+  std::uint8_t const one = 1;
+#if LUMEX_DIALOGUE_CASE == 0
+  // Every form of a row, and of a dangerous row.
+  (void)client.SET (one);
+  (void)client.SET (one, ::lumex::applied::transport::deadline_t (5));
+  client.SET (one, handler);
+  (void)client.ERASE (pr::confirm, one);
+  (void)client.ERASE (pr::confirm, one,
+                      ::lumex::applied::transport::deadline_t (5));
+  client.ERASE (pr::confirm, one, handler);
+  (void)client.identify ();
+  (void)client.as<client_t> ();
+  (void)client.on<client_t::INFO_t> (
+      [] (pr::reply_of<client_t::INFO_t> const &) {});
+  // A row of another identifier may carry the specification name of a member.
+  static_assert (sizeof (pr::client<other_identifier_t>) > 0, "it compiles");
+  static_assert (
+      sizeof (pr::client_layer<other_identifier_t, other_identifier_t>) > 0,
+      "it compiles as a layer too");
+#elif LUMEX_DIALOGUE_CASE == 52
+  // 52: a dangerous row without confirm.
+  (void)client.ERASE (one);
+#elif LUMEX_DIALOGUE_CASE == 53
+  // 53: confirm on a row that is not dangerous.
+  (void)client.SET (pr::confirm, one);
+#elif LUMEX_DIALOGUE_CASE == 54
+  // 54: too few arguments.
+  (void)client.SET ();
+#elif LUMEX_DIALOGUE_CASE == 55
+  // 55: too many arguments.
+  client.SET (one, one, handler);
+#elif LUMEX_DIALOGUE_CASE == 56
+  // 56: one more argument, which is no deadline and no token.
+  (void)client.SET (one, 2);
+#elif LUMEX_DIALOGUE_CASE == 57
+  // 57: as<L> of a layer that is no layer of this client.
+  (void)client.as<no_identify_t> ();
+#elif LUMEX_DIALOGUE_CASE == 58
+  // 58: identify without identify_with.
+  pr::client<no_identify_t> *const other = nullptr;
+  (void)other->identify ();
+#elif LUMEX_DIALOGUE_CASE == 59
+  // 59: identify without identity_of_t.
+  pr::client<no_reader_t> *const other = nullptr;
+  (void)other->identify ();
+#elif LUMEX_DIALOGUE_CASE == 60
+  // 60: identify by a row with request fields.
+  pr::client<with_fields_t> *const other = nullptr;
+  (void)other->identify ();
+#elif LUMEX_DIALOGUE_CASE == 61
+  // 61: on<Row> of a row whose reply is a reply kind.
+  (void)client.on<client_t::MOVE_t> ([] (std::uint8_t const &) {});
+#elif LUMEX_DIALOGUE_CASE == 62
+  // 62: a row of another protocol.
+  (void)client.lumex_invoke<no_identify_t::SET_t> (one);
+#elif LUMEX_DIALOGUE_CASE == 63
+  // 63: a dangerous row without confirm, in the async form.
+  client.ERASE (one, handler);
+#elif LUMEX_DIALOGUE_CASE == 64
+  // 64: a row named like a member function of the client.
+  (void)sizeof (pr::client<hides_plain_t>);
+#elif LUMEX_DIALOGUE_CASE == 65
+  // 65: a row named like an overloaded member.
+  (void)sizeof (pr::client<hides_overloaded_t>);
+#elif LUMEX_DIALOGUE_CASE == 66
+  // 66: a row named like a member template.
+  (void)sizeof (pr::client<hides_template_t>);
+#elif LUMEX_DIALOGUE_CASE == 67
+  // 67: a row of the base layer named like a member.
+  (void)sizeof (pr::client<hides_in_layer_t>);
+#elif LUMEX_DIALOGUE_CASE == 68
+  // 68: a row named like the class.
+  (void)sizeof (pr::client<hides_class_name_t>);
+#elif LUMEX_DIALOGUE_CASE == 69
+  // 69: a row named like a member type.
+  (void)sizeof (pr::client<hides_type_t>);
+#elif LUMEX_DIALOGUE_CASE == 70
+  // 70: a row of a layer named like a member of client_layer.
+  (void)sizeof (pr::client_layer<layered_t, layer_with_on_t>);
+#elif LUMEX_DIALOGUE_CASE == 71
+  // 71: a row of a layer named like the class client_layer.
+  (void)sizeof (pr::client_layer<layer_name_t, layer_name_t>);
+#endif
+  (void)client;
+  (void)handler;
+  (void)one;
+}
+} // namespace check_client
+#endif

@@ -468,9 +468,39 @@ public:
   /// @brief The name for logs (`""` when moved from).
   std::string const &name () const;
 
-  /// @brief The index of the protocol layer (not for a moved-from
+  /// @brief The index of the protocol layer in use (not for a moved-from
   /// dialogue).
   ::lumex::core::protocol::index::protocol_index_t const &index () const;
+
+  /**
+   * @brief Goes on with another layer of the table: the layer identification
+   * found (any thread; it acts on the strand, in order with the requests
+   * started after it). `index` and `features` (null: none) are those of the
+   * layer (`index::protocol_index<L> ()`, `dialogue::features_of<L> ()`), and
+   * must outlive the dialogue.
+   * @details Frames are from then on matched and described by the new index.
+   * What is under way follows by the identifier of the row: the exchanges,
+   * queued or in flight, the subscribers, the scenarios and the late replies
+   * still expected; an exchange of a row the layer has not ends with
+   * `protocol_errc::not_supported`, a subscriber of such a row hears nothing
+   * until a layer has it again. The features become those of the layer
+   * (keepalive, watchdog, rate limits, state, edges; the four values below
+   * follow them only where the application did not set them): a row of both
+   * layers keeps the time of its last frame and its last request, and a stream
+   * stays watched; its levels stay when it reads the same fields. A keepalive
+   * generator stays only when the row of the keepalive keeps its identifier.
+   * `max_in_flight`, the default timeout, the default retries and
+   * `late_reply_window_ms` stay when the application set them: a value that
+   * differs from what the layer in use gives was set; one that equals it, a
+   * value the application set to the same number included, takes what the new
+   * layer gives. A layer with no default timeout gives the timeout the
+   * dialogue was made with. Selecting the layer in use again changes nothing.
+   * The codec of the link stays: a layer of another wire form needs a link of
+   * its own.
+   */
+  void
+  select_layer (::lumex::core::protocol::index::protocol_index_t const &index,
+                protocol_features_t const *features);
 
   /**
    * @brief The session of the device: what identification learned, read by

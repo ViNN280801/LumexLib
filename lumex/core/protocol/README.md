@@ -71,7 +71,7 @@ LUMEX_PROTOCOL_DEFINE (widget_v1, my_codec, my_header, WIDGET_ROWS);
 
 При компиляции проверяются: число имен полей; что каждый элемент группы полей является полем; что ответ является полем, раскладкой или видом ответа другого слоя (тип с `using lumex_protocol_reply = dsl::reply_tag;`); что группа не называет собственный тип строки (строка `status` и раскладка `status_t`: внутри строки имя `status_t` означает саму строку) и не называет слово словаря.
 
-Сам протокол дает `protocol_name ()`, `framing_type`, `header_type`, `base_protocol` (`void` у корня), список команд `dsl::commands_of<P>::type` в порядке таблицы, их число `dsl::command_count<P>::value`, записи времени выполнения `dsl::command_entries<P> ()` и примесь клиента `P::lumex_methods<Client>`: метод на каждую строку с именем идентификатора (`client.SET_RATE (20, 1)`), который вызывает `Client::lumex_invoke<Row> (args...)`.
+Сам протокол дает `protocol_name ()`, `framing_type`, `header_type`, `base_protocol` (`void` у корня), список команд `dsl::commands_of<P>::type` в порядке таблицы, их число `dsl::command_count<P>::value`, записи времени выполнения `dsl::command_entries<P> ()` и примесь клиента `P::lumex_methods<Client>`: метод на каждую строку с именем идентификатора (`client.SET_RATE (20, 1)`), который вызывает `Client::lumex_invoke<Row> (args...)`. Тип строки несет `Row::lumex_name_free_in_t<Owner>::value`: `false`, если у `Owner` есть член любого вида с именем идентификатора строки (клиент, у которого такой член, скрыл бы метод строки); им пользуется проверка клиента.
 
 ## Опции строки
 
