@@ -550,7 +550,8 @@ TEST (LumexDeviceSimulator, Simulator_StartStreamsStartsEveryStreamRow)
   std::vector<bytes_t> levels;
   bench.subscribe<lab::STATE_t> (states);
   bench.subscribe<lab::LEVEL_t> (levels);
-  EXPECT_EQ (bench.device->start_streams (), 2u);
+  // STATE, LEVEL and OLD_STREAM (no firmware is identified yet).
+  EXPECT_EQ (bench.device->start_streams (), 3u);
   bench.advance (ms (500));
   EXPECT_EQ (states.size (), 5u);
   EXPECT_EQ (levels.size (), 2u);

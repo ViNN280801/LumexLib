@@ -251,3 +251,30 @@ TEST (LumexBehaviorsLazyReply, LazyRespond_DeliversADatagramWithItsReportId)
   context.poll ();
   EXPECT_TRUE (received);
 }
+
+TEST (LumexBehaviorsLazyReply,
+      LazyPlan_ARequestNotProcessedCountsLikeThePlainPlan)
+{
+  // During the window of the unplugged cable the request is not processed;
+  // the stage after it still counts it as a reply, as the plain plan does
+  // (the stand-in reply stands for the reply that was never made).
+  tr::testing::virtual_clock clock;
+  behavior const shaped
+      = behavior::cable_unplugged (ms (100)).then (behavior::frozen (1));
+  behavior_applier lazy (shaped, clock.source ());
+  behavior_applier plain (shaped, clock.source ());
+  int calls = 0;
+  counting_maker_t maker = { &calls };
+  EXPECT_FALSE (
+      lazy.plan (request_bytes (), true, maker, false).request_processed);
+  EXPECT_FALSE (
+      plain.plan (request_bytes (), reply_bytes (), false).request_processed);
+  clock.advance (ms (150));
+  bool const left
+      = lazy.plan (request_bytes (), true, maker, false).request_processed;
+  bool const right
+      = plain.plan (request_bytes (), reply_bytes (), false).request_processed;
+  EXPECT_EQ (left, right);
+  EXPECT_FALSE (right);
+  EXPECT_EQ (calls, 0);
+}

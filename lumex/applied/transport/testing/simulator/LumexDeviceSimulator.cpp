@@ -192,7 +192,8 @@ public:
   virtual void unobserve () = 0;
   // The lazy respond of the applier; true when the device processed.
   virtual bool respond (behavior_applier &applier, bytes_t const &request,
-                        bool has_reply, reply_maker_t const &make)
+                        bool has_reply, reply_maker_t const &make,
+                        bool *reached)
       = 0;
 
   virtual void attach (behavior_applier &applier) = 0;
@@ -234,6 +235,14 @@ public:
         = std::make_shared<behavior_applier> (behavior::perfect (), timers_);
   }
 
+  // The mock the simulator sits on; null once the io_context is gone.
+  std::shared_ptr<target_t>
+  target () const
+  {
+    std::lock_guard<std::mutex> const lock (mutex_);
+    return target_;
+  }
+
   // Called once, on the made object: enlists with the shutdown service and
   // listens to the mock.
   void
@@ -255,6 +264,7 @@ public:
     answers_t answers;
     streams_t streams;
     scheduled_t scheduled;
+    std::shared_ptr<target_t> target;
     {
       std::lock_guard<std::mutex> const lock (mutex_);
       if (dead_.exchange (true))
@@ -262,16 +272,19 @@ public:
       answers.swap (answers_);
       streams.swap (streams_);
       scheduled.swap (scheduled_);
+      target = target_;
     }
-    if (table_ != nullptr)
-      target_->unobserve ();
+    if (table_ != nullptr && target)
+      target->unobserve ();
     // The handlers, generators and timers of the test die here, outside the
     // lock and after the mock cannot call them any more.
   }
 
   // The io_context is being destroyed: the functions of the test go, so that
-  // one that holds the simulator does not keep it alive for ever. The timers
-  // stay (a virtual timer outlives its io_context, and goes with the
+  // one that holds the simulator does not keep it alive for ever, and so does
+  // the mock (its strand belongs to the context and must not outlive it). The
+  // simulator is dead from here on: its streams and steps are refused. The
+  // timers stay (a virtual timer outlives its io_context, and goes with the
   // simulator).
   void
   drop_kept_handlers () LUMEX_NOEXCEPT override
@@ -279,8 +292,11 @@ public:
     answers_t answers;
     std::vector<std::shared_ptr<answer_fn_t const>> makes;
     std::vector<std::function<void ()>> actions;
+    std::shared_ptr<target_t> target;
     {
       std::lock_guard<std::mutex> const lock (mutex_);
+      dead_.store (true);
+      target.swap (target_);
       answers.swap (answers_);
       for (streams_t::iterator at = streams_.begin (); at != streams_.end ();
            ++at)
@@ -345,10 +361,11 @@ public:
   start_stream (index::row_t const *row, ms interval,
                 answer_fn_t make) override
   {
-    if (interval.count () <= 0 || !make)
+    std::shared_ptr<target_t> const mock = target ();
+    if (interval.count () <= 0 || !make || !mock)
       return false;
-    std::unique_ptr<stream_t> fresh (new stream_t (
-        timers_.make_timer (executor_type (target_->strand ()))));
+    std::unique_ptr<stream_t> fresh (
+        new stream_t (timers_.make_timer (executor_type (mock->strand ()))));
     fresh->interval = interval;
     fresh->make = std::make_shared<answer_fn_t const> (std::move (make));
     std::unique_ptr<stream_t> replaced;
@@ -436,8 +453,9 @@ public:
   {
     std::shared_ptr<behavior_applier> fresh
         = std::make_shared<behavior_applier> (shaped, timers_);
-    if (table_ != nullptr)
-      target_->attach (*fresh);
+    std::shared_ptr<target_t> const mock = target ();
+    if (table_ != nullptr && mock)
+      mock->attach (*fresh);
     std::shared_ptr<behavior_applier> old;
     {
       std::lock_guard<std::mutex> const lock (mutex_);
@@ -449,10 +467,11 @@ public:
   void
   after (ms delay, std::function<void ()> action) override
   {
-    if (!action || table_ == nullptr)
+    std::shared_ptr<target_t> const mock = target ();
+    if (!action || table_ == nullptr || !mock)
       return;
     std::unique_ptr<step_t> step (
-        new step_t (timers_.make_timer (executor_type (target_->strand ()))));
+        new step_t (timers_.make_timer (executor_type (mock->strand ()))));
     step->action = std::move (action);
     std::lock_guard<std::mutex> const lock (mutex_);
     if (dead_.load ())
@@ -527,7 +546,7 @@ public:
   void
   take_datagram (datagram::message_t const &message)
   {
-    if (dead_.load () || message.payload.empty ())
+    if (dead_.load ())
       return;
     if (message.report_id != report_id_)
       {
@@ -540,6 +559,8 @@ public:
     std::vector<bytes_t> frames;
     std::size_t dropped = wire_->decode (message.payload.data (),
                                          message.payload.size (), frames);
+    // A datagram of ours with no frame in it (empty or cut) is a framing
+    // error.
     if (frames.empty () && dropped == 0)
       dropped = 1;
     if (dropped != 0)
@@ -619,6 +640,10 @@ private:
       state = state_;
     }
     if (!make)
+      return;
+    // The session may have changed since the stream started: a row outside
+    // it is not on the device, and sends nothing while it is outside.
+    if (!session_.available (*table_->rows ().data ()[at].entry))
       return;
     request_call_t call;
     field::decode_context_t const context = session_.decode_context ();
@@ -750,7 +775,10 @@ private:
       }
     call.refuse = refuse;
     row_ops_t const *const chosen = ops;
-    answer_fn_t const run = answer ? *answer : answer_fn_t (chosen->answer);
+    // Called through the reference: a function with a state of its own keeps
+    // it from one request to the next (`answer` keeps it alive meanwhile).
+    answer_fn_t const standard (chosen->answer);
+    answer_fn_t const &run = answer ? *answer : standard;
     deliver (*applier, request_wire,
              chosen->replies || options_.answer_unknown, call, run, true);
   }
@@ -762,6 +790,9 @@ private:
            bool has_reply, request_call_t &call, answer_fn_t const &run,
            bool is_request)
   {
+    std::shared_ptr<target_t> const mock = target ();
+    if (!mock)
+      return;
     bool made_first = false;
     bool echo_back = false;
     reply_maker_t const make = [&] () -> bytes_t
@@ -788,9 +819,11 @@ private:
         return wire;
       };
     bool processed = false;
+    bool reached = false;
     try
       {
-        processed = target_->respond (applier, request_wire, has_reply, make);
+        processed
+            = mock->respond (applier, request_wire, has_reply, make, &reached);
       }
     catch (simulator_gone_t const &)
       {
@@ -805,7 +838,8 @@ private:
         }
         throw;
       }
-    std::size_t sent = (made_first || echo_back) ? 1u : 0u;
+    // Messages that reach the mock: a reply the behaviour dropped does not.
+    std::size_t sent = ((made_first || echo_back) && reached) ? 1u : 0u;
     if (processed && made_first)
       for (std::size_t i = 1; i < call.messages.size () && !dead_.load (); ++i)
         {
@@ -818,14 +852,20 @@ private:
           // A further message meets the behaviour too (a frozen device
           // acknowledged and said no more).
           bytes_t const further = wire;
-          if (target_->respond (applier, request_wire, true,
-                                [&further] () { return further; }))
+          bool further_reached = false;
+          if (mock->respond (
+                  applier, request_wire, true,
+                  [&further] () { return further; }, &further_reached)
+              && further_reached)
             ++sent;
         }
     std::lock_guard<std::mutex> const lock (mutex_);
     if (!processed)
       {
-        ++stats_.not_processed;
+        // A request the device did not process; a stream message it did not
+        // send is no request and is not counted.
+        if (is_request)
+          ++stats_.not_processed;
         return;
       }
     if (is_request)
@@ -846,7 +886,7 @@ private:
   index::protocol_index_t const *table_;
   std::vector<row_ops_t const *> ops_;
   std::unique_ptr<simulator_wire_t> wire_;
-  std::unique_ptr<target_t> target_;
+  std::shared_ptr<target_t> target_;
   timing::timer_source timers_;
   simulator_options_t options_;
   std::uint8_t report_id_;
@@ -902,9 +942,9 @@ public:
 
   bool
   respond (behavior_applier &applier, bytes_t const &request, bool has_reply,
-           reply_maker_t const &make) override
+           reply_maker_t const &make, bool *reached) override
   {
-    return applier.respond (control_, request, has_reply, make);
+    return applier.respond (control_, request, has_reply, make, reached);
   }
 
   void
@@ -952,9 +992,10 @@ public:
 
   bool
   respond (behavior_applier &applier, bytes_t const &request, bool has_reply,
-           reply_maker_t const &make) override
+           reply_maker_t const &make, bool *reached) override
   {
-    return applier.respond (control_, report_id_, request, has_reply, make);
+    return applier.respond (control_, report_id_, request, has_reply, make,
+                            reached);
   }
 
   void
