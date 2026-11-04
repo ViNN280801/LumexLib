@@ -350,6 +350,10 @@ protocol_features_of ()
   out.min_interval_ms = traits::min_interval_ms ();
   out.state_row = identifier_or_null_t<typename traits::state_row>::get ();
   out.state_field = traits::state_field ();
+  out.max_in_flight = traits::max_in_flight ();
+  out.default_timeout_ms = traits::default_timeout_ms ();
+  out.default_retries = traits::default_retries ();
+  out.late_reply_window_ms = traits::late_reply_window_ms ();
   return out;
 }
 

@@ -53,13 +53,39 @@
 #  45 a keepalive naming a dangerous row
 #  46 a layer that replaces the stream of enables_stream without listing it
 #  47 keepalive_from on a protocol without a keepalive
-#  48 a two_phase whose completion is a row with stream
-#  49 a two_phase whose acknowledgement is a row with stream
-#  50 an ack_nak whose positive part is a row with stream
-#  51 an ack_nak whose negative part is a row with stream
-#  52 a row of a layer naming a row with stream that the layer inherits
-#  53 a layer that replaces an acknowledgement row with a row with stream
-#  54 the same without listing the row that names it
+#  48 a layer_set without layers
+#  49 a layer_set of a type that is no layer
+#  50 a layer_set naming a layer of another protocol
+#  51 a layer_set naming a layer twice
+# The generated client (LumexProtocolClient.hpp):
+#  52 a dangerous row without confirm
+#  53 confirm on a row that is not dangerous
+#  54 too few arguments
+#  55 too many arguments
+#  56 one more argument, which is no deadline and no token
+#  57 as<L> of a layer that is no layer of the client
+#  58 identify without identify_with
+#  59 identify without identity_of_t
+#  60 identify by a row with request fields
+#  61 on<Row> of a row whose reply is a reply kind
+#  62 a row of another protocol
+#  63 a dangerous row without confirm, in the async form
+#  64 a row named like a member function of the client
+#  65 a row named like an overloaded member
+#  66 a row named like a member template
+#  67 a row of the base layer named like a member
+#  68 a row named like the class
+#  69 a row named like a member type
+#  70 a row of a layer named like a member of client_layer
+#  71 a row of a layer named like the class client_layer
+# A reply kind naming a row with stream:
+#  72 a two_phase whose completion is a row with stream
+#  73 a two_phase whose acknowledgement is a row with stream
+#  74 an ack_nak whose positive part is a row with stream
+#  75 an ack_nak whose negative part is a row with stream
+#  76 a row of a layer naming a row with stream that the layer inherits
+#  77 a layer that replaces an acknowledgement row with a row with stream
+#  78 the same without listing the row that names it
 # The good case also holds a row with reply_row naming a row with stream and a
 # two_phase naming a row without it.
 # The compiler's messages are matched in English. The headers are compiled
@@ -155,14 +181,39 @@ _lumex_case(44 "enables_stream<R> on a dangerous row")
 _lumex_case(45 "keepalive<Row, PeriodMs> on a dangerous row")
 _lumex_case(46 "enables_stream<R> names a row the layer replaced")
 _lumex_case(47 "keepalive_from<P>: the protocol names no")
+_lumex_case(48 "layer_set<Layers...> names at least one")
+_lumex_case(49 "layer_set<Layers...>: every element is a")
+_lumex_case(50 "layer_set<Layers...> names a layer of")
+_lumex_case(51 "layer_set<Layers...> names a layer twice")
+_lumex_case(52 "a dangerous row needs confirm")
+_lumex_case(53 "confirm on a row that is not")
+_lumex_case(54 "give one argument per request")
+_lumex_case(55 "give one argument per request")
+_lumex_case(56 "give one argument per request")
+_lumex_case(57 "as<L> \\(\\): L is no layer of this client")
+_lumex_case(58 "the protocol names no")
+_lumex_case(59 "specialize identity_of_t<P>")
+_lumex_case(60 "has no request fields")
+_lumex_case(61 "a row whose reply is a")
+_lumex_case(62 "the row is no row of the layer")
+_lumex_case(63 "a dangerous row needs confirm")
+set(_hidden_regex "a row is named like a member of")
+_lumex_case(64 "${_hidden_regex} client<P>")
+_lumex_case(65 "${_hidden_regex} client<P>")
+_lumex_case(66 "${_hidden_regex} client<P>")
+_lumex_case(67 "${_hidden_regex} client<P>")
+_lumex_case(68 "${_hidden_regex} client<P>")
+_lumex_case(69 "${_hidden_regex} client<P>")
+_lumex_case(70 "${_hidden_regex} client_layer<Owner, L>")
+_lumex_case(71 "${_hidden_regex} client_layer<Owner, L>")
 set(_stream_regex "names a row with stream: use reply_row<R>")
-_lumex_case(48 "${_stream_regex}")
-_lumex_case(49 "${_stream_regex}")
-_lumex_case(50 "${_stream_regex}")
-_lumex_case(51 "${_stream_regex}")
-_lumex_case(52 "${_stream_regex}")
-_lumex_case(53 "${_stream_regex}")
-_lumex_case(54 "a reply kind of the row names a row the layer replaced")
+_lumex_case(72 "${_stream_regex}")
+_lumex_case(73 "${_stream_regex}")
+_lumex_case(74 "${_stream_regex}")
+_lumex_case(75 "${_stream_regex}")
+_lumex_case(76 "${_stream_regex}")
+_lumex_case(77 "${_stream_regex}")
+_lumex_case(78 "a reply kind of the row names a row the layer replaced")
 
 function(_lumex_dialogue_try result_var tag standard)
     try_compile(_ok "${CMAKE_BINARY_DIR}/try_${tag}"

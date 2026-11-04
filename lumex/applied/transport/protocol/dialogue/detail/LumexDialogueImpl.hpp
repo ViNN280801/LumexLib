@@ -163,6 +163,9 @@ struct exchange_record_t
   dialogue::reply_matcher_t matcher = nullptr;
   /// The policy (never empty in the engine).
   std::shared_ptr<retry_policy_t const> policy;
+  /// The policy was made from the row: `extra_retries` are those of the
+  /// defaults of the dialogue.
+  bool row_policy = false;
   /// The user's handler, erased once.
   exchange_handler_t handler;
   /// False for a row without a reply: the write ends the exchange.
@@ -191,6 +194,47 @@ struct exchange_record_t
   /// The timeout of the current attempt.
   timing::timer timer;
 };
+
+/// @brief The values a table gives the dialogue and a change of layer may
+/// replace.
+struct layer_values_t
+{
+  std::size_t max_in_flight = 1;
+  std::uint32_t timeout_ms = 0;
+  std::uint32_t retries = 0;
+  std::uint32_t late_window_ms = 0;
+};
+
+/// @brief What `table` gives; a table with no default timeout gives the
+/// timeout the dialogue was made with, `base_timeout_ms`.
+inline layer_values_t
+layer_values_of (protocol_features_t const &table,
+                 std::uint32_t base_timeout_ms)
+{
+  layer_values_t made;
+  made.max_in_flight = table.max_in_flight == 0 ? 1 : table.max_in_flight;
+  made.timeout_ms = table.default_timeout_ms != 0 ? table.default_timeout_ms
+                                                  : base_timeout_ms;
+  made.retries = table.default_retries;
+  made.late_window_ms = table.late_reply_window_ms;
+  return made;
+}
+
+/// @brief What the table of `options` gave: the values of its features, and
+/// of `options` themselves when it has none (no table was in use, so nothing
+/// the application set differs from one).
+inline layer_values_t
+layer_values_at_start (dialogue_options_t const &options)
+{
+  if (options.features != nullptr)
+    return layer_values_of (*options.features, options.defaults.timeout_ms);
+  layer_values_t made;
+  made.max_in_flight = options.max_in_flight == 0 ? 1 : options.max_in_flight;
+  made.timeout_ms = options.defaults.timeout_ms;
+  made.retries = options.defaults.retries;
+  made.late_window_ms = options.late_reply_window_ms;
+  return made;
+}
 
 /// @brief What the engine keeps of a row with a feature: a stream, a rate
 /// limit, edges, the state.
@@ -311,8 +355,13 @@ public:
   ::lumex::core::protocol::index::protocol_index_t const &
   index () const LUMEX_NOEXCEPT
   {
-    return *index_;
+    return index_now ();
   }
+
+  /// @brief Posts the change to another layer of the table.
+  void start_select_layer (
+      ::lumex::core::protocol::index::protocol_index_t const &index,
+      protocol_features_t const *features);
 
   /// @brief The session of the device.
   ::lumex::core::protocol::index::session_context_t &
@@ -445,6 +494,9 @@ public:
   void keepalive_ended (std::error_code error);
   void read_restart_done (std::error_code error);
   void run_keepalive_start ();
+  void run_select_layer (
+      ::lumex::core::protocol::index::protocol_index_t const *index,
+      protocol_features_t const *features);
   void run_state_set (std::int64_t state);
   void run_begin_sequence (std::uint64_t id,
                            ::lumex::core::protocol::dsl::scenario_t &scenario,
@@ -459,6 +511,12 @@ public:
                             std::error_code error);
 
 private:
+  ::lumex::core::protocol::index::protocol_index_t const &
+  index_now () const LUMEX_NOEXCEPT
+  {
+    return *index_.load (std::memory_order_acquire);
+  }
+
   void enlist ();
   void start_reading ();
   bool can_start (exchange_record_t const &record) const;
@@ -510,6 +568,14 @@ private:
   // --- the features (LumexDialogueImplFeatures.cpp) ----------------------
 
   void build_watches (protocol_features_t const *features);
+  // The rows of what is under way, found again in the index of a new layer.
+  ::lumex::core::protocol::index::row_t const *
+  row_again (::lumex::core::protocol::index::row_t const *row) const;
+  void follow_layer ();
+  void take_old_watches (std::vector<row_watch_t> const &old);
+  void apply_layer_times (std::uint32_t watchdog_ms,
+                          std::uint32_t keepalive_ms,
+                          row_features_t const *old_keepalive);
   row_watch_t *
   watch_of (::lumex::core::protocol::index::row_t const *row) LUMEX_NOEXCEPT;
   row_watch_t const *watch_of (
@@ -585,7 +651,8 @@ private:
 
   frame_link link_;
   strand_type strand_;
-  ::lumex::core::protocol::index::protocol_index_t const *index_;
+  // Changed on the strand under handlers_mutex_ (select_layer); read anywhere.
+  std::atomic<::lumex::core::protocol::index::protocol_index_t const *> index_;
   std::string name_;
   std::size_t max_in_flight_;
   std::size_t queue_bound_;
@@ -617,6 +684,11 @@ private:
   std::atomic<std::uint64_t> next_subscription_;
   // What the table says (null without features), and the rows with a feature.
   protocol_features_t const *features_;
+  // What the table in use gave the four values of a change of layer, and the
+  // timeout the dialogue was made with: a value that is not what the table
+  // gave was set by the application and stays.
+  layer_values_t table_;
+  std::uint32_t base_timeout_ms_;
   std::vector<row_watch_t> watches_;
   std::unordered_map<::lumex::core::protocol::index::row_t const *,
                      std::size_t>
@@ -671,13 +743,17 @@ private:
   struct subscriber_t
   {
     std::uint64_t id = 0;
+    // Null while the layer in use has not the row of `identifier`.
     ::lumex::core::protocol::index::row_t const *row = nullptr;
+    char const *identifier = nullptr;
     handler_ptr handler;
   };
   struct edge_subscriber_t
   {
     std::uint64_t id = 0;
+    // Null while the layer in use has not the row of `identifier`.
     ::lumex::core::protocol::index::row_t const *row = nullptr;
+    char const *identifier = nullptr;
     std::shared_ptr<edge_handler_t const> handler;
   };
   mutable std::mutex handlers_mutex_;
