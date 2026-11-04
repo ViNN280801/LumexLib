@@ -64,10 +64,12 @@
  * not to a connection: scripted empty reads, `hold_writes`, the read chunk,
  * the write chunk, the observer and the deliveries of `feed_after` outlive
  * `close` and a new open (an empty read scripted before a close ends the
- * first read after the reopen). An observer that throws leaves the write it
- * saw complete; when it runs during `release_writes` the remaining held
- * writes are flushed by a new step before the exception goes on. Available
- * with `LUMEX_TRANSPORT_WITH_TESTING`.
+ * first read after the reopen). A mock must not outlive its `io_context`:
+ * its stream and its control hold a strand of the context (a simulator lets
+ * go of its control when the context shuts down). An observer that throws
+ * leaves the write it saw complete; when it runs during `release_writes` the
+ * remaining held writes are flushed by a new step before the exception goes
+ * on. Available with `LUMEX_TRANSPORT_WITH_TESTING`.
  */
 #ifndef LUMEX_APPLIED_TRANSPORT_TESTING_MOCK_STREAM_HPP
 #define LUMEX_APPLIED_TRANSPORT_TESTING_MOCK_STREAM_HPP

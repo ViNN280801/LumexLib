@@ -52,7 +52,10 @@
  * `fail_send_after` lets some sends succeed and fails the next one,
  * `hold_sends` / `release_sends` keep sends pending (a frozen device) and let
  * them go in order. These settings belong to the script, not to a connection:
- * they outlive `close` and a new open. An observer that throws during
+ * they outlive `close` and a new open. A mock must not outlive its
+ * `io_context`: its transport and its control hold a strand of the context (a
+ * simulator lets go of its control when the context shuts down). An observer
+ * that throws during
  * `release_sends` leaves the held sends that are left to a new flush step
  * before the exception goes on. Available with
  * `LUMEX_TRANSPORT_WITH_TESTING`.
