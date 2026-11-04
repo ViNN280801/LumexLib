@@ -130,6 +130,83 @@ TEST (LumexProtocolClientSync, Client_SyncDeadlineOfZeroEndsAtOnce)
   EXPECT_EQ (reply.error (), protocol_errc::timeout);
 }
 
+TEST (LumexProtocolClientSync,
+      Client_SyncDeadlineEndsAtItsTimeNotAtTheNextPoll)
+{
+  // The wait looks at a stopped context every 50 ms; a deadline inside that
+  // step ends the wait when it falls due. The time is real, so the best of a
+  // few calls is taken: only a wait that never ends before 50 ms fails.
+  bench_t bench;
+  bench.device->set_behavior (tr::testing::behavior::silent ());
+  clock_type::duration best = std::chrono::seconds (1);
+  for (int i = 0; i < 5; ++i)
+    {
+      clock_type::time_point const started = clock_type::now ();
+      pr::call_result_t<mixer::RATE_t> const reply
+          = bench.client->RATE (std::uint8_t (1), tr::deadline_t (3));
+      clock_type::duration const took = clock_type::now () - started;
+      ASSERT_FALSE (reply.has_value ());
+      EXPECT_EQ (reply.error (), protocol_errc::timeout);
+      if (took < best)
+        best = took;
+    }
+  EXPECT_LT (best, ms (40));
+}
+
+TEST (LumexProtocolClientSync, Client_SyncDeadlineOfTheLargestDuration)
+{
+  // The deadline is compared with the time spent in its own unit: converted
+  // to the unit of the clock it overflows, and the call ended at once.
+  bench_t bench;
+  bench.device->set_reply<mixer::RATE_t> (std::uint8_t (2));
+  pr::call_result_t<mixer::RATE_t> const reply
+      = bench.client->RATE (std::uint8_t (1), (tr::deadline_t::max)());
+  ASSERT_TRUE (reply.has_value ()) << reply.error ().message ();
+  EXPECT_EQ (*reply, 2);
+  // Past the 292 years a nanosecond count holds.
+  pr::call_result_t<mixer::RATE_t> const long_one = bench.client->RATE (
+      std::uint8_t (1), tr::deadline_t (1000LL * 3600 * 24 * 365 * 300));
+  ASSERT_TRUE (long_one.has_value ()) << long_one.error ().message ();
+  EXPECT_EQ (*long_one, 2);
+}
+
+TEST (LumexProtocolClientSync,
+      Client_SyncDeadlineOfTheLargestDurationOnASilentDevice)
+{
+  // No deadline of that size ends the call: the timeout of the row does.
+  bench_t bench;
+  bench.device->set_behavior (tr::testing::behavior::silent ());
+  clock_type::time_point const started = clock_type::now ();
+  pr::call_result_t<mixer::RATE_t> const reply
+      = bench.client->RATE (std::uint8_t (1), (tr::deadline_t::max)());
+  ASSERT_FALSE (reply.has_value ());
+  EXPECT_EQ (reply.error (), protocol_errc::timeout);
+  EXPECT_GE (clock_type::now () - started, ms (190));
+}
+
+TEST (LumexProtocolClientSync, Client_SyncIdentifyWithTheLargestDeadline)
+{
+  thread_bench_t<mixer_v2, mixer> bench;
+  bench.device->set_reply<mixer_v2::INFO_t> (mixer_info ("M200", 15, 2));
+  pr::identity_result_t const identity
+      = bench.client->identify ((tr::deadline_t::max)());
+  ASSERT_TRUE (identity.has_value ()) << identity.error ().message ();
+  EXPECT_EQ (identity->layer, "mixer_v2_t");
+}
+
+TEST (LumexProtocolClientSync,
+      Client_SyncIdentifyWithTheLargestDeadlineOnASilentDevice)
+{
+  thread_bench_t<mixer_v2, mixer> bench;
+  bench.device->set_behavior (tr::testing::behavior::silent ());
+  clock_type::time_point const started = clock_type::now ();
+  pr::identity_result_t const identity
+      = bench.client->identify ((tr::deadline_t::max)());
+  ASSERT_FALSE (identity.has_value ());
+  EXPECT_EQ (identity.error (), protocol_errc::timeout);
+  EXPECT_GE (clock_type::now () - started, ms (190));
+}
+
 TEST (LumexProtocolClientSync, Client_WouldDeadlockOnRunnerThread)
 {
   bench_t bench;

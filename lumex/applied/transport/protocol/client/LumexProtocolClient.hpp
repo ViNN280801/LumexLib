@@ -60,10 +60,9 @@
  * ends the call the way any error does. The specification name of a row is
  * what the logs and `index.describe` write; the method carries the identifier,
  * since `X_AS` exists for a name C++ cannot spell. A row named like a member
- * of the class (`close`, `on`, `as`, ...) does not compile: the member would
- * hide the method and the call would reach the member, so the table names the
- * row with another identifier by `X_AS`, keeping the name as its specification
- * name.
+ * of the class (`close`, `on`, `as`, ...) does not compile: the name would be
+ * ambiguous between the member and the method, so the table names the row with
+ * another identifier by `X_AS`, keeping the name as its specification name.
  *
  * Results. A sync call returns `call_result_t<Row>`: the value or the error of
  * the exchange (`timeout`, `retries_exhausted`, `refused`, `link_lost`, ...).
@@ -92,7 +91,9 @@
  * Of the options, `max_in_flight`, the default timeout, the default retries
  * and `late_reply_window_ms` follow it only where they are what the layer in
  * use gives: a value the application changed stays (the options of
- * `client_options_t ()` hold none of the table, so they stay all). A device
+ * `client_options_t ()` hold none of the table, so each stays where it differs
+ * from what the layer gives). A layer that says nothing of one of them gives
+ * the value of the library, as for a new client over it. A device
  * that names no layer of the set ends `identify ()` with `not_supported` and
  * changes nothing. After that, a method of `P` whose row the identified layer
  * has not (it is another layer's, or the layer replaced it), or which is not
@@ -119,6 +120,7 @@
 #ifndef LUMEX_APPLIED_TRANSPORT_PROTOCOL_CLIENT_PROTOCOL_CLIENT_HPP
 #define LUMEX_APPLIED_TRANSPORT_PROTOCOL_CLIENT_PROTOCOL_CLIENT_HPP
 
+#include <atomic>
 #include <chrono>
 #include <condition_variable>
 #include <cstddef>
@@ -216,16 +218,26 @@ public:
     return current_;
   }
 
-  /// @brief Replaces it (any thread).
-  void
-  publish (client_index::session_context_t session, int layer)
+  /**
+   * @brief Makes the next snapshot from the current one, by `change`, and
+   * publishes it: the read, the change and the publication are one step (any
+   * thread), so that two of them never start from the same snapshot. Gives the
+   * snapshot published. `change` runs under the lock and does nothing else
+   * than change the copy it gets (no call into the dialogue, no handler, no
+   * post), so the lock is a leaf and cannot take part in a deadlock; nothing
+   * is published when it throws.
+   */
+  template <typename Change>
+  std::shared_ptr<client_snapshot_t const>
+  update (Change &&change)
   {
     std::shared_ptr<client_snapshot_t> made
         = std::make_shared<client_snapshot_t> ();
-    made->session = std::move (session);
-    made->layer = layer;
     std::lock_guard<std::mutex> const lock (mutex_);
+    *made = *current_;
+    change (*made);
     current_ = std::move (made);
+    return current_;
   }
 
 private:
@@ -544,12 +556,15 @@ wait_for_call (dialogue_engine const &engine,
   std::unique_lock<std::mutex> lock (wait->mutex);
   for (;;)
     {
-      clock_type::duration step = poll;
+      std::chrono::milliseconds step = poll;
       if (deadline != nullptr)
         {
-          clock_type::duration const left
-              = *deadline - (clock_type::now () - started);
-          if (left <= clock_type::duration::zero () && !wait->done)
+          // In the unit of the deadline: it converted to that of the clock
+          // overflows (undefined) for a deadline of more than 292 years.
+          std::chrono::milliseconds const spent
+              = std::chrono::duration_cast<std::chrono::milliseconds> (
+                  clock_type::now () - started);
+          if (spent >= *deadline && !wait->done)
             {
               lock.unlock ();
               call_cancel_step_t<Value> cancel = { wait };
@@ -557,8 +572,8 @@ wait_for_call (dialogue_engine const &engine,
               return client_error::make_error_code (
                   client_error::protocol_errc::timeout);
             }
-          if (left < step)
-            step = left;
+          if (spent < *deadline && *deadline - spent < step)
+            step = *deadline - spent;
         }
       if (wait->done_signal.wait_for (lock, step,
                                       [&wait] { return wait->done; }))
@@ -974,6 +989,11 @@ template <typename L, typename Row, typename Handler> struct event_handler_t
 {
   Handler handler;
   std::shared_ptr<client_state_t> state;
+  // Whether a frame that did not decode was said so: once per subscriber (the
+  // copies of the handler share it). The row of a layer found may have the
+  // identifier of the row subscribed and not its layout, and then every frame
+  // of it would do.
+  std::shared_ptr<std::atomic<bool>> warned;
 
   void
   operator() (reply_frame_t const &frame)
@@ -989,12 +1009,14 @@ template <typename L, typename Row, typename Handler> struct event_handler_t
             &context);
     if (decoded)
       handler (*decoded);
-    else
-      LUMEX_TRANSPORT_LOG (
-          warning, "transport.client", L::protocol_name (),
-          std::string ("a frame of ") + Row::specification_name ()
-              + " does not decode: " + decoded.error ().message (),
-          log::log_bytes_t ());
+    else if (!warned->exchange (true))
+      {
+        LUMEX_TRANSPORT_LOG (
+            warning, "transport.client", L::protocol_name (),
+            std::string ("a frame of ") + Row::specification_name ()
+                + " does not decode: " + decoded.error ().message (),
+            log::log_bytes_t ());
+      }
   }
 };
 
@@ -1023,7 +1045,8 @@ subscribe_row (client_core_t const &core, Handler &&handler)
   if (!indexed)
     return subscription_t ();
   event_handler_t<L, Row, typename std::decay<Handler>::type> made
-      = { std::forward<Handler> (handler), core.state };
+      = { std::forward<Handler> (handler), core.state,
+          std::make_shared<std::atomic<bool>> (false) };
   return live->subscribe ((*indexed).find_name (Row::identifier ()),
                           frame_handler_t (std::move (made)));
 }
@@ -1075,15 +1098,23 @@ apply_identity (std::weak_ptr<dialogue_engine> const &engine,
   std::shared_ptr<dialogue_engine> const live = engine.lock ();
   if (!live)
     return make_error_code (error::transport_errc::cancelled);
-  client_index::session_context_t next = snapshot->session;
-  next.set_model (identity.model);
-  next.set_firmware (identity.firmware);
-  next.set_layer (identity.layer);
-  for (std::size_t i = 0; i < identity.values.size (); ++i)
-    next.set (identity.values[i].first, identity.values[i].second);
-  live->session () = next;
+  // Made from the session now in the state: a set_session in between is not
+  // lost, and its layer is not put back.
+  std::shared_ptr<client_snapshot_t const> const published = state.update (
+      [&identity, at] (client_snapshot_t &now)
+        {
+          now.session.set_model (identity.model);
+          now.session.set_firmware (identity.firmware);
+          now.session.set_layer (identity.layer);
+          for (std::size_t i = 0; i < identity.values.size (); ++i)
+            now.session.set (identity.values[i].first,
+                             identity.values[i].second);
+          now.layer = at;
+        });
+  // A set_session after the publication has its own step behind this one on
+  // the strand, and that step copies the state as it is then.
+  live->session () = published->session;
   live->select_layer (**entry.index, entry.features);
-  state.publish (std::move (next), at);
   return std::error_code ();
 }
 
@@ -1174,18 +1205,21 @@ private:
   executor_type executor_;
 };
 
-/// @brief `set_session` on the strand.
+/// @brief `set_session` on the strand: the dialogue takes the session the
+/// state holds when the step runs, not the one of the call that posted it.
+/// Steps run in the order they were posted and each reads the latest, so
+/// whichever call published last, the dialogue ends with its session.
 struct set_session_step_t
 {
   std::weak_ptr<dialogue_engine> engine;
-  client_index::session_context_t session;
+  std::shared_ptr<client_state_t> state;
 
   void
   operator() ()
   {
     std::shared_ptr<dialogue_engine> const live = engine.lock ();
     if (live)
-      live->session () = std::move (session);
+      live->session () = state->snapshot ()->session;
   }
 };
 
@@ -1229,21 +1263,24 @@ template <typename Owner> struct identify_check_t
   static LUMEX_CONSTEXPR bool const value
       = no_fields_t<row_type, !std::is_void<row_type>::value>::value;
 };
-/// @brief Why a table cannot name a row so: the member hides its method.
-/// @details A client has methods named by the rows through a base class, and a
-/// member of the same name in a class derived from it hides them (the call
-/// reaches the member). The members of a client are all declared in one class
-/// (`client_members_t`, `client_layer_members_t`), so every name they declare,
-/// of any kind (a function, an overloaded one, a template, a type, a data
-/// member, private ones too), is found by the lookup of the row's identifier
-/// in a class derived from them and from a class that declares only that
-/// identifier: it is ambiguous there (`lumex_name_free_in_t` of the row).
+/// @brief Why a table cannot name a row so: the name would be ambiguous.
+/// @details A client has its members in one base class
+/// (`client_members_t`, `client_layer_members_t`) and the methods named by the
+/// rows in another one, siblings. A row named like a member makes the name
+/// found in both bases, so a call `client.close ()` is an ambiguous lookup
+/// (an error, not a call of either), and no method of the row could be
+/// called. Every name the members declare, of any kind (a function, an
+/// overloaded one, a template, a type, a data member, private ones too), is
+/// found by the lookup of the row's identifier in a class derived from them
+/// and from a class that declares only that identifier: it is ambiguous there
+/// (`lumex_name_free_in_t` of the row). The private members carry the prefix
+/// `lumex_`, so the names a table is likely to use are free.
 template <typename Row, typename Own> struct client_row_name_t
 {
   static_assert (
       Row::template lumex_name_free_in_t<Own>::value,
       "LUMEX_PROTOCOL: client<P>: a row is named like a member of client<P> "
-      "(the Row of this instance), which would hide the method of the row: "
+      "(the Row of this instance), so that a call of that name is ambiguous: "
       "give the row another identifier with X_AS (identifier, "
       "\"specification name\", ...); the specification name may stay");
   static LUMEX_CONSTEXPR bool const value = true;
@@ -1254,8 +1291,8 @@ template <typename Row, typename Own> struct layer_row_name_t
   static_assert (
       Row::template lumex_name_free_in_t<Own>::value,
       "LUMEX_PROTOCOL: client_layer<Owner, L>: a row is named like a member "
-      "of client_layer<Owner, L> (the Row of this instance), which would hide "
-      "the method of the row: give the row another identifier with X_AS "
+      "of client_layer<Owner, L> (the Row of this instance), so that a call "
+      "of that name is ambiguous: give the row another identifier with X_AS "
       "(identifier, \"specification name\", ...); the specification name may "
       "stay");
   static LUMEX_CONSTEXPR bool const value = true;
@@ -1294,7 +1331,7 @@ public:
   lumex_invoke (Args &&...args) -> call_return_of<Owner, L, Row, true, Args...>
   {
     return client_call_t<Owner, L, Row, true>::invoke (
-        core_, std::forward<Args> (args)...);
+        lumex_core_, std::forward<Args> (args)...);
   }
 
   /// @brief `client::on<Row>` for a row of this layer: an id of 0 until the
@@ -1303,17 +1340,18 @@ public:
   subscription_t
   on (Handler &&handler)
   {
-    return subscribe_row<L, Row> (core_, std::forward<Handler> (handler));
+    return subscribe_row<L, Row> (lumex_core_,
+                                  std::forward<Handler> (handler));
   }
 
 protected:
   explicit client_layer_members_t (client_core_t core)
-      : core_ (std::move (core))
+      : lumex_core_ (std::move (core))
   {
   }
 
 private:
-  client_core_t core_;
+  client_core_t lumex_core_;
 };
 
 /// @brief The names of a layer of a client that a row may not take.
@@ -1361,8 +1399,8 @@ template <typename P> class client_members_t
                  "LUMEX_PROTOCOL: client<P>: the protocol is valid for the "
                  "dialogue");
 
-  using traits = dialogue::protocol_traits_t<P>;
-  using identify_signature = void (std::error_code, identity_t);
+  using lumex_traits = dialogue::protocol_traits_t<P>;
+  using lumex_identify_signature = void (std::error_code, identity_t);
 
 public:
   /// @brief The executor type the initiating functions report.
@@ -1378,14 +1416,14 @@ public:
    * `client_options_for<P> ()` to change some (the name, the timers, ...).
    */
   client_members_t (frame_link link, client_options_t options)
-      : state_ (std::make_shared<client_state_t> ())
+      : lumex_state_ (std::make_shared<client_state_t> ())
   {
     namespace index = ::lumex::core::protocol::index;
     static index::protocol_index_t const nothing;
     index::index_result_t const &indexed = index::protocol_index<P> ();
     if (options.dialogue.features == nullptr)
       options.dialogue.features = dialogue::features_of<P> ();
-    engine_ = std::make_shared<dialogue_engine> (
+    lumex_engine_ = std::make_shared<dialogue_engine> (
         std::move (link), indexed ? *indexed : nothing, options.dialogue);
   }
 
@@ -1403,7 +1441,7 @@ public:
       -> detail::call_return_of<P, P, Row, false, Args...>
   {
     return detail::client_call_t<P, P, Row, false>::invoke (
-        core (), std::forward<Args> (args)...);
+        lumex_core (), std::forward<Args> (args)...);
   }
 
   /**
@@ -1417,11 +1455,11 @@ public:
   as ()
   {
     static_assert (
-        detail::layer_reachable_t<P, L, typename traits::layers>::value,
+        detail::layer_reachable_t<P, L, typename lumex_traits::layers>::value,
         "LUMEX_PROTOCOL: client: as<L> (): L is no layer of this client: "
         "neither its own layer, nor a layer of layer_set<...>, nor a base of "
         "one");
-    return client_layer<P, L> (core ());
+    return client_layer<P, L> (lumex_core ());
   }
 
   /**
@@ -1435,7 +1473,7 @@ public:
   subscription_t
   on (Handler &&handler)
   {
-    return detail::subscribe_row<P, Row> (core (),
+    return detail::subscribe_row<P, Row> (lumex_core (),
                                           std::forward<Handler> (handler));
   }
 
@@ -1443,7 +1481,7 @@ public:
   bool
   unsubscribe (subscription_t subscription)
   {
-    return engine_->unsubscribe (subscription);
+    return lumex_engine_->unsubscribe (subscription);
   }
 
   /// @brief Calls `handler` with every frame whose key matches no row
@@ -1452,7 +1490,8 @@ public:
   void
   on_unknown (Handler &&handler)
   {
-    engine_->on_unknown (frame_handler_t (std::forward<Handler> (handler)));
+    lumex_engine_->on_unknown (
+        frame_handler_t (std::forward<Handler> (handler)));
   }
 
   /**
@@ -1468,17 +1507,17 @@ public:
   template <typename Token>
   auto
   async_identify (Token &&token)
-      -> decltype (asio::async_initiate<Token, identify_signature> (
+      -> decltype (asio::async_initiate<Token, lumex_identify_signature> (
           std::declval<detail::initiate_identify_t<P>> (), token,
           std::declval<std::weak_ptr<dialogue_engine>> (),
           std::declval<std::shared_ptr<detail::client_state_t>> ()))
   {
     static_assert (detail::identify_check_t<P>::value,
                    "LUMEX_PROTOCOL: client: identify (): checked");
-    return asio::async_initiate<Token, identify_signature> (
-        detail::initiate_identify_t<P> (core ().executor ()), token,
-        std::weak_ptr<dialogue_engine> (engine_),
-        std::shared_ptr<detail::client_state_t> (state_));
+    return asio::async_initiate<Token, lumex_identify_signature> (
+        detail::initiate_identify_t<P> (lumex_core ().executor ()), token,
+        std::weak_ptr<dialogue_engine> (lumex_engine_),
+        std::shared_ptr<detail::client_state_t> (lumex_state_));
   }
 
   /// @brief `async_identify` as a synchronous call: the rules of a generated
@@ -1486,14 +1525,14 @@ public:
   identity_result_t
   identify ()
   {
-    return identify_sync (nullptr);
+    return lumex_identify_sync (nullptr);
   }
 
   /// @brief `async_identify` as a synchronous call with a deadline.
   identity_result_t
   identify (deadline_t deadline)
   {
-    return identify_sync (&deadline);
+    return lumex_identify_sync (&deadline);
   }
 
   /// @brief Sends the rows that turn on streams
@@ -1504,14 +1543,14 @@ public:
       -> decltype (std::declval<dialogue_engine &> ().async_enable_streams (
           std::forward<Token> (token)))
   {
-    return engine_->async_enable_streams (std::forward<Token> (token));
+    return lumex_engine_->async_enable_streams (std::forward<Token> (token));
   }
 
   /// @brief The session as it is now: a copy (any thread).
   ::lumex::core::protocol::index::session_context_t
   session () const
   {
-    return state_->snapshot ()->session;
+    return lumex_state_->snapshot ()->session;
   }
 
   /**
@@ -1522,26 +1561,28 @@ public:
   void
   set_session (::lumex::core::protocol::index::session_context_t session)
   {
-    std::shared_ptr<detail::client_snapshot_t const> const old
-        = state_->snapshot ();
-    session.set_layer (old->session.layer ());
-    detail::set_session_step_t step = { engine_, session };
-    state_->publish (std::move (session), old->layer);
-    asio::post (engine_->get_strand (), std::move (step));
+    lumex_state_->update (
+        [&session] (detail::client_snapshot_t &now)
+          {
+            session.set_layer (now.session.layer ());
+            now.session = std::move (session);
+          });
+    detail::set_session_step_t step = { lumex_engine_, lumex_state_ };
+    asio::post (lumex_engine_->get_strand (), std::move (step));
   }
 
   /// @brief The counters of the dialogue (any thread).
   dialogue_statistics_t
   statistics () const LUMEX_NOEXCEPT
   {
-    return engine_->statistics ();
+    return lumex_engine_->statistics ();
   }
 
   /// @brief Ends every call with `cancelled`; the link stays (any thread).
   void
   cancel () LUMEX_NOEXCEPT
   {
-    engine_->cancel ();
+    lumex_engine_->cancel ();
   }
 
   /// @brief Ends every call with `cancelled` and closes the link, for good
@@ -1549,21 +1590,21 @@ public:
   void
   close () LUMEX_NOEXCEPT
   {
-    engine_->close ();
+    lumex_engine_->close ();
   }
 
   /// @brief The executor of the transport.
   executor_type
   get_executor () const
   {
-    return engine_->get_executor ();
+    return lumex_engine_->get_executor ();
   }
 
   /// @brief The strand of the dialogue.
   strand_type
   get_strand () const
   {
-    return engine_->get_strand ();
+    return lumex_engine_->get_strand ();
   }
 
   /**
@@ -1574,27 +1615,27 @@ public:
   dialogue_engine &
   engine () LUMEX_NOEXCEPT
   {
-    return *engine_;
+    return *lumex_engine_;
   }
 
 private:
   detail::client_core_t
-  core () const
+  lumex_core () const
   {
     detail::client_core_t made;
-    made.engine = engine_;
-    made.state = state_;
+    made.engine = lumex_engine_;
+    made.state = lumex_state_;
     return made;
   }
 
   identity_result_t
-  identify_sync (deadline_t const *deadline)
+  lumex_identify_sync (deadline_t const *deadline)
   {
     static_assert (detail::identify_check_t<P>::value,
                    "LUMEX_PROTOCOL: client: identify (): checked");
     using unexpected_error
         = ::lumex::core::expected::error::unexpected<std::error_code>;
-    if (detail::would_deadlock (*engine_))
+    if (detail::would_deadlock (*lumex_engine_))
       return unexpected_error (
           make_error_code (error::transport_errc::would_deadlock));
     std::shared_ptr<detail::call_wait_t<identity_t>> const wait
@@ -1603,14 +1644,14 @@ private:
     async_identify (asio::bind_cancellation_slot (wait->signal.slot (),
                                                   std::move (handler)));
     std::error_code const ended
-        = detail::wait_for_call (*engine_, wait, deadline);
+        = detail::wait_for_call (*lumex_engine_, wait, deadline);
     if (ended)
       return unexpected_error (ended);
     return identity_result_t (std::move (wait->value));
   }
 
-  std::shared_ptr<client_state_t> state_;
-  std::shared_ptr<dialogue_engine> engine_;
+  std::shared_ptr<client_state_t> lumex_state_;
+  std::shared_ptr<dialogue_engine> lumex_engine_;
 };
 
 /// @brief The names of a client that a row may not take.

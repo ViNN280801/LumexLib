@@ -221,6 +221,64 @@ LUMEX_PROTOCOL_EXTEND_FRAMED (slow_t, plain_t, codec_t, slow_header_t,
 LUMEX_PROTOCOL_EXTEND_FRAMED (patient_t, plain_t, codec_t, patient_header_t,
                               WINDOWED_ROWS);
 
+/// Two layers of the plain table that both have a row with a minimum interval
+/// between its requests (a write: it needs no reply to end): what the engine
+/// learned of that row at the first layer holds at the second.
+struct paced_header_t
+{
+  using lumex_vocabulary = dialogue::vocabulary_t;
+  static LUMEX_CONSTEXPR std::size_t key_width = 1;
+
+  template <typename P>
+  using dialogue_options = dialogue::options<dialogue::max_in_flight<2>>;
+};
+
+// clang-format off
+#define PACED_ROWS(X, X_AS) \
+  X (PACED, 0x07, "Paced", (u8_), ("a"), (), (min_interval (200)))
+// clang-format on
+
+LUMEX_PROTOCOL_EXTEND_FRAMED (paced_a_t, plain_t, codec_t, paced_header_t,
+                              PACED_ROWS);
+LUMEX_PROTOCOL_EXTEND_FRAMED (paced_b_t, plain_t, codec_t, paced_header_t,
+                              PACED_ROWS);
+
+/// A base that gives no timeout and a layer of it that does, with identify ()
+/// between them: the timeout a client has once the device is found.
+struct timed_base_t;
+struct timed_fast_t;
+
+struct timed_base_header_t
+{
+  using lumex_vocabulary = dialogue::vocabulary_t;
+  static LUMEX_CONSTEXPR std::size_t key_width = 1;
+
+  template <typename P>
+  using dialogue_options
+      = dialogue::options<dialogue::identify_with<typename P::WHO_t>,
+                          dialogue::layer_set<timed_base_t, timed_fast_t>>;
+};
+
+struct timed_fast_header_t
+{
+  using lumex_vocabulary = dialogue::vocabulary_t;
+  static LUMEX_CONSTEXPR std::size_t key_width = 1;
+
+  template <typename P>
+  using dialogue_options = dialogue::options<dialogue::default_timeout_ms<100>,
+                                             dialogue::default_retries<1>>;
+};
+
+// clang-format off
+#define TIMED_ROWS(X, X_AS) \
+  X (WHO, 0x01, "Who", (), (), (who_t), ()) \
+  X (ASK, 0x04, "Ask", (), (), (u8_), ())
+// clang-format on
+
+LUMEX_PROTOCOL_DEFINE (timed_base_t, codec_t, timed_base_header_t, TIMED_ROWS);
+LUMEX_PROTOCOL_EXTEND_FRAMED (timed_fast_t, timed_base_t, codec_t,
+                              timed_fast_header_t, NO_NEW_ROWS);
+
 /// identify_with without layer_set.
 struct solo_header_t
 {
@@ -285,24 +343,37 @@ struct lone_header_t
   X (protocol_type, 0x13, "A member", (), (), (u8_), ()) \
   X (client, 0x14, "A member", (), (), (u8_), ()) \
   X (client_members_t, 0x15, "A member", (), (), (u8_), ()) \
-  X (traits, 0x16, "A member", (), (), (u8_), ()) \
-  X (identify_signature, 0x17, "A member", (), (), (u8_), ()) \
-  X (state_, 0x18, "A member", (), (), (u8_), ()) \
-  X (engine_, 0x19, "A member", (), (), (u8_), ()) \
-  X (core, 0x1A, "A member", (), (), (u8_), ()) \
-  X (identify_sync, 0x1B, "A member", (), (), (u8_), ())
+  X (lumex_traits, 0x16, "A member", (), (), (u8_), ()) \
+  X (lumex_identify_signature, 0x17, "A member", (), (), (u8_), ()) \
+  X (lumex_state_, 0x18, "A member", (), (), (u8_), ()) \
+  X (lumex_engine_, 0x19, "A member", (), (), (u8_), ()) \
+  X (lumex_core, 0x1A, "A member", (), (), (u8_), ()) \
+  X (lumex_identify_sync, 0x1B, "A member", (), (), (u8_), ())
 // The same for client_layer<Owner, L>.
 #define LAYER_MEMBERS_ROWS(X, X_AS) \
   X (lumex_invoke, 0x01, "A member", (), (), (u8_), ()) \
   X (on, 0x02, "A member", (), (), (u8_), ()) \
   X (client_layer, 0x03, "A member", (), (), (u8_), ()) \
-  X (core_, 0x04, "A member", (), (), (u8_), ())
+  X (lumex_core_, 0x04, "A member", (), (), (u8_), ())
+// Rows named like what the members of the client used to be called inside:
+// the private ones carry the prefix of the library, so these are free and the
+// client works (a client of it is made and called).
+#define INNER_NAMES_ROWS(X, X_AS) \
+  X (core, 0x01, "Core", (), (), (u8_), ()) \
+  X (traits, 0x02, "Traits", (), (), (u8_), ()) \
+  X (identify_signature, 0x03, "Signature", (), (), (u8_), ()) \
+  X (identify_sync, 0x04, "Sync", (), (), (u8_), ()) \
+  X (state_, 0x05, "State", (), (), (u8_), ()) \
+  X (engine_, 0x06, "Engine", (), (), (u8_), ()) \
+  X (core_, 0x07, "Core of a layer", (), (), (u8_), ())
 // clang-format on
 
 LUMEX_PROTOCOL_DEFINE (lone_t, codec_t, lone_header_t, LONE_ROWS);
 LUMEX_PROTOCOL_DEFINE (twins_t, codec_t, lone_header_t, TWINS_ROWS);
 LUMEX_PROTOCOL_DEFINE (spec_named_t, codec_t, lone_header_t, SPEC_NAMED_ROWS);
 LUMEX_PROTOCOL_DEFINE (members_t, codec_t, lone_header_t, MEMBERS_ROWS);
+LUMEX_PROTOCOL_DEFINE (inner_names_t, codec_t, lone_header_t,
+                       INNER_NAMES_ROWS);
 LUMEX_PROTOCOL_DEFINE (layer_members_t, codec_t, lone_header_t,
                        LAYER_MEMBERS_ROWS);
 } // namespace client_tables
@@ -332,6 +403,19 @@ template <> struct identity_of_t<lumex_tests::client_tables::mixer_t>
         = layer == 1 ? "mixer_v1_t" : (layer == 2 ? "mixer_v2_t" : "");
     identity.values.push_back (std::make_pair (
         std::string ("mixer_form"), std::int64_t (ct::field::get<3> (reply))));
+    return std::error_code ();
+  }
+};
+
+template <> struct identity_of_t<lumex_tests::client_tables::timed_base_t>
+{
+  static std::error_code
+  read (reply_of<lumex_tests::client_tables::timed_base_t::WHO_t> const &reply,
+        identity_t &identity)
+  {
+    namespace ct = lumex_tests::client_tables;
+    identity.layer
+        = ct::field::get<0> (reply) == 1 ? "timed_fast_t" : "timed_base_t";
     return std::error_code ();
   }
 };

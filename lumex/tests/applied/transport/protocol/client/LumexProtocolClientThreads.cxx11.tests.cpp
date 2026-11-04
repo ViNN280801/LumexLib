@@ -1,7 +1,8 @@
 // The generated client between threads: destroyed while another thread calls
 // it through a layer, the handlers on several threads, identify and calls at
-// once on a runner of several threads. For TSan; repeated in the gate. The
-// synthetic mixer table.
+// once on a runner of several threads, set_session against identify and
+// against another set_session. For TSan; repeated in the gate. The synthetic
+// mixer table.
 
 #include <atomic>
 #include <cstdint>
@@ -18,6 +19,33 @@
 namespace
 {
 using namespace lumex_client_test;
+
+/// The session the dialogue decodes with, read on its strand, after what was
+/// posted to the strand before the call has run.
+template <typename Bench>
+index::session_context_t
+session_of_the_engine (Bench &bench)
+{
+  std::promise<index::session_context_t> got;
+  asio::post (bench.client->get_strand (), [&bench, &got] ()
+                { got.set_value (bench.client->engine ().session ()); });
+  return got.get_future ().get ();
+}
+
+/// Whether the two sessions say the same of everything the tests set.
+bool
+same_session (index::session_context_t const &left,
+              index::session_context_t const &right)
+{
+  std::int64_t a = -1;
+  std::int64_t b = -2;
+  bool const has_a = left.find ("k", a);
+  bool const has_b = right.find ("k", b);
+  return left.model () == right.model ()
+         && left.firmware () == right.firmware ()
+         && left.layer () == right.layer () && has_a == has_b
+         && (!has_a || a == b);
+}
 } // namespace
 
 TEST (LumexProtocolClientThreads, Client_IdentifyAndCallsAtOnceOnTwoRunners)
@@ -133,4 +161,83 @@ TEST (LumexProtocolClientThreads, Client_SubscribingRacesTheSelectionOfALayer)
       bench.device.reset ();
       bench.client.reset ();
     }
+}
+
+TEST (LumexProtocolClientThreads, Client_SetSessionRacesIdentify)
+{
+  for (int round = 0; round < 40; ++round)
+    {
+      thread_bench_t<mixer_v2, mixer> bench;
+      bench.device->set_reply<mixer_v2::INFO_t> (mixer_info ("M200", 15, 2));
+      bench.device->set_reply<mixer_v2::ONLY_V2_t> (std::uint16_t (500));
+      std::atomic<bool> stop (false);
+      std::thread setter (
+          [&bench, &stop] ()
+            {
+              std::int64_t turn = 0;
+              while (!stop.load ())
+                {
+                  index::session_context_t made;
+                  made.set ("k", ++turn);
+                  bench.client->set_session (made);
+                }
+            });
+      std::this_thread::sleep_for (ms (1));
+      bool const identified
+          = bench.client->identify (tr::deadline_t (20000)).has_value ();
+      EXPECT_TRUE (identified);
+      std::this_thread::sleep_for (ms (2));
+      stop.store (true);
+      setter.join ();
+      // However the calls interleaved, the layer identify found is the layer
+      // of the session, the rows of it answer, and the dialogue decodes with
+      // the session the client shows.
+      index::session_context_t const shown = bench.client->session ();
+      EXPECT_EQ (shown.layer (), "mixer_v2_t") << "round " << round;
+      pr::call_result_t<mixer_v2::ONLY_V2_t> const reply
+          = bench.client->as<mixer_v2> ().ONLY_V2 (std::uint8_t (1),
+                                                   tr::deadline_t (20000));
+      ASSERT_TRUE (reply.has_value ()) << "round " << round;
+      EXPECT_EQ (*reply, 500);
+      EXPECT_TRUE (same_session (shown, session_of_the_engine (bench)))
+          << "round " << round;
+    }
+}
+
+TEST (LumexProtocolClientThreads, Client_TwoSetSessionsLeaveTheEngineTheLast)
+{
+  // Two calls released together, once per turn: whichever published last, the
+  // dialogue ends with that one, so it is the last of a turn that is read.
+  thread_bench_t<mixer> bench;
+  int const turns = 2000;
+  std::atomic<int> released (0);
+  std::atomic<int> finished (0);
+  std::vector<std::thread> setters;
+  for (std::int64_t who = 1; who <= 2; ++who)
+    setters.push_back (std::thread (
+        [&bench, &released, &finished, who, turns] ()
+          {
+            for (int turn = 1; turn <= turns; ++turn)
+              {
+                while (released.load () < turn)
+                  std::this_thread::yield ();
+                index::session_context_t made;
+                made.set ("k", who * 100000 + turn);
+                bench.client->set_session (made);
+                finished.fetch_add (1);
+              }
+          }));
+  int differing = 0;
+  for (int turn = 1; turn <= turns; ++turn)
+    {
+      released.store (turn);
+      while (finished.load () < 2 * turn)
+        std::this_thread::yield ();
+      if (!same_session (bench.client->session (),
+                         session_of_the_engine (bench)))
+        ++differing;
+    }
+  for (std::size_t i = 0; i < setters.size (); ++i)
+    setters[i].join ();
+  EXPECT_EQ (differing, 0);
 }

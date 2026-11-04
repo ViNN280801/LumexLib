@@ -216,7 +216,9 @@ after (timing::time_point_t from, std::uint64_t milliseconds) LUMEX_NOEXCEPT
 // -----------------------------------------------------
 
 void
-dialogue_impl::build_watches (protocol_features_t const *features)
+dialogue_impl::build_watches (
+    protocol_features_t const *features,
+    std::shared_ptr<keepalive_generator_t const> &dropped)
 {
   std::vector<row_watch_t> made;
   ::lumex::core::span::view::span<pindex::row_t const> const rows
@@ -264,9 +266,16 @@ dialogue_impl::build_watches (protocol_features_t const *features)
       if (std::strcmp (features->rows[j].identifier, features->keepalive_row)
           == 0)
         keepalive = &features->rows[j];
-  // set_keepalive reads it from any thread.
+  // set_keepalive reads it from any thread, and sets the generator under the
+  // same lock: the generator of the row that was goes in the same section, or
+  // one set for the new row in between would go with it.
   std::lock_guard<std::mutex> const lock (handlers_mutex_);
+  char const *const old_identifier
+      = keepalive_row_ != nullptr ? keepalive_row_->identifier : nullptr;
   keepalive_row_ = keepalive;
+  if (keepalive == nullptr || old_identifier == nullptr
+      || std::strcmp (keepalive->identifier, old_identifier) != 0)
+    dropped.swap (keepalive_generator_);
 }
 
 // --- the change of layer
@@ -338,6 +347,21 @@ dialogue_impl::follow_layer ()
         }
       record->row = row;
       record->reply_row = reply;
+      if (record->row_policy && record->attempts == 0)
+        {
+          // Not started: it starts in this layer, with the timeout and the
+          // retries of this layer; one that started keeps what it has.
+          try
+            {
+              record->policy = row_policy (row);
+              record->allowed
+                  = 1 + static_cast<std::uint64_t> (record->policy->retries);
+            }
+          catch (...)
+            {
+              // Out of memory: the policy of the layer it was queued in.
+            }
+        }
       queue_.push_back (std::move (record));
     }
   for (std::size_t at = flight_.size (); at != 0; --at)
@@ -413,8 +437,6 @@ dialogue_impl::run_select_layer (pindex::protocol_index_t const *index,
   // The handlers that go die after the lock is released: they may call the
   // engine.
   std::shared_ptr<keepalive_generator_t const> dropped;
-  char const *const old_identifier
-      = keepalive_row_ != nullptr ? keepalive_row_->identifier : nullptr;
   {
     std::lock_guard<std::mutex> const lock (handlers_mutex_);
     index_.store (index, std::memory_order_release);
@@ -428,13 +450,7 @@ dialogue_impl::run_select_layer (pindex::protocol_index_t const *index,
   old.swap (watches_);
   row_features_t const *const old_keepalive = keepalive_row_;
   features_ = features;
-  build_watches (features);
-  if (keepalive_row_ == nullptr || old_identifier == nullptr
-      || std::strcmp (keepalive_row_->identifier, old_identifier) != 0)
-    {
-      std::lock_guard<std::mutex> const lock (handlers_mutex_);
-      dropped.swap (keepalive_generator_);
-    }
+  build_watches (features, dropped);
   // Rows of a table that keeps them: the old pointer still names the row until
   // follow_layer moves it.
   take_old_watches (old);
@@ -443,8 +459,7 @@ dialogue_impl::run_select_layer (pindex::protocol_index_t const *index,
     {
       // A value that is not what the layer in use gives was set by the
       // application and stays; one that is takes what the new layer gives.
-      layer_values_t const gives
-          = layer_values_of (*features, base_timeout_ms_);
+      layer_values_t const gives = layer_values_of (*features);
       retry_policy_t made;
       if (defaults_)
         made = *defaults_;

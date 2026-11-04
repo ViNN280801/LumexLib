@@ -137,11 +137,19 @@ public:
   static bool
   any_holds (std::string const &text)
   {
+    return count_holding (text) != 0;
+  }
+
+  /// How many lines hold `text`.
+  static std::size_t
+  count_holding (std::string const &text)
+  {
     std::lock_guard<std::mutex> const lock (mutex ());
+    std::size_t count = 0;
     for (std::size_t i = 0; i < lines ().size (); ++i)
       if (lines ()[i].find (text) != std::string::npos)
-        return true;
-    return false;
+        ++count;
+    return count;
   }
 
 private:
