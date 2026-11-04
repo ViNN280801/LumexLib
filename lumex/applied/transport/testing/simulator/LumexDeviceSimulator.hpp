@@ -121,31 +121,43 @@
  * sending a message of `Row` by itself (the value of `set_reply<Row>`, else
  * the sample, as a stream does); `wait_state (s)` is the device setting the
  * state `s` and, when the protocol has a `state_from` row, sending a message
- * of that row that shows it (the way the client learns it);
+ * of that row that shows it (the way the client learns it; once per state in
+ * a run, the client takes a state it knows without a frame, and the state it
+ * learned before the run is not known to the device);
  * `branch_on_reply`, `jump` and `label` follow the decision the client takes,
  * with the predicate of the scenario on the last message the device sent for
- * the row (a reply, or a message by itself). Everything but a `send` runs at
- * once, on the strand of the mock, after the step before it; a `send` waits.
- * A request of another row is served as usual and does not advance the
- * script, nor does a request of the row that the device refused, did not
- * process (a silent or frozen device) or could not decode. The time of a step
- * is not the device's: it never times out (use `after` for a delay). What
- * the device sends by itself the client has to be waiting for: start the
- * client's run before `play`, as the messages of a real device are lost when
- * nobody listens. A message of a row outside the session (firmware, model)
- * is not sent, the script goes on. `playback ()` tells whether the script
- * waits (`playing` at the step of the `send`), ended (`finished`, the step is
- * the number of steps) or failed (`failed`, the step that failed and the
- * error): a scenario whose `check ()` fails is not played (`play` returns
- * false, `invalid_argument`); a branch on a row with no message yet is
- * `unexpected_reply`; a predicate that throws fails it with `interrupted`
- * and the exception goes on to the code that runs the strand, as that of a
- * handler; a loop that never reaches a `send` (a thousand jumps back in a
- * row) fails with `resource_deadlock_would_occur`. A second `play` while one
- * runs, and `play` after the `io_context` is gone, return false and change
- * nothing; after a script ended or failed another one starts from its first
- * step. A scenario of another protocol does not compile. The messages the
- * script sends by itself are `scripted_messages`.
+ * the row (a reply or an `expect`; the message of a `wait_state` is no reply,
+ * as the client does not keep a frame that only wakes its wait). Everything
+ * but a `send` runs at once, on the strand of the mock, after the step before
+ * it; a `send` waits. A request of another row is served as usual and does
+ * not advance the script, nor does a request of the row that the device
+ * refused, did not process (a silent or frozen device) or could not decode,
+ * nor the request that made a handler start the script. The time of a step is
+ * not the device's: it never times out (use `after` for a delay). What the
+ * device sends by itself the client has to be waiting for: call `play`
+ * before the context runs the first step of the client, or the client's first
+ * request is served before the script starts, the client waits at its
+ * `expect` and the device at its first step. With a context that runs on
+ * another thread, call `play` first when the script begins with a `send`.
+ * A message of a row outside the session (firmware, model) is not sent, the
+ * script goes on. The messages of a device that takes time (`slow_trickle`,
+ * `fragmented`) keep their order: each starts after the end of the one before.
+ * `playback ()` tells whether the script waits (`playing` at the step of the
+ * `send`), ended (`finished`, the step is the number of steps) or failed
+ * (`failed`, the step that failed and the error): `invalid_argument` for a
+ * scenario whose `check ()` fails (it is not played, `play` returns false);
+ * `unexpected_reply` for a branch on a row with no message yet;
+ * `interrupted` for a predicate that throws (the exception goes on to the
+ * code that runs the strand, as that of a handler);
+ * `resource_deadlock_would_occur` for a loop that never reaches a `send` (a
+ * thousand jumps back in a row); `not_supported` for an `expect` of a row that
+ * has no message or whose message is no message of the row (`reply_row`);
+ * `invalid_value` for a message that cannot be encoded; `operation_canceled`
+ * when the context is gone. A second `play` while one runs, and `play` after
+ * the `io_context` is gone, return false and change nothing; after a script
+ * ended or failed another one starts from its first step. A scenario of
+ * another protocol does not compile. The messages the script sends by itself
+ * are `scripted_messages`.
  *
  * Behaviours. Every message the device sends, a reply or a stream message,
  * goes through the `behavior_applier` of the simulator (`set_behavior`,
@@ -302,7 +314,13 @@ struct playback_status_t
   std::size_t step = 0;
   /// The number of steps of the scenario.
   std::size_t steps = 0;
-  /// The error of a failed playback.
+  /// The error of a failed playback: `invalid_argument` (the scenario fails
+  /// its check), `unexpected_reply` (a branch on a row with no message),
+  /// `interrupted` (a predicate threw), `resource_deadlock_would_occur` (a
+  /// loop that never waits), `not_supported` (an `expect` the device cannot
+  /// satisfy), `invalid_value` (a message that cannot be encoded),
+  /// `operation_canceled` (the context is gone), or the error a decision of
+  /// the scenario returned.
   std::error_code error;
 };
 

@@ -1553,15 +1553,45 @@ holds_reply_bytes (reply_plan_t const &made)
 {
   return has_reply_bytes (made.steps);
 }
+
+// Moves the plan behind the end of the line the device already put on the
+// wire, and the end of the line behind the plan.
+void
+queue_on_line (reply_plan_t &made, timing::time_point_t now,
+               timing::time_point_t *line_end)
+{
+  if (line_end == nullptr)
+    return;
+  ms lead (0);
+  if (*line_end > now)
+    {
+      lead = std::chrono::duration_cast<ms> (*line_end - now);
+      if (now + lead < *line_end)
+        lead += ms (1);
+    }
+  ms last (0);
+  for (std::size_t index = 0; index < made.steps.size (); ++index)
+    {
+      made.steps[index].at += lead;
+      if (made.steps[index].at > last)
+        last = made.steps[index].at;
+    }
+  if (!made.steps.empty () && now + last > *line_end)
+    *line_end
+        = now
+          + std::chrono::duration_cast<timing::time_point_t::duration> (last);
+}
 } // namespace
 
 bool
 behavior_applier::respond (mock_stream_control control,
                            std::vector<std::uint8_t> const &request,
                            bool has_reply, reply_maker_t const &make_reply,
-                           bool *reply_reached)
+                           bool *reply_reached, timing::time_point_t *line_end)
 {
-  reply_plan_t const made = plan (request, has_reply, make_reply, false);
+  timing::time_point_t const now = timers_.now ();
+  reply_plan_t made = plan (request, has_reply, make_reply, false);
+  queue_on_line (made, now, line_end);
   carry_out (made, control);
   if (reply_reached != nullptr)
     *reply_reached = holds_reply_bytes (made);
@@ -1573,9 +1603,11 @@ behavior_applier::respond (mock_datagram_control control,
                            std::uint8_t report_id,
                            std::vector<std::uint8_t> const &request,
                            bool has_reply, reply_maker_t const &make_reply,
-                           bool *reply_reached)
+                           bool *reply_reached, timing::time_point_t *line_end)
 {
-  reply_plan_t const made = plan (request, has_reply, make_reply, true);
+  timing::time_point_t const now = timers_.now ();
+  reply_plan_t made = plan (request, has_reply, make_reply, true);
+  queue_on_line (made, now, line_end);
   carry_out (made, control, report_id);
   if (reply_reached != nullptr)
     *reply_reached = holds_reply_bytes (made);

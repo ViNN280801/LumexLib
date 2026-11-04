@@ -482,17 +482,24 @@ public:
   /// @brief The lazy `plan` for a mock stream, carried out on `control`;
   /// returns `request_processed`. `reply_reached`, when given, is set to
   /// whether the plan holds bytes of the reply (a reply an `intermittent`
-  /// device loses has none).
+  /// device loses has none). `line_end`, when given, is the time the
+  /// previous plan of this device ends: a plan carried out while the line is
+  /// busy starts after it (every step moves by the time left), and `line_end`
+  /// is moved to the end of this one. A device that sends several messages
+  /// (a reply and a message of its own, the two parts of a reply) keeps one
+  /// `line_end` for them, so that a behaviour that takes time never lets
+  /// them overlap.
   bool respond (mock_stream_control control,
                 std::vector<std::uint8_t> const &request, bool has_reply,
-                reply_maker_t const &make_reply,
-                bool *reply_reached = nullptr);
+                reply_maker_t const &make_reply, bool *reply_reached = nullptr,
+                timing::time_point_t *line_end = nullptr);
   /// @brief The lazy `plan` for a mock datagram transport, each message with
-  /// `report_id`; returns `request_processed`.
+  /// `report_id`; returns `request_processed`. `line_end` as above (the
+  /// datagrams then keep their order).
   bool respond (mock_datagram_control control, std::uint8_t report_id,
                 std::vector<std::uint8_t> const &request, bool has_reply,
-                reply_maker_t const &make_reply,
-                bool *reply_reached = nullptr);
+                reply_maker_t const &make_reply, bool *reply_reached = nullptr,
+                timing::time_point_t *line_end = nullptr);
 
 private:
   behavior behavior_;
