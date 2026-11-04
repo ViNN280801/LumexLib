@@ -1,0 +1,10 @@
+# benchmark=logging
+# machine="12th Gen Intel(R) Core(TM) i7-12700K" logical_cpus=20
+# compiler="GCC 13.2.0" cplusplus=201103
+# build=NDEBUG
+benchmark,case,clock,unit,median,min,passes,iterations,loadavg,note
+logging,lazy_below_threshold,none,ns/call,0.939,0.937,7,69712794,1.85,the macro; threshold above the record
+logging,eager_below_threshold,none,ns/call,53.204,52.812,7,1000000,1.85,falsifier: formats before the check
+logging,bare_atomic_load,none,ns/call,0.281,0.279,7,235472539,1.85,an atomic load and a branch
+logging,filtered_component,none,ns/call,12.668,12.638,7,5117549,1.85,level passes; component denied
+logging,enabled_counting_sink,none,ns/call,53.732,53.571,7,1000000,1.85,the record is built and handed to a counting sink; records=8010101

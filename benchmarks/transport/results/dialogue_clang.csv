@@ -1,0 +1,15 @@
+# benchmark=dialogue
+# machine="12th Gen Intel(R) Core(TM) i7-12700K" logical_cpus=20
+# compiler="Clang 23.1.0" cplusplus=201103
+# build=NDEBUG
+benchmark,case,clock,unit,median,min,passes,iterations,loadavg,note
+dialogue,ping6_virtual,virtual,ns/exchange,6274.900,6259.723,7,10000,1.78,async; 6-byte reply
+dialogue,ping6_virtual_device_sleep50us,virtual,ns/exchange,118075.798,116945.931,7,593,1.78,falsifier: sleep_for (50 us) in the simulator handler
+dialogue,block2420_virtual,virtual,ns/exchange,18783.630,18728.861,7,3380,1.78,async; 2420-byte reply
+dialogue,block2420_virtual_device_sleep50us,virtual,ns/exchange,154166.287,128553.513,7,536,1.78,falsifier: sleep_for (50 us) in the simulator handler
+dialogue,ping6_real_timers,real,ns/exchange,9548.224,9503.119,7,5440,1.78,async; 6-byte reply
+dialogue,ping6_real_timers_device_sleep50us,real,ns/exchange,153075.496,149951.815,7,579,1.80,falsifier: sleep_for (50 us) in the simulator handler
+dialogue,ping6_sync_thread,real,ns/exchange,14838.577,14542.842,7,4221,1.80,sync call; the context runs on another thread
+dialogue,ping6_sync_thread_device_sleep50us,real,ns/exchange,125840.259,122316.120,7,549,1.80,falsifier: sleep_for (50 us) in the simulator handler
+dialogue,block2420_sync_thread,real,ns/exchange,35566.273,31283.645,7,2293,1.80,sync call; the context runs on another thread
+dialogue,block2420_sync_thread_device_sleep50us,real,ns/exchange,169460.232,139895.042,7,474,1.80,falsifier: sleep_for (50 us) in the simulator handler

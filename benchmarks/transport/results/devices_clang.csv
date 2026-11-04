@@ -1,0 +1,15 @@
+# benchmark=devices
+# machine="12th Gen Intel(R) Core(TM) i7-12700K" logical_cpus=20
+# compiler="Clang 23.1.0" cplusplus=201103
+# build=NDEBUG
+benchmark,case,clock,unit,median,min,passes,iterations,loadavg,note
+devices,sized_10_with_clients,virtual,busy_%_of_a_core,0.259,0.258,7,10,1.80,messages=1600 per 10 virtual s; x386 faster than real time; cpu 0.240040 %
+devices,sized_10_devices_only,virtual,busy_%_of_a_core,0.133,0.132,7,10,1.80,bytes=3875200 per 10 virtual s; x752 faster than real time; cpu 0.120043 %
+devices,sized_25_with_clients,virtual,busy_%_of_a_core,0.641,0.640,7,10,1.80,messages=4000 per 10 virtual s; x155 faster than real time; cpu 0.640030 %
+devices,sized_25_devices_only,virtual,busy_%_of_a_core,0.326,0.325,7,10,1.80,bytes=9688000 per 10 virtual s; x307 faster than real time; cpu 0.320046 %
+devices,small_20_with_clients,virtual,busy_%_of_a_core,0.122,0.121,7,10,1.80,messages=3200 per 10 virtual s; x822 faster than real time; cpu 0.120034 %
+devices,small_20_devices_only,virtual,busy_%_of_a_core,0.072,0.072,7,10,1.80,bytes=57456 per 10 virtual s; x1385 faster than real time; cpu 0.079937 %
+devices,small_25_with_clients,virtual,busy_%_of_a_core,0.152,0.141,7,10,1.80,messages=4000 per 10 virtual s; x657 faster than real time; cpu 0.160036 %
+devices,small_25_devices_only,virtual,busy_%_of_a_core,0.091,0.090,7,10,1.80,bytes=71964 per 10 virtual s; x1102 faster than real time; cpu 0.080047 %
+devices,mixed_with_clients,virtual,busy_%_of_a_core,0.183,0.182,7,10,1.80,messages=2850 per 10 virtual s; x546 faster than real time; cpu 0.200034 %
+devices,mixed_devices_only,virtual,busy_%_of_a_core,0.100,0.099,7,10,1.80,bytes=1493682 per 10 virtual s; x1001 faster than real time; cpu 0.101046 %
