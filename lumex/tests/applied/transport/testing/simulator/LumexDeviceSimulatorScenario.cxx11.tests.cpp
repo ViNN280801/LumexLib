@@ -1,0 +1,659 @@
+// The device simulator playing a scenario written for the client
+// (`device.play<Scenario> ()`) against the dialogue engine that runs the same
+// scenario (`async_run_scenario`), on the lab table and the virtual clock:
+// every kind of step and both ways of a branch, the position and the end,
+// what other requests and the behaviours do to the script, and the edges (a
+// predicate that throws, a loop that never waits, a second play, a scenario
+// that fails its check, the life of the simulator).
+
+#include <chrono>
+#include <cstddef>
+#include <cstdint>
+#include <memory>
+#include <stdexcept>
+#include <system_error>
+#include <type_traits>
+#include <utility>
+#include <vector>
+
+#include <gtest/gtest.h>
+
+#include "lumex/tests/applied/transport/testing/simulator/LumexSimulatorRawBench.hpp"
+#include "lumex/tests/applied/transport/testing/simulator/LumexSimulatorTestSupport.hpp"
+#include "lumex/tests/applied/transport/testing/simulator/LumexSimulatorTestTables.hpp"
+
+namespace
+{
+namespace st = lumex_simulator_test;
+namespace tables = lumex_tests::simulator_tables;
+namespace field = lumex::core::protocol::field;
+namespace layout = lumex::core::protocol::layout;
+namespace tr = st::tr;
+using lab = tables::lab_t;
+using bench_t = st::bench_t<lab>;
+using st::bytes_t;
+using st::ms;
+using st::protocol_errc;
+using tables::bytes;
+using tr::testing::playback_state;
+using device_t = tr::testing::device_simulator<lab>;
+
+bool
+level_is_high (std::uint8_t const &level)
+{
+  return level == 7;
+}
+
+bool
+throws_always (std::uint8_t const &)
+{
+  throw std::runtime_error ("predicate");
+}
+
+std::error_code
+code (protocol_errc value)
+{
+  return lumex::core::protocol::error::make_error_code (value);
+}
+
+// Every kind of step: a send, an expect, a wait for a state, labels, a
+// branch on a reply both ways and a jump.
+LUMEX_PROTOCOL_SCENARIO (full_script, lab, (send<lab::INFO_t> ()), // 0
+                         (expect<lab::STATE_t> ()),                // 1
+                         (wait_state (tables::lab_state::busy)),   // 2
+                         (label ("poll")),                         // 3
+                         (send<lab::LEVEL_t> ()),                  // 4
+                         (branch_on_reply<lab::LEVEL_t> (&level_is_high,
+                                                         "high")), // 5
+                         (send<lab::STOP_t> ()),                   // 6
+                         (jump ("end")),                           // 7
+                         (label ("high")),                         // 8
+                         (send<lab::RESET_t> ()),                  // 9
+                         (label ("end")));                         // 10
+std::size_t const kFullSteps = 11;
+
+LUMEX_PROTOCOL_SCENARIO (info_then_state_script, lab, (send<lab::INFO_t> ()),
+                         (expect<lab::STATE_t> ()));
+LUMEX_PROTOCOL_SCENARIO (move_then_level_script, lab, (send<lab::MOVE_t> (1)),
+                         (expect<lab::LEVEL_t> ()));
+LUMEX_PROTOCOL_SCENARIO (info_stop_script, lab, (send<lab::INFO_t> ()),
+                         (send<lab::STOP_t> ()));
+LUMEX_PROTOCOL_SCENARIO (info_state_stop_level_script, lab,
+                         (send<lab::INFO_t> ()), (expect<lab::STATE_t> ()),
+                         (send<lab::STOP_t> ()), (expect<lab::LEVEL_t> ()));
+LUMEX_PROTOCOL_SCENARIO (two_expects_script, lab, (send<lab::INFO_t> ()),
+                         (expect<lab::STATE_t> ()), (expect<lab::LEVEL_t> ()),
+                         (send<lab::STOP_t> ()));
+LUMEX_PROTOCOL_SCENARIO (
+    write_script, lab, (send<lab::WRITE_t> (1, 2)),
+    (branch_on_reply<lab::CHANGE_t> (
+        [] (layout::reply_message_of<lab::CHANGE_t>::type const &change)
+          { return field::get<1> (change) == 5; }, "end")),
+    (send<lab::INFO_t> ()), (label ("end")));
+LUMEX_PROTOCOL_SCENARIO (
+    param_then_level_script, lab,
+    (send<lab::PARAM_GET_t> (tables::lab_registry::FREQUENCY)),
+    (expect<lab::LEVEL_t> ()));
+LUMEX_PROTOCOL_SCENARIO (info_script, lab, (send<lab::INFO_t> ()));
+LUMEX_PROTOCOL_SCENARIO (
+    level_nine_script, lab, (expect<lab::LEVEL_t> ()),
+    (branch_on_reply<lab::LEVEL_t> ([] (std::uint8_t const &level)
+                                      { return level == 9; }, "end")),
+    (send<lab::INFO_t> ()), (label ("end")));
+LUMEX_PROTOCOL_SCENARIO (level_expect_script, lab, (expect<lab::LEVEL_t> ()));
+LUMEX_PROTOCOL_SCENARIO (throwing_script, lab, (send<lab::LEVEL_t> ()),
+                         (branch_on_reply<lab::LEVEL_t> (&throws_always,
+                                                         "end")),
+                         (send<lab::STOP_t> ()), (label ("end")));
+LUMEX_PROTOCOL_SCENARIO (loop_script, lab, (label ("again")),
+                         (jump ("again")));
+LUMEX_PROTOCOL_SCENARIO (flood_script, lab, (label ("again")),
+                         (expect<lab::LEVEL_t> ()), (jump ("again")));
+LUMEX_PROTOCOL_SCENARIO (lost_label_script, lab, (jump ("nowhere")),
+                         (send<lab::INFO_t> ()));
+LUMEX_PROTOCOL_SCENARIO (branch_first_script, lab,
+                         (branch_on_reply<lab::LEVEL_t> (&level_is_high,
+                                                         "end")),
+                         (label ("end")));
+LUMEX_PROTOCOL_SCENARIO (outside_script, lab, (expect<lab::NEWER_t> ()),
+                         (send<lab::INFO_t> ()));
+LUMEX_PROTOCOL_SCENARIO (
+    counting_loop_script, lab, (label ("poll")), (send<lab::LEVEL_t> ()),
+    (branch_on_reply<lab::LEVEL_t> ([] (std::uint8_t const &level)
+                                      { return level != 3; }, "poll")),
+    (send<lab::INFO_t> ()));
+
+// A second protocol: its scenario is not for a device of the lab table.
+struct other_codec_t
+{
+};
+
+struct other_header_t
+{
+  using lumex_vocabulary = st::dialogue::vocabulary_t;
+  static LUMEX_CONSTEXPR std::size_t key_width = 1;
+};
+
+#define OTHER_ROWS(X, X_AS) X (PING, 0x01, "Ping", (), (), (u8_), ())
+LUMEX_PROTOCOL_DEFINE (other_t, other_codec_t, other_header_t, OTHER_ROWS);
+LUMEX_PROTOCOL_SCENARIO (other_script, other_t, (send<other_t::PING_t> ()));
+
+// Whether `device.play<Scenario> ()` compiles.
+template <typename Device, typename Scenario>
+auto can_play (int)
+    -> decltype (std::declval<Device &> ().template play<Scenario> (),
+                 std::true_type ());
+
+template <typename Device, typename Scenario> std::false_type can_play (long);
+
+static_assert (decltype (can_play<device_t, full_script> (0))::value,
+               "a scenario of the layer of the device plays");
+static_assert (!decltype (can_play<device_t, other_script> (0))::value,
+               "a scenario of another protocol does not compile");
+
+// The engine reads the table's features (the state row) with these options.
+tr::protocol::dialogue_options_t
+engine_options ()
+{
+  return tr::protocol::dialogue::options_for<lab> ();
+}
+
+// What the client's run ended with.
+struct run_outcome_t
+{
+  int calls = 0;
+  std::error_code error;
+  std::size_t step = 0;
+};
+
+struct run_record_t
+{
+  std::shared_ptr<run_outcome_t> out;
+
+  void
+  operator() (std::error_code error, std::size_t step)
+  {
+    ++out->calls;
+    out->error = error;
+    out->step = step;
+  }
+};
+
+// The client's run of `Scenario` on the engine of the bench.
+template <typename Scenario>
+std::shared_ptr<run_outcome_t>
+start_client (bench_t &bench)
+{
+  std::shared_ptr<run_outcome_t> const out
+      = std::make_shared<run_outcome_t> ();
+  run_record_t handler = { out };
+  tr::protocol::async_run_scenario<Scenario> (*bench.engine, handler);
+  return out;
+}
+
+tables::lab_state
+state_of (bytes_t const &frame)
+{
+  auto const value
+      = layout::decode_reply_message<lab, lab::STATE_t> (st::view_of (frame));
+  EXPECT_TRUE (value.has_value ());
+  return value ? field::get<0> (*value) : tables::lab_state::fault;
+}
+
+// Runs `Scenario` on the client and on the device until the client ended.
+template <typename Scenario>
+std::shared_ptr<run_outcome_t>
+run_both (bench_t &bench)
+{
+  std::shared_ptr<run_outcome_t> const client = start_client<Scenario> (bench);
+  EXPECT_TRUE (bench.device->template play<Scenario> ());
+  EXPECT_TRUE (bench.run_until ([&] () { return client->calls != 0; }));
+  bench.settle ();
+  return client;
+}
+
+void
+expect_playback (bench_t &bench, playback_state state, std::size_t step,
+                 std::size_t steps, std::error_code error = std::error_code ())
+{
+  tr::testing::playback_status_t const status = bench.device->playback ();
+  EXPECT_EQ (status.state, state);
+  EXPECT_EQ (status.step, step);
+  EXPECT_EQ (status.steps, steps);
+  EXPECT_EQ (status.error, error);
+}
+} // namespace
+
+TEST (LumexDeviceSimulatorScenario, Simulator_ScenarioPlaybackAgainstTheEngine)
+{
+  bench_t bench ((tr::testing::simulator_options_t ()), engine_options ());
+  std::vector<bytes_t> states;
+  bench.subscribe<lab::STATE_t> (states);
+  expect_playback (bench, playback_state::idle, 0, 0);
+  // Two runs: the reply of LEVEL decides the branch.
+  for (int pass = 0; pass < 2; ++pass)
+    {
+      bool const high = pass == 1;
+      std::size_t const before = states.size ();
+      bench.device->set_state (0);
+      bench.device->reset_statistics ();
+      bench.device->set_reply<lab::LEVEL_t> (high ? 7 : 1);
+      std::shared_ptr<run_outcome_t> const client
+          = run_both<full_script> (bench);
+      ASSERT_EQ (client->calls, 1);
+      EXPECT_FALSE (client->error) << client->error.message ();
+      EXPECT_EQ (client->step, kFullSteps);
+      expect_playback (bench, playback_state::finished, kFullSteps,
+                       kFullSteps);
+      tr::testing::simulator_statistics_t const counted
+          = bench.device->statistics ();
+      EXPECT_EQ (counted.requests_of ("INFO"), 1u);
+      EXPECT_EQ (counted.requests_of ("LEVEL"), 1u);
+      EXPECT_EQ (counted.requests_of ("STOP"), high ? 0u : 1u);
+      EXPECT_EQ (counted.requests_of ("RESET"), high ? 1u : 0u);
+      // The expect and the wait for a state: two messages of the state row,
+      // the device's state set by the second.
+      EXPECT_EQ (counted.scripted_messages, 2u);
+      EXPECT_EQ (bench.device->state (), 1);
+      ASSERT_EQ (states.size (), before + 2);
+      EXPECT_EQ (state_of (states[before]), tables::lab_state::idle);
+      EXPECT_EQ (state_of (states[before + 1]), tables::lab_state::busy);
+    }
+}
+
+TEST (LumexDeviceSimulatorScenario, Simulator_ScenarioPlaybackOverDatagrams)
+{
+  bench_t bench (std::uint8_t (5), tr::testing::simulator_options_t (),
+                 engine_options ());
+  bench.device->set_reply<lab::LEVEL_t> (7);
+  std::shared_ptr<run_outcome_t> const client = run_both<full_script> (bench);
+  ASSERT_EQ (client->calls, 1);
+  EXPECT_FALSE (client->error) << client->error.message ();
+  EXPECT_EQ (client->step, kFullSteps);
+  expect_playback (bench, playback_state::finished, kFullSteps, kFullSteps);
+  EXPECT_EQ (bench.device->statistics ().requests_of ("RESET"), 1u);
+}
+
+TEST (LumexDeviceSimulatorScenario,
+      Simulator_ScenarioExpectSendsTheConfiguredReply)
+{
+  bench_t bench;
+  bench.device->set_reply<lab::LEVEL_t> (9);
+  // A handler is for requests: it does not run for a message by itself.
+  int handled = 0;
+  bench.device->on<lab::STATE_t> (
+      [&handled] (layout::request_of<lab::STATE_t>::type const &)
+        { ++handled; });
+  // The client branches on the value of the message: 9 skips the request.
+  std::shared_ptr<run_outcome_t> const client
+      = run_both<level_nine_script> (bench);
+  EXPECT_FALSE (client->error) << client->error.message ();
+  EXPECT_EQ (handled, 0);
+  EXPECT_EQ (bench.device->statistics ().scripted_messages, 1u);
+  EXPECT_EQ (bench.device->statistics ().requests_of ("INFO"), 0u);
+  // A handler replaces the value, and a handler is for requests: back to the
+  // sample, so the branch is not taken.
+  bench.device->on<lab::LEVEL_t> (
+      [] (layout::request_of<lab::LEVEL_t>::type const &)
+        { return std::uint8_t (9); });
+  std::shared_ptr<run_outcome_t> const again
+      = run_both<level_nine_script> (bench);
+  EXPECT_FALSE (again->error) << again->error.message ();
+  EXPECT_EQ (bench.device->statistics ().requests_of ("INFO"), 1u);
+  // So does clearing the value.
+  bench.device->set_reply<lab::LEVEL_t> (9);
+  bench.device->clear_reply<lab::LEVEL_t> ();
+  std::shared_ptr<run_outcome_t> const cleared
+      = run_both<level_nine_script> (bench);
+  EXPECT_FALSE (cleared->error) << cleared->error.message ();
+  EXPECT_EQ (bench.device->statistics ().requests_of ("INFO"), 2u);
+}
+
+TEST (LumexDeviceSimulatorScenario,
+      Simulator_ScenarioBranchOnTheRowThatAnswered)
+{
+  bench_t bench ((tr::testing::simulator_options_t ()), engine_options ());
+  // WRITE is answered by a message of CHANGE: the branch reads that row.
+  layout::reply_message_of<lab::CHANGE_t>::type changed
+      = layout::reply_message_of<lab::CHANGE_t>::type ();
+  field::get<1> (changed) = 5;
+  bench.device->set_reply<lab::WRITE_t> (changed);
+  std::shared_ptr<run_outcome_t> const client = run_both<write_script> (bench);
+  EXPECT_FALSE (client->error) << client->error.message ();
+  expect_playback (bench, playback_state::finished, 4, 4);
+  EXPECT_EQ (bench.device->statistics ().requests_of ("INFO"), 0u);
+  // The sample has 0 in it: the branch is not taken.
+  bench.device->clear_reply<lab::WRITE_t> ();
+  std::shared_ptr<run_outcome_t> const again = run_both<write_script> (bench);
+  EXPECT_FALSE (again->error) << again->error.message ();
+  expect_playback (bench, playback_state::finished, 4, 4);
+  EXPECT_EQ (bench.device->statistics ().requests_of ("INFO"), 1u);
+}
+
+TEST (LumexDeviceSimulatorScenario,
+      Simulator_ScenarioMalformedRequestDoesNotAdvance)
+{
+  bench_t bench;
+  ASSERT_TRUE (bench.device->play<move_then_level_script> ());
+  // MOVE with no target: the row is known, the request does not decode.
+  bench.send_payload<lab::RESET_t> (bytes ({ 0x21 }));
+  EXPECT_EQ (bench.device->statistics ().malformed_requests, 1u);
+  expect_playback (bench, playback_state::playing, 0, 2);
+  EXPECT_FALSE (bench.call<lab::MOVE_t> (std::uint8_t (1))->error);
+  bench.settle ();
+  expect_playback (bench, playback_state::finished, 2, 2);
+}
+
+TEST (LumexDeviceSimulatorScenario,
+      Simulator_ScenarioTwoExpectsInARowReachTheClient)
+{
+  bench_t bench ((tr::testing::simulator_options_t ()), engine_options ());
+  std::shared_ptr<run_outcome_t> const client
+      = run_both<two_expects_script> (bench);
+  ASSERT_EQ (client->calls, 1);
+  EXPECT_FALSE (client->error) << client->error.message ();
+  EXPECT_EQ (client->step, 4u);
+  expect_playback (bench, playback_state::finished, 4, 4);
+  EXPECT_EQ (bench.device->statistics ().scripted_messages, 2u);
+}
+
+TEST (LumexDeviceSimulatorScenario, Simulator_ScenarioFirstStepsRunOnTheStrand)
+{
+  bench_t bench;
+  ASSERT_TRUE (bench.device->play<level_expect_script> ());
+  // Not inside play (): the strand runs them.
+  expect_playback (bench, playback_state::playing, 0, 1);
+  EXPECT_EQ (bench.device->statistics ().scripted_messages, 0u);
+  bench.settle ();
+  expect_playback (bench, playback_state::finished, 1, 1);
+  EXPECT_EQ (bench.device->statistics ().scripted_messages, 1u);
+}
+
+TEST (LumexDeviceSimulatorScenario,
+      Simulator_ScenarioReplyThatCannotBeEncodedDoesNotAdvance)
+{
+  bench_t bench;
+  // A value over the limits of FREQUENCY (10 to 500): the encoder refuses it.
+  layout::reply_message_of<lab::PARAM_GET_t>::type bad
+      = layout::reply_message_of<lab::PARAM_GET_t>::type ();
+  field::get<0> (bad) = tables::lab_registry::FREQUENCY;
+  field::get<1> (bad)
+      = lumex::core::protocol::registry::parameter_value_t::of_raw (9999);
+  bench.device->set_reply<lab::PARAM_GET_t> (bad);
+  ASSERT_TRUE (bench.device->play<param_then_level_script> ());
+  bench.call<lab::PARAM_GET_t> (tables::lab_registry::FREQUENCY);
+  EXPECT_EQ (bench.device->statistics ().encode_errors, 1u);
+  expect_playback (bench, playback_state::playing, 0, 2);
+  EXPECT_EQ (bench.device->statistics ().scripted_messages, 0u);
+}
+
+TEST (LumexDeviceSimulatorScenario,
+      Simulator_ScenarioOnlyTheRowOfTheStepAdvances)
+{
+  bench_t bench;
+  std::vector<bytes_t> states;
+  bench.subscribe<lab::STATE_t> (states);
+  ASSERT_TRUE (bench.device->play<info_then_state_script> ());
+  expect_playback (bench, playback_state::playing, 0, 2);
+  // A request of another row is served as usual and does not advance.
+  EXPECT_FALSE (bench.call<lab::STOP_t> ()->error);
+  EXPECT_FALSE (bench.call<lab::LEVEL_t> ()->error);
+  EXPECT_EQ (bench.device->statistics ().replies, 2u);
+  expect_playback (bench, playback_state::playing, 0, 2);
+  EXPECT_TRUE (states.empty ());
+  EXPECT_EQ (bench.device->statistics ().scripted_messages, 0u);
+  // The row of the step does, and the expect that follows is sent by itself.
+  EXPECT_FALSE (bench.call<lab::INFO_t> ()->error);
+  bench.settle ();
+  expect_playback (bench, playback_state::finished, 2, 2);
+  EXPECT_EQ (states.size (), 1u);
+  EXPECT_EQ (bench.device->statistics ().scripted_messages, 1u);
+}
+
+TEST (LumexDeviceSimulatorScenario,
+      Simulator_ScenarioRefusedRequestDoesNotAdvance)
+{
+  bench_t bench;
+  std::vector<bytes_t> levels;
+  bench.subscribe<lab::LEVEL_t> (levels);
+  bench.device->set_state (1);
+  ASSERT_TRUE (bench.device->play<move_then_level_script> ());
+  // MOVE is accepted in the idle state only: the device refuses it.
+  bench.call<lab::MOVE_t> (std::uint8_t (1));
+  EXPECT_EQ (bench.device->statistics ().refused, 1u);
+  expect_playback (bench, playback_state::playing, 0, 2);
+  EXPECT_TRUE (levels.empty ());
+  bench.device->set_state (0);
+  EXPECT_FALSE (bench.call<lab::MOVE_t> (std::uint8_t (1))->error);
+  bench.settle ();
+  expect_playback (bench, playback_state::finished, 2, 2);
+  EXPECT_EQ (levels.size (), 1u);
+}
+
+TEST (LumexDeviceSimulatorScenario,
+      Simulator_ScenarioWaitsForARequestThatNeverComes)
+{
+  bench_t bench;
+  ASSERT_TRUE (bench.device->play<info_then_state_script> ());
+  bench.advance (ms (3600000));
+  // No timeout of its own: it is still at the step, with no error.
+  expect_playback (bench, playback_state::playing, 0, 2);
+  EXPECT_EQ (bench.device->statistics ().scripted_messages, 0u);
+}
+
+TEST (LumexDeviceSimulatorScenario, Simulator_ScenarioUnderASilentDevice)
+{
+  bench_t bench;
+  std::vector<bytes_t> states;
+  bench.subscribe<lab::STATE_t> (states);
+  ASSERT_TRUE (bench.device->play<info_then_state_script> ());
+  bench.device->set_behavior (tr::testing::behavior::silent ());
+  EXPECT_EQ (bench.call<lab::INFO_t> ()->error, code (protocol_errc::timeout));
+  // The request was not processed: the script stays.
+  EXPECT_EQ (bench.device->statistics ().not_processed, 1u);
+  expect_playback (bench, playback_state::playing, 0, 2);
+  bench.device->set_behavior (tr::testing::behavior::perfect ());
+  EXPECT_FALSE (bench.call<lab::INFO_t> ()->error);
+  bench.settle ();
+  expect_playback (bench, playback_state::finished, 2, 2);
+  EXPECT_EQ (states.size (), 1u);
+}
+
+TEST (LumexDeviceSimulatorScenario, Simulator_ScenarioUnderAFrozenDevice)
+{
+  bench_t bench;
+  std::vector<bytes_t> states;
+  bench.subscribe<lab::STATE_t> (states);
+  ASSERT_TRUE (bench.device->play<info_state_stop_level_script> ());
+  bench.device->set_behavior (tr::testing::behavior::frozen (1));
+  // The reply is the one the device says: the request is processed and the
+  // script goes on; what the script sends by itself after it is frozen too.
+  EXPECT_FALSE (bench.call<lab::INFO_t> ()->error);
+  bench.settle ();
+  expect_playback (bench, playback_state::playing, 2, 4);
+  EXPECT_TRUE (states.empty ());
+  EXPECT_EQ (bench.device->statistics ().scripted_messages, 0u);
+  // The next request is not processed at all.
+  EXPECT_EQ (bench.call<lab::STOP_t> ()->error, code (protocol_errc::timeout));
+  expect_playback (bench, playback_state::playing, 2, 4);
+}
+
+TEST (LumexDeviceSimulatorScenario, Simulator_ScenarioPredicateThatThrows)
+{
+  bench_t bench;
+  ASSERT_TRUE (bench.device->play<throwing_script> ());
+  bench.start_exchange (bench.make_exchange<lab::LEVEL_t> ());
+  // The exception leaves the run () of the strand, as that of a handler.
+  EXPECT_THROW (bench.advance (ms (250)), std::runtime_error);
+  expect_playback (bench, playback_state::failed, 1, 4,
+                   std::make_error_code (std::errc::interrupted));
+  EXPECT_EQ (bench.device->statistics ().handler_errors, 1u);
+  // The device goes on serving.
+  EXPECT_FALSE (bench.call<lab::INFO_t> ()->error);
+  expect_playback (bench, playback_state::failed, 1, 4,
+                   std::make_error_code (std::errc::interrupted));
+}
+
+TEST (LumexDeviceSimulatorScenario, Simulator_ScenarioLoopThatNeverWaitsEnds)
+{
+  bench_t bench;
+  ASSERT_TRUE (bench.device->play<loop_script> ());
+  bench.settle ();
+  // It does not spin: it ends with an error, and the strand serves on.
+  expect_playback (
+      bench, playback_state::failed, 1, 2,
+      std::make_error_code (std::errc::resource_deadlock_would_occur));
+  EXPECT_FALSE (bench.call<lab::INFO_t> ()->error);
+  // A loop that sends a message each time ends too.
+  bench.device->reset_statistics ();
+  ASSERT_TRUE (bench.device->play<flood_script> ());
+  bench.settle ();
+  expect_playback (
+      bench, playback_state::failed, 2, 3,
+      std::make_error_code (std::errc::resource_deadlock_would_occur));
+  EXPECT_GT (bench.device->statistics ().scripted_messages, 0u);
+  EXPECT_LT (bench.device->statistics ().scripted_messages, 100000u);
+}
+
+TEST (LumexDeviceSimulatorScenario,
+      Simulator_ScenarioLoopThatWaitsForARequestGoesOn)
+{
+  bench_t bench;
+  // The loop polls LEVEL until it reads 3: the device answers 5, 5, 3.
+  std::shared_ptr<int> turns = std::make_shared<int> (0);
+  bench.device->on<lab::LEVEL_t> (
+      [turns] (layout::request_of<lab::LEVEL_t>::type const &)
+        { return std::uint8_t (++*turns < 3 ? 5 : 3); });
+  std::shared_ptr<run_outcome_t> const client
+      = run_both<counting_loop_script> (bench);
+  EXPECT_FALSE (client->error) << client->error.message ();
+  EXPECT_EQ (*turns, 3);
+  expect_playback (bench, playback_state::finished, 4, 4);
+}
+
+TEST (LumexDeviceSimulatorScenario, Simulator_ScenarioSecondPlayWhileOneRuns)
+{
+  bench_t bench;
+  ASSERT_TRUE (bench.device->play<info_stop_script> ());
+  EXPECT_FALSE (bench.device->play<info_then_state_script> ());
+  EXPECT_FALSE (bench.device->play<info_stop_script> ());
+  // The running one is as it was.
+  expect_playback (bench, playback_state::playing, 0, 2);
+  EXPECT_FALSE (bench.call<lab::INFO_t> ()->error);
+  EXPECT_FALSE (bench.call<lab::STOP_t> ()->error);
+  expect_playback (bench, playback_state::finished, 2, 2);
+  // Once it ended another one plays, from its first step.
+  ASSERT_TRUE (bench.device->play<info_then_state_script> ());
+  bench.settle ();
+  expect_playback (bench, playback_state::playing, 0, 2);
+  EXPECT_FALSE (bench.call<lab::INFO_t> ()->error);
+  bench.settle ();
+  expect_playback (bench, playback_state::finished, 2, 2);
+}
+
+TEST (LumexDeviceSimulatorScenario,
+      Simulator_ScenarioThatFailsItsCheckIsNotPlayed)
+{
+  bench_t bench;
+  EXPECT_FALSE (bench.device->play<lost_label_script> ());
+  expect_playback (bench, playback_state::failed, 0, 2,
+                   std::make_error_code (std::errc::invalid_argument));
+  bench.settle ();
+  EXPECT_FALSE (bench.call<lab::INFO_t> ()->error);
+  EXPECT_EQ (bench.device->statistics ().scripted_messages, 0u);
+  // A failed one does not stop the next.
+  EXPECT_TRUE (bench.device->play<info_script> ());
+  EXPECT_FALSE (bench.call<lab::INFO_t> ()->error);
+  expect_playback (bench, playback_state::finished, 1, 1);
+}
+
+TEST (LumexDeviceSimulatorScenario,
+      Simulator_ScenarioBranchWithNoReplyYetFails)
+{
+  bench_t bench;
+  ASSERT_TRUE (bench.device->play<branch_first_script> ());
+  bench.settle ();
+  // As for the client: no reply of the row was seen in this run.
+  expect_playback (bench, playback_state::failed, 0, 2,
+                   code (protocol_errc::unexpected_reply));
+}
+
+TEST (LumexDeviceSimulatorScenario,
+      Simulator_ScenarioExpectOfARowOutsideTheSessionSendsNothing)
+{
+  bench_t bench;
+  bench.device->session ().set_firmware (5);
+  ASSERT_TRUE (bench.device->play<outside_script> ());
+  bench.settle ();
+  expect_playback (bench, playback_state::playing, 1, 2);
+  EXPECT_EQ (bench.device->statistics ().scripted_messages, 0u);
+}
+
+TEST (LumexDeviceSimulatorScenario,
+      Simulator_ScenarioSurvivesTheDeviceBeingDestroyed)
+{
+  bench_t bench;
+  ASSERT_TRUE (bench.device->play<info_state_stop_level_script> ());
+  bench.device.reset ();
+  bench.settle ();
+  // Nothing of the script is left to run: the engine's side is untouched.
+  EXPECT_NE (bench.engine.get (), nullptr);
+}
+
+namespace
+{
+// A predicate that destroys the device that calls it.
+std::unique_ptr<device_t> *device_to_destroy = nullptr;
+
+bool
+destroys_the_device (std::uint8_t const &)
+{
+  device_to_destroy->reset ();
+  return true;
+}
+
+LUMEX_PROTOCOL_SCENARIO (destroying_script, lab, (send<lab::LEVEL_t> ()),
+                         (branch_on_reply<lab::LEVEL_t> (&destroys_the_device,
+                                                         "end")),
+                         (expect<lab::STATE_t> ()), (label ("end")));
+} // namespace
+
+TEST (LumexDeviceSimulatorScenario,
+      Simulator_ScenarioPredicateDestroysTheDevice)
+{
+  st::raw_bench_t bench;
+  device_to_destroy = &bench.device;
+  ASSERT_TRUE (bench.device->play<destroying_script> ());
+  bench.advance (ms (0));
+  bench.write (st::framed (bytes ({ 0x13 })));
+  // The device went inside its own predicate: nothing more is sent.
+  EXPECT_EQ (bench.device.get (), nullptr);
+  EXPECT_EQ (bench.replies ().size (), 1u);
+  device_to_destroy = nullptr;
+}
+
+TEST (LumexDeviceSimulatorScenario, Simulator_ScenarioAfterTheContextIsGone)
+{
+  std::unique_ptr<asio::io_context> context (new asio::io_context ());
+  tr::testing::virtual_clock clock;
+  tr::testing::mock_options_t options;
+  options.timers = clock.source ();
+  std::shared_ptr<device_t> device;
+  {
+    tr::testing::mock_stream mock
+        = tr::testing::make_mock_stream (context->get_executor (), options);
+    mock.stream.async_open ([] (std::error_code) {});
+    st::drain (*context);
+    device.reset (
+        new device_t (mock.control, st::fr::slip::slip_codec (), clock));
+  }
+  // A script that holds the device it plays on, and a running playback.
+  std::weak_ptr<device_t> weak = device;
+  ASSERT_TRUE (device->play<info_then_state_script> ());
+  context.reset ();
+  // As start_stream: refused, and the playback it had is dropped.
+  EXPECT_FALSE (device->play<info_script> ());
+  EXPECT_NE (device->playback ().state, playback_state::playing);
+  device.reset ();
+  EXPECT_TRUE (weak.expired ());
+}

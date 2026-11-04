@@ -652,6 +652,12 @@ effect_of (std::vector<std::uint8_t> const &frame,
       .effect;
 }
 
+// A scenario the device simulator plays.
+LUMEX_PROTOCOL_SCENARIO (simulator_scenario, dialogue_fixture::fixture_t,
+                         (send<dialogue_fixture::fixture_t::STOP_t> ()),
+                         (expect<dialogue_fixture::fixture_t::STATE_t> ()),
+                         (wait_state (1)), (jump ("end")), (label ("end")));
+
 // The device simulator over the fixture table, on a mock stream and on a
 // mock datagram transport: every member of its template instantiated under
 // the strict warnings, then a request answered on the virtual clock.
@@ -713,13 +719,19 @@ simulator_round ()
     device.stop_streams ();
     device.set_state (1);
     fine = device.state () == 1 && fine;
+    fine = device.play<simulator_scenario> () && fine;
+    fine = !device.play<simulator_scenario> () && fine;
     device.set_behavior (tr::testing::behavior::perfect ());
     device.after (ms (10), [] () {});
     device.session ().set_model ("fixture");
     clock.advance (ms (20));
     context.poll ();
     tr::testing::simulator_statistics_t const counted = device.statistics ();
-    fine = counted.requests == 0 && counted.requests_of ("START") == 0 && fine;
+    fine = counted.requests == 0 && counted.requests_of ("START") == 0
+           && counted.scripted_messages == 0 && fine;
+    tr::testing::playback_status_t const playing = device.playback ();
+    fine = playing.state == tr::testing::playback_state::playing
+           && playing.step == 0 && playing.steps == 5 && fine;
     device.reset_statistics ();
   }
   context.restart ();
