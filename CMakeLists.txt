@@ -537,6 +537,16 @@ if(LUMEX_BUILD_BENCHMARKS AND LUMEX_BUILD_CORE AND LUMEX_BUILD_CIRCULAR_BUFFER)
     add_subdirectory(benchmarks/circular_buffer)
 endif()
 
+# The transport benchmarks need the dialogue engine and the testing doubles of
+# the transport (its simulator), which the transport builds when the protocol
+# and framing modules are on.
+if(LUMEX_BUILD_BENCHMARKS AND LUMEX_BUILD_CORE AND LUMEX_BUILD_TRANSPORT
+   AND LUMEX_BUILD_PROTOCOL AND LUMEX_BUILD_FRAMING
+   AND LUMEX_TRANSPORT_WITH_TESTING)
+    message(STATUS "Building benchmarks (benchmarks/transport)")
+    add_subdirectory(benchmarks/transport)
+endif()
+
 # Shared libs (not test/example binaries) -> <platform>/Distr<Config>.
 # Tests are registered with CTest; the programmer runs ctest explicitly.
 # Embedded: Distr lives in this library's source tree, and the parent
