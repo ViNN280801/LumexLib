@@ -206,7 +206,7 @@ public:
   // The lazy respond of the applier; true when the device processed.
   virtual bool respond (behavior_applier &applier, bytes_t const &request,
                         bool has_reply, reply_maker_t const &make,
-                        bool *reached)
+                        bool *reached, timing::time_point_t *line_end)
       = 0;
 
   virtual void attach (behavior_applier &applier) = 0;
@@ -692,6 +692,9 @@ private:
     std::size_t step = 0;
     // It ended or failed.
     bool over = false;
+    // The state its last wait for a state showed to the client.
+    bool shown_known = false;
+    std::int64_t shown = 0;
     // The last message of each row, as the dialogue keeps the last reply.
     std::vector<std::pair<index::row_t const *, bytes_t>> last;
   };
@@ -796,10 +799,13 @@ private:
   // The script is at a `send` and a request of the row came in, was
   // processed and not refused: it goes on.
   void
-  play_request (index::row_t const &row, request_call_t const &call)
+  play_request (std::shared_ptr<play_t> const &before, index::row_t const &row,
+                request_call_t const &call)
   {
+    // Not the playback a handler of this very request started.
     std::shared_ptr<play_t> const run = running_play (0);
-    if (!run || run->over || run->step >= run->scenario.steps.size ())
+    if (!run || run != before || run->over
+        || run->step >= run->scenario.steps.size ())
       return;
     dsl::scenario_step_t const &step = run->scenario.steps[run->step];
     if (step.kind != dsl::scenario_step_kind::send || step.row == nullptr
@@ -866,12 +872,21 @@ private:
               return;
             }
           case dsl::scenario_step_kind::expect:
-            send_scripted (run, step.row, false);
+            if (!scripted_step (run, step.row, false))
+              return;
             ++run.step;
             break;
           case dsl::scenario_step_kind::wait_state:
             set_state (step.state);
-            send_scripted (run, run.state_row, true);
+            // The client takes a state it already knows from this run
+            // without a frame: a second message would reach its next expect.
+            if (!(run.shown_known && run.shown == step.state))
+              {
+                if (!scripted_step (run, run.state_row, true))
+                  return;
+                run.shown_known = true;
+                run.shown = step.state;
+              }
             ++run.step;
             break;
           case dsl::scenario_step_kind::branch:
@@ -975,27 +990,31 @@ private:
   }
 
   // The device sends a message of the row by itself: the configured one, or
-  // the sample (`sample_only`: the state shown with the state set).
-  void
-  send_scripted (play_t &run, char const *identifier, bool sample_only)
+  // the sample (`state_message`: the state shown with the state set, which
+  // the client does not keep as the reply of the row). False when the
+  // playback ended: no message of the row is the row's (the client's step
+  // would never match it) or it cannot be encoded.
+  bool
+  scripted_step (play_t &run, char const *identifier, bool state_message)
   {
+    namespace perror = ::lumex::core::protocol::error;
     index::row_t const *const row
         = identifier == nullptr ? nullptr : find_row (identifier);
     if (row == nullptr)
-      return;
+      return true;
     std::size_t const at = position (row);
     row_ops_t const *const ops = ops_[at];
     if (ops == nullptr || ops->message == nullptr
         || !session_.available (*row->entry))
-      return;
+      return true;
     std::shared_ptr<answer_fn_t const> configured;
     std::shared_ptr<behavior_applier> applier;
     std::int64_t state = 0;
     {
       std::lock_guard<std::mutex> const lock (mutex_);
       if (dead_.load ())
-        return;
-      if (!sample_only)
+        return false;
+      if (!state_message)
         configured = messages_[at];
       applier = applier_;
       state = state_;
@@ -1009,9 +1028,35 @@ private:
     answer_fn_t const sample (ops->message);
     answer_fn_t const &make = configured ? *configured : sample;
     bytes_t const no_request;
-    deliver (*applier, no_request, true, call, make, send_kind::scripted);
-    if (!call.messages.empty () && !call.encode_failed)
+    // A device that does not process (silent, frozen) makes nothing: there is
+    // nothing to check, and the script goes on.
+    if (!deliver (*applier, no_request, true, call, make, send_kind::scripted))
+      return true;
+    if (call.encode_failed)
+      {
+        end_play (
+            run, playback_state::failed,
+            perror::make_error_code (perror::protocol_errc::invalid_value));
+        return false;
+      }
+    bool matches = false;
+    for (std::size_t i = 0; i < call.messages.size (); ++i)
+      matches
+          = matches
+            || table_->match (layout::bytes_view_t (call.messages[i].data (),
+                                                    call.messages[i].size ()))
+                       .row
+                   == row;
+    if (!matches)
+      {
+        end_play (
+            run, playback_state::failed,
+            perror::make_error_code (perror::protocol_errc::not_supported));
+        return false;
+      }
+    if (!state_message)
       remember (run, row, call.messages.back ());
+    return true;
   }
 
   // A scheduled step came due (on the strand).
@@ -1138,13 +1183,14 @@ private:
     // it from one request to the next (`answer` keeps it alive meanwhile).
     answer_fn_t const standard (chosen->answer);
     answer_fn_t const &run = answer ? *answer : standard;
+    std::shared_ptr<play_t> const playing = running_play (0);
     bool const processed = deliver (*applier, request_wire,
                                     chosen->replies || options_.answer_unknown,
                                     call, run, send_kind::request);
     // A scripted `send` goes on for a request the device processed and did
     // not refuse.
     if (processed && !call.refused && !call.malformed && !call.encode_failed)
-      play_request (*found.row, call);
+      play_request (playing, *found.row, call);
   }
 
   // Lets the behaviour decide, makes the reply of a request the device
@@ -1186,8 +1232,8 @@ private:
     bool reached = false;
     try
       {
-        processed
-            = mock->respond (applier, request_wire, has_reply, make, &reached);
+        processed = mock->respond (applier, request_wire, has_reply, make,
+                                   &reached, &line_end_);
       }
     catch (simulator_gone_t const &)
       {
@@ -1218,8 +1264,8 @@ private:
           bytes_t const further = wire;
           bool further_reached = false;
           if (mock->respond (
-                  applier, request_wire, true,
-                  [&further] () { return further; }, &further_reached)
+                  applier, request_wire, true, [&further] ()
+                    { return further; }, &further_reached, &line_end_)
               && further_reached)
             ++sent;
         }
@@ -1275,6 +1321,9 @@ private:
   simulator_statistics_t stats_;
   std::shared_ptr<play_t> play_;
   playback_status_t play_status_;
+  // When the last message the device put on the line ends (the strand's):
+  // the next one starts after it.
+  timing::time_point_t line_end_;
 };
 
 // The device on a mock stream.
@@ -1313,9 +1362,11 @@ public:
 
   bool
   respond (behavior_applier &applier, bytes_t const &request, bool has_reply,
-           reply_maker_t const &make, bool *reached) override
+           reply_maker_t const &make, bool *reached,
+           timing::time_point_t *line_end) override
   {
-    return applier.respond (control_, request, has_reply, make, reached);
+    return applier.respond (control_, request, has_reply, make, reached,
+                            line_end);
   }
 
   void
@@ -1363,10 +1414,11 @@ public:
 
   bool
   respond (behavior_applier &applier, bytes_t const &request, bool has_reply,
-           reply_maker_t const &make, bool *reached) override
+           reply_maker_t const &make, bool *reached,
+           timing::time_point_t *line_end) override
   {
     return applier.respond (control_, report_id_, request, has_reply, make,
-                            reached);
+                            reached, line_end);
   }
 
   void
