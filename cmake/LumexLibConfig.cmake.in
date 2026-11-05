@@ -90,6 +90,16 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/LumexCoreTargets.cmake")
     endif()
 endif()
 
+# Xml before Applied: the exported applied targets (settings) link
+# lumex::LumexXml, and a target file that names a target not defined yet makes
+# find_package fail with "imported targets are referenced, but are missing".
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/LumexXmlTargets.cmake")
+    include("${CMAKE_CURRENT_LIST_DIR}/LumexXmlTargets.cmake")
+    if(TARGET lumex::LumexXml AND NOT TARGET lumex::xml)
+        add_library(lumex::xml ALIAS lumex::LumexXml)
+    endif()
+endif()
+
 if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/LumexAppliedTargets.cmake")
     include("${CMAKE_CURRENT_LIST_DIR}/LumexAppliedTargets.cmake")
     if(TARGET lumex::LumexApplied_hardware AND NOT TARGET lumex::hardware)
@@ -129,13 +139,6 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/LumexAppliedTargets.cmake")
     if(TARGET lumex::lumex_3rdparty_hidapi
        AND NOT TARGET lumex::3rdparty_hidapi)
         add_library(lumex::3rdparty_hidapi ALIAS lumex::lumex_3rdparty_hidapi)
-    endif()
-endif()
-
-if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/LumexXmlTargets.cmake")
-    include("${CMAKE_CURRENT_LIST_DIR}/LumexXmlTargets.cmake")
-    if(TARGET lumex::LumexXml AND NOT TARGET lumex::xml)
-        add_library(lumex::xml ALIAS lumex::LumexXml)
     endif()
 endif()
 

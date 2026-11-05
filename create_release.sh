@@ -22,7 +22,11 @@ usage() {
 Usage: ./create_release.sh --compilers <path>[,<path>...] [options]
 
 Builds LumexLib (Release, shared libraries, no tests) once per compiler and
-ISA, installs it under /opt/LumexLib/<version>_<compiler>, and packages it.
+ISA, installs it under /opt/LumexLib/<version>_<compiler>, and packages it:
+bin/lib/include/dev, share/LumexLib (license, notices, udev rules), and, as
+sources only, share/examples and share/benchmarks (one directory per module,
+each a project that builds against the package), and share/doc (the
+documentation).
 A MinGW-w64 cross compiler (x86_64-w64-mingw32-g++-posix) builds the Windows
 DLLs and packs them, with the MinGW runtime DLLs, into a zip.
 
@@ -82,6 +86,14 @@ Options:
                      needed. The warnings of the build are still collected;
                      with --std 11,14,17,20,23 one run checks all five
                      standards.
+  --no-docs          Build the packages without the documentation. By default
+                     the Doxygen documentation is generated once, before the
+                     builds, and every package carries it in share/doc/html
+                     (open index.html); a missing Doxygen stops the run before
+                     the first build, so that a release does not lose the
+                     documentation unnoticed. Not needed, and not looked for,
+                     with --no-package.
+  --doxygen PATH     The Doxygen executable (default: doxygen from PATH).
   --output-dir DIR   Where the packages go (default: <repo>/release). The
                      diagnostics of every build go to <output-dir>/warns/:
                      <compiler>_c++<std>_warn.log and _err.log (x86 builds:
@@ -239,6 +251,8 @@ JOBS="$(nproc 2>/dev/null || echo 4)"
 KEEP_WORK=0
 WERROR=1
 NO_PACKAGE=0
+DOCS=1
+DOXYGEN_ARG=""
 USE_NINJA=0
 DRY_RUN=0
 QUIET=0
@@ -276,6 +290,9 @@ while [[ $# -gt 0 ]]; do
     --no-werror) WERROR=0; shift ;;
     --use-ninja) USE_NINJA=1; shift ;;
     --no-package) NO_PACKAGE=1; shift ;;
+    --no-docs) DOCS=0; shift ;;
+    --doxygen) need_value "$@"; DOXYGEN_ARG="$2"; shift 2 ;;
+    --doxygen=*) DOXYGEN_ARG="${1#*=}"; shift ;;
     *) die "unknown parameter: $1 (see --help)" ;;
   esac
 done
@@ -344,6 +361,18 @@ if [[ "${NO_PACKAGE}" -eq 0 ]]; then
       || die "rpm needs 'rpmbuild': install the package 'rpm' (sudo apt install rpm) or drop rpm from --formats"
   fi
 fi
+# The documentation of the packages: Doxygen is looked for before the first
+# build, so that a run of hours does not end in packages without it.
+DOXYGEN_EXE=""
+if [[ "${NO_PACKAGE}" -eq 0 && "${DOCS}" -eq 1 ]]; then
+  if [[ -n "${DOXYGEN_ARG}" ]]; then
+    DOXYGEN_EXE="${DOXYGEN_ARG}"
+  else
+    DOXYGEN_EXE="$(command -v doxygen || true)"
+  fi
+  [[ -n "${DOXYGEN_EXE}" && -f "${DOXYGEN_EXE}" && -x "${DOXYGEN_EXE}" ]] \
+    || die "doxygen not found (${DOXYGEN_ARG:-not in PATH}): the packages carry the documentation (share/doc). Install Doxygen, name it with --doxygen, or pass --no-docs to build the packages without the documentation"
+fi
 
 # ---------------------------------------------------------------------------
 # Tag mode: build the sources of a tag in a detached worktree
@@ -403,6 +432,18 @@ VERSION="${VERSION_ARG:-${CMAKE_VERSION_FOUND}}"
 if [[ -n "${VERSION_ARG}" && "${VERSION_ARG}" != "${CMAKE_VERSION_FOUND}" ]]; then
   warn "--version ${VERSION_ARG} differs from CMakeLists.txt (${CMAKE_VERSION_FOUND}); the libraries keep ${CMAKE_VERSION_FOUND}"
 fi
+
+# A tag older than the documentation in the package has no option to put it
+# there: its packages are built as they were released, and the run says so.
+if [[ "${DOCS}" -eq 1 && "${NO_PACKAGE}" -eq 0 && -n "${TAG_ARG}" ]]; then
+  options_text="$(tree_file_text cmake/LumexOptions.cmake 2>/dev/null || true)"
+  if ! grep -q 'LUMEX_DOCUMENTATION_PREBUILT_DIR' <<<"${options_text}"; then
+    warn "tag ${TAG_ARG} cannot install a finished documentation (no LUMEX_DOCUMENTATION_PREBUILT_DIR in its CMake files): its packages are built without share/doc"
+    DOCS=0
+  fi
+fi
+DOCS_IN_PACKAGE=0
+[[ "${DOCS}" -eq 1 && "${NO_PACKAGE}" -eq 0 ]] && DOCS_IN_PACKAGE=1
 
 GLIBC_VERSION="$(getconf GNU_LIBC_VERSION 2>/dev/null | awk '{print $2}')"
 [[ -n "${GLIBC_VERSION}" ]] || die "cannot read the glibc version (getconf GNU_LIBC_VERSION)"
@@ -650,7 +691,7 @@ FAILED_JOBS=()
 # The compilers' messages are parsed for the logs of warns/: keep them in English.
 export LC_ALL=C
 
-echo "${C_BOLD}LumexLib ${VERSION}${C_RESET}, glibc ${GLIBC_VERSION}, formats: ${FORMATS[*]}$([[ "${NO_PACKAGE}" -eq 1 ]] && echo ', no packages')$([[ "${WERROR}" -eq 1 ]] && echo ', -Werror')"
+echo "${C_BOLD}LumexLib ${VERSION}${C_RESET}, glibc ${GLIBC_VERSION}, formats: ${FORMATS[*]}$([[ "${NO_PACKAGE}" -eq 1 ]] && echo ', no packages')$([[ "${WERROR}" -eq 1 ]] && echo ', -Werror')$([[ "${DOCS_IN_PACKAGE}" -eq 1 ]] && echo ', with the documentation')"
 if [[ "${DRY_RUN}" -eq 1 ]]; then
   echo "${C_YELLOW}Dry run:${C_RESET} the commands are shown, nothing is built, installed or written."
 fi
@@ -838,6 +879,42 @@ EOF
   mv "$built" "${out}"
 }
 
+# The documentation does not depend on the compiler or the standard: it is
+# generated once, here, and every build installs that tree into share/doc
+# (LUMEX_DOCUMENTATION_PREBUILT_DIR). The tree is configured with no module
+# (the Doxygen input is the source tree, not the build), and the compiler it
+# needs is the first Linux one of the run.
+DOC_DIR="${WORK_ROOT}/docs"
+if [[ "${DOCS_IN_PACKAGE}" -eq 1 ]]; then
+  echo
+  echo "${C_BOLD}== documentation (once; every package carries it in share/doc)${C_RESET}"
+  if [[ "${DRY_RUN}" -eq 0 ]]; then
+    rm -rf "${DOC_DIR}"
+    mkdir -p "${DOC_DIR}"
+  fi
+  doc_args=()
+  [[ "${USE_NINJA}" -eq 0 ]] || doc_args+=(-G Ninja)
+  doc_args+=(
+    -S "${BUILD_ROOT}" -B "${DOC_DIR}/build" --no-warn-unused-cli
+    -DCMAKE_BUILD_TYPE=Release -DLUMEX_BUILD_TESTS=OFF -DLUMEX_INSTALL=OFF
+    -DLUMEX_BUILD_CORE=OFF -DLUMEX_BUILD_APPLIED=OFF -DLUMEX_BUILD_XML=OFF
+    -DLUMEX_BUILD_DOCUMENTATION=ON "-DLUMEX_DOCUMENTATION_OUTPUT_DIR=${DOC_DIR}/out"
+    "-DDOXYGEN_EXECUTABLE=${DOXYGEN_EXE}"
+  )
+  for i in "${!JOB_CXX[@]}"; do
+    if [[ "${JOB_KIND[$i]}" == "linux" ]]; then
+      doc_args+=("-DCMAKE_C_COMPILER=${JOB_C[$i]}" "-DCMAKE_CXX_COMPILER=${JOB_CXX[$i]}")
+      break
+    fi
+  done
+  run_logged "${DOC_DIR}/configure.log" cmake "${doc_args[@]}" \
+    || die "the configure of the documentation failed, see ${DOC_DIR}/configure.log"
+  run_logged "${DOC_DIR}/build.log" cmake --build "${DOC_DIR}/build" --target generate_documentation \
+    || die "the documentation failed, see ${DOC_DIR}/build.log"
+  [[ "${DRY_RUN}" -eq 1 || -f "${DOC_DIR}/out/html/index.html" ]] \
+    || die "the documentation was not generated: ${DOC_DIR}/out/html/index.html is missing, see ${DOC_DIR}/build.log"
+fi
+
 for i in "${!JOB_CXX[@]}"; do
   c="${JOB_C[$i]}"; cxx="${JOB_CXX[$i]}"; label="${JOB_LABEL[$i]}"; isa="${JOB_ISA[$i]}"; std="${JOB_STD[$i]}"
   kind="${JOB_KIND[$i]}"; stdtag="${JOB_STDTAG[$i]}"
@@ -869,10 +946,16 @@ for i in "${!JOB_CXX[@]}"; do
   cmake_args+=(
     -S "${BUILD_ROOT}" -B "${build}" --no-warn-unused-cli
     -DCMAKE_BUILD_TYPE=Release
-    -DLUMEX_BUILD_SHARED_LIBS=ON -DLUMEX_BUILD_TESTS=OFF -DLUMEX_BUILD_DOCUMENTATION=OFF
+    -DLUMEX_BUILD_SHARED_LIBS=ON -DLUMEX_BUILD_TESTS=OFF
     -DLUMEX_INSTALL=ON
     "-DCMAKE_INSTALL_PREFIX=${INSTALL_PREFIX}" -DCMAKE_INSTALL_LIBDIR=lib
   )
+  # The package carries the documentation generated above (share/doc), or none.
+  if [[ "${DOCS_IN_PACKAGE}" -eq 1 ]]; then
+    cmake_args+=(-DLUMEX_BUILD_DOCUMENTATION=ON "-DLUMEX_DOCUMENTATION_PREBUILT_DIR=${DOC_DIR}/out")
+  else
+    cmake_args+=(-DLUMEX_BUILD_DOCUMENTATION=OFF)
+  fi
   if [[ "$kind" == "windows" ]]; then
     if [[ "${DRY_RUN}" -eq 1 ]]; then
       # Still checks that the tools are there; the file itself is only described.
@@ -1027,6 +1110,7 @@ if [[ -n "${TAG_WORKTREE}" && "${DRY_RUN}" -eq 0 ]]; then
     rm -f "${OUTPUT_DIR}/.work/worktree.log" "${OUTPUT_DIR}/.work/worktree-submodule.log"
   fi
 fi
+cleanup_work "${DOC_DIR}"
 [[ "${DRY_RUN}" -eq 1 || "${KEEP_WORK}" -eq 1 ]] || rmdir "${WORK_ROOT}" 2>/dev/null || true
 
 # A release needs a dated [vX.Y.Z.W] section in CHANGELOG.md.

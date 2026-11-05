@@ -34,25 +34,34 @@ class LumexLibConan(ConanFile):
         "shared": [True, False],
         "fPIC": [True, False],
         "with_tests": [True, False],
+        "with_docs": [True, False],
     }
     # Shared by default, as LUMEX_BUILD_SHARED_LIBS: LumexXml is always a
     # shared library, and on Windows LUMEX_API imports the other modules.
+    # with_docs puts the Doxygen documentation into share/doc/html (it needs
+    # Doxygen in the build environment).
     default_options = {
         "shared": True,
         "fPIC": True,
         "with_tests": False,
+        "with_docs": False,
     }
     # CMakeRoutines holds the build helpers the root CMakeLists.txt includes;
     # 3rdparty holds the vendored nlohmann/json (settings, logger) and
-    # GoogleTest (with_tests).
+    # GoogleTest (with_tests); benchmarks/ and the examples under lumex/ are
+    # installed as sources into share/ (the install rules read them);
+    # Doxyfile.in and Scripts/Doxygen make the documentation (with_docs).
     exports_sources = (
         "CMakeLists.txt",
         "LICENSE",
         "THIRD-PARTY-NOTICES.md",
+        "Doxyfile.in",
         "cmake/*",
         "CMakeRoutines/*",
         "3rdparty/*",
         "lumex/*",
+        "benchmarks/*",
+        "Scripts/Doxygen/*",
     )
 
     def set_version(self):
@@ -80,8 +89,12 @@ class LumexLibConan(ConanFile):
         tc.variables["LUMEX_BUILD_TESTS"] = self.options.with_tests  # type: ignore
         tc.variables["LUMEX_BUILD_EXAMPLES"] = False
         tc.variables["LUMEX_BUILD_BENCHMARKS"] = False
-        tc.variables["LUMEX_BUILD_DOCUMENTATION"] = False
+        tc.variables["LUMEX_BUILD_DOCUMENTATION"] = self.options.with_docs  # type: ignore
         tc.variables["LUMEX_INSTALL"] = True
+        # The sources of the examples and of the benchmarks go to share/examples
+        # and share/benchmarks (nothing of either is built).
+        tc.variables["LUMEX_INSTALL_EXAMPLES"] = True
+        tc.variables["LUMEX_INSTALL_BENCHMARKS"] = True
         # Clang: the profile's compiler.libcxx picks the C++ standard library
         # (the package and its consumers must agree on it).
         if str(self.settings.compiler) in ("clang", "apple-clang"):  # type: ignore
@@ -109,6 +122,11 @@ class LumexLibConan(ConanFile):
                 src=self.source_folder,
                 dst=os.path.join(self.package_folder, "licenses"),
             )
+        # cmake.install () lays out the package: bin/lib/include/dev, the
+        # license and the udev rules in share/LumexLib, the sources of the
+        # examples and of the benchmarks in share/examples and share/benchmarks
+        # (every directory a project that builds against this package), and
+        # share/doc/html with with_docs.
         cmake = CMake(self)
         cmake.install()
 
@@ -129,6 +147,8 @@ class LumexLibConan(ConanFile):
         # the umbrella lumex::Lumex.
         self.cpp_info.set_property("cmake_file_name", "LumexLib")
         self.cpp_info.set_property("cmake_target_name", "lumex::Lumex")
+        # share/ holds the optional parts (examples, benchmarks, doc, udev).
+        self.cpp_info.resdirs = ["share"]
         windows = self.settings.os == "Windows"  # type: ignore
         # dladdr moved into libc only in glibc 2.34; older glibc keeps it in
         # libdl (CMake CMAKE_DL_LIBS). Other systems have it in libc.
@@ -171,8 +191,11 @@ class LumexLibConan(ConanFile):
             utility.system_libs.append("dl")
         self._component("core_circular_buffer", "circular_buffer",
                         requires=["core_utility"])
-        self._component("core_contracts", "contracts",
-                        ["LumexCore_contracts"], ["core_utility"])
+        # As the CMake target: the semantic of the build (the default,
+        # LUMEX_CONTRACTS_SEMANTIC=ENFORCE) reaches every consumer.
+        contracts = self._component("core_contracts", "contracts",
+                                    ["LumexCore_contracts"], ["core_utility"])
+        contracts.defines = ["LUMEX_CONTRACTS_BUILD_SEMANTIC=enforce"]
         self._component("core_expected", "expected", requires=["core_utility"])
         self._component("core_unicode", "unicode", requires=["core_utility"])
         self._component("core_fmt", "fmt", requires=["core_utility"])

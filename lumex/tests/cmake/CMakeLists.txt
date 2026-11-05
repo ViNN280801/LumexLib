@@ -104,6 +104,10 @@ lumex_add_cmake_test(wiring_static_analysis)
 lumex_add_cmake_test(wiring_max_standard_compliance)
 lumex_add_cmake_test(wiring_werror)
 lumex_add_cmake_test(wiring_install_dirs_order)
+lumex_add_cmake_test(wiring_install_share_layout)
+lumex_add_cmake_test(wiring_examples_standalone)
+lumex_add_cmake_test(wiring_package_config_target_order)
+lumex_add_cmake_test(wiring_benchmark_std23_guard)
 lumex_add_cmake_test(lint_msvc_pragmas_script)
 lumex_add_cmake_test(lint_std_header_guards_script)
 lumex_add_cmake_test(lint_no_typedef_script)
@@ -599,6 +603,21 @@ lumex_add_consumer_test(consumer_transport_without_framing
 # headers they include are installed whatever that option says.
 lumex_add_consumer_test(install_header_only_without_utility
     install_header_only_without_utility)
+# The layout of the package (user, 2026-11-05): the examples and the benchmarks
+# as sources under share/, per module, each directory a project of its own that
+# builds against the installed package. The header-only modules need no library
+# build; the all-modules case installs everything, finds it with
+# find_package (LumexLib) and builds the directories that had pre-existing
+# defects. The install is its own nested build: label install, so that
+# ctest -LE install leaves the second one out.
+lumex_add_consumer_test(install_share_layout_header_only install_share_layout
+    -DLUMEX_INSTALL_CASE_PROFILE=header_only)
+lumex_add_consumer_test(install_share_layout_all_modules install_share_layout
+    -DLUMEX_INSTALL_CASE_PROFILE=all_modules)
+foreach(_install_case install_share_layout_header_only install_share_layout_all_modules)
+    lumex_test_name(_ctest_name ${_install_case})
+    set_property(TEST ${_ctest_name} APPEND PROPERTY LABELS install)
+endforeach()
 
 # LumexFormat compile-time checks: bad literal format strings must not
 # compile at C++20 (consteval), good ones must. Header-only, so the fixture

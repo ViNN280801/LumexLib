@@ -113,7 +113,16 @@ option(LUMEX_WITH_FIELD_REFLECTION "Enable field reflection to_json via LumexAgg
 # ==============================================================================
 # DOCUMENTATION / EXAMPLES / TESTS
 # ==============================================================================
-option(LUMEX_BUILD_DOCUMENTATION "Build Doxygen documentation" OFF)
+option(LUMEX_BUILD_DOCUMENTATION "Build Doxygen documentation (installed into share/doc with LUMEX_INSTALL)" OFF)
+# Where the target generate_documentation writes (html/ below it). Empty: doc/
+# in the build tree, never the checkout.
+set(LUMEX_DOCUMENTATION_OUTPUT_DIR "" CACHE PATH
+    "Directory the documentation is generated into (default: <build>/doc)")
+# A finished documentation tree (html/ below it) to install instead of
+# generating one: the release script builds the documentation once and every
+# build of its matrix installs that tree. Needs no Doxygen.
+set(LUMEX_DOCUMENTATION_PREBUILT_DIR "" CACHE PATH
+    "A finished documentation tree (html/ below it) installed into share/doc instead of generating one")
 option(LUMEX_BUILD_EXAMPLES "Build the examples for the LumexLib (also implied by LUMEX_BUILD_TESTS)" OFF)
 option(LUMEX_BUILD_TESTS "Build the tests for LumexCore (also compiles and runs lumex/examples)" OFF)
 option(LUMEX_BUILD_RELACY "Build the Relacy memory-order models of the split-count engine (needs LUMEX_BUILD_TESTS; uses 3rdparty/relacy, or LUMEX_RELACY_DIR when it is given)" OFF)
@@ -134,6 +143,12 @@ else()
     set(_lumex_install_default OFF)
 endif()
 option(LUMEX_INSTALL "Generate LumexLib install() rules (default: ON only when LumexLib is the top-level project)" ${_lumex_install_default})
+# The optional parts of the package, as sources under share/: share/examples
+# (one directory per module, each a project of its own that builds against the
+# installed package) and share/benchmarks. No binary of either is installed.
+# They follow the same default as LUMEX_INSTALL and need it.
+option(LUMEX_INSTALL_EXAMPLES "Install the example sources into share/examples (needs LUMEX_INSTALL)" ${_lumex_install_default})
+option(LUMEX_INSTALL_BENCHMARKS "Install the benchmark sources into share/benchmarks (needs LUMEX_INSTALL)" ${_lumex_install_default})
 unset(_lumex_install_default)
 
 # ==============================================================================

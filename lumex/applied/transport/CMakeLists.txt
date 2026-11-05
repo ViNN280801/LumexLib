@@ -171,13 +171,16 @@ if(LUMEX_INSTALL)
         list(APPEND _transport_install_excludes PATTERN "framed" EXCLUDE)
     endif()
     # The dialogue vocabulary's headers only with the protocol module, the
-    # engine's only with the protocol and the framing modules.
+    # engine's (link, dialogue, the client over it, the discovery of devices)
+    # only with the protocol and the framing modules.
     if(NOT _transport_with_protocol)
         list(APPEND _transport_install_excludes PATTERN "protocol" EXCLUDE)
     elseif(NOT _transport_with_dialogue)
         list(APPEND _transport_install_excludes
             PATTERN "link" EXCLUDE
             PATTERN "dialogue" EXCLUDE
+            PATTERN "client" EXCLUDE
+            PATTERN "discovery" EXCLUDE
             PATTERN "LumexDialogueTypes.hpp" EXCLUDE
             PATTERN "LumexTransportProtocol.hpp" EXCLUDE
             PATTERN "LumexProtocolScenario.hpp" EXCLUDE)

@@ -107,6 +107,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # --- Options ---
 include(cmake/LumexOptions.cmake)
 include(cmake/LumexModules.cmake)
+include(cmake/LumexInstallSources.cmake)
 include(cmake/LumexNlohmannJson.cmake)
 # Third-party code of the transport layer: the files only define
 # lumex_setup_asio / lumex_setup_boost_context / lumex_setup_hidapi; no target
@@ -351,6 +352,17 @@ if(LUMEX_INSTALL)
         ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}
     )
 
+    # The optional parts of the package, as sources under share/ (user,
+    # 2026-11-05): share/examples and share/benchmarks, one directory per
+    # module, each a project that builds against the installed package. The
+    # documentation (share/doc) is installed with its generator below.
+    if(LUMEX_INSTALL_EXAMPLES)
+        lumex_install_example_sources()
+    endif()
+    if(LUMEX_INSTALL_BENCHMARKS)
+        lumex_install_benchmark_sources()
+    endif()
+
     # The compiler runtime the libraries link against goes next to them in the
     # installed bin/ (Windows): the package runs on a machine that never
     # installed the MSVC redistributable, as <platform>/Distr<Config> already
@@ -387,7 +399,17 @@ endif()
 # ==============================================================================
 # DOCUMENTATION
 # ==============================================================================
-if(LUMEX_BUILD_DOCUMENTATION)
+if(LUMEX_BUILD_DOCUMENTATION AND LUMEX_DOCUMENTATION_PREBUILT_DIR)
+    # A finished tree: the release script generates the documentation once and
+    # every build of its matrix installs that tree. No Doxygen here.
+    message(STATUS "Building with documentation enabled (a finished tree)")
+    if(NOT EXISTS "${LUMEX_DOCUMENTATION_PREBUILT_DIR}/html/index.html")
+        message(FATAL_ERROR
+            "LUMEX_DOCUMENTATION_PREBUILT_DIR=${LUMEX_DOCUMENTATION_PREBUILT_DIR} "
+            "has no html/index.html")
+    endif()
+    set(DOXYGEN_OUTPUT_DIR "${LUMEX_DOCUMENTATION_PREBUILT_DIR}")
+elseif(LUMEX_BUILD_DOCUMENTATION)
     message(STATUS "Building with documentation enabled")
     find_program(DOXYGEN_EXECUTABLE NAMES doxygen)
 
@@ -438,8 +460,18 @@ if(LUMEX_BUILD_DOCUMENTATION)
         string(APPEND LUMEX_DOXYGEN_UMBRELLAS "\"${_lumex_doxygen_file}\"")
     endforeach()
 
+    # The output goes to the build tree (html/ below it), never into the
+    # checkout: a release build must not touch the files of the repository.
+    # compile.py --documentation names the docs/ of the checkout instead.
+    if(LUMEX_DOCUMENTATION_OUTPUT_DIR)
+        set(DOXYGEN_OUTPUT_DIR "${LUMEX_DOCUMENTATION_OUTPUT_DIR}")
+    else()
+        set(DOXYGEN_OUTPUT_DIR "${CMAKE_BINARY_DIR}/doc")
+    endif()
+    set(LUMEX_DOXYGEN_OUTPUT_DIRECTORY "${DOXYGEN_OUTPUT_DIR}")
+
     # Configure the Doxyfile from its template with the project version, the
-    # filters and the umbrella list.
+    # filters, the umbrella list and the output directory.
     set(DOXYFILE_IN "${LumexLib_SOURCE_DIR}/Doxyfile.in")
     set(DOXYFILE_OUT "${CMAKE_BINARY_DIR}/Doxyfile")
 
@@ -450,7 +482,6 @@ if(LUMEX_BUILD_DOCUMENTATION)
     )
 
     set(DOXYFILE_PATH "${DOXYFILE_OUT}")
-    set(DOXYGEN_OUTPUT_DIR "${LumexLib_SOURCE_DIR}/docs")
 
     add_custom_command(
         OUTPUT "${DOXYGEN_OUTPUT_DIR}/html/index.html"
@@ -465,16 +496,28 @@ if(LUMEX_BUILD_DOCUMENTATION)
         DEPENDS "${DOXYGEN_OUTPUT_DIR}/html/index.html"
         COMMENT "Doxygen documentation generated"
     )
+endif()
 
-    if(LUMEX_INSTALL)
-        install(DIRECTORY "${DOXYGEN_OUTPUT_DIR}/"
-            DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/docs"
-            PATTERN "*.map" EXCLUDE
-            PATTERN "*.md5" EXCLUDE
-            PATTERN "*.tag" EXCLUDE
-            PATTERN "*.bak" EXCLUDE
-        )
-    endif()
+if(LUMEX_BUILD_DOCUMENTATION AND LUMEX_INSTALL)
+    # share/doc, under the version directory the prefix already is
+    # (/opt/LumexLib/<version>_<compiler>): the documentation of a package is
+    # share/doc/html/index.html. The target generate_documentation (part of
+    # ALL) has to have run: the install does not generate.
+    install(CODE "
+        if(NOT EXISTS \"${DOXYGEN_OUTPUT_DIR}/html/index.html\")
+            message(FATAL_ERROR
+                \"The documentation was not generated: build the target \"
+                \"generate_documentation before cmake --install \"
+                \"(${DOXYGEN_OUTPUT_DIR}/html/index.html is missing).\")
+        endif()
+    ")
+    install(DIRECTORY "${DOXYGEN_OUTPUT_DIR}/html/"
+        DESTINATION "${CMAKE_INSTALL_DATADIR}/doc/html"
+        PATTERN "*.map" EXCLUDE
+        PATTERN "*.md5" EXCLUDE
+        PATTERN "*.tag" EXCLUDE
+        PATTERN "*.bak" EXCLUDE
+    )
 endif()
 
 # ==============================================================================

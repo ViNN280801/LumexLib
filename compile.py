@@ -3569,6 +3569,10 @@ class CMakeBuilder:
                 "-B",
                 temp_build_dir,
                 "-DLUMEX_BUILD_DOCUMENTATION=ON",
+                # The CMake default is the build tree; this flag documents the
+                # checkout's docs/, as it always did.
+                "-DLUMEX_DOCUMENTATION_OUTPUT_DIR="
+                + os_path_join(self.project_root, "docs"),
             ]
             build_cmd = [
                 "cmake",

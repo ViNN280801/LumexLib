@@ -29,6 +29,35 @@
 #   python benchmarks/transport/run_benchmark.py
 #          --build-dir gcc=build-bench-gcc --build-dir clang=build-bench-clang
 
+cmake_minimum_required(VERSION 3.16)
+# A project of its own: standalone after install (cmake -S <prefix>/share/benchmarks/transport
+# -B build -DLumexLib_DIR=<prefix>/lib/cmake/LumexLib), a subproject in the tree.
+project(LumexBenchmarksTransport LANGUAGES CXX)
+if(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
+    find_package(LumexLib REQUIRED)
+    foreach(_lumex_required lumex::transport lumex::protocol lumex::framing)
+        if(NOT TARGET ${_lumex_required})
+            message(FATAL_ERROR
+                "${_lumex_required} not found: the package was built without that module "
+                "(LumexLib_DIR=${LumexLib_DIR})")
+        endif()
+    endforeach()
+    # The benchmarks run the dialogue engine against the testing doubles of the
+    # transport: a package built without either has nothing to measure.
+    get_target_property(_lumex_transport_definitions lumex::transport
+        INTERFACE_COMPILE_DEFINITIONS)
+    if(NOT _lumex_transport_definitions MATCHES "LUMEX_TRANSPORT_WITH_PROTOCOL"
+       OR NOT _lumex_transport_definitions MATCHES "LUMEX_TRANSPORT_WITH_TESTING")
+        message(STATUS "transport benchmarks skipped: the package was built without "
+            "the dialogue engine or without the testing doubles of the transport")
+        return()
+    endif()
+    # Only a Release build gives numbers that mean anything.
+    if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+        set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build." FORCE)
+    endif()
+endif()
+
 set(_lumex_transport_bench_sources
     Codec:bench_codec.cpp
     Protocol:bench_protocol.cpp
