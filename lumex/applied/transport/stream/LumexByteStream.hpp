@@ -178,11 +178,22 @@ public:
   }
 
   /// @brief Gives up the connection (any thread): a stream that `reconnects
-  /// ()` connects again, any other closes.
+  /// ()` connects again, any other closes. It is what a silent link does (the
+  /// watchdog of a dialogue); see `reject_connection` for a link that failed.
   virtual void
   drop_connection ()
   {
     start_close ();
+  }
+
+  /// @brief Gives up the connection because it failed (any thread; a
+  /// dialogue whose check of the device failed): like `drop_connection`, but
+  /// a stream that `reconnects ()` counts it as a failed attempt, whatever the
+  /// connection carried. By default it calls `drop_connection ()`.
+  virtual void
+  reject_connection ()
+  {
+    drop_connection ();
   }
 
   stream_impl (stream_impl const &) = delete;

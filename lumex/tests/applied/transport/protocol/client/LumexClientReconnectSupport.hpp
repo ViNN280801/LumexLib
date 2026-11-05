@@ -259,14 +259,17 @@ gauge_who (char const *model, int firmware, int layer, int serial = 1)
   return who;
 }
 
-/// A session that retries on the virtual clock without jitter.
+/// A session that retries on the virtual clock without jitter (the cycle ends
+/// after `max_attempts` failed attempts; 0: never).
 inline ss::session_options_t
-bench_session_options (tr::testing::virtual_clock &clock)
+bench_session_options (tr::testing::virtual_clock &clock,
+                       std::uint32_t max_attempts = 0)
 {
   ss::session_options_t options;
   options.name = "bench";
   options.policy.initial_delay = ms (100);
   options.policy.max_delay = ms (1000);
+  options.policy.max_attempts = max_attempts;
   options.policy.jitter = 0;
   options.open_timeout = ms (1000);
   options.timers = clock.source ();
@@ -286,7 +289,8 @@ public:
   }
 
   explicit stream_bench_t (pr::client_options_t options,
-                           bool open_first = true)
+                           bool open_first = true,
+                           std::uint32_t max_attempts = 0)
   {
     tr::testing::mock_options_t mock_options;
     mock_options.timers = clock.source ();
@@ -296,7 +300,7 @@ public:
     session.reset (new ss::stream_session (
         context.get_executor (), [impl] (tr::executor_type const &)
           { return tr::stream::byte_stream (impl); },
-        bench_session_options (clock)));
+        bench_session_options (clock, max_attempts)));
     device.reset (new tr::testing::device_simulator<Device> (
         mock->control, fr::slip::slip_codec (), clock));
     if (open_first)
@@ -387,7 +391,7 @@ template <typename Device, typename Client = Device> class datagram_bench_t
 public:
   using client_type = pr::client<Client>;
 
-  explicit datagram_bench_t ()
+  explicit datagram_bench_t (std::uint32_t max_attempts = 0)
   {
     tr::testing::mock_options_t mock_options;
     mock_options.timers = clock.source ();
@@ -399,7 +403,7 @@ public:
     session.reset (new ss::message_session (
         context.get_executor (), [impl] (tr::executor_type const &)
           { return tr::datagram::message_transport (impl); },
-        bench_session_options (clock)));
+        bench_session_options (clock, max_attempts)));
     device.reset (new tr::testing::device_simulator<Device> (
         mock->control, fr::slip::slip_codec (), 1, clock));
     session->start ();

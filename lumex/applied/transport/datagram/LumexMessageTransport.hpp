@@ -148,6 +148,14 @@ public:
     start_close ();
   }
 
+  /// @brief Gives up the connection because it failed; see
+  /// `stream::stream_impl::reject_connection`.
+  virtual void
+  reject_connection ()
+  {
+    drop_connection ();
+  }
+
   message_impl (message_impl const &) = delete;
   message_impl &operator= (message_impl const &) = delete;
 

@@ -348,6 +348,55 @@ TEST (LumexSessionStream, CancelEndsTheIoAndNotTheConnecting)
   EXPECT_EQ (bench.session->state (), ss::channel_state::reconnecting);
 }
 
+/// The device sends one byte and the view reads it: the link received data.
+void
+receive_byte (stream_bench_t &bench, tr::stream::byte_stream &view)
+{
+  bool done = false;
+  std::uint8_t byte = 0;
+  view.async_read_some (tr::mutable_bytes_t (&byte, 1),
+                        [&] (std::error_code, std::size_t) { done = true; });
+  bench.settle ();
+  bench.mock->control.feed (std::vector<std::uint8_t> (1, 0x55));
+  EXPECT_TRUE (bench.run_until ([&] () { return done; }));
+}
+
+/// The view writes one byte to a device that says nothing: the link carried
+/// data and received none.
+void
+send_byte (stream_bench_t &bench, tr::stream::byte_stream &view)
+{
+  bool done = false;
+  std::uint8_t const byte = 0x55;
+  view.async_write_some (tr::const_bytes_t (&byte, 1),
+                         [&] (std::error_code, std::size_t) { done = true; });
+  EXPECT_TRUE (bench.run_until ([&] () { return done; }));
+}
+
+/// The same for a message session.
+void
+receive_message (message_bench_t &bench, tr::datagram::message_transport &view)
+{
+  bool done = false;
+  view.async_receive ([&] (std::error_code, tr::datagram::message_t)
+                        { done = true; });
+  bench.settle ();
+  tr::datagram::message_t message;
+  message.payload = { 0x55 };
+  bench.mock->control.deliver (message);
+  EXPECT_TRUE (bench.run_until ([&] () { return done; }));
+}
+
+void
+send_message (message_bench_t &bench, tr::datagram::message_transport &view)
+{
+  bool done = false;
+  tr::datagram::message_t message;
+  message.payload = { 0x55 };
+  view.async_send (message, [&] (std::error_code) { done = true; });
+  EXPECT_TRUE (bench.run_until ([&] () { return done; }));
+}
+
 TEST (LumexSessionStream, DropConnectionReconnects)
 {
   // Falsified by a drop that closes.
@@ -360,18 +409,21 @@ TEST (LumexSessionStream, DropConnectionReconnects)
   bench.settle ();
   EXPECT_EQ (view.impl ()->connection_epoch (), epoch + 1);
   EXPECT_EQ (bench.session->state (), ss::channel_state::reconnecting);
-  // A dropped link is a failed attempt: the session waits its delay.
+  // A link that received nothing is a failed attempt: the session waits its
+  // delay.
   bench.advance (ms (150));
   EXPECT_EQ (bench.session->state (), ss::channel_state::open);
   EXPECT_EQ (bench.mock->control.open_count (), opens + 1);
   EXPECT_EQ (bench.session->session_statistics ().reconnects, 1u);
 }
 
-TEST (LumexSessionStream, DropConnectionIsAFailedAttemptSoTheWaitGrows)
+TEST (LumexSessionStream,
+      DropConnectionOfALinkThatReceivedNothingIsAFailedAttemptSoTheWaitGrows)
 {
-  // Falsified by a drop that counts a link which stayed open as a good one:
-  // the wait would stay at the first delay (a device that opens and says
-  // nothing would be opened again and again).
+  // Falsified by a drop that counts a link which stayed open as a good one
+  // (the wait would stay at the first delay: a device that opens and says
+  // nothing would be opened again and again), and by a drop that takes a
+  // write to the silent device for a sign of life.
   stream_bench_t bench;
   tr::stream::byte_stream view = bench.session->as_byte_stream ();
   bench.open ();
@@ -379,6 +431,7 @@ TEST (LumexSessionStream, DropConnectionIsAFailedAttemptSoTheWaitGrows)
   int const waits[] = { 100, 200, 400, 800 };
   for (std::size_t i = 0; i < 4; ++i)
     {
+      send_byte (bench, view);
       view.impl ()->drop_connection ();
       bench.settle ();
       EXPECT_EQ (bench.session->state (), ss::channel_state::reconnecting)
@@ -392,9 +445,11 @@ TEST (LumexSessionStream, DropConnectionIsAFailedAttemptSoTheWaitGrows)
       // Longer than the initial delay: the old rule took it for a good one.
       bench.advance (ms (150));
     }
+  EXPECT_EQ (bench.session->session_statistics ().failed_attempts, 4u);
 }
 
-TEST (LumexSessionStream, DropConnectionCountsAgainstMaxAttempts)
+TEST (LumexSessionStream,
+      DropConnectionOfALinkThatReceivedNothingCountsAgainstMaxAttempts)
 {
   // Falsified by a drop that starts a new cycle each time: the session would
   // never give up on a device that opens and is dropped.
@@ -403,6 +458,7 @@ TEST (LumexSessionStream, DropConnectionCountsAgainstMaxAttempts)
   bench.open ();
   for (int i = 0; i < 2; ++i)
     {
+      send_byte (bench, view);
       view.impl ()->drop_connection ();
       bench.settle ();
       EXPECT_EQ (bench.session->state (), ss::channel_state::reconnecting)
@@ -415,9 +471,159 @@ TEST (LumexSessionStream, DropConnectionCountsAgainstMaxAttempts)
   EXPECT_EQ (bench.session->state (), ss::channel_state::faulted);
 }
 
-TEST (LumexSessionStream, ALinkLostByTheWireAfterADropStartsANewCycle)
+TEST (LumexSessionStream,
+      DropConnectionOfALinkThatReceivedDataStartsANewCycleEachTime)
 {
-  // A drop makes the wait grow; a link that is lost later on its own (it was
+  // Falsified by a drop that is always a failed attempt (a device that works
+  // for hours with one watchdog expiry a day would use up max_attempts), and
+  // by one whose wait grows: the new cycle's first attempt runs at once.
+  stream_bench_t bench (3);
+  tr::stream::byte_stream view = bench.session->as_byte_stream ();
+  bench.open ();
+  std::size_t opens = bench.mock->control.open_count ();
+  for (int i = 0; i < 8; ++i)
+    {
+      receive_byte (bench, view);
+      bench.advance (ms (150));
+      view.impl ()->drop_connection ();
+      bench.settle ();
+      // At once: a new cycle starts with an attempt without a wait.
+      EXPECT_EQ (bench.session->state (), ss::channel_state::open) << i;
+      EXPECT_EQ (bench.mock->control.open_count (), opens + 1) << i;
+      ++opens;
+    }
+  EXPECT_EQ (bench.session->session_statistics ().failed_attempts, 0u);
+  EXPECT_EQ (bench.session->session_statistics ().reconnects, 8u);
+}
+
+TEST (LumexSessionStream,
+      DropConnectionOfALinkThatReceivedDataBeforeItWasEstablishedWaits)
+{
+  // The rule of a lost link: a link that worked but went early makes the next
+  // attempt wait the first delay, and it is not a failed attempt.
+  stream_bench_t bench (3);
+  tr::stream::byte_stream view = bench.session->as_byte_stream ();
+  bench.open ();
+  // The first link is an established one: the new cycle runs at once.
+  receive_byte (bench, view);
+  view.impl ()->drop_connection ();
+  bench.settle ();
+  bench.advance (ms (30));
+  ASSERT_EQ (bench.session->state (), ss::channel_state::open);
+  for (int i = 0; i < 4; ++i)
+    {
+      receive_byte (bench, view);
+      view.impl ()->drop_connection ();
+      bench.settle ();
+      bench.advance (ms (60));
+      EXPECT_EQ (bench.session->state (), ss::channel_state::reconnecting)
+          << i;
+      bench.advance (ms (60));
+      EXPECT_EQ (bench.session->state (), ss::channel_state::open) << i;
+    }
+  EXPECT_EQ (bench.session->session_statistics ().failed_attempts, 0u);
+}
+
+TEST (LumexSessionStream,
+      RejectConnectionIsAFailedAttemptWhateverTheLinkCarried)
+{
+  // Falsified by a reject that is a drop (a check that fails on a device that
+  // answers garbage would reopen at once for ever).
+  stream_bench_t bench;
+  tr::stream::byte_stream view = bench.session->as_byte_stream ();
+  bench.open ();
+  std::size_t opens = bench.mock->control.open_count ();
+  int const waits[] = { 100, 200, 400, 800 };
+  for (std::size_t i = 0; i < 4; ++i)
+    {
+      receive_byte (bench, view);
+      bench.advance (ms (150));
+      view.impl ()->reject_connection ();
+      bench.settle ();
+      EXPECT_EQ (bench.session->state (), ss::channel_state::reconnecting)
+          << i;
+      bench.advance (ms (waits[i] - 10));
+      EXPECT_EQ (bench.mock->control.open_count (), opens) << i;
+      bench.advance (ms (20));
+      EXPECT_EQ (bench.mock->control.open_count (), opens + 1) << i;
+      EXPECT_EQ (bench.session->state (), ss::channel_state::open) << i;
+      ++opens;
+    }
+  EXPECT_EQ (bench.session->session_statistics ().failed_attempts, 4u);
+}
+
+TEST (LumexSessionStream, RejectConnectionCountsAgainstMaxAttempts)
+{
+  // Falsified by a reject that starts a new cycle when the link carried data.
+  stream_bench_t bench (3);
+  tr::stream::byte_stream view = bench.session->as_byte_stream ();
+  bench.open ();
+  for (int i = 0; i < 2; ++i)
+    {
+      receive_byte (bench, view);
+      view.impl ()->reject_connection ();
+      bench.settle ();
+      bench.advance (ms (1000));
+      EXPECT_EQ (bench.session->state (), ss::channel_state::open) << i;
+    }
+  receive_byte (bench, view);
+  view.impl ()->reject_connection ();
+  bench.settle ();
+  EXPECT_EQ (bench.session->state (), ss::channel_state::faulted);
+}
+
+TEST (LumexSessionStream, RejectConnectionOfAMessageSessionIsAFailedAttempt)
+{
+  // Falsified by a message view that forwards the reject as a drop.
+  message_bench_t bench;
+  tr::datagram::message_transport view
+      = bench.session->as_message_transport ();
+  bench.open ();
+  std::uint64_t opens = bench.session->session_statistics ().attempts;
+  int const waits[] = { 100, 200, 400 };
+  for (std::size_t i = 0; i < 3; ++i)
+    {
+      receive_message (bench, view);
+      bench.advance (ms (150));
+      view.impl ()->reject_connection ();
+      bench.settle ();
+      bench.advance (ms (waits[i] - 10));
+      EXPECT_EQ (bench.session->session_statistics ().attempts, opens) << i;
+      bench.advance (ms (20));
+      EXPECT_EQ (bench.session->session_statistics ().attempts, opens + 1)
+          << i;
+      ++opens;
+    }
+  EXPECT_EQ (bench.session->session_statistics ().failed_attempts, 3u);
+}
+
+TEST (LumexSessionStream, DropConnectionOfAMessageSessionFollowsWhatItReceived)
+{
+  // Falsified by a message drop that is always a failed attempt, and by one
+  // that takes a sent message for a sign of life.
+  message_bench_t bench;
+  tr::datagram::message_transport view
+      = bench.session->as_message_transport ();
+  bench.open ();
+  send_message (bench, view);
+  view.impl ()->drop_connection ();
+  bench.settle ();
+  bench.advance (ms (150));
+  EXPECT_EQ (bench.session->state (), ss::channel_state::open);
+  EXPECT_EQ (bench.session->session_statistics ().failed_attempts, 1u);
+  // A received message: a new cycle, which runs at once.
+  receive_message (bench, view);
+  bench.advance (ms (150));
+  view.impl ()->drop_connection ();
+  bench.settle ();
+  bench.advance (ms (30));
+  EXPECT_EQ (bench.session->state (), ss::channel_state::open);
+  EXPECT_EQ (bench.session->session_statistics ().failed_attempts, 1u);
+}
+
+TEST (LumexSessionStream, ALinkLostByTheWireAfterDropsStartsANewCycle)
+{
+  // Silent drops make the wait grow; a link lost later on its own (it was
   // good) starts again from the first attempt, at once, and the cycle after
   // it waits the first delay.
   stream_bench_t bench;
@@ -442,6 +648,33 @@ TEST (LumexSessionStream, ALinkLostByTheWireAfterADropStartsANewCycle)
   view.impl ()->drop_connection ();
   bench.settle ();
   EXPECT_EQ (bench.session->state (), ss::channel_state::reconnecting);
+  bench.advance (ms (110));
+  EXPECT_EQ (bench.session->state (), ss::channel_state::open);
+}
+
+TEST (LumexSessionStream, ALinkLostByTheWireAfterRejectsStartsANewCycle)
+{
+  // The same for rejects: the wait they grew is forgotten by a good link.
+  stream_bench_t bench;
+  tr::stream::byte_stream view = bench.session->as_byte_stream ();
+  bench.open ();
+  for (int i = 0; i < 2; ++i)
+    {
+      view.impl ()->reject_connection ();
+      bench.settle ();
+      bench.advance (ms (500));
+      ASSERT_EQ (bench.session->state (), ss::channel_state::open);
+    }
+  std::uint8_t byte = 0;
+  view.async_read_some (tr::mutable_bytes_t (&byte, 1),
+                        [] (std::error_code, std::size_t) {});
+  bench.settle ();
+  bench.mock->control.disconnect ();
+  bench.settle ();
+  EXPECT_EQ (bench.session->state (), ss::channel_state::open);
+  bench.advance (ms (150));
+  view.impl ()->reject_connection ();
+  bench.settle ();
   bench.advance (ms (110));
   EXPECT_EQ (bench.session->state (), ss::channel_state::open);
 }
@@ -475,6 +708,39 @@ TEST (LumexSessionStream, AStreamThatDoesNotReconnectSaysSoAndCloses)
   context.poll ();
   context.restart ();
   EXPECT_FALSE (mock.stream.is_open ());
+}
+
+TEST (LumexSessionStream, AStreamThatDoesNotReconnectClosesOnReject)
+{
+  // Falsified by a default of reject_connection that does nothing: a link
+  // written before it would stay open after a failed check.
+  asio::io_context context;
+  tr::testing::mock_stream mock
+      = tr::testing::make_mock_stream (context.get_executor ());
+  mock.stream.async_open ([] (std::error_code) {});
+  context.poll ();
+  context.restart ();
+  ASSERT_TRUE (mock.stream.is_open ());
+  mock.stream.impl ()->reject_connection ();
+  context.poll ();
+  context.restart ();
+  EXPECT_FALSE (mock.stream.is_open ());
+}
+
+TEST (LumexSessionStream, AMessageTransportThatDoesNotReconnectClosesOnReject)
+{
+  // The same for the default of message_impl.
+  asio::io_context context;
+  tr::testing::mock_datagram mock
+      = tr::testing::make_mock_datagram (context.get_executor ());
+  mock.transport.async_open ([] (std::error_code) {});
+  context.poll ();
+  context.restart ();
+  ASSERT_TRUE (mock.transport.is_open ());
+  mock.transport.impl ()->reject_connection ();
+  context.poll ();
+  context.restart ();
+  EXPECT_FALSE (mock.transport.is_open ());
 }
 
 TEST (LumexSessionStream, WatchConnection_HearsEveryChangeInOrderNeverInline)

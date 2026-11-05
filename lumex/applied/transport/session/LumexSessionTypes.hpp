@@ -116,6 +116,18 @@ char const *to_string (channel_state state) LUMEX_NOEXCEPT;
  *   `faulted`;
  * - when it moved data, it worked: it starts a new cycle (`reconnecting`,
  *   not a failed attempt) whose first attempt waits the delay of attempt 1.
+ *
+ * A link its user gives up (`stream_impl::drop_connection`, what the watchdog
+ * of a dialogue calls) follows the same rule with one difference: only
+ * received data counts (a read of at least one byte, a message received), so a
+ * keepalive written to a silent device is no sign of life. A link that
+ * received data is a lost one: a new cycle, at once when it was established.
+ * One that received nothing is a failed attempt however long it stayed open,
+ * so a device that opens and says nothing meets the growing wait and
+ * `max_attempts`. A link given up as failed (`reject_connection`, what a
+ * dialogue calls when its check of the device failed) is a failed attempt
+ * whatever it carried. A link that passes the check and then falls silent
+ * starts a new cycle at the rate of the watchdog, and its wait does not grow.
  */
 struct reconnect_policy_t
 {

@@ -173,9 +173,10 @@ struct session_core_access
     core.do_presence (present);
   }
   static void
-  drop_link (session_core &core, std::error_code const &reason)
+  drop_link (session_core &core, std::error_code const &reason, bool rejected)
   {
-    core.lose_link (reason, true);
+    core.lose_link (reason,
+                    rejected ? link_loss::rejected : link_loss::dropped);
   }
   static void
   add_link_listener (session_core &core,
@@ -329,7 +330,7 @@ session_core::session_core (executor_type const &executor,
       failed_attempts_ (0), reconnects_ (0), running_ (false), run_epoch_ (0),
       generation_ (0), wait_id_ (0), attempt_ (0), opening_ (false),
       waiting_retry_ (false), parked_ (false), device_absent_ (false),
-      carried_data_ (false), lost_generation_ (0)
+      carried_data_ (false), received_data_ (false), lost_generation_ (0)
 {
   if (options_.name.empty ())
     options_.name = "session";
@@ -453,11 +454,11 @@ session_core::set_device_present (bool present)
 }
 
 void
-session_core::request_drop_link (std::error_code const &reason)
+session_core::request_drop_link (std::error_code const &reason, bool rejected)
 {
   core_ptr const self = shared_from_this ();
-  asio::post (strand_, [self, reason] ()
-                { session_core_access::drop_link (*self, reason); });
+  asio::post (strand_, [self, reason, rejected] ()
+                { session_core_access::drop_link (*self, reason, rejected); });
 }
 
 void
@@ -795,18 +796,22 @@ session_core::on_opened (unsigned generation, std::error_code const &error)
   // open ran is stale (REVIEW13 re-review N3).
   opened_at_ = options_.timers.now ();
   carried_data_ = false;
+  received_data_ = false;
   device_absent_ = false;
   set_state (channel_state::open, std::error_code ());
 }
 
 void
 session_core::note_io_result (unsigned generation,
-                              std::error_code const &error, bool carried)
+                              std::error_code const &error, bool carried,
+                              bool received)
 {
   if (generation != generation_)
     return;
   if (carried)
     carried_data_ = true;
+  if (carried && received)
+    received_data_ = true;
   if (is_link_lost (error))
     lose_link (error);
 }
@@ -952,7 +957,7 @@ session_core::established () const
 }
 
 void
-session_core::lose_link (std::error_code const &error, bool dropped)
+session_core::lose_link (std::error_code const &error, link_loss kind)
 {
   if (state () != channel_state::open)
     return;
@@ -968,8 +973,23 @@ session_core::lose_link (std::error_code const &error, bool dropped)
       return;
     }
   set_last_error (error);
-  bool const was_established = !dropped && established ();
-  bool const carried = !dropped && carried_data_;
+  // A lost link: any data counts, and a link that stayed open is a good one.
+  // A link given up by its watchdog: only received data counts (a write to a
+  // silent device is not a sign of life), and a link that received nothing
+  // is a failed attempt however long it stayed open. A rejected link is a
+  // failed attempt, whatever it carried.
+  bool was_established = established ();
+  bool carried = carried_data_;
+  if (kind == link_loss::dropped)
+    {
+      carried = received_data_;
+      was_established = was_established && received_data_;
+    }
+  else if (kind == link_loss::rejected)
+    {
+      carried = false;
+      was_established = false;
+    }
   LUMEX_TRANSPORT_LOG (warning, KSESSION_COMPONENT, name ().c_str (),
                        "link lost: " + error.message (), log::log_bytes_t ());
   drop_current ();

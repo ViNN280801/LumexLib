@@ -469,7 +469,7 @@ dialogue_impl::reconnect_checked (std::uint64_t restoration,
                                     + error.message (),
                                 log::log_bytes_t ());
       report_reconnect (error);
-      link_.impl ()->drop_connection ();
+      link_.impl ()->reject_connection ();
       connection_lost (error);
       return;
     }

@@ -101,6 +101,14 @@ namespace detail
 struct session_core_access;
 struct terminal_canceller;
 
+/// @brief How an open link went (see `session_core::lose_link`).
+enum class link_loss
+{
+  wire,
+  dropped,
+  rejected
+};
+
 /**
  * @brief Who hears the state of a session on its strand, in the step of the
  * change, before any waiter or callback: a view of the session
@@ -197,9 +205,13 @@ public:
   void set_device_present (bool present);
   /// @brief The front is gone: no state callback runs from now on.
   void detach () LUMEX_NOEXCEPT;
-  /// @brief Gives up the link for `reason` as a lost link does: an open
-  /// session starts reconnecting; nothing in any other state.
-  void request_drop_link (std::error_code const &reason);
+  /// @brief Gives up the link for `reason`: an open session starts
+  /// reconnecting; nothing in any other state. `rejected`: the user of the
+  /// link found it unfit (a failed check), a failed attempt whatever it
+  /// carried; else the link was silent (the watchdog): a link that received
+  /// data starts a new cycle as a lost one does, one that did not is a failed
+  /// attempt.
+  void request_drop_link (std::error_code const &reason, bool rejected);
   /// @brief Adds who hears the state (held weakly; it hears the changes after
   /// the step this call posts, and then reads the state itself).
   void add_link_listener (std::weak_ptr<session_link_listener> listener);
@@ -266,10 +278,11 @@ public:
   bool usable (unsigned &generation) const LUMEX_NOEXCEPT;
 
   /// @brief The result of an I/O operation on the transport `generation`:
-  /// `carried` when it moved data (see `reconnect_policy_t`); an error that
-  /// `is_link_lost` accepts starts reconnecting.
+  /// `carried` when it moved data (see `reconnect_policy_t`), `received` when
+  /// that was a read or a receive; an error that `is_link_lost` accepts
+  /// starts reconnecting.
   void note_io_result (unsigned generation, std::error_code const &error,
-                       bool carried);
+                       bool carried, bool received);
 
   /// @brief The completion of the open of the transport `generation`.
   void on_opened (unsigned generation, std::error_code const &error);
@@ -357,9 +370,12 @@ private:
                      std::string const &text = std::string ());
   void schedule_retry (std::uint32_t failed_attempt);
   void cancel_retry ();
-  // `dropped`: the user of the link gave it up (a failed check, a watchdog):
-  // it is a failed attempt, however long it stayed open.
-  void lose_link (std::error_code const &error, bool dropped = false);
+  // How the link went: `wire` (an error of the transport), `dropped` (the
+  // watchdog: a failed attempt when the link received nothing since its open,
+  // the rule of a lost link when it did), `rejected` (a failed check: a failed
+  // attempt, whatever the link carried).
+  void lose_link (std::error_code const &error,
+                  link_loss kind = link_loss::wire);
   bool established () const;
   void drop_current () LUMEX_NOEXCEPT;
   void set_state (channel_state state, std::error_code const &reason);
@@ -404,6 +420,9 @@ private:
   bool device_absent_;
   // The current link moved data (an I/O with bytes, a message).
   bool carried_data_;
+  // It received data (a read with bytes, a message received): a write to a
+  // device that says nothing does not count.
+  bool received_data_;
   // A lost link (or a removal of the device) seen while a stop was on its
   // way: cancel () keeps an open link, so its step replays the loss of the
   // transport `lost_generation_`.
