@@ -19,3 +19,12 @@ lumex_example_executable(
   REQUIRE_TARGET lumex::interprocess
   CXX_STANDARD 11
 )
+# Waiting for a lock that another owner holds: a retry loop of the caller,
+# with a limit. One process, a thread plays the other owner.
+lumex_example_executable(
+  NAME LumexInterprocessExampleLockRetry
+  SOURCE example_interprocess_lock_retry.cpp
+  LINK lumex::interprocess Threads::Threads
+  REQUIRE_TARGET lumex::interprocess
+  CXX_STANDARD 11
+)

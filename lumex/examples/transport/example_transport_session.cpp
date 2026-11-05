@@ -4,10 +4,13 @@
 // transitions (the on_state_change callback and async_wait_state_change from
 // a snapshot), the reconnect after a dropped connection, a factory that
 // fails until the "device" appears (attempts, backoff, faulted, start () for
-// a new cycle), the counters and close (). The peers are loopback servers
-// started here, so the example runs anywhere without hardware. A serial
-// session differs only in its factory (ss::make_serial_factory): see
-// example_transport_hotplug.cpp.
+// a new cycle), the counters and close (). Then the session as a byte stream
+// under a framed adapter (as_byte_stream (): a half frame of the old
+// connection is never joined to the first bytes of the new one) and the
+// delays of the reconnect on a virtual clock (no real waiting). The peers are
+// loopback servers started here, so the example runs anywhere without
+// hardware. A serial session differs only in its factory
+// (ss::make_serial_factory): see example_transport_hotplug.cpp.
 #include <atomic>
 #include <chrono>
 #include <cstddef>
@@ -24,6 +27,10 @@
 #include <vector>
 
 #include "lumex/applied/transport/LumexTransport"
+
+#if defined(LUMEX_TRANSPORT_WITH_FRAMING)
+#include "lumex/core/framing/LumexFraming"
+#endif
 
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -392,6 +399,195 @@ which_errors_end_the_link ()
                           ? "the link is gone, reconnect"
                           : "ends this operation only"));
 }
+
+#if defined(LUMEX_TRANSPORT_WITH_FRAMING)
+namespace fr = lumex::core::framing;
+
+// A peer that answers the first connection with half a line and drops it, and
+// every later connection with a whole line.
+class half_line_peer
+{
+public:
+  half_line_peer ()
+      : acceptor_ (context_, asio::ip::tcp::endpoint (
+                                 asio::ip::address_v4::loopback (), 0)),
+        stopping_ (false), thread_ ([this] { serve (); })
+  {
+  }
+
+  ~half_line_peer ()
+  {
+    stopping_ = true;
+    asio::io_context wake_context;
+    asio::ip::tcp::socket wake (wake_context);
+    asio::error_code ignored;
+    wake.connect (
+        asio::ip::tcp::endpoint (asio::ip::address_v4::loopback (), port ()),
+        ignored);
+    thread_.join ();
+  }
+
+  std::uint16_t
+  port () const
+  {
+    return acceptor_.local_endpoint ().port ();
+  }
+
+private:
+  void
+  serve ()
+  {
+    for (std::size_t connection = 1; !stopping_; ++connection)
+      {
+        asio::ip::tcp::socket socket (context_);
+        asio::error_code error;
+        acceptor_.accept (socket, error);
+        if (error || stopping_)
+          return;
+        std::vector<std::uint8_t> buffer (64);
+        socket.read_some (asio::buffer (buffer), error);
+        if (error)
+          continue;
+        std::string const answer = connection == 1 ? "ab" : "cd\n";
+        asio::write (socket, asio::buffer (answer), error);
+        if (connection == 1)
+          continue; // the connection drops with half a line sent
+        while (!error)
+          socket.read_some (asio::buffer (buffer), error);
+      }
+  }
+
+  asio::io_context context_;
+  asio::ip::tcp::acceptor acceptor_;
+  std::atomic<bool> stopping_;
+  std::thread thread_;
+};
+
+// The session is a byte stream too (as_byte_stream () for a stream session,
+// as_message_transport () for a message session): the same session, so an
+// adapter of lumex::framing, or the frame link of a client, can sit on it and
+// survive its reconnects. The bytes of a frame that was half received when
+// the connection dropped are forgotten with the connection.
+bool
+a_framed_adapter_on_a_session ()
+{
+  say ("--- 4. a framed adapter on a session that reconnects");
+  tr::stream::io_runner runner (1);
+  half_line_peer peer;
+  ss::session_options_t options;
+  options.name = "framed";
+  options.policy.initial_delay = ms (50);
+  options.policy.jitter = 0.0;
+  ss::net_selector_t where;
+  where.host = "127.0.0.1";
+  where.port = peer.port ();
+  ss::stream_session link (runner.get_executor (),
+                           ss::make_tcp_factory (where), options);
+  if (!link.open (tr::deadline_t (3000)).has_value ())
+    return false;
+
+  fr::delimiter::delimiter_options_t lines;
+  lines.rx_delimiter = std::vector<std::uint8_t> (1, '\n');
+  lines.tx_suffix = std::vector<std::uint8_t> (1, '\n');
+  // The adapter owns a byte stream: the session's own view of itself. The
+  // session stays the owner of the connection; it lives longer than the
+  // adapter.
+  tr::framed::framed_stream<fr::delimiter::delimiter_codec> frames (
+      link.as_byte_stream (), fr::delimiter::delimiter_codec (lines));
+  std::vector<std::uint8_t> const go = { 'g', 'o' };
+
+  frames.write_frame (tr::const_bytes_t (go), tr::deadline_t (1000));
+  // The peer sent "ab" and dropped the connection: no frame, and the session
+  // is on its way to a new one.
+  tr::framed::frame_result_t const none
+      = frames.read_frame (tr::deadline_t (300));
+  say ("  first connection: half a line ('ab'), then the peer drops it: "
+       + (none.has_value () ? std::string ("a frame")
+                            : "no frame (" + none.error ().message () + ")"));
+  std::chrono::steady_clock::time_point const end
+      = std::chrono::steady_clock::now () + ms (3000);
+  while (link.session_statistics ().reconnects == 0
+         && std::chrono::steady_clock::now () < end)
+    std::this_thread::sleep_for (ms (5));
+  say ("  the session reconnected by itself: "
+       + std::to_string (link.session_statistics ().reconnects)
+       + " reconnect(s)");
+
+  frames.write_frame (tr::const_bytes_t (go), tr::deadline_t (1000));
+  tr::framed::frame_result_t const frame
+      = frames.read_frame (tr::deadline_t (2000));
+  std::string const text
+      = frame.has_value ()
+            ? std::string (frame.value ().begin (), frame.value ().end ())
+            : frame.error ().message ();
+  say ("  second connection: the frame is '" + text
+       + "' (not 'abcd': the half frame went with its connection)");
+  return frame.has_value () && text == "cd";
+}
+#endif
+
+#if defined(LUMEX_TRANSPORT_WITH_TESTING)
+// The delays of a session are the timer source's: with the source of a
+// testing::virtual_clock the backoff of the policy takes no real time and the
+// attempts happen at exact times.
+bool
+backoff_on_a_virtual_clock ()
+{
+  say ("--- 5. the backoff of the reconnect on a virtual clock");
+  asio::io_context context;
+  tr::testing::virtual_clock clock;
+  tr::testing::mock_options_t mock_options;
+  mock_options.timers = clock.source ();
+  tr::testing::mock_stream mock
+      = tr::testing::make_mock_stream (context.get_executor (), mock_options);
+  std::shared_ptr<tr::stream::stream_impl> const impl = mock.stream.impl ();
+
+  // A device that appears at the fourth attempt: the first three throw.
+  std::shared_ptr<int> const attempts = std::make_shared<int> (0);
+  ss::session_options_t options;
+  options.name = "virtual";
+  options.policy.initial_delay = ms (100);
+  options.policy.max_delay = ms (1000);
+  options.policy.jitter = 0.0;
+  options.open_timeout = ms (1000);
+  options.timers = clock.source ();
+  tr::timing::time_point_t const start = clock.now ();
+  options.on_state_change = [&clock, start] (ss::state_change_t const &change)
+    {
+      say ("  at "
+           + std::to_string (
+               std::chrono::duration_cast<ms> (clock.now () - start).count ())
+           + " ms of virtual time: " + ss::to_string (change.previous) + " -> "
+           + ss::to_string (change.current) + " (attempt "
+           + std::to_string (change.attempt) + ")");
+    };
+  ss::stream_session link (
+      context.get_executor (),
+      [impl, attempts] (tr::executor_type const &)
+        {
+          if (++*attempts < 4)
+            throw std::runtime_error ("the device is not there yet");
+          return tr::stream::byte_stream (impl);
+        },
+      options);
+  link.start ();
+  std::chrono::steady_clock::time_point const real_start
+      = std::chrono::steady_clock::now ();
+  bool const opened = tr::testing::run_until (
+      context, clock, [&link] { return link.is_open (); },
+      std::chrono::seconds (60));
+  long long const real_ms = std::chrono::duration_cast<ms> (
+                                std::chrono::steady_clock::now () - real_start)
+                                .count ();
+  say (std::string ("  open: ") + (opened ? "yes" : "no") + ", after "
+       + std::to_string (*attempts) + " attempts (waits of 100, 200, 400 ms), "
+       + "in " + std::to_string (real_ms) + " ms of real time");
+  link.close ();
+  tr::testing::run_until (context, clock, [] { return false; }, ms (0));
+  return opened && *attempts == 4;
+}
+#endif
+
 } // namespace
 
 int
@@ -403,6 +599,18 @@ main ()
   if (!attempts_backoff_and_faulted ())
     return 1;
   which_errors_end_the_link ();
+#if defined(LUMEX_TRANSPORT_WITH_FRAMING)
+  if (!a_framed_adapter_on_a_session ())
+    return 1;
+#else
+  say ("--- 4. skipped: built without the framing module");
+#endif
+#if defined(LUMEX_TRANSPORT_WITH_TESTING)
+  if (!backoff_on_a_virtual_clock ())
+    return 1;
+#else
+  say ("--- 5. skipped: built without the testing support");
+#endif
   return 0;
 }
 #if defined(__clang__)
