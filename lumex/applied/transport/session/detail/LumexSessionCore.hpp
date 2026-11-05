@@ -357,7 +357,9 @@ private:
                      std::string const &text = std::string ());
   void schedule_retry (std::uint32_t failed_attempt);
   void cancel_retry ();
-  void lose_link (std::error_code const &error);
+  // `dropped`: the user of the link gave it up (a failed check, a watchdog):
+  // it is a failed attempt, however long it stayed open.
+  void lose_link (std::error_code const &error, bool dropped = false);
   bool established () const;
   void drop_current () LUMEX_NOEXCEPT;
   void set_state (channel_state state, std::error_code const &reason);

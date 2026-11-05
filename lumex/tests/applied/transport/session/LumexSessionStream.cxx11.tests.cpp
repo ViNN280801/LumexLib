@@ -5,6 +5,7 @@
 
 #include <chrono>
 #include <cstdint>
+#include <functional>
 #include <memory>
 #include <system_error>
 #include <vector>
@@ -23,10 +24,11 @@ using ms = std::chrono::milliseconds;
 using tr::error::transport_errc;
 
 ss::session_options_t
-options_on (tr::testing::virtual_clock &clock)
+options_on (tr::testing::virtual_clock &clock, std::uint32_t max_attempts = 0)
 {
   ss::session_options_t options;
   options.policy.initial_delay = ms (100);
+  options.policy.max_attempts = max_attempts;
   options.policy.jitter = 0;
   options.timers = clock.source ();
   return options;
@@ -46,7 +48,7 @@ slip_of (std::vector<std::uint8_t> const &payload)
 
 struct stream_bench_t
 {
-  stream_bench_t ()
+  explicit stream_bench_t (std::uint32_t max_attempts = 0)
   {
     tr::testing::mock_options_t mock_options;
     mock_options.timers = clock.source ();
@@ -55,7 +57,8 @@ struct stream_bench_t
     std::shared_ptr<tr::stream::stream_impl> const impl = mock->stream.impl ();
     session.reset (new ss::stream_session (
         context.get_executor (), [impl] (tr::executor_type const &)
-          { return tr::stream::byte_stream (impl); }, options_on (clock)));
+          { return tr::stream::byte_stream (impl); },
+        options_on (clock, max_attempts)));
   }
 
   ~stream_bench_t ()
@@ -356,9 +359,91 @@ TEST (LumexSessionStream, DropConnectionReconnects)
   view.impl ()->drop_connection ();
   bench.settle ();
   EXPECT_EQ (view.impl ()->connection_epoch (), epoch + 1);
+  EXPECT_EQ (bench.session->state (), ss::channel_state::reconnecting);
+  // A dropped link is a failed attempt: the session waits its delay.
+  bench.advance (ms (150));
   EXPECT_EQ (bench.session->state (), ss::channel_state::open);
   EXPECT_EQ (bench.mock->control.open_count (), opens + 1);
   EXPECT_EQ (bench.session->session_statistics ().reconnects, 1u);
+}
+
+TEST (LumexSessionStream, DropConnectionIsAFailedAttemptSoTheWaitGrows)
+{
+  // Falsified by a drop that counts a link which stayed open as a good one:
+  // the wait would stay at the first delay (a device that opens and says
+  // nothing would be opened again and again).
+  stream_bench_t bench;
+  tr::stream::byte_stream view = bench.session->as_byte_stream ();
+  bench.open ();
+  std::size_t opens = bench.mock->control.open_count ();
+  int const waits[] = { 100, 200, 400, 800 };
+  for (std::size_t i = 0; i < 4; ++i)
+    {
+      view.impl ()->drop_connection ();
+      bench.settle ();
+      EXPECT_EQ (bench.session->state (), ss::channel_state::reconnecting)
+          << i;
+      bench.advance (ms (waits[i] - 10));
+      EXPECT_EQ (bench.mock->control.open_count (), opens) << i;
+      bench.advance (ms (20));
+      EXPECT_EQ (bench.mock->control.open_count (), opens + 1) << i;
+      EXPECT_EQ (bench.session->state (), ss::channel_state::open) << i;
+      ++opens;
+      // Longer than the initial delay: the old rule took it for a good one.
+      bench.advance (ms (150));
+    }
+}
+
+TEST (LumexSessionStream, DropConnectionCountsAgainstMaxAttempts)
+{
+  // Falsified by a drop that starts a new cycle each time: the session would
+  // never give up on a device that opens and is dropped.
+  stream_bench_t bench (3);
+  tr::stream::byte_stream view = bench.session->as_byte_stream ();
+  bench.open ();
+  for (int i = 0; i < 2; ++i)
+    {
+      view.impl ()->drop_connection ();
+      bench.settle ();
+      EXPECT_EQ (bench.session->state (), ss::channel_state::reconnecting)
+          << i;
+      bench.advance (ms (1000));
+      EXPECT_EQ (bench.session->state (), ss::channel_state::open) << i;
+    }
+  view.impl ()->drop_connection ();
+  bench.settle ();
+  EXPECT_EQ (bench.session->state (), ss::channel_state::faulted);
+}
+
+TEST (LumexSessionStream, ALinkLostByTheWireAfterADropStartsANewCycle)
+{
+  // A drop makes the wait grow; a link that is lost later on its own (it was
+  // good) starts again from the first attempt, at once, and the cycle after
+  // it waits the first delay.
+  stream_bench_t bench;
+  tr::stream::byte_stream view = bench.session->as_byte_stream ();
+  bench.open ();
+  for (int i = 0; i < 2; ++i)
+    {
+      view.impl ()->drop_connection ();
+      bench.settle ();
+      bench.advance (ms (500));
+      ASSERT_EQ (bench.session->state (), ss::channel_state::open);
+    }
+  // A read pends, so that the session sees the loss of the wire.
+  std::uint8_t byte = 0;
+  view.async_read_some (tr::mutable_bytes_t (&byte, 1),
+                        [] (std::error_code, std::size_t) {});
+  bench.settle ();
+  bench.mock->control.disconnect ();
+  bench.settle ();
+  EXPECT_EQ (bench.session->state (), ss::channel_state::open);
+  bench.advance (ms (150));
+  view.impl ()->drop_connection ();
+  bench.settle ();
+  EXPECT_EQ (bench.session->state (), ss::channel_state::reconnecting);
+  bench.advance (ms (110));
+  EXPECT_EQ (bench.session->state (), ss::channel_state::open);
 }
 
 TEST (LumexSessionStream, DropConnectionOfASessionNotOpenDoesNothing)
@@ -833,6 +918,8 @@ TEST (LumexSessionStream, AsMessageTransport_IsTheSessionWithItsEpoch)
   view.impl ()->drop_connection ();
   bench.settle ();
   EXPECT_EQ (view.impl ()->connection_epoch (), epoch + 2);
+  // The dropped link is a failed attempt: the session waits its delay.
+  bench.advance (ms (150));
   EXPECT_EQ (bench.session->session_statistics ().reconnects, 2u);
   tr::datagram::message_t message;
   message.payload = { 1 };
@@ -890,5 +977,40 @@ TEST (LumexSessionStream,
   bench.settle ();
   ASSERT_TRUE (done);
   EXPECT_EQ (got, (std::vector<std::uint8_t>{ 2 }));
+}
+
+TEST (LumexSessionStream, FramedOverAView_TwoFramesInOneChunkAreBothRead)
+{
+  // Falsified by a hub that takes the second frame of a chunk for one of an
+  // earlier connection and drops it.
+  stream_bench_t bench;
+  tr::framed::framed_stream<fr::slip::slip_codec> framed (
+      bench.session->as_byte_stream (), fr::slip::slip_codec ());
+  bench.open ();
+  std::vector<std::vector<std::uint8_t>> frames;
+  std::function<void ()> read;
+  read = [&] ()
+    {
+      framed.async_read_frame (
+          [&] (std::error_code error, tr::framed::frame_t frame)
+            {
+              if (!error)
+                {
+                  frames.push_back (frame);
+                  read ();
+                }
+            });
+    };
+  read ();
+  bench.settle ();
+  std::vector<std::uint8_t> two = slip_of ({ 1 });
+  std::vector<std::uint8_t> const more = slip_of ({ 2 });
+  two.insert (two.end (), more.begin (), more.end ());
+  bench.mock->control.feed (two);
+  bench.settle ();
+  ASSERT_EQ (frames.size (), 2u);
+  EXPECT_EQ (frames[1], (std::vector<std::uint8_t>{ 2 }));
+  framed.close ();
+  bench.settle ();
 }
 } // namespace

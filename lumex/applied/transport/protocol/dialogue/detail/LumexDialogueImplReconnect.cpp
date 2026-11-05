@@ -342,6 +342,7 @@ dialogue_impl::connection_lost (std::error_code const &reason)
   ++window_sequence_;
   window_timer_.cancel ();
   std::error_code const lost = dialogue_error (protocol_errc::link_lost);
+  timing::time_point_t const lost_at = timers_.now ();
   // A run stands on what the device did so far.
   end_all_runs (lost);
   // What the engine made and what looks for the device of this connection are
@@ -350,7 +351,8 @@ dialogue_impl::connection_lost (std::error_code const &reason)
   queued.swap (queue_);
   for (std::size_t i = 0; i < queued.size (); ++i)
     {
-      if (queued[i]->internal || queued[i]->before_check)
+      if (queued[i]->internal || queued[i]->before_check
+          || loss_ends (*queued[i], lost_at))
         finish (std::move (queued[i]), lost, link_frame_t ());
       else
         queue_.push_back (std::move (queued[i]));
@@ -361,7 +363,7 @@ dialogue_impl::connection_lost (std::error_code const &reason)
   for (std::size_t i = flying.size (); i != 0; --i)
     {
       record_ptr record (std::move (flying[i - 1]));
-      if (!sent_again (*record))
+      if (!sent_again (*record) || loss_ends (*record, lost_at))
         {
           finish (std::move (record), lost, link_frame_t ());
           continue;
@@ -427,6 +429,7 @@ void
 dialogue_impl::start_restoration ()
 {
   restoring_ = true;
+  check_pending_ = true;
   std::uint64_t const restoration = ++restoration_;
   if (!reconnect_steps_.check)
     {
@@ -449,9 +452,10 @@ void
 dialogue_impl::reconnect_checked (std::uint64_t restoration,
                                   std::error_code error, bool same_device)
 {
-  if (restoration != restoration_ || closed_ || connection_down_
-      || !restoring_)
+  if (restoration != restoration_ || closed_ || connection_down_ || !restoring_
+      || !check_pending_)
     return;
+  check_pending_ = false;
   if (error::is_transport_error (error, transport_errc::cancelled))
     {
       // The application cancelled what ran: not the restoration.
@@ -578,23 +582,49 @@ dialogue_impl::fail_waiting (std::error_code const &error)
     }
 }
 
+// Whether the exchange has waited for the dialogue as long as it may, from its
+// first loss; the loss that comes now is its first when it had none.
+bool
+dialogue_impl::loss_ends (exchange_record_t &record, timing::time_point_t now)
+{
+  if (!record.lost_once)
+    {
+      record.lost_once = true;
+      record.first_lost_at = now;
+    }
+  return now >= ::lumex::applied::transport::detail::saturating_add (
+             record.first_lost_at,
+             std::chrono::milliseconds (reconnect_wait_ms_));
+}
+
+// One timer for the queue, set for the exchange whose time ends first.
 void
 dialogue_impl::arm_reconnect_wait ()
 {
-  if (reconnect_wait_armed_ || queue_.empty ())
-    return;
-  if (reconnect_wait_ms_ == 0)
+  bool any = false;
+  timing::time_point_t earliest;
+  for (std::size_t i = 0; i < queue_.size (); ++i)
     {
-      fail_waiting (dialogue_error (protocol_errc::link_lost));
-      return;
+      exchange_record_t const &record = *queue_[i];
+      if (record.before_check || !record.lost_once)
+        continue;
+      timing::time_point_t const end
+          = ::lumex::applied::transport::detail::saturating_add (
+              record.first_lost_at,
+              std::chrono::milliseconds (reconnect_wait_ms_));
+      if (!any || end < earliest)
+        earliest = end;
+      any = true;
     }
+  if (!any || (reconnect_wait_armed_ && reconnect_wait_deadline_ <= earliest))
+    return;
   try
     {
       wait_done_t done = { std::weak_ptr<dialogue_impl> (shared_from_this ()),
                            strand_, ++reconnect_wait_ };
-      reconnect_wait_timer_.async_wait_for (
-          std::chrono::milliseconds (reconnect_wait_ms_), std::move (done));
+      reconnect_wait_timer_.async_wait_until (earliest, std::move (done));
       reconnect_wait_armed_ = true;
+      reconnect_wait_deadline_ = earliest;
     }
   catch (...)
     {
@@ -613,7 +643,25 @@ dialogue_impl::reconnect_wait_done (std::uint64_t wait, std::error_code error)
                             "stopped waiting for the link",
                             log::log_bytes_t ());
   if (!gate_open ())
-    fail_waiting (dialogue_error (protocol_errc::link_lost));
+    expire_waiting ();
+}
+
+// Ends the queued exchanges whose time is up, and waits on for the others.
+void
+dialogue_impl::expire_waiting ()
+{
+  timing::time_point_t const now = timers_.now ();
+  std::deque<record_ptr> queued;
+  queued.swap (queue_);
+  for (std::size_t i = 0; i < queued.size (); ++i)
+    {
+      if (!queued[i]->before_check && loss_ends (*queued[i], now))
+        finish (std::move (queued[i]),
+                dialogue_error (protocol_errc::link_lost), link_frame_t ());
+      else
+        queue_.push_back (std::move (queued[i]));
+    }
+  arm_reconnect_wait ();
 }
 
 // Posted: never inside what ended the restoration, with the state final.

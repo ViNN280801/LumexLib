@@ -511,7 +511,7 @@ dialogue_impl::dialogue_impl (frame_link link,
       keepalive_arm_failed_ (false), state_known_ (false), state_value_ (0),
       reconnects_ (link_.reconnects ()), connection_down_ (false),
       never_opened_ (false), device_checked_ (true), restoring_ (false),
-      restoration_ (0), stream_position_ (0),
+      check_pending_ (false), restoration_ (0), stream_position_ (0),
       reconnect_wait_ms_ (options.reconnect_wait_ms),
       reconnect_wait_timer_ (
           options.timers.make_timer (executor_type (strand_))),

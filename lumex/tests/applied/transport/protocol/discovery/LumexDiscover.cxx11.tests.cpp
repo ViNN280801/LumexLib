@@ -9,6 +9,7 @@
 #include <chrono>
 #include <cstddef>
 #include <cstdint>
+#include <cstdlib>
 #include <future>
 #include <memory>
 #include <mutex>
@@ -16,6 +17,12 @@
 #include <system_error>
 #include <thread>
 #include <vector>
+
+#if defined(__linux__)
+#include <fcntl.h>
+#include <poll.h>
+#include <unistd.h>
+#endif
 
 #include <gtest/gtest.h>
 
@@ -953,5 +960,307 @@ TEST (LumexDiscover, Threads_ManyDiscoveriesOnOneRunner)
   context.stop ();
   first.join ();
   second.join ();
+}
+
+TEST (LumexDiscover, Discover_AFailedWriteIsReportedAsItIsNotAsAWrongDevice)
+{
+  // Falsified by a reason that turns every error of the identification that is
+  // no silence into a wrong device.
+  bench_t bench;
+  place_t &broken = bench.add ();
+  broken.mock.control.fail_next_write (
+      std::make_error_code (std::errc::io_error));
+  std::vector<pr::discovery_candidate_t> candidates;
+  candidates.push_back (broken.candidate ());
+  results_t const results = bench.discover (candidates);
+  ASSERT_EQ (results.size (), 1u);
+  EXPECT_FALSE (results[0].found);
+  EXPECT_NE (results[0].reason, discovery_errc::wrong_device);
+  EXPECT_EQ (results[0].reason, std::errc::io_error);
+}
+
+/// The reply of a device to the identification, framed.
+std::vector<std::uint8_t>
+who_wire (char const *model)
+{
+  std::vector<std::uint8_t> message (1, 0x01);
+  std::string const text = model;
+  message.insert (message.end (), text.begin (), text.end ());
+  message.insert (message.end (), 8 - text.size (), 0);
+  message.push_back (2);
+  message.push_back (0);
+  message.push_back (2);
+  message.push_back (7);
+  return wire_of (message);
+}
+
+/// The wire of the candidates that are reached by a name or an address.
+struct network_wire_t : wire_t
+{
+  static pr::frame_link
+  link (pr::discovery_candidate_t const &candidate,
+        tr::datagram::message_transport opened)
+  {
+    return pr::frame_link (
+        tr::framed::framed_datagram<fr::slip::slip_codec> (
+            std::move (opened), fr::slip::slip_codec ()),
+        candidate.kind
+                == pr::discovery_candidate_t::candidate_kind::network_datagram
+            ? 0
+            : 1);
+  }
+
+  static pr::frame_link
+  link (pr::discovery_candidate_t const &, tr::stream::byte_stream opened)
+  {
+    return pr::frame_link (tr::framed::framed_stream<fr::slip::slip_codec> (
+        std::move (opened), fr::slip::slip_codec ()));
+  }
+};
+
+TEST (LumexDiscover, Discover_AUdpCandidateOverARealSocket)
+{
+  // The datagram kind over a loopback UDP peer: the library opens the
+  // socket, sends the request, reads the answer.
+  asio::io_context context;
+  asio::ip::udp::socket peer (
+      context, asio::ip::udp::endpoint (asio::ip::address_v4::loopback (), 0));
+  peer.non_blocking (true);
+  std::uint16_t const port = peer.local_endpoint ().port ();
+  std::vector<std::uint8_t> const reply = who_wire ("UDP1");
+  std::atomic<int> got (0);
+  std::thread device (
+      [&] ()
+        {
+          std::uint8_t buffer[256];
+          asio::ip::udp::endpoint from;
+          for (int i = 0; i < 1200; ++i)
+            {
+              std::error_code error;
+              std::size_t const n
+                  = peer.receive_from (asio::buffer (buffer), from, 0, error);
+              if (!error && n != 0)
+                {
+                  ++got;
+                  peer.send_to (asio::buffer (reply), from, 0, error);
+                  return;
+                }
+              std::this_thread::sleep_for (std::chrono::milliseconds (5));
+            }
+        });
+  std::vector<pr::discovery_candidate_t> candidates (1);
+  candidates[0].kind
+      = pr::discovery_candidate_t::candidate_kind::network_datagram;
+  candidates[0].network.host = "127.0.0.1";
+  candidates[0].network.port = port;
+  pr::discovery_options_t options;
+  options.per_candidate = ms (3000);
+  int calls = 0;
+  results_t results;
+  pr::async_discover<gauge, network_wire_t> (
+      context.get_executor (), candidates, options,
+      [&] (std::error_code, results_t got_results)
+        {
+          ++calls;
+          results = std::move (got_results);
+          context.stop ();
+        });
+  context.run_for (std::chrono::seconds (8));
+  device.join ();
+  ASSERT_EQ (calls, 1);
+  ASSERT_EQ (results.size (), 1u);
+  EXPECT_EQ (got.load (), 1);
+  EXPECT_TRUE (results[0].found) << results[0].reason.message ();
+  EXPECT_EQ (results[0].identity.model, "UDP1");
+}
+
+#if defined(__linux__)
+TEST (LumexDiscover, Discover_ASerialCandidateOnAPseudoterminal)
+{
+  // The serial kind: the library opens the slave side of a pty as a port,
+  // and the other port that is not there is told apart.
+  int const master = ::posix_openpt (O_RDWR | O_NOCTTY);
+  ASSERT_GE (master, 0);
+  ASSERT_EQ (::grantpt (master), 0);
+  ASSERT_EQ (::unlockpt (master), 0);
+  char const *const name = ::ptsname (master);
+  ASSERT_NE (name, nullptr);
+  std::string const slave = name;
+  std::vector<std::uint8_t> const reply = who_wire ("TTY1");
+  std::atomic<bool> stop (false);
+  std::thread device (
+      [&] ()
+        {
+          int answered = 0;
+          while (!stop.load ())
+            {
+              pollfd waiting = { master, POLLIN, 0 };
+              if (::poll (&waiting, 1, 50) <= 0)
+                continue;
+              std::uint8_t buffer[256];
+              ssize_t const n = ::read (master, buffer, sizeof (buffer));
+              if (n <= 0)
+                continue;
+              bool end = false;
+              for (ssize_t i = 0; i < n; ++i)
+                end = end || buffer[i] == 0xC0;
+              if (end && answered < 2)
+                {
+                  ++answered;
+                  ssize_t const written
+                      = ::write (master, reply.data (), reply.size ());
+                  static_cast<void> (written);
+                }
+            }
+        });
+  asio::io_context context;
+  std::vector<pr::discovery_candidate_t> candidates (2);
+  candidates[0].kind = pr::discovery_candidate_t::candidate_kind::serial;
+  candidates[0].serial.path = slave;
+  candidates[1].kind = pr::discovery_candidate_t::candidate_kind::serial;
+  candidates[1].serial.path = "/dev/lumex_no_such_port";
+  pr::discovery_options_t options;
+  options.per_candidate = ms (3000);
+  int calls = 0;
+  results_t results;
+  pr::async_discover<gauge, wire_t> (
+      context.get_executor (), candidates, options,
+      [&] (std::error_code, results_t got_results)
+        {
+          ++calls;
+          results = std::move (got_results);
+          context.stop ();
+        });
+  context.run_for (std::chrono::seconds (10));
+  stop = true;
+  device.join ();
+  ::close (master);
+  ASSERT_EQ (calls, 1);
+  ASSERT_EQ (results.size (), 2u);
+  EXPECT_TRUE (results[0].found) << results[0].reason.message ();
+  EXPECT_EQ (results[0].identity.model, "TTY1");
+  EXPECT_FALSE (results[1].found);
+  EXPECT_NE (results[1].reason, discovery_errc::wrong_device);
+  EXPECT_NE (results[1].reason, discovery_errc::no_response);
+}
+#endif
+
+TEST (LumexDiscover, Lifetime_TheContextGoesFirstWhileIdentifying)
+{
+  // Falsified by a discovery that keeps a probe alive after its context is
+  // gone, or touches the executor then.
+  auto const keep = std::make_shared<std::vector<std::shared_ptr<void>>> ();
+  int calls = 0;
+  {
+    asio::io_context context;
+    tr::testing::virtual_clock clock;
+    pr::discovery_options_t options;
+    options.timers = clock.source ();
+    options.per_candidate = ms (1000);
+    std::vector<pr::discovery_candidate_t> candidates (3);
+    for (std::size_t i = 0; i < candidates.size (); ++i)
+      {
+        candidates[i].kind = pr::discovery_candidate_t::candidate_kind::stream;
+        candidates[i].stream_factory
+            = [keep, &clock] (tr::executor_type const &executor)
+          {
+            tr::testing::mock_options_t mock_options;
+            mock_options.timers = clock.source ();
+            auto mock = std::make_shared<tr::testing::mock_stream> (
+                tr::testing::make_mock_stream (executor, mock_options));
+            auto device
+                = std::make_shared<tr::testing::device_simulator<gauge_a>> (
+                    mock->control, fr::slip::slip_codec (), clock);
+            device->set_behavior (tr::testing::behavior::silent ());
+            keep->push_back (mock);
+            keep->push_back (device);
+            return std::move (mock->stream);
+          };
+      }
+    pr::async_discover<gauge, wire_t> (
+        context.get_executor (), candidates, options,
+        [&calls, keep] (std::error_code, results_t) { ++calls; });
+    tr::testing::run_until (context, clock, [] () { return false; }, ms (10));
+    // The mocks and the devices go first (the control of a mock keeps its
+    // strand); then the context, with the discovery under way.
+    while (!keep->empty ())
+      keep->pop_back ();
+  }
+  EXPECT_EQ (calls, 0);
+}
+
+TEST (LumexDiscover, Cancel_DuringTheOutOfBandPhases)
+{
+  // Falsified by a cancellation that leaves a probe in the write of the
+  // sequence, in its open, or in the pause after it: every probe ends once
+  // with cancelled, and nothing goes on afterwards.
+  asio::io_context context;
+  tr::testing::virtual_clock clock;
+  std::vector<std::shared_ptr<void>> keep;
+  pr::discovery_options_t options;
+  options.timers = clock.source ();
+  options.per_candidate = ms (5000);
+  options.out_of_band_pause = ms (500);
+  options.parallel = 4;
+  std::vector<pr::discovery_candidate_t> candidates (4);
+  tr::timing::timer_source const timers = clock.source ();
+  for (std::size_t i = 0; i < candidates.size (); ++i)
+    {
+      candidates[i].kind = pr::discovery_candidate_t::candidate_kind::stream;
+      candidates[i].stream_factory
+          = [i, &keep, &clock, timers] (tr::executor_type const &executor)
+        {
+          tr::testing::mock_options_t mock_options;
+          mock_options.timers = timers;
+          auto mock = std::make_shared<tr::testing::mock_stream> (
+              tr::testing::make_mock_stream (executor, mock_options));
+          if (i == 0)
+            mock->control.hold_writes (); // the write of the sequence pends
+          if (i == 1)
+            mock->control.hold_next_open (); // the open pends
+          if (i >= 2)
+            {
+              // 2: in the pause after the write; 3: identifying, silent.
+              auto device
+                  = std::make_shared<tr::testing::device_simulator<gauge_a>> (
+                      mock->control, fr::slip::slip_codec (), clock);
+              device->set_behavior (tr::testing::behavior::silent ());
+              keep.push_back (device);
+            }
+          keep.push_back (mock);
+          return std::move (mock->stream);
+        };
+    }
+  asio::cancellation_signal signal;
+  int calls = 0;
+  std::error_code error;
+  results_t results;
+  pr::async_discover<gauge, switching_wire_t> (
+      context.get_executor (), candidates, options,
+      asio::bind_cancellation_slot (signal.slot (),
+                                    [&] (std::error_code ended, results_t got)
+                                      {
+                                        ++calls;
+                                        error = ended;
+                                        results = std::move (got);
+                                      }));
+  tr::testing::run_until (context, clock, [] () { return false; }, ms (100));
+  EXPECT_EQ (calls, 0);
+  signal.emit (asio::cancellation_type::total);
+  signal.emit (asio::cancellation_type::partial);
+  tr::testing::run_until (context, clock, [] () { return false; }, ms (10));
+  EXPECT_EQ (calls, 1);
+  EXPECT_EQ (error, transport_errc::cancelled);
+  ASSERT_EQ (results.size (), 4u);
+  for (std::size_t i = 0; i < 4; ++i)
+    {
+      EXPECT_FALSE (results[i].found);
+      EXPECT_EQ (results[i].reason, transport_errc::cancelled) << i;
+    }
+  signal.emit (asio::cancellation_type::total);
+  tr::testing::run_until (context, clock, [] () { return false; }, ms (2000));
+  EXPECT_EQ (calls, 1);
+  while (!keep.empty ())
+    keep.pop_back ();
 }
 } // namespace

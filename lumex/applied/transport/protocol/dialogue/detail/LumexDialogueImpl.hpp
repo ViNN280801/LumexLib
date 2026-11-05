@@ -193,6 +193,10 @@ struct exchange_record_t
   bool internal = false;
   /// `exchange_t::before_check`.
   bool before_check = false;
+  /// A lost connection reached it once at least, and when the first one did:
+  /// the time it may wait for the dialogue counts from there.
+  bool lost_once = false;
+  timing::time_point_t first_lost_at;
   /// An attempt waits for its reply.
   bool awaiting = false;
   /// The next attempt waits for the late-reply window to end.
@@ -606,6 +610,8 @@ private:
   void end_restoration (std::error_code const &error);
   void fail_waiting (std::error_code const &error);
   void arm_reconnect_wait ();
+  void expire_waiting ();
+  bool loss_ends (exchange_record_t &record, timing::time_point_t now);
   void report_reconnect (std::error_code const &error);
   void note_enabled_stream (exchange_record_t const &record);
 
@@ -793,6 +799,9 @@ private:
   // A restoration runs; its number: what ends a step of the past changes
   // nothing.
   bool restoring_;
+  // The check of this restoration was not answered yet: its first answer is
+  // taken, a second one changes nothing.
+  bool check_pending_;
   std::uint64_t restoration_;
   // The rows that turned a stream on, in the order they answered, with what
   // they sent: a new connection of the same device sends them again.
@@ -808,6 +817,7 @@ private:
   std::uint32_t reconnect_wait_ms_;
   timing::timer reconnect_wait_timer_;
   bool reconnect_wait_armed_;
+  timing::time_point_t reconnect_wait_deadline_;
   std::uint64_t reconnect_wait_;
   reconnect_steps_t reconnect_steps_;
   // The subscribers and the handlers of unknown frames, of edges and of the

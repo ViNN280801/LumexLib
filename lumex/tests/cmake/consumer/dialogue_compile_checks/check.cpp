@@ -25,13 +25,16 @@
 
 #if LUMEX_DIALOGUE_CASE == 0                                                  \
     || (LUMEX_DIALOGUE_CASE >= 52 && LUMEX_DIALOGUE_CASE <= 71)               \
-    || (LUMEX_DIALOGUE_CASE >= 79 && LUMEX_DIALOGUE_CASE <= 81)
+    || (LUMEX_DIALOGUE_CASE >= 79 && LUMEX_DIALOGUE_CASE <= 83)
 #include <future>
 #include <system_error>
+#include <utility>
 #include <vector>
 
 #include "lumex/applied/transport/protocol/client/LumexProtocolClient.hpp"
 #include "lumex/applied/transport/protocol/discovery/LumexDiscover.hpp"
+#include "lumex/applied/transport/session/LumexMessageSession.hpp"
+#include "lumex/applied/transport/session/LumexStreamSession.hpp"
 #endif
 
 namespace check_tables
@@ -416,7 +419,7 @@ static_assert (dialogue::row_traits_t<check_t, check_t::BOTH_t>::how ()
 
 #if LUMEX_DIALOGUE_CASE == 0                                                  \
     || (LUMEX_DIALOGUE_CASE >= 52 && LUMEX_DIALOGUE_CASE <= 71)               \
-    || (LUMEX_DIALOGUE_CASE >= 79 && LUMEX_DIALOGUE_CASE <= 81)
+    || (LUMEX_DIALOGUE_CASE >= 79 && LUMEX_DIALOGUE_CASE <= 83)
 // The generated client: what a call cannot be.
 namespace check_client
 {
@@ -702,6 +705,16 @@ use_client (pr::client<client_t> &client, value_handler_t handler)
 #elif LUMEX_DIALOGUE_CASE == 81
   // 81: a row named like identity.
   (void)sizeof (pr::client<hides_identity_t>);
+#elif LUMEX_DIALOGUE_CASE == 82
+  // 82: the view of a temporary stream_session, which closes it at once.
+  (void)sizeof (
+      std::declval<::lumex::applied::transport::session::stream_session> ()
+          .as_byte_stream ());
+#elif LUMEX_DIALOGUE_CASE == 83
+  // 83: the view of a temporary message_session.
+  (void)sizeof (
+      std::declval<::lumex::applied::transport::session::message_session> ()
+          .as_message_transport ());
 #endif
 #if LUMEX_DIALOGUE_CASE == 0
   discover_with<client_t> (client.get_executor ());

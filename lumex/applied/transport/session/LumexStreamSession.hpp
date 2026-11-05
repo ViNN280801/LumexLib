@@ -137,10 +137,13 @@ public:
    * stream) for a moved-from session. Any thread.
    */
   stream::byte_stream
-  as_byte_stream () const
+  as_byte_stream () const &
   {
     return stream::byte_stream (detail::make_session_stream (impl_));
   }
+
+  /// A view of a temporary session would close it at once: it is refused.
+  stream::byte_stream as_byte_stream () const && = delete;
 
   /// @brief Reads at least one byte; `void (std::error_code, std::size_t)`.
   template <typename Token>
