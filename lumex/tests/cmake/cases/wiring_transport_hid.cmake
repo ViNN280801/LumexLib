@@ -40,8 +40,8 @@ if(NOT _tests MATCHES "if\\(LUMEX_TRANSPORT_WITH_HID\\)[ \t\r\n]*add_subdirector
 endif()
 
 # No transport source outside hid/ (the umbrella aside) needs the HID files:
-# the transport builds without them. The device watcher watches HID selectors
-# too, so its two files include them, and only after
+# the transport builds without them. The device watcher and the discovery
+# take HID selectors too, so their files include them, and only after
 # `#if defined(LUMEX_TRANSPORT_WITH_HID)`.
 file(GLOB_RECURSE _transport_files
     "${LUMEX_SOURCE_DIR}/lumex/applied/transport/*.hpp"
@@ -52,7 +52,8 @@ foreach(_file IN LISTS _transport_files)
     endif()
     file(READ "${_file}" _text)
     if(_text MATCHES "transport/hid/")
-        if(NOT _file MATCHES "/transport/session/LumexDeviceWatcher\\.[ch]pp$")
+        if(NOT _file MATCHES "/transport/session/LumexDeviceWatcher\\.[ch]pp$"
+                AND NOT _file MATCHES "/transport/protocol/discovery/LumexDiscover\\.hpp$")
             message(FATAL_ERROR "${_file} includes a HID file: the transport would not build without LUMEX_TRANSPORT_WITH_HID")
         endif()
         # The first include must come after the first guard.
