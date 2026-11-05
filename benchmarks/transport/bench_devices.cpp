@@ -4,8 +4,7 @@
 // device streams, all on ONE `io_runner` thread. The loads (the table of
 // bench_transport_tables.hpp):
 //
-//   sized_10   a 2420-byte message at 10 Hz per device (the subscription rate
-//              of a spectrum, assumed 10 Hz);
+//   sized_10   a 2420-byte message at 10 Hz per device (an assumed rate);
 //   sized_25   a 2420-byte message at 25 Hz per device;
 //   small_20   a 16-byte message at 20 Hz per device;
 //   small_25   a 16-byte message at 25 Hz per device;
@@ -26,10 +25,18 @@
 // Equal work: the handlers count the messages they received; the run stops
 // (exit code 1) unless at least 97 % of the messages the rates promise were
 // delivered to the handlers, and `*_devices_only` unless the discarding reader
-// saw the bytes the devices sent. The numbers of messages are in the note.
+// saw at least 97 % of the bytes those messages are (the promised messages
+// times the size of the SLIP frame of each; one message per device may be on
+// its way when the window ends). The numbers of messages are in
+// the note.
+//
+// These figures are the CPU of the work on mocks ("CPU on mocks"): the budget
+// of 16 devices under 10 % of a core is judged on bench_sockets.cpp (real
+// sockets and real timers), never on these rows.
 //
 // Usage: LumexTransportBenchDevices [output.csv] [--quick] [--filter text]
 //        [--list]
+#include <algorithm>
 #include <atomic>
 #include <cstdint>
 #include <cstdio>
@@ -310,6 +317,38 @@ private:
   std::atomic<std::uint64_t> received_{ 0 };
 };
 
+// The bytes of one SLIP frame of a load.
+std::size_t
+frame_bytes (load_t load)
+{
+  switch (load)
+    {
+    case load_t::sized_10:
+      return bt::sample_reply_frame<P::SIZED_10_t> ().size ();
+    case load_t::sized_25:
+      return bt::sample_reply_frame<P::SIZED_25_t> ().size ();
+    case load_t::small_20:
+      return bt::sample_reply_frame<P::SMALL_20_t> ().size ();
+    case load_t::small_25:
+      return bt::sample_reply_frame<P::SMALL_25_t> ().size ();
+    default:
+      break;
+    }
+  return 0;
+}
+
+// The bytes the promised messages are, and the bytes of one message of each
+// device (the bytes that can be on their way when a window ends).
+double
+promised_bytes (scenario_t const &scenario, double seconds, bool one_each)
+{
+  double total = 0;
+  for (int k = 0; k < 4; ++k)
+    total += scenario.counts[k] * (one_each ? 1.0 : kLoads[k].hertz * seconds)
+             * static_cast<double> (frame_bytes (kLoads[k].load));
+  return total;
+}
+
 double
 promised_messages (scenario_t const &scenario, double seconds)
 {
@@ -371,8 +410,26 @@ main (int argc, char **argv)
                     return 1;
                   }
               }
-            else if (got == 0)
-              bt::die ("the discarding reader saw nothing");
+            else
+              {
+                // 97 %, or one message of each device short where that is
+                // more (a window of 2 virtual seconds ends with messages on
+                // their way).
+                double const promised
+                    = promised_bytes (scenario, seconds, false);
+                double const slack = std::max (
+                    promised * 0.03, promised_bytes (scenario, seconds, true));
+                if (static_cast<double> (got) < promised - slack)
+                  {
+                    std::fprintf (stderr,
+                                  "bench_devices: %s: %llu of %.0f bytes "
+                                  "read\n",
+                                  name.c_str (),
+                                  static_cast<unsigned long long> (got),
+                                  promised);
+                    return 1;
+                  }
+              }
             delivered = got;
             percent.push_back (wall / seconds * 100.0);
             cpu_percent.push_back (cpu / seconds * 100.0);
@@ -382,7 +439,8 @@ main (int argc, char **argv)
         std::sort (speed.begin (), speed.end ());
         std::sort (cpu_percent.begin (), cpu_percent.end ());
         std::string note
-            = std::string (with_clients ? "messages=" : "bytes=")
+            = std::string ("CPU on mocks; ")
+              + (with_clients ? "messages=" : "bytes=")
               + std::to_string (delivered) + " per " + std::to_string (seconds)
               + " virtual s; " + "x"
               + std::to_string (static_cast<long> (speed[speed.size () / 2]))

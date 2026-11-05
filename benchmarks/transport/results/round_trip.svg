@@ -1,59 +1,69 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="880" height="494" font-family="sans-serif" font-size="11">
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="574" font-family="sans-serif" font-size="11">
 <rect width="100%" height="100%" fill="#ffffff"/>
 <text x="10" y="20" font-size="14" font-weight="bold">One exchange on mocks</text>
 <text x="10" y="38" fill="#555">microseconds per exchange, log scale</text>
 <text x="262" y="66" text-anchor="end">ping6_virtual</text>
 <rect x="270" y="56" width="138.3" height="13" fill="#2a6fb0"/>
-<text x="412.3" y="66" fill="#333">6.27</text>
-<rect x="270" y="73" width="135.8" height="13" fill="#d0702a"/>
-<text x="409.8" y="83" fill="#333">6.07</text>
+<text x="412.3" y="66" fill="#333">6.28</text>
+<rect x="270" y="73" width="136.5" height="13" fill="#d0702a"/>
+<text x="410.5" y="83" fill="#333">6.13</text>
 <text x="262" y="106" text-anchor="end">ping6_virtual_device_sleep50us</text>
-<rect x="270" y="96" width="359.2" height="13" fill="#2a6fb0"/>
-<text x="633.2" y="106" fill="#333">118</text>
-<rect x="270" y="113" width="364.4" height="13" fill="#d0702a"/>
-<text x="638.4" y="123" fill="#333">127</text>
+<rect x="270" y="96" width="372.0" height="13" fill="#2a6fb0"/>
+<text x="646.0" y="106" fill="#333">140</text>
+<rect x="270" y="113" width="361.6" height="13" fill="#d0702a"/>
+<text x="635.6" y="123" fill="#333">122</text>
 <text x="262" y="146" text-anchor="end">block2420_virtual</text>
-<rect x="270" y="136" width="220.8" height="13" fill="#2a6fb0"/>
-<text x="494.8" y="146" fill="#333">18.8</text>
-<rect x="270" y="153" width="203.3" height="13" fill="#d0702a"/>
-<text x="477.3" y="163" fill="#333">14.9</text>
+<rect x="270" y="136" width="222.4" height="13" fill="#2a6fb0"/>
+<text x="496.4" y="146" fill="#333">19.2</text>
+<rect x="270" y="153" width="203.6" height="13" fill="#d0702a"/>
+<text x="477.6" y="163" fill="#333">14.9</text>
 <text x="262" y="186" text-anchor="end">block2420_virtual_device_sleep50us</text>
-<rect x="270" y="176" width="379.3" height="13" fill="#2a6fb0"/>
-<text x="653.3" y="186" fill="#333">154</text>
-<rect x="270" y="193" width="383.0" height="13" fill="#d0702a"/>
-<text x="657.0" y="203" fill="#333">162</text>
+<rect x="270" y="176" width="369.5" height="13" fill="#2a6fb0"/>
+<text x="643.5" y="186" fill="#333">136</text>
+<rect x="270" y="193" width="383.8" height="13" fill="#d0702a"/>
+<text x="657.8" y="203" fill="#333">164</text>
 <text x="262" y="226" text-anchor="end">ping6_real_timers</text>
-<rect x="270" y="216" width="169.9" height="13" fill="#2a6fb0"/>
-<text x="443.9" y="226" fill="#333">9.55</text>
-<rect x="270" y="233" width="166.5" height="13" fill="#d0702a"/>
-<text x="440.5" y="243" fill="#333">9.13</text>
+<rect x="270" y="216" width="171.5" height="13" fill="#2a6fb0"/>
+<text x="445.5" y="226" fill="#333">9.76</text>
+<rect x="270" y="233" width="167.9" height="13" fill="#d0702a"/>
+<text x="441.9" y="243" fill="#333">9.31</text>
 <text x="262" y="266" text-anchor="end">ping6_real_timers_device_sleep50us</text>
-<rect x="270" y="256" width="378.7" height="13" fill="#2a6fb0"/>
-<text x="652.7" y="266" fill="#333">153</text>
-<rect x="270" y="273" width="365.3" height="13" fill="#d0702a"/>
-<text x="639.3" y="283" fill="#333">128</text>
+<rect x="270" y="256" width="368.3" height="13" fill="#2a6fb0"/>
+<text x="642.3" y="266" fill="#333">133</text>
+<rect x="270" y="273" width="359.6" height="13" fill="#d0702a"/>
+<text x="633.6" y="283" fill="#333">119</text>
 <text x="262" y="306" text-anchor="end">ping6_sync_thread</text>
-<rect x="270" y="296" width="203.0" height="13" fill="#2a6fb0"/>
-<text x="477.0" y="306" fill="#333">14.8</text>
-<rect x="270" y="313" width="203.2" height="13" fill="#d0702a"/>
-<text x="477.2" y="323" fill="#333">14.9</text>
+<rect x="270" y="296" width="203.2" height="13" fill="#2a6fb0"/>
+<text x="477.2" y="306" fill="#333">14.9</text>
+<rect x="270" y="313" width="205.7" height="13" fill="#d0702a"/>
+<text x="479.7" y="323" fill="#333">15.4</text>
 <text x="262" y="346" text-anchor="end">ping6_sync_thread_device_sleep50us</text>
-<rect x="270" y="336" width="364.0" height="13" fill="#2a6fb0"/>
-<text x="638.0" y="346" fill="#333">126</text>
-<rect x="270" y="353" width="379.4" height="13" fill="#d0702a"/>
-<text x="653.4" y="363" fill="#333">155</text>
+<rect x="270" y="336" width="381.3" height="13" fill="#2a6fb0"/>
+<text x="655.3" y="346" fill="#333">159</text>
+<rect x="270" y="353" width="373.4" height="13" fill="#d0702a"/>
+<text x="647.4" y="363" fill="#333">143</text>
 <text x="262" y="386" text-anchor="end">block2420_sync_thread</text>
-<rect x="270" y="376" width="268.8" height="13" fill="#2a6fb0"/>
-<text x="542.8" y="386" fill="#333">35.6</text>
-<rect x="270" y="393" width="242.0" height="13" fill="#d0702a"/>
-<text x="516.0" y="403" fill="#333">24.9</text>
+<rect x="270" y="376" width="254.0" height="13" fill="#2a6fb0"/>
+<text x="528.0" y="386" fill="#333">29.2</text>
+<rect x="270" y="393" width="247.7" height="13" fill="#d0702a"/>
+<text x="521.7" y="403" fill="#333">26.9</text>
 <text x="262" y="426" text-anchor="end">block2420_sync_thread_device_sleep50us</text>
-<rect x="270" y="416" width="386.4" height="13" fill="#2a6fb0"/>
-<text x="660.4" y="426" fill="#333">169</text>
-<rect x="270" y="433" width="372.5" height="13" fill="#d0702a"/>
-<text x="646.5" y="443" fill="#333">141</text>
-<line x1="564.5" y1="48" x2="564.5" y2="454" stroke="#c0392b" stroke-dasharray="4 3"/>
+<rect x="270" y="416" width="385.7" height="13" fill="#2a6fb0"/>
+<text x="659.7" y="426" fill="#333">168</text>
+<rect x="270" y="433" width="383.6" height="13" fill="#d0702a"/>
+<text x="657.6" y="443" fill="#333">163</text>
+<text x="262" y="466" text-anchor="end">ping6_sync_tcp_loopback</text>
+<rect x="270" y="456" width="242.9" height="13" fill="#2a6fb0"/>
+<text x="516.9" y="466" fill="#333">25.2</text>
+<rect x="270" y="473" width="248.8" height="13" fill="#d0702a"/>
+<text x="522.8" y="483" fill="#333">27.3</text>
+<text x="262" y="506" text-anchor="end">ping6_sync_tcp_loopback_device_sleep50us</text>
+<rect x="270" y="496" width="393.7" height="13" fill="#2a6fb0"/>
+<text x="667.7" y="506" fill="#333">187</text>
+<rect x="270" y="513" width="370.7" height="13" fill="#d0702a"/>
+<text x="644.7" y="523" fill="#333">138</text>
+<line x1="564.5" y1="48" x2="564.5" y2="534" stroke="#c0392b" stroke-dasharray="4 3"/>
 <text x="568.5" y="46" fill="#c0392b">budget 50 us</text>
-<rect x="10" y="472" width="10" height="10" fill="#2a6fb0"/><text x="24" y="481">clang</text>
-<rect x="180" y="472" width="10" height="10" fill="#d0702a"/><text x="194" y="481">gcc</text>
+<rect x="10" y="552" width="10" height="10" fill="#2a6fb0"/><text x="24" y="561">clang</text>
+<rect x="180" y="552" width="10" height="10" fill="#d0702a"/><text x="194" y="561">gcc</text>
 </svg>

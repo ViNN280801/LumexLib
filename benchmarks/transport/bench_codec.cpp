@@ -9,9 +9,10 @@
 //
 // Equal work: before timing, every case round-trips its payload (encode, then
 // decode, and the frame must equal the payload) and the run stops when it
-// does not. The loops keep the payload, the wire and the decoded size alive
-// with optimizer barriers (bench::keep_object, bench::keep_value), so a
-// codec call cannot be deleted; the counted frames are written to the note.
+// does not. The loops keep the payload, the wire and the number of delivered
+// frames alive with optimizer barriers (bench::keep_object,
+// bench::keep_value), and after the timing a decode case stops the run unless
+// the codec delivered exactly one frame per decode call and no error.
 //
 // Usage: LumexTransportBenchCodec [output.csv] [--quick] [--filter text]
 //        [--list]
@@ -138,6 +139,7 @@ run_codec (bench::reporter_t &report, bench::options_t const &options,
   if (report.wanted (decode_name))
     {
       counter_t counted;
+      std::uint64_t calls = 0;
       bench::timing_t const timed = bench::measure (
           options,
           [&] (std::uint64_t n)
@@ -148,10 +150,13 @@ run_codec (bench::reporter_t &report, bench::options_t const &options,
                   codec.decode (bytes_view_t (wire.data (), wire.size ()),
                                 counted);
                 }
+              calls += n;
               bench::keep_value (counted.frames);
             });
-      if (counted.frames == 0 || counted.errors != 0)
-        fail (decode_name + ": no frame or an error was delivered");
+      if (counted.frames != calls || counted.errors != 0)
+        fail (decode_name
+              + ": the frames delivered differ from the decode "
+                "calls, or an error was delivered");
       report.add (decode_name, "none", "ns/frame", timed.median, timed.minimum,
                   timed.passes, timed.iterations,
                   "MB/s="
@@ -163,6 +168,7 @@ run_codec (bench::reporter_t &report, bench::options_t const &options,
   if (report.wanted (chunked_name))
     {
       counter_t counted;
+      std::uint64_t calls = 0;
       bench::timing_t const timed = bench::measure (
           options,
           [&] (std::uint64_t n)
@@ -176,10 +182,13 @@ run_codec (bench::reporter_t &report, bench::options_t const &options,
                     codec.decode (bytes_view_t (wire.data () + at, size),
                                   counted);
                   }
+              calls += n;
               bench::keep_value (counted.frames);
             });
-      if (counted.frames == 0 || counted.errors != 0)
-        fail (chunked_name + ": no frame or an error was delivered");
+      if (counted.frames != calls || counted.errors != 0)
+        fail (chunked_name
+              + ": the frames delivered differ from the frames "
+                "fed, or an error was delivered");
       report.add (chunked_name, "none", "ns/frame", timed.median,
                   timed.minimum, timed.passes, timed.iterations,
                   "MB/s="

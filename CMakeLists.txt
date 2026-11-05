@@ -540,9 +540,11 @@ endif()
 # The transport benchmarks need the dialogue engine and the testing doubles of
 # the transport (its simulator), which the transport builds when the protocol
 # and framing modules are on.
-if(LUMEX_BUILD_BENCHMARKS AND LUMEX_BUILD_CORE AND LUMEX_BUILD_TRANSPORT
-   AND LUMEX_BUILD_PROTOCOL AND LUMEX_BUILD_FRAMING
-   AND LUMEX_TRANSPORT_WITH_TESTING)
+lumex_effective_on(_bench_transport_on LUMEX_BUILD_TRANSPORT)
+lumex_effective_on(_bench_protocol_on LUMEX_BUILD_PROTOCOL)
+lumex_effective_on(_bench_framing_on LUMEX_BUILD_FRAMING)
+if(LUMEX_BUILD_BENCHMARKS AND _bench_transport_on AND _bench_protocol_on
+   AND _bench_framing_on AND LUMEX_TRANSPORT_WITH_TESTING)
     message(STATUS "Building benchmarks (benchmarks/transport)")
     add_subdirectory(benchmarks/transport)
 endif()

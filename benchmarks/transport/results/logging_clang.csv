@@ -3,8 +3,8 @@
 # compiler="Clang 23.1.0" cplusplus=201103
 # build=NDEBUG
 benchmark,case,clock,unit,median,min,passes,iterations,loadavg,note
-logging,lazy_below_threshold,none,ns/call,0.861,0.858,7,74055001,1.78,the macro; threshold above the record
-logging,eager_below_threshold,none,ns/call,53.147,52.673,7,1000000,1.78,falsifier: formats before the check
-logging,bare_atomic_load,none,ns/call,0.117,0.114,7,543466037,1.78,an atomic load and a branch
-logging,filtered_component,none,ns/call,12.857,12.830,7,5057980,1.78,level passes; component denied
-logging,enabled_counting_sink,none,ns/call,55.206,54.947,7,1000000,1.78,the record is built and handed to a counting sink; records=8010101
+logging,lazy_below_threshold,none,ns/call,0.863,0.860,7,75726420,2.00,the macro; threshold above the record
+logging,eager_below_threshold,none,ns/call,53.191,53.101,7,1000000,2.00,falsifier: formats before the check
+logging,bare_atomic_load,none,ns/call,0.117,0.117,7,555622610,2.00,an atomic load and a branch
+logging,filtered_component,none,ns/call,12.892,12.832,7,5030896,2.00,level passes; component denied
+logging,enabled_counting_sink,none,ns/call,55.320,54.981,7,1000000,2.00,the record is built and handed to a counting sink; records=8010101

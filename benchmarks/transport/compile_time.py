@@ -9,6 +9,7 @@ compile_time.cpp is compiled once per variant (BENCH_TRANSPORT_CLIENT):
   2  a client over layer device_m1 of the largest test table (device M, 20
      rows), one method instantiated per row of the layer
   3  as 2 over layer device_m2 (15 rows)
+  4  as 2 with the synchronous form of each method (no completion handler)
 
 in three modes: syntax only (-fsyntax-only), code generation as a Debug
 build has it (-O0 -g -c) and as a Release build of this repository has it
@@ -17,6 +18,18 @@ taken from a monotonic clock and the peak resident memory of the compiler
 process from the rusage that wait4 returns for that child alone (Linux).
 The median of --repeats wall times and the largest peak are kept.
 
+The budget is judged per called row of the largest table (variants 2 to 4):
+the time over the headers-only unit divided by the rows (under 0.1 s at
+syntax only, under 1 s with code generation) and the peak memory (under
+1.5 GB); plot_results.py computes the verdicts.
+
+A group of repeats whose load average (one minute, read after the group)
+is above --max-load (default 3.0) is repeated after a pause, up to --retries
+times, and then kept with a warning; the load of each row is in the CSV. The
+average includes the compile itself (1.0) and the desktop session of the
+machine (about 1.7 on the machine of the committed run), so a quiet machine
+shows about 2.7 and the limit only catches another job.
+
 Usage:
     python3 compile_time.py --compiler gcc=/opt/gcc-13.2.0/bin/g++ \
         --compiler clang=/opt/llvm-23.1.0/bin/clang++ --repeats 3
@@ -24,7 +37,7 @@ Usage:
 The include directories and defines the transport headers need come from
 --asio-include (default: 3rdparty/asio/include of the checkout). Writes
 --out-dir/compile_time.csv (default: results/ next to this script). Standard
-library only; Linux (wait4).
+library only; Linux only (fork, wait4).
 """
 
 import argparse
@@ -39,7 +52,8 @@ import time
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, "..", ".."))
 VARIANTS = [(0, "headers"), (1, "table7_one_method"),
-            (2, "device_m1_20_methods"), (3, "device_m2_15_methods")]
+            (2, "device_m1_20_methods"), (3, "device_m2_15_methods"),
+            (4, "device_m1_sync_20_methods")]
 # The modes: syntax only; code generation as a Debug build has it (-O0 -g);
 # as a Release build of this repository has it (-O2 -g -DNDEBUG).
 MODES = [("syntax", ["-fsyntax-only"]), ("O0", ["-O0", "-g", "-c"]),
@@ -53,6 +67,12 @@ DEFINES = ["-DASIO_STANDALONE", "-DASIO_NO_DEPRECATED",
 def die(message):
     sys.stderr.write("compile_time.py: error: %s\n" % message)
     sys.exit(1)
+
+
+def require_linux():
+    """The script forks and reads the rusage of the compiler (Linux)."""
+    if not sys.platform.startswith("linux") or not hasattr(os, "wait4"):
+        die("Linux only (os.fork, os.wait4); this is %s" % sys.platform)
 
 
 def command_line(command, variant, mode_flags, standard, asio, output):
@@ -94,6 +114,7 @@ def run_measured(line):
 
 
 def main():
+    require_linux()
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--compiler", action="append", required=True,
                         help="name=command, repeatable")
@@ -108,6 +129,9 @@ def main():
     parser.add_argument("--out-dir", default=os.path.join(HERE, "results"))
     parser.add_argument("--scratch", default="/tmp",
                         help="where the object files go (deleted)")
+    parser.add_argument("--max-load", type=float, default=3.0)
+    parser.add_argument("--retries", type=int, default=2)
+    parser.add_argument("--pause", type=int, default=60)
     args = parser.parse_args()
 
     rows = []
@@ -119,28 +143,42 @@ def main():
             if args.mode and mode not in args.mode:
                 continue
             for variant, label in VARIANTS:
-                times = []
-                peak = 0.0
-                output = os.path.join(args.scratch,
-                                      "lumex_ct_%d.o" % os.getpid())
-                for _ in range(args.repeats):
-                    line = command_line(command, variant, flags,
-                                        args.standard, args.asio_include,
-                                        output)
-                    seconds, rss, code, text = run_measured(line)
-                    if code != 0:
-                        die("%s failed:\n%s" % (" ".join(line), text[-4000:]))
-                    times.append(seconds)
-                    peak = max(peak, rss)
-                if os.path.exists(output):
-                    os.remove(output)
+                for attempt in range(args.retries + 1):
+                    times = []
+                    peak = 0.0
+                    output = os.path.join(args.scratch,
+                                          "lumex_ct_%d.o" % os.getpid())
+                    for _ in range(args.repeats):
+                        line = command_line(command, variant, flags,
+                                            args.standard, args.asio_include,
+                                            output)
+                        seconds, rss, code, text = run_measured(line)
+                        if code != 0:
+                            die("%s failed:\n%s" % (" ".join(line),
+                                                    text[-4000:]))
+                        times.append(seconds)
+                        peak = max(peak, rss)
+                    if os.path.exists(output):
+                        os.remove(output)
+                    load = os.getloadavg()[0]
+                    if load <= args.max_load or attempt == args.retries:
+                        if load > args.max_load:
+                            sys.stderr.write(
+                                "warning: load %.2f above %.1f for %s %s %s\n"
+                                % (load, args.max_load, name, mode, label))
+                        break
+                    sys.stderr.write("load %.2f above %.1f: repeating %s %s "
+                                     "%s in %d s\n"
+                                     % (load, args.max_load, name, mode,
+                                        label, args.pause))
+                    time.sleep(args.pause)
                 rows.append({"toolchain": name, "standard": args.standard,
                              "mode": mode, "variant": label,
                              "median_s": "%.2f" % statistics.median(times),
                              "min_s": "%.2f" % min(times),
                              "peak_rss_mb": "%.0f" % peak,
                              "repeats": args.repeats,
-                             "loadavg": "%.2f" % os.getloadavg()[0]})
+                             "loadavg": "%.2f" % load})
                 sys.stderr.write("%s %s %s: %s s, %s MB\n"
                                  % (name, mode, label, rows[-1]["median_s"],
                                     rows[-1]["peak_rss_mb"]))

@@ -1,0 +1,11 @@
+# benchmark=sockets
+# machine="12th Gen Intel(R) Core(TM) i7-12700K" logical_cpus=20
+# compiler="Clang 23.1.0" cplusplus=201103
+# build=NDEBUG
+benchmark,case,clock,unit,median,min,passes,iterations,loadavg,note
+sockets,sized_25_whole,real,busy_%_of_a_core,3.147,3.019,3,10,1.68,16 clients on one io_runner thread over TCP loopback; 400.1 of 400 messages/s (100 %); 78.6 us of CPU per message; 577 voluntary context switches/s
+sockets,sized_10_whole,real,busy_%_of_a_core,1.353,1.280,3,10,2.03,16 clients on one io_runner thread over TCP loopback; 160.0 of 160 messages/s (100 %); 84.6 us of CPU per message; 227 voluntary context switches/s
+sockets,small_25_whole,real,busy_%_of_a_core,2.332,1.866,3,10,2.21,16 clients on one io_runner thread over TCP loopback; 400.0 of 400 messages/s (100 %); 58.3 us of CPU per message; 585 voluntary context switches/s
+sockets,small_20_whole,real,busy_%_of_a_core,1.650,1.615,3,10,1.97,16 clients on one io_runner thread over TCP loopback; 320.1 of 320 messages/s (100 %); 51.5 us of CPU per message; 477 voluntary context switches/s
+sockets,sized_25_chunks64,real,busy_%_of_a_core,23.864,22.346,3,10,2.25,16 clients on one io_runner thread over TCP loopback; 347.7 of 400 messages/s (87 %); 686.3 us of CPU per message; 1098 voluntary context switches/s
+sockets,sized_10_chunks64,real,busy_%_of_a_core,11.328,10.736,3,10,2.38,16 clients on one io_runner thread over TCP loopback; 160.0 of 160 messages/s (100 %); 708.0 us of CPU per message; 992 voluntary context switches/s

@@ -16,23 +16,37 @@
 //        `client.PING (...)` from the benchmark thread while another thread
 //        runs the context (clock: real): the cost includes the hand-off
 //        between the two threads.
+//   ping6_sync_tcp_loopback   the same synchronous call over a real TCP
+//        connection on the loopback interface (clock: real): the client runs
+//        on an io_runner with real timers and sockets, and a peer thread of
+//        the benchmark answers every request with the sample reply at once.
 //
-// Falsification: each of the first three cases is also run with a sleep of
-// 50 microseconds put into the handler of the simulator
-// (`*_device_sleep50us`); the benchmark stops (exit code 1) unless that
+// Falsification: each case is also run with a sleep of 50 microseconds put
+// into the handler of the simulator (into the peer thread for the TCP case;
+// `*_device_sleep50us`); the benchmark stops (exit code 1) unless that
 // variant is at least 40 microseconds slower than its base. Equal work: after
-// each case the simulator's request count must equal the calls made, the
-// client's statistics must count the same requests and no call may end with an
-// error. The loops keep the results with optimizer barriers.
+// each case the simulator's request count (the peer's for the TCP case) must
+// equal the calls made, the client's statistics must count the same requests
+// (the threaded cases too) and no call may end with an error. The loops keep
+// the results with optimizer barriers.
 //
 // Usage: LumexTransportBenchDialogue [output.csv] [--quick] [--filter text]
 //        [--list]
+#include <atomic>
+#include <chrono>
 #include <cstdint>
 #include <cstdio>
+#include <memory>
 #include <string>
+#include <thread>
+#include <vector>
+
+#include "asio/buffer.hpp"
+#include "asio/write.hpp"
 
 #include "bench_transport_common.hpp"
 #include "bench_transport_rig.hpp"
+#include "bench_transport_tcp.hpp"
 
 namespace
 {
@@ -147,6 +161,106 @@ threaded_case (bench::options_t const &options, bool sleeping, bool block,
                           });
   if (rig.device ().statistics ().requests != calls)
     bt::die ("the simulator saw another number of requests than were made");
+  if (rig.client ().statistics ().requests != calls)
+    bt::die ("the client counted another number of requests than were made");
+  rate_t rate = { timed, calls };
+  return rate;
+}
+
+// A client over a real TCP connection on the loopback interface: the client
+// runs on an io_runner (real timers, real sockets); a thread of the benchmark
+// reads each request and answers it with the sample reply, after `delay`.
+class tcp_rig_t
+{
+public:
+  explicit tcp_rig_t (std::chrono::microseconds delay)
+      : runner_ (1), delay_ (delay),
+        frame_ (bt::sample_reply_frame<P::PING_t> ())
+  {
+    client_ = loopback_.connect (runner_, peer_, nullptr);
+    answerer_ = std::thread ([this] () { answer (); });
+  }
+
+  ~tcp_rig_t ()
+  {
+    std::error_code error;
+    peer_->shutdown (bt::tcp::socket::shutdown_both, error);
+    answerer_.join ();
+    bt::on_runner (runner_, [this] () { client_.reset (); });
+  }
+
+  tcp_rig_t (tcp_rig_t const &) = delete;
+  tcp_rig_t &operator= (tcp_rig_t const &) = delete;
+
+  bt::client_type &
+  client ()
+  {
+    return *client_;
+  }
+
+  /// The requests the peer has read.
+  std::uint64_t
+  requests_seen () const
+  {
+    return seen_.load ();
+  }
+
+private:
+  void
+  answer ()
+  {
+    std::uint8_t buffer[256];
+    std::error_code error;
+    for (;;)
+      {
+        peer_->read_some (asio::buffer (buffer), error);
+        if (error)
+          return;
+        seen_.fetch_add (1);
+        if (delay_.count () > 0)
+          std::this_thread::sleep_for (delay_);
+        asio::write (*peer_, asio::buffer (frame_), error);
+        if (error)
+          return;
+      }
+  }
+
+  bt::tr::stream::io_runner runner_;
+  bt::loopback_t loopback_;
+  std::unique_ptr<bt::tcp::socket> peer_;
+  std::unique_ptr<bt::client_type> client_;
+  std::chrono::microseconds delay_;
+  std::vector<std::uint8_t> frame_;
+  std::atomic<std::uint64_t> seen_{ 0 };
+  std::thread answerer_;
+};
+
+rate_t
+tcp_case (bench::options_t const &options, bool sleeping)
+{
+  tcp_rig_t rig (std::chrono::microseconds (sleeping ? 50 : 0));
+  auto call = [&rig] ()
+    {
+      bt::pr::call_result_t<P::PING_t> const reply
+          = rig.client ().PING (std::uint32_t (7), std::uint8_t (1));
+      bench::keep_object (reply);
+      if (!reply)
+        bt::die ("a sync PING over TCP failed");
+    };
+  call (); // warm up and verify
+  std::uint64_t calls = 1;
+  bench::timing_t const timed
+      = bench::measure (options,
+                        [&] (std::uint64_t n)
+                          {
+                            for (std::uint64_t i = 0; i < n; ++i)
+                              call ();
+                            calls += n;
+                          });
+  if (rig.requests_seen () != calls)
+    bt::die ("the peer saw another number of requests than were made");
+  if (rig.client ().statistics ().requests != calls)
+    bt::die ("the client counted another number of requests than were made");
   rate_t rate = { timed, calls };
   return rate;
 }
@@ -263,6 +377,27 @@ main (int argc, char **argv)
                   slowed.timing.iterations,
                   "falsifier: sleep_for (50 us) in the simulator handler");
     }
+
+  {
+    std::string const name = "ping6_sync_tcp_loopback";
+    std::string const slow = name + "_device_sleep50us";
+    if (report.wanted (name) || report.wanted (slow))
+      {
+        rate_t const base = tcp_case (options, false);
+        report.add (name, "real", "ns/exchange", base.timing.median,
+                    base.timing.minimum, base.timing.passes,
+                    base.timing.iterations,
+                    "sync call over TCP on the loopback interface; the client "
+                    "on an io_runner with real timers");
+        rate_t const slowed = tcp_case (options, true);
+        require_slower (name.c_str (), base.timing.median,
+                        slowed.timing.median);
+        report.add (slow, "real", "ns/exchange", slowed.timing.median,
+                    slowed.timing.minimum, slowed.timing.passes,
+                    slowed.timing.iterations,
+                    "falsifier: sleep_for (50 us) in the peer thread");
+      }
+  }
 
   if (!report.write (options.output, bench::machine_comments ("dialogue")))
     bt::die ("cannot write the output");

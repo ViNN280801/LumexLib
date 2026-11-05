@@ -6,16 +6,20 @@ Markdown report with the budgets and SVG charts.
     python3 plot_results.py [results_dir]
 
 Reads <dir>/<benchmark>_<toolchain>.csv for codec, protocol, logging,
-dialogue and devices, and <dir>/compile_time.csv when it exists. Writes into
-<dir>:
+dialogue, devices and sockets, and <dir>/compile_time.csv when it exists.
+Writes into <dir>:
 
     transport_benchmark.md   the numbers and the budgets of the plan (question
                              14), a verdict per toolchain
     codec_throughput.svg     MB/s of every codec at 2420 bytes (encode and
                              decode), per toolchain
     round_trip.svg           the time of one exchange per case (log scale)
-    devices.svg              CPU as a share of one core for 16 devices
-    compile_time.svg         seconds and peak memory of a client over a table
+    devices.svg              CPU of the work of 16 devices on mocks (virtual
+                             clock; no verdict)
+    sockets.svg              CPU as a share of one core for 16 devices over
+                             real sockets and timers (the budget is judged
+                             here)
+    compile_time.svg         seconds of a client over a table
 
 Standard library only.
 """
@@ -27,7 +31,19 @@ import os
 import sys
 from xml.sax.saxutils import escape
 
-BENCHES = ["codec", "protocol", "logging", "dialogue", "devices"]
+BENCHES = ["codec", "protocol", "logging", "dialogue", "devices", "sockets"]
+TITLES = {
+    "devices": "devices (CPU on mocks, virtual clock: no budget verdict)",
+    "sockets": "sockets (16 devices over TCP loopback, real timers; the "
+               "chunked rows have no budget)",
+}
+# Called rows of each compile-time variant.
+CALLED_ROWS = {"table7_one_method": 1, "device_m1_20_methods": 20,
+               "device_m2_15_methods": 15, "device_m1_sync_20_methods": 20}
+# The budget per called row of the largest table: seconds at syntax only and
+# with code generation, and the peak memory of the compiler in MB.
+ROW_SECONDS = {"syntax": 0.1, "O0": 1.0, "O2": 1.0}
+PEAK_MB = 1500.0
 COLORS = ["#2a6fb0", "#d0702a", "#3b8f5a", "#8a4fa6"]
 
 
@@ -174,8 +190,6 @@ def budgets(results, compile_rows):
     out.append(("describe of a 100-byte frame: under 5 us",
                 each("protocol", "describe_rx_100", "median",
                      lambda r: number(r) / 1000.0, 5.0, True, "%.2f us")))
-    for tool in tools:
-        pass
     slowest = []
     for tool in tools:
         rows = [r for c, r in results["codec"].get(tool, {}).items()
@@ -188,26 +202,37 @@ def budgets(results, compile_rows):
                             worst["loadavg"]))
     out.append(("Codecs at 2420 bytes: at least 100 MB/s (the slowest shown)",
                 slowest))
-    for case, label in (("sized_25_with_clients", "2420 bytes at 25 Hz"),
-                        ("small_25_with_clients", "16 bytes at 25 Hz"),
-                        ("small_20_with_clients", "16 bytes at 20 Hz"),
-                        ("mixed_with_clients", "mixed loads")):
-        out.append(("16 devices on one io_runner thread, %s: under 10 %% of "
-                    "a core" % label,
-                    each("devices", case, "median", lambda r: number(r),
+    for case, label in (("sized_25_whole", "2420 bytes at 25 Hz"),
+                        ("sized_10_whole", "2420 bytes at 10 Hz"),
+                        ("small_25_whole", "16 bytes at 25 Hz"),
+                        ("small_20_whole", "16 bytes at 20 Hz")):
+        out.append(("16 devices on one io_runner thread, real sockets and "
+                    "timers, a whole frame per write, %s: under 10 %% of a "
+                    "core" % label,
+                    each("sockets", case, "median", lambda r: number(r),
                          10.0, True, "%.2f %%")))
-    for tool, rows in compile_rows.items():
-        base = rows.get(("O0", "headers"))
+    for variant in ("device_m1_20_methods", "device_m2_15_methods",
+                    "device_m1_sync_20_methods"):
+        count = CALLED_ROWS[variant]
         for mode in ("syntax", "O0", "O2"):
-            head = rows.get((mode, "headers"))
-            big = rows.get((mode, "device_m1_20_methods"))
-            if head and big:
-                delta = float(big["median_s"]) - float(head["median_s"])
-                out.append(("Client over the largest table adds under 2 s "
-                            "(%s, %s)" % (tool, mode),
-                            [(tool, "+%.2f s, %s MB" % (
-                                delta, big["peak_rss_mb"]), delta < 2.0,
-                                big["loadavg"])]))
+            verdicts = []
+            for tool, rows in compile_rows.items():
+                head = rows.get((mode, "headers"))
+                big = rows.get((mode, variant))
+                if not (head and big):
+                    continue
+                per_row = (float(big["median_s"])
+                           - float(head["median_s"])) / count
+                peak = float(big["peak_rss_mb"])
+                verdicts.append((tool, "%.3f s per row, %.0f MB" % (
+                    per_row, peak),
+                    per_row < ROW_SECONDS[mode] and peak < PEAK_MB,
+                    big["loadavg"]))
+            if verdicts:
+                out.append(("Compile time of %s (%d called rows), %s: under "
+                            "%s s per called row, peak memory under %.0f MB"
+                            % (variant, count, mode, ROW_SECONDS[mode],
+                               PEAK_MB), verdicts))
     return out
 
 
@@ -243,7 +268,7 @@ def main():
     for bench in BENCHES:
         if not results[bench]:
             continue
-        md.append("## " + bench)
+        md.append("## " + TITLES.get(bench, bench))
         md.append("")
         cases = []
         for tool in tools:
@@ -281,13 +306,22 @@ def main():
             if line.startswith("compiler"):
                 md.append("- " + line)
         md.append("")
-        header = ["Toolchain", "Mode", "Variant", "Median s", "Min s",
+        header = ["Toolchain", "Mode", "Variant", "Called rows", "Median s",
+                  "Min s", "Seconds per called row (over headers)",
                   "Peak MB", "Load"]
         table = []
         for tool, rows_ in compile_rows.items():
             for (mode, variant), r in sorted(rows_.items()):
-                table.append([tool, mode, variant, r["median_s"], r["min_s"],
-                              r["peak_rss_mb"], r["loadavg"]])
+                head = rows_.get((mode, "headers"))
+                count = CALLED_ROWS.get(variant)
+                per_row = "-"
+                if head and count:
+                    per_row = "%.3f" % ((float(r["median_s"])
+                                         - float(head["median_s"])) / count)
+                table.append([tool, mode, variant,
+                              str(count) if count else "-", r["median_s"],
+                              r["min_s"], per_row, r["peak_rss_mb"],
+                              r["loadavg"]])
         md += md_table(header, table)
         md.append("")
 
@@ -328,11 +362,26 @@ def main():
                 fleets.append(case)
     if fleets:
         svg_bars(os.path.join(directory, "devices.svg"),
-                 "16 devices on one io_runner thread",
-                 "CPU as a percentage of one core (virtual clock)", fleets,
+                 "CPU on mocks: 16 devices on one io_runner thread",
+                 "CPU as a percentage of one core (virtual clock, no "
+                 "verdict)", fleets,
                  [(t, [number(results["devices"][t][c])
                        if c in results["devices"].get(t, {}) else None
-                       for c in fleets]) for t in tools],
+                       for c in fleets]) for t in tools])
+    socket_cases = []
+    for tool in tools:
+        for case in results["sockets"].get(tool, {}):
+            if case not in socket_cases:
+                socket_cases.append(case)
+    if socket_cases:
+        svg_bars(os.path.join(directory, "sockets.svg"),
+                 "16 devices on one io_runner thread over TCP loopback",
+                 "runner thread CPU as a percentage of one core (real "
+                 "sockets and timers; budget on the whole-frame rows)",
+                 socket_cases,
+                 [(t, [number(results["sockets"][t][c])
+                       if c in results["sockets"].get(t, {}) else None
+                       for c in socket_cases]) for t in tools],
                  rule=10, rule_label="budget 10 %")
     if compile_rows:
         labels = []
@@ -341,7 +390,7 @@ def main():
             for mode in ("syntax", "O0", "O2"):
                 labels.append("%s %s" % (tool, mode))
         variants = ["headers", "table7_one_method", "device_m1_20_methods",
-                    "device_m2_15_methods"]
+                    "device_m2_15_methods", "device_m1_sync_20_methods"]
         for variant in variants:
             values = []
             for tool, rows_ in compile_rows.items():

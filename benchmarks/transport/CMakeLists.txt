@@ -13,7 +13,12 @@
 #   LumexTransportBenchLogging    LUMEX_TRANSPORT_LOG below the threshold,
 #                                 with its falsifier (clock: none)
 #   LumexTransportBenchDialogue   one exchange on mocks (virtual and real)
-#   LumexTransportBenchDevices    16 devices on one io_runner (virtual)
+#   LumexTransportBenchDevices    16 devices on one io_runner, CPU on mocks
+#                                 (virtual clock; no budget verdict)
+#   LumexTransportBenchSockets    16 devices on one io_runner over TCP
+#                                 loopback with real timers (real clock;
+#                                 Linux only); the 16-device budget is
+#                                 judged on this one
 #
 # The compile time of a client over a device table is measured by
 # compile_time.py, which compiles outside this build.
@@ -30,6 +35,11 @@ set(_lumex_transport_bench_sources
     Logging:bench_logging.cpp
     Dialogue:bench_dialogue.cpp
     Devices:bench_devices.cpp)
+# The load over real sockets reads the CPU time of the runner thread
+# (CLOCK_THREAD_CPUTIME_ID, RUSAGE_THREAD).
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    list(APPEND _lumex_transport_bench_sources Sockets:bench_sockets.cpp)
+endif()
 
 set(LUMEX_TRANSPORT_BENCH_TARGETS "")
 foreach(_entry IN LISTS _lumex_transport_bench_sources)
@@ -49,13 +59,6 @@ foreach(_entry IN LISTS _lumex_transport_bench_sources)
     if(MSVC)
         target_compile_options(${_target} PRIVATE /utf-8)
     endif()
-    # As the tests and examples: the strict warning set of the repository is
-    # for the library's own sources (the protocol headers still have
-    # -Wfloat-equal findings in a translation unit that includes them).
-    if(COMMAND suppress_warnings_for_sources)
-        suppress_warnings_for_sources(${_target} MATCH ".*" ALL)
-    endif()
-    set_property(TARGET ${_target} PROPERTY LUMEX_SUPPRESS_ALL_WARNINGS TRUE)
     list(APPEND LUMEX_TRANSPORT_BENCH_TARGETS ${_target})
 endforeach()
 

@@ -3,13 +3,15 @@
 # compiler="Clang 23.1.0" cplusplus=201103
 # build=NDEBUG
 benchmark,case,clock,unit,median,min,passes,iterations,loadavg,note
-dialogue,ping6_virtual,virtual,ns/exchange,6274.900,6259.723,7,10000,1.78,async; 6-byte reply
-dialogue,ping6_virtual_device_sleep50us,virtual,ns/exchange,118075.798,116945.931,7,593,1.78,falsifier: sleep_for (50 us) in the simulator handler
-dialogue,block2420_virtual,virtual,ns/exchange,18783.630,18728.861,7,3380,1.78,async; 2420-byte reply
-dialogue,block2420_virtual_device_sleep50us,virtual,ns/exchange,154166.287,128553.513,7,536,1.78,falsifier: sleep_for (50 us) in the simulator handler
-dialogue,ping6_real_timers,real,ns/exchange,9548.224,9503.119,7,5440,1.78,async; 6-byte reply
-dialogue,ping6_real_timers_device_sleep50us,real,ns/exchange,153075.496,149951.815,7,579,1.80,falsifier: sleep_for (50 us) in the simulator handler
-dialogue,ping6_sync_thread,real,ns/exchange,14838.577,14542.842,7,4221,1.80,sync call; the context runs on another thread
-dialogue,ping6_sync_thread_device_sleep50us,real,ns/exchange,125840.259,122316.120,7,549,1.80,falsifier: sleep_for (50 us) in the simulator handler
-dialogue,block2420_sync_thread,real,ns/exchange,35566.273,31283.645,7,2293,1.80,sync call; the context runs on another thread
-dialogue,block2420_sync_thread_device_sleep50us,real,ns/exchange,169460.232,139895.042,7,474,1.80,falsifier: sleep_for (50 us) in the simulator handler
+dialogue,ping6_virtual,virtual,ns/exchange,6280.835,6263.725,7,10000,1.83,async; 6-byte reply
+dialogue,ping6_virtual_device_sleep50us,virtual,ns/exchange,140017.472,122598.091,7,591,1.83,falsifier: sleep_for (50 us) in the simulator handler
+dialogue,block2420_virtual,virtual,ns/exchange,19185.962,18897.040,7,3247,1.83,async; 2420-byte reply
+dialogue,block2420_virtual_device_sleep50us,virtual,ns/exchange,135522.380,126884.970,7,532,1.83,falsifier: sleep_for (50 us) in the simulator handler
+dialogue,ping6_real_timers,real,ns/exchange,9758.007,9726.982,7,5543,1.83,async; 6-byte reply
+dialogue,ping6_real_timers_device_sleep50us,real,ns/exchange,133284.263,111890.401,7,578,1.76,falsifier: sleep_for (50 us) in the simulator handler
+dialogue,ping6_sync_thread,real,ns/exchange,14870.890,14488.276,7,4452,1.76,sync call; the context runs on another thread
+dialogue,ping6_sync_thread_device_sleep50us,real,ns/exchange,158516.906,121399.471,7,541,1.76,falsifier: sleep_for (50 us) in the simulator handler
+dialogue,block2420_sync_thread,real,ns/exchange,29187.909,28238.601,7,2020,1.76,sync call; the context runs on another thread
+dialogue,block2420_sync_thread_device_sleep50us,real,ns/exchange,167856.510,135883.889,7,494,1.76,falsifier: sleep_for (50 us) in the simulator handler
+dialogue,ping6_sync_tcp_loopback,real,ns/exchange,25206.760,23519.697,7,2191,1.76,sync call over TCP on the loopback interface; the client on an io_runner with real timers
+dialogue,ping6_sync_tcp_loopback_device_sleep50us,real,ns/exchange,186880.675,148673.980,7,493,1.76,falsifier: sleep_for (50 us) in the peer thread
