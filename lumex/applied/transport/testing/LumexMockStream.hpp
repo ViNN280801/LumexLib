@@ -47,7 +47,7 @@
  * `fail_write_after` lets some writes succeed and fails the next one,
  * `disconnect` ends the pending and later reads with `disconnected` (bytes
  * fed before it are read first; writes and bytes fed after it fail or are
- * dropped until the next open),
+ * dropped until the next open; bytes nobody read are gone with a close),
  * `set_write_chunk` limits how many bytes one write takes (to exercise
  * `write_all`), `written` returns every byte the stream wrote. A read waits
  * for bytes indefinitely: a test bounds it with a deadline, `cancel` or

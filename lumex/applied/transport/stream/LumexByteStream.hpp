@@ -158,6 +158,33 @@ public:
   stream_impl (executor_type const &executor, std::string name);
   ~stream_impl () override;
 
+  /// @brief Whether the stream connects again by itself: its `is_open ()` goes
+  /// false and true again without a close and an open from outside (a view of
+  /// a session). By default no.
+  virtual bool
+  reconnects () const LUMEX_NOEXCEPT
+  {
+    return false;
+  }
+
+  /// @brief Sets who hears the connection of a stream that `reconnects ()`
+  /// (any thread; an empty handler removes it). The handler runs on the
+  /// strand, never inside the call, and a change that happened before the call
+  /// is not reported: read `is_open ()` on the strand after it. By default
+  /// nothing.
+  virtual void
+  watch_connection (connection_handler_t)
+  {
+  }
+
+  /// @brief Gives up the connection (any thread): a stream that `reconnects
+  /// ()` connects again, any other closes.
+  virtual void
+  drop_connection ()
+  {
+    start_close ();
+  }
+
   stream_impl (stream_impl const &) = delete;
   stream_impl &operator= (stream_impl const &) = delete;
 
@@ -283,6 +310,16 @@ public:
   void drop_kept_handlers () LUMEX_NOEXCEPT override;
 
 protected:
+  /// @brief Runs every operation on `strand`, a strand of `executor`: an
+  /// implementation that lives on the strand of what it wraps (a view of a
+  /// session).
+  stream_impl (executor_type const &executor, strand_type const &strand,
+               std::string name);
+
+  /// @brief The connection is over although nobody closed the stream: the
+  /// close count grows, as for a close (on the strand).
+  void note_connection_over () LUMEX_NOEXCEPT;
+
   /// @brief Opens; completes with an error or success.
   virtual void do_open (status_handler_t handler) = 0;
   /// @brief Reads at least one byte, or completes with an error.

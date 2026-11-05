@@ -48,6 +48,7 @@
 #include <chrono>
 #include <cstddef>
 #include <cstdint>
+#include <functional>
 #include <system_error>
 
 #include "lumex/applied/transport/detail/LumexAsio.hpp"
@@ -92,6 +93,25 @@ using status_result_t
 /// @brief The result of a synchronous read or write: the byte count.
 using io_result_t
     = lumex::core::expected::result::expected<std::size_t, std::error_code>;
+
+/// @brief What a transport that connects again by itself says of its
+/// connection (`stream_session::as_byte_stream`,
+/// `message_session::as_message_transport`).
+enum class connection_event : std::uint8_t
+{
+  /// The connection is open: the first one or a new one.
+  opened,
+  /// The connection is over and the transport is connecting again.
+  lost,
+  /// The connection is over and the transport stopped trying (its session was
+  /// closed or faulted); a new start of the session may still open it.
+  gave_up
+};
+
+/// @brief Receives the events of a connection, in order, on the strand of the
+/// transport; `reason` says why it is over (empty for `opened`).
+using connection_handler_t = std::function<void (
+    connection_event event, std::error_code const &reason)>;
 } // namespace transport
 } // namespace applied
 } // namespace lumex

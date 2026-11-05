@@ -60,6 +60,7 @@
 #include "lumex/applied/transport/session/LumexBasicSession.hpp"
 #include "lumex/applied/transport/session/LumexSessionTypes.hpp"
 #include "lumex/applied/transport/session/detail/LumexSessionImpl.hpp"
+#include "lumex/applied/transport/session/detail/LumexSessionStream.hpp"
 #include "lumex/applied/transport/stream/LumexStreamTypes.hpp"
 
 #if defined(__clang__)
@@ -106,6 +107,19 @@ public:
       : basic_session<datagram::message_transport> (
             executor, std::move (factory), std::move (options))
   {
+  }
+
+  /**
+   * @brief This session as a `message_transport`, for what takes one (a
+   * `framed_datagram`, and through it a client). The rules of
+   * `stream_session::as_byte_stream`: it is the same session, on its strand;
+   * a message of a connection that is over is dropped and its receive ends
+   * with `cancelled`. Empty for a moved-from session. Any thread.
+   */
+  datagram::message_transport
+  as_message_transport () const
+  {
+    return datagram::message_transport (detail::make_session_message (impl_));
   }
 
   /// @brief Receives one message; `void (std::error_code, message_t)`.

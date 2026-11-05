@@ -385,7 +385,23 @@ stream_impl::stream_impl (executor_type const &executor, std::string name)
 {
 }
 
+stream_impl::stream_impl (executor_type const &executor,
+                          strand_type const &strand, std::string name)
+    : executor_ (executor), strand_ (strand), name_ (std::move (name)),
+      open_ (false), enlisted_ (false),
+      counters_ (std::make_shared<statistics::statistics_counters> ()),
+      cancel_epoch_ (0), connection_epoch_ (0)
+{
+}
+
 stream_impl::~stream_impl () {}
+
+void
+stream_impl::note_connection_over () LUMEX_NOEXCEPT
+{
+  ++cancel_epoch_;
+  connection_epoch_.fetch_add (1, std::memory_order_acq_rel);
+}
 
 void
 stream_impl::drop_kept_handlers () LUMEX_NOEXCEPT
