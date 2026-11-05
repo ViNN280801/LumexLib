@@ -175,7 +175,7 @@ struct session_core_access
   static void
   drop_link (session_core &core, std::error_code const &reason)
   {
-    core.lose_link (reason);
+    core.lose_link (reason, true);
   }
   static void
   add_link_listener (session_core &core,
@@ -952,7 +952,7 @@ session_core::established () const
 }
 
 void
-session_core::lose_link (std::error_code const &error)
+session_core::lose_link (std::error_code const &error, bool dropped)
 {
   if (state () != channel_state::open)
     return;
@@ -968,8 +968,8 @@ session_core::lose_link (std::error_code const &error)
       return;
     }
   set_last_error (error);
-  bool const was_established = established ();
-  bool const carried = carried_data_;
+  bool const was_established = !dropped && established ();
+  bool const carried = !dropped && carried_data_;
   LUMEX_TRANSPORT_LOG (warning, KSESSION_COMPONENT, name ().c_str (),
                        "link lost: " + error.message (), log::log_bytes_t ());
   drop_current ();

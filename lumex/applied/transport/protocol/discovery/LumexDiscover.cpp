@@ -139,9 +139,34 @@ reason_of_open (std::error_code const &error) LUMEX_NOEXCEPT
   return error;
 }
 
+// Whether a protocol error means a reply that does not fit the table.
+bool
+reply_does_not_fit (std::error_code const &error) LUMEX_NOEXCEPT
+{
+  if (error.category ()
+      != ::lumex::core::protocol::error::protocol_category ())
+    return false;
+  switch (static_cast<protocol_errc> (error.value ()))
+    {
+    case protocol_errc::truncated:
+    case protocol_errc::trailing_bytes:
+    case protocol_errc::invalid_value:
+    case protocol_errc::unknown_frame:
+    case protocol_errc::limit_exceeded:
+    case protocol_errc::unknown_case:
+    case protocol_errc::not_supported:
+    case protocol_errc::nak:
+    case protocol_errc::refused:
+    case protocol_errc::unexpected_reply:
+      return true;
+    default:
+      return false;
+    }
+}
+
 // What an error of the identification says of the candidate: it opened, so
-// anything the link or the time did is silence, and anything it said that does
-// not read is another device.
+// anything the link or the time did is silence, a reply that does not fit is
+// another device, and any other error stays as it is.
 std::error_code
 reason_of_identify (std::error_code const &error) LUMEX_NOEXCEPT
 {
@@ -156,7 +181,9 @@ reason_of_identify (std::error_code const &error) LUMEX_NOEXCEPT
                  protocol_errc::link_lost)
       || error.category () == error::transport_category ())
     return make_error_code (discovery_errc::no_response);
-  return make_error_code (discovery_errc::wrong_device);
+  if (reply_does_not_fit (error))
+    return make_error_code (discovery_errc::wrong_device);
+  return error;
 }
 } // namespace
 

@@ -117,10 +117,13 @@ public:
    * with `cancelled`. Empty for a moved-from session. Any thread.
    */
   datagram::message_transport
-  as_message_transport () const
+  as_message_transport () const &
   {
     return datagram::message_transport (detail::make_session_message (impl_));
   }
+
+  /// A view of a temporary session would close it at once: it is refused.
+  datagram::message_transport as_message_transport () const && = delete;
 
   /// @brief Receives one message; `void (std::error_code, message_t)`.
   template <typename Token>

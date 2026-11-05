@@ -89,6 +89,8 @@
 #  79 async_discover over a table without identify_with
 #  80 a row named like on_reconnect
 #  81 a row named like identity
+#  82 the view of a temporary stream_session
+#  83 the view of a temporary message_session
 # The good case also holds a row with reply_row naming a row with stream and a
 # two_phase naming a row without it.
 # The compiler's messages are matched in English. The headers are compiled
@@ -220,6 +222,8 @@ _lumex_case(78 "a reply kind of the row names a row the layer replaced")
 _lumex_case(79 "async_discover: the protocol names no identify_with")
 _lumex_case(80 "${_hidden_regex} client<P>")
 _lumex_case(81 "${_hidden_regex} client<P>")
+_lumex_case(82 "deleted (member )?function")
+_lumex_case(83 "deleted (member )?function")
 
 function(_lumex_dialogue_try result_var tag standard)
     try_compile(_ok "${CMAKE_BINARY_DIR}/try_${tag}"
