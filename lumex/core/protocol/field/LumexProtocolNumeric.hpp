@@ -61,6 +61,9 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpadded"
 #pragma clang diagnostic ignored "-Wfloat-equal"
+#elif defined(__GNUC__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wfloat-equal"
 #endif
 
 namespace lumex
@@ -321,6 +324,8 @@ equals_discriminant (T const &value, std::int64_t discriminant) LUMEX_NOEXCEPT
 
 #if defined(__clang__)
 #pragma clang diagnostic pop
+#elif defined(__GNUC__)
+#pragma GCC diagnostic pop
 #endif
 
 #endif // !LUMEX_CORE_PROTOCOL_FIELD_NUMERIC_HPP

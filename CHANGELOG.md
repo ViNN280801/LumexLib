@@ -283,6 +283,14 @@
 
 #### Исправлено
 
+##### `core/protocol`: предупреждения GCC `-Wfloat-equal` в заголовках
+
+**Файлы:** `lumex/core/protocol/field/LumexProtocolNumeric.hpp`, `lumex/core/protocol/field/LumexProtocolValues.hpp`, `lumex/core/protocol/index/LumexProtocolFormat.hpp`, `lumex/core/protocol/layout/LumexProtocolLayoutBase.hpp`, `lumex/core/protocol/registry/LumexProtocolRegistry.hpp`, `lumex/core/protocol/registry/LumexProtocolRegistryFields.hpp`, `lumex/core/protocol/registry/LumexProtocolRegistryVerify.hpp`, `lumex/tests/cmake/consumer/protocol_warnings/CMakeLists.txt`.
+
+**Суть:** GCC предупреждал `-Wfloat-equal` в заголовках протокола при подключении через `-I`; добавлены прагмы GCC рядом с прагмами Clang, в набор предупреждений `cmake.consumer_protocol_warnings` для GCC добавлен `-Wfloat-equal`.
+
+**Проверено:** без прагм `cmake.consumer_protocol_warnings` на GCC 13 падает с `-Werror=float-equal`; с прагмами `cmake.consumer_protocol_warnings` и `cmake.consumer_transport_warnings` проходят на GCC 13, GCC 8.3 и Clang 23, MinGW 8.3 разбирает фикстуру с `-Wfloat-equal -Werror` при C++11 и C++20.
+
 ##### `LumexFilesystem`: пути не в ASCII на Windows
 
 **Файлы:** `lumex/core/filesystem/fs/LumexFilesystem.cpp`, `lumex/core/filesystem/fs/LumexFilesystem.hpp`, `lumex/tests/core/filesystem/fs/LumexFilesystemUnicode.cxx11.tests.cpp`, `lumex/tests/core/filesystem/fs/LumexFilesystem.cxx11.tests.cpp`.

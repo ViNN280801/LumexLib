@@ -96,6 +96,9 @@
 #pragma clang diagnostic ignored "-Wpadded"
 #pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
 #pragma clang diagnostic ignored "-Wfloat-equal"
+#elif defined(__GNUC__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wfloat-equal"
 #endif
 
 namespace lumex
@@ -844,6 +847,8 @@ entry_available (registry_entry_t const &entry, std::uint32_t firmware,
 
 #if defined(__clang__)
 #pragma clang diagnostic pop
+#elif defined(__GNUC__)
+#pragma GCC diagnostic pop
 #endif
 
 #endif // !LUMEX_CORE_PROTOCOL_REGISTRY_REGISTRY_HPP

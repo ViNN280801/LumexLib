@@ -77,6 +77,9 @@
 #pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-libc-call"
 #endif
 #pragma clang diagnostic ignored "-Wfloat-equal"
+#elif defined(__GNUC__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wfloat-equal"
 #endif
 
 namespace lumex
@@ -671,6 +674,8 @@ operator!= (nested_value<Key> const &left, nested_value<Key> const &right)
 
 #if defined(__clang__)
 #pragma clang diagnostic pop
+#elif defined(__GNUC__)
+#pragma GCC diagnostic pop
 #endif
 
 #endif // !LUMEX_CORE_PROTOCOL_FIELD_VALUES_HPP
