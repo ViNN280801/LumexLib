@@ -170,6 +170,15 @@ public:
 
   // The clock is destroyed: every pending wait is taken out.
   void close () LUMEX_NOEXCEPT;
+
+  // Destroys waits that were completed (their copies of the executors of
+  // their timers) under the lock. A timer releases its own copy under the
+  // lock too, so every release of a copy is ordered with the last one, the
+  // one that frees an executor shared by copies (a strand in an
+  // `any_io_executor`): Asio frees it after a release decrement and an
+  // acquire fence, which a thread sanitizer does not see when a runner
+  // thread moves the clock and another one destroys the timer.
+  void release (std::vector<taken_wait> &waits) LUMEX_NOEXCEPT;
 };
 
 namespace
@@ -206,6 +215,9 @@ public:
         take_locked (taken[0]);
     }
     complete_all (taken, cancelled_code ());
+    clock_->release (taken);
+    std::lock_guard<std::mutex> const lock (clock_->mutex);
+    executor_ = executor_type ();
   }
 
   executor_type
@@ -265,6 +277,7 @@ public:
           take_locked (taken[0]);
         }
         complete_all (taken, cancelled_code ());
+        clock_->release (taken);
         return 1;
       }
     catch (...)
@@ -394,6 +407,7 @@ virtual_timer_impl::start_wait (time_point_t at, wait_handler_t handler)
       }
   }
   complete_all (taken, cancelled_code ());
+  clock_->release (taken);
 }
 
 /// The source of one clock.
@@ -461,7 +475,9 @@ virtual_clock_impl::fire (time_point_t target, bool to_next)
       now_ = target;
   }
   complete_all (due, std::error_code ());
-  return due.size ();
+  std::size_t const fired = due.size ();
+  release (due);
+  return fired;
 }
 
 void
@@ -480,10 +496,24 @@ virtual_clock_impl::close () LUMEX_NOEXCEPT
           }
       }
       complete_all (taken, cancelled_code ());
+      release (taken);
     }
   catch (...)
     {
     }
+}
+
+void
+virtual_clock_impl::release (std::vector<taken_wait> &waits) LUMEX_NOEXCEPT
+{
+  // A handler that was not posted dies first, outside the lock: it may own
+  // the owner of its timer.
+  for (std::size_t i = 0; i < waits.size (); ++i)
+    {
+      wait_handler_t const dropped (std::move (waits[i].handler));
+    }
+  std::lock_guard<std::mutex> const lock (mutex);
+  waits.clear ();
 }
 
 virtual_clock::virtual_clock (timing::time_point_t start)

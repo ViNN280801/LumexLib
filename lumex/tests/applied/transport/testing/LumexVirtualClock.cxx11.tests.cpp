@@ -744,6 +744,75 @@ TEST (
   EXPECT_FALSE (back_in_time->load ());
 }
 
+namespace
+{
+// The handler of one round of the release test: drops the last reference to
+// its timer on the timer's strand (the timer dies there) and counts.
+struct dying_timer_t
+{
+  std::shared_ptr<timing::timer> timer;
+  std::atomic<int> *fired;
+
+  void
+  operator() (std::error_code const &)
+  {
+    timer.reset ();
+    fired->fetch_add (1);
+  }
+};
+} // namespace
+
+TEST (
+    LumexVirtualClockThreadTest,
+    GivenATimerThatDiesOnItsStrand_WhenAnotherStrandMovesTheClock_ThenTheCopiesOfItsExecutorAreReleasedInOrder)
+{
+  // The clock takes a wait out with a copy of the timer's executor (a strand
+  // in an executor_type, a target the copies share) and posts it from the
+  // strand that moves the clock; the handler destroys the timer on its own
+  // strand, on another runner thread, while that copy may still be alive.
+  // Under the thread sanitizer every release of a copy must be ordered with
+  // the one that frees the target.
+  virtual_clock clock;
+  int const rounds = 2000;
+  std::atomic<int> fired (0);
+  {
+    tr::stream::io_runner runner (4);
+    tr::executor_type const mover = asio::make_strand (runner.get_executor ());
+    for (int i = 0; i < rounds; ++i)
+      {
+        asio::strand<tr::executor_type> const owner
+            = asio::make_strand (runner.get_executor ());
+        std::shared_ptr<timing::timer> timer
+            = std::make_shared<timing::timer> (
+                clock.source ().make_timer (tr::executor_type (owner)));
+        std::promise<void> armed;
+        asio::post (owner,
+                    [&timer, &armed, &fired, owner] ()
+                      {
+                        dying_timer_t const handler = { timer, &fired };
+                        timer->async_wait_for (
+                            ms (1), asio::bind_executor (owner, handler));
+                        armed.set_value ();
+                      });
+        armed.get_future ().wait ();
+        timer.reset ();
+        std::promise<void> moved;
+        asio::post (mover,
+                    [&clock, &moved] ()
+                      {
+                        clock.advance (ms (1));
+                        moved.set_value ();
+                      });
+        moved.get_future ().wait ();
+        while (fired.load () <= i)
+          std::this_thread::yield ();
+      }
+    runner.stop ();
+  }
+  EXPECT_EQ (fired.load (), rounds);
+  EXPECT_EQ (clock.pending (), 0u);
+}
+
 TEST (
     LumexVirtualClockLifetimeTest,
     GivenATimerThatNeverWaitedOnAStrand_WhenTheIoContextIsDestroyed_ThenItForgetsItsExecutorAndOutlivesIt)
