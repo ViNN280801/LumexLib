@@ -1617,10 +1617,13 @@ TEST (LumexBehaviorsOutcome,
   row_shape_t const watched
       = shape_of (reply_shape::stream, 0, false, false, true);
   row_shape_t const resumed = shape_of (reply_shape::stream, 0, false, true);
+  // An echoing device sends nothing of its own: a stream stops as under a
+  // silent one.
   behavior_kind const silent_kinds[]
       = { behavior_kind::silent, behavior_kind::frozen,
-          behavior_kind::partial_then_frozen, behavior_kind::oversized };
-  for (std::size_t index = 0; index < 4; ++index)
+          behavior_kind::partial_then_frozen, behavior_kind::oversized,
+          behavior_kind::echo };
+  for (std::size_t index = 0; index < 5; ++index)
     {
       EXPECT_EQ (outcome (silent_kinds[index], plain), outcome_class::timeout);
       EXPECT_EQ (outcome (silent_kinds[index], watched),
@@ -1628,18 +1631,18 @@ TEST (LumexBehaviorsOutcome,
     }
   behavior_kind const counted[]
       = { behavior_kind::intermittent, behavior_kind::corrupted_crc,
-          behavior_kind::garbage,      behavior_kind::flood,
-          behavior_kind::repeating,    behavior_kind::malicious };
-  for (std::size_t index = 0; index < 6; ++index)
+          behavior_kind::garbage, behavior_kind::flood,
+          behavior_kind::malicious };
+  for (std::size_t index = 0; index < 5; ++index)
     EXPECT_EQ (outcome (counted[index], plain),
                outcome_class::dropped_counted);
+  // A copy of a stream message is one more message.
   behavior_kind const clean[]
       = { behavior_kind::perfect, behavior_kind::slow_trickle,
-          behavior_kind::fragmented, behavior_kind::zero_read };
-  for (std::size_t index = 0; index < 4; ++index)
+          behavior_kind::fragmented, behavior_kind::zero_read,
+          behavior_kind::repeating };
+  for (std::size_t index = 0; index < 5; ++index)
     EXPECT_EQ (outcome (clean[index], plain), outcome_class::success);
-  EXPECT_EQ (outcome (behavior_kind::echo, plain),
-             outcome_class::protocol_error);
   behavior_kind const cuts[]
       = { behavior_kind::disconnecting, behavior_kind::works_then_disconnects,
           behavior_kind::cable_unplugged };

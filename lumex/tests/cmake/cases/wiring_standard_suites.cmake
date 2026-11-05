@@ -263,14 +263,20 @@ foreach(_dir IN LISTS _dirs)
     list(APPEND _seen_keys "${_key}")
 
     # The test tree follows the source tree. The test tables of the researched
-    # devices (core/protocol/devices/device_<x>) are the one exception: they
-    # test no source directory of their own, they drive the public headers of
-    # core/protocol with altered device protocols.
+    # devices (core/protocol/devices/device_<x>) are one exception: they test
+    # no source directory of their own, they drive the public headers of
+    # core/protocol with altered device protocols. The transport matrix
+    # (applied/transport/matrix) is the other: it drives the client, the
+    # engine and the simulator of the transport over those tables.
     set(_device_tables FALSE)
     if(_rel MATCHES "^core/protocol/devices/[A-Za-z0-9_]+$")
         set(_device_tables TRUE)
     endif()
-    if(NOT _device_tables AND NOT IS_DIRECTORY "${LUMEX_SOURCE_DIR}/lumex/${_rel}")
+    set(_no_source_dir ${_device_tables})
+    if(_rel STREQUAL "applied/transport/matrix")
+        set(_no_source_dir TRUE)
+    endif()
+    if(NOT _no_source_dir AND NOT IS_DIRECTORY "${LUMEX_SOURCE_DIR}/lumex/${_rel}")
         string(APPEND _errors
             "  lumex/tests/${_rel}: there is no lumex/${_rel}; a test directory "
             "has the path of the source directory it tests\n")
