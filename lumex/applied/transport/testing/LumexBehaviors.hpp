@@ -412,9 +412,11 @@ std::vector<behavior_kind> all_behavior_kinds ();
  * `intermittent` or `corrupted_crc` one loses only the first attempt).
  * @details A row without a reply sees only the bytes that are put on the line
  * (`echo`, `flood`, `garbage`, `malicious`: `dropped_counted`) and an
- * unplugged cable. A dialogue acknowledgement is a reply. `malicious` may
- * also end as `protocol_error`: the class says what the engine must not do
- * worse than.
+ * unplugged cable. A stream sees no `echo` (the device sends nothing of its
+ * own: as `silent`) and takes a `repeating` copy for one more message
+ * (`success`). A dialogue acknowledgement is a reply. `malicious` may also
+ * end as `protocol_error`: the class says what the engine must not do worse
+ * than.
  */
 outcome_class expected_outcome (behavior_kind kind, row_shape_t const &shape);
 

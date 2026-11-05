@@ -1025,16 +1025,19 @@ expected_outcome (behavior_kind kind, row_shape_t const &shape)
     case reply_shape::stream:
       switch (kind)
         {
+        // An echoing device processes nothing and sends nothing of its own.
         case behavior_kind::echo:
-          return outcome_class::protocol_error;
         case behavior_kind::silent:
         case behavior_kind::frozen:
         case behavior_kind::partial_then_frozen:
         case behavior_kind::oversized:
           return shape.watchdog ? outcome_class::link_lost
                                 : outcome_class::timeout;
-        case behavior_kind::flood:
+        // A copy of a stream message is one more message of the stream: no
+        // exchange waits for it, nothing tells it from a fresh one.
         case behavior_kind::repeating:
+          return outcome_class::success;
+        case behavior_kind::flood:
         case behavior_kind::garbage:
         case behavior_kind::corrupted_crc:
         case behavior_kind::intermittent:

@@ -29,6 +29,12 @@ if(_transport_tests_with_protocol)
     add_subdirectory(protocol)
 endif()
 
+# The matrix drives the client, the engine and the device simulator over the
+# device tables: with the protocol and the framing modules, as the simulator.
+if(_transport_tests_with_protocol AND _transport_tests_with_framing)
+    add_subdirectory(matrix)
+endif()
+
 # The HID transport is compiled only with LUMEX_TRANSPORT_WITH_HID
 # (lumex/applied/transport/CMakeLists.txt), and so are its tests.
 if(LUMEX_TRANSPORT_WITH_HID)
