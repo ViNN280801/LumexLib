@@ -79,6 +79,12 @@
  * frame of the codec is forgotten (a transport opened again starts a new
  * frame), and the next read starts the decoder again.
  *
+ * Over a transport that connects again by itself
+ * (`session::stream_session::as_byte_stream`), a lost connection also takes
+ * the frames decoded but not read yet and the frames waiting to be written:
+ * they belong to the connection that is over, and those writes end with
+ * `cancelled`.
+ *
  * Writing: `write_frame` encodes the payload with the codec on the strand
  * and writes the whole frame; a payload the codec refuses
  * (`framing_errc::payload_too_large`) completes with that error and writes

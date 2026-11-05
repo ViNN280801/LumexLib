@@ -282,6 +282,7 @@ public:
   void run_start ();
   void cancel_all ();
   void close_all ();
+  void forget_old_frames () LUMEX_NOEXCEPT;
 
   /// @brief A read of the transport ended: `error` and the bytes of a stream
   /// chunk or of one datagram; `generation` tells a read that began before a
@@ -327,6 +328,8 @@ private:
     std::size_t size;
     std::uint8_t report_id;
     status_handler_t handler;
+    // The close count of the transport when it was queued.
+    std::size_t connection;
   };
 
   void enlist ();
@@ -359,6 +362,8 @@ private:
   // The close count of the transport when the pump last looked: a change
   // means the connection the codec has seen is over.
   std::size_t connection_seen_;
+  // The close count `queue_` belongs to, over a transport that connects again.
+  std::size_t frames_seen_;
   bool overflowing_;
   bool error_burst_;
   std::uint8_t report_id_;

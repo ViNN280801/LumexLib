@@ -45,7 +45,8 @@
  * (`LumexDialogueImpl.cpp`); the streams, the keepalive, the watchdog, the
  * rate limits, the state, the edges and the restart of the reading
  * (`LumexDialogueImplFeatures.cpp`); the sequences of steps, scenarios and the
- * enabling of streams (`LumexDialogueImplRuns.cpp`).
+ * enabling of streams (`LumexDialogueImplRuns.cpp`); what a new connection of
+ * a link that connects again needs (`LumexDialogueImplReconnect.cpp`).
  * @details Internal to the transport library. Everything runs on the strand
  * of the link (`frame_link::get_strand ()`): the reads and writes of the
  * link complete there, the timers are made for it, and the calls of the
@@ -187,6 +188,11 @@ struct exchange_record_t
   bool rate_counted = false;
   /// The next attempt waits for a rate limit.
   bool waiting_rate = false;
+  /// The engine made it (a keepalive, a step of a run, a step of a
+  /// restoration): it is never sent again on a new connection.
+  bool internal = false;
+  /// `exchange_t::before_check`.
+  bool before_check = false;
   /// An attempt waits for its reply.
   bool awaiting = false;
   /// The next attempt waits for the late-reply window to end.
@@ -429,6 +435,13 @@ public:
   /// @brief Calls `handler` when the state of the link changes.
   void set_link_handler (link_state_handler_t handler);
 
+  /// @brief Calls `handler` at the end of each restoration.
+  void set_reconnect_handler (reconnect_handler_t handler);
+
+  /// @brief An identification found the device: an open link whose check
+  /// failed accepts calls again.
+  void start_device_checked ();
+
   /// @brief Whether nothing says the link is gone.
   bool
   link_up () const LUMEX_NOEXCEPT
@@ -476,8 +489,9 @@ public:
   // --- on the strand (the posted steps and the handlers) ----------------
 
   void run_start ();
+  // `internal`: the engine made the exchange (see exchange_record_t).
   void run_enqueue (std::uint64_t id, exchange_t &request,
-                    exchange_handler_t &handler);
+                    exchange_handler_t &handler, bool internal = false);
   void run_cancel ();
   void run_close ();
   void run_cancel_exchange (std::uint64_t id, asio::cancellation_type_t type);
@@ -495,6 +509,15 @@ public:
   void keepalive_ended (std::error_code error);
   void read_restart_done (std::error_code error);
   void run_keepalive_start ();
+  void run_device_checked ();
+  void run_reconnect_report (std::error_code const &error);
+  void connection_changed (connection_event event,
+                           std::error_code const &reason);
+  void reconnect_checked (std::uint64_t restoration, std::error_code error,
+                          bool same_device);
+  void reconnect_stream_ended (std::uint64_t restoration,
+                               std::error_code error);
+  void reconnect_wait_done (std::uint64_t wait, std::error_code error);
   void run_select_layer (
       ::lumex::core::protocol::index::protocol_index_t const *index,
       protocol_features_t const *features);
@@ -565,6 +588,26 @@ private:
                  link_frame_t frame);
   void end_all (std::error_code error, bool abandoned);
   void link_lost (std::error_code error);
+
+  // --- a new connection (LumexDialogueImplReconnect.cpp) -----------------
+
+  // Whether a request may start: never while no connection is open; only one
+  // with before_check while the device of an open link is not checked.
+  bool
+  gate_open () const LUMEX_NOEXCEPT
+  {
+    return !reconnects_ || (!connection_down_ && device_checked_);
+  }
+  void start_watching_connection ();
+  void connection_lost (std::error_code const &reason);
+  void connection_opened ();
+  void start_restoration ();
+  void restore_next_stream ();
+  void end_restoration (std::error_code const &error);
+  void fail_waiting (std::error_code const &error);
+  void arm_reconnect_wait ();
+  void report_reconnect (std::error_code const &error);
+  void note_enabled_stream (exchange_record_t const &record);
 
   // --- the features (LumexDialogueImplFeatures.cpp) ----------------------
 
@@ -739,6 +782,34 @@ private:
   std::int64_t state_value_;
   // The sequences under way.
   std::vector<std::unique_ptr<sequence_run_t>> runs_;
+  // A link that connects again (reconnects_, fixed at the start): no
+  // connection is open; the first open is no reconnect; the device of the open
+  // link was checked, and what the calls hear until then.
+  bool reconnects_;
+  bool connection_down_;
+  bool never_opened_;
+  bool device_checked_;
+  std::error_code gate_error_;
+  // A restoration runs; its number: what ends a step of the past changes
+  // nothing.
+  bool restoring_;
+  std::uint64_t restoration_;
+  // The rows that turned a stream on, in the order they answered, with what
+  // they sent: a new connection of the same device sends them again.
+  struct enabled_stream_t
+  {
+    char const *identifier = nullptr;
+    std::shared_ptr<link_frame_t const> message;
+  };
+  std::vector<enabled_stream_t> enabled_streams_;
+  std::size_t stream_position_;
+  std::error_code stream_error_;
+  // How long what survives a lost connection waits for the dialogue.
+  std::uint32_t reconnect_wait_ms_;
+  timing::timer reconnect_wait_timer_;
+  bool reconnect_wait_armed_;
+  std::uint64_t reconnect_wait_;
+  reconnect_steps_t reconnect_steps_;
   // The subscribers and the handlers of unknown frames, of edges and of the
   // link state, the keepalive generator: changed from any thread, read on the
   // strand (copied out, called outside the lock).
@@ -764,12 +835,14 @@ private:
   std::vector<edge_subscriber_t> edge_subscribers_;
   std::shared_ptr<link_state_handler_t const> link_handler_;
   std::shared_ptr<keepalive_generator_t const> keepalive_generator_;
+  std::shared_ptr<reconnect_handler_t const> reconnect_handler_;
   // What close () and the shutdown take out of the members under the lock.
   struct feature_handlers_t
   {
     std::vector<edge_subscriber_t> edges;
     std::shared_ptr<link_state_handler_t const> link;
     std::shared_ptr<keepalive_generator_t const> generator;
+    std::shared_ptr<reconnect_handler_t const> reconnect;
   };
   // Set by close (), under the mutex: no handler is kept any more.
   bool handlers_closed_;

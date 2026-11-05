@@ -374,6 +374,8 @@ protected:
   {
     std::lock_guard<std::mutex> const lock (mutex_);
     ++link_epoch_;
+    // What nobody received is gone with the connection.
+    incoming_.clear ();
     end_pending_open ();
     end_pending_receives (transport_errc::cancelled);
     end_pending_sends (transport_errc::cancelled);

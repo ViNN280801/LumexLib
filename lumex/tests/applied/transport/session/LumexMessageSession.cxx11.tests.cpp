@@ -98,11 +98,13 @@ TEST_F (LumexMessageSessionTest,
   factory_->last ().disconnect ();
   ASSERT_TRUE (received.wait ());
   EXPECT_TRUE (received.error == transport_errc::disconnected);
+  // The callback runs after the state changed: wait for the recorder too.
   ASSERT_TRUE (eventually (
-      [&session]
+      [this, &session]
         {
           return session->session_statistics ().reconnects == 1
-                 && session->state () == state::open;
+                 && session->state () == state::open
+                 && recorder_->states ().size () == 4u;
         }));
   EXPECT_EQ (session->state (), state::open);
   EXPECT_EQ (factory_->call_count (), 2u);

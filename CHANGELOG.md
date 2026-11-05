@@ -273,6 +273,14 @@
 
 **Проверено:** GCC 13 и Clang 23 `LUMEX_WERROR=ON` по 1250 из 1250, GCC 8.3 436 из 436, MinGW компиляция, ASan+UBSan и TSan по 540 из 540, тесты гонок, дедлайна и времени жизни x20; мутации `select_layer` и исправлений убиты. Компиляция клиента с методом на строку самого большого слоя 885 МБ (до исправлений). Windows cl и clang-cl не запускались.
 
+##### Переподключение в диалоге и поиск приборов
+
+**Файлы:** `session/detail/LumexSessionStream.*`, `protocol/dialogue/detail/LumexDialogueImplReconnect.cpp`, `protocol/discovery/LumexDiscover.*`, `protocol/client/LumexProtocolClient.hpp`.
+
+**Суть:** `stream_session::as_byte_stream ()` и `message_session::as_message_transport ()` дают сессию как транспорт для кадрового адаптера. Клиент над такой ссылкой на новом соединении повторяет `identify ()`, выбирает слой и включает потоки заново, снова отправляет обмены строк `idempotent` (кроме `dangerous`), остальные получают `link_lost`; новые вызовы во время обрыва получают `link_lost` сразу. `client.on_reconnect (handler)` сообщает итог, `client.identity ()` возвращает найденный прибор. Счетчик `reconnects` работает. Неполный кадр, непрочитанные кадры и незаписанные кадры старого соединения не переходят на новое. `async_discover<P, Wire>` ищет приборы таблицы среди кандидатов с ограничением параллельности и причинами `open_timeout`, `no_response`, `wrong_device`, `busy`. Заглушки транспорта теряют непрочитанные данные при закрытии, симулятор забывает неполный кадр при новом открытии.
+
+**Проверено:** GCC 13 и Clang 23 по 2084 теста, GCC 8.3 C++11 714, ASan+UBSan 1435, TSan сессий 385 после последней правки, тесты переподключения x20 без отчетов санитайзеров. Кандидаты `serial`, `hid`, `network_datagram` скомпилированы, но тестами не запускались. Windows cl и clang-cl не запускались.
+
 #### Исправлено
 
 ##### `LumexFilesystem`: пути не в ASCII на Windows

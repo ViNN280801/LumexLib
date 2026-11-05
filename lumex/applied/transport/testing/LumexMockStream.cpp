@@ -422,6 +422,8 @@ protected:
   {
     std::lock_guard<std::mutex> const lock (mutex_);
     ++link_epoch_;
+    // What nobody read is gone with the connection.
+    received_.clear ();
     end_pending_open ();
     end_pending_reads (transport_errc::cancelled);
     end_pending_writes (transport_errc::cancelled);

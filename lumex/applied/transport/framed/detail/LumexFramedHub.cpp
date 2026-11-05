@@ -419,8 +419,9 @@ framed_hub<Transport>::framed_hub (Transport transport,
       active_id_ (0), write_sequence_ (0), pump_pending_ (false),
       restart_ (false),
       connection_seen_ (transport_.impl ()->connection_epoch ()),
-      overflowing_ (false), error_burst_ (false), report_id_ (0),
-      generation_ (0), events_ (0), queued_ (0), enlisted_ (false)
+      frames_seen_ (connection_seen_), overflowing_ (false),
+      error_burst_ (false), report_id_ (0), generation_ (0), events_ (0),
+      queued_ (0), enlisted_ (false)
 {
   if (!traits_type::per_message ())
     chunk_ = std::make_shared<bytes_t> (
@@ -549,10 +550,32 @@ framed_hub<Transport>::note_dequeued () LUMEX_NOEXCEPT
   queued_.store (queue_.size (), std::memory_order_release);
 }
 
+// A transport that connects again by itself: what was decoded from a
+// connection that is over answers nothing on the next one.
+template <typename Transport>
+void
+framed_hub<Transport>::forget_old_frames () LUMEX_NOEXCEPT
+{
+  std::size_t const now = transport_.impl ()->connection_epoch ();
+  if (now == frames_seen_)
+    return;
+  frames_seen_ = now;
+  if (!transport_.impl ()->reconnects ())
+    return;
+  while (!queue_.empty ())
+    {
+      queue_.pop_front ();
+      counters_.add_dropped_frame ();
+    }
+  overflowing_ = false;
+  queued_.store (0, std::memory_order_release);
+}
+
 template <typename Transport>
 void
 framed_hub<Transport>::run_read (read_handler_type handler)
 {
+  forget_old_frames ();
   if (!queue_.empty ())
     {
       frame_type frame = std::move (queue_.front ());
@@ -593,7 +616,8 @@ framed_hub<Transport>::run_write (std::uint8_t report_id,
       complete (std::move (handler), error);
       return;
     }
-  pending_write item = { wire, wire->size (), report_id, std::move (handler) };
+  pending_write item = { wire, wire->size (), report_id, std::move (handler),
+                         transport_.impl ()->connection_epoch () };
   writes_.push_back (std::move (item));
   start_next_write ();
 }
@@ -602,7 +626,22 @@ template <typename Transport>
 void
 framed_hub<Transport>::start_next_write ()
 {
-  if (write_active_ || writes_.empty ())
+  if (write_active_)
+    return;
+  // A transport that connects again: a frame queued for a connection that is
+  // over never goes out on the next one.
+  if (transport_.impl ()->reconnects ())
+    {
+      std::size_t const now = transport_.impl ()->connection_epoch ();
+      while (!writes_.empty () && writes_.front ().connection != now)
+        {
+          status_handler_t stale = std::move (writes_.front ().handler);
+          writes_.pop_front ();
+          complete (std::move (stale),
+                    make_error_code (transport_errc::cancelled));
+        }
+    }
+  if (writes_.empty ())
     return;
   active_ = std::move (writes_.front ());
   writes_.pop_front ();
@@ -693,6 +732,7 @@ framed_hub<Transport>::pump_data (std::error_code error, bytes_view_t data,
   connection_seen_ = now;
   if (reconnected)
     do_reset ();
+  forget_old_frames ();
   if (!data.empty ())
     {
       counters_.add_bytes_in (data.size ());

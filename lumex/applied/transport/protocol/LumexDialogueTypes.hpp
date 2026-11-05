@@ -127,6 +127,32 @@ struct retry_policy_t
 
 struct protocol_features_t;
 
+/// @brief The end of `reconnect_steps_t::check`: the error (none: the device
+/// is checked), and whether it is the device of the connection before, as far
+/// as the check can tell. Any thread; a second call changes nothing.
+using reconnect_done_t
+    = std::function<void (std::error_code error, bool same_device)>;
+
+/**
+ * @brief What a dialogue over a link that connects again does to know its
+ * device (`dialogue_engine`, "Reconnect"). The generated client fills them
+ * from the table. Both run on the strand and may call the engine; an empty
+ * one is no step. They must not own the owner of the dialogue.
+ */
+struct reconnect_steps_t
+{
+  /// A connection is over: forget what it taught.
+  std::function<void ()> forget;
+  /// A new connection is open: check the device (with exchanges that have
+  /// `exchange_t::before_check`) and call the function given, once.
+  std::function<void (reconnect_done_t)> check;
+};
+
+/// @brief Hears the end of the restoration after a reconnect: empty when the
+/// dialogue accepts calls again, else why it did not come back as it was
+/// (`dialogue_engine::on_reconnect`).
+using reconnect_handler_t = std::function<void (std::error_code const &error)>;
+
 /// @brief The options of a `dialogue_engine`.
 struct dialogue_options_t
 {
@@ -164,6 +190,14 @@ struct dialogue_options_t
   /// `read_restart_ms` counts as `read_restart_ms`, so a dead link is never
   /// read without a wait.
   std::uint32_t read_restart_max_ms = 5000;
+  /// Over a link that connects again: how long the exchanges that survive a
+  /// lost connection (the queued ones, the `idempotent` ones in flight) wait
+  /// for the dialogue to come back, from the moment it went; then they end
+  /// with `protocol_errc::link_lost`. 0: they end at once. A wait of an outage
+  /// ends only with the outage: at most one timer.
+  std::uint32_t reconnect_wait_ms = 30000;
+  /// Over a link that connects again: what checks the device.
+  reconnect_steps_t reconnect;
 };
 
 /**
@@ -201,7 +235,8 @@ struct dialogue_statistics_t
   std::uint64_t stream_gaps = 0;
   /// Requests delayed by a minimum interval (each attempt once).
   std::uint64_t rate_limited = 0;
-  /// Times the link was opened again.
+  /// Times the link was opened again (not its first open), whatever came of
+  /// the check that followed.
   std::uint64_t reconnects = 0;
   /// Exchanges refused because the queue was full.
   std::uint64_t queue_refusals = 0;
@@ -452,6 +487,10 @@ struct exchange_t
   /// (`dialogue::reply_reader_of<P, Row> ()`); null takes the frame as the
   /// reply as it is.
   reply_reader_t reader = nullptr;
+  /// It finds out what the device is, so it goes while the dialogue does not
+  /// accept other calls yet (an open link whose device is not checked), and it
+  /// is never sent again on a new connection.
+  bool before_check = false;
 };
 } // namespace protocol
 } // namespace transport

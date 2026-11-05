@@ -56,7 +56,10 @@
  * link writes every frame in a report with its report ID and delivers the
  * payload of every frame it receives, whatever its report ID. Moved from
  * (or default constructed) it is empty: a read or a write ends with
- * `not_open` on the handler's associated executor.
+ * `not_open` on the handler's associated executor. A link over a transport
+ * that connects again by itself (a view of a session) says so
+ * (`reconnects ()`): `dialogue_engine` then repeats what a new connection
+ * needs.
  */
 #ifndef LUMEX_APPLIED_TRANSPORT_PROTOCOL_LINK_FRAME_LINK_HPP
 #define LUMEX_APPLIED_TRANSPORT_PROTOCOL_LINK_FRAME_LINK_HPP
@@ -141,12 +144,27 @@ public:
   /// @brief Ends them and closes the transport.
   virtual void close () LUMEX_NOEXCEPT = 0;
   /// @brief The link is silent (the watchdog of the dialogue): gives up the
-  /// connection. By default it closes; a link that can connect again may do
-  /// that instead.
+  /// connection. By default it closes; a link that can connect again does that
+  /// instead.
   virtual void
   drop_connection () LUMEX_NOEXCEPT
   {
     close ();
+  }
+  /// @brief Whether the link connects again by itself (over a session): the
+  /// dialogue then repeats what a new connection needs. By default no.
+  virtual bool
+  reconnects () const LUMEX_NOEXCEPT
+  {
+    return false;
+  }
+  /// @brief Sets who hears the connection of a link that `reconnects ()` (an
+  /// empty handler removes it): on the strand of the link, never inside the
+  /// call, and every completion of the link keeps its order with the events. A
+  /// change before the call is not reported. By default nothing.
+  virtual void
+  watch_connection (connection_handler_t)
+  {
   }
 };
 
@@ -167,6 +185,22 @@ struct payload_handler_t
     std::move (handler) (error, std::move (message.payload));
   }
 };
+
+/// @brief What a silent link does: the transport decides (one that reconnects
+/// connects again, any other closes).
+template <typename Link>
+void
+drop_connection_of (Link &link) LUMEX_NOEXCEPT
+{
+  try
+    {
+      link.transport ().impl ()->drop_connection ();
+    }
+  catch (...)
+    {
+      // Out of memory: the connection stays; the next silence tries again.
+    }
+}
 
 /// @brief A `framed_stream` behind `frame_link_impl`.
 template <typename Codec> class stream_link_impl final : public frame_link_impl
@@ -226,6 +260,24 @@ public:
   close () LUMEX_NOEXCEPT override
   {
     link_.close ();
+  }
+
+  void
+  drop_connection () LUMEX_NOEXCEPT override
+  {
+    drop_connection_of (link_);
+  }
+
+  bool
+  reconnects () const LUMEX_NOEXCEPT override
+  {
+    return link_.transport ().impl ()->reconnects ();
+  }
+
+  void
+  watch_connection (connection_handler_t handler) override
+  {
+    link_.transport ().impl ()->watch_connection (std::move (handler));
   }
 
 private:
@@ -294,6 +346,24 @@ public:
   close () LUMEX_NOEXCEPT override
   {
     link_.close ();
+  }
+
+  void
+  drop_connection () LUMEX_NOEXCEPT override
+  {
+    drop_connection_of (link_);
+  }
+
+  bool
+  reconnects () const LUMEX_NOEXCEPT override
+  {
+    return link_.transport ().impl ()->reconnects ();
+  }
+
+  void
+  watch_connection (connection_handler_t handler) override
+  {
+    link_.transport ().impl ()->watch_connection (std::move (handler));
   }
 
 private:
@@ -436,6 +506,13 @@ public:
 
   /// @brief True while the transport is open.
   bool is_open () const;
+
+  /// @brief Whether the link connects again by itself (a session underneath).
+  bool
+  reconnects () const LUMEX_NOEXCEPT
+  {
+    return impl_ && impl_->reconnects ();
+  }
 
   /// @brief Reads the next frame; the token gets
   /// `void (std::error_code, link_frame_t)`.

@@ -101,6 +101,25 @@ namespace detail
 struct session_core_access;
 struct terminal_canceller;
 
+/**
+ * @brief Who hears the state of a session on its strand, in the step of the
+ * change, before any waiter or callback: a view of the session
+ * (`LumexSessionStream.hpp`). It does nothing that can reach the session.
+ */
+class session_link_listener
+{
+public:
+  session_link_listener () = default;
+  virtual ~session_link_listener ();
+  session_link_listener (session_link_listener const &) = delete;
+  session_link_listener &operator= (session_link_listener const &) = delete;
+
+  /// @brief The state went from `previous` to `current` for `reason`.
+  virtual void link_changed (channel_state previous, channel_state current,
+                             std::error_code const &reason) LUMEX_NOEXCEPT
+      = 0;
+};
+
 /// @brief An empty name (the name of a moved-from session).
 std::string const &empty_session_name () LUMEX_NOEXCEPT;
 
@@ -178,6 +197,12 @@ public:
   void set_device_present (bool present);
   /// @brief The front is gone: no state callback runs from now on.
   void detach () LUMEX_NOEXCEPT;
+  /// @brief Gives up the link for `reason` as a lost link does: an open
+  /// session starts reconnecting; nothing in any other state.
+  void request_drop_link (std::error_code const &reason);
+  /// @brief Adds who hears the state (held weakly; it hears the changes after
+  /// the step this call posts, and then reads the state itself).
+  void add_link_listener (std::weak_ptr<session_link_listener> listener);
   /// @brief A new id for `start_open`.
   std::uint64_t next_waiter_id () LUMEX_NOEXCEPT;
   /// @brief Drops the open waiter `id` without calling it (its sync caller
@@ -249,6 +274,14 @@ public:
   /// @brief The completion of the open of the transport `generation`.
   void on_opened (unsigned generation, std::error_code const &error);
 
+  /// @brief Cancels the pending I/O of the current transport, whatever the
+  /// state; the session goes on connecting or stays open.
+  void
+  cancel_io () LUMEX_NOEXCEPT
+  {
+    cancel_transport ();
+  }
+
 protected:
   /// @brief Makes the next transport through the factory (replacing the
   /// current one); throws when the factory throws.
@@ -314,6 +347,7 @@ private:
   void do_open_wait (unsigned epoch, std::uint64_t id,
                      status_handler_t handler);
   void do_forget_open_wait (std::uint64_t id);
+  void do_add_link_listener (std::weak_ptr<session_link_listener> listener);
   void on_retry_timer (unsigned wait_id);
   void on_open_timer (unsigned generation, std::error_code const &error);
 
@@ -378,6 +412,7 @@ private:
   std::vector<state_handler_t> state_waiters_;
   std::vector<snapshot_handler_t> snapshot_waiters_;
   std::vector<open_waiter> open_waiters_;
+  std::vector<std::weak_ptr<session_link_listener>> link_listeners_;
   // The marks of the waiters with a cancellation slot, settled as their
   // result is handed on: a signal emitted after that ends nothing.
   ::lumex::applied::transport::detail::mark_registry marks_;

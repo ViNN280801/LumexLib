@@ -539,7 +539,7 @@ dialogue_impl::run_send_step (sequence_run_t &run,
       note_held_row (run);
       run.waiting = sequence_run_t::waiting_t::exchange;
       run.exchange_id = exchange;
-      run_enqueue (exchange, request, handler);
+      run_enqueue (exchange, request, handler, true);
     }
   catch (...)
     {
