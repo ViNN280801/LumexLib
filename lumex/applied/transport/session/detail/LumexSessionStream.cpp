@@ -167,7 +167,14 @@ public:
   drop_connection () override
   {
     session_->request_drop_link (
-        make_error_code (transport_errc::disconnected));
+        make_error_code (transport_errc::disconnected), false);
+  }
+
+  void
+  reject_connection () override
+  {
+    session_->request_drop_link (
+        make_error_code (transport_errc::disconnected), true);
   }
 
   void

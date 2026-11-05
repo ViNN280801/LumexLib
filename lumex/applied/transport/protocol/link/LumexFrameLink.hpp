@@ -151,6 +151,16 @@ public:
   {
     close ();
   }
+  /// @brief The check of the device after a connection failed (the dialogue
+  /// gave it up): a link that connects again counts it as a failed attempt,
+  /// whatever the connection carried, so its wait grows and its attempts are
+  /// limited. By default it calls `drop_connection ()`, so a link that
+  /// implements only that one keeps working.
+  virtual void
+  reject_connection () LUMEX_NOEXCEPT
+  {
+    drop_connection ();
+  }
   /// @brief Whether the link connects again by itself (over a session): the
   /// dialogue then repeats what a new connection needs. By default no.
   virtual bool
@@ -199,6 +209,22 @@ drop_connection_of (Link &link) LUMEX_NOEXCEPT
   catch (...)
     {
       // Out of memory: the connection stays; the next silence tries again.
+    }
+}
+
+/// @brief What a link does whose check failed: as `drop_connection_of`, with
+/// the transport told that the connection failed.
+template <typename Link>
+void
+reject_connection_of (Link &link) LUMEX_NOEXCEPT
+{
+  try
+    {
+      link.transport ().impl ()->reject_connection ();
+    }
+  catch (...)
+    {
+      // Out of memory: the connection stays; the next check tries again.
     }
 }
 
@@ -266,6 +292,12 @@ public:
   drop_connection () LUMEX_NOEXCEPT override
   {
     drop_connection_of (link_);
+  }
+
+  void
+  reject_connection () LUMEX_NOEXCEPT override
+  {
+    reject_connection_of (link_);
   }
 
   bool
@@ -352,6 +384,12 @@ public:
   drop_connection () LUMEX_NOEXCEPT override
   {
     drop_connection_of (link_);
+  }
+
+  void
+  reject_connection () LUMEX_NOEXCEPT override
+  {
+    reject_connection_of (link_);
   }
 
   bool

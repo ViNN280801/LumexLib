@@ -115,7 +115,10 @@
  * last frame, the link is lost (error): the exchanges in flight end with
  * `link_lost`, the transport is closed (`frame_link_impl::drop_connection`),
  * and it watches again once a frame comes: on a link that can connect again,
- * since the default of `drop_connection` closes for good. A `dangerous` row
+ * since the default of `drop_connection` closes for good. Over a session the
+ * drop of a link that received data since its open is a new cycle of the
+ * session, one that received nothing is a failed attempt (see
+ * `session::reconnect_policy_t`). A `dangerous` row
  * logs each attempt at info.
  *
  * Reconnect. Over a link that connects again by itself (`frame_link::
@@ -149,8 +152,10 @@
  * moves and other calls start. While the check runs a new call ends with
  * `link_lost`. A check that says another device went on the link ends what
  * waited with `link_lost` and sends no stream row. A check that ends with
- * `timeout`, `retries_exhausted` or `link_lost` gives the connection up, and
- * the link connects again by its policy. Any other error of the check (a
+ * `timeout`, `retries_exhausted` or `link_lost` gives the connection up
+ * (`frame_link_impl::reject_connection`: a failed attempt of the session,
+ * whatever the connection carried), and the link connects again by its
+ * policy. Any other error of the check (a
  * device that names no layer of the table) leaves an open link whose device is
  * not checked: what waited ends with `link_lost`, a new call with
  * `not_supported`, until a new connection or an identification that finds the

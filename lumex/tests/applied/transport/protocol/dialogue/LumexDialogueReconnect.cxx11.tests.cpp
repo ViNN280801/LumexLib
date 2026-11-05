@@ -344,7 +344,7 @@ TEST (LumexDialogueReconnect, ALinkWithoutASession_DoesNotReconnect)
 }
 
 // The defaults of frame_link_impl.
-class own_link_t final : public pr::frame_link_impl
+class own_link_t : public pr::frame_link_impl
 {
 public:
   explicit own_link_t (asio::io_context &context)
@@ -415,5 +415,79 @@ TEST (LumexDialogueReconnect, FrameLinkImpl_DefaultsSayNo)
   EXPECT_TRUE (link.is_open ());
   link.drop_connection ();
   EXPECT_FALSE (link.is_open ());
+}
+
+TEST (LumexDialogueReconnect, FrameLinkImpl_RejectClosesThroughTheDefault)
+{
+  // Falsified by a reject that does nothing: a link written before it was
+  // added would stay open after a failed check.
+  asio::io_context context;
+  own_link_t link (context);
+  EXPECT_TRUE (link.is_open ());
+  link.reject_connection ();
+  EXPECT_FALSE (link.is_open ());
+}
+
+/// A link of one's own that connects again and implements only
+/// `drop_connection`, as the links written before `reject_connection` do.
+class dropping_link_t final : public own_link_t
+{
+public:
+  using own_link_t::own_link_t;
+
+  bool
+  reconnects () const LUMEX_NOEXCEPT override
+  {
+    return true;
+  }
+
+  void
+  watch_connection (tr::connection_handler_t handler) override
+  {
+    handler_ = std::move (handler);
+  }
+
+  void
+  drop_connection () LUMEX_NOEXCEPT override
+  {
+    ++drops;
+  }
+
+  /// The event of the connection, on the strand of the link.
+  void
+  emit (tr::connection_event event)
+  {
+    tr::connection_handler_t const handler = handler_;
+    asio::post (get_strand (),
+                [handler, event] () { handler (event, std::error_code ()); });
+  }
+
+  int drops = 0;
+
+private:
+  tr::connection_handler_t handler_;
+};
+
+TEST (LumexDialogueReconnect, ACheckThatFailsRejectsTheConnection)
+{
+  // Falsified by a failed check that does not give up the connection, and by
+  // a default of the reject that does not reach drop_connection of a link
+  // that implements only that one.
+  asio::io_context context;
+  tr::testing::virtual_clock clock;
+  std::shared_ptr<dropping_link_t> const link
+      = std::make_shared<dropping_link_t> (context);
+  pr::dialogue_options_t options;
+  options.timers = clock.source ();
+  options.reconnect.check = [] (pr::reconnect_done_t done)
+    { done (std::error_code (protocol_errc::timeout), false); };
+  pr::dialogue_engine engine (pr::frame_link (link), pump_index (), options);
+  tr::testing::run_until (context, clock, [] () { return false; }, ms (0));
+  link->emit (tr::connection_event::lost);
+  tr::testing::run_until (context, clock, [] () { return false; }, ms (0));
+  EXPECT_EQ (link->drops, 0);
+  link->emit (tr::connection_event::opened);
+  tr::testing::run_until (context, clock, [] () { return false; }, ms (0));
+  EXPECT_EQ (link->drops, 1);
 }
 } // namespace

@@ -136,6 +136,8 @@ template <typename Handler> struct observed_handler
   // user's slot), and the mark of the operation (see io_canceller).
   std::shared_ptr<asio::cancellation_signal> signal;
   ::lumex::applied::transport::detail::operation_mark_ptr pending;
+  // A read or a receive: only what a device sent counts as a sign of life.
+  bool receives;
 
   template <typename... Args>
   void
@@ -144,7 +146,7 @@ template <typename Handler> struct observed_handler
     std::shared_ptr<session_core> const alive = core.lock ();
     if (alive)
       alive->note_io_result (generation, error,
-                             !error && carried_data (args...));
+                             !error && carried_data (args...), receives);
     pending.reset ();
     asio::dispatch (asio::append (std::move (handler), error,
                                   std::forward<Args> (args)...));
@@ -219,6 +221,13 @@ struct read_some_operation
 {
   mutable_bytes_t buffer;
 
+  /// @brief Whether the operation reads what the device sent.
+  static bool
+  receives () LUMEX_NOEXCEPT
+  {
+    return true;
+  }
+
   template <typename Handler>
   void
   start (stream::byte_stream &stream, Handler &&handler)
@@ -251,6 +260,13 @@ struct write_some_operation
 {
   const_bytes_t data;
 
+  /// @brief Whether the operation reads what the device sent.
+  static bool
+  receives () LUMEX_NOEXCEPT
+  {
+    return false;
+  }
+
   template <typename Handler>
   void
   start (stream::byte_stream &stream, Handler &&handler)
@@ -278,6 +294,13 @@ struct write_all_operation
 {
   const_bytes_t data;
 
+  /// @brief Whether the operation reads what the device sent.
+  static bool
+  receives () LUMEX_NOEXCEPT
+  {
+    return false;
+  }
+
   template <typename Handler>
   void
   start (stream::byte_stream &stream, Handler &&handler)
@@ -303,6 +326,13 @@ struct write_all_operation
 /// @brief `async_receive` on the current message transport.
 struct receive_operation
 {
+  /// @brief Whether the operation reads what the device sent.
+  static bool
+  receives () LUMEX_NOEXCEPT
+  {
+    return true;
+  }
+
   template <typename Handler>
   void
   start (datagram::message_transport &transport, Handler &&handler)
@@ -334,6 +364,13 @@ struct receive_operation
 struct send_operation
 {
   datagram::message_t message;
+
+  /// @brief Whether the operation reads what the device sent.
+  static bool
+  receives () LUMEX_NOEXCEPT
+  {
+    return false;
+  }
 
   template <typename Handler>
   void
@@ -442,8 +479,9 @@ public:
         return;
       }
     observed_handler<Handler> observed
-        = { shared_from_this (), strand (), generation,
-            std::move (handler), signal,    pending };
+        = { shared_from_this (),   strand (), generation,
+            std::move (handler),   signal,    pending,
+            Operation::receives () };
     operation.start (*current_, std::move (observed));
   }
 
