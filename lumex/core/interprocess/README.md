@@ -60,4 +60,4 @@ The library is compiled as C++11 and exports the class through `LUMEX_INTERPROCE
 ## Tests and examples
 
 - `lumex/tests/core/interprocess/`: `ctest -R '^interprocess\.'`, suites at C++11, 14, 17, 20 and 23. Besides the cases of one process (another object of the same process is another owner), a second process holds the lock and is killed (`TerminateProcess`, `SIGKILL`), and death tests end a holder with `_Exit`; one of them checks that the child locked the very file the parent reads.
-- `lumex/examples/interprocess/`: `LumexInterprocessExampleLock` (the whole class in one process) and `LumexInterprocessExampleLockHold <seconds>` (run it in two consoles).
+- `lumex/examples/interprocess/`: `LumexInterprocessExampleLock` (the whole class in one process) and `LumexInterprocessExampleLockHold <seconds>` (run it in two consoles). `LumexInterprocessExampleLockRetry` waits for a lock that another owner holds: a retry loop of the caller with a pause and a limit, which retries only `busy` (a thread plays the other owner, so it runs in one process under CTest).

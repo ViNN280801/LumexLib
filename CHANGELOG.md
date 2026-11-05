@@ -297,6 +297,14 @@
 
 **Проверено:** Linux, GCC 13 и Clang 23 (`LUMEX_WERROR=ON`), GCC 8.3 C++11: матрица 412 из 412, пять повторов; ASan+UBSan 412 из 412 без отчетов; набор на потоках под TSan 50 прогонов на GCC 13 и 10 на Clang 23 без отчетов; матрица целиком 5.5 s при `ctest -j8`, 39.8 s при `-j1`. Компиляция одной единицы прибора до 10.4 s и 996 MB. Семь мутаций (без повторов, без `max_frame_size`, поздний ответ отдается следующему запросу, очередь без границы, Modbus RTU без предела кадра, поздний ответ в окне не считается, декодер не сбрасывается при обрыве) пойманы ячейками матрицы. Windows не запускался.
 
+##### Примеры диалога, поиска приборов, кадрирования и повтора блокировки
+
+**Файлы:** `lumex/examples/protocol/` (новые: `example_protocol_lamp.hpp`, `example_protocol_loopback.hpp`, `example_protocol_client.cpp`, `example_protocol_simulator.cpp`, `example_protocol_reconnect.cpp`, `example_protocol_fields.cpp`, `example_protocol_registry.cpp`), `lumex/examples/framing/` (`example_framing_binary.cpp`, `example_framing_stages.cpp`), `lumex/examples/interprocess/example_interprocess_lock_retry.cpp`, `lumex/examples/transport/example_transport_session.cpp`, README модулей `applied/transport`, `core/protocol`, `core/framing`, `core/interprocess`.
+
+**Суть:** сгенерированный клиент над настоящим TCP loopback к симулятору выдуманного сценического светильника в двух формах на проводе (текст и байты) одним шаблоном; симулятор на виртуальных часах с поведениями и классами исхода; клиент над переподключаемой сессией (`as_byte_stream ()`, `on_reconnect`) и поиск приборов `async_discover`; учебники по полям, раскладкам и реестрам (`verify_registry`); остальные двоичные кодеки и стадии `core/framing`; повтор `try_acquire` с пределом; кадровый адаптер на сессии и задержки переподключения на `virtual_clock` в примере сессий. В README `applied/transport` новый раздел "Протокол обмена".
+
+**Проверено:** Linux, все 119 примеров собраны и запущены на GCC 13, Clang 23 и GCC 8.3 без предупреждений (`LUMEX_WERROR=ON`), `ctest ^examples\.` 120 из 120 на GCC 13 и Clang 23; ASan и UBSan новых примеров без сообщений; каталоги примеров собраны против установленного пакета. Windows не запускался.
+
 #### Исправлено
 
 ##### `core/protocol`: предупреждения GCC `-Wfloat-equal` в заголовках

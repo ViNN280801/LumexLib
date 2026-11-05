@@ -359,7 +359,13 @@ X_AS (ERASE_LOG, "DELETE", 0x03, "Очистка журнала", (), (), (), ()
 
 ## Примеры
 
-`lumex/examples/protocol/` (выдуманный прибор, общая таблица в `example_protocol_beacon.hpp`, без реальных протоколов): `example_protocol_index.cpp` строит индекс и печатает строки `describe` для запросов, принятых ответов, неизвестного и поврежденного кадров; `example_protocol_export.cpp` печатает `export_markdown` и, при `LUMEX_PROTOCOL_WITH_JSON`, `export_json_text`. Оба зарегистрированы в CTest (`examples.protocol.LumexProtocolExampleIndex`, `examples.protocol.LumexProtocolExampleExport`).
+`lumex/examples/protocol/` (выдуманные приборы, без реальных протоколов; все запускаются без оборудования и идут в CTest как `examples.protocol.*`). С одним модулем `protocol`:
+
+- `example_protocol_index.cpp` (таблица `example_protocol_beacon.hpp`) строит индекс и печатает строки `describe` для запросов, принятых ответов, неизвестного и поврежденного кадров; `example_protocol_export.cpp` печатает `export_markdown` и, при `LUMEX_PROTOCOL_WITH_JSON`, `export_json_text`.
+- `example_protocol_fields.cpp`: учебник по полям и раскладкам на выдуманном нагревателе. Запрос с инженерными значениями и его байты (`encode_request`, `encode_message` с ключом), ответ со словом из частей (`split_`, `bits_`, имена перечисления), текст и счетчик с массивом, значение, которое не помещается в поле (`invalid_value`, ничего не записано), те же строки в текстовой раскладке (`LUMEX_PROTOCOL_EXTEND_FRAMED`), принятое сообщение, которое `dispatch_message` отдает посетителю по ключу (и `unknown_frame` для чужого ключа), пробное значение (`sample_value`).
+- `example_protocol_registry.cpp`: учебник по реестрам на выдуманном датчике. Таблица параметров (доступ, пределы, диапазон прошивок, `P_AS` для имени-макроса), запись параметра по перечислителю реестра, отказы кодировщика (`out_of_limits`, `access_denied`), кадры словами таблицы (`describe`) и `verify_registry`: прибор, который согласен с таблицей, прибор с расхождениями и сверка с прошивкой сеанса (`skipped`).
+
+С модулями `transport` и `framing` (клиент, симулятор прибора, переподключение и поиск, коды диалога от 100 в действии: `timeout`, `retries_exhausted`, `nak`, `not_accepted_in_state`, `link_lost`) показывают `example_protocol_client.cpp`, `example_protocol_simulator.cpp` и `example_protocol_reconnect.cpp`, общий выдуманный сценический светильник в `example_protocol_lamp.hpp`; раздел "Протокол обмена" в `lumex/applied/transport/README.md` описывает каждый.
 
 ## Фаззинг
 

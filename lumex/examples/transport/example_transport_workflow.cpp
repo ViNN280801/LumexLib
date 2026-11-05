@@ -1,8 +1,10 @@
 // A device client the way a real application builds it from lumex::transport
 // and lumex::framing: a reconnecting stream_session over TCP, a line codec
-// that cuts the byte stream into replies (the framed adapters own a plain
-// byte_stream, not a session, so a client that reconnects feeds the codec
-// itself), the transport log and the counters. The "device" is a line
+// that cuts the byte stream into replies (fed by the client itself, to show
+// what the framed adapter does for you: a framed_stream can sit on
+// session.as_byte_stream () and does the same, see example_transport_session
+// and, with a table of the protocol, example_protocol_reconnect), the
+// transport log and the counters. The "device" is a line
 // protocol server on loopback, started here: it answers HELLO and READ n,
 // sends a damaged (too long) line once, and resets the connection on RESET.
 // After a reset the client waits for the session to reconnect and identifies

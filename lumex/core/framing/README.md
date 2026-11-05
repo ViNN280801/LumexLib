@@ -4,6 +4,17 @@
 
 Кодеки кадров поверх потока байт: SLIP, COBS, по разделителю, с префиксом длины, с заголовком и контрольной суммой, Modbus RTU и конвейеры стадий.
 
+## Примеры
+
+`lumex/examples/framing/` (выдуманные протоколы, запускаются без оборудования, в CTest как `examples.framing.*`):
+
+- `example_framing.cpp`: SLIP, строки с разделителем (`delimiter_codec`) и что декодер говорит о поврежденном кадре.
+- `example_framing_binary.cpp`: остальные двоичные кодеки: COBS (кадр без нулевого байта), префикс длины (ширина, порядок байт, предел кадра против испорченной длины), `header_codec` (преамбула, длина, команда, CRC-16; шум перед преамбулой пропускается молча, испорченный кадр отбрасывается с причиной) и Modbus RTU (длина кадра из кода функции, CRC младшим байтом вперед). В конце каждый поток подается по одному байту: кадры те же.
+- `example_framing_pipeline.cpp`: конвейер из разделителя, префиксного символа, шестнадцатеричных цифр и контрольной суммы для выдуманного текстового протокола.
+- `example_framing_stages.cpp`: стадии по одной, без кодека вокруг (`encode` и `decode`): префиксный символ, шестнадцатеричные цифры, контрольные значения XOR, сумма и CRC-16 (двоичные и текстом), необязательное контрольное значение (`checksum_optional`), разворот слов (`word_reverse_stage`) и конвейер из нескольких стадий.
+
+Кодеки на транспорте (`framed_stream`, `framed_datagram`): раздел "Кадры" в `lumex/applied/transport/README.md` и `lumex/examples/transport/example_transport_framed.cpp`.
+
 ## Фаззинг
 
 С `LUMEX_BUILD_FUZZERS=ON` (Clang, `LUMEX_BUILD_TESTS`) для каждого кодека и для конвейера собирается цель libFuzzer в `lumex/tests/fuzz/framing/` с AddressSanitizer: `fuzz.framing.slip`, `cobs`, `delimiter`, `lengthprefix`, `header`, `modbusrtu`, `pipeline`. CTest запускает каждую на 30 секунд под меткой `fuzz` (`ctest -L fuzz`).

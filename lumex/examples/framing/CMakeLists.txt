@@ -19,3 +19,19 @@ lumex_example_executable(
   REQUIRE_TARGET lumex::framing
   CXX_STANDARD 11
 )
+# The binary codecs (COBS, length prefix, header with a CRC, Modbus RTU) and
+# the stages of a pipeline, each on a made-up protocol.
+lumex_example_executable(
+  NAME LumexFramingExampleBinary
+  SOURCE example_framing_binary.cpp
+  LINK lumex::framing
+  REQUIRE_TARGET lumex::framing
+  CXX_STANDARD 11
+)
+lumex_example_executable(
+  NAME LumexFramingExampleStages
+  SOURCE example_framing_stages.cpp
+  LINK lumex::framing
+  REQUIRE_TARGET lumex::framing
+  CXX_STANDARD 11
+)
