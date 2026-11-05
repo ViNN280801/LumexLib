@@ -6,6 +6,8 @@
 
 ## Примеры
 
+В собранном пакете исходники примеров лежат в `share/examples/framing` вместе с `CMakeLists.txt`: `cmake -S <префикс>/share/examples/framing -B build -DLumexLib_DIR=<префикс>/lib/cmake/LumexLib` и `cmake --build build` собирают их против установленных библиотек (бинарных файлов примеров в пакете нет; подробнее в `lumex/examples/README.md`).
+
 `lumex/examples/framing/` (выдуманные протоколы, запускаются без оборудования, в CTest как `examples.framing.*`):
 
 - `example_framing.cpp`: SLIP, строки с разделителем (`delimiter_codec`) и что декодер говорит о поврежденном кадре.

@@ -3,14 +3,23 @@
 # Dual mode:
 # - In-tree (add_subdirectory from lumex/examples/): link lumex::* aliases
 #   already created by the library build.
-# - Standalone (this dir is CMAKE_SOURCE_DIR): find_package(LumexLib) after
-#   install, then link the same lumex::* names.
+# - Standalone (this dir is CMAKE_SOURCE_DIR): the installed copy under
+#   share/examples/<component> (or a checkout used the same way), configured
+#   with -DLumexLib_DIR=<prefix>/lib/cmake/LumexLib. The package is found
+#   when this file is included, and the same lumex::* names are linked.
+# Every component CMakeLists.txt starts with a literal cmake_minimum_required
+# and project (): CMake 4 refuses a top-level file without them, and a call
+# inside a function does not count. In the tree the project () is that of a
+# subdirectory, which changes nothing the examples use.
 # When LUMEX_BUILD_TESTS is ON, each in-tree example is also an add_test
 # (exit 0 required) named examples.<directory>.<NAME>, for example
 # examples.atomic.LumexAtomicExample (lumex_example_test_name). Binaries land
-# in ${CMAKE_BINARY_DIR}/bin next to shared Lumex DLLs.
+# in ${CMAKE_BINARY_DIR}/bin next to shared Lumex DLLs. The package carries
+# the sources of the examples, never their binaries.
 #
 # Usage in a component CMakeLists.txt:
+#   cmake_minimum_required(VERSION 3.16)
+#   project(LumexExamples<Component> LANGUAGES CXX)
 #   include(${CMAKE_CURRENT_LIST_DIR}/../cmake/LumexExampleHelpers.cmake)
 #   lumex_example_executable(
 #     NAME LumexBase64Example
@@ -24,6 +33,12 @@
 
 # Directory of this file, recorded when a component includes it.
 set(_LUMEX_EXAMPLE_HELPERS_DIR "${CMAKE_CURRENT_LIST_DIR}")
+
+# Standalone: find the installed package once, here, where the project () of
+# the including directory has already run.
+if(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
+  find_package(LumexLib REQUIRED)
+endif()
 
 # lumex_example_test_name(<out_var> <name>)
 #
@@ -51,9 +66,6 @@ function(lumex_example_executable)
   endif()
 
   if(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
-    cmake_minimum_required(VERSION 3.16)
-    project(${LEX_NAME} LANGUAGES CXX)
-    find_package(LumexLib REQUIRED)
     if(NOT TARGET ${LEX_REQUIRE_TARGET})
       message(FATAL_ERROR
         "${LEX_REQUIRE_TARGET} not found. Install LumexLib with the matching "
@@ -85,7 +97,6 @@ function(lumex_example_executable)
     set_target_properties(${LEX_NAME} PROPERTIES
       RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
     )
-    set_property(GLOBAL APPEND PROPERTY LUMEX_EXAMPLE_TARGETS ${LEX_NAME})
     # ThreadSanitizer with libc++ (cmake/LumexBuild.cmake); in-tree only.
     lumex_add_tsan_libcxx_support(${LEX_NAME})
     if(LUMEX_BUILD_TESTS)
@@ -99,8 +110,6 @@ function(lumex_example_executable)
         set_tests_properties(${_ctest_name} PROPERTIES TIMEOUT ${LEX_TEST_TIMEOUT})
       endif()
     endif()
-  else()
-    install(TARGETS ${LEX_NAME} DESTINATION bin)
   endif()
 
   # Examples are not the shipped surface, so silence every warning for the

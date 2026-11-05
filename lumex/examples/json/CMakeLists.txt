@@ -7,6 +7,9 @@
 # In-tree: gated by lumex/examples/CMakeLists.txt via LUMEX_BUILD_* options;
 # the vendored 3rdparty/nlohmann copy is used.
 
+cmake_minimum_required(VERSION 3.16)
+# A project of its own: standalone after install, a subproject in the tree.
+project(LumexExamplesJson LANGUAGES CXX)
 include(${CMAKE_CURRENT_LIST_DIR}/../cmake/LumexExampleHelpers.cmake)
 lumex_example_executable(
   NAME LumexJsonExample

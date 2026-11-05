@@ -1,6 +1,9 @@
 # Standalone after install: configure this directory with LumexLib_DIR set.
 # In-tree: gated by LUMEX_BUILD_XML.
 
+cmake_minimum_required(VERSION 3.16)
+# A project of its own: standalone after install, a subproject in the tree.
+project(LumexExamplesXml LANGUAGES CXX)
 include(${CMAKE_CURRENT_LIST_DIR}/../cmake/LumexExampleHelpers.cmake)
 lumex_example_executable(
   NAME LumexXmlExample1
@@ -36,7 +39,4 @@ if(TARGET LumexXmlExample3)
       "$<TARGET_FILE_DIR:LumexXmlExample3>/${EX3_XML_FILE}"
     COMMENT "Copying ${EX3_XML_FILE} to build directory"
   )
-  if(LUMEX_INSTALL)
-    install(FILES ${EX3_XML_FILE} DESTINATION bin)
-  endif()
 endif()

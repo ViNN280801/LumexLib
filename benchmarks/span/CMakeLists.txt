@@ -37,6 +37,25 @@
 #   python benchmarks/span/run_benchmark.py
 #          --build-dir gcc=build-bench-gcc --build-dir clang=build-bench-clang
 
+cmake_minimum_required(VERSION 3.16)
+# A project of its own: standalone after install (cmake -S <prefix>/share/benchmarks/span
+# -B build -DLumexLib_DIR=<prefix>/lib/cmake/LumexLib), a subproject in the tree.
+project(LumexBenchmarksSpan LANGUAGES CXX)
+if(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
+    find_package(LumexLib REQUIRED)
+    foreach(_lumex_required lumex::span)
+        if(NOT TARGET ${_lumex_required})
+            message(FATAL_ERROR
+                "${_lumex_required} not found: the package was built without that module "
+                "(LumexLib_DIR=${LumexLib_DIR})")
+        endif()
+    endforeach()
+    # Only a Release build gives numbers that mean anything.
+    if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+        set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build." FORCE)
+    endif()
+endif()
+
 set(LUMEX_BENCH_BOOST_INCLUDE_DIR "" CACHE PATH
     "Directory that holds boost/core/span.hpp (Boost 1.78 or later, headers only); empty: find_package(Boost)")
 

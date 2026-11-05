@@ -10,6 +10,9 @@
 # (example_format_ranges), chrono (example_format_chrono), user types
 # (example_format_custom) and a practical report (example_format_workflow).
 
+cmake_minimum_required(VERSION 3.16)
+# A project of its own: standalone after install, a subproject in the tree.
+project(LumexExamplesFmt LANGUAGES CXX)
 include(${CMAKE_CURRENT_LIST_DIR}/../cmake/LumexExampleHelpers.cmake)
 lumex_example_executable(
   NAME LumexFormatExample

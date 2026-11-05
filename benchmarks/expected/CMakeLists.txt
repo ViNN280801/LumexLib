@@ -36,6 +36,25 @@
 #   cmake --build build-bench-gcc
 #   python benchmarks/expected/run_benchmark.py --build-dir gcc=build-bench-gcc
 
+cmake_minimum_required(VERSION 3.16)
+# A project of its own: standalone after install (cmake -S <prefix>/share/benchmarks/expected
+# -B build -DLumexLib_DIR=<prefix>/lib/cmake/LumexLib), a subproject in the tree.
+project(LumexBenchmarksExpected LANGUAGES CXX)
+if(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
+    find_package(LumexLib REQUIRED)
+    foreach(_lumex_required lumex::expected)
+        if(NOT TARGET ${_lumex_required})
+            message(FATAL_ERROR
+                "${_lumex_required} not found: the package was built without that module "
+                "(LumexLib_DIR=${LumexLib_DIR})")
+        endif()
+    endforeach()
+    # Only a Release build gives numbers that mean anything.
+    if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+        set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build." FORCE)
+    endif()
+endif()
+
 set(LUMEX_BENCH_BOOST_INCLUDE_DIR "" CACHE PATH
     "Directory that holds boost/outcome/result.hpp (headers only); empty: find_package(Boost)")
 
@@ -63,19 +82,30 @@ else()
         "(set LUMEX_BENCH_BOOST_INCLUDE_DIR); the outcome variant is skipped")
 endif()
 
-# Does the standard library have std::expected at C++23?
-include(CheckCXXSourceCompiles)
-set(_lumex_bench_saved_standard "${CMAKE_CXX_STANDARD}")
-set(CMAKE_CXX_STANDARD 23)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-check_cxx_source_compiles("
+# Does the standard library have std::expected at C++23? Asked only of a
+# compiler that has C++23 at all: CMake ends the configure with an error when
+# CXX_STANDARD names a dialect the compiler lacks (GCC 8.3, the C++11 floor of
+# the library), so the check is skipped there and the std variant with it.
+if("cxx_std_23" IN_LIST CMAKE_CXX_COMPILE_FEATURES)
+    include(CheckCXXSourceCompiles)
+    set(_lumex_bench_saved_standard "${CMAKE_CXX_STANDARD}")
+    set(CMAKE_CXX_STANDARD 23)
+    set(CMAKE_CXX_STANDARD_REQUIRED ON)
+    check_cxx_source_compiles("
 #include <expected>
 #if !defined(__cpp_lib_expected)
 #error no std::expected
 #endif
 int main () { std::expected<int, int> e (1); return e.value () - 1; }
 " LUMEX_BENCH_HAS_STD_EXPECTED)
-set(CMAKE_CXX_STANDARD "${_lumex_bench_saved_standard}")
+    set(CMAKE_CXX_STANDARD "${_lumex_bench_saved_standard}")
+else()
+    # Set here and not before the check: check_cxx_source_compiles does
+    # nothing when its result variable is already defined.
+    set(LUMEX_BENCH_HAS_STD_EXPECTED FALSE)
+    message(STATUS "expected benchmark: the compiler has no C++23; "
+        "the std variant is skipped")
+endif()
 
 function(lumex_expected_bench_variant impl standard)
     if(impl STREQUAL "lumex")

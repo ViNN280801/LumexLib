@@ -1,6 +1,9 @@
 # Standalone after install: configure this directory with LumexLib_DIR set.
 # In-tree: gated by LUMEX_BUILD_APPLIED and LUMEX_BUILD_HARDWARE.
 
+cmake_minimum_required(VERSION 3.16)
+# A project of its own: standalone after install, a subproject in the tree.
+project(LumexExamplesHardware LANGUAGES CXX)
 include(${CMAKE_CURRENT_LIST_DIR}/../cmake/LumexExampleHelpers.cmake)
 lumex_example_executable(
   NAME LumexHardwareExampleCPUVectorizationCapabilities

@@ -1,7 +1,5 @@
 # lumex/examples/CMakeLists.txt
 
-set_property(GLOBAL PROPERTY LUMEX_EXAMPLE_TARGETS "")
-
 if(LUMEX_BUILD_CORE AND LUMEX_BUILD_ATOMIC)
     add_subdirectory(atomic)
 else()
@@ -212,8 +210,6 @@ else()
     message(STATUS "Skipping xml examples (LUMEX_BUILD_XML=OFF)")
 endif()
 
-get_property(_example_targets GLOBAL PROPERTY LUMEX_EXAMPLE_TARGETS)
-if(LUMEX_INSTALL AND _example_targets)
-    install(TARGETS ${_example_targets} DESTINATION bin)
-endif()
+# The package carries the sources of the examples (share/examples, installed by
+# cmake/LumexInstallSources.cmake), not their binaries.
 

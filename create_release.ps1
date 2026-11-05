@@ -23,6 +23,8 @@ param(
     [string[]] $Formats   = @('zip'),
     [string[]] $Std     = @(),
     [switch] $NoWerror,
+    [switch] $NoDocs,
+    [string] $Doxygen   = '',
     [string] $OutputDir = '',
     [string] $Version   = '',
     [string] $Tag       = '',
@@ -45,11 +47,14 @@ function Write-Usage {
     @'
 Usage: ./create_release.ps1 -Compilers <v143,D:\local\LLVM\bin\clang-cl.exe> [options]
 
-Builds LumexLib (Release, shared libraries, no tests, no documentation) once
-per compiler and ISA, installs it under <output-dir>/.work and packages each
-build as LumexLib-<version>_win_<ISA>_<compiler>_cxx<std>.<format>, for
-example LumexLib-2.0.0.0_win_x64_msvc2026_cxx20.zip or
-LumexLib-2.0.0.0_win_x64_clang-cl-21.1.5_cxx17.zip.
+Builds LumexLib (Release, shared libraries, no tests) once per compiler and
+ISA, installs it under <output-dir>/.work and packages each build as
+LumexLib-<version>_win_<ISA>_<compiler>_cxx<std>.<format>, for example
+LumexLib-2.0.0.0_win_x64_msvc2026_cxx20.zip or
+LumexLib-2.0.0.0_win_x64_clang-cl-21.1.5_cxx17.zip. A package has bin, lib,
+include, dev, share\LumexLib (license, notices), and, as sources only,
+share\examples and share\benchmarks (one directory per module, each a project
+that builds against the package), and share\doc (the documentation).
 
 Required:
   -Compilers LIST    Comma-separated compilers. Each entry is either
@@ -84,6 +89,13 @@ Options:
                      -DLUMEX_WERROR=ON, so a warning fails the build. A -Tag
                      older than 2.0.0.0 has no such option and builds as it
                      was released.
+  -NoDocs            Build the packages without the documentation. By default
+                     the Doxygen documentation is generated once, before the
+                     builds, and every package carries it in share\doc\html
+                     (open index.html); a missing Doxygen stops the run before
+                     the first build, so that a release does not lose the
+                     documentation unnoticed.
+  -Doxygen PATH      The Doxygen executable (default: doxygen from PATH).
   -OutputDir DIR     Where the packages go (default: <repo>/release).
   -Version V         Override the version read from project(LumexLib
                      VERSION); it changes the artifact names only, the
@@ -271,6 +283,26 @@ if (-not (Get-Command cmake -ErrorAction SilentlyContinue)) { Die "'cmake' is no
 if ($FormatList -contains 'tar.gz') {
     if (-not (Get-Command tar -ErrorAction SilentlyContinue)) {
         Die "tar.gz needs 'tar' in PATH (shipped with Windows 10 and later)"
+    }
+}
+# The documentation of the packages: Doxygen is looked for before the first
+# build, so that a run of hours does not end in packages without it.
+$DoxygenExe = ''
+if (-not $NoDocs) {
+    if (-not [string]::IsNullOrWhiteSpace($Doxygen)) {
+        if (Test-Path -LiteralPath $Doxygen -PathType Leaf) {
+            $DoxygenExe = (Resolve-Path -LiteralPath $Doxygen).Path
+        }
+    }
+    else {
+        $doxygenCommand = Get-Command doxygen -ErrorAction SilentlyContinue
+        if ($null -ne $doxygenCommand) {
+            $DoxygenExe = $doxygenCommand.Source
+        }
+    }
+    if ([string]::IsNullOrWhiteSpace($DoxygenExe)) {
+        $where = if ([string]::IsNullOrWhiteSpace($Doxygen)) { 'not in PATH' } else { $Doxygen }
+        Die "doxygen not found ($where): the packages carry the documentation (share\doc). Install Doxygen, name it with -Doxygen, or pass -NoDocs to build the packages without the documentation"
     }
 }
 
@@ -676,7 +708,18 @@ if (-not [string]::IsNullOrWhiteSpace($Version)) {
     }
 }
 
-Write-Host "LumexLib $EffectiveVersion, formats: $($FormatList -join ', ')$(if (-not $NoWerror) { ', -Werror' })"
+# A tag older than the documentation in the package has no option to put it
+# there: its packages are built as they were released, and the run says so.
+if (-not $NoDocs -and $Tag) {
+    $optionsText = Get-TreeFileText 'cmake/LumexOptions.cmake'
+    if (-not ($optionsText -match 'LUMEX_DOCUMENTATION_PREBUILT_DIR')) {
+        [Console]::Error.WriteLine("Warning: tag $Tag cannot install a finished documentation (no LUMEX_DOCUMENTATION_PREBUILT_DIR in its CMake files): its packages are built without share\doc")
+        $NoDocs = $true
+    }
+}
+$DocsInPackage = -not $NoDocs
+
+Write-Host "LumexLib $EffectiveVersion, formats: $($FormatList -join ', ')$(if (-not $NoWerror) { ', -Werror' })$(if ($DocsInPackage) { ', with the documentation' })"
 if ($DryRun) {
     Write-Colored 'Dry run: the commands are shown, nothing is built, installed or written.' 'Yellow'
 }
@@ -690,6 +733,43 @@ foreach ($job in $Jobs) {
             $stdText = if ($stdItem -ne 0) { "C++$stdItem" } else { 'C++default' }
             Write-Host "  $($job.Label) $isa $stdText ($detail)"
         }
+    }
+}
+
+# The documentation does not depend on the compiler or the standard: it is
+# generated once, here, and every build installs that tree into share\doc
+# (LUMEX_DOCUMENTATION_PREBUILT_DIR). The tree is configured with no module
+# (the Doxygen input is the source tree, not the build).
+$DocDir = Join-Path $WorkRoot 'docs'
+$DocOut = (Join-Path $DocDir 'out') -replace '\\', '/'
+if ($DocsInPackage) {
+    Write-Host ''
+    Write-Host '== documentation (once; every package carries it in share\doc)'
+    if (-not $DryRun) {
+        if (Test-Path -LiteralPath $DocDir) {
+            Remove-Item -LiteralPath $DocDir -Recurse -Force
+        }
+        New-Item -ItemType Directory -Force -Path $DocDir | Out-Null
+    }
+    $docBuild = (Join-Path $DocDir 'build') -replace '\\', '/'
+    $docConfigureArgs = @(
+        '-S', ($BuildRoot -replace '\\', '/'), '-B', $docBuild, '--no-warn-unused-cli',
+        '-DCMAKE_BUILD_TYPE=Release', '-DLUMEX_BUILD_TESTS=OFF', '-DLUMEX_INSTALL=OFF',
+        '-DLUMEX_BUILD_CORE=OFF', '-DLUMEX_BUILD_APPLIED=OFF', '-DLUMEX_BUILD_XML=OFF',
+        '-DLUMEX_BUILD_DOCUMENTATION=ON',
+        ('-DLUMEX_DOCUMENTATION_OUTPUT_DIR=' + $DocOut),
+        ('-DDOXYGEN_EXECUTABLE=' + ($DoxygenExe -replace '\\', '/'))
+    )
+    $docConfigureLog = Join-Path $DocDir 'configure.log'
+    if ((Invoke-NativeRedirected 'cmake' $docConfigureArgs $docConfigureLog) -ne 0) {
+        Die "the configure of the documentation failed, see $docConfigureLog"
+    }
+    $docBuildLog = Join-Path $DocDir 'build.log'
+    if ((Invoke-NativeRedirected 'cmake' @('--build', $docBuild, '--target', 'generate_documentation') $docBuildLog) -ne 0) {
+        Die "the documentation failed, see $docBuildLog"
+    }
+    if (-not $DryRun -and -not (Test-Path -LiteralPath (Join-Path $DocDir 'out\html\index.html'))) {
+        Die "the documentation was not generated: $DocDir\out\html\index.html is missing, see $docBuildLog"
     }
 }
 
@@ -744,6 +824,14 @@ foreach ($build in $Builds) {
         # A new warning fails the build; -NoWerror builds without it, like
         # --no-werror in create_release.sh.
         $extraCmakeArgs += '-DLUMEX_WERROR=ON'
+    }
+    # The package carries the documentation generated above (share\doc), or none.
+    if ($DocsInPackage) {
+        $extraCmakeArgs += '-DLUMEX_BUILD_DOCUMENTATION=ON'
+        $extraCmakeArgs += ('-DLUMEX_DOCUMENTATION_PREBUILT_DIR=' + $DocOut)
+    }
+    else {
+        $extraCmakeArgs += '-DLUMEX_BUILD_DOCUMENTATION=OFF'
     }
     if ($FormatList -contains 'exe') {
         # CPack builds the NSIS installer from the same build; the compiler
@@ -854,6 +942,9 @@ foreach ($build in $Builds) {
     if (-not $KeepWork -and -not $DryRun) {
         Remove-Item -LiteralPath $work -Recurse -Force
     }
+}
+if (-not $KeepWork -and -not $DryRun -and (Test-Path -LiteralPath $DocDir)) {
+    Remove-Item -LiteralPath $DocDir -Recurse -Force -ErrorAction SilentlyContinue
 }
 $keepWorkRoot = $false
 if ($TagWorktree -and -not $DryRun) {

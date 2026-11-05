@@ -11,6 +11,9 @@
 # copy; standalone after install it needs find_package(nlohmann_json 3) to
 # succeed, and is skipped otherwise.
 
+cmake_minimum_required(VERSION 3.16)
+# A project of its own: standalone after install, a subproject in the tree.
+project(LumexExamplesReflection LANGUAGES CXX)
 include(${CMAKE_CURRENT_LIST_DIR}/../cmake/LumexExampleHelpers.cmake)
 lumex_example_executable(
   NAME LumexReflectionExample

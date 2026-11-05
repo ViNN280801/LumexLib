@@ -51,7 +51,9 @@ foreach(_name
         LUMEX_WERROR
         LUMEX_BUILD_TIMING
         LUMEX_GENERATE_BUILD_INFO
-        LUMEX_BUILD_BENCHMARKS)
+        LUMEX_BUILD_BENCHMARKS
+        LUMEX_INSTALL_EXAMPLES
+        LUMEX_INSTALL_BENCHMARKS)
     string(FIND "${_opts}" "option(${_name} " _pos)
     if(_pos EQUAL -1)
         message(FATAL_ERROR

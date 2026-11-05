@@ -66,3 +66,24 @@ _require_text("create_release.ps1" "function Get-TreeFileText")
 _require_text("create_release.ps1" "-ForegroundColor $Color")
 _require_text("create_release.ps1" "(would be created)")
 _require_text("create_release.ps1" "Dry run finished:")
+
+# The documentation of the package (user, 2026-11-05): share/doc, built once per
+# run by the shell script into a directory of the work tree and installed by each
+# build from there (LUMEX_DOCUMENTATION_PREBUILT_DIR). It is the default: a
+# release must not lose it silently, so a missing Doxygen stops the run before
+# the first build, and --no-docs (-NoDocs) is the way to a package without it.
+# The PowerShell script is not run by this case.
+_require_text("create_release.sh" "--no-docs) DOCS=0")
+_require_text("create_release.sh" "--doxygen) need_value")
+_require_text("create_release.sh" "-DLUMEX_BUILD_DOCUMENTATION=ON")
+_require_text("create_release.sh" "-DLUMEX_BUILD_DOCUMENTATION=OFF")
+_require_text("create_release.sh" "-DLUMEX_DOCUMENTATION_PREBUILT_DIR=")
+_require_text("create_release.sh" "generate_documentation")
+_require_text("create_release.sh" "pass --no-docs to build the packages without the documentation")
+_require_text("create_release.ps1" "[switch] $NoDocs")
+_require_text("create_release.ps1" "[string] $Doxygen")
+_require_text("create_release.ps1" "-DLUMEX_BUILD_DOCUMENTATION=ON")
+_require_text("create_release.ps1" "-DLUMEX_BUILD_DOCUMENTATION=OFF")
+_require_text("create_release.ps1" "-DLUMEX_DOCUMENTATION_PREBUILT_DIR=")
+_require_text("create_release.ps1" "generate_documentation")
+_require_text("create_release.ps1" "pass -NoDocs to build the packages without the documentation")

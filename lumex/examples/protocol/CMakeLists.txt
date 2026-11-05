@@ -3,10 +3,11 @@
 #   cmake --build build
 # The Markdown export needs only lumex::protocol. The JSON export of the
 # second example also needs nlohmann/json 3.x from the consumer: standalone
-# builds find it with find_package(nlohmann_json), and the example prints the
-# JSON document only when the library was built with the option
-# LUMEX_PROTOCOL_WITH_JSON (the macro of the same name reaches the example
-# through lumex::protocol).
+# builds find it with find_package(nlohmann_json) and skip that example, with a
+# message, when they do not. The example prints the JSON document only when the
+# library was built with the option LUMEX_PROTOCOL_WITH_JSON (the macro of the
+# same name reaches the example through lumex::protocol), and needs the header
+# only then.
 #
 # The examples of the dialogue (client, simulator, reconnect) also need
 # lumex::transport, with its protocol, framing and testing parts, and are built
@@ -15,6 +16,9 @@
 # In-tree: gated by lumex/examples/CMakeLists.txt via LUMEX_BUILD_* options;
 # the vendored 3rdparty/nlohmann copy is used.
 
+cmake_minimum_required(VERSION 3.16)
+# A project of its own: standalone after install, a subproject in the tree.
+project(LumexExamplesProtocol LANGUAGES CXX)
 include(${CMAKE_CURRENT_LIST_DIR}/../cmake/LumexExampleHelpers.cmake)
 lumex_example_executable(
   NAME LumexProtocolExampleIndex
@@ -23,25 +27,46 @@ lumex_example_executable(
   REQUIRE_TARGET lumex::protocol
   CXX_STANDARD 11
 )
-lumex_example_executable(
-  NAME LumexProtocolExampleExport
-  SOURCE example_protocol_export.cpp
-  LINK lumex::protocol
-  REQUIRE_TARGET lumex::protocol
-  CXX_STANDARD 11
-)
 
+# The export example prints the JSON document only when the library was built
+# with LUMEX_PROTOCOL_WITH_JSON, and then it needs nlohmann/json 3.x. In the
+# tree the vendored copy is used. Standalone, the definition of the installed
+# lumex::protocol says whether the library wants it; without it the example is
+# skipped with a message, and the directory still configures and builds.
+set(_lumex_protocol_json_target "")
+set(_lumex_protocol_export_ready TRUE)
 if(COMMAND lumex_setup_nlohmann_json)
   if(LUMEX_PROTOCOL_WITH_JSON)
     lumex_setup_nlohmann_json()
-    target_link_libraries(LumexProtocolExampleExport
-      PRIVATE nlohmann_json::nlohmann_json)
+    set(_lumex_protocol_json_target nlohmann_json::nlohmann_json)
   endif()
 else()
-  find_package(nlohmann_json 3 QUIET)
-  if(TARGET nlohmann_json::nlohmann_json)
+  get_target_property(_lumex_protocol_definitions lumex::protocol
+    INTERFACE_COMPILE_DEFINITIONS)
+  if(_lumex_protocol_definitions MATCHES "LUMEX_PROTOCOL_WITH_JSON")
+    find_package(nlohmann_json 3 QUIET)
+    if(TARGET nlohmann_json::nlohmann_json)
+      set(_lumex_protocol_json_target nlohmann_json::nlohmann_json)
+    else()
+      set(_lumex_protocol_export_ready FALSE)
+      message(STATUS
+        "LumexProtocolExampleExport skipped: lumex::protocol was built with "
+        "LUMEX_PROTOCOL_WITH_JSON and nlohmann/json 3.x was not found "
+        "(find_package (nlohmann_json 3))")
+    endif()
+  endif()
+endif()
+if(_lumex_protocol_export_ready)
+  lumex_example_executable(
+    NAME LumexProtocolExampleExport
+    SOURCE example_protocol_export.cpp
+    LINK lumex::protocol
+    REQUIRE_TARGET lumex::protocol
+    CXX_STANDARD 11
+  )
+  if(_lumex_protocol_json_target)
     target_link_libraries(LumexProtocolExampleExport
-      PRIVATE nlohmann_json::nlohmann_json)
+      PRIVATE ${_lumex_protocol_json_target})
   endif()
 endif()
 

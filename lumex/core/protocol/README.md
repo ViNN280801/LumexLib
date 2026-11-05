@@ -359,6 +359,8 @@ X_AS (ERASE_LOG, "DELETE", 0x03, "Очистка журнала", (), (), (), ()
 
 ## Примеры
 
+В собранном пакете исходники примеров лежат в `share/examples/protocol` вместе с `CMakeLists.txt`: `cmake -S <префикс>/share/examples/protocol -B build -DLumexLib_DIR=<префикс>/lib/cmake/LumexLib` и `cmake --build build` собирают их против установленных библиотек (бинарных файлов примеров в пакете нет; подробнее в `lumex/examples/README.md`).
+
 `lumex/examples/protocol/` (выдуманные приборы, без реальных протоколов; все запускаются без оборудования и идут в CTest как `examples.protocol.*`). С одним модулем `protocol`:
 
 - `example_protocol_index.cpp` (таблица `example_protocol_beacon.hpp`) строит индекс и печатает строки `describe` для запросов, принятых ответов, неизвестного и поврежденного кадров; `example_protocol_export.cpp` печатает `export_markdown` и, при `LUMEX_PROTOCOL_WITH_JSON`, `export_json_text`.

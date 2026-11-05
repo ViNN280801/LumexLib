@@ -37,7 +37,8 @@ string(ASCII 27 _esc)
 # _run(<result prefix> <script arguments>...) sets <prefix>_CODE, <prefix>_OUT, <prefix>_ERR
 function(_run prefix)
     execute_process(
-        COMMAND ${_bash} ${_script} --compilers ${_cxx} --output-dir ${_out_dir} ${ARGN}
+        COMMAND ${_bash} ${_script} --compilers ${_cxx} --output-dir ${_out_dir}
+                --doxygen ${_bash} ${ARGN}
         RESULT_VARIABLE _code
         OUTPUT_VARIABLE _out
         ERROR_VARIABLE _err)
@@ -122,6 +123,57 @@ if(bad_jobs_CODE EQUAL 0)
     message(FATAL_ERROR "-j0 was accepted")
 endif()
 _expect_text("${bad_jobs_ERR}" "must be a positive number" "-j0")
+
+# The documentation is part of the package unless --no-docs says otherwise
+# (user, 2026-11-05). A dry run only checks that the Doxygen executable is
+# there (the case passes the shell as a stand-in): the documentation is built
+# once, before the builds, and every build installs that tree.
+_run(docs --dry-run --std 11,17 --formats tar.gz --color never)
+if(NOT docs_CODE EQUAL 0)
+    message(FATAL_ERROR "dry run with the documentation exited with ${docs_CODE}:\n${docs_OUT}\n${docs_ERR}")
+endif()
+_expect_text("${docs_OUT}" "--target generate_documentation" "docs")
+_expect_text("${docs_OUT}" "-DLUMEX_BUILD_DOCUMENTATION=ON" "docs")
+_expect_text("${docs_OUT}" "-DLUMEX_DOCUMENTATION_PREBUILT_DIR=" "docs")
+_expect_no_text("${docs_OUT}" "-DLUMEX_BUILD_DOCUMENTATION=OFF" "docs")
+# Once, not once per build.
+string(REGEX MATCHALL "--target generate_documentation" _doc_builds "${docs_OUT}")
+list(LENGTH _doc_builds _doc_build_count)
+if(NOT _doc_build_count EQUAL 1)
+    message(FATAL_ERROR "the documentation is built ${_doc_build_count} times, not once:\n${docs_OUT}")
+endif()
+
+_run(no_docs --dry-run --std 11,17 --formats tar.gz --color never --no-docs)
+if(NOT no_docs_CODE EQUAL 0)
+    message(FATAL_ERROR "--no-docs dry run exited with ${no_docs_CODE}:\n${no_docs_OUT}\n${no_docs_ERR}")
+endif()
+_expect_text("${no_docs_OUT}" "-DLUMEX_BUILD_DOCUMENTATION=OFF" "no-docs")
+_expect_no_text("${no_docs_OUT}" "generate_documentation" "no-docs")
+_expect_no_text("${no_docs_OUT}" "-DLUMEX_DOCUMENTATION_PREBUILT_DIR=" "no-docs")
+
+# --no-package builds nothing that is packaged: no documentation either.
+_run(docs_no_package --dry-run --std 11 --no-package --color never)
+_expect_no_text("${docs_no_package_OUT}" "generate_documentation" "docs --no-package")
+
+# A Doxygen that is not there stops the run before the first build, with the
+# way out in the message; --no-docs and --no-package do not need it.
+execute_process(
+    COMMAND ${_bash} ${_script} --compilers ${_cxx} --output-dir ${_out_dir}
+            --dry-run --std 11 --formats tar.gz --doxygen ${_out_dir}/no/such/doxygen
+    RESULT_VARIABLE missing_CODE OUTPUT_VARIABLE missing_OUT ERROR_VARIABLE missing_ERR)
+if(missing_CODE EQUAL 0)
+    message(FATAL_ERROR "a missing Doxygen was accepted:\n${missing_OUT}")
+endif()
+_expect_text("${missing_ERR}" "doxygen" "missing Doxygen")
+_expect_text("${missing_ERR}" "pass --no-docs to build the packages without the documentation" "missing Doxygen")
+_expect_no_text("${missing_OUT}" "\$ cmake" "missing Doxygen: a build was started")
+execute_process(
+    COMMAND ${_bash} ${_script} --compilers ${_cxx} --output-dir ${_out_dir}
+            --dry-run --std 11 --formats tar.gz --no-docs --doxygen ${_out_dir}/no/such/doxygen
+    RESULT_VARIABLE skipped_CODE OUTPUT_VARIABLE skipped_OUT ERROR_VARIABLE skipped_ERR)
+if(NOT skipped_CODE EQUAL 0)
+    message(FATAL_ERROR "--no-docs still asked for Doxygen:\n${skipped_OUT}\n${skipped_ERR}")
+endif()
 
 # A compiler without C++23 (GCC 8, MinGW 8.3: neither -std=c++23 nor
 # -std=c++2b) has its C++23 build skipped and listed, not the run failed. The

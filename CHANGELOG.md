@@ -531,7 +531,23 @@
 
 **Проверено:** Linux, GCC 13.2 и Clang 23.1: новые тесты частей слова падали до изменения; тест прибора J о неизвестном значении состояния теперь ждет ошибку разбора; приватная проверка таблиц J и G на реальных значениях проходит; новый тест прибора G кодирует сообщения старого протокола кодеком с префиксом длины.
 
+##### Пакет: `find_package (LumexLib)` полной установки, отдельные каталоги примеров, бенчмарки на GCC 8.3
+
+**Файлы:** `cmake/LumexLibConfig.cmake.in`, `lumex/examples/*/CMakeLists.txt`, `lumex/examples/cmake/LumexExampleHelpers.cmake`, `lumex/examples/protocol/CMakeLists.txt`, `lumex/examples/settings/CMakeLists.txt`, `benchmarks/expected/CMakeLists.txt`, `lumex/applied/transport/CMakeLists.txt`, `conanfile.py`.
+
+**Суть:** `find_package (LumexLib)` полной установки падал с "imported targets missing: lumex::LumexXml": цели Xml теперь подключаются раньше Applied. Каталоги примеров не конфигурировались отдельно на CMake 4: каждый начинается с литеральных `cmake_minimum_required` и `project`. Пример экспорта протокола без nlohmann/json пропускается с сообщением. Примеры настроек больше не мешают друг другу при `ctest -j` (`RESOURCE_LOCK`). `LUMEX_BUILD_BENCHMARKS=ON` конфигурируется на GCC 8.3: проверка `std::expected` только при C++23. Заголовки клиента и поиска приборов не ставятся без движка диалога. Компонент Conan `core_contracts` получил определение `LUMEX_CONTRACTS_BUILD_SEMANTIC`.
+
+**Проверено:** Linux, GCC 13 (`LUMEX_WERROR=ON`), Clang 23 и GCC 8.3: `^examples\.` 120 из 120, `^(cmake|lint)\.` 258 из 258 на GCC 13; новые случаи сначала падали; установка в префикс и отдельная сборка всех 35 каталогов примеров и 9 каталогов бенчмарков, 119 программ запущены из префикса; CMake 3.18.4. Conan и Windows не запускались.
+
 #### Изменено
+
+##### Пакет: документация, исходники примеров и бенчмарков в `share/`
+
+**Файлы:** `CMakeLists.txt`, `cmake/LumexInstallSources.cmake` (новый), `cmake/LumexOptions.cmake`, `Doxyfile.in`, `compile.py`, `create_release.sh`, `create_release.ps1`, `conanfile.py`, `test_package/conanfile.py`, `lumex/examples/README.md`, `benchmarks/README.md` (новые), `benchmarks/*/CMakeLists.txt`.
+
+**Суть:** необязательное лежит в `share/` пакета: `share/doc/html` (документация Doxygen), `share/examples` и `share/benchmarks` (только исходники, по каталогу на модуль; каждый каталог собирается как отдельный проект: `cmake -S <префикс>/share/examples/span -B build -DLumexLib_DIR=<префикс>/lib/cmake/LumexLib`). Программы примеров больше не ставятся в `bin`. Doxygen пишет в каталог сборки (`LUMEX_DOCUMENTATION_OUTPUT_DIR`), а не в `docs/` репозитория; готовое дерево ставится через `LUMEX_DOCUMENTATION_PREBUILT_DIR`. `create_release.sh` и `create_release.ps1` строят документацию один раз и кладут ее в каждый пакет (`--no-docs`, `-NoDocs` отключают; без Doxygen прогон останавливается до первой сборки). Опции `LUMEX_INSTALL_EXAMPLES`, `LUMEX_INSTALL_BENCHMARKS`.
+
+**Проверено:** Linux, `create_release.sh` с документацией (четыре компилятора, `--no-werror`): дерево пакетов GCC 13 и MinGW проверено, программ примеров и бенчмарков в пакете нет. `create_release.ps1` не запускался.
 
 ##### `serial_port_state::denied`: отказ в доступе при пробном открытии в POSIX
 

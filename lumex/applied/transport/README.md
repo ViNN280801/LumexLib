@@ -589,6 +589,8 @@ watcher.watch (selector, [] (ss::hid_device_event_t const &event) { /* arrived /
 
 ## Примеры
 
+В собранном пакете исходники примеров лежат в `share/examples/transport` вместе с `CMakeLists.txt`: `cmake -S <префикс>/share/examples/transport -B build -DLumexLib_DIR=<префикс>/lib/cmake/LumexLib` и `cmake --build build` собирают их против установленных библиотек (бинарных файлов примеров в пакете нет; подробнее в `lumex/examples/README.md`). Каталог `protocol` (примеры диалога) собирается так же.
+
 - `lumex/examples/transport/example_transport_sync.cpp`: синхронный обмен с эхо-сервером по TCP (или с последовательным портом, имя которого передано аргументом) и приемник лога.
 - `lumex/examples/transport/example_transport_async.cpp`: цепочка колбэков и закрытие потока из другого потока во время чтения.
 - `lumex/examples/transport/example_transport_framed.cpp`: `framed_stream` с кодеками SLIP и строк (`delimiter_codec`) поверх TCP с эхо-сервером на loopback; печатает кадры и счетчики кадрирования. Запускается без оборудования.
