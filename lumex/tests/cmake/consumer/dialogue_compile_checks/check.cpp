@@ -24,11 +24,14 @@
 #endif
 
 #if LUMEX_DIALOGUE_CASE == 0                                                  \
-    || (LUMEX_DIALOGUE_CASE >= 52 && LUMEX_DIALOGUE_CASE <= 71)
+    || (LUMEX_DIALOGUE_CASE >= 52 && LUMEX_DIALOGUE_CASE <= 71)               \
+    || (LUMEX_DIALOGUE_CASE >= 79 && LUMEX_DIALOGUE_CASE <= 81)
 #include <future>
 #include <system_error>
+#include <vector>
 
 #include "lumex/applied/transport/protocol/client/LumexProtocolClient.hpp"
+#include "lumex/applied/transport/protocol/discovery/LumexDiscover.hpp"
 #endif
 
 namespace check_tables
@@ -412,7 +415,8 @@ static_assert (dialogue::row_traits_t<check_t, check_t::BOTH_t>::how ()
 } // namespace check_tables
 
 #if LUMEX_DIALOGUE_CASE == 0                                                  \
-    || (LUMEX_DIALOGUE_CASE >= 52 && LUMEX_DIALOGUE_CASE <= 71)
+    || (LUMEX_DIALOGUE_CASE >= 52 && LUMEX_DIALOGUE_CASE <= 71)               \
+    || (LUMEX_DIALOGUE_CASE >= 79 && LUMEX_DIALOGUE_CASE <= 81)
 // The generated client: what a call cannot be.
 namespace check_client
 {
@@ -505,6 +509,16 @@ LUMEX_PROTOCOL_DEFINE (hides_type_t, client_codec_t, plain_header_t,
                        EXECUTOR_ROWS);
 LUMEX_PROTOCOL_DEFINE (layer_name_t, client_codec_t, plain_header_t,
                        LAYER_NAME_ROWS);
+// clang-format off
+#define ON_RECONNECT_ROWS(X, X_AS) \
+  X (on_reconnect, 0x01, "A member", (), (), (u8_), ())
+#define IDENTITY_ROWS(X, X_AS) \
+  X (identity, 0x01, "A member", (), (), (u8_), ())
+// clang-format on
+LUMEX_PROTOCOL_DEFINE (hides_on_reconnect_t, client_codec_t, plain_header_t,
+                       ON_RECONNECT_ROWS);
+LUMEX_PROTOCOL_DEFINE (hides_identity_t, client_codec_t, plain_header_t,
+                       IDENTITY_ROWS);
 LUMEX_PROTOCOL_DEFINE (other_identifier_t, client_codec_t, plain_header_t,
                        OTHER_ID_ROWS);
 
@@ -563,6 +577,33 @@ namespace check_client
 {
 using value_handler_t = void (*) (std::error_code, std::uint8_t);
 
+// A wire of a stream, with an out-of-band sequence.
+struct check_wire_t
+{
+  static pr::frame_link
+  link (pr::discovery_candidate_t const &,
+        ::lumex::applied::transport::stream::byte_stream)
+  {
+    return pr::frame_link ();
+  }
+
+  static std::vector<std::uint8_t>
+  out_of_band (pr::discovery_candidate_t const &)
+  {
+    return std::vector<std::uint8_t> ();
+  }
+};
+
+template <typename P>
+inline void
+discover_with (::lumex::applied::transport::executor_type const &executor)
+{
+  pr::async_discover<P, check_wire_t> (
+      executor, std::vector<pr::discovery_candidate_t> (),
+      pr::discovery_options_t (),
+      [] (std::error_code, std::vector<pr::discovery_result_t>) {});
+}
+
 inline void
 use_client (pr::client<client_t> &client, value_handler_t handler)
 {
@@ -577,6 +618,10 @@ use_client (pr::client<client_t> &client, value_handler_t handler)
                       ::lumex::applied::transport::deadline_t (5));
   client.ERASE (pr::confirm, one, handler);
   (void)client.identify ();
+  (void)client.identity ();
+  client.on_reconnect (
+      [] (std::error_code const &, pr::identity_t const &) {});
+  client.on_reconnect (nullptr);
   (void)client.as<client_t> ();
   (void)client.on<client_t::INFO_t> (
       [] (pr::reply_of<client_t::INFO_t> const &) {});
@@ -648,6 +693,18 @@ use_client (pr::client<client_t> &client, value_handler_t handler)
 #elif LUMEX_DIALOGUE_CASE == 71
   // 71: a row of a layer named like the class client_layer.
   (void)sizeof (pr::client_layer<layer_name_t, layer_name_t>);
+#elif LUMEX_DIALOGUE_CASE == 79
+  // 79: a discovery over a table that names no identify_with.
+  discover_with<no_identify_t> (client.get_executor ());
+#elif LUMEX_DIALOGUE_CASE == 80
+  // 80: a row named like on_reconnect.
+  (void)sizeof (pr::client<hides_on_reconnect_t>);
+#elif LUMEX_DIALOGUE_CASE == 81
+  // 81: a row named like identity.
+  (void)sizeof (pr::client<hides_identity_t>);
+#endif
+#if LUMEX_DIALOGUE_CASE == 0
+  discover_with<client_t> (client.get_executor ());
 #endif
   (void)client;
   (void)handler;

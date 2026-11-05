@@ -118,6 +118,49 @@
  * since the default of `drop_connection` closes for good. A `dangerous` row
  * logs each attempt at info.
  *
+ * Reconnect. Over a link that connects again by itself (`frame_link::
+ * reconnects ()`: a framed adapter over `stream_session::as_byte_stream` or
+ * `message_session::as_message_transport`) a lost connection does not end the
+ * dialogue. When the link says it is over, the dialogue forgets what that
+ * connection taught: the last known state, the stream watches and the levels,
+ * the late replies still expected and an open late-reply window (a reply of
+ * the old connection cannot come on a new one, so a `by_order` request is not
+ * held and a fresh frame is not dropped as late). Then:
+ * - an exchange in flight of an `idempotent` row, whatever its attempt, goes
+ *   back to the front of the queue, in order, with its attempts counted from 0
+ *   again; a `dangerous` row is never sent again by itself, also when it is
+ *   `idempotent`;
+ * - any other exchange in flight ends with `protocol_errc::link_lost`, also
+ * one acknowledged or waiting for a retry, and also what the engine made
+ * itself;
+ * - a queued exchange stays queued (nothing of it was written);
+ * - a scenario ends with `protocol_errc::link_lost`, at the step it stood at,
+ *   an `expect` or a `wait_state` with a time of 0 too: the device forgot the
+ *   steps before;
+ * - a new exchange ends at once with `protocol_errc::link_lost`: no call waits
+ *   for a device nobody knows to come back.
+ * What survives waits at most `reconnect_wait_ms` from the loss, and ends with
+ * `link_lost` then, or as soon as the link gives up (a session closed or
+ * faulted). A link that opens again is counted (`reconnects`) and restored:
+ * the link state goes `up`, the check of `dialogue_options_t::reconnect` runs
+ * (the client repeats `identify ()`), the rows that turned a stream on are
+ * sent again as they were (a stream the application turned off by a row of its
+ * own comes back: turn it off in `on_reconnect`), and only then the queue
+ * moves and other calls start. While the check runs a new call ends with
+ * `link_lost`. A check that says another device went on the link ends what
+ * waited with `link_lost` and sends no stream row. A check that ends with
+ * `timeout`, `retries_exhausted` or `link_lost` gives the connection up, and
+ * the link connects again by its policy. Any other error of the check (a
+ * device that names no layer of the table) leaves an open link whose device is
+ * not checked: what waited ends with `link_lost`, a new call with
+ * `not_supported`, until a new connection or an identification that finds the
+ * device
+ * (`exchange_t::before_check`). A row of the streams that fails is reported
+ * and does not stop the dialogue. `cancel ()` during a restoration starts the
+ * restoration again, and the watchdog gives up the connection instead of
+ * closing it. The first open of a link is no reconnect: a dialogue made before
+ * it answers `link_lost` until then, and the application identifies as usual.
+ *
  * Reply kinds (see `LumexReplyReader.hpp`). The acknowledgement of a
  * `two_phase` row leaves the exchange waiting for its completion with a
  * timeout of its own and no retries; only the first acknowledgement arms that
@@ -163,12 +206,13 @@
  *
  * Handlers of the user called by the engine: the policy's `extra_retries`,
  * the matcher of a `custom` row, the subscribers and the handlers of edges and
- * of the link state, the keepalive generator and the predicates of a scenario
- * run on the strand. If one throws, the engine first ends its step (the
- * exchange of a throwing `extra_retries` ends with `retries_exhausted`, a
- * throwing matcher accepts nothing, the run of a throwing predicate ends) and
- * then lets the exception leave the `run ()` of the executor; the dialogue
- * stays usable. One of them may also destroy the dialogue.
+ * of the link state, the keepalive generator, the predicates of a scenario and
+ * the steps and the handler of a reconnect run on the strand. If one throws,
+ * the engine first ends its step (the exchange of a throwing `extra_retries`
+ * ends with `retries_exhausted`, a throwing matcher accepts nothing, the run
+ * of a throwing predicate ends) and then lets the exception leave the `run ()`
+ * of the executor; the dialogue stays usable. One of them may also destroy the
+ * dialogue.
  */
 #ifndef LUMEX_APPLIED_TRANSPORT_PROTOCOL_DIALOGUE_DIALOGUE_HPP
 #define LUMEX_APPLIED_TRANSPORT_PROTOCOL_DIALOGUE_DIALOGUE_HPP
@@ -564,6 +608,20 @@ public:
 
   /// @brief False while the link is lost, and when moved from (any thread).
   bool link_is_up () const LUMEX_NOEXCEPT;
+
+  /**
+   * @brief Calls `handler` at the end of each restoration of a link that
+   * connects again (see "Reconnect"), with the rules of `subscribe`; an empty
+   * handler removes it. Never inside a call of the dialogue, with its state
+   * final: an empty error means it accepts calls again.
+   */
+  void on_reconnect (reconnect_handler_t handler);
+
+  /**
+   * @brief An identification found the device (any thread): an open link whose
+   * check failed accepts calls again. Nothing in any other state.
+   */
+  void device_checked ();
 
   /**
    * @brief Gives the keepalive of the table (`keepalive<Row, PeriodMs>`) what

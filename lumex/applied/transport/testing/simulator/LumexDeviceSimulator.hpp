@@ -91,6 +91,12 @@
  * is made after it ran, with the state it saw before: a state it sets shows
  * in the next reply.
  *
+ * A connection. The mock under a session opens again after a loss: on a stream
+ * the device forgets the partial frame of the connection that is over. The
+ * rest of it (the state, the replies, the behaviour, the streams) stays: to
+ * the device, a new connection is the same device, as a real one that kept its
+ * power.
+ *
  * Unknown and malformed requests are untrusted input. A frame whose key is no
  * row's, and a request of a known row that does not decode, are counted
  * (`unknown_requests`, `malformed_requests`) and answered with nothing, or,

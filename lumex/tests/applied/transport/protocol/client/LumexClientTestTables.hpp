@@ -348,7 +348,9 @@ struct lone_header_t
   X (lumex_state_, 0x18, "A member", (), (), (u8_), ()) \
   X (lumex_engine_, 0x19, "A member", (), (), (u8_), ()) \
   X (lumex_core, 0x1A, "A member", (), (), (u8_), ()) \
-  X (lumex_identify_sync, 0x1B, "A member", (), (), (u8_), ())
+  X (lumex_identify_sync, 0x1B, "A member", (), (), (u8_), ()) \
+  X (on_reconnect, 0x1C, "A member", (), (), (u8_), ()) \
+  X (identity, 0x1D, "A member", (), (), (u8_), ())
 // The same for client_layer<Owner, L>.
 #define LAYER_MEMBERS_ROWS(X, X_AS) \
   X (lumex_invoke, 0x01, "A member", (), (), (u8_), ()) \

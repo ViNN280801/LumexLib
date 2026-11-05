@@ -105,6 +105,35 @@
  * link the client was given: a layer of another wire form needs a client over
  * a link of its own.
  *
+ * Reconnect. A client over a link that connects again by itself (a framed
+ * adapter over `stream_session::as_byte_stream` or
+ * `message_session::as_message_transport`) knows its device only through the
+ * connection it identified it on. `dialogue_engine` ("Reconnect") says what
+ * happens to the calls; the client adds what a device is:
+ * - The loss forgets it: `session ()` loses the model, the firmware and the
+ *   layer (named values stay, the next `identify ()` replaces those it names),
+ *   `identity ()` answers `link_lost`, a call through `as<L> ()` and a method
+ *   of `P` answer `link_lost`, with nothing sent. `engine ().index ()` stays
+ *   the layer found last until a new one is found.
+ * - A new connection repeats the identification before anything else. `on_
+ *   reconnect` then says how it went. Until it did, the answers above hold.
+ * - It found the same device (the same model, firmware, serial number and
+ *   layer): the calls that waited go out, the streams are on again.
+ * - It found another device: the new identity holds at once, as after an
+ *   `identify ()` that found it, what waited ends with `link_lost` and no
+ * stream is turned on. The handler sees it in the identity.
+ * - It failed: a timeout gives the connection up, so the link connects again
+ *   and the identification runs again, with the backoff of the link. A device
+ *   that names no layer of `layer_set` (or a reply that does not read) leaves
+ *   the link open and the client unchecked: `identity ()`, `as<L> ()` and the
+ *   methods of `P` answer `not_supported`, until a new connection or an
+ *   `identify ()` of the application that finds the device.
+ * A table without `identify_with` (or without `identity_of_t`, or whose row
+ * has request fields) cannot tell: its session stays, the new connection
+ * counts as the same device, `identity ()` answers `not_supported` and
+ * `on_reconnect` gets an empty identity. The first open of the link is no
+ * reconnect.
+ *
  * Threads and lifetime. Every member may be called from any thread. The
  * session is a value the client replaces as a whole, so `session ()` gives a
  * copy that stays true; a request is encoded and a reply decoded with the
@@ -125,6 +154,7 @@
 #include <condition_variable>
 #include <cstddef>
 #include <cstring>
+#include <functional>
 #include <memory>
 #include <mutex>
 #include <string>
@@ -197,8 +227,17 @@ struct client_snapshot_t
   /// The session of the device.
   client_index::session_context_t session;
   /// The position of the identified layer in the layers of the client, -1
-  /// before `identify ()` found one.
+  /// before `identify ()` found one and after a loss of the connection.
   int layer = -1;
+  /// What the calls that need a layer hear while `layer` is -1 (none: the
+  /// client never looked for one).
+  std::error_code why;
+  /// What the device said in the last identification, also one that failed;
+  /// emptied by a loss.
+  identity_t said;
+  /// The identity of the device of the connection before.
+  bool has_previous = false;
+  identity_t previous;
 };
 
 /// @brief What the client shares with its calls in flight: nothing that keeps
@@ -240,9 +279,27 @@ public:
     return current_;
   }
 
+  /// @brief The dialogue, for the steps of a reconnect, which the options of
+  /// that very dialogue carry (held weakly; any thread).
+  void
+  set_engine (std::weak_ptr<dialogue_engine> engine)
+  {
+    std::lock_guard<std::mutex> const lock (mutex_);
+    engine_ = std::move (engine);
+  }
+
+  /// @brief The dialogue while it lives (any thread).
+  std::shared_ptr<dialogue_engine>
+  engine () const
+  {
+    std::lock_guard<std::mutex> const lock (mutex_);
+    return engine_.lock ();
+  }
+
 private:
   mutable std::mutex mutex_;
   std::shared_ptr<client_snapshot_t const> current_;
+  std::weak_ptr<dialogue_engine> engine_;
 };
 
 /// @brief The dialogue and the state of a client, as a call holds them.
@@ -662,6 +719,8 @@ struct initiate_call_t
         = client_index::protocol_index<L> ();
     if (!indexed)
       return indexed.error ().code;
+    if (Gate && snapshot.layer < 0 && snapshot.why)
+      return snapshot.why;
     if ((Gate
          && (snapshot.layer < 0 || !layers::template is_a<L> (snapshot.layer)))
         || (snapshot.layer >= 0
@@ -1110,11 +1169,15 @@ apply_identity (std::weak_ptr<dialogue_engine> const &engine,
             now.session.set (identity.values[i].first,
                              identity.values[i].second);
           now.layer = at;
+          now.why = std::error_code ();
+          now.said = identity;
         });
   // A set_session after the publication has its own step behind this one on
   // the strand, and that step copies the state as it is then.
   live->session () = published->session;
   live->select_layer (**entry.index, entry.features);
+  // After the layer: a device that was not checked is, from here on.
+  live->device_checked ();
   return std::error_code ();
 }
 
@@ -1137,6 +1200,25 @@ template <typename Owner, typename Handler> struct identify_step_t
                                       std::move (identity)));
   }
 };
+
+/// @brief The request of an identification.
+template <typename Owner>
+std::error_code
+identify_request (exchange_t &request, client_state_t const &state)
+{
+  using row_type = typename dialogue::protocol_traits_t<Owner>::identify_row;
+  client_index::index_result_t const &indexed
+      = client_index::protocol_index<Owner> ();
+  if (!indexed)
+    return indexed.error ().code;
+  // Whatever the identified layer says: this row finds it out again.
+  std::shared_ptr<client_snapshot_t const> const snapshot = state.snapshot ();
+  request.before_check = true;
+  return fill_request<Owner, row_type> (
+      request, typename client_layout::request_of<row_type>::type (),
+      *(*indexed).find_name (row_type::identifier ()), *indexed,
+      snapshot->session);
+}
 
 /// @brief The initiating function of `identify ()`.
 template <typename Owner> struct initiate_identify_t
@@ -1168,22 +1250,8 @@ template <typename Owner> struct initiate_identify_t
             make_error_code (error::transport_errc::closed), identity_t ());
         return;
       }
-    client_index::index_result_t const &indexed
-        = client_index::protocol_index<Owner> ();
     exchange_t request;
-    std::error_code refused;
-    if (!indexed)
-      refused = indexed.error ().code;
-    else
-      {
-        // Whatever the identified layer says: this row finds it out again.
-        std::shared_ptr<client_snapshot_t const> const snapshot
-            = state->snapshot ();
-        refused = fill_request<Owner, row_type> (
-            request, typename client_layout::request_of<row_type>::type (),
-            *(*indexed).find_name (row_type::identifier ()), *indexed,
-            snapshot->session);
-      }
+    std::error_code const refused = identify_request<Owner> (request, *state);
     if (refused)
       {
         asio::post (live->get_strand (),
@@ -1223,22 +1291,22 @@ struct set_session_step_t
   }
 };
 
+/// @brief Whether nobody said how the identity of a table reads.
+template <typename T, typename = void> struct no_reader_t : std::false_type
+{
+};
+
+template <typename T>
+struct no_reader_t<T, typename dialogue::detail::voider_t<
+                          typename identity_of_t<T>::lumex_no_identity>::type>
+    : std::true_type
+{
+};
+
 /// @brief What the checks of `identify ()` need of a table.
 template <typename Owner> struct identify_check_t
 {
   using row_type = typename dialogue::protocol_traits_t<Owner>::identify_row;
-
-  template <typename T, typename = void> struct no_reader_t : std::false_type
-  {
-  };
-
-  template <typename T>
-  struct no_reader_t<T,
-                     typename dialogue::detail::voider_t<
-                         typename identity_of_t<T>::lumex_no_identity>::type>
-      : std::true_type
-  {
-  };
 
   static_assert (!std::is_void<row_type>::value,
                  "LUMEX_PROTOCOL: client: identify (): the protocol names no "
@@ -1263,6 +1331,165 @@ template <typename Owner> struct identify_check_t
   static LUMEX_CONSTEXPR bool const value
       = no_fields_t<row_type, !std::is_void<row_type>::value>::value;
 };
+/// @brief Whether a client of `Owner` can identify its device by itself: the
+/// table names the row and how it reads, and it takes no arguments.
+template <typename Owner, typename Row>
+struct can_identify_t
+    : std::integral_constant<
+          bool, !no_reader_t<Owner>::value
+                    && client_layout::request_of<Row>::type::size::value == 0>
+{
+};
+
+template <typename Owner> struct can_identify_t<Owner, void> : std::false_type
+{
+};
+
+/// @brief What a lost connection takes: what identification learned of the
+/// device, on the strand.
+struct client_forget_t
+{
+  std::shared_ptr<client_state_t> state;
+
+  void
+  operator() () const
+  {
+    std::shared_ptr<client_snapshot_t const> const published = state->update (
+        [] (client_snapshot_t &now)
+          {
+            if (now.layer >= 0)
+              {
+                now.has_previous = true;
+                now.previous = now.said;
+              }
+            now.layer = -1;
+            now.why = client_error::make_error_code (
+                client_error::protocol_errc::link_lost);
+            now.said = identity_t ();
+            now.session.set_model (std::string ());
+            now.session.set_firmware (0);
+            now.session.set_layer (std::string ());
+          });
+    std::shared_ptr<dialogue_engine> const live = state->engine ();
+    if (live)
+      live->session () = published->session;
+  }
+};
+
+/// @brief The end of the identification of a new connection, on the strand of
+/// the dialogue.
+template <typename Owner> struct client_check_end_t
+{
+  std::shared_ptr<client_state_t> state;
+  reconnect_done_t done;
+
+  void
+  operator() (std::error_code error, reply_frame_t frame)
+  {
+    identity_t identity;
+    if (!error)
+      {
+        error = apply_identity<Owner> (state->engine (), *state, frame,
+                                       identity);
+      }
+    // A failure that may pass with the next connection stays a lost one.
+    bool const goes_on
+        = !error
+          || error
+                 == client_error::make_error_code (
+                     client_error::protocol_errc::timeout)
+          || error
+                 == client_error::make_error_code (
+                     client_error::protocol_errc::retries_exhausted)
+          || error
+                 == client_error::make_error_code (
+                     client_error::protocol_errc::link_lost)
+          || error::is_transport_error (error,
+                                        error::transport_errc::cancelled);
+    std::shared_ptr<client_snapshot_t const> const now = state->update (
+        [&identity, goes_on] (client_snapshot_t &next)
+          {
+            next.said = identity;
+            if (!goes_on)
+              next.why = client_error::make_error_code (
+                  client_error::protocol_errc::not_supported);
+          });
+    bool const same
+        = !now->has_previous
+          || (now->previous.model == identity.model
+              && now->previous.firmware == identity.firmware
+              && now->previous.serial_number == identity.serial_number
+              && now->previous.layer == identity.layer);
+    done (error, same);
+  }
+};
+
+/// @brief The check of a new connection: the identification of the table.
+template <typename Owner> struct client_check_t
+{
+  std::shared_ptr<client_state_t> state;
+
+  void
+  operator() (reconnect_done_t done) const
+  {
+    std::shared_ptr<dialogue_engine> const live = state->engine ();
+    if (!live)
+      {
+        // The client is being made: its restoration starts again.
+        done (make_error_code (error::transport_errc::cancelled), true);
+        return;
+      }
+    exchange_t request;
+    std::error_code const refused = identify_request<Owner> (request, *state);
+    if (refused)
+      {
+        done (refused, true);
+        return;
+      }
+    client_check_end_t<Owner> ended = { state, std::move (done) };
+    live->async_exchange (std::move (request), std::move (ended));
+  }
+};
+
+/// @brief Fills the steps of a reconnect of a client of `Owner`.
+template <typename Owner,
+          bool Can
+          = can_identify_t<Owner, typename dialogue::protocol_traits_t<
+                                      Owner>::identify_row>::value>
+struct client_reconnect_steps_t
+{
+  static void
+  fill (reconnect_steps_t &, std::shared_ptr<client_state_t> const &)
+  {
+  }
+};
+
+template <typename Owner> struct client_reconnect_steps_t<Owner, true>
+{
+  static void
+  fill (reconnect_steps_t &steps, std::shared_ptr<client_state_t> const &state)
+  {
+    client_forget_t forget = { state };
+    client_check_t<Owner> check = { state };
+    steps.forget = forget;
+    steps.check = check;
+  }
+};
+
+/// @brief What `on_reconnect` gives the dialogue.
+template <typename Handler> struct client_reconnect_handler_t
+{
+  Handler handler;
+  std::shared_ptr<client_state_t> state;
+
+  void
+  operator() (std::error_code const &error)
+  {
+    std::shared_ptr<client_snapshot_t const> const now = state->snapshot ();
+    handler (error, now->said);
+  }
+};
+
 /// @brief Why a table cannot name a row so: the name would be ambiguous.
 /// @details A client has its members in one base class
 /// (`client_members_t`, `client_layer_members_t`) and the methods named by the
@@ -1423,8 +1650,12 @@ public:
     index::index_result_t const &indexed = index::protocol_index<P> ();
     if (options.dialogue.features == nullptr)
       options.dialogue.features = dialogue::features_of<P> ();
+    if (link.reconnects ())
+      detail::client_reconnect_steps_t<P>::fill (options.dialogue.reconnect,
+                                                 lumex_state_);
     lumex_engine_ = std::make_shared<dialogue_engine> (
         std::move (link), indexed ? *indexed : nothing, options.dialogue);
+    lumex_state_->set_engine (lumex_engine_);
   }
 
   client_members_t (client_members_t const &) = delete;
@@ -1546,11 +1777,60 @@ public:
     return lumex_engine_->async_enable_streams (std::forward<Token> (token));
   }
 
+  /**
+   * @brief Calls `handler` (`void (std::error_code const &, identity_t const
+   * &)`) when the dialogue comes back from a lost connection, on the strand,
+   * never inside a call of the client (see "Reconnect" in the file
+   * description): an empty error means it accepts calls again, with the
+   * identity found, another device's when the serial number, the model, the
+   * firmware or the layer differ; an error says why not, with what the device
+   * said. It has the rules of `on`: it may destroy the client, and a handler
+   * that owns the client is a cycle until `close ()` or the end of the
+   * `io_context`. It replaces the handler before; the one that goes dies
+   * outside every lock. Any thread.
+   */
+  template <typename Handler>
+  void
+  on_reconnect (Handler &&handler)
+  {
+    detail::client_reconnect_handler_t<typename std::decay<Handler>::type> made
+        = { std::forward<Handler> (handler), lumex_state_ };
+    lumex_engine_->on_reconnect (reconnect_handler_t (std::move (made)));
+  }
+
+  /// @brief Removes the handler of `on_reconnect` (any thread).
+  void
+  on_reconnect (std::nullptr_t)
+  {
+    lumex_engine_->on_reconnect (reconnect_handler_t ());
+  }
+
   /// @brief The session as it is now: a copy (any thread).
   ::lumex::core::protocol::index::session_context_t
   session () const
   {
     return lumex_state_->snapshot ()->session;
+  }
+
+  /**
+   * @brief What `identify ()` found on this connection (any thread): the
+   * identity; `not_supported` before it found anything and for a device it
+   * could not read; `link_lost` from the loss of the connection to the end of
+   * the identification of the next one.
+   */
+  identity_result_t
+  identity () const
+  {
+    using unexpected_error
+        = ::lumex::core::expected::error::unexpected<std::error_code>;
+    std::shared_ptr<detail::client_snapshot_t const> const now
+        = lumex_state_->snapshot ();
+    if (now->layer >= 0)
+      return identity_result_t (now->said);
+    return unexpected_error (
+        now->why ? now->why
+                 : detail::client_error::make_error_code (
+                       detail::client_error::protocol_errc::not_supported));
   }
 
   /**

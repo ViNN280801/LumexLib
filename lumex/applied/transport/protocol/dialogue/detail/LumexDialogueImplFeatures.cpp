@@ -434,6 +434,10 @@ dialogue_impl::run_select_layer (pindex::protocol_index_t const *index,
 {
   if (closed_ || (index == &index_now () && features == features_))
     return;
+  // Another layer found on a new connection is another device: what waited
+  // for the old one does not follow it.
+  if (restoring_)
+    fail_waiting (dialogue_error (protocol_errc::link_lost));
   // The handlers that go die after the lock is released: they may call the
   // engine.
   std::shared_ptr<keepalive_generator_t const> dropped;
@@ -862,6 +866,7 @@ dialogue_impl::note_success (exchange_record_t const &record)
   if (watch == nullptr || watch->features == nullptr
       || watch->features->enables == nullptr)
     return;
+  note_enabled_stream (record);
   // Nothing may throw here: the exchange is about to end. A watch that does
   // not start only misses a gap until the first frame of the stream.
   try
@@ -1127,7 +1132,10 @@ dialogue_impl::watchdog_done (std::error_code error)
                             log::log_bytes_t ());
   // The transport first: a queued request that starts now fails its write.
   link_.impl ()->drop_connection ();
-  link_lost (dialogue_error (protocol_errc::link_lost));
+  if (reconnects_)
+    connection_lost (dialogue_error (protocol_errc::link_lost));
+  else
+    link_lost (dialogue_error (protocol_errc::link_lost));
 }
 
 // --- the keepalive
@@ -1214,6 +1222,9 @@ dialogue_impl::keepalive_done (std::error_code error)
   // lost and open may come back by this very request.
   if (!link_up () && !link_.is_open ())
     return;
+  // A dialogue that does not know its device sends nothing by itself.
+  if (!gate_open ())
+    return;
   std::shared_ptr<keepalive_generator_t const> generator;
   {
     std::lock_guard<std::mutex> const lock (handlers_mutex_);
@@ -1248,7 +1259,7 @@ dialogue_impl::keepalive_done (std::error_code error)
                             log::log_bytes_t ());
   try
     {
-      run_enqueue (id, request, handler);
+      run_enqueue (id, request, handler, true);
     }
   catch (...)
     {
@@ -1289,6 +1300,7 @@ dialogue_impl::take_feature_handlers (feature_handlers_t &out) LUMEX_NOEXCEPT
   out.edges.swap (edge_subscribers_);
   out.link.swap (link_handler_);
   out.generator.swap (keepalive_generator_);
+  out.reconnect.swap (reconnect_handler_);
 }
 } // namespace detail
 } // namespace protocol
