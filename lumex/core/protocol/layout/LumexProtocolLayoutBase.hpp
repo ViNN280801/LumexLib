@@ -96,6 +96,9 @@
 #endif
 #pragma clang diagnostic ignored "-Wformat-nonliteral"
 #pragma clang diagnostic ignored "-Wfloat-equal"
+#elif defined(__GNUC__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wfloat-equal"
 #endif
 
 #if defined(_MSC_VER) && !defined(__clang__)
@@ -724,6 +727,8 @@ load_bits (std::uint8_t const *in, std::size_t bytes,
 
 #if defined(__clang__)
 #pragma clang diagnostic pop
+#elif defined(__GNUC__)
+#pragma GCC diagnostic pop
 #endif
 
 #endif // !LUMEX_CORE_PROTOCOL_LAYOUT_BASE_HPP

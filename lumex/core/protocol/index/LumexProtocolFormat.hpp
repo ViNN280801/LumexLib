@@ -85,6 +85,9 @@
 #if __has_warning("-Wunsafe-buffer-usage-in-libc-call")
 #pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-libc-call"
 #endif
+#elif defined(__GNUC__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wfloat-equal"
 #endif
 
 #if defined(_MSC_VER) && !defined(__clang__)
@@ -852,6 +855,8 @@ append_hex (std::string &out, std::uint64_t value, std::size_t digits)
 
 #if defined(__clang__)
 #pragma clang diagnostic pop
+#elif defined(__GNUC__)
+#pragma GCC diagnostic pop
 #endif
 
 #endif // !LUMEX_CORE_PROTOCOL_INDEX_FORMAT_HPP

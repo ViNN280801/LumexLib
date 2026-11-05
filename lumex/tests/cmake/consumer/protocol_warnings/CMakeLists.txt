@@ -47,7 +47,8 @@ elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 else()
     set(_strict -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion
         -Wshadow -Wold-style-cast -Wcast-qual -Wundef -Wswitch-default
-        -Wswitch-enum -Wnon-virtual-dtor -Woverloaded-virtual -Werror)
+        -Wswitch-enum -Wnon-virtual-dtor -Woverloaded-virtual -Wfloat-equal
+        -Werror)
 endif()
 
 foreach(_std 11 20)
