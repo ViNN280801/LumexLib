@@ -10,7 +10,9 @@
 //      tokenized text protocol, 20 rows) with ONE method instantiated per row
 //      of the layer (what the generated method forwards to);
 //   3  as 2 over layer device_m2 of the same table (the binary protocol, 15
-//      rows).
+//      rows);
+//   4  as 2 with the synchronous form of each method (no completion
+//      handler), the form that blocks the caller.
 //
 // The test table of the device is de-identified (lumex/tests/core/protocol/
 // devices); only its row count and the sizes below are reported.
@@ -32,6 +34,14 @@
 #include "benchmarks/transport/bench_transport_tables.hpp"
 #elif BENCH_TRANSPORT_CLIENT >= 2
 #include "lumex/tests/core/protocol/devices/device_m/LumexProtocolDeviceM.hpp"
+#endif
+
+// The completion handler that follows the fields of a call; the synchronous
+// form (variant 4) has none.
+#if BENCH_TRANSPORT_CLIENT == 4
+#define BENCH_COMPLETION
+#else
+#define BENCH_COMPLETION , [] (std::error_code, pr::reply_of<Row>) {}
 #endif
 
 namespace
@@ -60,8 +70,7 @@ template <typename Row, typename Caller, typename Client, typename Request,
 void
 apply (Client &client, Request const &sample, seq<I...>, std::false_type)
 {
-  Caller::go (client, field::get<I> (sample)...,
-              [] (std::error_code, pr::reply_of<Row>) {});
+  Caller::go (client, field::get<I> (sample)... BENCH_COMPLETION);
 }
 
 template <typename Row, typename Caller, typename Client, typename Request,
@@ -69,8 +78,7 @@ template <typename Row, typename Caller, typename Client, typename Request,
 void
 apply (Client &client, Request const &sample, seq<I...>, std::true_type)
 {
-  Caller::go (client, pr::confirm, field::get<I> (sample)...,
-              [] (std::error_code, pr::reply_of<Row>) {});
+  Caller::go (client, pr::confirm, field::get<I> (sample)... BENCH_COMPLETION);
 }
 
 // One call of the generated method of `Row`, with the sample of its fields.
@@ -119,7 +127,7 @@ use_client (pr::client<P> &client)
 {
   call_row<P::PING_t, call_PING> (client);
 }
-#elif BENCH_TRANSPORT_CLIENT == 2
+#elif BENCH_TRANSPORT_CLIENT == 2 || BENCH_TRANSPORT_CLIENT == 4
 namespace
 {
 using P = lumex_tests::device_m::device_m1;

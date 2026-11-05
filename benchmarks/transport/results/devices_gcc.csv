@@ -3,13 +3,13 @@
 # compiler="GCC 13.2.0" cplusplus=201103
 # build=NDEBUG
 benchmark,case,clock,unit,median,min,passes,iterations,loadavg,note
-devices,sized_10_with_clients,virtual,busy_%_of_a_core,0.195,0.194,7,10,1.86,messages=1600 per 10 virtual s; x513 faster than real time; cpu 0.200035 %
-devices,sized_10_devices_only,virtual,busy_%_of_a_core,0.130,0.129,7,10,1.86,bytes=3875200 per 10 virtual s; x768 faster than real time; cpu 0.120035 %
-devices,sized_25_with_clients,virtual,busy_%_of_a_core,0.482,0.476,7,10,1.86,messages=4000 per 10 virtual s; x207 faster than real time; cpu 0.480014 %
-devices,sized_25_devices_only,virtual,busy_%_of_a_core,0.325,0.323,7,10,1.86,bytes=9685578 per 10 virtual s; x307 faster than real time; cpu 0.320041 %
-devices,small_20_with_clients,virtual,busy_%_of_a_core,0.114,0.114,7,10,1.86,messages=3200 per 10 virtual s; x878 faster than real time; cpu 0.120039 %
-devices,small_20_devices_only,virtual,busy_%_of_a_core,0.070,0.069,7,10,1.86,bytes=57564 per 10 virtual s; x1435 faster than real time; cpu 0.080041 %
-devices,small_25_with_clients,virtual,busy_%_of_a_core,0.143,0.142,7,10,1.87,messages=4000 per 10 virtual s; x701 faster than real time; cpu 0.140796 %
-devices,small_25_devices_only,virtual,busy_%_of_a_core,0.087,0.087,7,10,1.87,bytes=71982 per 10 virtual s; x1149 faster than real time; cpu 0.080071 %
-devices,mixed_with_clients,virtual,busy_%_of_a_core,0.152,0.152,7,10,1.87,messages=2850 per 10 virtual s; x656 faster than real time; cpu 0.160044 %
-devices,mixed_devices_only,virtual,busy_%_of_a_core,0.096,0.096,7,10,1.87,bytes=1493700 per 10 virtual s; x1039 faster than real time; cpu 0.080090 %
+devices,sized_10_with_clients,virtual,busy_%_of_a_core,0.195,0.194,7,10,1.55,CPU on mocks; messages=1600 per 10 virtual s; x512 faster than real time; cpu 0.200047 %
+devices,sized_10_devices_only,virtual,busy_%_of_a_core,0.130,0.130,7,10,1.55,CPU on mocks; bytes=3855824 per 10 virtual s; x766 faster than real time; cpu 0.104679 %
+devices,sized_25_with_clients,virtual,busy_%_of_a_core,0.487,0.486,7,10,1.59,CPU on mocks; messages=4000 per 10 virtual s; x205 faster than real time; cpu 0.480030 %
+devices,sized_25_devices_only,virtual,busy_%_of_a_core,0.324,0.324,7,10,1.59,CPU on mocks; bytes=9668624 per 10 virtual s; x308 faster than real time; cpu 0.297613 %
+devices,small_20_with_clients,virtual,busy_%_of_a_core,0.114,0.113,7,10,1.59,CPU on mocks; messages=3200 per 10 virtual s; x878 faster than real time; cpu 0.120027 %
+devices,small_20_devices_only,virtual,busy_%_of_a_core,0.069,0.069,7,10,1.59,CPU on mocks; bytes=57420 per 10 virtual s; x1441 faster than real time; cpu 0.052975 %
+devices,small_25_with_clients,virtual,busy_%_of_a_core,0.144,0.143,7,10,1.59,CPU on mocks; messages=4000 per 10 virtual s; x694 faster than real time; cpu 0.151712 %
+devices,small_25_devices_only,virtual,busy_%_of_a_core,0.087,0.087,7,10,1.59,CPU on mocks; bytes=71802 per 10 virtual s; x1144 faster than real time; cpu 0.070394 %
+devices,mixed_with_clients,virtual,busy_%_of_a_core,0.154,0.153,7,10,1.59,CPU on mocks; messages=2850 per 10 virtual s; x650 faster than real time; cpu 0.160034 %
+devices,mixed_devices_only,virtual,busy_%_of_a_core,0.098,0.097,7,10,1.59,CPU on mocks; bytes=1493538 per 10 virtual s; x1016 faster than real time; cpu 0.078545 %

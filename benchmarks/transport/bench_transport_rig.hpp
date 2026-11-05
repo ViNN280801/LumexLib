@@ -22,6 +22,7 @@
 #include <system_error>
 #include <thread>
 #include <utility>
+#include <vector>
 
 #include "bench_transport_tables.hpp"
 #include "lumex/applied/transport/LumexTransport"
@@ -43,6 +44,21 @@ die (char const *what)
 {
   std::fprintf (stderr, "bench: %s\n", what);
   std::exit (1);
+}
+
+/// The SLIP frame that carries the sample reply of `Row`.
+template <typename Row>
+std::vector<std::uint8_t>
+sample_reply_frame ()
+{
+  namespace layout = lumex::core::protocol::layout;
+  layout::bytes_t message;
+  layout::sample_reply_message<protocol_type, Row> (message);
+  std::vector<std::uint8_t> frame;
+  fr::slip::slip_codec codec;
+  codec.encode (layout::bytes_view_t (message.data (), message.size ()),
+                frame);
+  return frame;
 }
 
 /// The pieces of one device behind a mock stream and its client; built on the

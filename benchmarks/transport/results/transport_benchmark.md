@@ -7,156 +7,168 @@
 
 | Budget | Toolchain | Measured | Verdict | Load |
 | --- | --- | --- | --- | --- |
-| Log call below the threshold: under 2 ns | clang | 0.86 ns | met | 1.78 |
-| Log call below the threshold: under 2 ns | gcc | 0.94 ns | met | 1.85 |
-| Dialogue round trip on mocks (async, virtual clock): under 50 us | clang | 6.3 us | met | 1.78 |
-| Dialogue round trip on mocks (async, virtual clock): under 50 us | gcc | 6.1 us | met | 1.85 |
-| Dialogue round trip on mocks (sync call, runner thread): under 50 us | clang | 14.8 us | met | 1.80 |
-| Dialogue round trip on mocks (sync call, runner thread): under 50 us | gcc | 14.9 us | met | 1.86 |
-| describe of a 100-byte frame: under 5 us | clang | 0.88 us | met | 1.64 |
-| describe of a 100-byte frame: under 5 us | gcc | 0.87 us | met | 1.75 |
-| Codecs at 2420 bytes: at least 100 MB/s (the slowest shown) | clang | delimiter_2420_decode at 531 MB/s | met | 1.93 |
-| Codecs at 2420 bytes: at least 100 MB/s (the slowest shown) | gcc | cobs_2420_encode at 464 MB/s | met | 1.70 |
-| 16 devices on one io_runner thread, 2420 bytes at 25 Hz: under 10 % of a core | clang | 0.64 % | met | 1.80 |
-| 16 devices on one io_runner thread, 2420 bytes at 25 Hz: under 10 % of a core | gcc | 0.48 % | met | 1.86 |
-| 16 devices on one io_runner thread, 16 bytes at 25 Hz: under 10 % of a core | clang | 0.15 % | met | 1.80 |
-| 16 devices on one io_runner thread, 16 bytes at 25 Hz: under 10 % of a core | gcc | 0.14 % | met | 1.87 |
-| 16 devices on one io_runner thread, 16 bytes at 20 Hz: under 10 % of a core | clang | 0.12 % | met | 1.80 |
-| 16 devices on one io_runner thread, 16 bytes at 20 Hz: under 10 % of a core | gcc | 0.11 % | met | 1.86 |
-| 16 devices on one io_runner thread, mixed loads: under 10 % of a core | clang | 0.18 % | met | 1.80 |
-| 16 devices on one io_runner thread, mixed loads: under 10 % of a core | gcc | 0.15 % | met | 1.87 |
-| Client over the largest table adds under 2 s (gcc, syntax) | gcc | +1.06 s, 528 MB | met | 2.05 |
-| Client over the largest table adds under 2 s (gcc, O0) | gcc | +5.51 s, 771 MB | MISSED | 2.44 |
-| Client over the largest table adds under 2 s (gcc, O2) | gcc | +11.35 s, 997 MB | MISSED | 2.93 |
-| Client over the largest table adds under 2 s (clang, syntax) | clang | +1.02 s, 389 MB | met | 2.72 |
-| Client over the largest table adds under 2 s (clang, O0) | clang | +2.64 s, 510 MB | MISSED | 2.49 |
-| Client over the largest table adds under 2 s (clang, O2) | clang | +14.15 s, 1201 MB | MISSED | 2.92 |
+| Log call below the threshold: under 2 ns | clang | 0.86 ns | met | 2.00 |
+| Log call below the threshold: under 2 ns | gcc | 0.94 ns | met | 1.42 |
+| Dialogue round trip on mocks (async, virtual clock): under 50 us | clang | 6.3 us | met | 1.83 |
+| Dialogue round trip on mocks (async, virtual clock): under 50 us | gcc | 6.1 us | met | 1.42 |
+| Dialogue round trip on mocks (sync call, runner thread): under 50 us | clang | 14.9 us | met | 1.76 |
+| Dialogue round trip on mocks (sync call, runner thread): under 50 us | gcc | 15.4 us | met | 1.55 |
+| describe of a 100-byte frame: under 5 us | clang | 0.88 us | met | 2.00 |
+| describe of a 100-byte frame: under 5 us | gcc | 0.87 us | met | 2.12 |
+| Codecs at 2420 bytes: at least 100 MB/s (the slowest shown) | clang | delimiter_2420_decode at 531 MB/s | met | 1.82 |
+| Codecs at 2420 bytes: at least 100 MB/s (the slowest shown) | gcc | cobs_2420_encode at 462 MB/s | met | 2.10 |
+| 16 devices on one io_runner thread, real sockets and timers, a whole frame per write, 2420 bytes at 25 Hz: under 10 % of a core | clang | 3.15 % | met | 1.68 |
+| 16 devices on one io_runner thread, real sockets and timers, a whole frame per write, 2420 bytes at 25 Hz: under 10 % of a core | gcc | 2.52 % | met | 1.98 |
+| 16 devices on one io_runner thread, real sockets and timers, a whole frame per write, 2420 bytes at 10 Hz: under 10 % of a core | clang | 1.35 % | met | 2.03 |
+| 16 devices on one io_runner thread, real sockets and timers, a whole frame per write, 2420 bytes at 10 Hz: under 10 % of a core | gcc | 1.17 % | met | 2.02 |
+| 16 devices on one io_runner thread, real sockets and timers, a whole frame per write, 16 bytes at 25 Hz: under 10 % of a core | clang | 2.33 % | met | 2.21 |
+| 16 devices on one io_runner thread, real sockets and timers, a whole frame per write, 16 bytes at 25 Hz: under 10 % of a core | gcc | 2.46 % | met | 1.87 |
+| 16 devices on one io_runner thread, real sockets and timers, a whole frame per write, 16 bytes at 20 Hz: under 10 % of a core | clang | 1.65 % | met | 1.97 |
+| 16 devices on one io_runner thread, real sockets and timers, a whole frame per write, 16 bytes at 20 Hz: under 10 % of a core | gcc | 1.85 % | met | 1.53 |
+| Compile time of device_m1_20_methods (20 called rows), syntax: under 0.1 s per called row, peak memory under 1500 MB | gcc | 0.047 s per row, 528 MB | met | 2.03 |
+| Compile time of device_m1_20_methods (20 called rows), syntax: under 0.1 s per called row, peak memory under 1500 MB | clang | 0.044 s per row, 393 MB | met | 1.07 |
+| Compile time of device_m1_20_methods (20 called rows), O0: under 1.0 s per called row, peak memory under 1500 MB | gcc | 0.242 s per row, 771 MB | met | 1.53 |
+| Compile time of device_m1_20_methods (20 called rows), O0: under 1.0 s per called row, peak memory under 1500 MB | clang | 0.116 s per row, 513 MB | met | 1.04 |
+| Compile time of device_m1_20_methods (20 called rows), O2: under 1.0 s per called row, peak memory under 1500 MB | gcc | 0.497 s per row, 997 MB | met | 1.12 |
+| Compile time of device_m1_20_methods (20 called rows), O2: under 1.0 s per called row, peak memory under 1500 MB | clang | 0.617 s per row, 1205 MB | met | 1.59 |
+| Compile time of device_m2_15_methods (15 called rows), syntax: under 0.1 s per called row, peak memory under 1500 MB | gcc | 0.035 s per row, 475 MB | met | 1.95 |
+| Compile time of device_m2_15_methods (15 called rows), syntax: under 0.1 s per called row, peak memory under 1500 MB | clang | 0.043 s per row, 362 MB | met | 1.06 |
+| Compile time of device_m2_15_methods (15 called rows), O0: under 1.0 s per called row, peak memory under 1500 MB | gcc | 0.236 s per row, 700 MB | met | 1.41 |
+| Compile time of device_m2_15_methods (15 called rows), O0: under 1.0 s per called row, peak memory under 1500 MB | clang | 0.116 s per row, 454 MB | met | 1.03 |
+| Compile time of device_m2_15_methods (15 called rows), O2: under 1.0 s per called row, peak memory under 1500 MB | gcc | 0.510 s per row, 803 MB | met | 1.08 |
+| Compile time of device_m2_15_methods (15 called rows), O2: under 1.0 s per called row, peak memory under 1500 MB | clang | 0.569 s per row, 766 MB | met | 1.87 |
+| Compile time of device_m1_sync_20_methods (20 called rows), syntax: under 0.1 s per called row, peak memory under 1500 MB | gcc | 0.046 s per row, 518 MB | met | 1.87 |
+| Compile time of device_m1_sync_20_methods (20 called rows), syntax: under 0.1 s per called row, peak memory under 1500 MB | clang | 0.042 s per row, 385 MB | met | 1.06 |
+| Compile time of device_m1_sync_20_methods (20 called rows), O0: under 1.0 s per called row, peak memory under 1500 MB | gcc | 0.252 s per row, 778 MB | met | 1.29 |
+| Compile time of device_m1_sync_20_methods (20 called rows), O0: under 1.0 s per called row, peak memory under 1500 MB | clang | 0.119 s per row, 511 MB | met | 1.03 |
+| Compile time of device_m1_sync_20_methods (20 called rows), O2: under 1.0 s per called row, peak memory under 1500 MB | gcc | 0.572 s per row, 1029 MB | met | 1.09 |
+| Compile time of device_m1_sync_20_methods (20 called rows), O2: under 1.0 s per called row, peak memory under 1500 MB | clang | 0.402 s per row, 527 MB | met | 1.99 |
 
 ## codec
 
 | Case | Clock | Unit | clang median | clang min | clang load | gcc median | gcc min | gcc load |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| slip_16_encode | none | ns/frame | 10.78 | 10.73 | 1.77 | 14.27 | 13.69 | 1.47 |
-| slip_16_decode | none | ns/frame | 41.08 | 40.92 | 1.77 | 23.35 | 22.29 | 1.47 |
-| slip_16_decode_chunks64 | none | ns/frame | 41.04 | 40.76 | 1.77 | 27.88 | 26.41 | 1.47 |
-| cobs_16_encode | none | ns/frame | 22.30 | 20.91 | 1.79 | 41.72 | 40.95 | 1.47 |
-| cobs_16_decode | none | ns/frame | 45.71 | 45.59 | 1.79 | 19.96 | 19.43 | 1.47 |
-| cobs_16_decode_chunks64 | none | ns/frame | 46.15 | 46.06 | 1.79 | 19.44 | 19.29 | 1.47 |
-| delimiter_16_encode | none | ns/frame | 5.19 | 5.07 | 1.79 | 10.75 | 10.64 | 1.52 |
-| delimiter_16_decode | none | ns/frame | 46.52 | 45.63 | 1.79 | 35.16 | 34.97 | 1.52 |
-| delimiter_16_decode_chunks64 | none | ns/frame | 47.96 | 46.63 | 1.79 | 30.31 | 30.06 | 1.52 |
-| length_prefix_16_encode | none | ns/frame | 7.79 | 7.55 | 1.79 | 8.77 | 8.60 | 1.52 |
-| length_prefix_16_decode | none | ns/frame | 45.34 | 44.37 | 1.79 | 29.60 | 29.21 | 1.52 |
-| length_prefix_16_decode_chunks64 | none | ns/frame | 45.29 | 44.62 | 1.79 | 29.14 | 27.92 | 1.52 |
-| header_16_encode | none | ns/frame | 13.85 | 13.06 | 1.81 | 17.79 | 17.71 | 1.52 |
-| header_16_decode | none | ns/frame | 20.02 | 18.30 | 1.81 | 16.70 | 15.94 | 1.52 |
-| header_16_decode_chunks64 | none | ns/frame | 19.92 | 19.44 | 1.81 | 16.90 | 16.12 | 1.52 |
-| modbus_rtu_16_encode | none | ns/frame | 13.70 | 13.49 | 1.81 | 28.25 | 27.94 | 1.52 |
-| modbus_rtu_16_decode | none | ns/frame | 21.51 | 21.09 | 1.81 | 31.68 | 31.54 | 1.56 |
-| modbus_rtu_16_decode_chunks64 | none | ns/frame | 21.03 | 20.76 | 1.81 | 32.92 | 32.65 | 1.56 |
-| slip_100_encode | none | ns/frame | 66.67 | 64.32 | 1.81 | 75.16 | 72.86 | 1.56 |
-| slip_100_decode | none | ns/frame | 189.82 | 189.54 | 1.81 | 130.24 | 129.96 | 1.56 |
-| slip_100_decode_chunks64 | none | ns/frame | 193.01 | 192.24 | 1.81 | 127.66 | 126.45 | 1.56 |
-| cobs_100_encode | none | ns/frame | 94.36 | 93.70 | 1.83 | 218.59 | 218.08 | 1.56 |
-| cobs_100_decode | none | ns/frame | 190.28 | 189.44 | 1.83 | 99.66 | 99.03 | 1.56 |
-| cobs_100_decode_chunks64 | none | ns/frame | 200.84 | 199.85 | 1.83 | 100.66 | 98.56 | 1.56 |
-| delimiter_100_encode | none | ns/frame | 5.66 | 5.61 | 1.83 | 10.63 | 10.33 | 1.56 |
-| delimiter_100_decode | none | ns/frame | 206.06 | 203.12 | 1.83 | 141.87 | 140.69 | 1.59 |
-| delimiter_100_decode_chunks64 | none | ns/frame | 214.02 | 213.72 | 1.83 | 130.51 | 129.89 | 1.59 |
-| length_prefix_100_encode | none | ns/frame | 7.90 | 7.79 | 1.83 | 9.25 | 9.18 | 1.59 |
-| length_prefix_100_decode | none | ns/frame | 194.94 | 194.25 | 1.83 | 108.14 | 107.86 | 1.59 |
-| length_prefix_100_decode_chunks64 | none | ns/frame | 204.86 | 204.67 | 1.83 | 120.91 | 120.16 | 1.59 |
-| header_100_encode | none | ns/frame | 13.94 | 13.22 | 1.83 | 17.20 | 16.78 | 1.59 |
-| header_100_decode | none | ns/frame | 19.42 | 18.19 | 1.84 | 16.68 | 16.57 | 1.59 |
-| header_100_decode_chunks64 | none | ns/frame | 28.20 | 27.44 | 1.84 | 25.70 | 25.21 | 1.59 |
-| modbus_rtu_100_encode | none | ns/frame | 140.66 | 140.55 | 1.84 | 194.67 | 194.33 | 1.59 |
-| modbus_rtu_100_decode | none | ns/frame | 162.10 | 161.69 | 1.84 | 209.62 | 209.33 | 1.70 |
-| modbus_rtu_100_decode_chunks64 | none | ns/frame | 174.57 | 174.00 | 1.84 | 219.66 | 219.55 | 1.70 |
-| slip_2420_encode | none | ns/frame | 1286.34 | 1262.79 | 1.84 | 2228.84 | 2153.76 | 1.70 |
-| slip_2420_decode | none | ns/frame | 4190.04 | 4186.68 | 1.84 | 2545.89 | 2543.35 | 1.70 |
-| slip_2420_decode_chunks64 | none | ns/frame | 4563.73 | 4541.91 | 1.84 | 2915.05 | 2905.77 | 1.70 |
-| cobs_2420_encode | none | ns/frame | 1938.77 | 1911.09 | 1.84 | 5212.16 | 5205.69 | 1.70 |
-| cobs_2420_decode | none | ns/frame | 4204.81 | 4128.01 | 1.93 | 2616.27 | 2543.30 | 1.70 |
-| cobs_2420_decode_chunks64 | none | ns/frame | 4480.13 | 4472.54 | 1.93 | 2842.05 | 2657.51 | 1.70 |
-| delimiter_2420_encode | none | ns/frame | 24.12 | 24.09 | 1.93 | 24.50 | 24.38 | 1.70 |
-| delimiter_2420_decode | none | ns/frame | 4556.73 | 4544.28 | 1.93 | 3056.77 | 3019.24 | 1.73 |
-| delimiter_2420_decode_chunks64 | none | ns/frame | 4873.48 | 4844.85 | 1.93 | 2913.31 | 2877.74 | 1.73 |
-| length_prefix_2420_encode | none | ns/frame | 26.85 | 26.82 | 1.93 | 29.04 | 28.82 | 1.73 |
-| length_prefix_2420_decode | none | ns/frame | 4289.24 | 4271.07 | 1.93 | 2285.77 | 2281.73 | 1.73 |
-| length_prefix_2420_decode_chunks64 | none | ns/frame | 4582.78 | 4573.00 | 1.93 | 2645.47 | 2631.22 | 1.73 |
-| header_2420_encode | none | ns/frame | 29.80 | 29.41 | 1.93 | 32.36 | 32.30 | 1.73 |
-| header_2420_decode | none | ns/frame | 50.27 | 50.12 | 1.94 | 48.94 | 48.87 | 1.73 |
-| header_2420_decode_chunks64 | none | ns/frame | 380.20 | 379.54 | 1.94 | 321.76 | 319.56 | 1.73 |
+| slip_16_encode | none | ns/frame | 10.68 | 10.64 | 1.73 | 12.95 | 12.94 | 2.03 |
+| slip_16_decode | none | ns/frame | 40.42 | 40.21 | 1.73 | 27.32 | 26.58 | 2.03 |
+| slip_16_decode_chunks64 | none | ns/frame | 40.82 | 40.33 | 1.75 | 23.19 | 22.06 | 2.03 |
+| cobs_16_encode | none | ns/frame | 24.52 | 22.15 | 1.75 | 42.46 | 42.10 | 2.03 |
+| cobs_16_decode | none | ns/frame | 44.83 | 44.75 | 1.75 | 19.05 | 18.65 | 2.03 |
+| cobs_16_decode_chunks64 | none | ns/frame | 45.37 | 45.32 | 1.75 | 20.09 | 20.02 | 2.03 |
+| delimiter_16_encode | none | ns/frame | 4.98 | 4.96 | 1.75 | 4.92 | 4.85 | 2.03 |
+| delimiter_16_decode | none | ns/frame | 44.78 | 44.33 | 1.75 | 28.94 | 27.91 | 2.03 |
+| delimiter_16_decode_chunks64 | none | ns/frame | 44.26 | 44.12 | 1.75 | 30.67 | 30.23 | 2.03 |
+| length_prefix_16_encode | none | ns/frame | 7.72 | 7.43 | 1.75 | 8.60 | 8.36 | 2.03 |
+| length_prefix_16_decode | none | ns/frame | 41.86 | 41.81 | 1.75 | 25.03 | 23.61 | 2.03 |
+| length_prefix_16_decode_chunks64 | none | ns/frame | 42.19 | 41.66 | 1.77 | 30.28 | 28.86 | 2.03 |
+| header_16_encode | none | ns/frame | 16.32 | 15.93 | 1.77 | 13.56 | 12.81 | 2.03 |
+| header_16_decode | none | ns/frame | 19.01 | 18.56 | 1.77 | 16.74 | 16.28 | 2.03 |
+| header_16_decode_chunks64 | none | ns/frame | 19.01 | 18.30 | 1.77 | 17.42 | 17.29 | 2.03 |
+| modbus_rtu_16_encode | none | ns/frame | 13.72 | 13.66 | 1.77 | 28.41 | 27.64 | 2.03 |
+| modbus_rtu_16_decode | none | ns/frame | 20.46 | 20.37 | 1.77 | 31.98 | 31.92 | 2.03 |
+| modbus_rtu_16_decode_chunks64 | none | ns/frame | 21.17 | 21.11 | 1.77 | 32.88 | 32.17 | 2.03 |
+| slip_100_encode | none | ns/frame | 64.97 | 59.52 | 1.77 | 74.39 | 72.70 | 2.03 |
+| slip_100_decode | none | ns/frame | 189.46 | 188.15 | 1.77 | 118.26 | 117.57 | 2.02 |
+| slip_100_decode_chunks64 | none | ns/frame | 192.83 | 191.92 | 1.79 | 129.03 | 127.82 | 2.02 |
+| cobs_100_encode | none | ns/frame | 94.84 | 93.86 | 1.79 | 221.85 | 221.38 | 2.02 |
+| cobs_100_decode | none | ns/frame | 189.41 | 188.86 | 1.79 | 98.14 | 97.69 | 2.02 |
+| cobs_100_decode_chunks64 | none | ns/frame | 198.72 | 198.22 | 1.79 | 104.08 | 101.91 | 2.02 |
+| delimiter_100_encode | none | ns/frame | 5.62 | 5.62 | 1.79 | 5.40 | 5.38 | 2.02 |
+| delimiter_100_decode | none | ns/frame | 202.04 | 201.66 | 1.79 | 120.62 | 119.74 | 2.02 |
+| delimiter_100_decode_chunks64 | none | ns/frame | 215.44 | 213.19 | 1.79 | 131.28 | 129.04 | 2.02 |
+| length_prefix_100_encode | none | ns/frame | 7.67 | 7.51 | 1.79 | 8.55 | 8.28 | 2.02 |
+| length_prefix_100_decode | none | ns/frame | 193.63 | 190.16 | 1.79 | 107.03 | 106.85 | 2.02 |
+| length_prefix_100_decode_chunks64 | none | ns/frame | 203.27 | 200.49 | 1.79 | 122.38 | 121.04 | 2.02 |
+| header_100_encode | none | ns/frame | 15.75 | 15.58 | 1.81 | 13.03 | 12.80 | 2.02 |
+| header_100_decode | none | ns/frame | 19.00 | 17.82 | 1.81 | 16.79 | 16.49 | 2.02 |
+| header_100_decode_chunks64 | none | ns/frame | 29.37 | 28.35 | 1.81 | 24.31 | 24.00 | 2.02 |
+| modbus_rtu_100_encode | none | ns/frame | 140.16 | 139.94 | 1.81 | 195.42 | 195.24 | 2.02 |
+| modbus_rtu_100_decode | none | ns/frame | 160.95 | 160.72 | 1.81 | 206.11 | 206.04 | 2.02 |
+| modbus_rtu_100_decode_chunks64 | none | ns/frame | 173.08 | 172.97 | 1.81 | 218.99 | 218.90 | 2.02 |
+| slip_2420_encode | none | ns/frame | 1258.79 | 1238.28 | 1.81 | 1841.36 | 1795.70 | 2.02 |
+| slip_2420_decode | none | ns/frame | 4200.34 | 4180.81 | 1.81 | 2500.89 | 2495.85 | 2.02 |
+| slip_2420_decode_chunks64 | none | ns/frame | 4609.41 | 4581.87 | 1.81 | 2958.58 | 2940.32 | 2.10 |
+| cobs_2420_encode | none | ns/frame | 2030.34 | 2005.44 | 1.82 | 5235.27 | 5215.47 | 2.10 |
+| cobs_2420_decode | none | ns/frame | 4280.02 | 4136.19 | 1.82 | 2066.01 | 2042.84 | 2.10 |
+| cobs_2420_decode_chunks64 | none | ns/frame | 4445.47 | 4432.85 | 1.82 | 2284.04 | 2277.13 | 2.10 |
+| delimiter_2420_encode | none | ns/frame | 18.97 | 18.96 | 1.82 | 23.25 | 23.25 | 2.10 |
+| delimiter_2420_decode | none | ns/frame | 4555.85 | 4549.69 | 1.82 | 2557.20 | 2516.80 | 2.10 |
+| delimiter_2420_decode_chunks64 | none | ns/frame | 4944.90 | 4906.74 | 1.82 | 2913.83 | 2898.81 | 2.10 |
+| length_prefix_2420_encode | none | ns/frame | 21.07 | 21.05 | 1.82 | 29.13 | 29.06 | 2.10 |
+| length_prefix_2420_decode | none | ns/frame | 4395.21 | 4339.79 | 1.82 | 2308.26 | 2287.18 | 2.10 |
+| length_prefix_2420_decode_chunks64 | none | ns/frame | 4695.83 | 4667.52 | 1.82 | 2717.71 | 2707.09 | 2.09 |
+| header_2420_encode | none | ns/frame | 24.69 | 24.47 | 2.00 | 31.39 | 31.32 | 2.09 |
+| header_2420_decode | none | ns/frame | 39.19 | 39.09 | 2.00 | 48.59 | 48.55 | 2.09 |
+| header_2420_decode_chunks64 | none | ns/frame | 359.93 | 358.53 | 2.00 | 290.63 | 288.35 | 2.09 |
 
-- `slip_16_encode`: MB/s=1483
-- `slip_16_decode`: MB/s=389
-- `slip_16_decode_chunks64`: MB/s=389
-- `cobs_16_encode`: MB/s=717
-- `cobs_16_decode`: MB/s=350
-- `cobs_16_decode_chunks64`: MB/s=346
-- `delimiter_16_encode`: MB/s=3081
-- `delimiter_16_decode`: MB/s=343
-- `delimiter_16_decode_chunks64`: MB/s=333
-- `length_prefix_16_encode`: MB/s=2053
-- `length_prefix_16_decode`: MB/s=352
-- `length_prefix_16_decode_chunks64`: MB/s=353
-- `header_16_encode`: MB/s=1155
-- `header_16_decode`: MB/s=799
-- `header_16_decode_chunks64`: MB/s=803
-- `modbus_rtu_16_encode`: MB/s=1168
-- `modbus_rtu_16_decode`: MB/s=743
-- `modbus_rtu_16_decode_chunks64`: MB/s=760
-- `slip_100_encode`: MB/s=1499
-- `slip_100_decode`: MB/s=526
+- `slip_16_encode`: MB/s=1498
+- `slip_16_decode`: MB/s=395
+- `slip_16_decode_chunks64`: MB/s=391
+- `cobs_16_encode`: MB/s=652
+- `cobs_16_decode`: MB/s=356
+- `cobs_16_decode_chunks64`: MB/s=352
+- `delimiter_16_encode`: MB/s=3213
+- `delimiter_16_decode`: MB/s=357
+- `delimiter_16_decode_chunks64`: MB/s=361
+- `length_prefix_16_encode`: MB/s=2073
+- `length_prefix_16_decode`: MB/s=382
+- `length_prefix_16_decode_chunks64`: MB/s=379
+- `header_16_encode`: MB/s=980
+- `header_16_decode`: MB/s=841
+- `header_16_decode_chunks64`: MB/s=841
+- `modbus_rtu_16_encode`: MB/s=1166
+- `modbus_rtu_16_decode`: MB/s=782
+- `modbus_rtu_16_decode_chunks64`: MB/s=755
+- `slip_100_encode`: MB/s=1539
+- `slip_100_decode`: MB/s=527
 - `slip_100_decode_chunks64`: MB/s=518
-- `cobs_100_encode`: MB/s=1059
-- `cobs_100_decode`: MB/s=525
-- `cobs_100_decode_chunks64`: MB/s=497
-- `delimiter_100_encode`: MB/s=17683
-- `delimiter_100_decode`: MB/s=485
-- `delimiter_100_decode_chunks64`: MB/s=467
-- `length_prefix_100_encode`: MB/s=12655
-- `length_prefix_100_decode`: MB/s=512
-- `length_prefix_100_decode_chunks64`: MB/s=488
-- `header_100_encode`: MB/s=7171
-- `header_100_decode`: MB/s=5148
-- `header_100_decode_chunks64`: MB/s=3546
-- `modbus_rtu_100_encode`: MB/s=710
-- `modbus_rtu_100_decode`: MB/s=616
-- `modbus_rtu_100_decode_chunks64`: MB/s=572
-- `slip_2420_encode`: MB/s=1881
-- `slip_2420_decode`: MB/s=577
-- `slip_2420_decode_chunks64`: MB/s=530
-- `cobs_2420_encode`: MB/s=1248
-- `cobs_2420_decode`: MB/s=575
-- `cobs_2420_decode_chunks64`: MB/s=540
-- `delimiter_2420_encode`: MB/s=100340
+- `cobs_100_encode`: MB/s=1054
+- `cobs_100_decode`: MB/s=527
+- `cobs_100_decode_chunks64`: MB/s=503
+- `delimiter_100_encode`: MB/s=17778
+- `delimiter_100_decode`: MB/s=494
+- `delimiter_100_decode_chunks64`: MB/s=464
+- `length_prefix_100_encode`: MB/s=13033
+- `length_prefix_100_decode`: MB/s=516
+- `length_prefix_100_decode_chunks64`: MB/s=491
+- `header_100_encode`: MB/s=6347
+- `header_100_decode`: MB/s=5264
+- `header_100_decode_chunks64`: MB/s=3405
+- `modbus_rtu_100_encode`: MB/s=713
+- `modbus_rtu_100_decode`: MB/s=621
+- `modbus_rtu_100_decode_chunks64`: MB/s=577
+- `slip_2420_encode`: MB/s=1922
+- `slip_2420_decode`: MB/s=576
+- `slip_2420_decode_chunks64`: MB/s=525
+- `cobs_2420_encode`: MB/s=1191
+- `cobs_2420_decode`: MB/s=565
+- `cobs_2420_decode_chunks64`: MB/s=544
+- `delimiter_2420_encode`: MB/s=127560
 - `delimiter_2420_decode`: MB/s=531
-- `delimiter_2420_decode_chunks64`: MB/s=496
-- `length_prefix_2420_encode`: MB/s=90128
-- `length_prefix_2420_decode`: MB/s=564
-- `length_prefix_2420_decode_chunks64`: MB/s=528
-- `header_2420_encode`: MB/s=81205
-- `header_2420_decode`: MB/s=48135
-- `header_2420_decode_chunks64`: MB/s=6365
+- `delimiter_2420_decode_chunks64`: MB/s=489
+- `length_prefix_2420_encode`: MB/s=114854
+- `length_prefix_2420_decode`: MB/s=550
+- `length_prefix_2420_decode_chunks64`: MB/s=515
+- `header_2420_encode`: MB/s=98024
+- `header_2420_decode`: MB/s=61751
+- `header_2420_decode_chunks64`: MB/s=6723
 
 ## protocol
 
 | Case | Clock | Unit | clang median | clang min | clang load | gcc median | gcc min | gcc load |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| message_decode_100 | none | ns/message | 32.34 | 31.95 | 1.64 | 85.41 | 84.02 | 1.73 |
-| message_encode_100 | none | ns/message | 137.55 | 137.27 | 1.64 | 180.23 | 177.55 | 1.73 |
-| index_match_100 | none | ns/frame | 7.48 | 7.48 | 1.64 | 10.00 | 9.95 | 1.75 |
-| describe_rx_100 | none | ns/frame | 878.80 | 875.62 | 1.64 | 869.82 | 865.08 | 1.75 |
-| message_decode_2420 | none | ns/message | 69.95 | 69.35 | 1.67 | 323.26 | 322.93 | 1.75 |
-| message_encode_2420 | none | ns/message | 3720.85 | 3711.03 | 1.67 | 3503.86 | 3354.99 | 1.75 |
-| index_match_2420 | none | ns/frame | 7.47 | 7.46 | 1.67 | 9.56 | 9.56 | 1.75 |
-| describe_rx_2420 | none | ns/frame | 13158.99 | 13133.12 | 1.67 | 12814.23 | 12764.69 | 1.75 |
-| message_decode_6 | none | ns/message | 1.01 | 0.99 | 1.67 | 2.82 | 2.82 | 1.75 |
-| message_encode_6 | none | ns/message | 11.62 | 11.00 | 1.67 | 10.07 | 9.83 | 1.75 |
-| index_match_6 | none | ns/frame | 7.47 | 7.46 | 1.67 | 9.57 | 9.56 | 1.75 |
-| describe_rx_6 | none | ns/frame | 148.99 | 147.95 | 1.67 | 152.84 | 151.48 | 1.85 |
-| describe_tx_6 | none | ns/frame | 150.12 | 149.73 | 1.67 | 150.41 | 149.00 | 1.85 |
+| message_decode_100 | none | ns/message | 32.23 | 32.09 | 2.00 | 85.90 | 84.67 | 2.12 |
+| message_encode_100 | none | ns/message | 136.58 | 135.81 | 2.00 | 185.00 | 184.34 | 2.12 |
+| index_match_100 | none | ns/frame | 7.49 | 7.47 | 2.00 | 8.88 | 8.87 | 2.12 |
+| describe_rx_100 | none | ns/frame | 878.02 | 873.95 | 2.00 | 869.66 | 867.11 | 2.12 |
+| message_decode_2420 | none | ns/message | 66.00 | 64.12 | 2.00 | 320.79 | 319.11 | 2.12 |
+| message_encode_2420 | none | ns/message | 3736.43 | 3698.21 | 2.00 | 3523.61 | 3395.56 | 2.12 |
+| index_match_2420 | none | ns/frame | 7.48 | 7.46 | 2.00 | 8.89 | 8.87 | 2.12 |
+| describe_rx_2420 | none | ns/frame | 13124.84 | 13103.25 | 2.00 | 12475.13 | 12460.47 | 2.12 |
+| message_decode_6 | none | ns/message | 1.01 | 1.00 | 2.00 | 2.75 | 2.74 | 2.11 |
+| message_encode_6 | none | ns/message | 11.24 | 11.04 | 2.00 | 10.61 | 10.39 | 2.11 |
+| index_match_6 | none | ns/frame | 7.55 | 7.48 | 2.00 | 8.89 | 8.88 | 2.11 |
+| describe_rx_6 | none | ns/frame | 148.90 | 148.33 | 2.00 | 152.46 | 151.92 | 2.11 |
+| describe_tx_6 | none | ns/frame | 150.00 | 149.45 | 2.00 | 149.33 | 149.08 | 2.11 |
 
 - `message_decode_100`: bytes=100
 - `message_encode_100`: bytes=100
@@ -176,11 +188,11 @@
 
 | Case | Clock | Unit | clang median | clang min | clang load | gcc median | gcc min | gcc load |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| lazy_below_threshold | none | ns/call | 0.86 | 0.86 | 1.78 | 0.94 | 0.94 | 1.85 |
-| eager_below_threshold | none | ns/call | 53.15 | 52.67 | 1.78 | 53.20 | 52.81 | 1.85 |
-| bare_atomic_load | none | ns/call | 0.12 | 0.11 | 1.78 | 0.28 | 0.28 | 1.85 |
-| filtered_component | none | ns/call | 12.86 | 12.83 | 1.78 | 12.67 | 12.64 | 1.85 |
-| enabled_counting_sink | none | ns/call | 55.21 | 54.95 | 1.78 | 53.73 | 53.57 | 1.85 |
+| lazy_below_threshold | none | ns/call | 0.86 | 0.86 | 2.00 | 0.94 | 0.94 | 1.42 |
+| eager_below_threshold | none | ns/call | 53.19 | 53.10 | 2.00 | 54.18 | 53.21 | 1.42 |
+| bare_atomic_load | none | ns/call | 0.12 | 0.12 | 2.00 | 0.29 | 0.29 | 1.42 |
+| filtered_component | none | ns/call | 12.89 | 12.83 | 2.00 | 12.77 | 12.73 | 1.42 |
+| enabled_counting_sink | none | ns/call | 55.32 | 54.98 | 2.00 | 53.47 | 53.42 | 1.42 |
 
 - `lazy_below_threshold`: the macro; threshold above the record
 - `eager_below_threshold`: falsifier: formats before the check
@@ -192,16 +204,18 @@
 
 | Case | Clock | Unit | clang median | clang min | clang load | gcc median | gcc min | gcc load |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| ping6_virtual | virtual | ns/exchange | 6274.90 | 6259.72 | 1.78 | 6072.00 | 6038.88 | 1.85 |
-| ping6_virtual_device_sleep50us | virtual | ns/exchange | 118075.80 | 116945.93 | 1.78 | 126529.36 | 111137.91 | 1.85 |
-| block2420_virtual | virtual | ns/exchange | 18783.63 | 18728.86 | 1.78 | 14885.95 | 14798.60 | 1.85 |
-| block2420_virtual_device_sleep50us | virtual | ns/exchange | 154166.29 | 128553.51 | 1.78 | 162047.29 | 120131.58 | 1.86 |
-| ping6_real_timers | real | ns/exchange | 9548.22 | 9503.12 | 1.78 | 9129.02 | 9115.35 | 1.86 |
-| ping6_real_timers_device_sleep50us | real | ns/exchange | 153075.50 | 149951.82 | 1.80 | 128078.24 | 121905.94 | 1.86 |
-| ping6_sync_thread | real | ns/exchange | 14838.58 | 14542.84 | 1.80 | 14872.73 | 13811.67 | 1.86 |
-| ping6_sync_thread_device_sleep50us | real | ns/exchange | 125840.26 | 122316.12 | 1.80 | 154515.93 | 132351.56 | 1.86 |
-| block2420_sync_thread | real | ns/exchange | 35566.27 | 31283.65 | 1.80 | 24888.31 | 24024.76 | 1.86 |
-| block2420_sync_thread_device_sleep50us | real | ns/exchange | 169460.23 | 139895.04 | 1.80 | 140892.88 | 133893.80 | 1.86 |
+| ping6_virtual | virtual | ns/exchange | 6280.84 | 6263.73 | 1.83 | 6131.61 | 6129.83 | 1.42 |
+| ping6_virtual_device_sleep50us | virtual | ns/exchange | 140017.47 | 122598.09 | 1.83 | 122020.17 | 110582.26 | 1.42 |
+| block2420_virtual | virtual | ns/exchange | 19185.96 | 18897.04 | 1.83 | 14945.74 | 14914.10 | 1.42 |
+| block2420_virtual_device_sleep50us | virtual | ns/exchange | 135522.38 | 126884.97 | 1.83 | 163812.11 | 141696.24 | 1.42 |
+| ping6_real_timers | real | ns/exchange | 9758.01 | 9726.98 | 1.83 | 9306.36 | 9291.27 | 1.55 |
+| ping6_real_timers_device_sleep50us | real | ns/exchange | 133284.26 | 111890.40 | 1.76 | 118710.11 | 113600.17 | 1.55 |
+| ping6_sync_thread | real | ns/exchange | 14870.89 | 14488.28 | 1.76 | 15375.20 | 14288.17 | 1.55 |
+| ping6_sync_thread_device_sleep50us | real | ns/exchange | 158516.91 | 121399.47 | 1.76 | 142558.87 | 117658.58 | 1.55 |
+| block2420_sync_thread | real | ns/exchange | 29187.91 | 28238.60 | 1.76 | 26858.03 | 24583.04 | 1.55 |
+| block2420_sync_thread_device_sleep50us | real | ns/exchange | 167856.51 | 135883.89 | 1.76 | 163417.83 | 127560.30 | 1.55 |
+| ping6_sync_tcp_loopback | real | ns/exchange | 25206.76 | 23519.70 | 1.76 | 27254.14 | 20950.34 | 1.55 |
+| ping6_sync_tcp_loopback_device_sleep50us | real | ns/exchange | 186880.67 | 148673.98 | 1.76 | 137663.65 | 131705.59 | 1.55 |
 
 - `ping6_virtual`: async; 6-byte reply
 - `ping6_virtual_device_sleep50us`: falsifier: sleep_for (50 us) in the simulator handler
@@ -213,62 +227,88 @@
 - `ping6_sync_thread_device_sleep50us`: falsifier: sleep_for (50 us) in the simulator handler
 - `block2420_sync_thread`: sync call; the context runs on another thread
 - `block2420_sync_thread_device_sleep50us`: falsifier: sleep_for (50 us) in the simulator handler
+- `ping6_sync_tcp_loopback`: sync call over TCP on the loopback interface; the client on an io_runner with real timers
+- `ping6_sync_tcp_loopback_device_sleep50us`: falsifier: sleep_for (50 us) in the peer thread
 
-## devices
+## devices (CPU on mocks, virtual clock: no budget verdict)
 
 | Case | Clock | Unit | clang median | clang min | clang load | gcc median | gcc min | gcc load |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| sized_10_with_clients | virtual | busy_%_of_a_core | 0.26 | 0.26 | 1.80 | 0.20 | 0.19 | 1.86 |
-| sized_10_devices_only | virtual | busy_%_of_a_core | 0.13 | 0.13 | 1.80 | 0.13 | 0.13 | 1.86 |
-| sized_25_with_clients | virtual | busy_%_of_a_core | 0.64 | 0.64 | 1.80 | 0.48 | 0.48 | 1.86 |
-| sized_25_devices_only | virtual | busy_%_of_a_core | 0.33 | 0.33 | 1.80 | 0.33 | 0.32 | 1.86 |
-| small_20_with_clients | virtual | busy_%_of_a_core | 0.12 | 0.12 | 1.80 | 0.11 | 0.11 | 1.86 |
-| small_20_devices_only | virtual | busy_%_of_a_core | 0.07 | 0.07 | 1.80 | 0.07 | 0.07 | 1.86 |
-| small_25_with_clients | virtual | busy_%_of_a_core | 0.15 | 0.14 | 1.80 | 0.14 | 0.14 | 1.87 |
-| small_25_devices_only | virtual | busy_%_of_a_core | 0.09 | 0.09 | 1.80 | 0.09 | 0.09 | 1.87 |
-| mixed_with_clients | virtual | busy_%_of_a_core | 0.18 | 0.18 | 1.80 | 0.15 | 0.15 | 1.87 |
-| mixed_devices_only | virtual | busy_%_of_a_core | 0.10 | 0.10 | 1.80 | 0.10 | 0.10 | 1.87 |
+| sized_10_with_clients | virtual | busy_%_of_a_core | 0.26 | 0.26 | 1.76 | 0.20 | 0.19 | 1.55 |
+| sized_10_devices_only | virtual | busy_%_of_a_core | 0.13 | 0.13 | 1.76 | 0.13 | 0.13 | 1.55 |
+| sized_25_with_clients | virtual | busy_%_of_a_core | 0.64 | 0.64 | 1.76 | 0.49 | 0.49 | 1.59 |
+| sized_25_devices_only | virtual | busy_%_of_a_core | 0.32 | 0.32 | 1.78 | 0.32 | 0.32 | 1.59 |
+| small_20_with_clients | virtual | busy_%_of_a_core | 0.12 | 0.12 | 1.78 | 0.11 | 0.11 | 1.59 |
+| small_20_devices_only | virtual | busy_%_of_a_core | 0.07 | 0.07 | 1.78 | 0.07 | 0.07 | 1.59 |
+| small_25_with_clients | virtual | busy_%_of_a_core | 0.15 | 0.15 | 1.78 | 0.14 | 0.14 | 1.59 |
+| small_25_devices_only | virtual | busy_%_of_a_core | 0.09 | 0.09 | 1.78 | 0.09 | 0.09 | 1.59 |
+| mixed_with_clients | virtual | busy_%_of_a_core | 0.18 | 0.18 | 1.78 | 0.15 | 0.15 | 1.59 |
+| mixed_devices_only | virtual | busy_%_of_a_core | 0.10 | 0.10 | 1.78 | 0.10 | 0.10 | 1.59 |
 
-- `sized_10_with_clients`: messages=1600 per 10 virtual s; x386 faster than real time; cpu 0.240040 %
-- `sized_10_devices_only`: bytes=3875200 per 10 virtual s; x752 faster than real time; cpu 0.120043 %
-- `sized_25_with_clients`: messages=4000 per 10 virtual s; x155 faster than real time; cpu 0.640030 %
-- `sized_25_devices_only`: bytes=9688000 per 10 virtual s; x307 faster than real time; cpu 0.320046 %
-- `small_20_with_clients`: messages=3200 per 10 virtual s; x822 faster than real time; cpu 0.120034 %
-- `small_20_devices_only`: bytes=57456 per 10 virtual s; x1385 faster than real time; cpu 0.079937 %
-- `small_25_with_clients`: messages=4000 per 10 virtual s; x657 faster than real time; cpu 0.160036 %
-- `small_25_devices_only`: bytes=71964 per 10 virtual s; x1102 faster than real time; cpu 0.080047 %
-- `mixed_with_clients`: messages=2850 per 10 virtual s; x546 faster than real time; cpu 0.200034 %
-- `mixed_devices_only`: bytes=1493682 per 10 virtual s; x1001 faster than real time; cpu 0.101046 %
+- `sized_10_with_clients`: CPU on mocks; messages=1600 per 10 virtual s; x388 faster than real time; cpu 0.240041 %
+- `sized_10_devices_only`: CPU on mocks; bytes=3855824 per 10 virtual s; x770 faster than real time; cpu 0.117625 %
+- `sized_25_with_clients`: CPU on mocks; messages=4000 per 10 virtual s; x155 faster than real time; cpu 0.640029 %
+- `sized_25_devices_only`: CPU on mocks; bytes=9663780 per 10 virtual s; x309 faster than real time; cpu 0.295985 %
+- `small_20_with_clients`: CPU on mocks; messages=3200 per 10 virtual s; x820 faster than real time; cpu 0.120044 %
+- `small_20_devices_only`: CPU on mocks; bytes=57402 per 10 virtual s; x1382 faster than real time; cpu 0.050425 %
+- `small_25_with_clients`: CPU on mocks; messages=4000 per 10 virtual s; x654 faster than real time; cpu 0.160040 %
+- `small_25_devices_only`: CPU on mocks; bytes=71874 per 10 virtual s; x1106 faster than real time; cpu 0.070766 %
+- `mixed_with_clients`: CPU on mocks; messages=2850 per 10 virtual s; x542 faster than real time; cpu 0.189078 %
+- `mixed_devices_only`: CPU on mocks; bytes=1493538 per 10 virtual s; x1013 faster than real time; cpu 0.076959 %
+
+## sockets (16 devices over TCP loopback, real timers; the chunked rows have no budget)
+
+| Case | Clock | Unit | clang median | clang min | clang load | gcc median | gcc min | gcc load |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| sized_25_whole | real | busy_%_of_a_core | 3.15 | 3.02 | 1.68 | 2.52 | 2.51 | 1.98 |
+| sized_10_whole | real | busy_%_of_a_core | 1.35 | 1.28 | 2.03 | 1.17 | 1.17 | 2.02 |
+| small_25_whole | real | busy_%_of_a_core | 2.33 | 1.87 | 2.21 | 2.46 | 2.26 | 1.87 |
+| small_20_whole | real | busy_%_of_a_core | 1.65 | 1.61 | 1.97 | 1.85 | 1.78 | 1.53 |
+| sized_25_chunks64 | real | busy_%_of_a_core | 23.86 | 22.35 | 2.25 | 23.12 | 19.69 | 2.68 |
+| sized_10_chunks64 | real | busy_%_of_a_core | 11.33 | 10.74 | 2.38 | 12.80 | 11.37 | 2.59 |
+
+- `sized_25_whole`: 16 clients on one io_runner thread over TCP loopback; 400.1 of 400 messages/s (100 %); 78.6 us of CPU per message; 577 voluntary context switches/s
+- `sized_10_whole`: 16 clients on one io_runner thread over TCP loopback; 160.0 of 160 messages/s (100 %); 84.6 us of CPU per message; 227 voluntary context switches/s
+- `small_25_whole`: 16 clients on one io_runner thread over TCP loopback; 400.0 of 400 messages/s (100 %); 58.3 us of CPU per message; 585 voluntary context switches/s
+- `small_20_whole`: 16 clients on one io_runner thread over TCP loopback; 320.1 of 320 messages/s (100 %); 51.5 us of CPU per message; 477 voluntary context switches/s
+- `sized_25_chunks64`: 16 clients on one io_runner thread over TCP loopback; 347.7 of 400 messages/s (87 %); 686.3 us of CPU per message; 1098 voluntary context switches/s
+- `sized_10_chunks64`: 16 clients on one io_runner thread over TCP loopback; 160.0 of 160 messages/s (100 %); 708.0 us of CPU per message; 992 voluntary context switches/s
 
 ## Compile time of protocol::client<P>
 
 - compiler gcc: g++ (GCC) 13.2.0
 - compiler clang: clang version 23.1.0
 
-| Toolchain | Mode | Variant | Median s | Min s | Peak MB | Load |
-| --- | --- | --- | --- | --- | --- | --- |
-| gcc | O0 | device_m1_20_methods | 7.20 | 7.17 | 771 | 2.44 |
-| gcc | O0 | device_m2_15_methods | 5.72 | 5.71 | 700 | 2.53 |
-| gcc | O0 | headers | 1.69 | 1.69 | 385 | 2.20 |
-| gcc | O0 | table7_one_method | 3.06 | 3.04 | 500 | 2.17 |
-| gcc | O2 | device_m1_20_methods | 13.15 | 13.13 | 997 | 2.93 |
-| gcc | O2 | device_m2_15_methods | 10.50 | 10.49 | 802 | 2.83 |
-| gcc | O2 | headers | 1.80 | 1.79 | 395 | 2.81 |
-| gcc | O2 | table7_one_method | 5.06 | 5.03 | 520 | 3.40 |
-| gcc | syntax | device_m1_20_methods | 2.53 | 2.53 | 528 | 2.05 |
-| gcc | syntax | device_m2_15_methods | 2.08 | 2.08 | 475 | 2.04 |
-| gcc | syntax | headers | 1.47 | 1.46 | 358 | 1.97 |
-| gcc | syntax | table7_one_method | 1.60 | 1.60 | 389 | 2.06 |
-| clang | O0 | device_m1_20_methods | 4.15 | 4.09 | 510 | 2.49 |
-| clang | O0 | device_m2_15_methods | 3.50 | 3.45 | 451 | 2.64 |
-| clang | O0 | headers | 1.51 | 1.51 | 270 | 2.69 |
-| clang | O0 | table7_one_method | 2.13 | 2.12 | 324 | 2.58 |
-| clang | O2 | device_m1_20_methods | 15.71 | 15.68 | 1201 | 2.92 |
-| clang | O2 | device_m2_15_methods | 11.38 | 11.35 | 758 | 2.89 |
-| clang | O2 | headers | 1.56 | 1.55 | 271 | 2.67 |
-| clang | O2 | table7_one_method | 3.56 | 3.56 | 331 | 3.15 |
-| clang | syntax | device_m1_20_methods | 2.44 | 2.41 | 389 | 2.72 |
-| clang | syntax | device_m2_15_methods | 2.16 | 2.16 | 359 | 2.75 |
-| clang | syntax | headers | 1.42 | 1.42 | 264 | 2.76 |
-| clang | syntax | table7_one_method | 1.56 | 1.56 | 281 | 2.70 |
+| Toolchain | Mode | Variant | Called rows | Median s | Min s | Seconds per called row (over headers) | Peak MB | Load |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| gcc | O0 | device_m1_20_methods | 20 | 6.31 | 6.29 | 0.242 | 771 | 1.53 |
+| gcc | O0 | device_m1_sync_20_methods | 20 | 6.51 | 6.51 | 0.252 | 778 | 1.29 |
+| gcc | O0 | device_m2_15_methods | 15 | 5.01 | 4.99 | 0.236 | 700 | 1.41 |
+| gcc | O0 | headers | - | 1.47 | 1.47 | - | 385 | 1.80 |
+| gcc | O0 | table7_one_method | 1 | 2.64 | 2.64 | 1.170 | 500 | 1.68 |
+| gcc | O2 | device_m1_20_methods | 20 | 11.51 | 11.50 | 0.497 | 997 | 1.12 |
+| gcc | O2 | device_m1_sync_20_methods | 20 | 12.99 | 12.99 | 0.572 | 1029 | 1.09 |
+| gcc | O2 | device_m2_15_methods | 15 | 9.21 | 9.20 | 0.510 | 803 | 1.08 |
+| gcc | O2 | headers | - | 1.56 | 1.55 | - | 395 | 1.27 |
+| gcc | O2 | table7_one_method | 1 | 4.44 | 4.41 | 2.880 | 521 | 1.21 |
+| gcc | syntax | device_m1_20_methods | 20 | 2.22 | 2.22 | 0.047 | 528 | 2.03 |
+| gcc | syntax | device_m1_sync_20_methods | 20 | 2.21 | 2.20 | 0.046 | 518 | 1.87 |
+| gcc | syntax | device_m2_15_methods | 15 | 1.80 | 1.80 | 0.035 | 475 | 1.95 |
+| gcc | syntax | headers | - | 1.28 | 1.27 | - | 358 | 2.22 |
+| gcc | syntax | table7_one_method | 1 | 1.40 | 1.40 | 0.120 | 389 | 2.22 |
+| clang | O0 | device_m1_20_methods | 20 | 3.63 | 3.57 | 0.116 | 513 | 1.04 |
+| clang | O0 | device_m1_sync_20_methods | 20 | 3.68 | 3.61 | 0.119 | 511 | 1.03 |
+| clang | O0 | device_m2_15_methods | 15 | 3.05 | 3.00 | 0.116 | 454 | 1.03 |
+| clang | O0 | headers | - | 1.31 | 1.31 | - | 274 | 1.05 |
+| clang | O0 | table7_one_method | 1 | 1.85 | 1.84 | 0.540 | 328 | 1.05 |
+| clang | O2 | device_m1_20_methods | 20 | 13.68 | 13.64 | 0.617 | 1205 | 1.59 |
+| clang | O2 | device_m1_sync_20_methods | 20 | 9.39 | 9.27 | 0.402 | 527 | 1.99 |
+| clang | O2 | device_m2_15_methods | 15 | 9.89 | 9.83 | 0.569 | 766 | 1.87 |
+| clang | O2 | headers | - | 1.35 | 1.34 | - | 274 | 1.03 |
+| clang | O2 | table7_one_method | 1 | 3.09 | 3.07 | 1.740 | 334 | 1.02 |
+| clang | syntax | device_m1_20_methods | 20 | 2.10 | 2.09 | 0.044 | 393 | 1.07 |
+| clang | syntax | device_m1_sync_20_methods | 20 | 2.07 | 2.06 | 0.042 | 385 | 1.06 |
+| clang | syntax | device_m2_15_methods | 15 | 1.88 | 1.87 | 0.043 | 362 | 1.06 |
+| clang | syntax | headers | - | 1.23 | 1.22 | - | 267 | 1.08 |
+| clang | syntax | table7_one_method | 1 | 1.36 | 1.35 | 0.130 | 285 | 1.08 |
 

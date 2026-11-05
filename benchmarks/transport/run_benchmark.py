@@ -7,7 +7,8 @@ writes one CSV per benchmark and toolchain, then the Markdown and the charts.
         --build-dir clang=build-bench-clang [--out-dir results] [--quick]
 
 Each build tree must hold bin/LumexTransportBench{Codec,Protocol,Logging,
-Dialogue,Devices}. The executables run one after another under `timeout` (and
+Dialogue,Devices,Sockets}. Linux only (`timeout`, `prlimit`, thread CPU time,
+no `.exe`). The executables run one after another under `timeout` (and
 `prlimit --as` where it exists). The timings are only worth anything on an
 idle machine: the load average (the loadavg column of every row) is read after
 each case, and a run in which a row shows more than --max-load is repeated up
@@ -27,12 +28,20 @@ BENCHMARKS = [("codec", "LumexTransportBenchCodec"),
               ("protocol", "LumexTransportBenchProtocol"),
               ("logging", "LumexTransportBenchLogging"),
               ("dialogue", "LumexTransportBenchDialogue"),
-              ("devices", "LumexTransportBenchDevices")]
+              ("devices", "LumexTransportBenchDevices"),
+              ("sockets", "LumexTransportBenchSockets")]
 
 
 def die(message):
     sys.stderr.write("run_benchmark.py: error: %s\n" % message)
     sys.exit(1)
+
+
+def require_linux():
+    """The benchmarks run under `timeout` and read the thread CPU time."""
+    if not sys.platform.startswith("linux"):
+        die("Linux only (timeout, prlimit, no .exe); this is %s"
+            % sys.platform)
 
 
 def worst_load(path):
@@ -70,6 +79,7 @@ def run_one(executable, csv_path, args):
 
 
 def main():
+    require_linux()
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--build-dir", action="append", required=True,
                         help="name=directory, repeatable")
