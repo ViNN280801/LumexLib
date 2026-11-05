@@ -278,7 +278,21 @@ message_impl::message_impl (executor_type const &executor, std::string name)
 {
 }
 
+message_impl::message_impl (executor_type const &executor,
+                            strand_type const &strand, std::string name)
+    : executor_ (executor), strand_ (strand), name_ (std::move (name)),
+      open_ (false), enlisted_ (false), connection_epoch_ (0),
+      counters_ (std::make_shared<statistics::statistics_counters> ())
+{
+}
+
 message_impl::~message_impl () {}
+
+void
+message_impl::note_connection_over () LUMEX_NOEXCEPT
+{
+  connection_epoch_.fetch_add (1, std::memory_order_acq_rel);
+}
 
 void
 message_impl::drop_kept_handlers () LUMEX_NOEXCEPT

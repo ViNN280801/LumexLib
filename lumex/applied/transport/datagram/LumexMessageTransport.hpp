@@ -125,6 +125,29 @@ public:
   message_impl (executor_type const &executor, std::string name);
   ~message_impl () override;
 
+  /// @brief Whether the transport connects again by itself; see
+  /// `stream::stream_impl::reconnects`.
+  virtual bool
+  reconnects () const LUMEX_NOEXCEPT
+  {
+    return false;
+  }
+
+  /// @brief Sets who hears the connection; see
+  /// `stream::stream_impl::watch_connection`.
+  virtual void
+  watch_connection (connection_handler_t)
+  {
+  }
+
+  /// @brief Gives up the connection; see
+  /// `stream::stream_impl::drop_connection`.
+  virtual void
+  drop_connection ()
+  {
+    start_close ();
+  }
+
   message_impl (message_impl const &) = delete;
   message_impl &operator= (message_impl const &) = delete;
 
@@ -225,6 +248,15 @@ public:
   void drop_kept_handlers () LUMEX_NOEXCEPT override;
 
 protected:
+  /// @brief Runs every operation on `strand`, a strand of `executor`; see
+  /// `stream::stream_impl`.
+  message_impl (executor_type const &executor, strand_type const &strand,
+                std::string name);
+
+  /// @brief The connection is over although nobody closed the transport (on
+  /// the strand); see `stream::stream_impl::note_connection_over`.
+  void note_connection_over () LUMEX_NOEXCEPT;
+
   virtual void do_open (status_handler_t handler) = 0;
   virtual void do_receive (message_handler_t handler) = 0;
   virtual void do_send (message_t message, status_handler_t handler) = 0;

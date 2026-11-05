@@ -203,6 +203,8 @@ public:
   virtual strand_t strand () const = 0;
   virtual void observe (std::weak_ptr<simulator_core> const &core) = 0;
   virtual void unobserve () = 0;
+  // How many connections the mock had; 0 for one whose frames are whole.
+  virtual std::size_t opens () const = 0;
   // The lazy respond of the applier; true when the device processed.
   virtual bool respond (behavior_applier &applier, bytes_t const &request,
                         bool has_reply, reply_maker_t const &make,
@@ -223,9 +225,10 @@ public:
                   std::size_t op_count, std::unique_ptr<simulator_wire_t> wire,
                   std::unique_ptr<target_t> target, virtual_clock &clock,
                   simulator_options_t const &options, std::uint8_t report_id)
-      : table_ (table), wire_ (std::move (wire)), target_ (std::move (target)),
-        timers_ (clock.source ()), options_ (options), report_id_ (report_id),
-        dead_ (false), state_ (0), next_id_ (0)
+      : table_ (table), wire_ (std::move (wire)), opens_seen_ (0),
+        target_ (std::move (target)), timers_ (clock.source ()),
+        options_ (options), report_id_ (report_id), dead_ (false), state_ (0),
+        next_id_ (0)
   {
     if (table_ != nullptr)
       {
@@ -623,6 +626,13 @@ public:
   {
     if (dead_.load () || chunk.empty ())
       return;
+    // A new connection of the mock: half a frame of the old one is no start.
+    std::size_t const opens = target_->opens ();
+    if (opens != opens_seen_)
+      {
+        opens_seen_ = opens;
+        wire_->reset ();
+      }
     std::vector<bytes_t> frames;
     std::size_t const dropped
         = wire_->decode (chunk.data (), chunk.size (), frames);
@@ -1299,6 +1309,8 @@ private:
   index::protocol_index_t const *table_;
   std::vector<row_ops_t const *> ops_;
   std::unique_ptr<simulator_wire_t> wire_;
+  // The opens of the mock the partial frame of wire_ belongs to.
+  std::size_t opens_seen_;
   std::shared_ptr<target_t> target_;
   timing::timer_source timers_;
   simulator_options_t options_;
@@ -1360,6 +1372,12 @@ public:
     control_.on_write (write_observer_t ());
   }
 
+  std::size_t
+  opens () const override
+  {
+    return control_.open_count ();
+  }
+
   bool
   respond (behavior_applier &applier, bytes_t const &request, bool has_reply,
            reply_maker_t const &make, bool *reached,
@@ -1410,6 +1428,12 @@ public:
   unobserve () override
   {
     control_.on_send (send_observer_t ());
+  }
+
+  std::size_t
+  opens () const override
+  {
+    return 0;
   }
 
   bool

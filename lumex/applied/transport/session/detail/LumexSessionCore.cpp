@@ -173,6 +173,17 @@ struct session_core_access
     core.do_presence (present);
   }
   static void
+  drop_link (session_core &core, std::error_code const &reason)
+  {
+    core.lose_link (reason);
+  }
+  static void
+  add_link_listener (session_core &core,
+                     std::weak_ptr<session_link_listener> listener)
+  {
+    core.do_add_link_listener (std::move (listener));
+  }
+  static void
   state_wait (session_core &core, channel_state seen, std::uint64_t sequence,
               state_handler_t handler)
   {
@@ -304,6 +315,8 @@ complete_status (session_core::strand_type const &strand,
   asio::post (strand, asio::append (std::move (handler), error));
 }
 } // namespace
+
+session_link_listener::~session_link_listener () {}
 
 session_core::session_core (executor_type const &executor,
                             session_options_t options)
@@ -437,6 +450,22 @@ session_core::set_device_present (bool present)
   core_ptr const self = shared_from_this ();
   asio::post (strand_, [self, present] ()
                 { session_core_access::presence (*self, present); });
+}
+
+void
+session_core::request_drop_link (std::error_code const &reason)
+{
+  core_ptr const self = shared_from_this ();
+  asio::post (strand_, [self, reason] ()
+                { session_core_access::drop_link (*self, reason); });
+}
+
+void
+session_core::add_link_listener (std::weak_ptr<session_link_listener> listener)
+{
+  core_ptr const self = shared_from_this ();
+  asio::post (strand_, [self, listener] ()
+                { session_core_access::add_link_listener (*self, listener); });
 }
 
 void
@@ -695,6 +724,19 @@ session_core::do_forget_open_wait (std::uint64_t id)
         open_waiters_.erase (it);
         return;
       }
+}
+
+void
+session_core::do_add_link_listener (
+    std::weak_ptr<session_link_listener> listener)
+{
+  std::shared_ptr<session_link_listener> const alive = listener.lock ();
+  if (!alive)
+    return;
+  link_listeners_.push_back (std::move (listener));
+  // No change: what it heard of the state before this step.
+  channel_state const now = state ();
+  alive->link_changed (now, now, std::error_code ());
 }
 
 void
@@ -985,6 +1027,22 @@ session_core::set_state (channel_state state, std::error_code const &reason)
                        std::string (to_string (previous)) + " -> "
                            + to_string (state),
                        log::log_bytes_t ());
+
+  // First, in the step of the change: what a view of the session tells comes
+  // before anything the new state lets happen.
+  for (std::size_t i = 0; i < link_listeners_.size ();)
+    {
+      std::shared_ptr<session_link_listener> const alive
+          = link_listeners_[i].lock ();
+      if (alive)
+        {
+          alive->link_changed (previous, state, reason);
+          ++i;
+        }
+      else
+        link_listeners_.erase (link_listeners_.begin ()
+                               + static_cast<std::ptrdiff_t> (i));
+    }
 
   std::vector<state_handler_t> waiters;
   waiters.swap (state_waiters_);

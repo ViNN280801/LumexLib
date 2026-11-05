@@ -71,6 +71,7 @@
 #include "lumex/applied/transport/session/LumexBasicSession.hpp"
 #include "lumex/applied/transport/session/LumexSessionTypes.hpp"
 #include "lumex/applied/transport/session/detail/LumexSessionImpl.hpp"
+#include "lumex/applied/transport/session/detail/LumexSessionStream.hpp"
 #include "lumex/applied/transport/stream/LumexByteStream.hpp"
 #include "lumex/applied/transport/stream/LumexStreamTypes.hpp"
 
@@ -118,6 +119,27 @@ public:
       : basic_session<stream::byte_stream> (executor, std::move (factory),
                                             std::move (options))
   {
+  }
+
+  /**
+   * @brief This session as a `byte_stream`, for what takes one (a
+   * `framed_stream`, and through it a client). It is the same session: the
+   * state, the reconnects and the I/O are the session's. The stream runs on
+   * the strand of the session, is open while the session is, its `open` starts
+   * the session and its `close` and its destructor close it. Each lost
+   * connection counts as a close of the stream (`connection_epoch`), so a
+   * framed adapter forgets the partial frame of the connection that is over;
+   * bytes of a read that was under way when it went are dropped, and the read
+   * ends with `cancelled`. Its `cancel` ends the pending I/O and leaves
+   * connecting alone. The stream keeps the implementation of the session
+   * alive, but the session is closed when this object goes (see the
+   * destructor): keep it as long as the stream is used. Empty (a moved-from
+   * stream) for a moved-from session. Any thread.
+   */
+  stream::byte_stream
+  as_byte_stream () const
+  {
+    return stream::byte_stream (detail::make_session_stream (impl_));
   }
 
   /// @brief Reads at least one byte; `void (std::error_code, std::size_t)`.

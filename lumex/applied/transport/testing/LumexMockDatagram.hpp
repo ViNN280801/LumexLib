@@ -43,8 +43,9 @@
  * @details The control (thread-safe): `deliver` queues a message for
  * receives, `fail_*` makes the next operation fail, `disconnect` ends the
  * pending and later receives with `disconnected`, `sent` returns every message
- * sent. A receive waits for a message indefinitely; several receives may be
- * pending at once and are served in the order they were started.
+ * sent. Messages nobody received are gone with a close. A receive waits for a
+ * message indefinitely; several receives may be pending at once and are served
+ * in the order they were started.
  *
  * Scripting, as in `mock_stream`: `on_send` sees every accepted message on the
  * strand of the mock, `deliver_after` delivers after a delay of the mock's

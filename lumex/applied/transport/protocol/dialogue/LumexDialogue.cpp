@@ -224,6 +224,20 @@ dialogue_engine::set_keepalive (keepalive_generator_t generator)
 }
 
 void
+dialogue_engine::on_reconnect (reconnect_handler_t handler)
+{
+  if (impl_)
+    impl_->set_reconnect_handler (std::move (handler));
+}
+
+void
+dialogue_engine::device_checked ()
+{
+  if (impl_)
+    impl_->start_device_checked ();
+}
+
+void
 dialogue_engine::set_state (std::int64_t state)
 {
   if (impl_)

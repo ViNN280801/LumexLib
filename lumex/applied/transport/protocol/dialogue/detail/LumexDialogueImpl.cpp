@@ -509,7 +509,15 @@ dialogue_impl::dialogue_impl (frame_link link,
       keepalive_timer_ (options.timers.make_timer (executor_type (strand_))),
       keepalive_armed_ (false), keepalive_pending_ (false),
       keepalive_arm_failed_ (false), state_known_ (false), state_value_ (0),
-      handlers_closed_ (false), enlisted_ (false)
+      reconnects_ (link_.reconnects ()), connection_down_ (false),
+      never_opened_ (false), device_checked_ (true), restoring_ (false),
+      restoration_ (0), stream_position_ (0),
+      reconnect_wait_ms_ (options.reconnect_wait_ms),
+      reconnect_wait_timer_ (
+          options.timers.make_timer (executor_type (strand_))),
+      reconnect_wait_armed_ (false), reconnect_wait_ (0),
+      reconnect_steps_ (options.reconnect), handlers_closed_ (false),
+      enlisted_ (false)
 {
   std::shared_ptr<keepalive_generator_t const> none;
   build_watches (options.features, none);
@@ -549,6 +557,9 @@ dialogue_impl::drop_kept_handlers () LUMEX_NOEXCEPT
     {
     }
   defaults_.reset ();
+  // The steps of a reconnect die with the rest.
+  reconnect_steps_t const steps (std::move (reconnect_steps_));
+  reconnect_steps_ = reconnect_steps_t ();
   for (std::deque<record_ptr>::iterator it = queue_.begin ();
        it != queue_.end (); ++it)
     {
@@ -681,11 +692,14 @@ dialogue_impl::run_start ()
 {
   timing::time_point_t const now = timers_.now ();
   last_frame_at_ = now;
+  start_watching_connection ();
   if (watchdog_ms_ > 0)
     arm_watchdog (::lumex::applied::transport::detail::saturating_add (
         now, std::chrono::milliseconds (watchdog_ms_)));
   arm_keepalive ();
-  start_reading ();
+  // Over a link that connects again the first open starts it.
+  if (!connection_down_)
+    start_reading ();
 }
 
 void
@@ -709,11 +723,21 @@ dialogue_impl::start_reading ()
 
 void
 dialogue_impl::run_enqueue (std::uint64_t id, exchange_t &request,
-                            exchange_handler_t &handler)
+                            exchange_handler_t &handler, bool internal)
 {
   if (closed_)
     {
       complete (std::move (handler), make_error_code (transport_errc::closed),
+                link_frame_t ());
+      return;
+    }
+  // Nothing of a dialogue that does not know its device starts, and nothing
+  // waits for it: only what was under way when the connection went.
+  if (!gate_open () && (connection_down_ || !request.before_check))
+    {
+      complete (std::move (handler),
+                connection_down_ ? dialogue_error (protocol_errc::link_lost)
+                                 : gate_error_,
                 link_frame_t ());
       return;
     }
@@ -774,8 +798,10 @@ dialogue_impl::run_enqueue (std::uint64_t id, exchange_t &request,
           && reply_row == nullptr && request.matcher == nullptr);
   record->allowed = 1 + static_cast<std::uint64_t> (record->policy->retries);
   record->reader = request.reader;
-  if (queue_.empty () && can_start (*record)
-      && rate_due (*record) <= timers_.now ())
+  record->internal = internal;
+  record->before_check = request.before_check;
+  if ((queue_.empty () || (record->before_check && !gate_open ()))
+      && can_start (*record) && rate_due (*record) <= timers_.now ())
     {
       std::int64_t state = 0;
       if (refused_by_state (*record, state))
@@ -787,7 +813,7 @@ dialogue_impl::run_enqueue (std::uint64_t id, exchange_t &request,
       start_attempt (*flight_.back ());
       return;
     }
-  if (queue_.size () >= queue_bound_)
+  if (queue_.size () >= queue_bound_ && !record->before_check)
     {
       dialogue_counters_t::bump (counters_.queue_refusals);
       LUMEX_TRANSPORT_LOG (
@@ -833,8 +859,16 @@ dialogue_impl::pump ()
   bool limited = false;
   timing::time_point_t earliest = now;
   std::size_t at = 0;
-  while (at < queue_.size () && can_start (*queue_[at]))
+  while (at < queue_.size ())
     {
+      // What waits for the device stays where it is.
+      if (!gate_open () && !queue_[at]->before_check)
+        {
+          ++at;
+          continue;
+        }
+      if (!can_start (*queue_[at]))
+        break;
       timing::time_point_t const due = rate_due (*queue_[at]);
       if (due > now)
         {
@@ -1540,6 +1574,10 @@ dialogue_impl::read_done (std::uint64_t generation, std::error_code error,
   if (generation != read_generation_ || closed_)
     return;
   reading_ = false;
+  // Nothing comes before the connection opens: the event of a new one starts
+  // the reading, and the event of a lost one came before this read's end.
+  if (connection_down_)
+    return;
   if (!error)
     {
       std::exception_ptr thrown;
@@ -1657,6 +1695,12 @@ dialogue_impl::run_close ()
       = make_error_code (transport_errc::cancelled);
   end_all (cancelled, false);
   end_all_runs (cancelled);
+  ++restoration_;
+  restoring_ = false;
+  reconnect_wait_timer_.cancel ();
+  reconnect_wait_armed_ = false;
+  reconnect_steps_t const steps (std::move (reconnect_steps_));
+  reconnect_steps_ = reconnect_steps_t ();
   link_.close ();
   // A closed dialogue calls no handler any more; they die here, outside the
   // lock (one may own the owner of the dialogue).
