@@ -1,8 +1,9 @@
 // The transport matrix over device K: layer a device_k (text with a check and
-// a carriage return). Every behaviour of the simulator, one cell each
-// (LumexTransportMatrixSupport.hpp). The de-identified table of
-// lumex/tests/core/protocol/devices.
+// a carriage return; no retries for a row that names none). Every behaviour of
+// the simulator, one cell each (LumexTransportMatrixSupport.hpp). The
+// de-identified table of lumex/tests/core/protocol/devices.
 
+#include <cstddef>
 #include <vector>
 
 #include <gtest/gtest.h>
@@ -14,6 +15,12 @@ namespace lumex_matrix_test
 {
 template <> struct wire_of<lumex_tests::tables_k::device_k> : text_wire_t
 {
+  /// One layer per codec runs without default retries.
+  static LUMEX_CONSTEXPR std::size_t
+  default_retries () LUMEX_NOEXCEPT
+  {
+    return 0;
+  }
 };
 
 } // namespace lumex_matrix_test

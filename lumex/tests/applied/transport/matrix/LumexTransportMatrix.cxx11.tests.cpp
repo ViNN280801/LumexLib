@@ -15,9 +15,10 @@ namespace
 {
 namespace mx = lumex_matrix_test;
 
-// The layers of the device tables with a wire form of their own: 18 on a
-// stream, one on a datagram transport.
-std::size_t const kstream_layers = 18;
+// The layers of the device tables with a wire form of their own: 20 on a
+// stream (one of them a layer of the matrix that reads replies of device L,
+// one the table of device I over COBS), one on a datagram transport.
+std::size_t const kstream_layers = 20;
 std::size_t const kdatagram_layers = 1;
 
 bool

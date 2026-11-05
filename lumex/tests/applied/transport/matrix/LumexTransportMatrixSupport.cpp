@@ -281,11 +281,8 @@ matches (behavior_kind kind, outcome_class expected, seen_class seen,
   if (kind == behavior_kind::echo && !stream
       && expected == outcome_class::protocol_error)
     // A protocol-category error, or success when the echoed request decodes
-    // as the reply.
-    return seen == seen_class::protocol_error || seen == seen_class::timeout
-           || seen == seen_class::retries_exhausted
-           || seen == seen_class::success
-           || seen == seen_class::dropped_counted;
+    // as the reply (the step then compares the value with the echo).
+    return seen == seen_class::protocol_error || seen == seen_class::success;
   if (kind == behavior_kind::malicious)
     // No worse than a framing or a protocol code: the attack may cost the
     // reply that follows it, never the link or anything outside the
@@ -325,10 +322,10 @@ matrix_behavior (behavior_kind kind, std::uint8_t oversized_fill)
     case behavior_kind::silent:
       return behavior::silent ();
     case behavior_kind::frozen:
-      // Asked after the freeze.
-      return behavior::frozen (0);
+      // One reply, then the freeze: a step asks twice.
+      return behavior::frozen (1);
     case behavior_kind::partial_then_frozen:
-      return behavior::partial_then_frozen (0, 2);
+      return behavior::partial_then_frozen (1, 2);
     case behavior_kind::slow_trickle:
       // Inside every timeout of the tables.
       return behavior::slow_trickle (ms (1));
@@ -360,6 +357,16 @@ matrix_behavior (behavior_kind kind, std::uint8_t oversized_fill)
       return behavior::malicious (59, tr::testing::malicious_mode::mixed, 64);
     }
   return behavior::perfect ();
+}
+
+behavior
+stream_behavior (behavior_kind kind, std::uint8_t oversized_fill)
+{
+  if (kind == behavior_kind::frozen)
+    return behavior::frozen (0);
+  if (kind == behavior_kind::partial_then_frozen)
+    return behavior::partial_then_frozen (0, 2);
+  return matrix_behavior (kind, oversized_fill);
 }
 
 std::vector<behavior_kind>
@@ -411,6 +418,16 @@ check_counters (behavior_kind kind, outcome_class expected,
               << where << ": attempts";
           EXPECT_EQ (after.engine.timeouts - before.engine.timeouts, attempts)
               << where << ": timeouts";
+        }
+      break;
+    case behavior_kind::flood:
+    case behavior_kind::garbage:
+      if (expected == outcome_class::dropped_counted)
+        {
+          // The noise itself: a framing error, or a frame of no row.
+          EXPECT_GT (after.wire.errors + after.engine.unknown_frames,
+                     before.wire.errors + before.engine.unknown_frames)
+              << where << ": the noise was not counted";
         }
       break;
     case behavior_kind::corrupted_crc:
@@ -471,6 +488,20 @@ char const *const ktext_resync
       "prefix_char_stage) does not resynchronise on the start character: "
       "noise in front of a frame takes the frame with it, on every attempt";
 
+char const *const ktext_partial
+    = "TODO(matrix): the cut reply of the step before waits in the text "
+      "decoder and glues to the next frame, which is lost (the start "
+      "character does not resynchronise)";
+
+char const *const kcobs_noise
+    = "TODO(matrix): noise in front of a COBS frame takes the frame with it "
+      "(no delimiter in front of a frame), on every attempt";
+
+char const *const kmodbus_echo
+    = "an echoed Modbus RTU request is no reply frame for the master codec "
+      "(the third byte reads as the byte count of a reply): nothing is "
+      "delivered, the call times out";
+
 char const *const kheader_noise
     = "TODO(matrix): header_codec skips the bytes in front of a preamble "
       "without a report: noise on the line is dropped but counted nowhere";
@@ -484,18 +515,31 @@ known_gap_t const kknown_gaps[] = {
     ktext_resync },
   { "device_j.a.stream.garbage", "dangerous", seen_class::retries_exhausted,
     ktext_resync },
-  { "device_k.a.stream.flood", "query", seen_class::retries_exhausted,
+  { "device_k.a.stream.flood", "query", seen_class::timeout, ktext_resync },
+  { "device_k.a.stream.flood", "dangerous", seen_class::timeout,
     ktext_resync },
-  { "device_k.a.stream.flood", "dangerous", seen_class::retries_exhausted,
-    ktext_resync },
-  { "device_k.a.stream.garbage", "query", seen_class::retries_exhausted,
-    ktext_resync },
-  { "device_k.a.stream.garbage", "dangerous", seen_class::retries_exhausted,
+  { "device_k.a.stream.garbage", "query", seen_class::timeout, ktext_resync },
+  { "device_k.a.stream.garbage", "dangerous", seen_class::timeout,
     ktext_resync },
   { "device_m.a.stream.flood", "query", seen_class::retries_exhausted,
     ktext_resync },
   { "device_m.a.stream.garbage", "query", seen_class::retries_exhausted,
     ktext_resync },
+  { "device_j.a.stream.partial_then_frozen", "dangerous",
+    seen_class::retries_exhausted, ktext_partial },
+  { "device_k.a.stream.partial_then_frozen", "dangerous", seen_class::timeout,
+    ktext_partial },
+  { "device_i.b.stream.flood", "query", seen_class::retries_exhausted,
+    kcobs_noise },
+  { "device_i.b.stream.flood", "stream", seen_class::timeout, kcobs_noise },
+  { "device_i.b.stream.garbage", "query", seen_class::retries_exhausted,
+    kcobs_noise },
+  { "device_i.b.stream.garbage", "stream", seen_class::timeout, kcobs_noise },
+  { "device_i.b.stream.malicious", "query", seen_class::retries_exhausted,
+    kcobs_noise },
+  { "device_i.b.stream.malicious", "stream", seen_class::timeout,
+    kcobs_noise },
+  { "device_l.b.stream.echo", "query", seen_class::timeout, kmodbus_echo },
   { "device_m.b.stream.flood", "query", seen_class::success, kheader_noise },
   { "device_m.b.stream.flood", "command", seen_class::success, kheader_noise },
   { "device_m.b.stream.flood", "dangerous", seen_class::success,
@@ -508,7 +552,7 @@ known_gap_t const kknown_gaps[] = {
 };
 
 known_gap_t const *
-known_gap (std::string const &cell, std::string const &step)
+find_gap (std::string const &cell, std::string const &step)
 {
   for (std::size_t i = 0; i < sizeof (kknown_gaps) / sizeof (kknown_gaps[0]);
        ++i)
@@ -518,14 +562,20 @@ known_gap (std::string const &cell, std::string const &step)
 }
 } // namespace
 
-void
+bool
+is_known_gap (std::string const &cell, std::string const &step)
+{
+  return find_gap (cell, step) != nullptr;
+}
+
+bool
 check_class (std::string const &cell, std::string const &step, char const *row,
              behavior_kind kind, outcome_class expected, seen_class seen,
              std::error_code const &error, bool stream)
 {
   std::string const tail
       = error ? std::string (": ") + error.message () : std::string ();
-  known_gap_t const *const gap = known_gap (cell, step);
+  known_gap_t const *const gap = find_gap (cell, step);
   if (gap != nullptr)
     {
       EXPECT_EQ (seen_class_name (seen),
@@ -534,12 +584,13 @@ check_class (std::string const &cell, std::string const &step, char const *row,
           << "): the known gap moved (expected by the table "
           << tr::testing::outcome_class_name (expected) << ")" << tail;
       ::testing::Test::RecordProperty ("known_gap", step + ": " + gap->note);
-      return;
+      return true;
     }
   EXPECT_TRUE (matches (kind, expected, seen, stream))
       << cell << " " << step << " (" << row << "): expected "
       << tr::testing::outcome_class_name (expected) << ", seen "
       << seen_class_name (seen) << tail;
+  return false;
 }
 
 // --- the log

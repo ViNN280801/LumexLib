@@ -3,17 +3,20 @@
 // the mock transport of its wire (a stream, or a datagram transport with a
 // report ID), on a virtual clock. A cell is one layer, one transport and one
 // behaviour; it runs one script through the generated client over a session
-// (a query, a command, a dangerous row and a stream window, each where the
-// table has one), classifies how each call ended and asserts the class that
-// `testing::expected_outcome` gives for the row, the counters the behaviour
-// must move, the bounds of the queues and a real-time guard. The tables are
-// the de-identified ones of lumex/tests/core/protocol/devices, referred to as
-// devices A to M and their layers by letter; nothing here names a real
-// device, and the framings bound to the layers are generic codecs of
+// (a query, a command, a dangerous row, a row of some states and a stream
+// window, each where the table has one, and the extra steps of some kinds:
+// a burst of calls, a late reply, a cut reply and a hang-up, a block above
+// the frame limit), classifies how each call ended and asserts the class
+// that `testing::expected_outcome` gives for the row, the counters the
+// behaviour must move, the bounds of the queues and a real-time guard. The
+// tables are the de-identified ones of lumex/tests/core/protocol/devices,
+// referred to as devices A to M and their layers by letter; nothing here names
+// a real device, and the framings bound to the layers are generic codecs of
 // core/framing with invented parameters.
 #ifndef LUMEX_TESTS_APPLIED_TRANSPORT_MATRIX_SUPPORT_HPP
 #define LUMEX_TESTS_APPLIED_TRANSPORT_MATRIX_SUPPORT_HPP
 
+#include <algorithm>
 #include <chrono>
 #include <cstddef>
 #include <cstdint>
@@ -76,6 +79,8 @@ struct wire_counts_t
   std::uint64_t errors = 0;
   std::uint64_t bad_checksum = 0;
   std::uint64_t frame_too_large = 0;
+  /// The most frames the adapter held for its reader, sampled at each frame.
+  std::size_t max_queued_frames = 0;
 };
 
 /// The shared record of one bench (the codec moves into the adapter).
@@ -93,6 +98,8 @@ public:
   received (fr::codec::bytes_view_t frame, std::error_code error)
   {
     std::lock_guard<std::mutex> const lock (mutex_);
+    if (queued_)
+      max_queued_frames_ = std::max (max_queued_frames_, queued_ ());
     if (!error)
       {
         record_.rx.push_back (bytes_t (frame.begin (), frame.end ()));
@@ -122,7 +129,17 @@ public:
         = record_.errors[static_cast<int> (
                              fr::codec::framing_errc::frame_too_large)
                          - 1];
+    out.max_queued_frames = max_queued_frames_;
     return out;
+  }
+
+  /// Where the codec reads how many frames wait in its adapter (empty: no
+  /// sampling; set it empty before the adapter goes).
+  void
+  set_queue_probe (std::function<std::size_t ()> probe)
+  {
+    std::lock_guard<std::mutex> const lock (mutex_);
+    queued_ = std::move (probe);
   }
 
   wire_record_t
@@ -135,6 +152,8 @@ public:
 private:
   mutable std::mutex mutex_;
   wire_record_t record_;
+  std::function<std::size_t ()> queued_;
+  std::size_t max_queued_frames_ = 0;
 };
 
 /// `Codec` with every payload, frame and framing error written to a log.
@@ -210,6 +229,16 @@ LUMEX_CONSTEXPR std::size_t KMAX_FRAME = 4096;
 /// The size of the block of `behavior::oversized`: above `KMAX_FRAME`.
 LUMEX_CONSTEXPR std::size_t KOVERSIZED = 70000;
 
+/// The bound of the queue of the dialogue in the matrix, small enough for a
+/// burst of `KBURST` calls to go above it.
+LUMEX_CONSTEXPR std::size_t KQUEUE_BOUND = 4;
+
+/// The calls of the burst step, started at once.
+LUMEX_CONSTEXPR std::size_t KBURST = 8;
+
+/// The bound of the frame queue of the framed adapter in the matrix.
+LUMEX_CONSTEXPR std::size_t KADAPTER_QUEUE = 4;
+
 using crc16_t
     = fr::stage::crc<lumex::core::crc::parametric::crc16_ibm3740_spec_t>;
 using crc32_t
@@ -253,6 +282,62 @@ struct wire_base_t
   boundary ()
   {
     return bytes_t ();
+  }
+
+  /// Bytes that announce or make a frame above the limit of the codec, fed
+  /// by hand (empty: `KOVERSIZED` bytes of `oversized_fill ()` and the
+  /// boundary, see `oversized_block_of`).
+  static bytes_t
+  oversized_block ()
+  {
+    return bytes_t ();
+  }
+
+  /// Whether the block of `behavior::oversized` reads as one frame above the
+  /// limit (`frame_too_large`); false for a codec that reads it as short
+  /// frames with a wrong check.
+  static LUMEX_CONSTEXPR bool
+  oversized_reads_too_large () LUMEX_NOEXCEPT
+  {
+    return true;
+  }
+
+  /// The retries of a row that names none.
+  static LUMEX_CONSTEXPR std::size_t
+  default_retries () LUMEX_NOEXCEPT
+  {
+    return 2;
+  }
+
+  /// The row the client checks the device with after a reconnect (the
+  /// layer names `identify_with`), null for none.
+  static char const *
+  identify_row () LUMEX_NOEXCEPT
+  {
+    return nullptr;
+  }
+
+  /// The state the `accepted_in` row of the layer is accepted in (-1: the
+  /// layer has none).
+  static LUMEX_CONSTEXPR std::int64_t
+  accepted_state () LUMEX_NOEXCEPT
+  {
+    return -1;
+  }
+
+  /// The period of a reply that ends after the timeout of the query and
+  /// within the window of late replies (0: the layer has no window).
+  static LUMEX_CONSTEXPR std::int64_t
+  late_trickle_ms () LUMEX_NOEXCEPT
+  {
+    return 0;
+  }
+
+  /// What the device needs besides its table (a reply value of its own).
+  template <typename Device>
+  static void
+  prepare_device (Device &)
+  {
   }
 };
 
@@ -312,6 +397,33 @@ struct text_wire_t : wire_base_t
   }
 };
 
+/// COBS with a CRC-16 after the payload.
+struct cobs_wire_t : wire_base_t
+{
+  using codec_type = fr::stage::pipeline<fr::cobs::cobs_codec,
+                                         fr::stage::checksum_stage<crc16_t>>;
+
+  static codec_type
+  host ()
+  {
+    fr::cobs::cobs_options_t options;
+    options.max_frame_size = KMAX_FRAME;
+    return codec_type (options);
+  }
+
+  static codec_type
+  device ()
+  {
+    return host ();
+  }
+
+  static bytes_t
+  boundary ()
+  {
+    return bytes_t (1, 0x00);
+  }
+};
+
 /// A binary header (a two-byte preamble, a two-byte length) and a CRC-32.
 /// The preamble is the fill of the oversized block, so that the block reads
 /// as a header with a length above the limit (any other fill is line noise
@@ -366,6 +478,20 @@ struct slip_datagram_wire_t : slip_wire_t
 /// The wire of layer `P`: a device TU specializes it for each of its layers.
 template <typename P> struct wire_of;
 
+/// The block `W` feeds by hand to go above its frame limit.
+template <typename W>
+bytes_t
+oversized_block_of ()
+{
+  bytes_t out = W::oversized_block ();
+  if (!out.empty ())
+    return out;
+  out.assign (KOVERSIZED, W::oversized_fill ());
+  bytes_t const end = W::boundary ();
+  out.insert (out.end (), end.begin (), end.end ());
+  return out;
+}
+
 // ---------------------------------------------------------------------------
 // The rows of the script
 // ---------------------------------------------------------------------------
@@ -374,14 +500,19 @@ template <typename Row> struct row_traits_t
 {
   using form = dialogue::detail::reply_form_t<Row>;
   using streams = dsl::detail::command_has_option<Row, dsl::kind::stream>;
-  // A row of some models or firmware, or of some states, may be refused for
-  // a reason of its own: the script leaves it out.
-  using limited = std::integral_constant<
+  // A row of some models or firmware may be refused for a reason of its
+  // own: the script leaves it out.
+  using of_models = std::integral_constant<
       bool,
       dsl::detail::command_has_option<Row, dsl::kind::model>::value
-          || dsl::detail::command_has_option<Row, dsl::kind::firmware>::value
-          || dsl::detail::command_has_option<Row,
-                                             dsl::kind::accepted_in>::value>;
+          || dsl::detail::command_has_option<Row, dsl::kind::firmware>::value>;
+  // A row of some states: the script calls it in a state that accepts it
+  // (`accepted`), not as a query or a command.
+  using of_states = std::integral_constant<
+      bool,
+      dsl::detail::command_has_option<Row, dsl::kind::accepted_in>::value>;
+  using limited
+      = std::integral_constant<bool, of_models::value || of_states::value>;
   using dangerous
       = std::integral_constant<bool, (dsl::flags_of (Row::options ())
                                       & dsl::row_flags::dangerous)
@@ -442,6 +573,17 @@ struct is_dangerous_t
 {
 };
 
+/// A row accepted in some states only.
+template <typename Row>
+struct is_accepted_t
+    : std::integral_constant<bool, row_traits_t<Row>::of_states::value
+                                       && !row_traits_t<Row>::of_models::value
+                                       && row_traits_t<Row>::form::value != 2
+                                       && !row_traits_t<Row>::streams::value
+                                       && !row_traits_t<Row>::dangerous::value>
+{
+};
+
 /// A row the device sends by itself.
 template <typename Row>
 struct is_stream_t
@@ -491,7 +633,10 @@ template <typename P> struct script_rows_t
       typename either_t<typename first_of_t<is_plain_command_t, rows>::type,
                         typename first_of_t<is_command_t, rows>::type>::type;
   using dangerous = typename first_of_t<is_dangerous_t, rows>::type;
+  using accepted = typename first_of_t<is_accepted_t, rows>::type;
   using stream = typename first_of_t<is_stream_t, rows>::type;
+  /// The row of the burst step: the query, else the command.
+  using burst = typename either_t<query, command>::type;
 };
 
 // ---------------------------------------------------------------------------
@@ -554,6 +699,8 @@ struct call_state_t
   std::mutex mutex;
   int calls = 0;
   std::error_code error;
+  /// The value the call returned (a `pr::reply_of<Row>`).
+  std::shared_ptr<void const> value;
 };
 
 /// The completion of a call of any row.
@@ -563,11 +710,14 @@ struct call_done_t
 
   template <typename Value>
   void
-  operator() (std::error_code error, Value const &)
+  operator() (std::error_code error, Value const &value)
   {
+    std::shared_ptr<void const> const kept
+        = std::make_shared<Value const> (value);
     std::lock_guard<std::mutex> const lock (state->mutex);
     ++state->calls;
     state->error = error;
+    state->value = kept;
   }
 };
 
@@ -600,6 +750,8 @@ struct snapshot_t
   wire_counts_t wire;
   ss::session_statistics_t session;
   tr::testing::simulator_statistics_t device;
+  /// The reads of the mock stream (zero-length ones too; 0 for datagrams).
+  std::uint64_t link_reads = 0;
 };
 
 /// What a step observed.
@@ -641,6 +793,11 @@ bool matches (behavior_kind kind, outcome_class expected, seen_class seen,
 /// The behaviour a cell of `kind` runs, with the matrix's parameters.
 behavior matrix_behavior (behavior_kind kind, std::uint8_t oversized_fill);
 
+/// The behaviour of the stream window of a cell of `kind`: that of the
+/// calls, but frozen at once (`frozen (0)`, `partial_then_frozen (0, 2)`):
+/// the messages of a stream are no replies the freeze counts.
+behavior stream_behavior (behavior_kind kind, std::uint8_t oversized_fill);
+
 /// The kinds a wire takes: every kind on a stream; on a datagram wire the
 /// kinds without a datagram meaning (`zero_read`) and `fragmented` (a piece
 /// of a frame in a datagram is no frame) are left out.
@@ -651,6 +808,30 @@ std::vector<behavior_kind> kinds_for (bool datagram);
 void check_counters (behavior_kind kind, outcome_class expected,
                      observed_t const &observed, std::size_t attempts,
                      std::string const &where);
+
+/// What `on_reconnect` of the client heard.
+struct reconnect_state_t
+{
+  std::mutex mutex;
+  int calls = 0;
+  std::error_code error;
+  std::string model;
+};
+
+struct reconnect_seen_t
+{
+  std::shared_ptr<reconnect_state_t> state;
+
+  void
+  operator() (std::error_code const &error,
+              pr::identity_t const &identity) const
+  {
+    std::lock_guard<std::mutex> const lock (state->mutex);
+    ++state->calls;
+    state->error = error;
+    state->model = identity.model;
+  }
+};
 
 /// The debug lines of the dialogue while it lives, when `enabled` (the
 /// other levels are dropped, so that a cell writes nothing).
@@ -679,16 +860,178 @@ private:
 ss::session_options_t session_options (tr::testing::virtual_clock &clock);
 
 /// The client options of the matrix: the table's, on the virtual clock,
-/// two retries for a row that names none.
-template <typename P>
+/// `W::default_retries ()` for a row that names none, a queue of
+/// `KQUEUE_BOUND`.
+template <typename P, typename W>
 pr::client_options_t
 client_options (tr::testing::virtual_clock &clock)
 {
   pr::client_options_t options = pr::client_options_for<P> ();
   options.dialogue.name = "matrix";
   options.dialogue.timers = clock.source ();
-  options.dialogue.defaults.retries = 2;
+  options.dialogue.defaults.retries
+      = static_cast<std::uint32_t> (W::default_retries ());
+  options.dialogue.queue_bound = KQUEUE_BOUND;
   return options;
+}
+
+/// A framed adapter behind `frame_link_impl` as the library puts it there
+/// (`frame_link (framed_stream)`, `frame_link (framed_datagram, report)`),
+/// which also tells how many decoded frames wait in the adapter.
+template <typename Framed>
+class observed_link_t final : public pr::frame_link_impl
+{
+public:
+  observed_link_t (Framed link, std::uint8_t report_id)
+      : link_ (std::move (link)), report_id_ (report_id)
+  {
+  }
+
+  tr::executor_type
+  get_executor () const override
+  {
+    return link_.get_executor ();
+  }
+
+  strand_type
+  get_strand () const override
+  {
+    return link_.get_strand ();
+  }
+
+  std::string const &
+  name () const override
+  {
+    return link_.name ();
+  }
+
+  bool
+  is_open () const override
+  {
+    return link_.is_open ();
+  }
+
+  void
+  start_read (pr::link_read_handler_t handler) override
+  {
+    read (link_, std::move (handler));
+  }
+
+  void
+  start_write (std::shared_ptr<pr::link_frame_t const> frame,
+               tr::status_handler_t handler) override
+  {
+    write (link_, report_id_, std::move (frame), std::move (handler));
+  }
+
+  void
+  cancel () LUMEX_NOEXCEPT override
+  {
+    link_.cancel ();
+  }
+
+  void
+  close () LUMEX_NOEXCEPT override
+  {
+    link_.close ();
+  }
+
+  void
+  drop_connection () LUMEX_NOEXCEPT override
+  {
+    pr::detail::drop_connection_of (link_);
+  }
+
+  void
+  reject_connection () LUMEX_NOEXCEPT override
+  {
+    pr::detail::reject_connection_of (link_);
+  }
+
+  bool
+  reconnects () const LUMEX_NOEXCEPT override
+  {
+    return link_.transport ().impl ()->reconnects ();
+  }
+
+  void
+  watch_connection (tr::connection_handler_t handler) override
+  {
+    link_.transport ().impl ()->watch_connection (std::move (handler));
+  }
+
+  /// The decoded frames that wait for a reader (any thread).
+  std::size_t
+  queued_frames () const LUMEX_NOEXCEPT
+  {
+    return link_.queued_frames ();
+  }
+
+private:
+  template <typename Codec>
+  static void
+  read (tr::framed::framed_stream<Codec> &link,
+        pr::link_read_handler_t handler)
+  {
+    link.async_read_frame (std::move (handler));
+  }
+
+  template <typename Codec>
+  static void
+  read (tr::framed::framed_datagram<Codec> &link,
+        pr::link_read_handler_t handler)
+  {
+    pr::detail::payload_handler_t wrapped = { std::move (handler) };
+    link.async_read_frame (std::move (wrapped));
+  }
+
+  template <typename Codec>
+  static void
+  write (tr::framed::framed_stream<Codec> &link, std::uint8_t,
+         std::shared_ptr<pr::link_frame_t const> frame,
+         tr::status_handler_t handler)
+  {
+    tr::const_bytes_t const payload (frame->data (), frame->size ());
+    link.async_write_frame (payload,
+                            asio::consign (std::move (handler), frame));
+  }
+
+  template <typename Codec>
+  static void
+  write (tr::framed::framed_datagram<Codec> &link, std::uint8_t report_id,
+         std::shared_ptr<pr::link_frame_t const> frame,
+         tr::status_handler_t handler)
+  {
+    tr::const_bytes_t const payload (frame->data (), frame->size ());
+    link.async_write_frame (report_id, payload,
+                            asio::consign (std::move (handler), frame));
+  }
+
+  Framed link_;
+  std::uint8_t report_id_;
+};
+
+/// The options of the framed adapter of the matrix.
+inline tr::framed::framed_options_t
+adapter_options ()
+{
+  tr::framed::framed_options_t options;
+  options.queue_bound = KADAPTER_QUEUE;
+  return options;
+}
+
+/// A link over `link` whose adapter `log` samples at each frame.
+template <typename Framed>
+pr::frame_link
+observed_link (Framed link, std::uint8_t report_id,
+               std::shared_ptr<wire_log_t> const &log)
+{
+  std::shared_ptr<observed_link_t<Framed>> const impl
+      = std::make_shared<observed_link_t<Framed>> (std::move (link),
+                                                   report_id);
+  observed_link_t<Framed> const *const raw = impl.get ();
+  log->set_queue_probe ([raw] () { return raw->queued_frames (); });
+  return pr::frame_link (std::shared_ptr<pr::frame_link_impl> (impl));
 }
 
 template <typename P, typename W, bool Datagram = W::datagram ()>
@@ -718,8 +1061,25 @@ template <typename P, typename W> struct transport_of_t<P, W, false>
   pr::frame_link
   link (std::shared_ptr<wire_log_t> const &log)
   {
-    return pr::frame_link (tr::framed::framed_stream<codec_type> (
-        session->as_byte_stream (), codec_type (W::host (), log, false)));
+    return observed_link (tr::framed::framed_stream<codec_type> (
+                              session->as_byte_stream (),
+                              codec_type (W::host (), log, false),
+                              adapter_options ()),
+                          0, log);
+  }
+
+  /// The reads of the mock so far (zero-length ones too).
+  std::uint64_t
+  reads () const
+  {
+    return mock->stream.statistics ().reads;
+  }
+
+  /// The device hangs up now.
+  void
+  hang_up ()
+  {
+    mock->control.disconnect ();
   }
 
   /// Writes stay pending until `release_writes`.
@@ -778,10 +1138,24 @@ template <typename P, typename W> struct transport_of_t<P, W, true>
   pr::frame_link
   link (std::shared_ptr<wire_log_t> const &log)
   {
-    return pr::frame_link (tr::framed::framed_datagram<codec_type> (
-                               session->as_message_transport (),
-                               codec_type (W::host (), log, true)),
-                           W::report_id ());
+    return observed_link (tr::framed::framed_datagram<codec_type> (
+                              session->as_message_transport (),
+                              codec_type (W::host (), log, true),
+                              adapter_options ()),
+                          W::report_id (), log);
+  }
+
+  /// No reads of a stream.
+  std::uint64_t
+  reads () const
+  {
+    return 0;
+  }
+
+  void
+  hang_up ()
+  {
+    mock->control.disconnect ();
   }
 
   /// Sends stay pending until `release_writes`.
@@ -820,16 +1194,20 @@ template <typename P, typename W = wire_of<P>> class bench_t
 {
 public:
   explicit bench_t (bool threaded)
-      : driver (threaded), log (std::make_shared<wire_log_t> ())
+      : driver (threaded), log (std::make_shared<wire_log_t> ()),
+        reconnects (std::make_shared<reconnect_state_t> ())
   {
     wire.make (driver.executor (), clock);
     W::prepare (wire.device->session ());
     W::prepare (session_values);
+    W::prepare_device (*wire.device);
     wire.session->start ();
     settle ();
     client.reset (
-        new pr::client<P> (wire.link (log), client_options<P> (clock)));
+        new pr::client<P> (wire.link (log), client_options<P, W> (clock)));
     client->set_session (session_values);
+    reconnect_seen_t const seen = { reconnects };
+    client->on_reconnect (seen);
     driver.set_progress ([this] () { return progress (); });
     driver.set_clock_executor (wire.mock->control.get_strand ());
     settle ();
@@ -841,6 +1219,8 @@ public:
   {
     driver.set_progress (std::function<std::uint64_t ()> ());
     driver.set_clock_executor (tr::executor_type ());
+    log->set_queue_probe (std::function<std::size_t ()> ());
+    client->on_reconnect (nullptr);
     client.reset ();
     settle ();
     wire.release ();
@@ -881,6 +1261,7 @@ public:
     out.wire = log->counts ();
     out.session = wire.session->session_statistics ();
     out.device = wire.device->statistics ();
+    out.link_reads = wire.reads ();
     return out;
   }
 
@@ -907,6 +1288,7 @@ public:
   driver_t driver;
   tr::testing::virtual_clock clock;
   std::shared_ptr<wire_log_t> log;
+  std::shared_ptr<reconnect_state_t> reconnects;
   index::session_context_t session_values;
   transport_of_t<P, W> wire;
   std::unique_ptr<pr::client<P>> client;
@@ -965,9 +1347,9 @@ shape_of (pr::client_options_t const &options)
 }
 
 /// Starts the call of `Row` and returns where it ends.
-template <typename P, typename Row>
+template <typename P, typename W, typename Row>
 std::shared_ptr<call_state_t>
-start_call (bench_t<P> &bench)
+start_call (bench_t<P, W> &bench)
 {
   using record = typename layout::request_of<Row>::type;
   record const request = lumex_simulator_test::readable_sample_request<Row> ();
@@ -988,11 +1370,18 @@ ended (std::shared_ptr<call_state_t> const &state)
   return state->calls != 0;
 }
 
+inline std::error_code
+error_of (std::shared_ptr<call_state_t> const &state)
+{
+  std::lock_guard<std::mutex> const lock (state->mutex);
+  return state->error;
+}
+
 /// A step's behaviour went away: the device answers whole again and the
 /// link had the time to come back.
-template <typename P>
+template <typename P, typename W>
 void
-restore (bench_t<P> &bench)
+restore (bench_t<P, W> &bench)
 {
   bench.device ().set_behavior (behavior::perfect ());
   bench.advance (ms (1500));
@@ -1001,9 +1390,9 @@ restore (bench_t<P> &bench)
 /// Checks that a copy of the reply that came after the call was counted
 /// before the next call, and that the next call of the row waits for its
 /// own reply (one sent later than the copy that was dropped).
-template <typename P, typename Row>
+template <typename P, typename W, typename Row>
 void
-check_no_reply_kept (bench_t<P> &bench, std::string const &where)
+check_no_reply_kept (bench_t<P, W> &bench, std::string const &where)
 {
   pr::dialogue_statistics_t const counted = bench.client->statistics ();
   EXPECT_GE (counted.late_replies + counted.unexpected_replies, 1u)
@@ -1012,18 +1401,45 @@ check_no_reply_kept (bench_t<P> &bench, std::string const &where)
   // once.
   bench.device ().set_behavior (behavior::slow_trickle (ms (2)));
   tr::timing::time_point_t const started = bench.clock.now ();
-  std::shared_ptr<call_state_t> const next = start_call<P, Row> (bench);
+  std::shared_ptr<call_state_t> const next = start_call<P, W, Row> (bench);
   bool const done = bench.run_until ([&next] () { return ended (next); });
   tr::timing::time_point_t const finished = bench.clock.now ();
   EXPECT_TRUE (done) << where << ": the next call did not end";
-  {
-    std::lock_guard<std::mutex> const lock (next->mutex);
-    EXPECT_FALSE (next->error)
-        << where << ": the next call ended with " << next->error.message ();
-  }
+  std::error_code const error = error_of (next);
+  EXPECT_FALSE (error) << where << ": the next call ended with "
+                       << error.message ();
   EXPECT_GT (finished, started)
       << where << ": the next call ended before its reply could come";
   restore (bench);
+}
+
+/// Checks that a call that succeeded under `echo` returned the value of the
+/// echoed request read as its reply: the frame the device sent is the
+/// request, and the value is what that frame reads as.
+template <typename P, typename W, typename Row>
+void
+check_echo_value (bench_t<P, W> &bench, call_state_t &state,
+                  std::string const &where)
+{
+  using value_type = pr::reply_of<Row>;
+  wire_record_t const record = bench.log->copy ();
+  ASSERT_FALSE (record.tx.empty ()) << where << ": no request";
+  ASSERT_FALSE (record.rx.empty ()) << where << ": no frame";
+  bytes_t const &request = record.tx.back ();
+  EXPECT_EQ (record.rx.back (), request)
+      << where << ": the frame that answered is not the echo";
+  field::decode_context_t const context
+      = bench.session_values.decode_context ();
+  layout::decode_result_t<value_type> const decoded
+      = layout::decode_reply_message<P, Row> (
+          layout::bytes_view_t (request.data (), request.size ()), &context);
+  ASSERT_TRUE (static_cast<bool> (decoded))
+      << where << ": the echo does not read as the reply";
+  std::lock_guard<std::mutex> const lock (state.mutex);
+  ASSERT_TRUE (static_cast<bool> (state.value)) << where << ": no value";
+  EXPECT_TRUE (*std::static_pointer_cast<value_type const> (state.value)
+               == *decoded)
+      << where << ": the value is not what the device sent";
 }
 
 /// Whether `kind` cuts the link (the step then waits for it to come back
@@ -1044,32 +1460,56 @@ adds_noise (behavior_kind kind)
          || kind == behavior_kind::malicious;
 }
 
+/// Whether `kind` answers some replies before it freezes.
+inline bool
+freezes (behavior_kind kind)
+{
+  return kind == behavior_kind::frozen
+         || kind == behavior_kind::partial_then_frozen;
+}
+
+/// The reads of the mock a frame may take under `zero_read` (the empty reads
+/// in front of it, the one that carries it, slack), and those a step takes
+/// besides.
+LUMEX_CONSTEXPR std::uint64_t KREADS_PER_FRAME = 8;
+
+/// Whether the step of the cell is a known gap (see `known_gap`).
+bool is_known_gap (std::string const &cell, std::string const &step);
+
 /// Compares what a step saw with what it expected, or with the pinned
-/// class of a known gap (see `known_gap`).
-void check_class (std::string const &cell, std::string const &step,
+/// class of a known gap (see `known_gap`); true for a known gap.
+bool check_class (std::string const &cell, std::string const &step,
                   char const *row, behavior_kind kind, outcome_class expected,
                   seen_class seen, std::error_code const &error, bool stream);
 
 /// One call of `Row` under `shaped`, classified and checked.
 /// `cable_unplugged` unplugs while the call is in flight (its write held):
 /// a call made while the cable is out ends at once with `link_lost` by the
-/// rules of the engine, which is not what the behaviour describes.
-template <typename P, typename Row>
+/// rules of the engine, which is not what the behaviour describes. Under
+/// `frozen` and `partial_then_frozen` a call of a row with a reply goes
+/// first and succeeds (the reply before the freeze).
+template <typename P, typename W, typename Row>
 void
-run_step (bench_t<P> &bench, behavior_kind kind, behavior const &shaped,
+run_step (bench_t<P, W> &bench, behavior_kind kind, behavior const &shaped,
           std::string const &cell, std::string const &step)
 {
   std::string const where = cell + " " + step;
-  pr::client_options_t const options = client_options<P> (bench.clock);
+  pr::client_options_t const options = client_options<P, W> (bench.clock);
   tr::testing::row_shape_t const shape = shape_of<P, Row> (options);
   outcome_class const expected = tr::testing::expected_outcome (kind, shape);
+  bool const replies = shape.reply != tr::testing::reply_shape::none;
+  int reconnects_before = 0;
+  {
+    std::lock_guard<std::mutex> const lock (bench.reconnects->mutex);
+    reconnects_before = bench.reconnects->calls;
+  }
   observed_t observed;
-  observed.before = bench.snapshot ();
   std::shared_ptr<call_state_t> state;
   if (kind == behavior_kind::cable_unplugged)
     {
+      observed.before = bench.snapshot ();
       bench.wire.hold_writes ();
-      state = start_call<P, Row> (bench);
+      state = start_call<P, W, Row> (bench);
       bench.settle ();
       bench.device ().set_behavior (shaped);
       bench.settle ();
@@ -1079,42 +1519,258 @@ run_step (bench_t<P> &bench, behavior_kind kind, behavior const &shaped,
     {
       bench.device ().set_behavior (shaped);
       bench.settle ();
-      state = start_call<P, Row> (bench);
+      if (replies && freezes (kind))
+        {
+          std::shared_ptr<call_state_t> const first
+              = start_call<P, W, Row> (bench);
+          EXPECT_TRUE (bench.run_until ([&first] () { return ended (first); }))
+              << where << ": the call before the freeze did not end";
+          std::error_code const error = error_of (first);
+          EXPECT_TRUE (!error || is_known_gap (cell, step))
+              << where << ": the call before the freeze ("
+              << Row::identifier () << ") ended with " << error.message ();
+        }
+      observed.before = bench.snapshot ();
+      state = start_call<P, W, Row> (bench);
     }
   observed.ended = bench.run_until ([&state] () { return ended (state); });
   // Noise in front of no reply is counted when the line goes on: the bytes
   // of the next frame end it.
-  if (adds_noise (kind) && shape.reply == tr::testing::reply_shape::none)
+  if (adds_noise (kind) && !replies)
     {
       bench.advance (ms (10));
-      bench.wire.feed (wire_of<P>::boundary ());
+      bench.wire.feed (W::boundary ());
     }
   // What follows the reply (an echo, copies, noise) is counted too, and a
   // cut link comes back.
   bench.advance (cuts_link (kind) ? ms (1500) : ms (100));
-  {
-    std::lock_guard<std::mutex> const lock (state->mutex);
-    observed.error = state->error;
-  }
+  observed.error = error_of (state);
   observed.after = bench.snapshot ();
+  std::string const named = where + " (" + Row::identifier () + ")";
   seen_class const seen = classify_call (observed);
-  check_class (cell, step, Row::identifier (), kind, expected, seen,
-               observed.error, false);
-  check_counters (kind, expected, observed, 1 + shape.retries,
-                  where + " (" + Row::identifier () + ")");
-  if (kind == behavior_kind::repeating
-      && shape.reply != tr::testing::reply_shape::none
+  bool const gap = check_class (cell, step, Row::identifier (), kind, expected,
+                                seen, observed.error, false);
+  if (!gap)
+    check_counters (kind, expected, observed, 1 + shape.retries, named);
+  if (kind == behavior_kind::echo && seen == seen_class::success && replies)
+    check_echo_value<P, W, Row> (bench, *state, named);
+  if (kind == behavior_kind::zero_read)
+    {
+      // Zero-length reads do not spin.
+      EXPECT_LE (observed.after.link_reads - observed.before.link_reads,
+                 KREADS_PER_FRAME
+                     * (1 + observed.after.wire.rx - observed.before.wire.rx))
+          << named << ": reads";
+    }
+  if (cuts_link (kind) && W::identify_row () != nullptr)
+    {
+      // The device was checked on the new connection (the identity reads
+      // from the reply of the row of identify_with).
+      std::lock_guard<std::mutex> const lock (bench.reconnects->mutex);
+      EXPECT_GT (bench.reconnects->calls, reconnects_before)
+          << named << ": no check after the reconnect";
+      EXPECT_FALSE (bench.reconnects->error)
+          << named << ": the check after the reconnect failed with "
+          << bench.reconnects->error.message ();
+      EXPECT_FALSE (bench.reconnects->model.empty ())
+          << named << ": the check after the reconnect read no identity";
+    }
+  if (kind == behavior_kind::repeating && replies
       && seen == seen_class::dropped_counted)
-    check_no_reply_kept<P, Row> (bench, where);
+    check_no_reply_kept<P, W, Row> (bench, where);
   else
     restore (bench);
 }
 
+/// The row of `accepted_in` in the state that accepts it, on both sides,
+/// under `shaped`.
+template <typename P, typename W, typename Row>
+void
+run_accepted (bench_t<P, W> &bench, behavior_kind kind, behavior const &shaped,
+              std::string const &cell)
+{
+  bench.client->engine ().set_state (W::accepted_state ());
+  bench.device ().set_state (W::accepted_state ());
+  run_step<P, W, Row> (bench, kind, shaped, cell, "accepted");
+}
+
+/// The row of `accepted_in` in another state: the client refuses it and
+/// sends nothing.
+template <typename P, typename W, typename Row>
+void
+run_refused (bench_t<P, W> &bench, std::string const &where)
+{
+  bench.client->engine ().set_state (W::accepted_state () + 1);
+  snapshot_t const before = bench.snapshot ();
+  std::shared_ptr<call_state_t> const state = start_call<P, W, Row> (bench);
+  EXPECT_TRUE (bench.run_until ([&state] () { return ended (state); }))
+      << where << ": the refused call did not end";
+  bench.advance (ms (100));
+  snapshot_t const after = bench.snapshot ();
+  std::error_code const error = error_of (state);
+  EXPECT_TRUE (
+      error
+      == lumex::core::protocol::error::protocol_errc::not_accepted_in_state)
+      << where << ": a row outside its states ended with " << error.message ();
+  EXPECT_EQ (after.wire.tx, before.wire.tx)
+      << where << ": a row outside its states was sent";
+  EXPECT_EQ (after.engine.state_refusals - before.engine.state_refusals, 1u)
+      << where << ": the refusal was not counted";
+  bench.client->engine ().set_state (W::accepted_state ());
+}
+
+/// A query whose reply ends after its timeout, within the window of late
+/// replies of a `by_order` layer: the call times out and the reply is
+/// dropped as a late one, not taken for the reply of the next request.
+template <typename P, typename W, typename Row>
+void
+run_late (bench_t<P, W> &bench, std::string const &where)
+{
+  bench.device ().set_behavior (
+      behavior::slow_trickle (ms (W::late_trickle_ms ())));
+  bench.settle ();
+  snapshot_t const before = bench.snapshot ();
+  std::shared_ptr<call_state_t> const state = start_call<P, W, Row> (bench);
+  EXPECT_TRUE (bench.run_until ([&state] () { return ended (state); }))
+      << where << ": the call did not end";
+  bench.advance (ms (1000));
+  snapshot_t const after = bench.snapshot ();
+  std::error_code const error = error_of (state);
+  EXPECT_TRUE (
+      error == lumex::core::protocol::error::protocol_errc::timeout
+      || error
+             == lumex::core::protocol::error::protocol_errc::retries_exhausted)
+      << where << ": ended with " << error.message ();
+  EXPECT_GE (after.engine.late_replies - before.engine.late_replies, 1u)
+      << where << ": the late reply was not counted as late";
+  EXPECT_EQ (after.engine.unexpected_replies, before.engine.unexpected_replies)
+      << where << ": the late reply was counted as unexpected";
+  restore (bench);
+}
+
+/// A reply cut in the middle, then the device hangs up: the part that waits
+/// in the decoder is not carried over to the new connection, where the next
+/// call is answered at the first attempt without a framing error.
+template <typename P, typename W, typename Row>
+void
+run_close (bench_t<P, W> &bench, std::string const &where)
+{
+  snapshot_t const start = bench.snapshot ();
+  bench.device ().set_behavior (behavior::partial_then_frozen (0, 2));
+  bench.settle ();
+  std::shared_ptr<call_state_t> const cut = start_call<P, W, Row> (bench);
+  EXPECT_TRUE (bench.run_until ([&cut] () { return ended (cut); }))
+      << where << ": the call of the cut reply did not end";
+  bench.wire.hang_up ();
+  bench.device ().set_behavior (behavior::perfect ());
+  bench.advance (ms (1500));
+  snapshot_t const before = bench.snapshot ();
+  std::shared_ptr<call_state_t> const next = start_call<P, W, Row> (bench);
+  EXPECT_TRUE (bench.run_until ([&next] () { return ended (next); }))
+      << where << ": the call after the reconnect did not end";
+  bench.advance (ms (100));
+  snapshot_t const after = bench.snapshot ();
+  std::error_code const error = error_of (next);
+  EXPECT_FALSE (error) << where << ": the call after the reconnect ended with "
+                       << error.message ();
+  EXPECT_GT (before.engine.reconnects, start.engine.reconnects)
+      << where << ": the hang-up did not reconnect";
+  EXPECT_EQ (after.engine.retries, before.engine.retries)
+      << where << ": the call after the reconnect needed a retry";
+  EXPECT_EQ (after.wire.errors, before.wire.errors)
+      << where << ": the cut reply glued to the next frame";
+  restore (bench);
+}
+
+/// `KBURST` calls of `Row` at once under `shaped`: the dialogue holds
+/// `KQUEUE_BOUND` of them in its queue behind the one in flight and refuses
+/// the others with `queue_full`; every call ends.
+template <typename P, typename W, typename Row>
+void
+run_burst (bench_t<P, W> &bench, behavior const &shaped,
+           std::string const &where)
+{
+  bench.device ().set_behavior (shaped);
+  bench.settle ();
+  pr::dialogue_statistics_t const before = bench.client->statistics ();
+  std::vector<std::shared_ptr<call_state_t>> calls;
+  for (std::size_t i = 0; i < KBURST; ++i)
+    calls.push_back (start_call<P, W, Row> (bench));
+  bool const done = bench.run_until (
+      [&calls] ()
+        {
+          for (std::size_t i = 0; i < calls.size (); ++i)
+            if (!ended (calls[i]))
+              return false;
+          return true;
+        },
+      ms (600000));
+  EXPECT_TRUE (done) << where << ": a call of the burst did not end";
+  std::size_t refused = 0;
+  for (std::size_t i = 0; i < calls.size (); ++i)
+    if (error_of (calls[i])
+        == lumex::core::protocol::error::protocol_errc::queue_full)
+      ++refused;
+  pr::dialogue_statistics_t const after = bench.client->statistics ();
+  // One call in flight (no table names max_in_flight), the bound waiting.
+  EXPECT_EQ (refused, KBURST - KQUEUE_BOUND - 1)
+      << where << ": calls refused with queue_full";
+  EXPECT_EQ (after.queue_refusals - before.queue_refusals, refused)
+      << where << ": queue refusals";
+  EXPECT_EQ (after.max_queued, KQUEUE_BOUND) << where << ": max_queued";
+  restore (bench);
+}
+
+/// Runs `f (static_cast<Row *> (nullptr))` when the table has the row.
+template <typename Row> struct if_row_t
+{
+  template <typename F>
+  static void
+  run (F const &f)
+  {
+    f (static_cast<Row *> (nullptr));
+  }
+};
+
+template <> struct if_row_t<void>
+{
+  template <typename F>
+  static void
+  run (F const &)
+  {
+  }
+};
+
+/// What a runner does with its row.
+enum class step_kind : std::uint8_t
+{
+  call,
+  stream,
+  accepted,
+  refused,
+  late,
+  close,
+  burst
+};
+
+/// Runs one step of the script with the row it is given.
+template <typename P, typename W> struct step_runner_t
+{
+  bench_t<P, W> *bench;
+  step_kind what;
+  behavior_kind kind;
+  behavior const *shaped;
+  std::string cell;
+  std::string step;
+
+  template <typename Row> void operator() (Row *) const;
+};
+
 /// The stream window of `Row`: the stream runs whole for three intervals
 /// (the client watches it), then for two virtual seconds under `shaped`.
-template <typename P, typename Row>
+template <typename P, typename W, typename Row>
 void
-run_stream (bench_t<P> &bench, behavior_kind kind, behavior const &shaped,
+run_stream (bench_t<P, W> &bench, behavior_kind kind, behavior const &shaped,
             std::string const &cell, std::string const &step)
 {
   std::string const where = cell + " " + step;
@@ -1161,6 +1817,38 @@ run_stream (bench_t<P> &bench, behavior_kind kind, behavior const &shaped,
   restore (bench);
 }
 
+template <typename P, typename W>
+template <typename Row>
+void
+step_runner_t<P, W>::operator() (Row *) const
+{
+  std::string const where = cell + " " + step;
+  switch (what)
+    {
+    case step_kind::call:
+      run_step<P, W, Row> (*bench, kind, *shaped, cell, step);
+      break;
+    case step_kind::stream:
+      run_stream<P, W, Row> (*bench, kind, *shaped, cell, step);
+      break;
+    case step_kind::accepted:
+      run_accepted<P, W, Row> (*bench, kind, *shaped, cell);
+      break;
+    case step_kind::refused:
+      run_refused<P, W, Row> (*bench, where);
+      break;
+    case step_kind::late:
+      run_late<P, W, Row> (*bench, where);
+      break;
+    case step_kind::close:
+      run_close<P, W, Row> (*bench, where);
+      break;
+    case step_kind::burst:
+      run_burst<P, W, Row> (*bench, *shaped, where);
+      break;
+    }
+}
+
 /// Whether the script of `P` has a row with a reply.
 template <typename P>
 struct script_has_reply_t
@@ -1171,63 +1859,11 @@ struct script_has_reply_t
 {
 };
 
-/// Runs `Run<Row>` when the table has the row.
-template <typename P, typename Row> struct if_row_t
-{
-  template <typename F>
-  static void
-  run (F const &f)
-  {
-    f (static_cast<Row *> (nullptr));
-  }
-};
-
-template <typename P> struct if_row_t<P, void>
-{
-  template <typename F>
-  static void
-  run (F const &)
-  {
-  }
-};
-
-template <typename P> struct step_runner_t
-{
-  bench_t<P> *bench;
-  behavior_kind kind;
-  behavior const *shaped;
-  std::string cell;
-  std::string step;
-
-  template <typename Row>
-  void
-  operator() (Row *) const
-  {
-    run_step<P, Row> (*bench, kind, *shaped, cell, step);
-  }
-};
-
-template <typename P> struct stream_runner_t
-{
-  bench_t<P> *bench;
-  behavior_kind kind;
-  behavior const *shaped;
-  std::string cell;
-  std::string step;
-
-  template <typename Row>
-  void
-  operator() (Row *) const
-  {
-    run_stream<P, Row> (*bench, kind, *shaped, cell, step);
-  }
-};
-
 /// Every debug line of a frame is the describe line of the index, in both
 /// directions (a cell with a perfect device).
-template <typename P>
+template <typename P, typename W>
 void
-check_describe (bench_t<P> &bench, std::string const &where)
+check_describe (bench_t<P, W> &bench, std::string const &where)
 {
   wire_record_t const record = bench.log->copy ();
   index::protocol_index_t const &where_index = *index::protocol_index<P> ();
@@ -1249,8 +1885,41 @@ check_describe (bench_t<P> &bench, std::string const &where)
         << where;
 }
 
-/// One cell: layer `P` on its wire under `kind`.
-template <typename P>
+/// The oversized cell: the block of the behaviour (in the steps) and a
+/// block fed by hand that goes above the limit of the codec as the codec
+/// reads it, on every stream layer, those without a reply too.
+template <typename P, typename W>
+void
+check_oversized (bench_t<P, W> &bench, wire_counts_t const &before,
+                 std::string const &where)
+{
+  wire_counts_t const steps = bench.log->counts ();
+  // A block is dropped once: a later block meets a decoder that is still
+  // dropping (no frame boundary came between), so the count is over the
+  // steps.
+  if (script_has_reply_t<P>::value)
+    {
+      if (W::oversized_reads_too_large ())
+        EXPECT_GE (steps.frame_too_large - before.frame_too_large, 1u)
+            << where << ": frame_too_large not counted";
+      else
+        EXPECT_GE (steps.errors - before.errors, 1u)
+            << where << ": the block was not counted";
+    }
+  if (W::datagram ())
+    return;
+  // The boundary first: the decoder may still drop the block of the last
+  // step.
+  bench.wire.feed (W::boundary ());
+  bench.wire.feed (oversized_block_of<W> ());
+  bench.advance (ms (100));
+  EXPECT_GE (bench.log->counts ().frame_too_large - steps.frame_too_large, 1u)
+      << where << ": a frame above the limit, fed by hand, was not counted";
+  restore (bench);
+}
+
+/// One cell: layer `P` on the wire `W` under `kind`.
+template <typename P, typename W>
 void
 run_cell (behavior_kind kind, bool threaded, std::string const &where)
 {
@@ -1259,29 +1928,57 @@ run_cell (behavior_kind kind, bool threaded, std::string const &where)
       = std::chrono::steady_clock::now ();
   {
     log_guard_t const log (kind == behavior_kind::perfect && !threaded);
-    bench_t<P> bench (threaded);
-    behavior const shaped
-        = matrix_behavior (kind, wire_of<P>::oversized_fill ());
-    if_row_t<P, typename rows::query>::run (
-        step_runner_t<P>{ &bench, kind, &shaped, where, "query" });
-    if_row_t<P, typename rows::command>::run (
-        step_runner_t<P>{ &bench, kind, &shaped, where, "command" });
-    if_row_t<P, typename rows::dangerous>::run (
-        step_runner_t<P>{ &bench, kind, &shaped, where, "dangerous" });
-    if_row_t<P, typename rows::stream>::run (
-        stream_runner_t<P>{ &bench, kind, &shaped, where, "stream" });
-    // An oversized block is dropped once: a later block meets a decoder that
-    // is still dropping (no frame boundary came between), so the count is
-    // over the cell.
-    if (kind == behavior_kind::oversized && script_has_reply_t<P>::value)
+    bench_t<P, W> bench (threaded);
+    behavior const shaped = matrix_behavior (kind, W::oversized_fill ());
+    wire_counts_t const at_start = bench.log->counts ();
+    step_runner_t<P, W> runner
+        = { &bench, step_kind::call, kind, &shaped, where, "query" };
+    if_row_t<typename rows::query>::run (runner);
+    runner.step = "command";
+    if_row_t<typename rows::command>::run (runner);
+    runner.step = "dangerous";
+    if_row_t<typename rows::dangerous>::run (runner);
+    runner.step = "accepted";
+    runner.what = step_kind::accepted;
+    if_row_t<typename rows::accepted>::run (runner);
+    runner.step = "stream";
+    runner.what = step_kind::stream;
+    behavior const streamed = stream_behavior (kind, W::oversized_fill ());
+    runner.shaped = &streamed;
+    if_row_t<typename rows::stream>::run (runner);
+    if (kind == behavior_kind::oversized)
+      check_oversized (bench, at_start, where);
+    if (kind == behavior_kind::perfect && !threaded)
       {
-        EXPECT_GE (bench.log->counts ().frame_too_large, 1u)
-            << where << ": frame_too_large not counted";
+        runner.step = "refused";
+        runner.what = step_kind::refused;
+        if_row_t<typename rows::accepted>::run (runner);
+      }
+    if (kind == behavior_kind::slow_trickle && W::late_trickle_ms () > 0)
+      {
+        runner.step = "late";
+        runner.what = step_kind::late;
+        if_row_t<typename rows::query>::run (runner);
+      }
+    if (kind == behavior_kind::partial_then_frozen && !W::datagram ())
+      {
+        runner.step = "close";
+        runner.what = step_kind::close;
+        if_row_t<typename rows::query>::run (runner);
+      }
+    if (!threaded
+        && (kind == behavior_kind::perfect || kind == behavior_kind::silent
+            || kind == behavior_kind::flood))
+      {
+        runner.step = "burst";
+        runner.what = step_kind::burst;
+        if_row_t<typename rows::burst>::run (runner);
       }
     pr::dialogue_statistics_t const counted = bench.client->statistics ();
-    EXPECT_LE (counted.max_queued,
-               client_options<P> (bench.clock).dialogue.queue_bound)
-        << where << ": the queue went above its bound";
+    EXPECT_LE (counted.max_queued, KQUEUE_BOUND)
+        << where << ": the queue of the dialogue went above its bound";
+    EXPECT_LE (bench.log->counts ().max_queued_frames, KADAPTER_QUEUE)
+        << where << ": the queue of the adapter went above its bound";
     if (kind == behavior_kind::perfect && !threaded)
       check_describe (bench, where);
   }
@@ -1310,15 +2007,15 @@ void register_cells (std::vector<cell_t> const &cells);
 /// The names of every registered cell, `suite.name`.
 std::vector<std::string> registered_cells ();
 
-/// The cells of layer `P` (the layer `layer` of device `device`, letters
-/// only), one per kind its wire takes; `threaded` names them in the suite
-/// `threads` and runs them on a runner of four threads.
-template <typename P>
+/// The cells of layer `P` on the wire `W` (the layer `layer` of device
+/// `device`, letters only), one per kind its wire takes; `threaded` names
+/// them in the suite `threads` and runs them on a runner of four threads.
+template <typename P, typename W = wire_of<P>>
 std::vector<cell_t>
 cells_of (char const *device, char const *layer, bool threaded = false)
 {
   std::vector<cell_t> out;
-  bool const datagram = wire_of<P>::datagram ();
+  bool const datagram = W::datagram ();
   std::vector<behavior_kind> const kinds = kinds_for (datagram);
   for (std::size_t i = 0; i < kinds.size (); ++i)
     {
@@ -1331,7 +2028,7 @@ cells_of (char const *device, char const *layer, bool threaded = false)
       behavior_kind const kind = kinds[i];
       std::string const where = std::string (device) + "." + tail;
       cell.body = [kind, threaded, where] ()
-        { run_cell<P> (kind, threaded, where); };
+        { run_cell<P, W> (kind, threaded, where); };
       out.push_back (cell);
     }
   return out;

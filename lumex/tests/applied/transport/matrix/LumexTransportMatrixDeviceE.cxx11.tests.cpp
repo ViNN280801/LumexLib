@@ -1,8 +1,10 @@
-// The transport matrix over device E: layer a device_e (SLIP and a CRC-16).
+// The transport matrix over device E: layer a device_e (SLIP and a CRC-16;
+// its row of accepted_in is called in the state that accepts it).
 // Every behaviour of the simulator, one cell each
 // (LumexTransportMatrixSupport.hpp). The de-identified table of
 // lumex/tests/core/protocol/devices.
 
+#include <cstdint>
 #include <vector>
 
 #include <gtest/gtest.h>
@@ -14,6 +16,12 @@ namespace lumex_matrix_test
 {
 template <> struct wire_of<lumex_tests::tables_e::device_e> : slip_wire_t
 {
+  static LUMEX_CONSTEXPR std::int64_t
+  accepted_state () LUMEX_NOEXCEPT
+  {
+    return static_cast<std::int64_t> (
+        lumex_tests::tables_e::manager_state::st_35);
+  }
 };
 
 } // namespace lumex_matrix_test
