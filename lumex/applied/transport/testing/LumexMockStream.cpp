@@ -280,6 +280,8 @@ public:
           disconnected_ = true;
           end_pending_writes (transport_errc::disconnected);
           break;
+        default:
+          break;
         }
       serve_reads ();
     }

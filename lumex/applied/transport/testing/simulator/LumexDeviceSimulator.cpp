@@ -903,6 +903,7 @@ private:
             if (!branch_step (run, step, loops))
               return;
             break;
+          case dsl::scenario_step_kind::label:
           default:
             ++run.step;
             break;
