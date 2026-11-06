@@ -104,3 +104,10 @@ lumex_xml_test_*.xml
 
 # create_release.sh packages (default --output-dir)
 /release/
+
+# Generated documentation: not tracked since 2.0.3.0 (the history was
+# rewritten without docs/). Build it locally with
+#   cmake -B build -DLUMEX_BUILD_DOCUMENTATION=ON && cmake --build build --target generate_documentation
+# (output in build/doc/html; -DLUMEX_DOCUMENTATION_OUTPUT_DIR=<dir> moves it)
+# or with "python compile.py --documentation" (output in docs/html).
+/docs/

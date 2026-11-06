@@ -557,6 +557,10 @@
 
 #### Изменено
 
+##### Каталог `docs/` убран из истории репозитория, GitHub Pages выключен
+
+**Суть:** сгенерированная документация (Doxygen, около 19 тысяч файлов, 429 MB) больше не хранится в git: история всех веток и тегов переписана без `docs/`, обычный клон уменьшился с 1.35 GB до 15 MB. Все хэши коммитов изменились; старая история осталась на GitHub под `refs/archive/pre-2.0.3.0/heads/*` и `refs/archive/pre-2.0.3.0/tags/*` (обычный клон их не забирает), поэтому старые коммиты проектов, которые подключают LumexLib подмодулем, по-прежнему получают свой коммит по хэшу. Ветка `documentation` удалена, GitHub Pages выключен. Документацию собирают локально (`-DLUMEX_BUILD_DOCUMENTATION=ON`, цель `generate_documentation`, вывод в `<build>/doc/html`; или `python compile.py --documentation`), а пакеты релиза несут ее в `share/doc/html`. Существующие клоны нужно клонировать заново.
+
 ##### Пакет: документация, исходники примеров и бенчмарков в `share/`
 
 **Файлы:** `CMakeLists.txt`, `cmake/LumexInstallSources.cmake` (новый), `cmake/LumexOptions.cmake`, `Doxyfile.in`, `compile.py`, `create_release.sh`, `create_release.ps1`, `conanfile.py`, `test_package/conanfile.py`, `lumex/examples/README.md`, `benchmarks/README.md` (новые), `benchmarks/*/CMakeLists.txt`.
