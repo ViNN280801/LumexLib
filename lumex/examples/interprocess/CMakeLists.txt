@@ -30,4 +30,5 @@ lumex_example_executable(
   LINK lumex::interprocess Threads::Threads
   REQUIRE_TARGET lumex::interprocess
   CXX_STANDARD 11
+  TEST_TIMEOUT 60
 )

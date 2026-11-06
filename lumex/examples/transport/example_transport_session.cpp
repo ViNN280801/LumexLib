@@ -196,6 +196,39 @@ wait_for_state (ss::stream_session &link, ss::channel_state wanted, ms limit)
   return true;
 }
 
+// Waits until the session counted `wanted` reconnects: each change of the
+// state wakes it, from a snapshot, so none is missed (the counter goes up
+// just before the state becomes open).
+bool
+wait_for_reconnects (ss::stream_session &link, std::uint64_t wanted, ms limit)
+{
+  std::chrono::steady_clock::time_point const end
+      = std::chrono::steady_clock::now () + limit;
+  for (;;)
+    {
+      // The snapshot comes first: a change after it wakes the wait below.
+      ss::state_snapshot_t const seen = link.state_snapshot ();
+      if (link.session_statistics ().reconnects >= wanted)
+        break;
+      std::future<ss::state_snapshot_t> next
+          = link.async_wait_state_change (seen, asio::use_future);
+      if (next.wait_until (end) != std::future_status::ready)
+        {
+          link.close ();
+          return false;
+        }
+      try
+        {
+          next.get ();
+        }
+      catch (std::system_error const &)
+        {
+          return false; // cancelled: the session was closed
+        }
+    }
+  return true;
+}
+
 bool
 reconnect_after_a_dropped_connection ()
 {
@@ -504,11 +537,7 @@ a_framed_adapter_on_a_session ()
   say ("  first connection: half a line ('ab'), then the peer drops it: "
        + (none.has_value () ? std::string ("a frame")
                             : "no frame (" + none.error ().message () + ")"));
-  std::chrono::steady_clock::time_point const end
-      = std::chrono::steady_clock::now () + ms (3000);
-  while (link.session_statistics ().reconnects == 0
-         && std::chrono::steady_clock::now () < end)
-    std::this_thread::sleep_for (ms (5));
+  bool const reconnected = wait_for_reconnects (link, 1, ms (3000));
   say ("  the session reconnected by itself: "
        + std::to_string (link.session_statistics ().reconnects)
        + " reconnect(s)");
@@ -522,7 +551,7 @@ a_framed_adapter_on_a_session ()
             : frame.error ().message ();
   say ("  second connection: the frame is '" + text
        + "' (not 'abcd': the half frame went with its connection)");
-  return frame.has_value () && text == "cd";
+  return reconnected && frame.has_value () && text == "cd";
 }
 #endif
 
@@ -576,15 +605,19 @@ backoff_on_a_virtual_clock ()
   bool const opened = tr::testing::run_until (
       context, clock, [&link] { return link.is_open (); },
       std::chrono::seconds (60));
+  // The attempts waited 100, 200 and 400 ms of the virtual clock, no more.
+  long long const virtual_ms
+      = std::chrono::duration_cast<ms> (clock.now () - start).count ();
   long long const real_ms = std::chrono::duration_cast<ms> (
                                 std::chrono::steady_clock::now () - real_start)
                                 .count ();
   say (std::string ("  open: ") + (opened ? "yes" : "no") + ", after "
        + std::to_string (*attempts) + " attempts (waits of 100, 200, 400 ms), "
-       + "in " + std::to_string (real_ms) + " ms of real time");
+       + "at " + std::to_string (virtual_ms) + " ms of virtual time, in "
+       + std::to_string (real_ms) + " ms of real time");
   link.close ();
   tr::testing::run_until (context, clock, [] { return false; }, ms (0));
-  return opened && *attempts == 4;
+  return opened && *attempts == 4 && virtual_ms == 700;
 }
 #endif
 

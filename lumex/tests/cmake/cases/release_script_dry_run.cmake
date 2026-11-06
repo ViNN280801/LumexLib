@@ -223,3 +223,74 @@ if(bad_CODE EQUAL 0)
     message(FATAL_ERROR "--color purple was accepted")
 endif()
 _expect_text("${bad_ERR}" "--color must be auto, always or never" "bad colour")
+
+# A relative --doxygen path is made absolute (the builds run in other
+# directories): the command shown names the full path.
+set(_doxy_dir "${CMAKE_CURRENT_BINARY_DIR}/release_dry_run_doxygen")
+file(REMOVE_RECURSE "${_doxy_dir}")
+file(WRITE "${_doxy_dir}/src/fake_doxygen" "#!/bin/sh\nexit 0\n")
+file(COPY "${_doxy_dir}/src/fake_doxygen" DESTINATION "${_doxy_dir}"
+    FILE_PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE)
+execute_process(
+    COMMAND ${_bash} ${_script} --compilers ${_cxx} --output-dir ${_out_dir}
+            --dry-run --std 11 --formats tar.gz --color never --doxygen ./fake_doxygen
+    WORKING_DIRECTORY "${_doxy_dir}"
+    RESULT_VARIABLE rel_CODE OUTPUT_VARIABLE rel_OUT ERROR_VARIABLE rel_ERR)
+if(NOT rel_CODE EQUAL 0)
+    message(FATAL_ERROR "a relative --doxygen exited with ${rel_CODE}:\n${rel_OUT}\n${rel_ERR}")
+endif()
+_expect_text("${rel_OUT}" "-DDOXYGEN_EXECUTABLE=${_doxy_dir}/fake_doxygen" "relative --doxygen")
+
+# --tag of a release older than the documentation in the package (its CMake
+# files have no LUMEX_DOCUMENTATION_PREBUILT_DIR): the run warns and builds
+# without share/doc, and needs no Doxygen. A newer tag does need it. The tags
+# are in a repository of its own, with a copy of the script.
+find_program(_git git)
+if(_git)
+    set(_tag_repo "${CMAKE_CURRENT_BINARY_DIR}/release_dry_run_tags")
+    file(REMOVE_RECURSE "${_tag_repo}")
+    file(MAKE_DIRECTORY "${_tag_repo}/cmake" "${_tag_repo}/Scripts/ReleaseTools")
+    file(COPY "${_script}" DESTINATION "${_tag_repo}")
+    file(COPY "${LUMEX_SOURCE_DIR}/Scripts/ReleaseTools/extract_diagnostics.py"
+         DESTINATION "${_tag_repo}/Scripts/ReleaseTools")
+    file(WRITE "${_tag_repo}/CMakeLists.txt" "project(LumexLib VERSION 1.0.0.0)\n")
+    function(_tag_git)
+        execute_process(
+            COMMAND ${_git} -c user.email=test@example.com -c user.name=test ${ARGN}
+            WORKING_DIRECTORY "${_tag_repo}"
+            RESULT_VARIABLE _code OUTPUT_QUIET ERROR_VARIABLE _msg)
+        if(NOT _code EQUAL 0)
+            message(FATAL_ERROR "git ${ARGN} failed: ${_msg}")
+        endif()
+    endfunction()
+    _tag_git(init -q .)
+    file(WRITE "${_tag_repo}/cmake/LumexOptions.cmake" "# no documentation option\n")
+    _tag_git(add -A)
+    _tag_git(commit -q -m old)
+    _tag_git(tag v-without-docs)
+    file(WRITE "${_tag_repo}/cmake/LumexOptions.cmake" "set(LUMEX_DOCUMENTATION_PREBUILT_DIR \"\")\n")
+    _tag_git(add -A)
+    _tag_git(commit -q -m new)
+    _tag_git(tag v-with-docs)
+    set(_tag_out "${CMAKE_CURRENT_BINARY_DIR}/release_dry_run_tags_out")
+    foreach(_pair "old_tag|v-without-docs" "new_tag|v-with-docs")
+        string(REPLACE "|" ";" _pair "${_pair}")
+        list(GET _pair 0 _id)
+        list(GET _pair 1 _tag)
+        execute_process(
+            COMMAND ${_bash} ${_tag_repo}/create_release.sh --compilers ${_cxx} --output-dir ${_tag_out}
+                    --dry-run --std 11 --formats tar.gz --color never --tag ${_tag}
+                    --doxygen ${_out_dir}/no/such/doxygen
+            RESULT_VARIABLE ${_id}_CODE OUTPUT_VARIABLE ${_id}_OUT ERROR_VARIABLE ${_id}_ERR)
+    endforeach()
+    if(NOT old_tag_CODE EQUAL 0)
+        message(FATAL_ERROR "an old tag without Doxygen exited with ${old_tag_CODE}:\n${old_tag_OUT}\n${old_tag_ERR}")
+    endif()
+    _expect_text("${old_tag_ERR}" "cannot install a finished documentation" "old tag")
+    _expect_no_text("${old_tag_OUT}" "generate_documentation" "old tag")
+    _expect_text("${old_tag_OUT}" "-DLUMEX_BUILD_DOCUMENTATION=OFF" "old tag")
+    if(new_tag_CODE EQUAL 0)
+        message(FATAL_ERROR "a tag with the documentation option was built without Doxygen:\n${new_tag_OUT}")
+    endif()
+    _expect_text("${new_tag_ERR}" "pass --no-docs to build the packages without the documentation" "new tag")
+endif()

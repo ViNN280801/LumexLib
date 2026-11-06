@@ -285,6 +285,24 @@ if ($FormatList -contains 'tar.gz') {
         Die "tar.gz needs 'tar' in PATH (shipped with Windows 10 and later)"
     }
 }
+# A tag older than the documentation in the package has no option to put it
+# there: its packages are built as they were released, and the run says so. The
+# probe reads the tag with git and comes first, so that such a tag needs no
+# Doxygen.
+if (-not $NoDocs -and -not [string]::IsNullOrWhiteSpace($Tag)) {
+    $previousPreference = $ErrorActionPreference
+    $ErrorActionPreference = 'Continue'
+    try {
+        $optionsLines = & git -C $RepoRoot show "refs/tags/${Tag}:cmake/LumexOptions.cmake" 2>$null
+    }
+    finally {
+        $ErrorActionPreference = $previousPreference
+    }
+    if (-not ((@($optionsLines) -join "`n") -match 'LUMEX_DOCUMENTATION_PREBUILT_DIR')) {
+        [Console]::Error.WriteLine("Warning: tag $Tag cannot install a finished documentation (no LUMEX_DOCUMENTATION_PREBUILT_DIR in its CMake files): its packages are built without share\doc")
+        $NoDocs = $true
+    }
+}
 # The documentation of the packages: Doxygen is looked for before the first
 # build, so that a run of hours does not end in packages without it.
 $DoxygenExe = ''
@@ -708,15 +726,6 @@ if (-not [string]::IsNullOrWhiteSpace($Version)) {
     }
 }
 
-# A tag older than the documentation in the package has no option to put it
-# there: its packages are built as they were released, and the run says so.
-if (-not $NoDocs -and $Tag) {
-    $optionsText = Get-TreeFileText 'cmake/LumexOptions.cmake'
-    if (-not ($optionsText -match 'LUMEX_DOCUMENTATION_PREBUILT_DIR')) {
-        [Console]::Error.WriteLine("Warning: tag $Tag cannot install a finished documentation (no LUMEX_DOCUMENTATION_PREBUILT_DIR in its CMake files): its packages are built without share\doc")
-        $NoDocs = $true
-    }
-}
 $DocsInPackage = -not $NoDocs
 
 Write-Host "LumexLib $EffectiveVersion, formats: $($FormatList -join ', ')$(if (-not $NoWerror) { ', -Werror' })$(if ($DocsInPackage) { ', with the documentation' })"
@@ -752,7 +761,14 @@ if ($DocsInPackage) {
         New-Item -ItemType Directory -Force -Path $DocDir | Out-Null
     }
     $docBuild = (Join-Path $DocDir 'build') -replace '\\', '/'
-    $docConfigureArgs = @(
+    # The generator of the builds: compile.py takes Ninja for the clang-cl jobs
+    # and the Visual Studio generator of CMake for the MSVC ones, so Ninja here
+    # only when no job is an MSVC one (Ninja may not be installed otherwise).
+    $docGenerator = @()
+    if (@($Jobs | Where-Object { $_.Kind -eq 'msvc' }).Count -eq 0) {
+        $docGenerator = @('-G', 'Ninja')
+    }
+    $docConfigureArgs = $docGenerator + @(
         '-S', ($BuildRoot -replace '\\', '/'), '-B', $docBuild, '--no-warn-unused-cli',
         '-DCMAKE_BUILD_TYPE=Release', '-DLUMEX_BUILD_TESTS=OFF', '-DLUMEX_INSTALL=OFF',
         '-DLUMEX_BUILD_CORE=OFF', '-DLUMEX_BUILD_APPLIED=OFF', '-DLUMEX_BUILD_XML=OFF',

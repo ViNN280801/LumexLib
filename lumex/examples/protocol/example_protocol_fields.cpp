@@ -14,6 +14,7 @@
 #include <string>
 #include <system_error>
 
+#include "example_protocol_check.hpp"
 #include "lumex/core/protocol/LumexProtocol"
 #include "lumex/core/reflection/reflected_enum/LumexReflectedEnum.hpp"
 
@@ -149,6 +150,7 @@ struct printer_t
   {
     std::cout << "  a request of " << Row::identifier () << " ("
               << Row::specification_name () << ")\n";
+    called = std::string ("request of ") + Row::identifier ();
   }
 
   template <typename Row, typename Value>
@@ -157,7 +159,10 @@ struct printer_t
   {
     std::cout << "  a reply of " << Row::identifier () << " ("
               << Row::specification_name () << ")\n";
+    called = std::string ("reply of ") + Row::identifier ();
   }
+
+  std::string called;
 };
 } // namespace
 
@@ -175,11 +180,15 @@ main ()
       fields, 37.5, 12);
   std::cout << "  SET_TARGET (37.5, 12): fields " << hex (fields)
             << " (375 tenths of a degree in two bytes, big-endian)\n";
+  check::expect (hex (fields) == "01 77 0C ",
+                 "SET_TARGET (37.5, 12) is 375 in two bytes, then 12");
   layout::bytes_t message;
   layout::encode_message<heater_binary, heater_binary::SET_TARGET_t> (
       message, 37.5, 12);
   std::cout << "  the message with its key (0x10 comes first): "
             << hex (message) << '\n';
+  check::expect (hex (message) == "10 01 77 0C ",
+                 "the message is the key 0x10 and the fields");
 
   std::cout << "\n--- 2. A reply: a record of values\n";
   // The device answers READ with 24.5 degrees, the lid open, mode holding, one
@@ -194,6 +203,10 @@ main ()
       return 1;
     }
   std::cout << "  " << show_reading (*reading) << '\n';
+  check::expect (show_reading (*reading)
+                     == "temperature 24.5 degC (raw 245), mode holding, lid "
+                        "open, errors 1, power 60 %",
+                 "the reading is 24.5 degC, holding, lid open, 1 error, 60 %");
   // A short message is an error, never a half-read value.
   layout::bytes_t const cut = { 0x00, 0xF5 };
   auto const truncated
@@ -201,6 +214,8 @@ main ()
           view_of (cut));
   std::cout << "  two bytes of the four: " << truncated.error ().message ()
             << '\n';
+  check::expect (!truncated && truncated.error () == protocol_errc::truncated,
+                 "two bytes of four are protocol_errc::truncated");
 
   std::cout << "\n--- 3. A text and a counted list\n";
   layout::bytes_t const name_fields = { 'B', 'l', 'o', 'c', 'k', '7', 0, 0 };
@@ -209,6 +224,8 @@ main ()
           view_of (name_fields));
   std::cout << "  NAME: '" << std::string (name->chars, name->length)
             << "' (the NUL padding is not part of the text)\n";
+  check::expect (std::string (name->chars, name->length) == "Block7",
+                 "the name is Block7 without the padding");
   layout::bytes_t const history_fields
       = { 3, 0x00, 0xE6, 0x00, 0xEB, 0x00, 0xF0 };
   auto const history
@@ -218,6 +235,10 @@ main ()
             << " values, the last one "
             << number (field::get<0> (*history).items[2].value ())
             << " degC\n";
+  check::expect (field::get<0> (*history).count == 3
+                     && number (field::get<0> (*history).items[2].value ())
+                            == "24.0",
+                 "the history holds 3 values, the last one 24.0");
 
   std::cout << "\n--- 4. A value that does not fit is refused, not cut\n";
   layout::bytes_t refused;
@@ -229,6 +250,10 @@ main ()
             << " of lumex.protocol), "
             << (refused.empty () ? "nothing written" : "SOMETHING WRITTEN")
             << '\n';
+  check::expect (!too_hot && too_hot.error () == protocol_errc::invalid_value
+                     && refused.empty (),
+                 "4000.0 degC is protocol_errc::invalid_value and writes "
+                 "nothing");
 
   std::cout << "\n--- 5. The same rows in the text layer\n";
   layout::bytes_t text;
@@ -237,6 +262,8 @@ main ()
   std::cout << "  SET_TARGET (37.5, 12): '"
             << std::string (text.begin (), text.end ())
             << "' (key 10, then 0177, then 0C: digits of the bytes)\n";
+  check::expect (std::string (text.begin (), text.end ()) == "1001770C",
+                 "the text layer writes the bytes as hexadecimal digits");
 
   std::cout << "\n--- 6. A received message goes to its row\n";
   layout::bytes_t const received = { 0x11, 0x00, 0xF5, 0xA1, 0x3C };
@@ -244,10 +271,14 @@ main ()
   std::error_code error = layout::dispatch_message<heater_binary> (
       view_of (received), index::frame_direction::rx, printer);
   std::cout << "  (rx) " << (error ? error.message () : "dispatched") << '\n';
+  check::expect (!error && printer.called == "reply of READ",
+                 "0x11 received is the reply of READ");
   layout::bytes_t const stranger = { 0x7E, 0x00 };
   error = layout::dispatch_message<heater_binary> (
       view_of (stranger), index::frame_direction::rx, printer);
   std::cout << "  key 0x7E: " << error.message () << '\n';
+  check::expect (error == protocol_errc::unknown_frame,
+                 "key 0x7E is protocol_errc::unknown_frame");
 
   std::cout << "\n--- 7. The smallest valid value of a row\n";
   auto const sample
@@ -258,5 +289,12 @@ main ()
   std::cout << "  READ asks with: " << hex (sample_message)
             << "\n  the sample of its reply: " << show_reading (sample)
             << "\n";
-  return error == protocol_errc::unknown_frame ? 0 : 1;
+  check::expect (hex (sample_message) == "11 ",
+                 "READ has no fields: the message is its key");
+  check::expect (
+      show_reading (sample)
+          == "temperature 0.0 degC (raw 0), mode off, lid closed, errors 0, "
+             "power 0 %",
+      "the sample of READ is all zero");
+  return check::exit_code ();
 }
