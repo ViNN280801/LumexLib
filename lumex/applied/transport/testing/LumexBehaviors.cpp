@@ -1019,6 +1019,19 @@ expected_outcome (behavior_kind kind, row_shape_t const &shape)
           return outcome_class::dropped_counted;
         case behavior_kind::cable_unplugged:
           return cut;
+        case behavior_kind::perfect:
+        case behavior_kind::silent:
+        case behavior_kind::frozen:
+        case behavior_kind::partial_then_frozen:
+        case behavior_kind::slow_trickle:
+        case behavior_kind::fragmented:
+        case behavior_kind::repeating:
+        case behavior_kind::corrupted_crc:
+        case behavior_kind::oversized:
+        case behavior_kind::zero_read:
+        case behavior_kind::intermittent:
+        case behavior_kind::disconnecting:
+        case behavior_kind::works_then_disconnects:
         default:
           return outcome_class::success;
         }
@@ -1047,6 +1060,10 @@ expected_outcome (behavior_kind kind, row_shape_t const &shape)
         case behavior_kind::works_then_disconnects:
         case behavior_kind::cable_unplugged:
           return resumed;
+        case behavior_kind::perfect:
+        case behavior_kind::slow_trickle:
+        case behavior_kind::fragmented:
+        case behavior_kind::zero_read:
         default:
           return outcome_class::success;
         }
@@ -1073,6 +1090,10 @@ expected_outcome (behavior_kind kind, row_shape_t const &shape)
         case behavior_kind::works_then_disconnects:
         case behavior_kind::cable_unplugged:
           return cut;
+        case behavior_kind::perfect:
+        case behavior_kind::slow_trickle:
+        case behavior_kind::fragmented:
+        case behavior_kind::zero_read:
         default:
           return outcome_class::success;
         }

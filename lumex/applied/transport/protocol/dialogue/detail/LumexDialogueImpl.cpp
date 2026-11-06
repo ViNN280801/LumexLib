@@ -1143,6 +1143,7 @@ dialogue_impl::note_abandoned (exchange_record_t const &record)
               window_open_ = true;
             }
           return;
+        case dialogue::correlation::custom:
         default:
           return;
         }
@@ -1466,6 +1467,7 @@ dialogue_impl::apply_reply (std::size_t at, link_frame_t &frame,
                                 log::log_bytes_t ());
       next_attempt (at, protocol_errc::nak);
       return;
+    case reply_effect::fail:
     default:
       LUMEX_DIALOGUE_LOG_QUIET (
           warning, kcomponent, name_.c_str (),

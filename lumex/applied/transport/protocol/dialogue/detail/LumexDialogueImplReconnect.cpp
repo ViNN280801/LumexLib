@@ -312,6 +312,7 @@ dialogue_impl::connection_changed (connection_event event,
     case connection_event::lost:
       connection_lost (reason);
       break;
+    case connection_event::gave_up:
     default:
       connection_lost (reason);
       // Nobody is connecting: nothing is worth waiting for.

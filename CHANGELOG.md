@@ -539,6 +539,14 @@
 
 **Проверено:** Linux, GCC 13 (`LUMEX_WERROR=ON`), Clang 23 и GCC 8.3: `^examples\.` 120 из 120, `^(cmake|lint)\.` 258 из 258 на GCC 13; новые случаи сначала падали; установка в префикс и отдельная сборка всех 35 каталогов примеров и 9 каталогов бенчмарков, 119 программ запущены из префикса; CMake 3.18.4. Conan и Windows не запускались.
 
+##### `create_release.sh` с `-Werror` падал на GCC 13 и Clang 23 при C++20
+
+**Файлы:** `lumex/applied/transport/protocol/discovery/LumexDiscover.cpp`, `protocol/dialogue/detail/LumexDialogueImpl.cpp`, `LumexDialogueImplReconnect.cpp`, `testing/LumexBehaviors.cpp`, `testing/LumexMockStream.cpp`, `testing/LumexMockDatagram.cpp`, `testing/simulator/LumexDeviceSimulator.cpp`, `lumex/tests/cmake/consumer/library_werror_cxx20/` (новый).
+
+**Суть:** `-Wswitch-default` и `-Wswitch-enum` включаются у целей библиотеки только при заданном стандарте, а в деревьях отдельных запусков его нет, поэтому 39 предупреждений GCC 13 и 3 Clang 23 видел только релиз. Во всех `switch` транспорта названы все значения перечисления и есть `default`; поведение не изменилось. Фикстура `cmake.consumer_library_werror_cxx20` собирает все библиотеки при C++20 и `LUMEX_WERROR=ON`.
+
+**Проверено:** Linux, GCC 13 и Clang 23 при C++20: `transport.(testing|protocol|session|matrix)` 4173 из 4173, `cmake`/`lint` 259 из 259; `create_release.sh` с `-Werror`, четыре компилятора, 146 s, 0 предупреждений; четыре мутации фикстура ловит.
+
 #### Изменено
 
 ##### Пакет: документация, исходники примеров и бенчмарков в `share/`

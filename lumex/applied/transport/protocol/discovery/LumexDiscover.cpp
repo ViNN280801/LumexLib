@@ -112,6 +112,8 @@ public:
         return "it is no device of the table";
       case discovery_errc::busy:
         return "something else holds the device";
+      default:
+        break;
       }
     return "unknown discovery error";
   }
@@ -159,6 +161,15 @@ reply_does_not_fit (std::error_code const &error) LUMEX_NOEXCEPT
     case protocol_errc::refused:
     case protocol_errc::unexpected_reply:
       return true;
+    case protocol_errc::access_denied:
+    case protocol_errc::duplicate_key:
+    case protocol_errc::out_of_limits:
+    case protocol_errc::timeout:
+    case protocol_errc::retries_exhausted:
+    case protocol_errc::not_accepted_in_state:
+    case protocol_errc::link_lost:
+    case protocol_errc::not_confirmed:
+    case protocol_errc::queue_full:
     default:
       return false;
     }
@@ -727,6 +738,8 @@ discovery_run_t::deadline (std::size_t at, std::error_code const &error)
     case phase_t::identifying:
       end_probe (at, make_error_code (discovery_errc::no_response));
       break;
+    case phase_t::waiting:
+    case phase_t::over:
     default:
       break;
     }
