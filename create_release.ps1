@@ -9,8 +9,9 @@
 # The Windows counterpart of create_release.sh: the same options where the
 # platform has them, the same order of work and the same package layout.
 # Every check (python, cmake, ninja for clang-cl, the installed toolsets, the
-# clang-cl compilers, NSIS for exe, tar for tar.gz) runs before the first
-# build, so a missing piece stops the script before any work is done.
+# clang-cl compilers, Doxygen and Graphviz dot for the documentation, NSIS for
+# exe, tar for tar.gz) runs before the first build, so a missing piece stops
+# the script before any work is done.
 #
 # Run with -Help for the options.
 #Requires -Version 5.1
@@ -92,9 +93,9 @@ Options:
   -NoDocs            Build the packages without the documentation. By default
                      the Doxygen documentation is generated once, before the
                      builds, and every package carries it in share\doc\html
-                     (open index.html); a missing Doxygen stops the run before
-                     the first build, so that a release does not lose the
-                     documentation unnoticed.
+                     (open index.html); a missing Doxygen or Graphviz dot
+                     stops the run before the first build, so that a release
+                     does not lose the documentation unnoticed.
   -Doxygen PATH      The Doxygen executable (default: doxygen from PATH).
   -OutputDir DIR     Where the packages go (default: <repo>/release).
   -Version V         Override the version read from project(LumexLib
@@ -140,6 +141,9 @@ Notes:
   * The found makensis directory goes in front of PATH, so CPack runs the
     same makensis; MAKENSIS_EXE overrides the search (a wrong value stops
     the script).
+  * dot of Graphviz is looked for in PATH, the Graphviz registry key, the
+    machine/user PATH values and the usual install directories; its
+    directory goes in front of PATH, so Doxygen runs the same dot.
   * <repo>/x64 is removed after every package, so that published build
     output never lands in a later archive.
   * A release needs the dated [vX.Y.Z.W] section in CHANGELOG.md; the script
@@ -321,6 +325,81 @@ if (-not $NoDocs) {
     if ([string]::IsNullOrWhiteSpace($DoxygenExe)) {
         $where = if ([string]::IsNullOrWhiteSpace($Doxygen)) { 'not in PATH' } else { $Doxygen }
         Die "doxygen not found ($where): the packages carry the documentation (share\doc). Install Doxygen, name it with -Doxygen, or pass -NoDocs to build the packages without the documentation"
+    }
+}
+
+# dot of Graphviz, in the order a release machine has it: PATH, the Graphviz
+# registry key, the machine and user PATH values from the registry (a session
+# whose PATH is stale after installing Graphviz), the usual installation
+# directories and the package managers' locations.
+function Get-GraphvizDot {
+    $command = Get-Command dot -ErrorAction SilentlyContinue
+    if ($command) { return $command.Source }
+
+    foreach ($key in @('HKLM:\SOFTWARE\Graphviz', 'HKLM:\SOFTWARE\WOW6432Node\Graphviz', 'HKCU:\SOFTWARE\Graphviz')) {
+        try {
+            $properties = Get-ItemProperty -LiteralPath $key -ErrorAction Stop
+            foreach ($name in @('InstallPath', '(default)')) {
+                $property = $properties.PSObject.Properties[$name]
+                if ($null -eq $property -or -not $property.Value) { continue }
+                foreach ($candidate in @((Join-Path $property.Value 'bin\dot.exe'), (Join-Path $property.Value 'dot.exe'))) {
+                    if (Test-Path -LiteralPath $candidate) { return $candidate }
+                }
+            }
+        }
+        catch { }
+    }
+
+    $registeredPath = @()
+    foreach ($key in @('HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Environment', 'HKCU:\Environment')) {
+        try {
+            $value = (Get-ItemProperty -LiteralPath $key -ErrorAction Stop).Path
+            if ($value) { $registeredPath += $value }
+        }
+        catch { }
+    }
+    foreach ($entry in (($registeredPath -join ';') -split ';')) {
+        $dir = [Environment]::ExpandEnvironmentVariables($entry.Trim())
+        if (-not $dir) { continue }
+        $candidate = Join-Path $dir 'dot.exe'
+        if (Test-Path -LiteralPath $candidate) { return $candidate }
+    }
+
+    $programFiles = [Environment]::GetEnvironmentVariable('ProgramFiles')
+    $programFilesX86 = [Environment]::GetEnvironmentVariable('ProgramFiles(x86)')
+    $userProfile = [Environment]::GetEnvironmentVariable('USERPROFILE')
+    $chocolatey = [Environment]::GetEnvironmentVariable('ChocolateyInstall')
+    if (-not $chocolatey) { $chocolatey = 'C:\ProgramData\chocolatey' }
+
+    $usualDirs = @()
+    if ($programFiles) { $usualDirs += (Join-Path $programFiles 'Graphviz\bin') }
+    if ($programFilesX86) { $usualDirs += (Join-Path $programFilesX86 'Graphviz\bin') }
+    $usualDirs += (Join-Path $chocolatey 'bin')
+    if ($userProfile) {
+        $usualDirs += (Join-Path $userProfile 'scoop\shims')
+        $usualDirs += (Join-Path $userProfile 'scoop\apps\graphviz\current\bin')
+    }
+    foreach ($dir in $usualDirs) {
+        $candidate = Join-Path $dir 'dot.exe'
+        if (Test-Path -LiteralPath $candidate) { return $candidate }
+    }
+    return $null
+}
+
+# The Doxyfile has HAVE_DOT = YES and no DOT_PATH: Doxygen runs dot from PATH.
+# Without it every graph fails, and under the Visual Studio generator MSBuild
+# reads the "error:" lines of Doxygen as a failed build. The found directory
+# goes in front of PATH, so Doxygen runs the dot this check approved.
+$GraphvizDot = $null
+if (-not $NoDocs) {
+    $GraphvizDot = Get-GraphvizDot
+    if (-not $GraphvizDot) {
+        Die "dot of Graphviz not found: the documentation draws its inheritance graphs with it. Install Graphviz, or pass -NoDocs to build the packages without the documentation"
+    }
+    $dotDir = (Split-Path -Parent $GraphvizDot).TrimEnd('\')
+    $pathEntries = @($env:PATH -split ';' | ForEach-Object { $_.Trim().TrimEnd('\') })
+    if ($pathEntries -notcontains $dotDir) {
+        $env:PATH = "$dotDir;$env:PATH"
     }
 }
 
@@ -734,6 +813,9 @@ if ($DryRun) {
 }
 if ($null -ne $NSISMaker) {
     Write-Host "  NSIS: $NSISMaker"
+}
+if ($null -ne $GraphvizDot) {
+    Write-Host "  Graphviz dot: $GraphvizDot"
 }
 foreach ($job in $Jobs) {
     foreach ($isa in $ArchList) {
