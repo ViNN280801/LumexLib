@@ -594,6 +594,10 @@ lumex_add_consumer_test(consumer_transport_two_modules transport_two_modules)
 # Every public transport header and token style compiles without a warning in
 # a strict consumer.
 lumex_add_consumer_test(consumer_transport_warnings transport_warnings)
+# The libraries of every module compile at C++20 with LUMEX_WERROR ON, as
+# create_release.sh builds them: a pinned standard adds -Wswitch-default and
+# -Wswitch-enum to the library targets, which no scoped tree has.
+lumex_add_consumer_test(consumer_library_werror_cxx20 library_werror_cxx20)
 # The framed adapters need the framing module and add no required edge: the
 # transport builds, runs and leaves them out with LUMEX_BUILD_FRAMING OFF.
 lumex_add_consumer_test(consumer_transport_without_framing
