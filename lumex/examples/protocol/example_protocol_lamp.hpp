@@ -51,6 +51,13 @@ enum class state : int
   fault = 3
 };
 
+/// The number a simulator reports for a state (`set_state`, `state`).
+inline std::int64_t
+state_code (state value)
+{
+  return static_cast<std::int64_t> (value);
+}
+
 /// The table only names the codec; the program picks one (see the wires).
 struct codec
 {

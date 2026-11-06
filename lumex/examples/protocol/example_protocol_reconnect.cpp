@@ -4,11 +4,13 @@
 //
 // Part 1: the client is built over a stream_session (as_byte_stream () makes
 // the session a byte stream that a framed adapter and a frame_link can use).
-// The device drops the connection while two requests wait; the session opens a
-// new one, the client identifies the device again before anything else, and
-// on_reconnect says how that went. A request that may be sent twice
-// (idempotent) goes out again on the new connection; one that may not
-// (START) ends with link_lost, never silently sent twice.
+// The device drops the connection while a request is in flight (a handler of
+// the row does it); the session opens a new one, the client identifies the
+// device again before anything else, and on_reconnect says how that went. A
+// request that may be sent twice (STATUS, idempotent) goes out again on the
+// new connection and the device sees it twice; one that may not (START) ends
+// with link_lost, never silently sent twice. The program checks each of these
+// claims and exits with 1 when one fails.
 //
 // Part 2: async_discover tries candidates one by one (here five addresses of
 // the loopback interface), asks each for its identity with the table's
@@ -16,6 +18,7 @@
 // table: found, a device that answered but is no lamp of ours (wrong_device),
 // one that never answered (no_response), a closed port (the system's own
 // error).
+#include <atomic>
 #include <chrono>
 #include <condition_variable>
 #include <cstdint>
@@ -25,7 +28,6 @@
 #include <mutex>
 #include <string>
 #include <system_error>
-#include <thread>
 #include <utility>
 #include <vector>
 
@@ -104,6 +106,36 @@ reconnecting_client ()
   device.simulator ().set_reply<lamp::lamp_text::WHO_t> (
       lamp::who_reply<lamp::lamp_text> (3, 12, 4711));
 
+  // What the callbacks write and the main thread reads. They are declared
+  // before the session and the client, so they outlive every callback.
+  events_t reconnected;
+  events_t ended;
+  std::error_code start_error;
+  std::error_code status_error;
+  std::string status_text;
+  std::error_code reconnect_errors[2];
+  std::string reconnect_models[2];
+  int reconnect_count = 0;
+  // The device drops the connection the first time it is asked for each of
+  // these rows, and counts how often it was asked.
+  std::atomic<int> starts_seen (0);
+  std::atomic<int> statuses_seen (0);
+  device.simulator ().on<lamp::lamp_text::START_t> (
+      [&] (tr::testing::device_simulator<lamp::lamp_text>::request_of<
+           lamp::lamp_text::START_t> const &)
+        {
+          if (starts_seen++ == 0)
+            device.drop_connection ();
+          return start_value ();
+        });
+  device.simulator ().on<lamp::lamp_text::STATUS_t> (
+      [&] (lumex::core::protocol::field::record<> const &)
+        {
+          if (statuses_seen++ == 0)
+            device.drop_connection ();
+          return status_value ();
+        });
+
   tr::stream::io_runner runner (1);
   ss::session_options_t session_options;
   session_options.name = "lamp";
@@ -131,13 +163,18 @@ reconnecting_client ()
           lamp::wire_t<lamp::lamp_text>::make_codec ())),
       options);
 
-  events_t reconnected;
   client.on_reconnect (
-      [&reconnected] (std::error_code const &error, pr::identity_t const &who)
+      [&] (std::error_code const &error, pr::identity_t const &who)
         {
           say (std::string ("  on_reconnect: ")
                + (error ? error.message () : "the device is checked") + ", "
                + who.model + " serial " + who.serial_number);
+          if (reconnect_count < 2)
+            {
+              reconnect_errors[reconnect_count] = error;
+              reconnect_models[reconnect_count] = who.model;
+            }
+          ++reconnect_count;
           reconnected.note ();
         });
 
@@ -145,24 +182,27 @@ reconnecting_client ()
   if (!first.has_value ())
     {
       say ("  identify failed: " + first.error ().message ());
+      client.close ();
       return false;
     }
   say ("  identified: " + first.value ().model + ", firmware "
        + std::to_string (first.value ().firmware));
 
-  // The device stops answering, then two requests wait for it: START may not
-  // be sent twice, STATUS may.
-  device.simulator ().set_behavior (tr::testing::behavior::silent ());
-  events_t ended;
-  std::error_code start_error;
-  std::error_code status_error;
-  std::string status_text;
+  // START may not be sent twice: the device drops the connection while it
+  // waits for the answer.
   client.START (1,
                 [&] (std::error_code error, start_value)
                   {
                     start_error = error;
                     ended.note ();
                   });
+  bool const start_ended
+      = ended.wait_for (1, ms (5000)) && reconnected.wait_for (1, ms (5000));
+  say (std::string ("  START (1), in flight when the device reset the "
+                    "connection: ")
+       + (start_ended ? start_error.message () : "did not end"));
+
+  // STATUS may be sent twice: the same, and it goes out again.
   client.STATUS (
       [&] (std::error_code error, status_value value)
         {
@@ -171,28 +211,31 @@ reconnecting_client ()
             status_text = lamp::show_status<lamp::lamp_text> (value);
           ended.note ();
         });
-  // START is on the wire (it waits for an answer); STATUS is queued behind it.
-  std::this_thread::sleep_for (ms (40));
-
-  say ("  the device resets the connection");
-  device.simulator ().set_behavior (tr::testing::behavior::perfect ());
-  device.drop_connection ();
-
-  if (!ended.wait_for (2, ms (5000)) || !reconnected.wait_for (1, ms (5000)))
-    {
-      say ("  the calls did not end");
-      return false;
-    }
-  say (std::string ("  START (1), in flight: ") + start_error.message ());
-  say (std::string ("  STATUS (), waited and was sent again: ")
-       + (status_error ? status_error.message () : status_text));
+  bool const status_ended
+      = ended.wait_for (2, ms (5000)) && reconnected.wait_for (2, ms (5000));
+  say (std::string ("  STATUS (), in flight when it reset again, sent "
+                    "again: ")
+       + (status_ended ? (status_error ? status_error.message () : status_text)
+                       : "did not end"));
   pr::dialogue_statistics_t const stats = client.statistics ();
+  tr::testing::simulator_statistics_t const seen
+      = device.simulator ().statistics ();
   say ("  client counters: reconnects " + std::to_string (stats.reconnects)
-       + ", requests " + std::to_string (stats.requests));
+       + ", requests " + std::to_string (stats.requests)
+       + "; the device was asked START " + std::to_string (starts_seen.load ())
+       + " time(s), STATUS " + std::to_string (statuses_seen.load ())
+       + " time(s), WHO " + std::to_string (seen.requests_of ("WHO"))
+       + " time(s)");
   client.close ();
   session.close ();
-  return start_error == protocol_errc::link_lost && !status_error
-         && stats.reconnects == 1;
+  // Three WHO: the first identify () and one check per new connection.
+  return start_ended && status_ended && start_error == protocol_errc::link_lost
+         && !status_error && !status_text.empty () && starts_seen.load () == 1
+         && statuses_seen.load () == 2 && stats.reconnects == 2
+         && reconnect_count == 2 && !reconnect_errors[0]
+         && !reconnect_errors[1] && reconnect_models[0] == "StageLamp-3"
+         && reconnect_models[1] == "StageLamp-3"
+         && seen.requests_of ("WHO") == 3;
 }
 
 // How a candidate speaks: the text form over a stream. The wire of a candidate

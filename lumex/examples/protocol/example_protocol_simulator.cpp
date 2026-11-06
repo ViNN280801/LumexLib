@@ -266,7 +266,7 @@ state_and_refusals ()
   bench.run_until ([first] () { return first->done; });
   std::cout << "  START (1) in state off -> "
             << (first->error ? first->error.message () : "accepted") << '\n';
-  bench.device->set_state (1);
+  bench.device->set_state (lamp::state_code (lamp::state::on));
   std::shared_ptr<outcome_t<start_value>> const second
       = std::make_shared<outcome_t<start_value>> ();
   bench.client->START (2, into<start_value> (second));
@@ -287,7 +287,7 @@ state_and_refusals ()
             << (own->error ? own->error.message () : "accepted")
             << "  (refused by the client, nothing was sent)\n";
   // A row can also be refused by order, whatever the state.
-  bench.device->set_state (0);
+  bench.device->set_state (lamp::state_code (lamp::state::off));
   ask_status (bench);
   bench.device->refuse<lamp::lamp_text::START_t> ();
   std::shared_ptr<outcome_t<start_value>> const third

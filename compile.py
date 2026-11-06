@@ -887,15 +887,23 @@ def _discover_compilers() -> Tuple[List[str], List[str]]:
 
 
 def _split_extra_cmake_args(raw: Optional[str]) -> List[str]:
-    """Split --cmake-args value into tokens; strip stray quotes from PowerShell."""
+    """Split --cmake-args value into tokens; strip stray quotes from PowerShell.
+
+    Tokens are separated by ';' and ':'. The colon of a Windows drive letter
+    (D:/dir, D:\\dir: one letter at the start of a token or after '=') is part
+    of the path, not a separator."""
     if not raw:
         return []
-    normalized = raw.replace(";", os_pathsep).replace(":", os_pathsep)
-    return [
-        token.strip().strip('"').strip("'")
+    drive = "\0"
+    protected = re_sub(
+        r"(^|[=;:\"'\s])([A-Za-z]):(?=[/\\])", lambda m: m.group(1) + m.group(2) + drive, raw
+    )
+    normalized = protected.replace(";", os_pathsep).replace(":", os_pathsep)
+    tokens = [
+        token.replace(drive, ":").strip().strip('"').strip("'")
         for token in normalized.split(os_pathsep)
-        if token.strip().strip('"').strip("'")
     ]
+    return [token for token in tokens if token]
 
 
 class ArchitectureDetector:

@@ -55,6 +55,7 @@ class LumexLibConan(ConanFile):
         "CMakeLists.txt",
         "LICENSE",
         "THIRD-PARTY-NOTICES.md",
+        "VERSIONING.md",
         "Doxyfile.in",
         "cmake/*",
         "CMakeRoutines/*",

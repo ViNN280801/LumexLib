@@ -19,6 +19,7 @@
 #include <utility>
 #include <vector>
 
+#include "example_protocol_check.hpp"
 #include "example_protocol_lamp.hpp"
 #include "example_protocol_loopback.hpp"
 
@@ -40,32 +41,44 @@ print_record (tr::log::log_record_t const &record)
 }
 
 // What the simulated lamp remembers between two requests: the brightness it
-// was given and whether a channel runs. The simulator calls these handlers on
-// the thread of the device; the main thread only reads the replies.
+// was given and whether a channel runs. The simulator calls the handlers on
+// the thread of the device; the main thread only reads the replies. The
+// handlers share the model, so it lives as long as the simulator that holds
+// them, however the caller's scopes end.
 template <typename P> class lamp_model_t
 {
 public:
   explicit lamp_model_t (loopback::device_t<P> &device)
       : device_ (device), level_raw_ (0)
   {
+  }
+
+  // Tells the device who it is and how it answers.
+  static void
+  install (loopback::device_t<P> &device)
+  {
+    std::shared_ptr<lamp_model_t> const model
+        = std::make_shared<lamp_model_t> (device);
     // Who the device is: StageLamp-3, firmware 12, serial 4711.
-    device_.simulator ().template set_reply<typename P::WHO_t> (
+    device.simulator ().template set_reply<typename P::WHO_t> (
         lamp::who_reply<P> (3, 12, 4711));
-    device_.simulator ().template on<typename P::STATUS_t> (
-        [this] (field::record<> const &) { return status (); });
-    device_.simulator ().template on<typename P::SET_LEVEL_t> (
-        [this] (typename tr::testing::device_simulator<P>::template request_of<
+    device.simulator ().template on<typename P::STATUS_t> (
+        [model] (field::record<> const &) { return model->status (); });
+    device.simulator ().template on<typename P::SET_LEVEL_t> (
+        [model] (
+            typename tr::testing::device_simulator<P>::template request_of<
                 typename P::SET_LEVEL_t> const &request)
           {
-            level_raw_ = field::get<0> (request).raw;
-            return status ();
+            model->level_raw_ = field::get<0> (request).raw;
+            return model->status ();
           });
     // A started channel runs: the state decides what the device accepts.
-    device_.simulator ().template on<typename P::START_t> (
-        [this] (typename tr::testing::device_simulator<P>::template request_of<
-                typename P::START_t> const &request)
+    device.simulator ().template on<typename P::START_t> (
+        [model] (typename tr::testing::device_simulator<
+                 P>::template request_of<typename P::START_t> const &request)
           {
-            device_.simulator ().set_state (1);
+            model->device_.simulator ().set_state (
+                lamp::state_code (lamp::state::on));
             pr::reply_of<typename P::START_t> started;
             field::get<0> (started) = field::get<0> (request);
             return started;
@@ -77,9 +90,10 @@ private:
   status () const
   {
     pr::reply_of<typename P::STATUS_t> out;
-    field::get<0> (out) = device_.simulator ().state () == 1
-                              ? lamp::run_state::on
-                              : lamp::run_state::off;
+    field::get<0> (out)
+        = device_.simulator ().state () == lamp::state_code (lamp::state::on)
+              ? lamp::run_state::on
+              : lamp::run_state::off;
     field::get<1> (out).raw = level_raw_;
     field::get<2> (out) = 1500;
     return out;
@@ -97,7 +111,7 @@ talk (char const *title, loopback::device_t<P> &device,
       tr::stream::io_runner &runner)
 {
   std::cout << "=== " << title << " ===\n";
-  lamp_model_t<P> model (device);
+  lamp_model_t<P>::install (device);
 
   // The stream and the framing are the only places that know the wire.
   tr::net::tcp_options_t tcp_options;
@@ -125,6 +139,10 @@ talk (char const *title, loopback::device_t<P> &device,
       std::cout << "identify failed: " << who.error ().message () << '\n';
       return false;
     }
+  check::expect (
+      who.value ().model == "StageLamp-3" && who.value ().firmware == 12
+          && who.value ().serial_number == "4711",
+      "identify () reads the model, the firmware and the serial number");
   std::cout << "  model " << who.value ().model << ", firmware "
             << who.value ().firmware << ", serial "
             << who.value ().serial_number << ", layer " << who.value ().layer
@@ -139,12 +157,18 @@ talk (char const *title, loopback::device_t<P> &device,
     }
   std::cout << "  STATUS () -> " << lamp::show_status<P> (status.value ())
             << '\n';
+  check::expect (lamp::show_status<P> (status.value ())
+                     == "state off, brightness 0.0 %, 1500 h lit",
+                 "STATUS of an idle lamp");
   // An argument is the engineering value of its field (tenths on the wire).
   pr::call_result_t<typename P::SET_LEVEL_t> const level
       = client.SET_LEVEL (62.5, tr::deadline_t (500));
   std::cout << "  SET_LEVEL (62.5, deadline 500 ms) -> "
             << (level.has_value () ? "accepted" : level.error ().message ())
             << '\n';
+  check::expect (
+      level.has_value () && field::get<1> (level.value ()).raw == 625,
+      "SET_LEVEL (62.5) is accepted and the device holds 625 tenths");
   pr::call_result_t<typename P::START_t> const started = client.START (1);
   std::cout << "  START (1) -> "
             << (started.has_value ()
@@ -154,11 +178,20 @@ talk (char const *title, loopback::device_t<P> &device,
                     : started.error ().message ())
             << '\n';
 
+  check::expect (started.has_value ()
+                     && int (field::get<0> (started.value ())) == 1,
+                 "START (1) starts channel 1");
+
   std::cout << "--- the channel runs now, so START again is refused (NAK)\n";
   pr::call_result_t<typename P::START_t> const again = client.START (2);
   std::cout << "  START (2) -> "
             << (again.has_value () ? "accepted" : again.error ().message ())
             << '\n';
+  check::expect (
+      !again.has_value ()
+          && again.error ()
+                 == lumex::core::protocol::error::protocol_errc::nak,
+      "START (2) in a running channel ends with protocol_errc::nak");
 
   std::cout << "--- asynchronous calls: a callback and a future\n";
   std::promise<std::string> reported;
@@ -169,17 +202,23 @@ talk (char const *title, loopback::device_t<P> &device,
           reported.set_value (error ? error.message ()
                                     : lamp::show_status<P> (value));
         });
-  std::cout << "  callback: " << reported.get_future ().get () << '\n';
+  std::string const by_callback = reported.get_future ().get ();
+  std::cout << "  callback: " << by_callback << '\n';
+  check::expect (by_callback == "state on, brightness 62.5 %, 1500 h lit",
+                 "the callback gets the status of the running lamp");
   try
     {
       std::future<pr::reply_of<typename P::STATUS_t>> later
           = client.STATUS (asio::use_future);
-      std::cout << "  future:   " << lamp::show_status<P> (later.get ())
-                << '\n';
+      std::string const by_future = lamp::show_status<P> (later.get ());
+      std::cout << "  future:   " << by_future << '\n';
+      check::expect (by_future == "state on, brightness 62.5 %, 1500 h lit",
+                     "the future gets the status of the running lamp");
     }
   catch (std::system_error const &error)
     {
       std::cout << "  future failed: " << error.code ().message () << '\n';
+      check::expect (false, "the future holds a reply");
     }
 
   std::cout << "--- a lost reply: the client asks again (retries (2) of "
@@ -197,6 +236,11 @@ talk (char const *title, loopback::device_t<P> &device,
             << "\n  requests written " << after.requests - before.requests
             << ", timeouts " << after.timeouts - before.timeouts
             << ", retries " << after.retries - before.retries << '\n';
+  check::expect (
+      retried.has_value () && after.retries - before.retries == 1
+          && after.timeouts - before.timeouts == 1
+          && after.requests - before.requests == 2,
+      "the lost reply costs one timeout and one retry (two requests)");
 
   std::cout << "--- a dangerous row: the first argument is confirm\n";
   // client.ERASE_LOG (3) does not compile: a row marked dangerous asks for
@@ -206,6 +250,7 @@ talk (char const *title, loopback::device_t<P> &device,
   std::cout << "  ERASE_LOG (confirm, 3) -> "
             << (erased.has_value () ? "done" : erased.error ().message ())
             << '\n';
+  check::expect (erased.has_value (), "ERASE_LOG (confirm, 3) is done");
 
   std::cout << "--- the counters\n";
   pr::dialogue_statistics_t const total = client.statistics ();
@@ -219,9 +264,12 @@ talk (char const *title, loopback::device_t<P> &device,
             << seen.replies << ", refused " << seen.refused
             << ", START requested " << seen.requests_of ("START") << " time(s)"
             << '\n';
+  check::expect (total.naks == 1 && total.retries == 1,
+                 "the client counted one NAK and one retry");
+  check::expect (seen.requests_of ("START") == 2 && seen.refused == 1,
+                 "the device was asked START twice and refused once");
   client.close ();
-  return retried.has_value () && total.retries == before.retries + 1
-         && again.has_value () == false;
+  return true;
 }
 } // namespace
 
@@ -255,7 +303,7 @@ main ()
                                   runner)
          && ok;
   }
-  return ok ? 0 : 1;
+  return ok && check::exit_code () == 0 ? 0 : 1;
 }
 #else
 int

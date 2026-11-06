@@ -361,12 +361,30 @@ if [[ "${NO_PACKAGE}" -eq 0 ]]; then
       || die "rpm needs 'rpmbuild': install the package 'rpm' (sudo apt install rpm) or drop rpm from --formats"
   fi
 fi
+# A tag older than the documentation in the package has no option to put it
+# there: its packages are built as they were released, and the run says so. The
+# probe reads the tag with git and comes first, so that such a tag needs no
+# Doxygen.
+if [[ "${DOCS}" -eq 1 && "${NO_PACKAGE}" -eq 0 && -n "${TAG_ARG}" ]]; then
+  git -C "${REPO_ROOT}" rev-parse --verify --quiet "refs/tags/${TAG_ARG}^{commit}" >/dev/null \
+    || die "tag '${TAG_ARG}' is not in this repository; fetch it first (git fetch --tags)"
+  options_text="$(git -C "${REPO_ROOT}" show "refs/tags/${TAG_ARG}:cmake/LumexOptions.cmake" 2>/dev/null || true)"
+  if ! grep -q 'LUMEX_DOCUMENTATION_PREBUILT_DIR' <<<"${options_text}"; then
+    warn "tag ${TAG_ARG} cannot install a finished documentation (no LUMEX_DOCUMENTATION_PREBUILT_DIR in its CMake files): its packages are built without share/doc"
+    DOCS=0
+  fi
+fi
 # The documentation of the packages: Doxygen is looked for before the first
-# build, so that a run of hours does not end in packages without it.
+# build, so that a run of hours does not end in packages without it. A relative
+# --doxygen path is made absolute: the builds run in other directories.
 DOXYGEN_EXE=""
 if [[ "${NO_PACKAGE}" -eq 0 && "${DOCS}" -eq 1 ]]; then
   if [[ -n "${DOXYGEN_ARG}" ]]; then
-    DOXYGEN_EXE="${DOXYGEN_ARG}"
+    if [[ "${DOXYGEN_ARG}" == */* ]]; then
+      DOXYGEN_EXE="$(realpath -m "${DOXYGEN_ARG}")"
+    else
+      DOXYGEN_EXE="$(command -v "${DOXYGEN_ARG}" || true)"
+    fi
   else
     DOXYGEN_EXE="$(command -v doxygen || true)"
   fi
@@ -433,15 +451,6 @@ if [[ -n "${VERSION_ARG}" && "${VERSION_ARG}" != "${CMAKE_VERSION_FOUND}" ]]; th
   warn "--version ${VERSION_ARG} differs from CMakeLists.txt (${CMAKE_VERSION_FOUND}); the libraries keep ${CMAKE_VERSION_FOUND}"
 fi
 
-# A tag older than the documentation in the package has no option to put it
-# there: its packages are built as they were released, and the run says so.
-if [[ "${DOCS}" -eq 1 && "${NO_PACKAGE}" -eq 0 && -n "${TAG_ARG}" ]]; then
-  options_text="$(tree_file_text cmake/LumexOptions.cmake 2>/dev/null || true)"
-  if ! grep -q 'LUMEX_DOCUMENTATION_PREBUILT_DIR' <<<"${options_text}"; then
-    warn "tag ${TAG_ARG} cannot install a finished documentation (no LUMEX_DOCUMENTATION_PREBUILT_DIR in its CMake files): its packages are built without share/doc"
-    DOCS=0
-  fi
-fi
 DOCS_IN_PACKAGE=0
 [[ "${DOCS}" -eq 1 && "${NO_PACKAGE}" -eq 0 ]] && DOCS_IN_PACKAGE=1
 

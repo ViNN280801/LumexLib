@@ -30,6 +30,7 @@ lumex_example_executable(
   LINK lumex::framing
   REQUIRE_TARGET lumex::framing
   CXX_STANDARD 11
+  TEST_TIMEOUT 60
 )
 lumex_example_executable(
   NAME LumexFramingExampleStages
@@ -37,4 +38,5 @@ lumex_example_executable(
   LINK lumex::framing
   REQUIRE_TARGET lumex::framing
   CXX_STANDARD 11
+  TEST_TIMEOUT 60
 )

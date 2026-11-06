@@ -242,7 +242,8 @@ _lumex_require_no_path("${_lumex_prefix}/share/LumexLib/docs" "the old documenta
 if(LUMEX_INSTALL_CASE_PROFILE STREQUAL "all_modules")
     # The protocol examples carry their helper headers, and the udev rules stay
     # where the permission hint of the transport names them.
-    foreach(_header example_protocol_beacon.hpp example_protocol_lamp.hpp
+    foreach(_header example_protocol_beacon.hpp example_protocol_check.hpp
+            example_protocol_lamp.hpp
             example_protocol_loopback.hpp)
         _lumex_require_path("${_lumex_prefix}/share/examples/protocol/${_header}"
             "the helper header of the protocol examples")

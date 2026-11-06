@@ -15,6 +15,7 @@
 #include <string>
 #include <vector>
 
+#include "example_protocol_check.hpp"
 #include "lumex/core/protocol/LumexProtocol"
 
 namespace probe_hub
@@ -141,6 +142,20 @@ device_like_the_table ()
   return device;
 }
 
+using lumex::core::protocol::error::protocol_errc;
+
+// How many differences of one kind a report holds.
+std::size_t
+count_of (registry::verify_report_t const &report,
+          registry::mismatch_kind kind)
+{
+  std::size_t count = 0;
+  for (std::size_t i = 0; i < report.mismatches.size (); ++i)
+    if (report.mismatches[i].kind == kind)
+      ++count;
+  return count;
+}
+
 void
 print_report (registry::verify_report_t const &report)
 {
@@ -163,6 +178,16 @@ main ()
 
   std::cout << "--- 1. The registry is a table of the program\n";
   registry::entries_t const table = hub::probe::entries ();
+  check::expect (table.size () == 6, "the registry has six parameters");
+  check::expect (table.data ()[0].has_limits && table.data ()[0].lower == -10
+                     && table.data ()[0].upper == 10,
+                 "GAIN has the limits -10..10");
+  check::expect (table.data ()[4].has_firmware
+                     && table.data ()[4].firmware_from == 3
+                     && table.data ()[4].firmware_to == 9,
+                 "FILTER exists from firmware 3 to 9");
+  check::expect (std::string (table.data ()[5].specification_name) == "DELETE",
+                 "the platform macro DELETE is the name in the specification");
   for (std::size_t i = 0; i < table.size (); ++i)
     {
       registry::registry_entry_t const &entry = table.data ()[i];
@@ -193,6 +218,14 @@ main ()
             << "  "
             << built->describe (view_of (set_gain), index::frame_direction::tx)
             << '\n';
+  check::expect (
+      built->describe (view_of (set_gain), index::frame_direction::tx)
+          == "TX probe_hub_v1.SET_PARAMETER (Write a parameter) "
+             "parameter=GAIN value=2.5",
+      "describe () tells the write in the words of the table");
+  check::expect (hex (set_gain) == "20 10 19 00 00 00 ",
+                 "SET_PARAMETER (GAIN, 2.5): key 0x20, parameter 0x10, 25 in "
+                 "a 32-bit word");
 
   std::cout << "\n--- 3. The encoder checks what the entry says\n";
   layout::bytes_t out;
@@ -208,6 +241,12 @@ main ()
             << read_only.error ().message () << '\n';
   std::cout << "  nothing was written: " << (out.empty () ? "yes" : "NO")
             << '\n';
+  check::expect (!beyond && beyond.error () == protocol_errc::out_of_limits,
+                 "GAIN = 99 is protocol_errc::out_of_limits");
+  check::expect (!read_only
+                     && read_only.error () == protocol_errc::access_denied,
+                 "SERIAL = 5 is protocol_errc::access_denied");
+  check::expect (out.empty (), "a refused write leaves the buffer empty");
 
   std::cout
       << "\n--- 4. A reply carries the value of the parameter it names\n";
@@ -217,11 +256,20 @@ main ()
   std::cout << "  "
             << built->describe (view_of (reply), index::frame_direction::rx)
             << '\n';
+  check::expect (built->describe (view_of (reply), index::frame_direction::rx)
+                     == "RX probe_hub_v1.GET_PARAMETER (Read a parameter) "
+                        "parameter=TEMPERATURE value=21.34 degC",
+                 "describe () reads the value with the scale of TEMPERATURE");
 
   std::cout << "\n--- 5. verify_registry: the table against the device\n";
   std::cout << " a device that agrees:\n";
   device_t device = device_like_the_table ();
-  print_report (registry::verify_registry<hub::probe> (device));
+  registry::verify_report_t const agrees
+      = registry::verify_registry<hub::probe> (device);
+  print_report (agrees);
+  check::expect (agrees.ok () && agrees.compared == 6
+                     && agrees.device_entries == 6 && agrees.skipped.empty (),
+                 "a device like the table: six compared, no difference");
   // A device whose firmware differs: a wider gain, no digital filter, and a
   // parameter the table does not know.
   std::cout << " a device that differs:\n";
@@ -232,7 +280,19 @@ main ()
   extra.key = registry::make_index_key (0x7F);
   extra.name = "SPARE";
   device.entries.push_back (extra);
-  print_report (registry::verify_registry<hub::probe> (device));
+  registry::verify_report_t const differs
+      = registry::verify_registry<hub::probe> (device);
+  print_report (differs);
+  check::expect (
+      !differs.ok () && differs.mismatches.size () == 4
+          && count_of (differs, registry::mismatch_kind::limits) == 1
+          && count_of (differs, registry::mismatch_kind::name) == 1
+          && count_of (differs, registry::mismatch_kind::missing_in_device)
+                 == 1
+          && count_of (differs, registry::mismatch_kind::missing_in_table)
+                 == 1,
+      "four differences: limits, name, missing in the device, "
+      "missing in the table");
 
   std::cout << "\n--- 6. With the firmware of the device\n";
   // FILTER exists from firmware 3: an old device is not expected to report it.
@@ -240,7 +300,12 @@ main ()
   session.set_firmware (2);
   device_t old_device = device_like_the_table ();
   old_device.entries.erase (old_device.entries.begin () + 4);
-  print_report (
-      registry::verify_registry<hub::probe> (old_device, 65536, &session));
-  return 0;
+  registry::verify_report_t const old_report
+      = registry::verify_registry<hub::probe> (old_device, 65536, &session);
+  print_report (old_report);
+  check::expect (old_report.ok () && old_report.skipped.size () == 1
+                     && old_report.skipped[0] == "FILTER",
+                 "firmware 2 is not expected to report FILTER: left out, no "
+                 "difference");
+  return check::exit_code ();
 }

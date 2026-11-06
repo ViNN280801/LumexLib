@@ -78,8 +78,7 @@ decode_and_print (Codec &codec, bytes_t const &stream, std::size_t chunk,
   return tally;
 }
 
-// The stream a codec makes of the payloads, and the same stream with a
-// damaged byte.
+// The stream a codec makes of the payloads, one frame after another.
 template <typename Codec>
 bytes_t
 encode_all (Codec const &codec, std::vector<bytes_t> const &payloads)
@@ -107,13 +106,15 @@ main ()
             << "  on wire  " << hex (bytes_view_t (cobs_frame))
             << "(six bytes grew by two: the codes of the groups and the "
                "delimiter)\n";
+  ok = hex (bytes_view_t (cobs_frame)) == "02 11 01 03 22 33 01 00 " && ok;
   ok = decode_and_print (cobs, cobs_frame, cobs_frame.size ()).frames == 1
        && ok;
   // A code byte that points past the end of the frame is a damaged frame.
   bytes_t const cut = { 0x07, 0x11, 0x22, 0x00 };
   std::cout << "  a frame whose first code promises 6 bytes and has 2:\n";
   fr::cobs::cobs_codec cobs_cut;
-  decode_and_print (cobs_cut, cut, cut.size ());
+  tally_t const cut_tally = decode_and_print (cobs_cut, cut, cut.size ());
+  ok = cut_tally.frames == 0 && cut_tally.dropped == 1 && ok;
 
   std::cout << "\n--- 2. Length prefix: two bytes, big-endian, then the "
                "payload\n";
@@ -128,17 +129,24 @@ main ()
   bytes_t const stream = encode_all (prefix, payloads);
   std::cout << "  two frames on the wire: " << hex (bytes_view_t (stream))
             << '\n';
+  ok = hex (bytes_view_t (stream)) == "00 03 AA BB CC 00 01 01 " && ok;
   ok = decode_and_print (prefix, stream, stream.size ()).frames == 2 && ok;
   // The limit protects against a length that was damaged to a huge value.
   bytes_t const huge = { 0xFF, 0xF0, 1, 2, 3 };
   std::cout << "  a length of 65520 with max_frame_size 8:\n";
   fr::length::length_prefix_codec prefix_huge (prefix_options);
-  decode_and_print (prefix_huge, huge, huge.size ());
-  bytes_t too_big (9, 0x55);
+  tally_t const huge_tally
+      = decode_and_print (prefix_huge, huge, huge.size ());
+  ok = huge_tally.frames == 0 && huge_tally.dropped >= 1 && ok;
+  bytes_t const too_big (9, 0x55);
+  bytes_t refused_out;
   fr::codec::encode_result_t const refused
-      = prefix.encode (bytes_view_t (too_big), too_big);
+      = prefix.encode (bytes_view_t (too_big), refused_out);
   std::cout << "  encoding 9 bytes: " << refused.error ().message ()
             << " (the payload is never cut)\n";
+  ok = !refused
+       && refused.error () == fr::codec::framing_errc::payload_too_large
+       && refused_out.empty () && ok;
 
   std::cout << "\n--- 3. Header: preamble, length, command, data, CRC-16\n";
   // [C3 3C][length: 2 bytes, little-endian][command][data...][CRC-16/MODBUS,
@@ -169,8 +177,11 @@ main ()
   damaged[6] ^= 0x01;
   noisy.insert (noisy.end (), damaged.begin (), damaged.end ());
   noisy.insert (noisy.end (), header_frame.begin (), header_frame.end ());
+  ok = hex (bytes_view_t (header_frame)) == "C3 3C 03 00 05 10 20 30 E8 A3 "
+       && ok;
   std::cout << "  two noise bytes, a good frame, a damaged one, a good one:\n";
-  ok = decode_and_print (header, noisy, noisy.size ()).frames == 2 && ok;
+  tally_t const noisy_tally = decode_and_print (header, noisy, noisy.size ());
+  ok = noisy_tally.frames == 2 && noisy_tally.dropped == 1 && ok;
 
   std::cout << "\n--- 4. Modbus RTU: the length comes from the function "
                "code\n";
@@ -183,6 +194,8 @@ main ()
   modbus.encode (bytes_view_t (reply), modbus_frame);
   std::cout << "  reply on wire  " << hex (bytes_view_t (modbus_frame))
             << "(the CRC is the last two, low byte first)\n";
+  ok = hex (bytes_view_t (modbus_frame)) == "11 03 06 AE 41 56 52 43 40 49 AD "
+       && ok;
   ok = decode_and_print (modbus, modbus_frame, modbus_frame.size ()).frames
            == 1
        && ok;
@@ -197,7 +210,7 @@ main ()
   std::cout << "  a damaged reply and a good one in one stream: "
             << found.frames << " frame, " << found.dropped
             << " drops reported on the way\n";
-  ok = found.frames == 1 && ok;
+  ok = found.frames == 1 && found.dropped >= 1 && ok;
 
   std::cout << "\n--- 5. One byte at a time gives the same frames\n";
   fr::cobs::cobs_codec cobs_again;

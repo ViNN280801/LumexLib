@@ -87,3 +87,25 @@ _require_text("create_release.ps1" "-DLUMEX_BUILD_DOCUMENTATION=OFF")
 _require_text("create_release.ps1" "-DLUMEX_DOCUMENTATION_PREBUILT_DIR=")
 _require_text("create_release.ps1" "generate_documentation")
 _require_text("create_release.ps1" "pass -NoDocs to build the packages without the documentation")
+# The PowerShell script is not run here, so its order and its generator are
+# held by strings: the probe of an old tag (git show of the tag) comes before
+# the Doxygen check, the documentation is configured with the generator of the
+# builds, and a drive path of -DLUMEX_DOCUMENTATION_PREBUILT_DIR reaches
+# compile.py (its split of --cmake-args keeps the colon of a drive letter;
+# compile_script_cmake_args runs that).
+file(READ "${LUMEX_SOURCE_DIR}/create_release.ps1" _ps1)
+string(FIND "${_ps1}" "cmake/LumexOptions.cmake" _ps1_probe)
+string(FIND "${_ps1}" "Install Doxygen, name it with -Doxygen" _ps1_doxygen)
+if(_ps1_probe EQUAL -1 OR _ps1_doxygen EQUAL -1 OR _ps1_probe GREATER _ps1_doxygen)
+    message(FATAL_ERROR "create_release.ps1 must probe an old tag before it asks for Doxygen")
+endif()
+file(READ "${LUMEX_SOURCE_DIR}/create_release.sh" _sh)
+string(FIND "${_sh}" "cmake/LumexOptions.cmake" _sh_probe)
+string(FIND "${_sh}" "pass --no-docs to build the packages without the documentation" _sh_doxygen)
+if(_sh_probe EQUAL -1 OR _sh_doxygen EQUAL -1 OR _sh_probe GREATER _sh_doxygen)
+    message(FATAL_ERROR "create_release.sh must probe an old tag before it asks for Doxygen")
+endif()
+_require_text("create_release.ps1" "$docGenerator")
+_require_text("create_release.sh" "realpath -m \"\${DOXYGEN_ARG}\"")
+# Doxyfile.in reads VERSIONING.md, so the Conan package ships it.
+_require_text("conanfile.py" "\"VERSIONING.md\"")
