@@ -41,9 +41,12 @@
 #include <memory>
 #include <mutex>
 #include <string>
+#include <type_traits>
+#include <utility>
 #include <vector>
 
 #include "lumex/applied/settings/interface/ILumexSettings.hpp"
+#include "lumex/core/filesystem/LumexFilesystem"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
@@ -157,6 +160,33 @@ public:
                                std::string filename) LUMEX_NOEXCEPT;
 
   /**
+   * @brief Constructs a guard from a `lumex::path`.
+   * @details Delegates to the constructor above with `filename.native ()`. A
+   * constructor template that takes part in overload resolution only when the
+   * argument is exactly `lumex::path` (the decayed type is compared): a string
+   * literal and a `std::string` select the constructor above as before, and a
+   * type that merely converts to `lumex::path` stays ill-formed. The
+   * `lumex::path` form does not take a `std::filesystem::path`. On POSIX such
+   * a path still reaches the `std::string` form through its own conversion to
+   * `std::string`, as before; on Windows the call does not compile. Convert it
+   * with `lumex::path (std_path)`.
+   * @note `noexcept` like the constructor above; the file name is copied into
+   * the guard, so an allocation failure there ends the program.
+   * @tparam Path Deduced from the argument; only `lumex::path` is accepted.
+   * @param settings The `ILumexSettings` instance to guard; may be `nullptr`.
+   * @param filename The filesystem path this guard loads from, saves to, and
+   * backs up; `filename ()` returns its `std::string` form.
+   */
+  template <typename Path,
+            typename = typename std::enable_if<std::is_same<
+                typename std::decay<Path>::type, lumex::path>::value>::type>
+  explicit LumexSettingsGuard (std::shared_ptr<ILumexSettings> settings,
+                               Path const &filename) LUMEX_NOEXCEPT
+      : LumexSettingsGuard (std::move (settings), filename.native ())
+  {
+  }
+
+  /**
    * @brief Ensures the guarded file exists and is loadable; repairs it via
    * `createDefault` otherwise.
    * @details If `ILumexSettings::load(filename)` fails (file missing,
@@ -226,6 +256,33 @@ public:
    * otherwise.
    */
   static bool backup (std::string const &filename) LUMEX_NOEXCEPT;
+
+  /**
+   * @brief `backup` for a `lumex::path`.
+   * @details Forwards `filename.native ()` to `backup (std::string const
+   * &)`. A static member template that takes part in overload resolution only
+   * when the argument is exactly `lumex::path` (the decayed type is compared):
+   * `backup ("x.ini")` and `backup (std::string)` resolve as before, and a
+   * type that merely converts to `lumex::path` stays ill-formed. The
+   * `lumex::path` form does not take a `std::filesystem::path`. On POSIX such
+   * a path still reaches the `std::string` form through its own conversion to
+   * `std::string`, as before; on Windows the call does not compile. Convert it
+   * with `lumex::path (std_path)`.
+   * @note `noexcept` like the `std::string` form: `native ()` returns a
+   * reference to the string the path holds and copies nothing.
+   * @tparam Path Deduced from the argument; only `lumex::path` is accepted.
+   * @param filename The path to back up.
+   * @return `true` if the backup file was created successfully, `false`
+   * otherwise.
+   */
+  template <typename Path,
+            typename = typename std::enable_if<std::is_same<
+                typename std::decay<Path>::type, lumex::path>::value>::type>
+  static bool
+  backup (Path const &filename) LUMEX_NOEXCEPT
+  {
+    return backup (filename.native ());
+  }
 
   /// @return The guarded `ILumexSettings` instance (may be `nullptr` if
   /// constructed as such).

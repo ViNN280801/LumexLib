@@ -1,8 +1,11 @@
 // lumex/tests/applied/settings/xml/LumexSettingsXML.cxx11.tests.cpp
+#include <cstddef>
 #include <fstream>
 #include <iostream>
 #include <memory>
 #include <string>
+#include <type_traits>
+#include <utility>
 
 #if defined(__unix__) || defined(__linux__) || defined(__APPLE__)
 #include <sys/stat.h>
@@ -13,6 +16,7 @@
 #include "lumex/applied/settings/LumexSettings"
 #include "lumex/core/filesystem/LumexFilesystem"
 #include "lumex/core/utility/LumexUtility"
+#include "lumex/tests/support/LumexTestNarrowSkip.hpp"
 #include "lumex/tests/support/LumexTestUtf8Files.hpp"
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -241,6 +245,39 @@ TEST_F (LumexSettingsXMLTest,
   EXPECT_EQ (flow, "1.5");
 }
 
+TEST_F (LumexSettingsXMLTest,
+        GivenCyrillicPathWithSpace_WhenIsXmlValidByPath_ThenTheFileIsRead)
+{
+  LUMEX_TEST_SKIP_WITHOUT_NARROW_UTF8_NAMES ();
+  namespace files = lumex_test::utf8_files;
+  lumex::path const directory = _test_dir / files::cyrillic (" dir name");
+  ASSERT_TRUE (files::make_directory (directory.string ()));
+  lumex::path const file = directory / files::cyrillic (" file.xml");
+  lumex::path const broken = directory / files::cyrillic (" broken.xml");
+  ASSERT_TRUE (files::write_file (
+      file.string (), "<settings><pump><flow>1.5</flow></pump></settings>"));
+  ASSERT_TRUE (files::write_file (broken.string (), "<settings><pump>"));
+
+  bool const by_path = LumexSettingsXML::is_xml_valid (file);
+  bool const by_string = LumexSettingsXML::is_xml_valid (file.string ());
+  bool const broken_by_path = LumexSettingsXML::is_xml_valid (broken);
+  files::remove_file (file.string ());
+  files::remove_file (broken.string ());
+  files::remove_directory (directory.string ());
+
+  EXPECT_TRUE (by_path);
+  EXPECT_TRUE (by_string);
+  EXPECT_FALSE (broken_by_path);
+}
+
+TEST_F (LumexSettingsXMLTest,
+        GivenMissingFileAndDirectory_WhenIsXmlValidByPath_ThenReturnsFalse)
+{
+  EXPECT_FALSE (LumexSettingsXML::is_xml_valid (_test_file));
+  EXPECT_FALSE (LumexSettingsXML::is_xml_valid (_test_dir));
+  EXPECT_FALSE (LumexSettingsXML::is_xml_valid (lumex::path ()));
+}
+
 TEST_F (LumexSettingsXMLTest, GivenMissingFile_WhenIsXmlValid_ThenReturnsFalse)
 {
   EXPECT_FALSE (LumexSettingsXML::is_xml_valid (_test_file.string ()));
@@ -387,3 +424,46 @@ TEST_F (LumexSettingsXMLTest, GivenFactoryXml_WhenSaveLoad_ThenWorks)
 }
 
 #endif // defined(LUMEX_SETTINGS_WITH_XML)
+
+namespace
+{
+// True when `LumexSettingsXML::is_xml_valid (argument)` is well-formed and
+// unambiguous for an argument of type `Arg`.
+template <typename Arg> struct can_check_xml_t
+{
+private:
+  template <typename A>
+  static auto probe (int)
+      -> decltype (LumexSettingsXML::is_xml_valid (std::declval<A> ()),
+                   std::true_type ());
+  template <typename A> static std::false_type probe (...);
+
+public:
+  static constexpr bool value = decltype (probe<Arg> (0))::value;
+};
+
+// A type that converts to lumex::path but is not lumex::path.
+struct xml_convertible_to_path_t
+{
+  operator lumex::path () const; // declared only: never called
+};
+} // namespace
+
+TEST (LumexSettingsXMLPathForm,
+      GivenEveryArgument_WhenIsValid_ThenOnlyTheDocumentedFormsAreWellFormed)
+{
+  static_assert (can_check_xml_t<char const (&)[6]>::value, "literal");
+  static_assert (can_check_xml_t<char const *>::value, "char const *");
+  static_assert (can_check_xml_t<std::nullptr_t>::value, "nullptr");
+  static_assert (can_check_xml_t<std::string>::value, "std::string");
+  static_assert (can_check_xml_t<std::string const &>::value,
+                 "std::string const &");
+  static_assert (can_check_xml_t<lumex::path>::value, "lumex::path");
+  static_assert (can_check_xml_t<lumex::path &>::value, "lumex::path &");
+  static_assert (can_check_xml_t<lumex::path const &>::value,
+                 "lumex::path const &");
+  static_assert (!can_check_xml_t<xml_convertible_to_path_t>::value,
+                 "a type convertible to lumex::path selects no overload");
+  static_assert (!can_check_xml_t<int>::value, "int");
+  SUCCEED ();
+}

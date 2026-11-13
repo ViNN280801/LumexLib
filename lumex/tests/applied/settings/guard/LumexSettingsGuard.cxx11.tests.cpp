@@ -1,17 +1,22 @@
 // lumex/tests/applied/settings/guard/LumexSettingsGuard.cxx11.tests.cpp
 #include <fstream>
+#include <functional>
 #include <iostream>
 #include <memory>
 #include <sstream>
 #include <stdexcept>
 #include <string>
+#include <type_traits>
 #include <unordered_map>
+#include <utility>
 #include <vector>
 
 #include <gtest/gtest.h>
 
 #include "lumex/applied/settings/LumexSettings"
 #include "lumex/core/filesystem/LumexFilesystem"
+#include "lumex/tests/support/LumexTestNarrowSkip.hpp"
+#include "lumex/tests/support/LumexTestUtf8Files.hpp"
 
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -53,6 +58,99 @@ char const *const ADD_ERROR = "fake add failure";
 
 // Path every FakeLumexSettings-based guard below is constructed with.
 char const *const FAKE_FILE = "file.ini";
+
+// True when `LumexSettingsGuard::backup (argument)` is well-formed and
+// unambiguous for an argument of type `Arg`.
+template <typename Arg> struct can_back_up_t
+{
+private:
+  template <typename A>
+  static auto probe (int)
+      -> decltype (LumexSettingsGuard::backup (std::declval<A> ()),
+                   std::true_type ());
+  template <typename A> static std::false_type probe (...);
+
+public:
+  static constexpr bool value = decltype (probe<Arg> (0))::value;
+};
+
+// A type that converts to lumex::path but is not lumex::path.
+struct convertible_to_path_t
+{
+  operator lumex::path () const; // declared only: never called
+};
+
+struct derived_path_t : lumex::path
+{
+};
+
+// True when `LumexSettingsGuard (settings, argument)` is well-formed and
+// unambiguous for an argument of type `Arg`.
+template <typename Arg> struct can_construct_guard_t
+{
+private:
+  template <typename A>
+  static auto probe (int)
+      -> decltype (LumexSettingsGuard (
+                       std::declval<std::shared_ptr<ILumexSettings>> (),
+                       std::declval<A> ()),
+                   std::true_type ());
+  template <typename A> static std::false_type probe (...);
+
+public:
+  static constexpr bool value = decltype (probe<Arg> (0))::value;
+};
+
+// True when a `LumexSettingsGuard const &` can be bound to the copy-list
+// initialization `{settings, argument}`, which an explicit constructor
+// refuses.
+void take_guard_reference (LumexSettingsGuard const &);
+
+template <typename Arg> struct can_copy_list_initialize_guard_t
+{
+private:
+  template <typename A>
+  static auto probe (int)
+      -> decltype (take_guard_reference (
+                       { std::declval<std::shared_ptr<ILumexSettings>> (),
+                         std::declval<A> () }),
+                   std::true_type ());
+  template <typename A> static std::false_type probe (...);
+
+public:
+  static constexpr bool value = decltype (probe<Arg> (0))::value;
+};
+
+// True when the address of `LumexSettingsGuard::backup` can be passed to a
+// function template that deduces its type.
+template <typename F> void take_by_deduction (F);
+
+template <typename Guard> struct can_deduce_backup_address_t
+{
+private:
+  template <typename G>
+  static auto probe (int)
+      -> decltype (take_by_deduction (&G::backup), std::true_type ());
+  template <typename G> static std::false_type probe (...);
+
+public:
+  static constexpr bool value = decltype (probe<Guard> (0))::value;
+};
+
+// True when a `std::function<bool (std::string const &)>` can be made from the
+// address of `LumexSettingsGuard::backup`.
+template <typename Guard> struct can_make_backup_function_t
+{
+private:
+  template <typename G>
+  static auto probe (int)
+      -> decltype (std::function<bool (std::string const &)> (&G::backup),
+                   std::true_type ());
+  template <typename G> static std::false_type probe (...);
+
+public:
+  static constexpr bool value = decltype (probe<Guard> (0))::value;
+};
 
 // Thrown by FakeLumexSettings when an exception that does not derive from
 // std::exception is requested.
@@ -486,6 +584,218 @@ TEST_F (LumexSettingsGuardFileTest,
                              std::istreambuf_iterator<char> ());
   original.close ();
   EXPECT_EQ (content, "[section]\nkey=value\n");
+}
+
+// --- backup (lumex::path) ---
+// ----------------------------------------------------
+
+TEST (LumexSettingsGuardPathForm,
+      GivenEveryArgument_WhenBackup_ThenOnlyTheDocumentedFormsAreWellFormed)
+{
+  static_assert (can_back_up_t<char const (&)[6]>::value, "literal");
+  static_assert (can_back_up_t<char const *>::value, "char const *");
+  static_assert (can_back_up_t<std::string>::value, "std::string");
+  static_assert (can_back_up_t<std::string const &>::value,
+                 "std::string const &");
+  static_assert (can_back_up_t<lumex::path>::value, "lumex::path");
+  static_assert (can_back_up_t<lumex::path &>::value, "lumex::path &");
+  static_assert (can_back_up_t<lumex::path const &>::value,
+                 "lumex::path const &");
+  static_assert (!can_back_up_t<convertible_to_path_t>::value,
+                 "a type convertible to lumex::path selects no overload");
+  static_assert (!can_back_up_t<int>::value, "int");
+
+  // Both forms are noexcept: the path form forwards a reference.
+  static_assert (noexcept (LumexSettingsGuard::backup (std::string ())),
+                 "the string form is noexcept");
+  static_assert (noexcept (LumexSettingsGuard::backup (lumex::path ())),
+                 "the path form is noexcept like the string form");
+  SUCCEED ();
+}
+
+TEST_F (LumexSettingsGuardFileTest,
+        GivenNonExistentFileAndDirectory_WhenBackupByPath_ThenReturnsFalse)
+{
+  EXPECT_FALSE (LumexSettingsGuard::backup (_test_dir / "does_not_exist.ini"));
+  EXPECT_FALSE (LumexSettingsGuard::backup (_test_dir));
+  EXPECT_FALSE (LumexSettingsGuard::backup (lumex::path ()));
+  EXPECT_FALSE (has_backup_of (_test_dir / "does_not_exist.ini"));
+}
+
+TEST_F (LumexSettingsGuardFileTest,
+        GivenExistingFile_WhenBackupByPath_ThenCreatesCopyWithSameContent)
+{
+  create_test_file (_test_file, "[section]\nkey=value\n");
+
+  EXPECT_TRUE (LumexSettingsGuard::backup (_test_file));
+  EXPECT_TRUE (has_backup_of (_test_file));
+
+  std::ifstream original (_test_file.string ());
+  std::string const content ((std::istreambuf_iterator<char> (original)),
+                             std::istreambuf_iterator<char> ());
+  original.close ();
+  EXPECT_EQ (content, "[section]\nkey=value\n");
+}
+
+TEST_F (LumexSettingsGuardFileTest,
+        GivenCyrillicPathWithSpace_WhenBackupByPath_ThenCopyIsNextToTheFile)
+{
+  LUMEX_TEST_SKIP_WITHOUT_NARROW_UTF8_NAMES ();
+  namespace files = lumex_test::utf8_files;
+  lumex::path const directory = _test_dir / files::cyrillic (" dir name");
+  ASSERT_TRUE (files::make_directory (directory.string ()));
+  lumex::path const file = directory / files::cyrillic (" file.ini");
+  ASSERT_TRUE (files::write_file (file.string (), "[section]\nkey=value\n"));
+
+  EXPECT_TRUE (LumexSettingsGuard::backup (file));
+
+  // The copy is a sibling named "<file>.bak.<stamp>" with the same bytes.
+  auto listing
+      = lumex::core::filesystem::fs::lumex_filesystem::directory_paths (
+          directory);
+  ASSERT_TRUE (listing.success ());
+  std::string const prefix = file.filename ().string () + ".bak.";
+  std::string copy;
+  for (auto const &entry : listing.value ())
+    if (entry.filename ().string ().rfind (prefix, 0) == 0)
+      copy = entry.string ();
+  ASSERT_FALSE (copy.empty ());
+  std::string content;
+  ASSERT_TRUE (files::read_file (copy, content));
+  EXPECT_EQ (content, "[section]\nkey=value\n");
+}
+
+// --- backup address and constructor (lumex::path) ---
+
+TEST (LumexSettingsGuardPathForm,
+      GivenOverloadedBackup_WhenAddressTakenWithTargetType_ThenStillWorks)
+{
+  bool (*typed) (std::string const &) = &LumexSettingsGuard::backup;
+  bool (*cast) (std::string const &)
+      = static_cast<bool (*) (std::string const &)> (
+          &LumexSettingsGuard::backup);
+
+  ASSERT_NE (typed, nullptr);
+  ASSERT_NE (cast, nullptr);
+  EXPECT_FALSE (typed ("does_not_exist_for_typed_pointer.ini"));
+  EXPECT_FALSE (cast ("does_not_exist_for_cast.ini"));
+}
+
+TEST (LumexSettingsGuardPathForm,
+      GivenOverloadedBackup_WhenAddressTakenByDeduction_ThenIllFormed)
+{
+  // The source break of the member template, documented: a deduced type
+  // (`auto pf = &LumexSettingsGuard::backup;`, `std::function`, `std::bind`)
+  // no longer compiles; a target type or a `static_cast` does.
+  static_assert (!can_deduce_backup_address_t<LumexSettingsGuard>::value,
+                 "the address of backup is overloaded now");
+  static_assert (!can_make_backup_function_t<LumexSettingsGuard>::value,
+                 "a std::function from the address of backup needs a type");
+  SUCCEED ();
+}
+
+TEST (
+    LumexSettingsGuardPathForm,
+    GivenEveryArgument_WhenConstructed_ThenOnlyTheDocumentedFormsAreWellFormed)
+{
+  static_assert (can_construct_guard_t<char const (&)[6]>::value, "literal");
+  static_assert (can_construct_guard_t<char const *>::value, "char const *");
+  static_assert (can_construct_guard_t<std::string>::value, "std::string");
+  static_assert (can_construct_guard_t<std::string const &>::value,
+                 "std::string const &");
+  static_assert (can_construct_guard_t<lumex::path>::value, "lumex::path");
+  static_assert (can_construct_guard_t<lumex::path &>::value, "lumex::path &");
+  static_assert (can_construct_guard_t<lumex::path const &>::value,
+                 "lumex::path const &");
+  static_assert (!can_construct_guard_t<convertible_to_path_t>::value,
+                 "a type convertible to lumex::path selects no overload");
+  static_assert (!can_construct_guard_t<derived_path_t>::value,
+                 "a class derived from lumex::path is not lumex::path");
+  static_assert (!can_construct_guard_t<int>::value, "int");
+
+  // The constructor stays explicit, for the path form as for the string one.
+  static_assert (!can_copy_list_initialize_guard_t<std::string>::value,
+                 "the string constructor is explicit");
+  static_assert (!can_copy_list_initialize_guard_t<lumex::path>::value,
+                 "the path constructor is explicit");
+
+  // Both forms are noexcept: the path form delegates with a reference.
+  static_assert (noexcept (LumexSettingsGuard (
+                     std::shared_ptr<ILumexSettings> (), std::string ())),
+                 "the string constructor is noexcept");
+  static_assert (noexcept (LumexSettingsGuard (
+                     std::shared_ptr<ILumexSettings> (), lumex::path ())),
+                 "the path constructor is noexcept like the string one");
+  static_assert (
+      std::is_same<
+          decltype (std::declval<LumexSettingsGuard const &> ().filename ()),
+          std::string const &>::value,
+      "filename () stays a std::string");
+  SUCCEED ();
+}
+
+TEST_F (LumexSettingsGuardFileTest,
+        GivenGuardBuiltFromPath_WhenAccessors_ThenSameAsTheStringForm)
+{
+  auto ini = std::make_shared<LumexSettingsINI> ();
+  LumexSettingsGuard from_path (ini, _test_file);
+  LumexSettingsGuard from_string (ini, _test_file.string ());
+
+  EXPECT_EQ (from_path.filename (), from_string.filename ());
+  EXPECT_EQ (from_path.filename (), _test_file.string ());
+  EXPECT_EQ (from_path.settings (), ini);
+
+  LumexSettingsGuard null_settings (nullptr, _test_file);
+  EXPECT_EQ (null_settings.settings (), nullptr);
+  EXPECT_FALSE (
+      null_settings.ensure_exists_with_defaults ([] () { return true; }));
+}
+
+TEST_F (
+    LumexSettingsGuardFileTest,
+    GivenCorruptFile_WhenGuardFromPathEnsuresExists_ThenBacksUpAndRecreates)
+{
+  create_test_file (_test_file, "[section\nkey=value\n");
+
+  auto ini = std::make_shared<LumexSettingsINI> ();
+  LumexSettingsGuard guard (ini, _test_file);
+  lumex::path const target = _test_file;
+  bool const result = guard.ensure_exists_with_defaults (
+      [ini, target] ()
+        {
+          ini->add ("section", "key", "value");
+          return ini->save (target);
+        });
+
+  EXPECT_TRUE (result);
+  EXPECT_EQ (ini->get ("section", "key"), "value");
+  EXPECT_TRUE (has_backup_of (_test_file));
+}
+
+TEST_F (LumexSettingsGuardFileTest,
+        GivenCyrillicPathWithSpace_WhenGuardFromPath_ThenGuardsThatFile)
+{
+  LUMEX_TEST_SKIP_WITHOUT_NARROW_UTF8_NAMES ();
+  namespace files = lumex_test::utf8_files;
+  lumex::path const directory = _test_dir / files::cyrillic (" dir name");
+  ASSERT_TRUE (files::make_directory (directory.string ()));
+  lumex::path const file = directory / files::cyrillic (" file.ini");
+
+  auto ini = std::make_shared<LumexSettingsINI> ();
+  LumexSettingsGuard guard (ini, file);
+  bool const ready = guard.ensure_exists_with_defaults (
+      [ini, file] ()
+        {
+          ini->add ("section", "key", "value");
+          return ini->save (file);
+        });
+
+  EXPECT_TRUE (ready);
+  EXPECT_EQ (guard.filename (), file.string ());
+  EXPECT_TRUE (files::exists (file.string ()));
+  LumexSettingsINI reread;
+  ASSERT_TRUE (reread.load (file));
+  EXPECT_EQ (reread.get ("section", "key"), "value");
 }
 
 // --- ensure_exists_with_defaults() end-to-end with a real LumexSettingsINI

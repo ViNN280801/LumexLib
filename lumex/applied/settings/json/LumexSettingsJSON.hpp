@@ -38,9 +38,12 @@
 
 #include "lumex/LumexExport.hpp"
 
+#include <string>
+#include <type_traits>
 #include <unordered_map>
 
 #include "lumex/applied/settings/interface/ILumexSettings.hpp"
+#include "lumex/core/filesystem/LumexFilesystem"
 #include "lumex/core/utility/macros/LumexConstantMacros.hpp"
 
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
@@ -89,6 +92,11 @@ LUMEX_CONST_STR SETTINGS_ROOT_NAME
 class LUMEX_API LumexSettingsJSON : public ILumexSettings
 {
 public:
+  // The overrides below hide the `lumex::path` forms of `load` and `save`
+  // that `ILumexSettings` declares as member templates; these bring them back.
+  using ILumexSettings::load;
+  using ILumexSettings::save;
+
   /**
    * @brief Loads and parses a JSON file from the given path.
    * @details Validates the file with `is_json_valid()` first. On success the
@@ -145,6 +153,31 @@ public:
    */
   static bool is_json_valid (std::string const &path);
   static bool is_json_valid (char const *path);
+
+  /**
+   * @brief `is_json_valid` for a `lumex::path`.
+   * @details Forwards `path.native ()` to `is_json_valid (std::string const
+   * &)`. A static member template that takes part in overload resolution only
+   * when the argument is exactly `lumex::path` (the decayed type is compared):
+   * `is_json_valid ("x")` and `is_json_valid (std::string)` resolve as
+   * before, and a type that merely converts to `lumex::path` stays
+   * ill-formed. The `lumex::path` form does not take a
+   * `std::filesystem::path`. On POSIX such a path still reaches the
+   * `std::string` form through its own conversion to `std::string`, as before;
+   * on Windows the call does not compile. Convert it with `lumex::path
+   * (std_path)`.
+   * @tparam Path Deduced from the argument; only `lumex::path` is accepted.
+   * @param path The path to the file.
+   * @return The result of `is_json_valid (std::string const &)`.
+   */
+  template <typename Path,
+            typename = typename std::enable_if<std::is_same<
+                typename std::decay<Path>::type, lumex::path>::value>::type>
+  static bool
+  is_json_valid (Path const &path)
+  {
+    return is_json_valid (path.native ());
+  }
 
 private:
 #ifdef _MSC_VER

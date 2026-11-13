@@ -81,6 +81,9 @@
 #include "lumex/LumexExport.hpp"
 
 #include <string>
+#include <type_traits>
+
+#include "lumex/core/filesystem/LumexFilesystem"
 
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 {
@@ -134,6 +137,44 @@ public:
   virtual bool load (std::string const &path) = 0;
 
   /**
+   * @brief Load settings from a configuration file named by a `lumex::path`.
+   * @details Forwards `path.native ()` (a reference to the UTF-8 string the
+   * path holds, no copy) to the virtual `load (std::string const &)`, so a
+   * consumer that holds a `lumex::path` does not write `.string ()`.
+   * A non-virtual member template: the virtual interface and the layout of the
+   * derived classes do not change. It takes part in overload resolution only
+   * when the argument is exactly `lumex::path` (the decayed type is compared),
+   * so `load ("x.ini")` and `load (std::string)` resolve as before and a type
+   * that merely converts to `lumex::path` stays ill-formed, as before:
+   * `lumex::path` has implicit constructors from `char const *` and
+   * `std::string`, and a plain `load (lumex::path const &)` overload would
+   * make `load ("x.ini")` ambiguous. The `lumex::path` form does not take a
+   * `std::filesystem::path`. On POSIX such a path still reaches the
+   * `std::string` form through its own conversion to `std::string`, as before;
+   * on Windows the call does not compile. Convert it with `lumex::path
+   * (std_path)`.
+   * @note A member function named `load` in a derived class hides this
+   * template, as it hides every base overload. The classes of this library
+   * (`LumexSettingsINI`, `LumexSettingsJSON`, `LumexSettingsXML`) declare
+   * `using ILumexSettings::load;`; a consumer's own class derived from
+   * `ILumexSettings` needs the same using-declaration (and
+   * `using ILumexSettings::save;`) to call the `lumex::path` form through the
+   * derived type. Through an `ILumexSettings &` it is always available.
+   * @tparam Path Deduced from the argument; only `lumex::path` is accepted.
+   * @param path The filesystem path to the configuration file.
+   * @return `true` if the settings were loaded successfully, `false`
+   * otherwise (the result of `load (std::string const &)`).
+   */
+  template <typename Path,
+            typename = typename std::enable_if<std::is_same<
+                typename std::decay<Path>::type, lumex::path>::value>::type>
+  bool
+  load (Path const &path)
+  {
+    return load (path.native ());
+  }
+
+  /**
    * @brief Save settings to a configuration file.
    * @details "Save" means that the settings have been successfully written to
    * the file from the internal storage.
@@ -141,6 +182,32 @@ public:
    * @return `true` if the settings were saved successfully, `false` otherwise.
    */
   virtual bool save (std::string const &path) const = 0;
+
+  /**
+   * @brief Save settings to a configuration file named by a `lumex::path`.
+   * @details Forwards `path.native ()` to the virtual
+   * `save (std::string const &) const`. The same constraint and the same
+   * using-declaration rule as for the `lumex::path` form of `load`: only an
+   * argument of exactly `lumex::path` selects it, `save ("x.ini")` and
+   * `save (std::string)` are unchanged, and a derived class needs
+   * `using ILumexSettings::save;` to call it through the derived type.
+   * The `lumex::path` form does not take a `std::filesystem::path`. On POSIX
+   * such a path still reaches the `std::string` form through its own
+   * conversion to `std::string`, as before; on Windows the call does not
+   * compile. Convert it with `lumex::path (std_path)`.
+   * @tparam Path Deduced from the argument; only `lumex::path` is accepted.
+   * @param path The filesystem path to the target configuration file.
+   * @return `true` if the settings were saved successfully, `false` otherwise
+   * (the result of `save (std::string const &) const`).
+   */
+  template <typename Path,
+            typename = typename std::enable_if<std::is_same<
+                typename std::decay<Path>::type, lumex::path>::value>::type>
+  bool
+  save (Path const &path) const
+  {
+    return save (path.native ());
+  }
 
   /**
    * @brief Retrieve a setting value by section and key.

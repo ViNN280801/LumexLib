@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <array>
 #include <chrono>
+#include <cstddef>
 #include <fstream>
 #include <future>
 #include <iostream>
@@ -10,6 +11,8 @@
 #include <sstream>
 #include <string>
 #include <thread>
+#include <type_traits>
+#include <utility>
 #include <vector>
 
 #if defined(__unix__) || defined(__linux__) || defined(__APPLE__)
@@ -41,6 +44,27 @@ namespace
 // bracket, a key=value line without a key, and a line that is neither.
 char const *const INVALID_INI_CONTENT
     = "[section]\nkey=value\n[broken\n=value\nnot a pair\n";
+
+// True when `LumexSettingsINI::is_ini_valid (argument)` is well-formed and
+// unambiguous for an argument of type `Arg`.
+template <typename Arg> struct can_check_t
+{
+private:
+  template <typename A>
+  static auto probe (int)
+      -> decltype (LumexSettingsINI::is_ini_valid (std::declval<A> ()),
+                   std::true_type ());
+  template <typename A> static std::false_type probe (...);
+
+public:
+  static constexpr bool value = decltype (probe<Arg> (0))::value;
+};
+
+// A type that converts to lumex::path but is not lumex::path.
+struct convertible_to_path_t
+{
+  operator lumex::path () const; // declared only: never called
+};
 
 // Redirects std::cout into a string for the lifetime of the object.
 class StdoutCapture
@@ -224,6 +248,70 @@ TEST_F (LumexSettingsINITest,
   EXPECT_TRUE (valid);
   EXPECT_TRUE (loaded);
   EXPECT_EQ (flow, "1.5");
+}
+
+// --- is_ini_valid (lumex::path) ---
+
+TEST (
+    LumexSettingsINIPathForm,
+    GivenEveryArgument_WhenIsIniValid_ThenOnlyTheDocumentedFormsAreWellFormed)
+{
+  static_assert (can_check_t<char const (&)[6]>::value, "literal");
+  static_assert (can_check_t<char const *>::value, "char const *");
+  static_assert (can_check_t<std::nullptr_t>::value, "nullptr");
+  static_assert (can_check_t<std::string>::value, "std::string");
+  static_assert (can_check_t<std::string const &>::value,
+                 "std::string const &");
+  static_assert (can_check_t<lumex::path>::value, "lumex::path");
+  static_assert (can_check_t<lumex::path &>::value, "lumex::path &");
+  static_assert (can_check_t<lumex::path const &>::value,
+                 "lumex::path const &");
+  static_assert (!can_check_t<convertible_to_path_t>::value,
+                 "a type convertible to lumex::path selects no overload");
+  static_assert (!can_check_t<int>::value, "int");
+  SUCCEED ();
+}
+
+TEST_F (LumexSettingsINITest,
+        GivenValidAndInvalidFiles_WhenIsIniValidByPath_ThenSameAsString)
+{
+  lumex::path const valid = _test_dir / "valid.ini";
+  lumex::path const invalid = _test_dir / "invalid.ini";
+  lumex::path const missing = _test_dir / "missing.ini";
+  create_test_ini_file (valid, "[pump]\nflow=1.5\n");
+  create_test_ini_file (invalid, INVALID_INI_CONTENT);
+
+  EXPECT_TRUE (LumexSettingsINI::is_ini_valid (valid));
+  EXPECT_FALSE (LumexSettingsINI::is_ini_valid (invalid));
+  EXPECT_FALSE (LumexSettingsINI::is_ini_valid (missing));
+  EXPECT_FALSE (LumexSettingsINI::is_ini_valid (lumex::path ()));
+  EXPECT_FALSE (LumexSettingsINI::is_ini_valid (_test_dir));
+  EXPECT_TRUE (LumexSettingsINI::is_ini_valid (valid.string ()));
+  EXPECT_FALSE (LumexSettingsINI::is_ini_valid (invalid.string ()));
+}
+
+TEST_F (LumexSettingsINITest,
+        GivenCyrillicPathWithSpace_WhenIsIniValidByPath_ThenTheFileIsRead)
+{
+  LUMEX_TEST_SKIP_WITHOUT_NARROW_UTF8_NAMES ();
+  namespace files = lumex_test::utf8_files;
+  lumex::path const directory = _test_dir / files::cyrillic (" dir name");
+  ASSERT_TRUE (files::make_directory (directory.string ()));
+  lumex::path const file = directory / files::cyrillic (" file.ini");
+  ASSERT_TRUE (files::write_file (file.string (), "[pump]\nflow=1.5\n"));
+  lumex::path const broken = directory / files::cyrillic (" broken.ini");
+  ASSERT_TRUE (files::write_file (broken.string (), INVALID_INI_CONTENT));
+
+  bool const by_path = LumexSettingsINI::is_ini_valid (file);
+  bool const by_string = LumexSettingsINI::is_ini_valid (file.string ());
+  bool const broken_by_path = LumexSettingsINI::is_ini_valid (broken);
+  files::remove_file (file.string ());
+  files::remove_file (broken.string ());
+  files::remove_directory (directory.string ());
+
+  EXPECT_TRUE (by_path);
+  EXPECT_TRUE (by_string);
+  EXPECT_FALSE (broken_by_path);
 }
 
 // --- is_ini_valid() Tests --------------------------------------------------

@@ -1,9 +1,12 @@
 // lumex/tests/applied/settings/json/LumexSettingsJSON.cxx11.tests.cpp
+#include <cstddef>
 #include <fstream>
 #include <iostream>
 #include <iterator>
 #include <memory>
 #include <string>
+#include <type_traits>
+#include <utility>
 
 #if defined(__unix__) || defined(__linux__) || defined(__APPLE__)
 #include <sys/stat.h>
@@ -280,6 +283,39 @@ TEST_F (LumexSettingsJSONTest,
 }
 
 TEST_F (LumexSettingsJSONTest,
+        GivenCyrillicPathWithSpace_WhenIsJsonValidByPath_ThenTheFileIsRead)
+{
+  LUMEX_TEST_SKIP_WITHOUT_NARROW_UTF8_NAMES ();
+  namespace files = lumex_test::utf8_files;
+  lumex::path const directory = _test_dir / files::cyrillic (" dir name");
+  ASSERT_TRUE (files::make_directory (directory.string ()));
+  lumex::path const file = directory / files::cyrillic (" file.json");
+  lumex::path const broken = directory / files::cyrillic (" broken.json");
+  ASSERT_TRUE (
+      files::write_file (file.string (), "{\"pump\": {\"flow\": \"1.5\"}}"));
+  ASSERT_TRUE (files::write_file (broken.string (), "{\"pump\": {\"flow\": "));
+
+  bool const by_path = LumexSettingsJSON::is_json_valid (file);
+  bool const by_string = LumexSettingsJSON::is_json_valid (file.string ());
+  bool const broken_by_path = LumexSettingsJSON::is_json_valid (broken);
+  files::remove_file (file.string ());
+  files::remove_file (broken.string ());
+  files::remove_directory (directory.string ());
+
+  EXPECT_TRUE (by_path);
+  EXPECT_TRUE (by_string);
+  EXPECT_FALSE (broken_by_path);
+}
+
+TEST_F (LumexSettingsJSONTest,
+        GivenMissingFileAndDirectory_WhenIsJsonValidByPath_ThenReturnsFalse)
+{
+  EXPECT_FALSE (LumexSettingsJSON::is_json_valid (_test_file));
+  EXPECT_FALSE (LumexSettingsJSON::is_json_valid (_test_dir));
+  EXPECT_FALSE (LumexSettingsJSON::is_json_valid (lumex::path ()));
+}
+
+TEST_F (LumexSettingsJSONTest,
         GivenMissingFile_WhenIsJsonValid_ThenReturnsFalse)
 {
   EXPECT_FALSE (LumexSettingsJSON::is_json_valid (_test_file.string ()));
@@ -481,3 +517,46 @@ TEST_F (LumexSettingsJSONTest, GivenFactoryJson_WhenSaveLoad_ThenWorks)
 }
 
 #endif // defined(LUMEX_SETTINGS_WITH_JSON)
+
+namespace
+{
+// True when `LumexSettingsJSON::is_json_valid (argument)` is well-formed and
+// unambiguous for an argument of type `Arg`.
+template <typename Arg> struct can_check_json_t
+{
+private:
+  template <typename A>
+  static auto probe (int)
+      -> decltype (LumexSettingsJSON::is_json_valid (std::declval<A> ()),
+                   std::true_type ());
+  template <typename A> static std::false_type probe (...);
+
+public:
+  static constexpr bool value = decltype (probe<Arg> (0))::value;
+};
+
+// A type that converts to lumex::path but is not lumex::path.
+struct json_convertible_to_path_t
+{
+  operator lumex::path () const; // declared only: never called
+};
+} // namespace
+
+TEST (LumexSettingsJSONPathForm,
+      GivenEveryArgument_WhenIsValid_ThenOnlyTheDocumentedFormsAreWellFormed)
+{
+  static_assert (can_check_json_t<char const (&)[6]>::value, "literal");
+  static_assert (can_check_json_t<char const *>::value, "char const *");
+  static_assert (can_check_json_t<std::nullptr_t>::value, "nullptr");
+  static_assert (can_check_json_t<std::string>::value, "std::string");
+  static_assert (can_check_json_t<std::string const &>::value,
+                 "std::string const &");
+  static_assert (can_check_json_t<lumex::path>::value, "lumex::path");
+  static_assert (can_check_json_t<lumex::path &>::value, "lumex::path &");
+  static_assert (can_check_json_t<lumex::path const &>::value,
+                 "lumex::path const &");
+  static_assert (!can_check_json_t<json_convertible_to_path_t>::value,
+                 "a type convertible to lumex::path selects no overload");
+  static_assert (!can_check_json_t<int>::value, "int");
+  SUCCEED ();
+}
