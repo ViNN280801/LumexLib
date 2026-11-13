@@ -127,7 +127,13 @@ elseif(LUMEX_INSTALL_CASE_PROFILE STREQUAL "all_modules")
     set(_benchmark_dirs
         atomic circular_buffer expected fmt hazard_pointer optional span
         string_view transport)
-    set(_benchmark_build_dirs expected)
+    # The expected benchmark needs GCC or Clang (asm statements as optimizer
+    # barriers); cl.exe builds the span benchmark, which has an MSVC branch.
+    if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+        set(_benchmark_build_dirs span)
+    else()
+        set(_benchmark_build_dirs expected)
+    endif()
 else()
     message(FATAL_ERROR "unknown profile '${LUMEX_INSTALL_CASE_PROFILE}'")
 endif()

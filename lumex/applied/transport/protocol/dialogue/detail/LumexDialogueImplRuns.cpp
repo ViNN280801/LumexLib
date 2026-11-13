@@ -77,12 +77,15 @@
 
 // A log step while the state of the engine moves: a message that cannot be
 // built (out of memory) must not stop the step, so it is dropped.
-#define LUMEX_DIALOGUE_LOG_QUIET(...)                                         \
+// The parameters are the five of LUMEX_TRANSPORT_LOG, not `...`: the
+// traditional preprocessor of cl.exe passes a forwarded `__VA_ARGS__` on as
+// one argument (C4003, then C2440).
+#define LUMEX_DIALOGUE_LOG_QUIET(level, component, instance, message, bytes)  \
   do                                                                          \
     {                                                                         \
       try                                                                     \
         {                                                                     \
-          LUMEX_TRANSPORT_LOG (__VA_ARGS__);                                  \
+          LUMEX_TRANSPORT_LOG (level, component, instance, message, bytes);   \
         }                                                                     \
       catch (...)                                                             \
         {                                                                     \

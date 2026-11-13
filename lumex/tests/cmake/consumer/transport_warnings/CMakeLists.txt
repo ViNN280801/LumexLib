@@ -50,6 +50,13 @@ else()
         -Wswitch-enum -Wnon-virtual-dtor -Woverloaded-virtual -Werror)
 endif()
 
+# One translation unit takes every public header and every token style: at
+# C++20 its object file has more sections than the default COFF limit
+# (cl.exe C1128). clang-cl takes the same switch.
+if(MSVC)
+    list(APPEND _strict /bigobj)
+endif()
+
 foreach(_std 11 20)
     set(_target transport_warnings_cxx${_std})
     add_executable(${_target} main.cpp)
