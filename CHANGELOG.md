@@ -634,6 +634,14 @@
 
 **Проверено:** cl.exe 14.51 Debug, clang-cl Debug и cl.exe Release: `utility.*` 6840 из 6840; без правки наборы ranges не собираются (C4700); пробник заголовка при `/RTC1` без `/sdl` на старом заголовке останавливается, на новом проходит; WSL, GCC 13.3 и clang++ 18.1: ranges 503 из 503, g++-9: 288 из 288; `-fsyntax-only -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wold-style-cast -Werror` чист на g++-9 и clang++ (C++11) и на g++ 13 (C++14, 17, 20).
 
+##### `LumexApplied_transport` собирается на cl.exe: журнал диалога без вложенного `__VA_ARGS__`
+
+**Файлы:** `lumex/applied/transport/protocol/dialogue/detail/LumexDialogueImpl.cpp`, `lumex/applied/transport/protocol/dialogue/detail/LumexDialogueImplFeatures.cpp`, `lumex/applied/transport/protocol/dialogue/detail/LumexDialogueImplRuns.cpp`, `lumex/applied/transport/protocol/dialogue/detail/LumexDialogueImplReconnect.cpp`, `lumex/tests/cmake/consumer/transport_warnings/CMakeLists.txt`, `lumex/tests/cmake/consumer/install_share_layout/CMakeLists.txt`.
+
+**Суть:** закрытый макрос `LUMEX_DIALOGUE_LOG_QUIET(...)` передавал `__VA_ARGS__` в `LUMEX_TRANSPORT_LOG`; традиционный препроцессор cl.exe (его получают библиотека и потребители, `/Zc:preprocessor` есть только у тестов) передает вложенный `__VA_ARGS__` одним аргументом (C4003, затем C2440 и C2059), и `LumexApplied_transport` не собирался на cl.exe с `971217bb7`. Теперь макрос принимает пять именованных параметров `LUMEX_TRANSPORT_LOG`. Фикстуры, которые проявились после этого: `consumer_transport_warnings` получила `/bigobj` для MSVC (C1128 при C++20), `install_share_layout_all_modules` на cl.exe собирает бенчмарк `span` вместо `expected`, которому нужны барьеры GCC или Clang.
+
+**Проверено:** cl.exe 14.51 Debug: `cmake.consumer_transport_two_modules`, `consumer_transport_warnings`, `consumer_library_werror_cxx20`, `install_share_layout_all_modules`, `install_share_layout_header_only`, `wiring_install_share_layout` и `lint.*` 14 из 14 (до правки 4 фикстуры из 4 падали); при возврате макросов `LumexApplied_transport` не собирается (60 ошибок C4003, C2440, C2059); библиотека без предупреждений на cl.exe Debug и Release и на clang-cl; WSL, GCC 13.3, g++-9 и clang++ 18.1: `LumexApplied_transport` собирается. Тесты `transport.*` на cl.exe теперь собираются, 35 из 2488 падают по причинам, не связанным с правкой (обвязка матрицы и тест Discover).
+
 #### Изменено
 
 ##### XML: сеттеры имен и значений убирают неправильные последовательности UTF-8
