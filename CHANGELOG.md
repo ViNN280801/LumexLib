@@ -555,6 +555,14 @@
 
 **Проверено:** Linux, `cmake.compile_script_cmake_args` (13 случаев при обоих разделителях путей; старая функция проваливает 6). `create_release.ps1` не запускался.
 
+##### `lower_bound_of` на cl.exe: C4700 и Run-Time Check Failure #3
+
+**Файлы:** `lumex/core/utility/ranges/LumexRanges.hpp`.
+
+**Суть:** `element_before_value` получил конструктор вместо агрегатной инициализации. Для двух пустых функторов (`functional::less`, `functional::identity`) cl.exe выдавал C4700 на копии агрегата в `std::lower_bound`: при `/sdl` (Debug библиотеки) это ошибка, и наборы `LumexUtilityRanges*Tests` не собирались; у потребителя с флагами Debug по умолчанию (`/RTC1` без `/sdl`) `get_nearest_to` при C++14 и C++17 останавливался во время работы с Run-Time Check Failure #3. Ветка C++20 (`std::ranges`) не затронута.
+
+**Проверено:** cl.exe 14.51 Debug, clang-cl Debug и cl.exe Release: `utility.*` 6840 из 6840; без правки наборы ranges не собираются (C4700); пробник заголовка при `/RTC1` без `/sdl` на старом заголовке останавливается, на новом проходит; WSL, GCC 13.3 и clang++ 18.1: ranges 503 из 503, g++-9: 288 из 288; `-fsyntax-only -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wold-style-cast -Werror` чист на g++-9 и clang++ (C++11) и на g++ 13 (C++14, 17, 20).
+
 #### Изменено
 
 ##### Каталог `docs/` убран из истории репозитория, GitHub Pages выключен
