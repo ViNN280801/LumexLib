@@ -41,6 +41,7 @@
 
 #include <cstdio>
 #include <cstdlib>
+#include <cwchar>
 #include <iostream>
 #include <memory>
 #include <new>
@@ -54,6 +55,7 @@
 #include "lumex/core/unicode/convert/LumexUnicodeConvert.hpp"
 #include "lumex/core/utility/assert/LumexAssert.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
+#include "lumex/core/utility/util/LumexUtf8FileName.hpp"
 #include "lumex/xml/node/XmlNode.hpp"
 #include "lumex/xml/utility/XmlUtils.hpp"
 #include "lumex/xml/writer/XmlWriterFile.hpp"
@@ -698,11 +700,15 @@ open_file_wide (
     wchar_t const *mode) // NOLINT(bugprone-easily-swappable-parameters)
 {
   // there is no standard function to open wide paths, so our best bet is to
-  // try utf8 path
+  // try utf8 path. The conversion is strict: a unit that is not a scalar value
+  // (a surrogate code point, a value above U+10FFFF) refuses the path, as the
+  // lenient one would skip it and open another file.
   std::string path_utf8;
   try
     {
-      path_utf8 = ::lumex::core::unicode::convert::to_utf8 (path);
+      if (!::lumex::core::utility::utf8_file_name::from_wide (
+              path, std::wcslen (path), path_utf8))
+        return nullptr;
     }
   catch (std::bad_alloc const &)
     {

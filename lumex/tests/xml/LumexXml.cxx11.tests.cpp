@@ -575,6 +575,63 @@ TEST_F (XmlFixture, Windows_WidePath_CyrillicDirectory_SaveAndLoad)
   EXPECT_TRUE (loaded);
   EXPECT_EQ (value, "y");
 }
+#else
+// POSIX: the wide path is converted to UTF-8 strictly. A path with a
+// surrogate code point or a value above U+10FFFF used to lose those units, so
+// "x<D800>y<110000>" named the file "xy".
+TEST_F (XmlFixture, Posix_WidePathWithInvalidUnits_IsRefusedAndNoOtherFileUsed)
+{
+  if (sizeof (wchar_t) != 4)
+    GTEST_SKIP () << "wchar_t is 16 bits wide: no unit can hold such a value";
+  std::string const decoy = "lumex_xml_wide_decoy_xy.xml";
+  std::string const decoy_text = "<decoy/>";
+  {
+    std::ofstream out (decoy.c_str (), std::ios::binary);
+    out << decoy_text;
+  }
+  std::wstring wide_path (L"lumex_xml_wide_decoy_x");
+  wide_path.push_back (static_cast<wchar_t> (0xD800));
+  wide_path.push_back (L'y');
+  wide_path.push_back (static_cast<wchar_t> (0x110000));
+  wide_path += L".xml";
+
+  // load: refused, the decoy is not read
+  auto const loaded = doc.load_file (wide_path.c_str (), kparse_default,
+                                     xml_encoding::encoding_utf8);
+  EXPECT_FALSE (loaded);
+  EXPECT_FALSE (doc.document_element ());
+
+  // save: refused, the decoy is not overwritten
+  doc.load_string ("<r><x>y</x></r>", kparse_default);
+  EXPECT_FALSE (doc.save_file (wide_path.c_str (), "\t",
+                               kformat_save_file_text,
+                               xml_encoding::encoding_utf8));
+
+  std::string content;
+  {
+    std::ifstream in (decoy.c_str (), std::ios::binary);
+    std::ostringstream buffer;
+    buffer << in.rdbuf ();
+    content = buffer.str ();
+  }
+  std::remove (decoy.c_str ());
+  EXPECT_EQ (content, decoy_text);
+}
+
+TEST_F (XmlFixture, Posix_WidePath_SaveAndLoad)
+{
+  doc.load_string ("<r><x>y</x></r>", kparse_default);
+  std::wstring const wide_path = L"lumex_xml_wide_ok_\x44F.xml";
+  ASSERT_TRUE (doc.save_file (wide_path.c_str (), "\t", kformat_save_file_text,
+                              xml_encoding::encoding_utf8));
+  XmlDocument d2;
+  auto const loaded = d2.load_file (wide_path.c_str (), kparse_default,
+                                    xml_encoding::encoding_utf8);
+  std::string const value = d2.document_element ().child ("x").text ().get ();
+  std::remove ("lumex_xml_wide_ok_\xD1\x8F.xml");
+  EXPECT_TRUE (loaded);
+  EXPECT_EQ (value, "y");
+}
 #endif
 
 // --- Named child iteration and ranges -----------------------------------

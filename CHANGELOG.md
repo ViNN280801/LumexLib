@@ -555,6 +555,22 @@
 
 **Проверено:** Linux, `cmake.compile_script_cmake_args` (13 случаев при обоих разделителях путей; старая функция проваливает 6). `create_release.ps1` не запускался.
 
+##### Декодер UTF-32 пропускает суррогаты и значения выше U+10FFFF
+
+**Файлы:** `lumex/core/unicode/utf/LumexUtf.hpp`, `lumex/core/unicode/convert/LumexUnicodeConvert.hpp`, `lumex/core/filesystem/fs/LumexFilesystem.hpp`, тесты `lumex/tests/core/unicode/utf/LumexUtf.cxx11.tests.cpp`, `lumex/tests/core/unicode/convert/LumexUnicodeConvert.cxx11.tests.cpp`, `lumex/tests/core/unicode/convert/LumexUnicodeConvertWideWidths.cxx11.tests.cpp`, `lumex/tests/core/filesystem/fs/LumexFilesystemUnicode.cxx11.tests.cpp`, `lumex/tests/xml/LumexXmlEncodings.cxx11.tests.cpp`.
+
+**Суть:** `utf32_decoder` пропускал любое значение: суррогатная кодовая точка (U+D800..U+DFFF) или значение выше U+10FFFF доходили до `Traits::low` / `Traits::high` и записывались как некорректный UTF-8 (U+D800 давало три байта). Теперь декодер, как `utf16_decoder`, пропускает такие значения (после перестановки байт при `SwapBytes`). Это затрагивает `to_utf8 (std::wstring)`, `from_wide_string` и загрузку XML в UTF-32 там, где `wchar_t` имеет 4 байта (Linux). Тесты, закреплявшие старое поведение, заменены.
+
+**Проверено:** cl.exe и clang-cl (Debug): `unicode.*` проходит, `LumexXmlCxx11Tests` 180, `LumexFilesystemFsCxx11Tests` 135; WSL, GCC 13.3 (`wchar_t` 4 байта, C++11): `unicode.*` 77 из 77, `LumexFilesystemFsCxx11Tests` 119, `LumexXmlCxx11Tests` 180, Logger 58, Settings 164; g++-9 9.5 и clang++ 18.1 (C++11): `unicode.*` 77 из 77; пробник на настоящем 4-байтовом `wchar_t` по 15 граничным значениям с перестановкой байт и без: 0 ошибок (на старом заголовке 16); 13 мутаций границ и порядка проверок роняют тесты; `-fsyntax-only -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wold-style-cast` на `LumexUtf.hpp` чист на g++-9 и clang++ (C++11) и на g++ 13 (C++14, 17, 20).
+
+##### `XmlDocument`: широкий путь, неверный в UTF-32, на POSIX отвергается
+
+**Файлы:** `lumex/xml/document/XmlDocument.cpp`, `lumex/xml/document/XmlDocument.hpp`, тесты `lumex/tests/xml/LumexXml.cxx11.tests.cpp`.
+
+**Суть:** `load_file` и `save_file (wchar_t const *)` на POSIX переводили путь нестрогим `to_utf8`, и после правки декодера UTF-32 путь с суррогатом или значением выше U+10FFFF стал бы именем другого файла ("x<D800>y" открывало бы "xy"). Теперь путь переводится строгим `utf8_file_name::from_wide`; при отказе обе функции возвращают ошибку и другой файл не трогают. Ветка Windows не менялась.
+
+**Проверено:** WSL, GCC 13.3: `Posix_WidePathWithInvalidUnits_IsRefusedAndNoOtherFileUsed` (файл-приманка "xy" остается нетронутым) и `Posix_WidePath_SaveAndLoad` (путь с кириллицей) проходят, с нестрогим `to_utf8` первый падает; `XmlDocument.cpp` разбирается g++ 13.3, g++-9 9.5 и clang++ 18.1 при C++11; cl.exe и clang-cl: `LumexXmlCxx11Tests` 180.
+
 #### Изменено
 
 ##### Каталог `docs/` убран из истории репозитория, GitHub Pages выключен

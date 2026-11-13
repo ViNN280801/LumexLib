@@ -318,7 +318,9 @@ public:
    * @note The file is read into an internal buffer and then closed. The buffer
    * is managed by the `XmlDocument`.
    * @warning On some platforms, this might involve internal conversion of the
-   * wide path to a multi-byte path.
+   * wide path to a multi-byte path. On POSIX a wide path that is not valid
+   * UTF-16/UTF-32 (a surrogate code point, a value above U+10FFFF) is
+   * refused: the load fails and no other file is opened.
    */
   xml_parse_result_t load_file (wchar_t const *path,
                                 unsigned int options
@@ -508,7 +510,9 @@ public:
    * @param[in] encoding The character encoding for the output. Defaults to
    * `encoding_auto`.
    * @return `true` if the document was successfully saved to the file, `false`
-   * otherwise.
+   * otherwise. On POSIX a wide path that is not valid UTF-16/UTF-32 (a
+   * surrogate code point, a value above U+10FFFF) is refused and no other
+   * file is written.
    */
   bool save_file (wchar_t const *path, char_t const *indent = "\t",
                   unsigned int flags = Constants::kformat_default,

@@ -3,8 +3,10 @@
 // The counters, writers and decoders of utf/LumexUtf.hpp. The expected bytes
 // and units come from reference encoders in LumexUnicodeTestSupport.hpp, not
 // from the policies under test. Behavior of the decoders on invalid input is
-// pinned as the header documents it: they skip what they cannot decode and do
-// not reject overlong forms or surrogates.
+// pinned as the header documents it: they skip what they cannot decode. The
+// UTF-8 decoder does not reject overlong forms or surrogates; the UTF-16
+// decoder skips an unpaired surrogate, the UTF-32 decoder a surrogate code
+// point and a value above U+10FFFF.
 #include <cstddef>
 #include <cstdint>
 #include <initializer_list>
@@ -603,16 +605,118 @@ TEST (UtfDecoderTest,
   EXPECT_EQ (result.high_calls, points ({ 0x10000, 0x10FFFF }));
 }
 
-TEST (UtfDecoderTest,
-      GivenAValueAboveTheUnicodeRange_WhenUtf32Decode_ThenItIsReportedAsIs)
+namespace
 {
-  // Documented: the UTF-32 decoder does not validate.
+// The units of the boundary tests: what a UTF-32 buffer may hold around the
+// surrogate range and the end of Unicode, with the decoder's verdict.
+struct utf32_case
+{
+  std::uint32_t unit;
+  bool kept;
+};
+
+std::vector<utf32_case>
+utf32_cases ()
+{
+  utf32_case const values[] = {
+    { 0x0, true },         { 0x41, true },         { 0xD7FF, true },
+    { 0xD800, false },     { 0xDBFF, false },      { 0xDC00, false },
+    { 0xDFFF, false },     { 0xE000, true },       { 0xFFFF, true },
+    { 0x10000, true },     { 0x10FFFF, true },     { 0x110000, false },
+    { 0x7FFFFFFF, false }, { 0x80000000U, false }, { 0xFFFFFFFFU, false }
+  };
+  return std::vector<utf32_case> (
+      values, values + sizeof (values) / sizeof (values[0]));
+}
+} // namespace
+
+TEST (
+    UtfDecoderTest,
+    GivenBoundaryUnits_WhenUtf32Decode_ThenSurrogatesAndValuesAboveTheRangeAreSkipped)
+{
+  std::vector<utf32_case> const cases = utf32_cases ();
+  for (std::size_t i = 0; i < cases.size (); ++i)
+    {
+      std::vector<std::uint32_t> const units (1, cases[i].unit);
+      recorder_t const plain = decode_recording<utf32_decoder<false>> (units);
+      recorder_t const reversed
+          = decode_recording<utf32_decoder<true>> (swapped (units));
+      std::vector<std::uint32_t> const expected
+          = cases[i].kept ? units : std::vector<std::uint32_t> ();
+      EXPECT_EQ (plain.all, expected) << std::hex << cases[i].unit;
+      EXPECT_EQ (reversed.all, expected) << std::hex << cases[i].unit;
+      EXPECT_EQ (reversed.high_calls, plain.high_calls)
+          << std::hex << cases[i].unit;
+      // The split between low () and high () stays at U+10000.
+      EXPECT_EQ (plain.high_calls.size (),
+                 cases[i].kept && cases[i].unit >= 0x10000 ? 1U : 0U)
+          << std::hex << cases[i].unit;
+    }
+}
+
+TEST (UtfDecoderTest,
+      GivenAMixedBuffer_WhenUtf32Decode_ThenTheValidUnitsKeepTheirOrder)
+{
   std::vector<std::uint32_t> units;
-  units.push_back (0x110000);
+  units.push_back (0xFFFFFFFFU);
+  units.push_back (0x42);
   units.push_back (0xD800);
-  recorder_t const result = decode_recording<utf32_decoder<false>> (units);
-  EXPECT_EQ (result.high_calls, points ({ 0x110000 }));
-  EXPECT_EQ (result.low_calls, points ({ 0xD800 }));
+  units.push_back (0x10000);
+  units.push_back (0xDFFF);
+  units.push_back (0xE000);
+  units.push_back (0x110000);
+  units.push_back (0x10FFFF);
+  units.push_back (0xDC00);
+  units.push_back (0xD7FF);
+  std::vector<std::uint32_t> const expected
+      = points ({ 0x42, 0x10000, 0xE000, 0x10FFFF, 0xD7FF });
+  EXPECT_EQ (decode_recording<utf32_decoder<false>> (units).all, expected);
+  EXPECT_EQ (decode_recording<utf32_decoder<true>> (swapped (units)).all,
+             expected);
+}
+
+TEST (UtfDecoderTest,
+      GivenOnlyInvalidUnits_WhenUtf32Decode_ThenNothingIsReported)
+{
+  std::vector<std::uint32_t> units;
+  units.push_back (0xD800);
+  units.push_back (0xDFFF);
+  units.push_back (0x110000);
+  units.push_back (0xFFFFFFFFU);
+  EXPECT_TRUE (decode_recording<utf32_decoder<false>> (units).all.empty ());
+  EXPECT_TRUE (
+      decode_recording<utf32_decoder<true>> (swapped (units)).all.empty ());
+  // The start value is returned unchanged.
+  EXPECT_EQ (utf32_decoder<false>::process (&units[0], units.size (), 7,
+                                            utf8_counter ()),
+             7U);
+}
+
+TEST (UtfDecoderTest,
+      GivenInvalidUnits_WhenUtf32ToUtf8_ThenTheCounterSizesTheWriterOutput)
+{
+  std::vector<std::uint32_t> units;
+  units.push_back (0x41);
+  units.push_back (0xD800);
+  units.push_back (0x20AC);
+  units.push_back (0x110000);
+  units.push_back (0x1F600);
+  units.push_back (0xFFFFFFFFU);
+  std::vector<std::uint8_t> const expected
+      = bytes ({ 0x41, 0xE2, 0x82, 0xAC, 0xF0, 0x9F, 0x98, 0x80 });
+  // convert () checks that the size counted is the number of bytes written.
+  EXPECT_EQ (
+      (convert<utf32_decoder<false>, utf8_counter, utf8_writer, std::uint8_t> (
+          units)),
+      expected);
+  EXPECT_EQ (
+      (convert<utf32_decoder<true>, utf8_counter, utf8_writer, std::uint8_t> (
+          swapped (units))),
+      expected);
+  // And into UTF-16: a skipped unit leaves no unit behind.
+  EXPECT_EQ ((convert<utf32_decoder<false>, utf16_counter, utf16_writer,
+                      std::uint16_t> (units)),
+             encode_utf16 (points ({ 0x41, 0x20AC, 0x1F600 })));
 }
 
 TEST (UtfDecoderTest,

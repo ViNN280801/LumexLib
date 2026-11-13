@@ -1876,8 +1876,9 @@ public:
    * @details The same on every platform and in every C locale
    * (`lumex::core::unicode::convert::to_utf8`). Invalid input is not an
    * error: a unit that cannot be decoded (an unpaired surrogate where
-   * `wchar_t` has 2 bytes) is skipped, whereas `WideCharToMultiByte` writes
-   * U+FFFD for it.
+   * `wchar_t` has 2 bytes, a surrogate code point or a value above U+10FFFF
+   * where it has 4) is skipped, whereas `WideCharToMultiByte` writes U+FFFD
+   * for it.
    * @param wstr The `std::wstring` to convert.
    * @return A `std::string` representation.
    */

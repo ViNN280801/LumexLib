@@ -165,18 +165,29 @@ TEST (UnicodeConvertTest,
 }
 
 TEST (UnicodeConvertTest,
-      GivenAnUnpairedHighSurrogate_WhenToUtf8_ThenItFollowsTheWidthOfWchar)
+      GivenAnUnpairedHighSurrogate_WhenToUtf8_ThenItIsSkippedAtEveryWidth)
 {
+  // UTF-16 skips the unpaired surrogate; the UTF-32 decoder skips the
+  // surrogate code point, so both widths of wchar_t give the same text.
   std::wstring input (L"a");
   input.push_back (static_cast<wchar_t> (0xD800));
   input.push_back (L'b');
-  if (sizeof (wchar_t) == 2)
-    // UTF-16: the unpaired surrogate is skipped.
-    EXPECT_EQ (to_utf8 (input), std::string ("ab"));
-  else
-    // UTF-32 units are not validated: U+D800 is written as three bytes.
-    EXPECT_EQ (to_utf8 (input), std::string ("a\xED\xA0\x80"
-                                             "b"));
+  EXPECT_EQ (to_utf8 (input), std::string ("ab"));
+}
+
+TEST (
+    UnicodeConvertTest,
+    GivenAValueAboveTheUnicodeRange_WhenToUtf8_ThenItIsSkippedWhereWcharIs32Bits)
+{
+  if (sizeof (wchar_t) != 4)
+    GTEST_SKIP () << "wchar_t is 16 bits wide: no unit can hold such a value";
+  std::wstring input (L"a");
+  input.push_back (
+      static_cast<wchar_t> (static_cast<std::uint32_t> (0x110000)));
+  input.push_back (
+      static_cast<wchar_t> (static_cast<std::uint32_t> (0xFFFFFFFFU)));
+  input.push_back (L'b');
+  EXPECT_EQ (to_utf8 (input), std::string ("ab"));
 }
 
 TEST (UnicodeConvertTest, GivenRandomText_WhenRoundTripped_ThenTheTextSurvives)

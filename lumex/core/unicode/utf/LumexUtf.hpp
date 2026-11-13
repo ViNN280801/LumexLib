@@ -477,9 +477,14 @@ template <bool SwapBytes> struct utf16_decoder
 };
 
 /**
- * @brief Decoder of a UTF-32 buffer: `Traits::low` for a code point below
- * U+10000 and `Traits::high` from U+10000 on. With `SwapBytes` set, every unit
- * is byte swapped first. It does not validate the values.
+ * @brief Decoder of a UTF-32 buffer.
+ * @details `process (data, size, result, traits)` walks `size` 32-bit units
+ * and calls `Traits::low` for a code point below U+10000 and `Traits::high`
+ * from U+10000 up to U+10FFFF, threading `result` through the calls and
+ * returning its final value. A surrogate code point (U+D800..U+DFFF) and a
+ * value above U+10FFFF are skipped, as an unpaired surrogate is by the UTF-16
+ * decoder. With `SwapBytes` set, every unit is byte swapped first, and the
+ * swapped value is the one checked.
  * @tparam SwapBytes Swap the bytes of every unit before decoding.
  */
 template <bool SwapBytes> struct utf32_decoder
@@ -496,17 +501,30 @@ template <bool SwapBytes> struct utf32_decoder
         std::uint32_t lead
             = SwapBytes ? utility::bit::byte_swap (*data) : *data;
 
-        // U+0000..U+FFFF
-        if (lead < 0x10000)
+        // U+0000..U+D7FF
+        if (lead < 0xD800)
+          { // NOLINT(bugprone-branch-clone)
+            result = Traits::low (result, lead);
+            data += 1;
+            size -= 1;
+          }
+        // U+E000..U+FFFF
+        else if (static_cast<std::uint32_t> (lead - 0xE000) < 0x2000)
           {
             result = Traits::low (result, lead);
             data += 1;
             size -= 1;
           }
         // U+10000..U+10FFFF
-        else
+        else if (static_cast<std::uint32_t> (lead - 0x10000) < 0x100000)
           {
             result = Traits::high (result, lead);
+            data += 1;
+            size -= 1;
+          }
+        // a surrogate or a value above U+10FFFF
+        else
+          {
             data += 1;
             size -= 1;
           }

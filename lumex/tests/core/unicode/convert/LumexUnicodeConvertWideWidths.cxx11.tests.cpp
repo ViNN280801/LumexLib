@@ -149,6 +149,32 @@ TEST (UnicodeConvertWideWidthsTest,
 }
 
 TEST (UnicodeConvertWideWidthsTest,
+      GivenInvalidUnitsInUtf32_WhenToUtf8_ThenTheyAreSkipped)
+{
+  // What a 4-byte wchar_t holds on Linux: a surrogate code point and a value
+  // above U+10FFFF are skipped, the neighbors and the bounds stay.
+  std::vector<std::uint32_t> units;
+  units.push_back ('a');
+  units.push_back (0xD800);
+  units.push_back ('b');
+  units.push_back (0xDFFF);
+  units.push_back (0x110000);
+  units.push_back (0xD7FF);
+  units.push_back (0xE000);
+  units.push_back (0xFFFFFFFFU);
+  units.push_back (0x10FFFF);
+  EXPECT_EQ (wide_to_utf8<4> (units), std::string ("ab"
+                                                   "\xED\x9F\xBF"
+                                                   "\xEE\x80\x80"
+                                                   "\xF4\x8F\xBF\xBF"));
+  // A buffer of invalid units gives the empty string.
+  std::vector<std::uint32_t> invalid;
+  invalid.push_back (0xD800);
+  invalid.push_back (0x110000);
+  EXPECT_TRUE (wide_to_utf8<4> (invalid).empty ());
+}
+
+TEST (UnicodeConvertWideWidthsTest,
       GivenInvalidUtf8_WhenToEitherWidth_ThenTheSameUnitsAreKept)
 {
   // The same input is skipped the same way for both widths: only the text

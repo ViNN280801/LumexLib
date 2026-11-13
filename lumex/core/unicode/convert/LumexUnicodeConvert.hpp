@@ -82,7 +82,8 @@ namespace convert
  * @param[in] length The number of `wchar_t` units to convert, zero units
  * included.
  * @return The UTF-8 text. A unit that cannot be decoded (an unpaired
- * surrogate where `wchar_t` is 16 bits wide) is left out.
+ * surrogate where `wchar_t` is 16 bits wide, a surrogate code point or a value
+ * above U+10FFFF where it is 32 bits wide) is left out.
  */
 inline std::string
 to_utf8 (wchar_t const *str, std::size_t length)

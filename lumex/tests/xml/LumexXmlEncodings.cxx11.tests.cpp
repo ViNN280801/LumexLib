@@ -384,6 +384,28 @@ TEST_F (XmlEncodingTest,
 }
 
 TEST_F (XmlEncodingTest,
+        GivenInvalidUtf32Units_WhenLoadBuffer_ThenTheyAreSkipped)
+{
+  // A surrogate code point and a value above U+10FFFF are no characters: the
+  // decoder drops them, the rest of the text is parsed.
+  std::u32string text (U"<a>x");
+  text.push_back (static_cast<char32_t> (0xD800));
+  text.push_back (U'y');
+  text.push_back (static_cast<char32_t> (0x110000));
+  text += U"</a>";
+  xml_encoding const encodings[]
+      = { xml_encoding::encoding_utf32_le, xml_encoding::encoding_utf32_be };
+  for (std::size_t i = 0; i < 2; ++i)
+    {
+      doc.reset ();
+      lumex::xml::text::xml_parse_result_t const result
+          = load (encode (text, encodings[i], false), encodings[i]);
+      ASSERT_TRUE (result) << result.description () << " " << i;
+      EXPECT_STREQ (doc.child ("a").text ().get (), "xy") << i;
+    }
+}
+
+TEST_F (XmlEncodingTest,
         GivenWcharTextOfThePlatform_WhenLoadBufferAsWchar_ThenItIsDecoded)
 {
   // encoding_wchar is whatever wchar_t is: UTF-16 on Windows, UTF-32 on Linux.

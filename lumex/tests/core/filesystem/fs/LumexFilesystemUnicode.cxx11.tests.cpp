@@ -166,20 +166,14 @@ TEST (LumexFilesystemUnicodeTest,
 }
 
 TEST (LumexFilesystemUnicodeTest,
-      GivenUnpairedSurrogate_WhenFromWide_ThenFollowsTheWidthOfWchar)
+      GivenUnpairedSurrogate_WhenFromWide_ThenItIsSkippedAtEveryWidth)
 {
+  // UTF-16 skips the unpaired surrogate; the UTF-32 decoder skips the
+  // surrogate code point, so both widths of wchar_t give the same text.
   std::wstring input (L"a");
   input.push_back (static_cast<wchar_t> (0xD800));
   input.push_back (L'b');
-  if (sizeof (wchar_t) == 2)
-    // UTF-16: the unpaired surrogate is skipped.
-    EXPECT_EQ (lumex_filesystem::from_wide_string (input), "ab");
-  else
-    // UTF-32 units are not validated by the unicode module: U+D800 is written
-    // as three bytes, neither skipped nor an error.
-    EXPECT_EQ (lumex_filesystem::from_wide_string (input),
-               std::string ("a\xED\xA0\x80"
-                            "b"));
+  EXPECT_EQ (lumex_filesystem::from_wide_string (input), "ab");
 }
 
 TEST (LumexFilesystemUnicodeTest,
