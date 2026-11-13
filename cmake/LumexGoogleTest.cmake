@@ -59,6 +59,22 @@ function(lumex_add_vendored_gtest prefix source_root cxx_std)
 endfunction()
 
 lumex_add_vendored_gtest(1_12 "${LUMEX_GTEST_1_12_ROOT}" 11)
+
+# GoogleTest 1.12.1 sets no_sanitize_address for Clang only
+# (gtest-port.h GTEST_ATTRIBUTE_NO_SANITIZE_ADDRESS_); 1.18.0 tests the
+# attribute itself and needs nothing. GCC instruments use-after-return in every
+# version, and its runtime detects it by default since GCC 13 (older runtimes
+# with ASAN_OPTIONS=detect_stack_use_after_return=1, which CMakeRoutines
+# recommends). StackGrowsDown () of the death-test code then keeps its local on
+# the ASan fake stack, the address comparison says nothing about the direction,
+# the stack top of the threadsafe child is put at the wrong end of its mapping
+# and the runner dies with SEGV in __clone on the first threadsafe death test.
+# The report is lost because gtest captures stderr around the spawn. The
+# vendored sources stay untouched: this library alone is built without the
+# use-after-return instrumentation, the tests keep it.
+if(LUMEX_USE_ASAN AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+  target_compile_options(lumex_gtest_1_12 PRIVATE --param=asan-use-after-return=0)
+endif()
 lumex_add_vendored_gtest(1_18 "${LUMEX_GTEST_1_18_ROOT}" 17)
 
 add_library(lumex::gtest_cxx11 ALIAS lumex_gtest_1_12)
