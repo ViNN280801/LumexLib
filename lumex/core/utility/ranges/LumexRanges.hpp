@@ -440,6 +440,17 @@ end_of (Range &&range) -> decltype (end (std::forward<Range> (range)))
  */
 template <typename Predicate, typename Projection> struct element_before_value
 {
+  // A constructor, not aggregate initialization: for two empty functors
+  // (`functional::less`, `functional::identity`) cl.exe reports C4700 on the
+  // aggregate it copies into `std::lower_bound`, an error under /sdl; without
+  // /sdl, /RTC1 (the Debug default of CMake) stops the program at run time
+  // with Run-Time Check Failure #3.
+  element_before_value (Predicate const &given_predicate,
+                        Projection const &given_projection)
+      : predicate (given_predicate), projection (given_projection)
+  {
+  }
+
   Predicate predicate;
   Projection projection;
 
@@ -459,8 +470,7 @@ Iterator
 lower_bound_of (Iterator first, Iterator last, Value const &value,
                 Predicate &predicate, Projection &projection)
 {
-  element_before_value<Predicate, Projection> before
-      = { predicate, projection };
+  element_before_value<Predicate, Projection> before (predicate, projection);
   return std::lower_bound (first, last, value, before);
 }
 #endif

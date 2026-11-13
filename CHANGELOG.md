@@ -626,6 +626,13 @@
 **Суть:** gtest 1.12.1 задает `no_sanitize_address` только для Clang, а GCC инструментирует use-after-return во всех версиях (рантайм GCC 13 включает обнаружение по умолчанию, старые рантаймы при `ASAN_OPTIONS=detect_stack_use_after_return=1`). Поэтому `StackGrowsDown ()` держал локальную переменную на fake stack, направление роста стека определялось неверно, стек дочернего процесса `clone ()` ставился не с того конца, и раннер падал с SEGV в `__clone` на первом `threadsafe` death-тесте; отчет ASan терялся, потому что gtest перехватывает stderr вокруг запуска. Библиотека `lumex_gtest_1_12` при `LUMEX_USE_ASAN` и GCC собирается с `--param=asan-use-after-return=0`; тесты и gtest 1.18.0 сохраняют полную инструментацию. Кейс `cmake.wiring_gtest_asan_use_after_return` фиксирует флаг и его область.
 
 **Проверено:** WSL, GCC 13.3 и g++-9 9.5 с ASan и `detect_stack_use_after_return=1`: `LumexExpectedResultCxx11Tests` 567, `Cxx14` 568, `Cxx17` 575 тестов, `LumexInterprocessLockCxx11Tests` и `Cxx14` по 21, шесть наборов framing C++11; без правки те же наборы падают в `__clone`; испорченный `EXPECT_DEATH` под ASan падает с "failed to die"; Clang 18 ASan и GCC 13 без ASan: те же числа, флага в сборке нет; пробник use-after-return в коде теста под ASan по-прежнему ловится; кейс падает без флага и без охраны, проходит на WSL и на cl.exe; `lint.*` на cl.exe: 8 из 8.
+##### `lower_bound_of` на cl.exe: C4700 и Run-Time Check Failure #3
+
+**Файлы:** `lumex/core/utility/ranges/LumexRanges.hpp`.
+
+**Суть:** `element_before_value` получил конструктор вместо агрегатной инициализации. Для двух пустых функторов (`functional::less`, `functional::identity`) cl.exe выдавал C4700 на копии агрегата в `std::lower_bound`: при `/sdl` (Debug библиотеки) это ошибка, и наборы `LumexUtilityRanges*Tests` не собирались; у потребителя с флагами Debug по умолчанию (`/RTC1` без `/sdl`) `get_nearest_to` при C++14 и C++17 останавливался во время работы с Run-Time Check Failure #3. Ветка C++20 (`std::ranges`) не затронута.
+
+**Проверено:** cl.exe 14.51 Debug, clang-cl Debug и cl.exe Release: `utility.*` 6840 из 6840; без правки наборы ranges не собираются (C4700); пробник заголовка при `/RTC1` без `/sdl` на старом заголовке останавливается, на новом проходит; WSL, GCC 13.3 и clang++ 18.1: ranges 503 из 503, g++-9: 288 из 288; `-fsyntax-only -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wold-style-cast -Werror` чист на g++-9 и clang++ (C++11) и на g++ 13 (C++14, 17, 20).
 
 #### Изменено
 
