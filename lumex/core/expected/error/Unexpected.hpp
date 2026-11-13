@@ -45,12 +45,14 @@
  * error state, and `make_unexpected<E>()` of `Expected.hpp` builds one in
  * place. The class has the members of `std::unexpected`: the converting and
  * in-place constructors (also from an `std::initializer_list`), `error()` in
- * the four value categories, `swap()`, the non-member `swap()` and the
+ * the four value categories, `swap()`, the `swap()` function and the
  * comparisons `==` and `!=` between `unexpected` objects, and, from C++17, the
- * deduction guide. Header-only, part of `lumex::expected` and usable from
- * C++11. The class has no global alias: write
- * `lumex::core::expected::error::unexpected` or a using-declaration of your
- * own.
+ * deduction guide. The function `swap()` and the comparisons are hidden
+ * friends, as in the standard: found by argument-dependent lookup only, so
+ * `lumex::core::expected::error::operator== (a, b)` names nothing.
+ * Header-only, part of `lumex::expected` and usable from C++11. The class has
+ * no global alias: write `lumex::core::expected::error::unexpected` or a
+ * using-declaration of your own.
  */
 #ifndef LUMEX_CORE_EXPECTED_ERROR_UNEXPECTED_HPP
 #define LUMEX_CORE_EXPECTED_ERROR_UNEXPECTED_HPP
@@ -326,6 +328,75 @@ public:
     swap (m_error, other.m_error);
   }
 
+  /**
+   * @brief Exchanges two `unexpected` objects ([expected.un.swap]).
+   * @details A hidden friend: found by argument-dependent lookup only, as the
+   * `swap` of `std::unexpected`. Calls `lhs.swap (rhs)`.
+   * @tparam Err Always `ErrorType`; the parameter makes the constraint a
+   * property of the call, not of the class.
+   * @param[in,out] lhs First object.
+   * @param[in,out] rhs Second object.
+   * @note Takes part in overload resolution only when `ErrorType` is
+   * swappable; `noexcept` when the member `swap` is.
+   */
+  template <typename Err = ErrorType,
+            typename
+            = typename std::enable_if<detail::is_swappable<Err>::value>::type>
+  friend LUMEX_CONSTEXPR_CXX14 void
+  swap (unexpected &lhs, unexpected &rhs)
+      LUMEX_NOEXCEPT_IF (noexcept (lhs.swap (rhs)))
+  {
+    lhs.swap (rhs);
+  }
+
+  /**
+   * @brief Compares the errors of two `unexpected` objects
+   * ([expected.un.eq]).
+   * @details A hidden friend: found by argument-dependent lookup only, as the
+   * `operator==` of `std::unexpected`.
+   * @tparam OtherError Error type of the right operand; the two errors must be
+   * comparable with `==`.
+   * @param[in] lhs Left operand.
+   * @param[in] rhs Right operand.
+   * @return `lhs.error () == rhs.error ()`.
+   * @note Takes part in overload resolution only when the two errors can be
+   * compared with `==`.
+   */
+  template <typename OtherError>
+  friend LUMEX_CONSTEXPR_FUNCTION typename std::enable_if<
+      std::is_convertible<decltype (std::declval<ErrorType const &> ()
+                                    == std::declval<OtherError const &> ()),
+                          bool>::value,
+      bool>::type
+  operator== (unexpected const &lhs, unexpected<OtherError> const &rhs)
+  {
+    return static_cast<bool> (lhs.error () == rhs.error ());
+  }
+
+#if !LUMEX_HAS_IMPL_THREE_WAY_COMPARISON
+  /**
+   * @brief Compares the errors of two `unexpected` objects for inequality.
+   * @details A hidden friend, like `operator==`.
+   * @tparam OtherError Error type of the right operand.
+   * @param[in] lhs Left operand.
+   * @param[in] rhs Right operand.
+   * @return `!(lhs == rhs)`.
+   * @note Before C++20 only: from C++20 the compiler rewrites `a != b` from
+   * `operator==`, as it does for `std::unexpected`. Takes part in overload
+   * resolution only when the two errors can be compared with `==`.
+   */
+  template <typename OtherError>
+  friend LUMEX_CONSTEXPR_FUNCTION typename std::enable_if<
+      std::is_convertible<decltype (std::declval<ErrorType const &> ()
+                                    == std::declval<OtherError const &> ()),
+                          bool>::value,
+      bool>::type
+  operator!= (unexpected const &lhs, unexpected<OtherError> const &rhs)
+  {
+    return !static_cast<bool> (lhs.error () == rhs.error ());
+  }
+#endif
+
 private:
   /**
    * @brief Stored error value.
@@ -333,71 +404,6 @@ private:
    */
   ErrorType m_error; ///< Stored error value.
 };
-
-/**
- * @brief Exchanges two `unexpected` objects.
- * @tparam ErrorType Error type; must be swappable.
- * @param[in,out] lhs First object.
- * @param[in,out] rhs Second object.
- * @note Takes part in overload resolution only when `ErrorType` is
- * swappable.
- */
-template <typename ErrorType>
-LUMEX_CONSTEXPR_CXX14
-    typename std::enable_if<detail::is_swappable<ErrorType>::value>::type
-    swap (unexpected<ErrorType> &lhs, unexpected<ErrorType> &rhs)
-        LUMEX_NOEXCEPT_IF (detail::is_nothrow_swappable<ErrorType>::value)
-{
-  lhs.swap (rhs);
-}
-
-/**
- * @brief Compares the errors of two `unexpected` objects.
- * @tparam ErrorType Error type of the left operand.
- * @tparam OtherError Error type of the right operand; the two errors must be
- * comparable with `==`.
- * @param[in] lhs Left operand.
- * @param[in] rhs Right operand.
- * @return `lhs.error () == rhs.error ()`.
- * @note Takes part in overload resolution only when the two errors can be
- * compared with `==`.
- */
-template <typename ErrorType, typename OtherError>
-LUMEX_CONSTEXPR_FUNCTION typename std::enable_if<
-    std::is_convertible<decltype (std::declval<ErrorType const &> ()
-                                  == std::declval<OtherError const &> ()),
-                        bool>::value,
-    bool>::type
-operator== (unexpected<ErrorType> const &lhs,
-            unexpected<OtherError> const &rhs)
-{
-  return static_cast<bool> (lhs.error () == rhs.error ());
-}
-
-#if !LUMEX_HAS_IMPL_THREE_WAY_COMPARISON
-/**
- * @brief Compares the errors of two `unexpected` objects for inequality.
- * @tparam ErrorType Error type of the left operand.
- * @tparam OtherError Error type of the right operand.
- * @param[in] lhs Left operand.
- * @param[in] rhs Right operand.
- * @return `!(lhs == rhs)`.
- * @note Before C++20 only: from C++20 the compiler rewrites `a != b` from
- * `operator==`, as it does for `std::unexpected`. Takes part in overload
- * resolution only when the two errors can be compared with `==`.
- */
-template <typename ErrorType, typename OtherError>
-LUMEX_CONSTEXPR_FUNCTION typename std::enable_if<
-    std::is_convertible<decltype (std::declval<ErrorType const &> ()
-                                  == std::declval<OtherError const &> ()),
-                        bool>::value,
-    bool>::type
-operator!= (unexpected<ErrorType> const &lhs,
-            unexpected<OtherError> const &rhs)
-{
-  return !static_cast<bool> (lhs.error () == rhs.error ());
-}
-#endif
 
 // `__cplusplus`, not LUMEX_HAS_DEDUCTION_GUIDES: GCC 8 supports the guide but
 // reports `__cpp_deduction_guides` 201606L at C++17.

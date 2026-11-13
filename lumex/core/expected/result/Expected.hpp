@@ -39,10 +39,12 @@
  * monadic operations `and_then()`, `transform()`, `or_else()` and
  * `transform_error()`, which take the function as a forwarding reference, call
  * it as `std::invoke` does, and are constrained with concepts from C++20 and
- * with SFINAE before. The header also declares the non-member `operator==`
+ * with SFINAE before. The header also declares `operator==`
  * (with another `expected`, a value or an `unexpected`; `!=` and the reversed
- * forms before C++20) and `swap()`, `make_expected()` and
- * `make_unexpected<E>()`, which returns an `unexpected<E>`. The specialization
+ * forms before C++20) and `swap()` as hidden friends of the class, found by
+ * argument-dependent lookup only, as for `std::expected`, and
+ * `make_expected()` and `make_unexpected<E>()`, which returns an
+ * `unexpected<E>`. The specialization
  * for a `void` value is in `ExpectedVoid.hpp`; the storage and the layers
  * that give the class its special member functions are in
  * `ExpectedStorage.hpp`. Header-only, part of `lumex::expected`; `expected`
@@ -1474,6 +1476,222 @@ public:
     this->swap_storage (other);
   }
 
+  // ====================== Comparison and swap (hidden friends) ======
+  //
+  // The functions of [expected.object.eq] and [expected.object.swap] are
+  // friends defined in the class, as in the standard: they are found by
+  // argument-dependent lookup only, so
+  // `lumex::core::expected::result::operator== (a, b)` names nothing. From
+  // C++20 only `==` is declared and the compiler rewrites the reversed forms
+  // and `!=`; before C++20 the reversed `==` and every `!=` are written out.
+
+  /**
+   * @brief Compares two `expected` objects with a value type for equality.
+   * @details Two objects are equal if they are in the same state (both success
+   * or both error) and:
+   *          - on success their values compare equal (`*lhs == *rhs`);
+   *          - on error their errors compare equal (`lhs.error() ==
+   * rhs.error()`).
+   * The types need not be the same: an `expected<int, E>` compares with an
+   * `expected<long, E>`.
+   *
+   * @tparam OtherSuccess Success value type of the right operand.
+   * @tparam OtherError   Error type of the right operand.
+   * @param[in] lhs Left-hand operand.
+   * @param[in] rhs Right-hand operand.
+   * @return `true` if the objects match in state and contents, otherwise
+   * `false`.
+   *
+   * @note Takes part in overload resolution only when the value type of `rhs`
+   * is not `void` and both pairs of types can be compared with `==`.
+   * @par Thread safety
+   *      Not thread-safe if the same instances are accessed concurrently
+   * without synchronization.
+   * @par Exception guarantees
+   *      May throw if `operator==` of the value or error types throws.
+   */
+  template <typename OtherSuccess, typename OtherError>
+  friend LUMEX_CONSTEXPR_FUNCTION typename std::enable_if<
+      !std::is_void<OtherSuccess>::value
+          && detail::is_equality_comparable<SuccessType, OtherSuccess>::value
+          && detail::is_equality_comparable<ErrorType, OtherError>::value,
+      bool>::type
+  operator== (expected const &lhs,
+              expected<OtherSuccess, OtherError> const &rhs)
+  {
+    return lhs.has_value () != rhs.has_value ()
+               ? false
+               : (lhs.has_value ()
+                      ? static_cast<bool> (*lhs == *rhs)
+                      : static_cast<bool> (lhs.error () == rhs.error ()));
+  }
+
+  /**
+   * @brief Compares an `expected` with a value for equality.
+   * @details Equal when the object holds a value and that value compares equal
+   * to `value` (`*lhs == value`); an object that holds an error is never
+   * equal.
+   *
+   * @tparam Self Type of the left operand, deduced: the `expected` or a class
+   * derived from it. It is deduced (not written as `expected`) so that an
+   * operand that only converts to an `expected`, or wraps one, never makes
+   * the constraint below depend on itself.
+   * @tparam Value Type of the compared value.
+   * @param[in] lhs   The `expected`.
+   * @param[in] value The value to compare with.
+   * @return `true` if `lhs` holds a value equal to `value`.
+   *
+   * @note Takes part in overload resolution only for a `Value` that is not an
+   * `expected` (or a class derived from one) or an `unexpected`, when the
+   * value type of `lhs` can be compared with `Value` using `==`. A class
+   * derived from an `expected` is compared as an `expected`, not as a value;
+   * `std::expected` takes it for a value.
+   */
+  template <typename Self, typename Value>
+  friend LUMEX_CONSTEXPR_FUNCTION typename std::enable_if<
+      std::is_base_of<expected, Self>::value
+          && !detail::derives_from_expected<Value>::value
+          && !detail::is_unexpected<Value>::value
+          && detail::is_equality_comparable<SuccessType, Value>::value,
+      bool>::type
+  operator== (Self const &lhs, Value const &value)
+  {
+    return lhs.has_value () && static_cast<bool> (*lhs == value);
+  }
+
+  /**
+   * @brief Compares an `expected` with an `unexpected` for equality.
+   * @details Equal when the object holds an error that compares equal to the
+   * error of `unex` (`lhs.error () == unex.error ()`); an object that holds a
+   * value is never equal.
+   *
+   * @tparam OtherError Error type of the `unexpected`.
+   * @param[in] lhs  The `expected`.
+   * @param[in] unex The `unexpected` to compare with.
+   * @return `true` if `lhs` holds an error equal to the one of `unex`.
+   *
+   * @note Takes part in overload resolution only when the errors can be
+   * compared with `==`.
+   */
+  template <typename OtherError>
+  friend LUMEX_CONSTEXPR_FUNCTION typename std::enable_if<
+      detail::is_equality_comparable<ErrorType, OtherError>::value, bool>::type
+  operator== (expected const &lhs, unexpected<OtherError> const &unex)
+  {
+    return !lhs.has_value ()
+           && static_cast<bool> (lhs.error () == unex.error ());
+  }
+
+#if !LUMEX_HAS_IMPL_THREE_WAY_COMPARISON
+  /// @brief `lhs != rhs` for two `expected` objects with a value type: `!(lhs
+  /// == rhs)`.
+  template <typename OtherSuccess, typename OtherError>
+  friend LUMEX_CONSTEXPR_FUNCTION typename std::enable_if<
+      !std::is_void<OtherSuccess>::value
+          && detail::is_equality_comparable<SuccessType, OtherSuccess>::value
+          && detail::is_equality_comparable<ErrorType, OtherError>::value,
+      bool>::type
+  operator!= (expected const &lhs,
+              expected<OtherSuccess, OtherError> const &rhs)
+  {
+    return !(lhs == rhs);
+  }
+
+  /// @brief `value == rhs`: the reversed form of `rhs == value`.
+  template <typename Self, typename Value>
+  friend LUMEX_CONSTEXPR_FUNCTION typename std::enable_if<
+      std::is_base_of<expected, Self>::value
+          && !detail::derives_from_expected<Value>::value
+          && !detail::is_unexpected<Value>::value
+          && detail::is_equality_comparable<SuccessType, Value>::value,
+      bool>::type
+  operator== (Value const &value, Self const &rhs)
+  {
+    return rhs == value;
+  }
+
+  /// @brief `lhs != value`: `!(lhs == value)`.
+  template <typename Self, typename Value>
+  friend LUMEX_CONSTEXPR_FUNCTION typename std::enable_if<
+      std::is_base_of<expected, Self>::value
+          && !detail::derives_from_expected<Value>::value
+          && !detail::is_unexpected<Value>::value
+          && detail::is_equality_comparable<SuccessType, Value>::value,
+      bool>::type
+  operator!= (Self const &lhs, Value const &value)
+  {
+    return !(lhs == value);
+  }
+
+  /// @brief `value != rhs`: `!(rhs == value)`.
+  template <typename Self, typename Value>
+  friend LUMEX_CONSTEXPR_FUNCTION typename std::enable_if<
+      std::is_base_of<expected, Self>::value
+          && !detail::derives_from_expected<Value>::value
+          && !detail::is_unexpected<Value>::value
+          && detail::is_equality_comparable<SuccessType, Value>::value,
+      bool>::type
+  operator!= (Value const &value, Self const &rhs)
+  {
+    return !(rhs == value);
+  }
+
+  /// @brief `unex == rhs`: the reversed form of `rhs == unex`.
+  template <typename OtherError>
+  friend LUMEX_CONSTEXPR_FUNCTION typename std::enable_if<
+      detail::is_equality_comparable<ErrorType, OtherError>::value, bool>::type
+  operator== (unexpected<OtherError> const &unex, expected const &rhs)
+  {
+    return rhs == unex;
+  }
+
+  /// @brief `lhs != unex`: `!(lhs == unex)`.
+  template <typename OtherError>
+  friend LUMEX_CONSTEXPR_FUNCTION typename std::enable_if<
+      detail::is_equality_comparable<ErrorType, OtherError>::value, bool>::type
+  operator!= (expected const &lhs, unexpected<OtherError> const &unex)
+  {
+    return !(lhs == unex);
+  }
+
+  /// @brief `unex != rhs`: `!(rhs == unex)`.
+  template <typename OtherError>
+  friend LUMEX_CONSTEXPR_FUNCTION typename std::enable_if<
+      detail::is_equality_comparable<ErrorType, OtherError>::value, bool>::type
+  operator!= (unexpected<OtherError> const &unex, expected const &rhs)
+  {
+    return !(rhs == unex);
+  }
+#endif // !LUMEX_HAS_IMPL_THREE_WAY_COMPARISON
+
+  /**
+   * @brief Exchanges the contents of two `expected` objects of the same type.
+   * @details Calls `lhs.swap(rhs)`, delegating to the class implementation
+   * ([expected.object.swap]/5).
+   *
+   * @tparam Self Always `expected`; the parameter makes the constraint a
+   * property of the call, not of the class.
+   * @param[in,out] lhs Left-hand operand of the swap.
+   * @param[in,out] rhs Right-hand operand of the swap.
+   *
+   * @note Takes part in overload resolution only when the member `swap` can be
+   * called, and is `noexcept` exactly when it is, like
+   * `std::swap (std::expected &, std::expected &)`.
+   * @par Thread safety
+   *      Not thread-safe for the same objects without external
+   * synchronization.
+   * @par Performance
+   *      Swap is typically O(1) and does not allocate.
+   */
+  template <typename Self = expected>
+  friend LUMEX_EXPECTED_CONSTEXPR_CXX20 auto
+  swap (expected &lhs, expected &rhs) LUMEX_NOEXCEPT_IF (
+      noexcept (std::declval<Self &> ().swap (std::declval<Self &> ())))
+      -> decltype (std::declval<Self &> ().swap (std::declval<Self &> ()))
+  {
+    lhs.swap (rhs);
+  }
+
   // ====================== Monadic Operations ======================
   // Each operation exists for the four value categories of the object. The
   // function is taken as a forwarding reference and called as by std::invoke,
@@ -2287,269 +2505,6 @@ private:
 // with a function that returns `void` from naming the primary template for
 // `void`.
 template <typename ErrorType> class expected<void, ErrorType>;
-
-// ====================== Non-member functions ======================
-
-/**
- * @brief Compares two `expected` objects with a value type for equality.
- * @details Two objects are equal if they are in the same state (both success
- * or both error) and:
- *          - on success their values compare equal (`*lhs == *rhs`);
- *          - on error their errors compare equal (`lhs.error() ==
- * rhs.error()`).
- * The types need not be the same: an `expected<int, E>` compares with an
- * `expected<long, E>`.
- *
- * @tparam SuccessType Success value type of the left operand.
- * @tparam ErrorType   Error type of the left operand.
- * @tparam OtherSuccess Success value type of the right operand.
- * @tparam OtherError   Error type of the right operand.
- * @param[in] lhs Left-hand operand.
- * @param[in] rhs Right-hand operand.
- * @return `true` if the objects match in state and contents, otherwise
- * `false`.
- *
- * @note Takes part in overload resolution only when the value types are not
- * `void` and both pairs of types can be compared with `==`.
- * @par Thread safety
- *      Not thread-safe if the same instances are accessed concurrently without
- * synchronization.
- * @par Exception guarantees
- *      May throw if `operator==` of `SuccessType` or `ErrorType` throws.
- */
-template <typename SuccessType, typename ErrorType, typename OtherSuccess,
-          typename OtherError>
-LUMEX_CONSTEXPR_FUNCTION typename std::enable_if<
-    !std::is_void<SuccessType>::value && !std::is_void<OtherSuccess>::value
-        && detail::is_equality_comparable<SuccessType, OtherSuccess>::value
-        && detail::is_equality_comparable<ErrorType, OtherError>::value,
-    bool>::type
-operator== (expected<SuccessType, ErrorType> const &lhs,
-            expected<OtherSuccess, OtherError> const &rhs)
-{
-  return lhs.has_value () != rhs.has_value ()
-             ? false
-             : (lhs.has_value ()
-                    ? static_cast<bool> (*lhs == *rhs)
-                    : static_cast<bool> (lhs.error () == rhs.error ()));
-}
-
-/**
- * @brief Compares two `expected<void, E>` objects for equality.
- * @details Two objects are equal if:
- *          - both are in the success state (then they are always equal);
- *          - or both hold errors that compare equal (`lhs.error() ==
- * rhs.error()`).
- * The error types need not be the same.
- *
- * @tparam ErrorType Error type of the left operand.
- * @tparam OtherError Error type of the right operand.
- * @param[in] lhs Left-hand operand.
- * @param[in] rhs Right-hand operand.
- * @return `true` if the objects match in state and (on error) error value,
- * otherwise `false`.
- *
- * @note Takes part in overload resolution only when the errors can be
- * compared with `==`.
- * @par Thread safety
- *      Not thread-safe under concurrent access to the same instances.
- * @par Exception guarantees
- *      May throw if `operator==` of the error types throws.
- */
-template <typename ErrorType, typename OtherError>
-LUMEX_CONSTEXPR_FUNCTION typename std::enable_if<
-    detail::is_equality_comparable<ErrorType, OtherError>::value, bool>::type
-operator== (expected<void, ErrorType> const &lhs,
-            expected<void, OtherError> const &rhs)
-{
-  return lhs.has_value () != rhs.has_value ()
-             ? false
-             : (lhs.has_value ()
-                    ? true // Both are void success
-                    : static_cast<bool> (lhs.error () == rhs.error ()));
-}
-
-/**
- * @brief Compares an `expected` with a value for equality.
- * @details Equal when the object holds a value and that value compares equal
- * to `value` (`*lhs == value`); an object that holds an error is never equal.
- *
- * @tparam SuccessType Success value type of the `expected`.
- * @tparam ErrorType   Error type of the `expected`.
- * @tparam Value       Type of the compared value.
- * @param[in] lhs   The `expected`.
- * @param[in] value The value to compare with.
- * @return `true` if `lhs` holds a value equal to `value`.
- *
- * @note Takes part in overload resolution only for a `Value` that is not an
- * `expected` or an `unexpected`, when the value type of `lhs` is not `void`
- * and can be compared with `Value` using `==`.
- */
-template <typename SuccessType, typename ErrorType, typename Value>
-LUMEX_CONSTEXPR_FUNCTION typename std::enable_if<
-    !std::is_void<SuccessType>::value
-        && !lumex::core::utility::traits::value::is_expected<Value>::value
-        && !detail::is_unexpected<Value>::value
-        && detail::is_equality_comparable<SuccessType, Value>::value,
-    bool>::type
-operator== (expected<SuccessType, ErrorType> const &lhs, Value const &value)
-{
-  return lhs.has_value () && static_cast<bool> (*lhs == value);
-}
-
-/**
- * @brief Compares an `expected` with an `unexpected` for equality.
- * @details Equal when the object holds an error that compares equal to the
- * error of `unex` (`lhs.error () == unex.error ()`); an object that holds a
- * value (or, for `expected<void, E>`, success) is never equal.
- *
- * @tparam SuccessType Success value type of the `expected` (`void` included).
- * @tparam ErrorType   Error type of the `expected`.
- * @tparam OtherError  Error type of the `unexpected`.
- * @param[in] lhs  The `expected`.
- * @param[in] unex The `unexpected` to compare with.
- * @return `true` if `lhs` holds an error equal to the one of `unex`.
- *
- * @note Takes part in overload resolution only when the errors can be
- * compared with `==`.
- */
-template <typename SuccessType, typename ErrorType, typename OtherError>
-LUMEX_CONSTEXPR_FUNCTION typename std::enable_if<
-    detail::is_equality_comparable<ErrorType, OtherError>::value, bool>::type
-operator== (expected<SuccessType, ErrorType> const &lhs,
-            unexpected<OtherError> const &unex)
-{
-  return !lhs.has_value ()
-         && static_cast<bool> (lhs.error () == unex.error ());
-}
-
-#if !LUMEX_HAS_IMPL_THREE_WAY_COMPARISON
-// Before C++20 the reversed `==` and every `!=` are written out; from C++20
-// the compiler rewrites them from the `operator==` above, as it does for
-// `std::expected`.
-
-/// @brief `lhs != rhs` for two `expected` objects with a value type: `!(lhs ==
-/// rhs)`.
-template <typename SuccessType, typename ErrorType, typename OtherSuccess,
-          typename OtherError>
-LUMEX_CONSTEXPR_FUNCTION typename std::enable_if<
-    !std::is_void<SuccessType>::value && !std::is_void<OtherSuccess>::value
-        && detail::is_equality_comparable<SuccessType, OtherSuccess>::value
-        && detail::is_equality_comparable<ErrorType, OtherError>::value,
-    bool>::type
-operator!= (expected<SuccessType, ErrorType> const &lhs,
-            expected<OtherSuccess, OtherError> const &rhs)
-{
-  return !(lhs == rhs);
-}
-
-/// @brief `lhs != rhs` for two `expected<void, E>` objects: `!(lhs == rhs)`.
-template <typename ErrorType, typename OtherError>
-LUMEX_CONSTEXPR_FUNCTION typename std::enable_if<
-    detail::is_equality_comparable<ErrorType, OtherError>::value, bool>::type
-operator!= (expected<void, ErrorType> const &lhs,
-            expected<void, OtherError> const &rhs)
-{
-  return !(lhs == rhs);
-}
-
-/// @brief `value == rhs`: the reversed form of `rhs == value`.
-template <typename SuccessType, typename ErrorType, typename Value>
-LUMEX_CONSTEXPR_FUNCTION typename std::enable_if<
-    !std::is_void<SuccessType>::value
-        && !lumex::core::utility::traits::value::is_expected<Value>::value
-        && !detail::is_unexpected<Value>::value
-        && detail::is_equality_comparable<SuccessType, Value>::value,
-    bool>::type
-operator== (Value const &value, expected<SuccessType, ErrorType> const &rhs)
-{
-  return rhs == value;
-}
-
-/// @brief `lhs != value`: `!(lhs == value)`.
-template <typename SuccessType, typename ErrorType, typename Value>
-LUMEX_CONSTEXPR_FUNCTION typename std::enable_if<
-    !std::is_void<SuccessType>::value
-        && !lumex::core::utility::traits::value::is_expected<Value>::value
-        && !detail::is_unexpected<Value>::value
-        && detail::is_equality_comparable<SuccessType, Value>::value,
-    bool>::type
-operator!= (expected<SuccessType, ErrorType> const &lhs, Value const &value)
-{
-  return !(lhs == value);
-}
-
-/// @brief `value != rhs`: `!(rhs == value)`.
-template <typename SuccessType, typename ErrorType, typename Value>
-LUMEX_CONSTEXPR_FUNCTION typename std::enable_if<
-    !std::is_void<SuccessType>::value
-        && !lumex::core::utility::traits::value::is_expected<Value>::value
-        && !detail::is_unexpected<Value>::value
-        && detail::is_equality_comparable<SuccessType, Value>::value,
-    bool>::type
-operator!= (Value const &value, expected<SuccessType, ErrorType> const &rhs)
-{
-  return !(rhs == value);
-}
-
-/// @brief `unex == rhs`: the reversed form of `rhs == unex`.
-template <typename SuccessType, typename ErrorType, typename OtherError>
-LUMEX_CONSTEXPR_FUNCTION typename std::enable_if<
-    detail::is_equality_comparable<ErrorType, OtherError>::value, bool>::type
-operator== (unexpected<OtherError> const &unex,
-            expected<SuccessType, ErrorType> const &rhs)
-{
-  return rhs == unex;
-}
-
-/// @brief `lhs != unex`: `!(lhs == unex)`.
-template <typename SuccessType, typename ErrorType, typename OtherError>
-LUMEX_CONSTEXPR_FUNCTION typename std::enable_if<
-    detail::is_equality_comparable<ErrorType, OtherError>::value, bool>::type
-operator!= (expected<SuccessType, ErrorType> const &lhs,
-            unexpected<OtherError> const &unex)
-{
-  return !(lhs == unex);
-}
-
-/// @brief `unex != rhs`: `!(rhs == unex)`.
-template <typename SuccessType, typename ErrorType, typename OtherError>
-LUMEX_CONSTEXPR_FUNCTION typename std::enable_if<
-    detail::is_equality_comparable<ErrorType, OtherError>::value, bool>::type
-operator!= (unexpected<OtherError> const &unex,
-            expected<SuccessType, ErrorType> const &rhs)
-{
-  return !(rhs == unex);
-}
-#endif // !LUMEX_HAS_IMPL_THREE_WAY_COMPARISON
-
-/**
- * @brief Exchanges the contents of two `expected` objects of the same type
- * (also `expected<void, E>`).
- * @details Calls `lhs.swap(rhs)`, delegating to the class implementation
- * ([expected.object.swap]/5, [expected.void.swap]/5).
- *
- * @tparam SuccessType Success value type (`void` included).
- * @tparam ErrorType   Error type.
- * @param[in,out] lhs Left-hand operand of the swap.
- * @param[in,out] rhs Right-hand operand of the swap.
- *
- * @note Takes part in overload resolution only when the member `swap` can be
- * called, and is `noexcept` exactly when it is, like
- * `std::swap (std::expected &, std::expected &)`.
- * @par Thread safety
- *      Not thread-safe for the same objects without external synchronization.
- * @par Performance
- *      Swap is typically O(1) and does not allocate.
- */
-template <typename SuccessType, typename ErrorType>
-LUMEX_EXPECTED_CONSTEXPR_CXX20 auto
-swap (expected<SuccessType, ErrorType> &lhs,
-      expected<SuccessType, ErrorType> &rhs)
-    LUMEX_NOEXCEPT_IF (noexcept (lhs.swap (rhs))) -> decltype (lhs.swap (rhs))
-{
-  lhs.swap (rhs);
-}
 
 // ====================== Helper functions make_expected/make_unexpected
 // ======================

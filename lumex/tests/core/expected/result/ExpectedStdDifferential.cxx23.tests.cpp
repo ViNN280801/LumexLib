@@ -67,6 +67,14 @@ struct std_world
   using bad_access_void = std::bad_expected_access<void>;
   using in_place_type = std::in_place_t;
   using unexpect_type = std::unexpect_t;
+  /// Not an expected, but converts to one; only the declaration is needed. A
+  /// member of the world, not a template over the expected: an expected among
+  /// the template arguments would make its friends candidates of the
+  /// comparison that decides whether the friends apply.
+  struct convertible_t
+  {
+    operator std::expected<int, int> () const;
+  };
   static in_place_type
   in_place ()
   {
@@ -87,6 +95,11 @@ struct lumex_world
   using bad_access_void = lx::error::bad_expected_access<void>;
   using in_place_type = lx::result::in_place_tag;
   using unexpect_type = lx::result::unexpect_t;
+  /// See `std_world::convertible_t`.
+  struct convertible_t
+  {
+    operator lx::result::expected<int, int> () const;
+  };
   static in_place_type
   in_place ()
   {
@@ -1299,6 +1312,35 @@ comparison_answers ()
       result, "ex<int,unique_ptr> == unexpected<unique_ptr>",
       requires (EU const &a, UN const &b) { a == b; });
   note (result, "ex<int,int> != int", requires (EI const &a) { a != 1; });
+  // The comparisons are hidden friends in both worlds: the first parameter is
+  // not deduced, so a class that converts to an expected compares with one,
+  // and an operand of another value or error type is handled by deduction.
+  using EL = typename W::template ex<long, long>;
+  using VL = typename W::template ex<void, long>;
+  note (
+      result, "ex<int,int> == ex<long,long>",
+      requires (EI const &a, EL const &b) { a == b; });
+  note (
+      result, "ex<void,int> == ex<void,long>",
+      requires (VI const &a, VL const &b) { a == b; });
+  note (result, "int == ex<int,int>", requires (EI const &a) { 1 == a; });
+  note (
+      result, "ex<int,int> != unexpected<int>",
+      requires (EI const &a, UI const &b) { a != b; });
+  note (
+      result, "unexpected<int> != ex<void,int>",
+      requires (VI const &a, UI const &b) { b != a; });
+  // MSVC's operator of a value against any type is not constrained, so under
+  // Clang the second question is a hard error (the exception specification
+  // of the operator uses itself), like the ones above.
+#if !(defined(__clang__) && defined(_MSC_VER))
+  note (
+      result, "converting == ex<int,int>",
+      requires (typename W::convertible_t const &a, EI const &b) { a == b; });
+  note (
+      result, "ex<int,int> == converting",
+      requires (EI const &a, typename W::convertible_t const &b) { a == b; });
+#endif
   return result;
 }
 

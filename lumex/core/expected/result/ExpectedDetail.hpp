@@ -610,6 +610,30 @@ struct can_swap_errors
 
 // ====================== Comparison ====================== //
 
+/// @brief Declared only: tells an `expected<S, E>` or a class derived from one
+/// (the pointer converts to the base) from any other type.
+template <typename S, typename E>
+std::true_type derives_from_expected_probe (expected<S, E> const volatile *);
+
+/// @brief `T` is a specialization of `expected` or a class derived from one
+/// through a unique, accessible base. The answer is `false` for a private or
+/// an ambiguous base, for a class with two different `expected` bases, for an
+/// incomplete type and for a type that is not a class: the probe call is in a
+/// SFINAE context, so none of them is an error. The comparison of an
+/// `expected` with a value leaves such a `T` to the comparison of two
+/// `expected` objects.
+template <typename T, typename = void>
+struct derives_from_expected : std::false_type
+{
+};
+
+template <typename T>
+struct derives_from_expected<
+    T, traits::meta::void_t<decltype (detail::derives_from_expected_probe (
+           std::declval<T *> ()))>> : std::true_type
+{
+};
+
 template <typename L, typename R, typename = void>
 struct is_equality_comparable : std::false_type
 {
