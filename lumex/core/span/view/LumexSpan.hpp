@@ -730,9 +730,8 @@ public:
   {
     return index < m_storage.size ()
                ? m_storage.data ()[index]
-               : (detail::throw_out_of_range (
-                      "lumex::span::at: index out of range"),
-                  m_storage.data ()[index]);
+               : detail::throw_out_of_range_as<reference> (
+                     "lumex::span::at: index out of range");
   }
 
   /**

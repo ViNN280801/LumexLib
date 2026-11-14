@@ -612,6 +612,27 @@ throw_out_of_range (char const *what)
 }
 
 /**
+ * @brief `throw_out_of_range` as an expression of type `Result`, for the
+ * branch of a conditional expression.
+ * @details `at ()` is a `constexpr` function of C++11, so its error branch is
+ * an operand of a conditional expression. A `void` call followed by a comma
+ * operand that yields the element leaves that operand unreachable, which
+ * cl.exe reports (C4702, an error under `/W4 /WX`). A call of this function is
+ * the whole branch; the conditional takes the type of the other branch, so a
+ * reference stays a reference.
+ * @tparam Result The type of the expression, a reference to an element; it
+ * never yields a value.
+ * @param[in] what The message of the exception.
+ * @throws std::out_of_range always.
+ */
+template <typename Result>
+LUMEX_ATTRIBUTE_NORETURN inline Result
+throw_out_of_range_as (char const *what)
+{
+  detail::throw_out_of_range (what);
+}
+
+/**
  * @brief The pointer of a contiguous range: the member `data ()`.
  */
 template <typename Range>
