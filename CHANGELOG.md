@@ -658,6 +658,14 @@
 
 **Проверено:** cl.exe Debug и Release, clang-cl Debug: 34 ячейки за 63.6 с в одном процессе, под `ctest -j 8` каждая не дольше 2.81 с при защитном пределе 5 с; до правки ячейка `perfect` не завершалась за 100 с; WSL GCC 13.3 Debug: 34 ячейки за 36.7 с.
 
+##### `LumexDiscover.cpp`: вариант `hid` назван в `switch` и без HID
+
+**Файлы:** `lumex/applied/transport/protocol/discovery/LumexDiscover.cpp`, `lumex/tests/applied/transport/protocol/discovery/LumexDiscover.cxx11.tests.cpp`.
+
+**Суть:** при `LUMEX_TRANSPORT_WITH_HID=OFF` директива `#if` убирала саму метку `case hid`, и GCC 13 с `-Werror=switch-enum` не собирал библиотеку. Метка осталась, под `#if` только создание фабрики; кандидат `hid` без HID дает `not_supported` (новый тест).
+
+**Проверено:** WSL GCC 13.3, дерево без HID, объект с `-std=c++20 -Wswitch-enum -Wswitch-default -Werror`: до правки ошибка на строке 532, после правки без замечаний.
+
 #### Изменено
 
 ##### XML: сеттеры имен и значений убирают неправильные последовательности UTF-8
