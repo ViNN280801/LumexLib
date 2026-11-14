@@ -628,7 +628,7 @@ public:
    * @throws bad_expected_access<ErrorType> that holds a copy of the error if
    * the object does not hold a success.
    */
-  LUMEX_CONSTEXPR_CXX14 void
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE LUMEX_CONSTEXPR_CXX14 void
   value () const &
   {
     LUMEX_STATIC_ASSERT_MSG (std::is_copy_constructible<ErrorType>::value,
@@ -646,7 +646,7 @@ public:
    * @throws bad_expected_access<ErrorType> that holds the moved error if the
    * object does not hold a success.
    */
-  LUMEX_CONSTEXPR_CXX14 void
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE LUMEX_CONSTEXPR_CXX14 void
   value () &&
   {
     LUMEX_STATIC_ASSERT_MSG (
