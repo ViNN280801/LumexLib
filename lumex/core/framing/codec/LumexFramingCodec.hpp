@@ -220,19 +220,28 @@ encode_failure (framing_errc error)
 
 namespace detail
 {
-/// True when `Sink` can be called with a frame and an error code.
-template <typename Sink> struct sink_takes_error
+/// The two overloads that tell whether a sink can be called with a frame and
+/// an error code (a struct of their own: `sink_takes_error` derives from the
+/// answer).
+struct sink_form_probe_t
 {
-private:
   template <typename S>
   static auto test (int)
       -> decltype (std::declval<S &> () (std::declval<bytes_view_t> (),
                                          std::declval<std::error_code> ()),
                    std::true_type ());
   template <typename S> static std::false_type test (...);
+};
 
-public:
-  static bool const value = decltype (test<Sink> (0))::value;
+/// True when `Sink` can be called with a frame and an error code. Derived
+/// from the `integral_constant` of the probe: a `static bool const value` of
+/// the class itself has no definition, and `EXPECT_TRUE (...::value)` (a
+/// reference) fails to link below C++17.
+template <typename Sink>
+struct sink_takes_error
+    : std::integral_constant<bool, decltype (sink_form_probe_t::test<Sink> (
+                                       0))::value>
+{
 };
 
 template <typename Sink>
