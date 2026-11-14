@@ -510,8 +510,9 @@ lumex_add_consumer_test(consumer_optional_no_exceptions_macro_cxx17
     -DBUILD_TARGET=optional_no_exceptions_consumer)
 # One program with a -fno-exceptions unit and an exception enabled one: value ()
 # is always inlined, so in both link orders, at -O0, -O2 and -O2 -fno-inline,
-# the second unit keeps throwing and the first terminates (GCC, Clang; skipped
-# on MSVC).
+# the second unit keeps throwing and the first terminates (GCC, Clang; cl.exe and
+# clang-cl at /O2 only: without inlining cl.exe keeps one copy and the units must
+# agree on the exception mode).
 foreach(_order IN ITEMS LIB_FIRST MAIN_FIRST)
     foreach(_opt IN ITEMS O0 O2 O2NI)
         string(TOLOWER "${_order}_${_opt}" _suffix)

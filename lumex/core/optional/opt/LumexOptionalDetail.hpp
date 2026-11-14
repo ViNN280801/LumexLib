@@ -122,9 +122,14 @@
  * compile. `value ()` is the only function of the module that throws.
  * @details Units of one program may differ in this value: the body of
  * `value ()` depends on it, so `value ()` and the functions it calls are
- * always inlined (`LUMEX_ATTRIBUTE_ALWAYS_INLINE`) and the linker never has a
- * weak copy of them to choose between. A function whose address is taken
- * still gets a symbol and then follows the unit the linker meets first.
+ * always inlined (`LUMEX_ATTRIBUTE_ALWAYS_INLINE`) and, where the compiler
+ * honours it, the linker has no weak copy of them to choose between. A
+ * function whose address is taken still gets a symbol and then follows the
+ * unit the linker meets first. cl.exe does not honour `__forceinline` without
+ * inlining (`/Od`, `/Ob0`): there the four overloads stay real COMDAT
+ * functions with one copy per program, so units of one program must agree on
+ * the exception mode; with inlining (`/O2`) each unit keeps its own behavior
+ * in either link order, although unreferenced COMDATs are still emitted.
  */
 #ifndef LUMEX_OPTIONAL_HAS_EXCEPTIONS
 #if defined(__cpp_exceptions) || defined(__EXCEPTIONS) || defined(_CPPUNWIND)
