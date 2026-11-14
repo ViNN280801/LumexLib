@@ -40,6 +40,14 @@ cmake_minimum_required(VERSION 3.16)
 # A project of its own: standalone after install (cmake -S <prefix>/share/benchmarks/expected
 # -B build -DLumexLib_DIR=<prefix>/lib/cmake/LumexLib), a subproject in the tree.
 project(LumexBenchmarksExpected LANGUAGES CXX)
+# bench_expected.cpp keeps the optimizer from folding the measured code with
+# asm statements, which cl.exe does not have: no targets there (clang-cl is
+# Clang and builds them).
+if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+    message(STATUS "expected benchmark skipped: it needs GCC or Clang "
+        "(asm statements as optimizer barriers), not cl.exe")
+    return()
+endif()
 if(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
     find_package(LumexLib REQUIRED)
     foreach(_lumex_required lumex::expected)
