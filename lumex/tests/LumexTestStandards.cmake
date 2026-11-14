@@ -472,7 +472,12 @@ lumex_test_standards_declare(optional 11 14 17 20 23)
 lumex_test_standards_declare(string_view 11 14 17 20)
 lumex_test_standards_declare(temporary 11)
 lumex_test_standards_declare(time 11)
-lumex_test_standards_declare(unicode 11 20)
+# unicode.utf: the char8_t overloads of the UTF-8 validation need C++20; the
+# no_simd variant builds the validation tests with LUMEX_UNICODE_UTF8_VALIDATE_NO_SIMD
+# (the scalar routine only).
+lumex_test_standards_declare(unicode 11)
+lumex_test_standards_declare(unicode.utf 11 20)
+lumex_test_standards_declare_variant(unicode.utf no_simd 11 20)
 lumex_test_standards_declare(hardware 11)
 lumex_test_standards_declare(logging 11)
 lumex_test_standards_declare(serial 11)

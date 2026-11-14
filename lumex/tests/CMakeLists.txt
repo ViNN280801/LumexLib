@@ -146,3 +146,52 @@ lumex_add_subdirectory_if(LUMEX_BUILD_APPLIED applied)
 lumex_add_subdirectory_if(LUMEX_BUILD_CORE core)
 lumex_add_subdirectory_if(LUMEX_BUILD_XML xml)
 lumex_add_subdirectory_if(LUMEX_BUILD_FUZZERS fuzz)
+
+# The dispatch of the UTF-8 validation (core/unicode) on CPUs that this machine
+# does not have: the C++11 suite of lumex/tests/core/unicode/utf under
+# qemu-x86_64 or qemu-i386 (qemu-user) with the model of an older CPU, and the variant that
+# the CPU must get named by LUMEX_TEST_EXPECT_UTF8_VARIANT (the dispatch tests
+# of LumexUtf8ValidateSimd.cxx11.tests.cpp read it). Core 2 has SSSE3 only;
+# Haswell without AVX2 has AVX, and without XSAVE has no OS support for YMM
+# registers; qemu64 has no SSSE3. The routines run on the emulated CPU too,
+# so an instruction that the model lacks would stop the test. x86 Linux hosts
+# with qemu-x86_64 (a 64-bit build) or qemu-i386 (a 32-bit one), and not in a
+# sanitizer tree (the sanitizer runtimes map shadow memory that qemu-user does
+# not give them).
+set(_lumex_qemu_x86 "")
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux"
+   AND CMAKE_SYSTEM_PROCESSOR MATCHES "^(x86_64|amd64|i[3-6]86|x86)$"
+   AND NOT CMAKE_CROSSCOMPILING)
+    # qemu-x86_64 runs a 64-bit binary only and qemu-i386 a 32-bit one (-m32)
+    if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+        find_program(LUMEX_QEMU_X86_64 qemu-x86_64)
+        set(_lumex_qemu_x86 "${LUMEX_QEMU_X86_64}")
+    else()
+        find_program(LUMEX_QEMU_I386 qemu-i386)
+        set(_lumex_qemu_x86 "${LUMEX_QEMU_I386}")
+    endif()
+endif()
+if(_lumex_qemu_x86 AND TARGET LumexUnicodeUtfCxx11Tests
+   AND NOT LUMEX_USE_ASAN AND NOT LUMEX_USE_TSAN AND NOT LUMEX_USE_UBSAN)
+    set(_lumex_emulated_cpus
+        "conroe|Conroe|ssse3"
+        "haswell_without_avx2|Haswell,-avx2|ssse3"
+        "haswell_without_xsave|Haswell,-xsave|ssse3"
+        "qemu64|qemu64|scalar"
+        "haswell|Haswell|avx2")
+    foreach(_entry IN LISTS _lumex_emulated_cpus)
+        string(REPLACE "|" ";" _parts "${_entry}")
+        list(GET _parts 0 _label)
+        list(GET _parts 1 _model)
+        list(GET _parts 2 _variant)
+        set(_ctest_name "unicode.utf.emulated_cpu.${_label}")
+        add_test(NAME ${_ctest_name}
+            COMMAND ${_lumex_qemu_x86} -cpu ${_model}
+                $<TARGET_FILE:LumexUnicodeUtfCxx11Tests>
+                "--gtest_filter=Utf8ValidateDispatchTest.*:Variants/*")
+        set_tests_properties(${_ctest_name} PROPERTIES
+            ENVIRONMENT "LUMEX_TEST_EXPECT_UTF8_VARIANT=${_variant}"
+            TIMEOUT 900
+            LABELS "emulated_cpu")
+    endforeach()
+endif()

@@ -8,11 +8,12 @@
 #             encoders, the code point generator and the recording traits),
 #             which both directories use
 # The module is C++11 except for the char8_t overloads of the UTF-8 validation
-# (utf/LumexUtf8Validate.hpp), so every directory has a suite at C++11 and one
-# at C++20 (lumex/tests/LumexTestStandards.cmake): LumexUnicodeCxx11Tests,
-# LumexUnicodeUtfCxx11Tests, LumexUnicodeConvertCxx11Tests and the same
-# three at Cxx20. CTest names carry the prefix of the directory ("unicode.",
-# "unicode.utf.", "unicode.convert.") and the standard as the last part.
+# (utf/LumexUtf8Validate.hpp): the utf directory is its own test module
+# (unicode.utf, C++11 and C++20, and the no_simd variant, see utf/CMakeLists.txt),
+# this directory and convert/ are C++11 (lumex/tests/LumexTestStandards.cmake):
+# LumexUnicodeCxx11Tests, LumexUnicodeConvertCxx11Tests. CTest names carry the
+# prefix of the directory ("unicode.", "unicode.utf.", "unicode.convert.") and
+# the standard as the last part.
 # LumexUnicodeGlobalNames.cxx11.tests.cpp declares global names spelled like
 # the module's and uses them unqualified: every suite stops building if a
 # header of the module puts a name into the global namespace.

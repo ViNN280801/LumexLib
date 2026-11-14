@@ -24,12 +24,26 @@
 #                              bytes at the edges of the ranges, an ill-formed
 #                              sequence at every place of runs of ASCII, every
 #                              alignment of the buffer and pseudo-random text.
+#   (same suite)               LumexUtf8ValidateSimd.cxx11.tests.cpp: the SSSE3,
+#                              AVX2 and NEON routines behind the validation,
+#                              each called directly (skipped when this build
+#                              or this machine has none) against the scalar
+#                              routine, and the choice of the routine.
 #   LumexUnicodeUtfCxx20Tests  the same files at C++20, and
 #                              LumexUtf8Validate.cxx20.tests.cpp: the char8_t
 #                              overloads of the validation (u8 literals and
 #                              char8_t arrays).
+#   LumexUnicodeUtfNoSimdCxx11Tests, ...Cxx20Tests (CTest suffix
+#                              .no_simd.cxx11 / .no_simd.cxx20): the same
+#                              sources built with
+#                              LUMEX_UNICODE_UTF8_VALIDATE_NO_SIMD, which
+#                              leaves the scalar routine only.
+# The dispatch on CPUs that this machine does not have is tested by
+# unicode.utf.emulated_cpu.* (the end of lumex/tests/CMakeLists.txt): the call below
+# builds the suites, and a directory of this scheme calls no add_test.
 lumex_add_standard_suites(UnicodeUtf
-    MODULE unicode
+    MODULE unicode.utf
     LINK lumex::unicode
     SOURCES ../LumexUnicodeTestSupport.hpp LumexUtf8OracleData.hpp
+    VARIANT no_simd DEFINITIONS LUMEX_UNICODE_UTF8_VALIDATE_NO_SIMD
 )

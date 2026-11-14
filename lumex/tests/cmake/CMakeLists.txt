@@ -587,6 +587,47 @@ lumex_add_consumer_test(consumer_protocol_without_json protocol_without_json)
 # headers, with every platform macro they define still defined.
 lumex_add_consumer_test(consumer_protocol_platform_macros
     protocol_platform_macros)
+# Every overload of the UTF-8 validation and every vector routine that the
+# build has compile without a warning in a strict consumer, with the routines
+# and with LUMEX_UNICODE_UTF8_VALIDATE_NO_SIMD, through the header alone and
+# through the unicode umbrella.
+lumex_add_consumer_test(consumer_unicode_warnings unicode_warnings)
+# One program with a unit built for AVX2 (-mavx2, /arch:AVX2), a plain unit and
+# a unit with LUMEX_UNICODE_UTF8_VALIDATE_NO_SIMD, in both link orders and at
+# -O0 (/Od): the entities of the validation are named after the mode and the
+# instruction set of the unit, so each unit runs its own routine, and the plain
+# ones never run VEX code of the AVX2 unit.
+lumex_add_consumer_test(consumer_unicode_mixed_flags_isa_first
+    unicode_mixed_flags -DMIX_ORDER=ISA_FIRST)
+lumex_add_consumer_test(consumer_unicode_mixed_flags_plain_first
+    unicode_mixed_flags -DMIX_ORDER=PLAIN_FIRST)
+# The same on a CPU without AVX (an emulated Core 2, which has SSSE3 only): a
+# shared copy built with VEX encodings dies there with SIGILL, and a case that
+# is not emulated fails by the variant that the test names. Needs qemu-x86_64
+# (qemu-user) on a 64-bit x86 Linux host, qemu-i386 on a 32-bit one.
+set(_lumex_qemu_x86 "")
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux"
+   AND CMAKE_SYSTEM_PROCESSOR MATCHES "^(x86_64|amd64|i[3-6]86|x86)$"
+   AND NOT CMAKE_CROSSCOMPILING)
+    if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+        find_program(LUMEX_QEMU_X86_64 qemu-x86_64)
+        set(_lumex_qemu_x86 "${LUMEX_QEMU_X86_64}")
+    else()
+        find_program(LUMEX_QEMU_I386 qemu-i386)
+        set(_lumex_qemu_x86 "${LUMEX_QEMU_I386}")
+    endif()
+endif()
+if(_lumex_qemu_x86)
+    foreach(_order isa_first plain_first)
+        string(TOUPPER ${_order} _order_upper)
+        lumex_add_consumer_test(consumer_unicode_mixed_flags_${_order}_without_avx
+            unicode_mixed_flags -DMIX_ORDER=${_order_upper}
+            RUN_PREFIX ${_lumex_qemu_x86} -cpu Conroe)
+        lumex_test_name(_ctest_name consumer_unicode_mixed_flags_${_order}_without_avx)
+        set_tests_properties(${_ctest_name} PROPERTIES
+            ENVIRONMENT "LUMEX_FIXTURE_EXPECT_VARIANT=ssse3")
+    endforeach()
+endif()
 # serial never needs transport (decision A of the transport spec).
 lumex_add_consumer_test(consumer_serial_without_transport serial_without_transport)
 # An executable and a DLL share one io_context; each has its own transport
