@@ -571,6 +571,14 @@
 
 **Проверено:** cl.exe 14.51 Debug: `cmake.consumer_transport_two_modules`, `consumer_transport_warnings`, `consumer_library_werror_cxx20`, `install_share_layout_all_modules`, `install_share_layout_header_only`, `wiring_install_share_layout` и `lint.*` 14 из 14 (до правки 4 фикстуры из 4 падали); при возврате макросов `LumexApplied_transport` не собирается (60 ошибок C4003, C2440, C2059); библиотека без предупреждений на cl.exe Debug и Release и на clang-cl; WSL, GCC 13.3, g++-9 и clang++ 18.1: `LumexApplied_transport` собирается. Тесты `transport.*` на cl.exe теперь собираются, 35 из 2488 падают по причинам, не связанным с правкой (обвязка матрицы и тест Discover).
 
+##### Тест Discover над настоящим TCP-пиром: буфер ответа живет до конца записи
+
+**Файлы:** `lumex/tests/applied/transport/protocol/discovery/LumexDiscover.cxx11.tests.cpp`.
+
+**Суть:** обработчик чтения запускал `asio::async_write` над своей копией вектора ответа; копия умирала при выходе из обработчика, пока запись шла, и отладочная STL cl.exe останавливала тест (`can't dereference invalidated vector iterator`, код 0xC0000409); в Release тест проходил случайно. Ответ теперь `shared_ptr` на константный вектор, которым владеет обработчик записи.
+
+**Проверено:** cl.exe Debug: до правки `Discover_OverARealTcpPeerAndARefusingOne` падал всегда, после правки проходит; `transport.*` и `examples.transport.*` на cl.exe Debug, clang-cl Debug, cl.exe Release, WSL GCC 13.3 и clang++ 18.1 проходят.
+
 #### Изменено
 
 ##### Каталог `docs/` убран из истории репозитория, GitHub Pages выключен

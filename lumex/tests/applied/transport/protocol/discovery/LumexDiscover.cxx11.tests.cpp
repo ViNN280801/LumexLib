@@ -266,21 +266,25 @@ TEST (LumexDiscover, Discover_OverARealTcpPeerAndARefusingOne)
   closed_probe.close ();
   auto const peer = std::make_shared<asio::ip::tcp::socket> (context);
   auto const buffer = std::make_shared<std::array<std::uint8_t, 64>> ();
-  std::vector<std::uint8_t> const reply = wire_of (
-      [] ()
-        {
-          std::vector<std::uint8_t> message (1, 0x01);
-          pr::reply_of<gauge::WHO_t> const who = gauge_who ("NET1", 2, 2, 7);
-          std::string const model = "NET1";
-          message.insert (message.end (), model.begin (), model.end ());
-          message.insert (message.end (), 8 - model.size (), 0);
-          message.push_back (2);
-          message.push_back (0);
-          message.push_back (2);
-          message.push_back (7);
-          (void)who;
-          return message;
-        }());
+  // The write handler owns the reply: the buffer must live until the write
+  // completes, long after the read handler has returned.
+  auto const reply
+      = std::make_shared<std::vector<std::uint8_t> const> (wire_of (
+          [] ()
+            {
+              std::vector<std::uint8_t> message (1, 0x01);
+              pr::reply_of<gauge::WHO_t> const who
+                  = gauge_who ("NET1", 2, 2, 7);
+              std::string const model = "NET1";
+              message.insert (message.end (), model.begin (), model.end ());
+              message.insert (message.end (), 8 - model.size (), 0);
+              message.push_back (2);
+              message.push_back (0);
+              message.push_back (2);
+              message.push_back (7);
+              (void)who;
+              return message;
+            }()));
   acceptor.async_accept (
       *peer,
       [peer, buffer, reply] (std::error_code error)
@@ -291,8 +295,9 @@ TEST (LumexDiscover, Discover_OverARealTcpPeerAndARefusingOne)
               asio::buffer (*buffer),
               [peer, buffer, reply] (std::error_code, std::size_t)
                 {
-                  asio::async_write (*peer, asio::buffer (reply),
-                                     [peer] (std::error_code, std::size_t) {});
+                  asio::async_write (
+                      *peer, asio::buffer (*reply),
+                      [peer, reply] (std::error_code, std::size_t) {});
                 });
         });
   std::vector<pr::discovery_candidate_t> candidates (2);
