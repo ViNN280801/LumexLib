@@ -137,13 +137,23 @@
 
 /**
  * @def LUMEX_STRING_VIEW_HAS_EXCEPTIONS
- * @brief 1 when the compiler compiles `try`, `catch` and `throw` (GCC and
- * Clang: `__cpp_exceptions` or `__EXCEPTIONS`; MSVC: `_CPPUNWIND`), else 0.
+ * @brief 1 when `at ()`, `substr ()`, `copy ()` and the `compare` overloads
+ * with a position throw `std::out_of_range`, 0 when they call
+ * `std::terminate`.
+ * @details The default is `LUMEX_HAS_EXCEPTIONS` (the shared switch of the
+ * library, itself 0 with `-fno-exceptions` and 1 otherwise). A program may
+ * define this macro as 0 before the first include of the library to get the
+ * terminating members with exceptions on, whatever `LUMEX_HAS_EXCEPTIONS`
+ * says; defined as 1 under `-fno-exceptions` it does not compile. The inserter
+ * `operator<<` is not governed by it: its `try` block follows
+ * `LUMEX_COMPILER_HAS_EXCEPTIONS`.
  */
-#if defined(__cpp_exceptions) || defined(__EXCEPTIONS) || defined(_CPPUNWIND)
-#define LUMEX_STRING_VIEW_HAS_EXCEPTIONS 1
-#else
-#define LUMEX_STRING_VIEW_HAS_EXCEPTIONS 0
+#ifndef LUMEX_STRING_VIEW_HAS_EXCEPTIONS
+#define LUMEX_STRING_VIEW_HAS_EXCEPTIONS LUMEX_HAS_EXCEPTIONS
+#endif
+#if LUMEX_STRING_VIEW_HAS_EXCEPTIONS && !LUMEX_COMPILER_HAS_EXCEPTIONS
+#error                                                                        \
+    "LUMEX_STRING_VIEW_HAS_EXCEPTIONS is 1 but the compiler has exceptions off: a program built without exceptions cannot throw"
 #endif
 
 /**
@@ -2056,7 +2066,7 @@ LUMEX_SV_NO_UBSAN
   typename std::basic_ostream<CharT, Traits>::sentry const guard (ostr);
   if (guard)
     {
-#if LUMEX_STRING_VIEW_HAS_EXCEPTIONS
+#if LUMEX_COMPILER_HAS_EXCEPTIONS
       try
         {
           detail::write_field (ostr, sview.data (), sview.size ());

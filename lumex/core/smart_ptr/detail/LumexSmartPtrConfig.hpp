@@ -44,10 +44,11 @@
  * `std::enable_shared_from_this` policy.
  * @details Everything here is a macro; the header declares nothing else.
  *
- * - `LUMEX_SMART_PTR_HAS_EXCEPTIONS` is 1 when the translation unit is
- *   compiled with exceptions. Without them `LUMEX_SMART_PTR_TRY` and
- *   `LUMEX_SMART_PTR_CATCH_ALL` keep the code compiling (the handler is dead
- *   code), `LUMEX_SMART_PTR_RETHROW` is empty and
+ * - `LUMEX_SMART_PTR_HAS_EXCEPTIONS` is `LUMEX_COMPILER_HAS_EXCEPTIONS`: 1
+ *   when the translation unit is compiled with exceptions (the shared switch
+ *   `LUMEX_HAS_EXCEPTIONS` does not change it). Without them
+ * `LUMEX_SMART_PTR_TRY` and `LUMEX_SMART_PTR_CATCH_ALL` keep the code
+ * compiling (the handler is dead code), `LUMEX_SMART_PTR_RETHROW` is empty and
  *   `LUMEX_SMART_PTR_THROW (x)` ends the program with `std::abort ()`.
  * - `LUMEX_SMART_PTR_TSAN` is 1 under ThreadSanitizer. The tool does not
  *   model `std::atomic_thread_fence`, so the reference counters use an
@@ -69,12 +70,12 @@
 #include <cstdlib>
 
 #include "lumex/core/utility/assert/LumexAssert.hpp"
+#include "lumex/core/utility/macros/LumexKeywords.hpp"
 
-#if defined(__cpp_exceptions) || defined(__EXCEPTIONS) || defined(_CPPUNWIND)
-#define LUMEX_SMART_PTR_HAS_EXCEPTIONS 1
-#else
-#define LUMEX_SMART_PTR_HAS_EXCEPTIONS 0
-#endif
+// The compiler's fact, not the switch of the library: the `try` blocks of the
+// reference counters must stay while exceptions are on, also with
+// LUMEX_HAS_EXCEPTIONS defined as 0.
+#define LUMEX_SMART_PTR_HAS_EXCEPTIONS LUMEX_COMPILER_HAS_EXCEPTIONS
 
 #if LUMEX_SMART_PTR_HAS_EXCEPTIONS
 #define LUMEX_SMART_PTR_TRY try

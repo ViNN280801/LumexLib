@@ -114,12 +114,12 @@
  * @def LUMEX_OPTIONAL_HAS_EXCEPTIONS
  * @brief 1 when `value ()` of an empty `optional` throws
  * `lumex_bad_optional_access`, 0 when it calls `std::terminate`.
- * @details The default follows the compiler: 0 with `-fno-exceptions` (GCC and
- * Clang: neither `__cpp_exceptions` nor `__EXCEPTIONS`) or MSVC without
- * `/EHsc` (no `_CPPUNWIND`), 1 otherwise. A program may define the macro as 0
- * before the first include of the library to get the terminating `value ()`
- * with exceptions on; defined as 1 under `-fno-exceptions` it does not
- * compile. `value ()` is the only function of the module that throws.
+ * @details The default is `LUMEX_HAS_EXCEPTIONS` (the shared switch of the
+ * library, itself 0 with `-fno-exceptions` or MSVC without `/EHsc` and 1
+ * otherwise). A program may define this macro as 0 before the first include of
+ * the library to get the terminating `value ()` with exceptions on, whatever
+ * `LUMEX_HAS_EXCEPTIONS` says; defined as 1 under `-fno-exceptions` it does
+ * not compile. `value ()` is the only function of the module that throws.
  * @details Units of one program may differ in this value: the body of
  * `value ()` depends on it, so `value ()` and the functions it calls are
  * always inlined (`LUMEX_ATTRIBUTE_ALWAYS_INLINE`) and, where the compiler
@@ -132,11 +132,11 @@
  * in either link order, although unreferenced COMDATs are still emitted.
  */
 #ifndef LUMEX_OPTIONAL_HAS_EXCEPTIONS
-#if defined(__cpp_exceptions) || defined(__EXCEPTIONS) || defined(_CPPUNWIND)
-#define LUMEX_OPTIONAL_HAS_EXCEPTIONS 1
-#else
-#define LUMEX_OPTIONAL_HAS_EXCEPTIONS 0
+#define LUMEX_OPTIONAL_HAS_EXCEPTIONS LUMEX_HAS_EXCEPTIONS
 #endif
+#if LUMEX_OPTIONAL_HAS_EXCEPTIONS && !LUMEX_COMPILER_HAS_EXCEPTIONS
+#error                                                                        \
+    "LUMEX_OPTIONAL_HAS_EXCEPTIONS is 1 but the compiler has exceptions off: a program built without exceptions cannot throw"
 #endif
 
 /**

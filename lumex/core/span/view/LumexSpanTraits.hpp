@@ -73,17 +73,18 @@
  * @def LUMEX_SPAN_HAS_EXCEPTIONS
  * @brief 1 when `at ()` of a `span` throws `std::out_of_range` for an index
  * out of range, 0 when it calls `std::terminate`.
- * @details The default follows the compiler: 0 with `-fno-exceptions` (GCC and
- * Clang: neither `__cpp_exceptions` nor `__EXCEPTIONS`) or MSVC without `/EH`
- * (no `_CPPUNWIND`), 1 otherwise. A program may define the macro as 0 before
- * the first include of the library to get the terminating `at ()` with
- * exceptions on; defined as 1 under `-fno-exceptions` it does not compile.
- * `at ()` is the only function of the module that throws. Units of one program
- * may differ in this value: `at ()` and the functions it calls are always
- * inlined (`LUMEX_ATTRIBUTE_ALWAYS_INLINE`), so, where the compiler honours
- * it, the linker has no weak copy of them to choose between; a function whose
- * address is taken still gets a symbol and then follows the unit the linker
- * meets first. cl.exe does not honour `__forceinline` without inlining (`/Od`,
+ * @details The default is `LUMEX_HAS_EXCEPTIONS` (the shared switch of the
+ * library, itself 0 with `-fno-exceptions` or MSVC without `/EH` and 1
+ * otherwise). A program may define this macro as 0 before the first include of
+ * the library to get the terminating `at ()` with exceptions on, whatever
+ * `LUMEX_HAS_EXCEPTIONS` says; defined as 1 under `-fno-exceptions` it does
+ * not compile. `at ()` is the only function of the module that throws. Units
+ * of one program may differ in this value: `at ()` and the functions it calls
+ * are always inlined (`LUMEX_ATTRIBUTE_ALWAYS_INLINE`), so, where the compiler
+ * honours it, the linker has no weak copy of them to choose between; a
+ * function whose address is taken still gets a symbol and then follows the
+ * unit the linker meets first. cl.exe does not honour `__forceinline` without
+ * inlining (`/Od`,
  * `/Ob0`): there `at ()` stays a real COMDAT function with one copy per
  * program, so units of one program must agree on the exception mode; with
  * inlining (`/O2`) each unit keeps its own behavior in either link order,
@@ -91,11 +92,11 @@
  * `LUMEX_SPAN_CHECKS`: a violated precondition aborts in every exception mode.
  */
 #ifndef LUMEX_SPAN_HAS_EXCEPTIONS
-#if defined(__cpp_exceptions) || defined(__EXCEPTIONS) || defined(_CPPUNWIND)
-#define LUMEX_SPAN_HAS_EXCEPTIONS 1
-#else
-#define LUMEX_SPAN_HAS_EXCEPTIONS 0
+#define LUMEX_SPAN_HAS_EXCEPTIONS LUMEX_HAS_EXCEPTIONS
 #endif
+#if LUMEX_SPAN_HAS_EXCEPTIONS && !LUMEX_COMPILER_HAS_EXCEPTIONS
+#error                                                                        \
+    "LUMEX_SPAN_HAS_EXCEPTIONS is 1 but the compiler has exceptions off: a program built without exceptions cannot throw"
 #endif
 
 /**

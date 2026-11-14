@@ -53,7 +53,9 @@
  * `LUMEX_INLINE_VARIABLE` is `inline` from C++17 and empty before;
  * `LUMEX_CONSTINIT` and `LUMEX_CONSTEVAL` are the C++20 keywords and
  * `constexpr` before; `LUMEX_RESTRICT` is the compiler's `__restrict`
- * extension. The header includes nothing.
+ * extension. `LUMEX_COMPILER_HAS_EXCEPTIONS` and `LUMEX_HAS_EXCEPTIONS` are
+ * the exception mode of the translation unit and the switch of the throwing
+ * functions of the header-only modules. The header includes nothing.
  */
 #ifndef LUMEX_CORE_UTILITY_MACROS_KEYWORDS_HPP
 #define LUMEX_CORE_UTILITY_MACROS_KEYWORDS_HPP
@@ -174,6 +176,46 @@
 #define LUMEX_CONSTEXPR_CXX14 constexpr
 #else
 #define LUMEX_CONSTEXPR_CXX14
+#endif
+
+/**
+ * @def LUMEX_COMPILER_HAS_EXCEPTIONS
+ * @brief 1 when the compiler compiles `try`, `catch` and `throw` (GCC and
+ * Clang: `__cpp_exceptions` or `__EXCEPTIONS`; MSVC: `_CPPUNWIND`), otherwise
+ * 0 (`-fno-exceptions`, MSVC without `/EHsc`).
+ * @details A fact of the translation unit that a program cannot override: code
+ * that contains a `try` block (the reference counters of `smart_ptr`, the
+ * inserter of the string views, the paths of `expected` that put the old
+ * contents back) is compiled by it.
+ */
+#if defined(__cpp_exceptions) || defined(__EXCEPTIONS) || defined(_CPPUNWIND)
+#define LUMEX_COMPILER_HAS_EXCEPTIONS 1
+#else
+#define LUMEX_COMPILER_HAS_EXCEPTIONS 0
+#endif
+
+/**
+ * @def LUMEX_HAS_EXCEPTIONS
+ * @brief 1 when the throwing functions of the library throw, 0 when they call
+ * `std::terminate`: `expected::value ()`, `optional::value ()`, `span::at ()`,
+ * `lumex_string_view::at ()`, `substr ()`, `copy ()` and the `compare`
+ * overloads with a position.
+ * @details The default is `LUMEX_COMPILER_HAS_EXCEPTIONS`. A program may
+ * define the macro as 0 before the first include of the library to switch
+ * every module to the terminating form with exceptions on. Each module has a
+ * macro of its own (`LUMEX_EXPECTED_HAS_EXCEPTIONS`,
+ * `LUMEX_OPTIONAL_HAS_EXCEPTIONS`, `LUMEX_SPAN_HAS_EXCEPTIONS`,
+ * `LUMEX_STRING_VIEW_HAS_EXCEPTIONS`) that defaults to this one and overrides
+ * it for that module. Defined as 1 when the compiler has no exceptions it does
+ * not compile. `smart_ptr` follows `LUMEX_COMPILER_HAS_EXCEPTIONS`, not this
+ * macro: its `try` blocks must not disappear while exceptions are on.
+ */
+#ifndef LUMEX_HAS_EXCEPTIONS
+#define LUMEX_HAS_EXCEPTIONS LUMEX_COMPILER_HAS_EXCEPTIONS
+#endif
+#if LUMEX_HAS_EXCEPTIONS && !LUMEX_COMPILER_HAS_EXCEPTIONS
+#error                                                                        \
+    "LUMEX_HAS_EXCEPTIONS is 1 but the compiler has exceptions off: a program built without exceptions cannot throw"
 #endif
 
 #endif // !LUMEX_CORE_UTILITY_MACROS_KEYWORDS_HPP
