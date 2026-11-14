@@ -745,6 +745,14 @@
 
 **Проверено:** cl.exe `/W4 /WX` на старых заголовках дает C4702 в `LumexSpan.hpp(731)` (C++14, C++20), на новых чисто; фикстура со старыми заголовками падает на cl.exe, с новыми проходит на cl.exe Debug и Release, clang-cl, WSL GCC 13.3, g++-9 и clang++ 18; `span.*` и `examples.span.*` проходят там же.
 
+##### C4702 в `lumex_string_view::at` и `substr`; фикстуры предупреждений значений еще и в Debug
+
+**Файлы:** `lumex/core/string_view/view/LumexBasicStringView.hpp`, `lumex/core/string_view/README.md`, `lumex/tests/cmake/consumer/string_view_warnings/` (новый), `lumex/tests/cmake/CMakeLists.txt`.
+
+**Суть:** ветка ошибки `at ()` и `substr ()` заканчивалась запятой с недостижимым операндом, cl.exe сообщал C4702 (ошибка при `/W4 /WX`), но только без встраивания (`/Od`, `/Ob0`), поэтому Release-фикстуры его не видели. Ветка стала вызовом `detail::throw_out_of_range_as<Result> (...)`, как у `optional`, `expected` и `span`; функция всегда встраивается, как `throw_out_of_range`, `constexpr` сохранен. `lumex_add_consumer_test` получила параметр `BUILD_TYPE` (по умолчанию Release); фикстуры предупреждений `expected`, `optional`, `span` и `string_view` собираются еще и в Debug (`..._debug`). В README и комментарии названо ограничение: cl.exe без встраивания не исполняет `__forceinline`, там единицы одной программы должны совпадать по режиму исключений.
+
+**Проверено:** cl.exe `/W4 /WX` на старом заголовке: C4702 в строках 1352 и 1443 при `/Od` и `/O2 /Ob0` (и `/Os`), при `/O2`, `/O1`, `/Ox` и `/Od /Ob2` чисто; на новом чисто везде; со старым заголовком падает только `consumer_string_view_warnings_debug` (Release-фикстура и `_debug` фикстуры `expected`, `optional`, `span` проходят и на старом); фикстуры проходят на cl.exe Debug и Release, clang-cl, WSL GCC 13.3, g++-9 и clang++ 18; `string_view.*` и `examples.string_view.*` проходят там же.
+
 #### Изменено
 
 ##### XML: сеттеры имен и значений убирают неправильные последовательности UTF-8

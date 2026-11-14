@@ -319,7 +319,13 @@ function(lumex_add_consumer_test name fixture)
     # tree that runs it, and runs with the runtime of this tree's compiler.
     # The other arguments go to the fixture's configure, up to an optional
     # RUN_PREFIX <command...>, which is put before the fixture's executable.
-    cmake_parse_arguments(ARG "" "" "RUN_PREFIX" ${ARGN})
+    # BUILD_TYPE <type> (default Release) is the build type of the nested
+    # build: a warning that shows only without inlining (cl.exe C4702 of a
+    # conditional with a comma operand shows at /Od and /Ob0) needs Debug.
+    cmake_parse_arguments(ARG "" "BUILD_TYPE" "RUN_PREFIX" ${ARGN})
+    if(NOT ARG_BUILD_TYPE)
+        set(ARG_BUILD_TYPE Release)
+    endif()
     lumex_test_name(_ctest_name ${name})
     add_test(NAME ${_ctest_name}
         COMMAND ${CMAKE_COMMAND}
@@ -334,7 +340,7 @@ function(lumex_add_consumer_test name fixture)
             "-DCXX_FLAGS=${CMAKE_CXX_FLAGS}"
             -DCLANG_STDLIB=${LUMEX_CLANG_STDLIB}
             "-DBUILD_RPATH=${_LUMEX_CONSUMER_RPATH}"
-            -DBUILD_TYPE=Release
+            -DBUILD_TYPE=${ARG_BUILD_TYPE}
             "-DEXTRA_ARGS=${ARG_UNPARSED_ARGUMENTS}"
             "-DRUN_PREFIX=${ARG_RUN_PREFIX}"
             -P ${_LUMEX_CONSUMER_RUN}
@@ -611,6 +617,18 @@ lumex_add_consumer_test(consumer_optional_warnings optional_warnings)
 # Every element accessor of span, at () of a const span included, compiles without
 # a warning in a strict consumer (cl /W4 /WX: C4702 once).
 lumex_add_consumer_test(consumer_span_warnings span_warnings)
+# The same for the string views (at () and substr () once ended in a comma
+# operand), and without inlining too: that warning shows at /Od and /Ob0 and not
+# at /O2, so the warnings fixtures of the value types also build in Debug.
+lumex_add_consumer_test(consumer_string_view_warnings string_view_warnings)
+lumex_add_consumer_test(consumer_expected_warnings_debug expected_warnings
+    BUILD_TYPE Debug)
+lumex_add_consumer_test(consumer_optional_warnings_debug optional_warnings
+    BUILD_TYPE Debug)
+lumex_add_consumer_test(consumer_span_warnings_debug span_warnings
+    BUILD_TYPE Debug)
+lumex_add_consumer_test(consumer_string_view_warnings_debug
+    string_view_warnings BUILD_TYPE Debug)
 # The protocol category is one per process, like the framing one.
 lumex_add_consumer_test(consumer_protocol_two_modules protocol_two_modules)
 # Every macro and template of the protocol DSL in a strict consumer.
