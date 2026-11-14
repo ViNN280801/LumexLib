@@ -55,18 +55,23 @@
  * the document, and `load_buffer_inplace_own` also takes it over.
  *
  * A UTF-8 input is cleaned on load, as the other encodings are when they are
- * decoded: a byte that starts no well-formed sequence of Unicode Table 3-7 (an
- * overlong form, a surrogate, a value above U+10FFFF, a stray continuation
- * byte, a truncated sequence) is dropped, and valid text is not touched. So
+ * decoded: a byte that is not part of a well-formed sequence of Unicode Table
+ * 3-7 (an overlong form, a surrogate, a value above U+10FFFF, a stray
+ * continuation byte, a truncated sequence) is dropped, and valid text is not
+ * touched. So
  * the tree of a UTF-8, UTF-16 or UTF-32 document holds well-formed UTF-8 only,
  * and the UTF-8, UTF-16 and UTF-32 saves of it write the same text (Latin-1
  * writes `?` for what it cannot hold). The cleaning applies to a document
  * that declares UTF-8 (`encoding="UTF-8"`, in any case) or declares no
  * encoding (a byte order mark `EF BB BF` without a declaration counts as
- * UTF-8). The declaration is the one the parser takes: `<?xml` in any case,
- * in the prolog, that is also after white space, comments, other processing
- * instructions and a document type declaration, not only at the first byte. A
- * document whose XML declaration names another encoding
+ * UTF-8). With `kparse_keep_invalid_utf8` in the options no UTF-8 document is
+ * cleaned: it is loaded byte for byte, whatever it declares, on every load
+ * function and in `XmlNode::append_buffer` (the option is not in
+ * `kparse_default` or `kparse_full`). The declaration is the one the parser
+ * takes: `<?xml` in any case, in the prolog, that is also after white space,
+ * comments, other processing instructions and a document type declaration, not
+ * only at the first byte. A document whose XML declaration names another
+ * encoding
  * (`windows-1251`, `KOI8-R`, ...) is loaded byte for byte, as it always was:
  * the library does not convert it, and the bytes of an 8-bit text are not
  * errors. The declaration decides also when the caller passes

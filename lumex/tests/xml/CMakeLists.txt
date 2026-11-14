@@ -6,6 +6,10 @@
 # per standard of the module (lumex/tests/LumexTestStandards.cmake):
 #   LumexXmlCxx11Tests  LumexXml.cxx11.tests.cpp,
 #                       LumexXmlGlobalNames.cxx11.tests.cpp and
+#                       LumexXmlKeepInvalidUtf8.cxx11.tests.cpp (the parse
+#                       option kparse_keep_invalid_utf8: a UTF-8 document is
+#                       loaded byte for byte, on every load function and on
+#                       append_buffer, with and without the option) and
 #                       LumexXmlEncodings.cxx11.tests.cpp (UTF-16, UTF-32 and
 #                       Latin-1 through load_buffer, load and save: the byte
 #                       order mark, the detection of the encoding, output

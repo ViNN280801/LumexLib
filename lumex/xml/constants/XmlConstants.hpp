@@ -47,7 +47,9 @@
  * functions and `XmlNode::append_buffer`; `kparse_default` enables CDATA,
  * escapes, end-of-line normalization and whitespace conversion in attribute
  * values, and `kparse_full` adds processing instructions, comments, the
- * declaration and the document type. The `kformat_*` flags control
+ * declaration and the document type. `kparse_keep_invalid_utf8` is in neither:
+ * it changes the data that is loaded, not the nodes that are made (see below).
+ * The `kformat_*` flags control
  * `XmlDocument::save`, `XmlDocument::save_file` and `XmlNode::print`;
  * `kformat_default` is `kformat_indent`. `kdefault_double_precision` (17) and
  * `kdefault_float_precision` (9) are the significant digits used when a
@@ -165,6 +167,14 @@ LUMEX_CONSTINIT_CONSTANT unsigned int kparse_trim_pcdata = 0x0800;
 LUMEX_CONSTINIT_CONSTANT unsigned int kparse_fragment = 0x1000;
 LUMEX_CONSTINIT_CONSTANT unsigned int kparse_embed_pcdata = 0x2000;
 LUMEX_CONSTINIT_CONSTANT unsigned int kparse_merge_pcdata = 0x4000;
+// Loads a UTF-8 document byte for byte, whatever it declares: a byte that is
+// not part of a well-formed UTF-8 sequence stays in the tree, as it did before
+// a load dropped such bytes (see XmlDocument.hpp). Not part of
+// `kparse_default` or `kparse_full`: the tree then holds text that is not
+// UTF-8, which the UTF-8 save writes as it is and the UTF-16, UTF-32 and
+// Latin-1 saves skip. Documents in another encoding (UTF-16, UTF-32, Latin-1)
+// are decoded as always and are not affected.
+LUMEX_CONSTINIT_CONSTANT unsigned int kparse_keep_invalid_utf8 = 0x8000;
 LUMEX_CONSTINIT_CONSTANT unsigned int kparse_default
     = kparse_cdata | kparse_escapes | kparse_wconv_attribute | kparse_eol;
 LUMEX_CONSTINIT_CONSTANT unsigned int kparse_full

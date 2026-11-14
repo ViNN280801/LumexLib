@@ -185,9 +185,10 @@ lumex::xml::text::load_buffer_impl ( // NOLINT(misc-use-internal-linkage)
 
   // a UTF-8 document is cleaned of ill-formed UTF-8 when it declares UTF-8 or
   // no encoding; one that declares another (windows-1251, KOI8-R) is loaded as
-  // it is
+  // it is, and so is any UTF-8 document with kparse_keep_invalid_utf8
   bool const clean_utf8
       = buffer_encoding == Types::xml_encoding::encoding_utf8
+        && (options & kparse_keep_invalid_utf8) == 0
         && utility::is_utf8_cleaned_on_load (
             static_cast<std::uint8_t const *> (contents), size);
 
