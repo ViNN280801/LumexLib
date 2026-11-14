@@ -540,11 +540,12 @@ discovery_run_t::make_transport (std::size_t at)
     case discovery_candidate_t::candidate_kind::network_datagram:
       message_factory = session::make_udp_factory (candidate.network);
       break;
-#if defined(LUMEX_TRANSPORT_WITH_HID)
     case discovery_candidate_t::candidate_kind::hid:
+      // Without the HID backend the kind has no factory: not supported.
+#if defined(LUMEX_TRANSPORT_WITH_HID)
       message_factory = hid::make_hid_factory (candidate.hid);
-      break;
 #endif
+      break;
     case discovery_candidate_t::candidate_kind::stream:
       stream_factory = candidate.stream_factory;
       break;

@@ -373,6 +373,20 @@ TEST (LumexDiscover, Discover_ACandidateOfAKindTheWireHasNoLinkFor)
   EXPECT_EQ (results[1].reason, protocol_errc::not_supported);
 }
 
+#if !defined(LUMEX_TRANSPORT_WITH_HID)
+TEST (LumexDiscover, Discover_AHidCandidateWithoutTheHidBackend)
+{
+  // The library built without HID still names the kind: not supported.
+  bench_t bench;
+  std::vector<pr::discovery_candidate_t> candidates (1);
+  candidates[0].kind = pr::discovery_candidate_t::candidate_kind::hid;
+  results_t const results = bench.discover (candidates);
+  ASSERT_EQ (results.size (), 1u);
+  EXPECT_FALSE (results[0].found);
+  EXPECT_EQ (results[0].reason, protocol_errc::not_supported);
+}
+#endif
+
 TEST (LumexDiscover, Discover_OutOfBandSwitchBeforeIdentify)
 {
   // Falsified by a sequence after the identification, or through the codec.
