@@ -667,6 +667,14 @@
 
 **Проверено:** cl.exe Debug и Release, clang-cl Debug: 34 ячейки `transport.matrix.threads.device_j.*` и все 412 `transport.matrix.*` под `ctest -j 8 --repeat until-fail:5` без отказов, самая долгая ячейка 2.94 с при защитном пределе 5 с; в отладочном прогоне 34 ячеек новый сигнал 29 раз остановил досрочное решение "тихо" (32555 пауз); при `runners_idle` всегда ложном ячейка идет 71 с и нарушает предел, после возврата 1.9 с; WSL GCC 13.3, g++-9 и clang++ 18: 412 из 412, `device_j` 5.4-5.8 с; при 10 нагрузочных процессах на 20 ядрах оба варианта проходят, при 20 и 40 падают оба (18 и 17, 26 и 30 ячеек).
 
+##### C4702 в `span::at` под `/W4 /WX`
+
+**Файлы:** `lumex/core/span/view/LumexSpanTraits.hpp`, `lumex/core/span/view/LumexSpan.hpp`, `lumex/tests/cmake/consumer/span_warnings/` (новый), `lumex/tests/cmake/CMakeLists.txt`.
+
+**Суть:** ветка ошибки `at ()` заканчивалась запятой с недостижимым операндом, cl.exe сообщал C4702 (ошибка при `/W4 /WX`), потребитель со строгими флагами не собирался. Ветка стала вызовом `detail::throw_out_of_range_as<reference> (...)`, как у `optional` и `expected`; `constexpr` сохранен. Фикстура `cmake.consumer_span_warnings` собирает все доступы к элементам `span` (динамический и статический размер, `constexpr`) со строгими флагами cl.exe, clang-cl, Clang и GCC на C++11 (на cl.exe и clang-cl C++14), C++14 и C++20.
+
+**Проверено:** cl.exe `/W4 /WX` на старых заголовках дает C4702 в `LumexSpan.hpp(731)` (C++14, C++20), на новых чисто; фикстура со старыми заголовками падает на cl.exe, с новыми проходит на cl.exe Debug и Release, clang-cl, WSL GCC 13.3, g++-9 и clang++ 18; `span.*` и `examples.span.*` проходят там же.
+
 #### Изменено
 
 ##### Каталог `docs/` убран из истории репозитория, GitHub Pages выключен
