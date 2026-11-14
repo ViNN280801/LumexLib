@@ -37,57 +37,140 @@ using lumex::core::protocol::error::protocol_errc;
 // bench must stay still before the clock moves to its next wait (many more
 // before it moves to the end of a budget with no wait pending: a handler
 // chain on its way may start one yet). Still: the same progress of the bench,
-// the same waits of the clock and, where `std::clock` is processor time, no
-// processor time spent by the runner threads.
+// the same waits of the clock and no processor time spent by the runner
+// threads.
 std::chrono::microseconds const ksettle (1000);
 int const kstill_pauses = 5;
 int const kidle_pauses = 50;
 int const kmost_pauses = 2000;
 
 #if defined(_WIN32)
-// `std::clock` is wall time there: no processor time to look at.
-bool const kprocessor_time = false;
-#else
-bool const kprocessor_time = true;
-#endif
+// `std::clock` is wall time there. The processor time of the process is its
+// cycle count (`QueryProcessCycleTime`: all threads, also while a thread
+// runs) over the cycles per second of that counter, which Windows does not
+// state: measured once against the performance counter, on the thread that
+// first asks (the test's own, while the runner threads may be busy; the best
+// of a few trials covers that).
+int const kcalibration_trials = 3;
+double const kcalibration_seconds = 0.010;
+double const kmicroseconds_per_second = 1.0e6;
+// Below this much processor time per pause the runner threads are idle.
+std::uint64_t const kidle_microseconds = 500;
 
-std::clock_t
+struct cycle_clock_t
+{
+  bool known;
+  double cycles_per_microsecond;
+};
+
+double
+performance_seconds ()
+{
+  LARGE_INTEGER frequency;
+  LARGE_INTEGER count;
+  ::QueryPerformanceFrequency (&frequency);
+  ::QueryPerformanceCounter (&count);
+  return static_cast<double> (count.QuadPart)
+         / static_cast<double> (frequency.QuadPart);
+}
+
+// The best of kcalibration_trials spins of kcalibration_seconds: a thread that
+// the scheduler took off the processor in the middle of a spin spent fewer
+// cycles in its wall time, so the best trial is the closest to the true rate.
+cycle_clock_t
+measure_cycle_clock ()
+{
+  double best = 0.0;
+  for (int trial = 0; trial < kcalibration_trials; ++trial)
+    {
+      ULONG64 first = 0;
+      ULONG64 last = 0;
+      double const begin = performance_seconds ();
+      if (!::QueryThreadCycleTime (::GetCurrentThread (), &first))
+        return cycle_clock_t{ false, 0.0 };
+      double end = begin;
+      while (end - begin < kcalibration_seconds)
+        end = performance_seconds ();
+      if (!::QueryThreadCycleTime (::GetCurrentThread (), &last)
+          || last <= first)
+        return cycle_clock_t{ false, 0.0 };
+      double const rate = static_cast<double> (last - first)
+                          / ((end - begin) * kmicroseconds_per_second);
+      if (rate > best)
+        best = rate;
+    }
+  return cycle_clock_t{ best > 0.0, best };
+}
+
+cycle_clock_t const &
+cycle_clock ()
+{
+  static cycle_clock_t const measured = measure_cycle_clock ();
+  return measured;
+}
+
+// Microseconds of processor time of the whole process; 0 when Windows does
+// not report it (no cycle clock, or the call failed).
+using processor_time_t = std::uint64_t;
+
+processor_time_t
 processor_time ()
 {
-  return kprocessor_time ? std::clock () : 0;
+  cycle_clock_t const &clock = cycle_clock ();
+  ULONG64 cycles = 0;
+  if (!clock.known
+      || !::QueryProcessCycleTime (::GetCurrentProcess (), &cycles))
+    return 0;
+  return static_cast<processor_time_t> (static_cast<double> (cycles)
+                                        / clock.cycles_per_microsecond);
+}
+
+// The processor time spent between two readings. A reading of 0 (not
+// reported) or one that went backwards says nothing: no time spent, so that
+// the unsigned difference does not wrap into a huge value that would keep the
+// bench from ever being still.
+processor_time_t
+processor_time_spent (processor_time_t now, processor_time_t last)
+{
+  return now == 0 || last == 0 || now < last ? 0 : now - last;
+}
+
+// Whether the processor time `spent` (microseconds) since the last pause is
+// below half of a millisecond, as on the other systems. Without a cycle clock
+// nothing contradicts it: the progress of the bench alone says that it is
+// still.
+bool
+runners_idle (processor_time_t spent)
+{
+  return !cycle_clock ().known || spent < kidle_microseconds;
+}
+#else
+// Ticks of `std::clock`, the processor time of the process.
+using processor_time_t = std::clock_t;
+
+processor_time_t
+processor_time ()
+{
+  return std::clock ();
+}
+
+// The processor time spent between two readings, in ticks of `std::clock`.
+processor_time_t
+processor_time_spent (processor_time_t now, processor_time_t last)
+{
+  return now - last;
 }
 
 // Whether the processor time `spent` (in ticks of `std::clock`) since the
 // last pause is below half of a millisecond. Computed in floating point: the
-// threshold in whole ticks is 0 where a tick is a millisecond, and a bench
-// would never be idle. Without processor time nothing contradicts it: the
-// progress of the bench alone says that it is still.
+// threshold in whole ticks would be 0 where a tick is a millisecond.
 bool
-runners_idle (std::clock_t spent)
+runners_idle (processor_time_t spent)
 {
-  return !kprocessor_time
-         || static_cast<double> (spent)
-                < static_cast<double> (CLOCKS_PER_SEC) / 2000.0;
+  return static_cast<double> (spent)
+         < static_cast<double> (CLOCKS_PER_SEC) / 2000.0;
 }
-
-// A pause of ksettle takes one tick of the system timer, 15.6 ms on Windows,
-// unless the program asks for a finer one: 2000 pauses of a pass then took
-// half a minute. Paired calls, held by a threaded driver for its lifetime.
-void
-raise_pause_resolution ()
-{
-#if defined(_WIN32)
-  ::timeBeginPeriod (1);
 #endif
-}
-
-void
-restore_pause_resolution ()
-{
-#if defined(_WIN32)
-  ::timeEndPeriod (1);
-#endif
-}
 
 bool
 is_protocol (std::error_code const &error)
@@ -123,23 +206,48 @@ reconnected (snapshot_t const &before, snapshot_t const &after)
 
 // --- the driver
 
+// A pause of ksettle takes one tick of the system timer, 15.6 ms on Windows,
+// unless the program asks for a finer one: 2000 pauses of a pass then took
+// half a minute. A member of a threaded driver: the destructor of the
+// constructed member gives the timer back also when a later member throws.
+struct pause_resolution_t
+{
+  pause_resolution_t () LUMEX_NOEXCEPT
+  {
+#if defined(_WIN32)
+    raised_ = ::timeBeginPeriod (1) == TIMERR_NOERROR;
+#endif
+  }
+
+  pause_resolution_t (pause_resolution_t const &) = delete;
+  pause_resolution_t &operator= (pause_resolution_t const &) = delete;
+
+  ~pause_resolution_t ()
+  {
+#if defined(_WIN32)
+    if (raised_)
+      ::timeEndPeriod (1);
+#endif
+  }
+
+private:
+#if defined(_WIN32)
+  bool raised_ = false;
+#endif
+};
+
 driver_t::driver_t (bool threaded)
 {
   if (threaded)
     {
-      raise_pause_resolution ();
+      pause_.reset (new pause_resolution_t ());
       runner_.reset (new tr::stream::io_runner (4));
     }
   else
     context_.reset (new asio::io_context ());
 }
 
-driver_t::~driver_t ()
-{
-  stop ();
-  if (runner_)
-    restore_pause_resolution ();
-}
+driver_t::~driver_t () { stop (); }
 
 tr::executor_type
 driver_t::executor ()
@@ -169,7 +277,7 @@ driver_t::run_until (tr::testing::virtual_clock &clock,
       int still = 0;
       int pauses = 0;
       std::uint64_t last = ~std::uint64_t (0);
-      std::clock_t last_time = processor_time ();
+      processor_time_t last_time = processor_time ();
       for (;;)
         {
           std::this_thread::sleep_for (ksettle);
@@ -179,8 +287,9 @@ driver_t::run_until (tr::testing::virtual_clock &clock,
               = (progress_ ? progress_ () : 0) + clock.pending () * 1000003u
                 + static_cast<std::uint64_t> (
                     clock.next_expiry ().time_since_epoch ().count ());
-          std::clock_t const now_time = processor_time ();
-          bool const idle = runners_idle (now_time - last_time);
+          processor_time_t const now_time = processor_time ();
+          bool const idle
+              = runners_idle (processor_time_spent (now_time, last_time));
           still = now_progress == last && idle ? still + 1 : 0;
           last = now_progress;
           last_time = now_time;

@@ -643,6 +643,10 @@ template <typename P> struct script_rows_t
 // Driving the context: polled on this thread, or run by a runner of threads
 // ---------------------------------------------------------------------------
 
+/// The finer timer of Windows for the pauses of a threaded driver (defined
+/// in the .cpp; nothing on the other systems).
+struct pause_resolution_t;
+
 /// Runs the io_context of a bench. Polled (the matrix): one thread, `poll`
 /// and the clock wait by wait (`testing::run_until`). Threaded (the subset
 /// for the thread sanitizer): an `io_runner` of four threads, the clock moved
@@ -686,6 +690,8 @@ private:
   tr::executor_type clock_executor_;
   std::function<std::uint64_t ()> progress_;
   std::unique_ptr<asio::io_context> context_;
+  // Before the runner: the finer timer of Windows ends after the threads.
+  std::unique_ptr<pause_resolution_t> pause_;
   std::unique_ptr<tr::stream::io_runner> runner_;
 };
 
