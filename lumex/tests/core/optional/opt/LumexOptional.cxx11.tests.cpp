@@ -2,6 +2,7 @@
 #include <stdexcept>
 #include <string>
 #include <type_traits>
+#include <utility>
 #include <vector>
 
 #include <gtest/gtest.h>
@@ -661,4 +662,54 @@ TEST_F (LumexOptionalTest, UmbrellaGlobalNamesAreTheModuleTypes)
   ASSERT_TRUE (value.has_value ());
   EXPECT_EQ (*value, 3);
   EXPECT_THROW ((void)empty_value.value (), ::lumex_bad_optional_access);
+}
+
+// --- value () of an rvalue refers to the stored object ---
+namespace
+{
+template <typename T>
+T *
+address_of (T &&reference)
+{
+  return std::addressof (reference);
+}
+} // namespace
+
+// cl.exe made a temporary of the conditional with a comma branch: the
+// reference returned by value () && and value () const && pointed into a dead
+// frame.
+TEST (LumexOptionalRvalueValueTest,
+      GivenAnRvalueOptional_WhenValueIsTaken_ThenTheReferenceIsTheStoredObject)
+{
+  ::optional<std::string> engaged (std::string (40, 'v'));
+  std::string const *const stored = &*engaged;
+  EXPECT_EQ (address_of (std::move (engaged).value ()), stored);
+  EXPECT_EQ (engaged->size (), 40u) << "value () && moves nothing by itself";
+  // A scalar took the other path of the same defect.
+  ::optional<int> number (5);
+  int const *const stored_number = &*number;
+  EXPECT_EQ (address_of (std::move (number).value ()), stored_number);
+}
+
+TEST (
+    LumexOptionalRvalueValueTest,
+    GivenAConstRvalueOptional_WhenValueIsTaken_ThenTheReferenceIsTheStoredObject)
+{
+  ::optional<std::string> const engaged (std::string (40, 'v'));
+  std::string const *const stored = &*engaged;
+  EXPECT_EQ (address_of (std::move (engaged).value ()), stored);
+  ::optional<int> const number (5);
+  int const *const stored_number = &*number;
+  EXPECT_EQ (address_of (std::move (number).value ()), stored_number);
+}
+
+TEST (LumexOptionalRvalueValueTest,
+      GivenAnEmptyRvalueOptional_WhenValueIsTaken_ThenItThrows)
+{
+  ::optional<int> empty_value;
+  ::optional<int> const const_empty;
+  EXPECT_THROW ((void)std::move (empty_value).value (),
+                ::lumex_bad_optional_access);
+  EXPECT_THROW ((void)std::move (const_empty).value (),
+                ::lumex_bad_optional_access);
 }

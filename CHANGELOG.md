@@ -603,6 +603,14 @@
 
 **Проверено:** WSL GCC 13.3 Debug с `-DLUMEX_USE_ASAN=ON`: до правки `LumexFramingCodecCxx11Tests` и `LumexFramingCodecCxx17Tests` не линкуются, после правки оба проходят (19 тестов); cl.exe, clang-cl и clang++ 18.1: наборы framing проходят.
 
+##### `optional::value () &&` и `value () const &&`: ссылка на хранимое значение, а не на временный объект cl.exe
+
+**Файлы:** `lumex/core/optional/opt/LumexOptional.hpp`, `lumex/tests/core/optional/opt/LumexOptional.cxx11.tests.cpp`, `lumex/tests/core/optional/opt/LumexOptionalStdParity.cxx17.tests.cpp`.
+
+**Суть:** условное выражение с запятой в ветке (`cond ? xvalue : (throw_bad_optional_access (), xvalue)`) cl.exe превращал во временный объект (C4172), и возвращалась висячая `T &&`; тест паритета со `std::optional` читал мусор. Теперь результат есть приведение значения формы `value ()` для lvalue; обход в тесте паритета для MSVC, который прятал половину признака, удален, добавлены проверки адреса.
+
+**Проверено:** cl.exe Debug: до правки `GivenScript_WhenRun_ThenSameEventsAsStd` (C++20, C++23), `GivenMonadics_WhenCalled_ThenSameResultsAsStd` (C++23) и новые тесты падали, после правки `optional.*` и `examples.optional.*` 679 из 679 (C++11-C++23); clang-cl, cl.exe Release, WSL GCC 13.3 и clang++ 18.1 проходят.
+
 #### Изменено
 
 ##### Каталог `docs/` убран из истории репозитория, GitHub Pages выключен

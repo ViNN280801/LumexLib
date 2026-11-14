@@ -789,12 +789,13 @@ public:
 
   /// @brief The contained value as an rvalue.
   /// @throws lumex_bad_optional_access If empty.
+  /// @details Cast from the lvalue form: `cond ? xvalue : (call (), xvalue)`
+  /// and a cast of such a conditional both become a temporary with cl.exe, and
+  /// the returned reference dangles.
   LUMEX_CONSTEXPR_CXX14 T &&
   value () &&
   {
-    return m_p.m_engaged ? static_cast<T &&> (m_p.m_u.value)
-                         : (detail::throw_bad_optional_access (),
-                            static_cast<T &&> (m_p.m_u.value));
+    return static_cast<T &&> (value ());
   }
 
   /// @brief The contained value as a const rvalue.
@@ -802,9 +803,7 @@ public:
   LUMEX_CONSTEXPR T const &&
   value () const &&
   {
-    return m_p.m_engaged ? static_cast<T const &&> (m_p.m_u.value)
-                         : (detail::throw_bad_optional_access (),
-                            static_cast<T const &&> (m_p.m_u.value));
+    return static_cast<T const &&> (value ());
   }
 
   /**
