@@ -1,0 +1,74 @@
+# Consumer fixture for cmake.consumer_span_no_exceptions_*.
+#
+# span built without exceptions: at () with an index out of range calls
+# std::terminate, for every extent and constness, and the header has no throw left.
+#
+# Two ways to switch the exceptions off, one executable each case:
+#   -DSPAN_NO_EXCEPTIONS_MODE=compiler  the compiler has no exceptions: -fno-exceptions
+#                                           (GCC, Clang) or /EHs-c- with
+#                                           _HAS_EXCEPTIONS=0 (cl.exe and
+#                                           clang-cl, the standard library
+#                                           needs both); the library detects it
+#   -DSPAN_NO_EXCEPTIONS_MODE=macro     exceptions stay on and the program
+#                                           defines LUMEX_SPAN_HAS_EXCEPTIONS
+#                                           as 0
+# -DSPAN_NO_EXCEPTIONS_STD=<11|17|20> sets the language standard.
+# main.cpp runs the checks (a failure exits with 1) and starts itself again
+# for each call that must terminate (fork on POSIX, std::system elsewhere).
+
+cmake_minimum_required(VERSION 3.16)
+project(LumexSpanNoExceptions LANGUAGES CXX)
+
+if(NOT LUMEX_SOURCE_DIR)
+    message(FATAL_ERROR "pass -DLUMEX_SOURCE_DIR=<LumexLib checkout>")
+endif()
+if(NOT SPAN_NO_EXCEPTIONS_MODE)
+    set(SPAN_NO_EXCEPTIONS_MODE compiler)
+endif()
+if(NOT SPAN_NO_EXCEPTIONS_STD)
+    set(SPAN_NO_EXCEPTIONS_STD 11)
+endif()
+
+set(LUMEX_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(LUMEX_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+set(LUMEX_BUILD_APPLIED OFF CACHE BOOL "" FORCE)
+set(LUMEX_BUILD_XML OFF CACHE BOOL "" FORCE)
+foreach(_opt
+        BASE64 CIRCULAR_BUFFER CRC ENVIRONMENT EXCEPTIONS EXPECTED FILESYSTEM
+        FMT FRAMING PROTOCOL GENERATORS INTERPROCESS REFLECTION STRING
+        STRING_VIEW TEMPORARY TIME)
+    set(LUMEX_BUILD_${_opt} OFF CACHE BOOL "" FORCE)
+endforeach()
+set(LUMEX_BUILD_MATH ON CACHE BOOL "" FORCE)
+set(LUMEX_BUILD_OPTIONAL ON CACHE BOOL "" FORCE)
+set(LUMEX_BUILD_SPAN ON CACHE BOOL "" FORCE)
+set(LUMEX_BUILD_UTILITY ON CACHE BOOL "" FORCE)
+
+add_subdirectory("${LUMEX_SOURCE_DIR}" lumexlib)
+
+add_executable(span_no_exceptions_consumer main.cpp)
+target_link_libraries(span_no_exceptions_consumer PRIVATE lumex::span)
+set_target_properties(span_no_exceptions_consumer PROPERTIES
+    CXX_STANDARD ${SPAN_NO_EXCEPTIONS_STD}
+    CXX_STANDARD_REQUIRED ON
+    CXX_EXTENSIONS OFF
+)
+if(SPAN_NO_EXCEPTIONS_MODE STREQUAL "compiler")
+    if(MSVC)
+        # cl.exe and clang-cl: the default /EHsc of CMake comes first, the later
+        # option wins (clang-cl ignores -fno-exceptions). The standard library
+        # needs _HAS_EXCEPTIONS=0 to compile without them.
+        target_compile_options(span_no_exceptions_consumer PRIVATE /EHs-c-)
+        target_compile_definitions(span_no_exceptions_consumer PRIVATE
+            _HAS_EXCEPTIONS=0)
+    else()
+        target_compile_options(span_no_exceptions_consumer PRIVATE -fno-exceptions)
+    endif()
+    target_compile_definitions(span_no_exceptions_consumer PRIVATE
+        SPAN_NO_EXCEPTIONS_COMPILER=1)
+elseif(SPAN_NO_EXCEPTIONS_MODE STREQUAL "macro")
+    target_compile_definitions(span_no_exceptions_consumer PRIVATE
+        LUMEX_SPAN_HAS_EXCEPTIONS=0 SPAN_NO_EXCEPTIONS_MACRO=1)
+else()
+    message(FATAL_ERROR "SPAN_NO_EXCEPTIONS_MODE: compiler or macro")
+endif()

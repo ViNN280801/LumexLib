@@ -722,10 +722,13 @@ public:
    * @brief The element at `index`, checked (C++26 in the standard).
    * @param index The index.
    * @return A reference to the element.
-   * @throws std::out_of_range If `index >= size ()`.
+   * @throws std::out_of_range If `index >= size ()`; without exceptions
+   * (`LUMEX_SPAN_HAS_EXCEPTIONS` is 0) it calls `std::terminate`. Always
+   * inlined, so units built with and without exceptions may be linked into one
+   * program.
    */
   LUMEX_ATTRIBUTE_NODISCARD ("the element is the result")
-  LUMEX_CONSTEXPR reference
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE LUMEX_CONSTEXPR reference
   at (size_type index) const
   {
     return index < m_storage.size ()

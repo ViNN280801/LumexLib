@@ -55,6 +55,7 @@
 
 #include <array>
 #include <cstddef>
+#include <exception> // std::terminate (no exceptions)
 #include <initializer_list>
 #include <iterator>
 #include <stdexcept>
@@ -67,6 +68,35 @@
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
 #include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
+
+/**
+ * @def LUMEX_SPAN_HAS_EXCEPTIONS
+ * @brief 1 when `at ()` of a `span` throws `std::out_of_range` for an index
+ * out of range, 0 when it calls `std::terminate`.
+ * @details The default follows the compiler: 0 with `-fno-exceptions` (GCC and
+ * Clang: neither `__cpp_exceptions` nor `__EXCEPTIONS`) or MSVC without `/EH`
+ * (no `_CPPUNWIND`), 1 otherwise. A program may define the macro as 0 before
+ * the first include of the library to get the terminating `at ()` with
+ * exceptions on; defined as 1 under `-fno-exceptions` it does not compile.
+ * `at ()` is the only function of the module that throws. Units of one program
+ * may differ in this value: `at ()` and the functions it calls are always
+ * inlined (`LUMEX_ATTRIBUTE_ALWAYS_INLINE`), so, where the compiler honours
+ * it, the linker has no weak copy of them to choose between; a function whose
+ * address is taken still gets a symbol and then follows the unit the linker
+ * meets first. cl.exe does not honour `__forceinline` without inlining (`/Od`,
+ * `/Ob0`): there `at ()` stays a real COMDAT function with one copy per
+ * program, so units of one program must agree on the exception mode; with
+ * inlining (`/O2`) each unit keeps its own behavior in either link order,
+ * although unreferenced COMDATs are still emitted. The macro is independent of
+ * `LUMEX_SPAN_CHECKS`: a violated precondition aborts in every exception mode.
+ */
+#ifndef LUMEX_SPAN_HAS_EXCEPTIONS
+#if defined(__cpp_exceptions) || defined(__EXCEPTIONS) || defined(_CPPUNWIND)
+#define LUMEX_SPAN_HAS_EXCEPTIONS 1
+#else
+#define LUMEX_SPAN_HAS_EXCEPTIONS 0
+#endif
+#endif
 
 /**
  * @def LUMEX_SPAN_HAS_CONCEPTS
@@ -602,13 +632,24 @@ struct bytes_extent
 };
 
 /**
- * @brief Throws `std::out_of_range`; keeps the throw out of the inline
- * accessors.
+ * @brief Throws `std::out_of_range`, or calls `std::terminate` when
+ * `LUMEX_SPAN_HAS_EXCEPTIONS` is 0.
+ * @details The body depends on the exception mode of the translation unit, so
+ * the function and every member that calls it are always inlined: where the
+ * compiler honours that, no out-of-line copy is used, and a program that links
+ * units built with and without `-fno-exceptions` keeps the right body in each
+ * of them (not on cl.exe without inlining, `/Od` and `/Ob0`: see
+ * `LUMEX_SPAN_HAS_EXCEPTIONS`).
  */
-LUMEX_ATTRIBUTE_NORETURN inline void
+LUMEX_ATTRIBUTE_NORETURN LUMEX_ATTRIBUTE_ALWAYS_INLINE void
 throw_out_of_range (char const *what)
 {
+#if LUMEX_SPAN_HAS_EXCEPTIONS
   throw std::out_of_range (what);
+#else
+  LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (what);
+  std::terminate ();
+#endif
 }
 
 /**
@@ -623,10 +664,11 @@ throw_out_of_range (char const *what)
  * @tparam Result The type of the expression, a reference to an element; it
  * never yields a value.
  * @param[in] what The message of the exception.
- * @throws std::out_of_range always.
+ * @throws std::out_of_range always (`std::terminate` is called without
+ * exceptions).
  */
 template <typename Result>
-LUMEX_ATTRIBUTE_NORETURN inline Result
+LUMEX_ATTRIBUTE_NORETURN LUMEX_ATTRIBUTE_ALWAYS_INLINE Result
 throw_out_of_range_as (char const *what)
 {
   detail::throw_out_of_range (what);
