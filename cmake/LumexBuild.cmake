@@ -257,6 +257,26 @@ function(lumex_apply_build_info target_name)
     LUMEX_BUILD_INFO_CONFIGURED TRUE)
 endfunction()
 
+# The vendored libraries (GoogleTest, the third-party code of the transport
+# layer) are not warned about (/W0, -w), but they are built with the same
+# optimization level as the rest of the tree: the root CMakeLists.txt removed
+# the level CMake puts into CMAKE_<LANG>_FLAGS_<CONFIG>, and a library without
+# one would be built without optimization in Release. CXX_STDLIB DEFAULT: the
+# C++ standard library of these targets is chosen where they are made
+# (lumex_third_party_finish, LUMEX_CXX_STDLIB_OPTION).
+function(lumex_configure_vendored_target target_name)
+  get_target_property(_done "${target_name}" LUMEX_OPTIMIZATION_CONFIGURED)
+  if(_done)
+    return()
+  endif()
+  configure_optimization_level("${target_name}"
+    LEVEL "${LUMEX_OPTIMIZATION_LEVEL}"
+    ENABLE_LTO "${LUMEX_ENABLE_LTO}"
+    DEBUG_SYMBOLS "${LUMEX_DEBUG_SYMBOLS}"
+    CXX_STDLIB DEFAULT)
+  set_property(TARGET "${target_name}" PROPERTY LUMEX_OPTIMIZATION_CONFIGURED TRUE)
+endfunction()
+
 function(lumex_configure_target target_name)
   if(NOT TARGET "${target_name}")
     return()
@@ -278,10 +298,15 @@ function(lumex_configure_target target_name)
   endif()
 
   # lumex_3rdparty_*: vendored third-party code (cmake/LumexThirdParty.cmake),
-  # built with every warning off; it never gets WARNINGS HIGH.
+  # built with every warning off; it never gets WARNINGS HIGH, but it gets the
+  # optimization level of the tree.
   if(target_name MATCHES "^lumex_gtest"
-      OR target_name MATCHES "^lumex_3rdparty_"
-      OR target_name MATCHES "^compile_commands"
+      OR target_name MATCHES "^lumex_3rdparty_")
+    lumex_configure_vendored_target("${target_name}")
+    return()
+  endif()
+
+  if(target_name MATCHES "^compile_commands"
       OR target_name STREQUAL "publish_distr"
       OR target_name STREQUAL "generate_documentation"
       OR target_name STREQUAL "lumex_copy_compile_commands")

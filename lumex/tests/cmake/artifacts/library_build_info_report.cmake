@@ -5,7 +5,8 @@
 # two libraries of this very tree: one LumexLib-build-info.json holds the
 # common sections once (the report of CMakeRoutines' GenerateBuildInfo.py, not
 # the CMake-native text it falls back to) and a "libraries" list with each
-# library's target and binary; the SHA-256 of each is the one of the file. A
+# library's target and binary; the SHA-256 of each is the one of the file, and
+# the target carries the optimization level the library was built with. A
 # second call leaves a current report alone (publish_distr runs on every
 # build), and a newer library gets a new report.
 #
@@ -66,6 +67,22 @@ foreach(_i RANGE 0 ${_last})
     file(SHA256 "${_path}" _expected)
     if(NOT _sha STREQUAL _expected)
         message(FATAL_ERROR "build_info_report: SHA-256 ${_sha} listed, ${_expected} of ${_file_name}")
+    endif()
+    # The optimization level of the library's compile commands, read from its
+    # flags and options (CMakeRoutines get_applied_optimization_levels): an
+    # object of <configuration>: <flag>, the flag a real level (-O2, /Od, ...).
+    string(JSON _applied_type ERROR_VARIABLE _err TYPE "${_json}" libraries ${_i} target optimization_applied)
+    if(_err OR NOT _applied_type STREQUAL "OBJECT")
+        message(FATAL_ERROR "build_info_report: ${_name} has no optimization_applied object:\n${_json}")
+    endif()
+    string(JSON _applied_count LENGTH "${_json}" libraries ${_i} target optimization_applied)
+    if(_applied_count LESS 1)
+        message(FATAL_ERROR "build_info_report: ${_name} reports no applied optimization level")
+    endif()
+    string(JSON _applied_config MEMBER "${_json}" libraries ${_i} target optimization_applied 0)
+    string(JSON _applied_flag GET "${_json}" libraries ${_i} target optimization_applied "${_applied_config}")
+    if(NOT _applied_flag MATCHES "^[-/]O")
+        message(FATAL_ERROR "build_info_report: ${_name} applied level of ${_applied_config} is '${_applied_flag}', not an -O or /O flag")
     endif()
 endforeach()
 

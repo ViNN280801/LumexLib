@@ -7,9 +7,10 @@
 # all the shipped libraries. The common part (compiler, flags, standards,
 # runtime, optimizations, git state, host, tools) comes once from CMakeRoutines'
 # GenerateBuildInfo.py; "libraries" lists, per library, its target (name,
-# options, definitions, link libraries) and its binary (size, SHA-256,
-# SHA-512). Of the per-target reports of CMakeRoutines only these two sections
-# differ between the libraries of one build, so one file holds the same
+# options, definitions, link libraries, the optimization level its compile
+# commands carry) and its binary (size, SHA-256, SHA-512). Of the
+# per-target reports of CMakeRoutines only these two sections differ between
+# the libraries of one build, so one file holds the same
 # information. Written by Scripts/ReleaseTools/write_lumex_build_info.py over
 # the finished files, with the context the configure step wrote into
 # <binary dir> (<target>-build-info-context.json).

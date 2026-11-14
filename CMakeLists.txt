@@ -145,6 +145,14 @@ set(CMAKE_INTERPROCEDURAL_OPTIMIZATION_RELWITHDEBINFO OFF)
 
 include(cmake/LumexBuild.cmake)
 
+# CMake's own optimization level (-O3 for GCC and Clang, /O2 for MSVC, in
+# CMAKE_CXX_FLAGS_RELEASE and the other configurations) would stand in front of
+# the level configure_optimization_level gives every target, so a command line
+# carried two. The level of the tree is the only one: LUMEX_OPTIMIZATION_LEVEL,
+# also for the vendored libraries (lumex_configure_vendored_target). Before the
+# first add_subdirectory: a subdirectory is given the variables when it is added.
+strip_default_optimization_flags()
+
 # LumexLib-build-info.json needs a Python 3.8 interpreter (GenerateBuildInfo.py):
 # with an older one, or none, the one report for all the libraries is not
 # written and cmake.build_info_report cannot pass. Say so here, once.

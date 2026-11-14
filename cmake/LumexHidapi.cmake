@@ -18,11 +18,39 @@ get_filename_component(_LUMEX_HIDAPI_DEFAULT_DIR
 # A global property, not a variable: the setup function may be called from a
 # consumer's directory, which does not see this file's directory scope.
 set_property(GLOBAL PROPERTY LUMEX_HIDAPI_DEFAULT_DIR "${_LUMEX_HIDAPI_DEFAULT_DIR}")
+get_filename_component(_LUMEX_HIDAPI_ROOT_DIR "${CMAKE_CURRENT_LIST_DIR}/.." ABSOLUTE)
+set_property(GLOBAL PROPERTY LUMEX_HIDAPI_ROOT_DIR "${_LUMEX_HIDAPI_ROOT_DIR}")
+
+# <out_var> is TRUE when the calling directory belongs to LumexLib's own project
+# (PROJECT_SOURCE_DIR is LumexLib's root): there lumex_configure_vendored_target
+# gives the hidapi target its optimization level. A consumer project that calls
+# lumex_setup_hidapi from its own directory (also one that lies inside the
+# LumexLib checkout, like the fixtures of the tests) gets the target as it
+# always did, with CMake's own level.
+function(_lumex_hidapi_in_own_project out_var)
+    get_property(_root GLOBAL PROPERTY LUMEX_HIDAPI_ROOT_DIR)
+    get_filename_component(_project "${PROJECT_SOURCE_DIR}" ABSOLUTE)
+    if("${_project}" STREQUAL "${_root}")
+        set(${out_var} TRUE PARENT_SCOPE)
+    else()
+        set(${out_var} FALSE PARENT_SCOPE)
+    endif()
+endfunction()
 
 macro(lumex_setup_hidapi)
     if(NOT TARGET lumex_3rdparty_hidapi)
         if(NOT CMAKE_C_COMPILER_LOADED)
             enable_language(C)
+            # C comes with CMake's own level in CMAKE_C_FLAGS_<CONFIG>, after the
+            # strip of the root CMakeLists.txt (which saw C++ only). In LumexLib's
+            # own project take it away here, in the directory that makes the
+            # target: lumex_configure_vendored_target gives the target its level.
+            # Not in a consumer's project: nothing there would.
+            _lumex_hidapi_in_own_project(_lumex_in_own_project)
+            if(_lumex_in_own_project AND COMMAND strip_default_optimization_flags)
+                strip_default_optimization_flags(LANGUAGES C)
+            endif()
+            unset(_lumex_in_own_project)
         endif()
         _lumex_setup_hidapi_target()
     endif()

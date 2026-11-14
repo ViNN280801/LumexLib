@@ -6,7 +6,8 @@ libraries of one LumexLib build almost all of it is the same (compiler, flags,
 CMake, git, host, tools): of 126 fields only the target and the binary differ.
 This script runs GenerateBuildInfo.build_report once for the common part and
 adds a "libraries" list with, per library, the "target" section of its own
-configure context and the "binary" section of its file (size, SHA-256,
+configure context (with "optimization_applied", the level of the compile
+commands of that library) and the "binary" section of its file (size, SHA-256,
 SHA-512, format, modification time).
 
   python write_lumex_build_info.py --utils-dir <CMakeRoutines/utils>
@@ -64,6 +65,12 @@ def target_section(context: Dict[str, Any]) -> Dict[str, Any]:
         "link_libraries": context.get("target_link_libraries", []),
         "position_independent": context.get("target_pic", ""),
         "cxx_standard": context.get("target_cxx_standard", ""),
+        # The optimization level the compile command of this library carries
+        # (CMakeRoutines get_applied_optimization_levels: {"Release": "-O2"}),
+        # read from its flags and options at configure time. The report's own
+        # "optimization.applied" is the first library's: this one is each
+        # library's, so a library built with another level shows it.
+        "optimization_applied": context.get("opt_applied", {}),
     }
 
 
