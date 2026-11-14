@@ -139,10 +139,14 @@ TEST (LumexStringViewRangesTest,
   static_assert (std::is_same_v<std::remove_cv_t<decltype (it)>, char const *>,
                  "a pointer, not std::ranges::dangling");
   EXPECT_EQ (*it, 'l');
+  // Both ends from one view: two spellings of "hello" are two arrays that
+  // cl.exe does not merge in Debug, and the debug library rejects a range
+  // between pointers of different arrays.
+  lumex_string_view const hello ("hello");
   auto const sub
-      = std::ranges::subrange (lumex_string_view ("hello").begin () + 1,
-                               lumex_string_view ("hello").begin () + 3);
+      = std::ranges::subrange (hello.begin () + 1, hello.begin () + 3);
   EXPECT_EQ (sub.size (), 2U);
+  EXPECT_EQ (std::string (sub.begin (), sub.end ()), "el");
   std::string collected;
   for (char const chr : lumex_string_view ("abc") | std::views::reverse)
     collected.push_back (chr);
