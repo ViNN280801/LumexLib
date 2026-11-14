@@ -2,11 +2,15 @@
 // exceptions off (see CMakeLists.txt). Plain C++11, no test framework: the
 // build has no exceptions, and gtest needs them.
 
+#include <csignal>
 #include <cstdio>
 #include <cstdlib>
 #include <exception>
 #include <string>
 #include <utility>
+#if defined(_MSC_VER)
+#include <stdlib.h> // _set_abort_behavior
+#endif
 
 #include "lumex/core/optional/opt/LumexOptional.hpp"
 
@@ -156,12 +160,31 @@ terminate_handler_exit_42 ()
   std::_Exit (42);
 }
 
+#if defined(_MSC_VER) && !NOEXC_COMPILER_HAS_EXCEPTIONS
+// With _HAS_EXCEPTIONS=0 (the standard library of MSVC without exceptions)
+// the terminate handler is not consulted: std::terminate ends in abort, which
+// raises SIGABRT before it ends the process. The handler of the signal gives
+// the same exit code 42 as the handler of std::terminate, so the check needs
+// exactly that code and not the status of a process that died for another
+// reason (a /GS cookie, an invalid-parameter fault, CFG: 0xC0000409 too).
+extern "C" void
+abort_signal_handler (int)
+{
+  std::_Exit (42);
+}
+#endif
+
 // The exit code of a child that ran the case: 42 when std::terminate was
 // called, 43 when an exception came out instead (the macro mode has them on).
 int
 run_child (int which)
 {
   std::set_terminate (terminate_handler_exit_42);
+#if defined(_MSC_VER) && !NOEXC_COMPILER_HAS_EXCEPTIONS
+  std::signal (SIGABRT, abort_signal_handler);
+  // No message box of the debug runtime in front of the handler.
+  _set_abort_behavior (0, _WRITE_ABORT_MSG | _CALL_REPORTFAULT);
+#endif
 #if NOEXC_COMPILER_HAS_EXCEPTIONS
   try
     {
@@ -201,29 +224,15 @@ exit_code_of_child (char const *self, int which)
 #endif
 }
 
-// With _HAS_EXCEPTIONS=0 (the standard library of MSVC without exceptions) the
-// terminate handler is not consulted: std::terminate ends the process with the
-// fast-fail status 0xC0000409, which is what a call that does not return
-// looks like there. Everything else, a normal exit included, is a failure.
-bool
-is_terminated (int code)
-{
-#if defined(_MSC_VER) && !NOEXC_COMPILER_HAS_EXCEPTIONS
-  return code == 42 || static_cast<unsigned int> (code) == 0xC0000409u;
-#else
-  return code == 42;
-#endif
-}
-
 void
 check_terminates (char const *self, int which)
 {
   int const code = exit_code_of_child (self, which);
-  if (!is_terminated (code))
+  if (code != 42)
     std::fprintf (stderr,
                   "case %d did not call std::terminate (exit code %d)\n",
                   which, code);
-  CHECK (is_terminated (code));
+  CHECK (code == 42);
 }
 } // namespace
 

@@ -23,8 +23,11 @@ endif()
 if(NOT MIX_OPT)
     set(MIX_OPT O0)
 endif()
-if(MSVC)
-    message("LUMEX_CONSUMER_SKIP: one object without exceptions and one with them is a GCC and Clang link")
+if(MSVC AND NOT MIX_OPT STREQUAL "O2")
+    # cl.exe does not honour __forceinline without inlining (/Od, /Ob0): there
+    # one copy of value () and at () stays per program and the units must agree
+    # on the exception mode. -O0 and -O2 -fno-inline have no meaning for cl.exe.
+    message("LUMEX_CONSUMER_SKIP: cl.exe and clang-cl are checked at /O2 only")
     return()
 endif()
 
@@ -37,9 +40,18 @@ add_executable(optional_mixed_exceptions_consumer ${_sources})
 target_include_directories(optional_mixed_exceptions_consumer PRIVATE "${LUMEX_SOURCE_DIR}")
 set_target_properties(optional_mixed_exceptions_consumer PROPERTIES
     CXX_STANDARD 11 CXX_STANDARD_REQUIRED ON CXX_EXTENSIONS OFF)
-if(MIX_OPT STREQUAL "O2NI")
+if(MSVC)
+    target_compile_options(optional_mixed_exceptions_consumer PRIVATE /O2 /Ob2 /Zc:__cplusplus)
+elseif(MIX_OPT STREQUAL "O2NI")
     target_compile_options(optional_mixed_exceptions_consumer PRIVATE -O2 -fno-inline)
 else()
     target_compile_options(optional_mixed_exceptions_consumer PRIVATE -${MIX_OPT})
 endif()
-set_source_files_properties(lib.cpp PROPERTIES COMPILE_OPTIONS -fno-exceptions)
+if(MSVC)
+    # The unit without exceptions: no /EHsc (CMake puts it first, the later
+    # option wins), and the standard library needs _HAS_EXCEPTIONS=0.
+    set_source_files_properties(lib.cpp PROPERTIES
+        COMPILE_OPTIONS /EHs-c- COMPILE_DEFINITIONS _HAS_EXCEPTIONS=0)
+else()
+    set_source_files_properties(lib.cpp PROPERTIES COMPILE_OPTIONS -fno-exceptions)
+endif()
