@@ -25,9 +25,12 @@
 /**
  * @file LumexUnicode
  * @brief Unicode module: transcoding policies for UTF-8, UTF-16, UTF-32,
- * Latin-1 and `wchar_t`, and the string conversions `to_utf8` and `to_wide`.
+ * Latin-1 and `wchar_t`, the string conversions `to_utf8` and `to_wide`, and
+ * the validation of UTF-8.
  * @details Link <tt>%lumex::unicode</tt> (header-only). Works from C++11. The
  * umbrella includes `utf/LumexUtf.hpp` (counters, writers and decoders in
+ * `lumex::core::unicode::utf`), `utf/LumexUtf8Validate.hpp`
+ * (`utf8_valid_prefix_length` and `is_valid_utf8`, also in
  * `lumex::core::unicode::utf`) and `convert/LumexUnicodeConvert.hpp`
  * (`lumex::core::unicode::convert`). The conversions do not depend on the C
  * locale or the operating system. The code comes from the XML module: the
@@ -36,3 +39,4 @@
  */
 #include "convert/LumexUnicodeConvert.hpp"
 #include "utf/LumexUtf.hpp"
+#include "utf/LumexUtf8Validate.hpp"

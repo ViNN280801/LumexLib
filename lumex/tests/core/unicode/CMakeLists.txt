@@ -7,11 +7,12 @@
 #             umbrella, and LumexUnicodeTestSupport.hpp (the reference
 #             encoders, the code point generator and the recording traits),
 #             which both directories use
-# The module has no code that depends on a later standard, so every directory
-# has one suite, at C++11 (lumex/tests/LumexTestStandards.cmake):
-# LumexUnicodeCxx11Tests, LumexUnicodeUtfCxx11Tests and
-# LumexUnicodeConvertCxx11Tests. CTest names carry the prefix of the
-# directory ("unicode.", "unicode.utf.", "unicode.convert.").
+# The module is C++11 except for the char8_t overloads of the UTF-8 validation
+# (utf/LumexUtf8Validate.hpp), so every directory has a suite at C++11 and one
+# at C++20 (lumex/tests/LumexTestStandards.cmake): LumexUnicodeCxx11Tests,
+# LumexUnicodeUtfCxx11Tests, LumexUnicodeConvertCxx11Tests and the same
+# three at Cxx20. CTest names carry the prefix of the directory ("unicode.",
+# "unicode.utf.", "unicode.convert.") and the standard as the last part.
 # LumexUnicodeGlobalNames.cxx11.tests.cpp declares global names spelled like
 # the module's and uses them unqualified: every suite stops building if a
 # header of the module puts a name into the global namespace.
