@@ -611,6 +611,14 @@
 
 **Проверено:** cl.exe Debug: до правки `GivenScript_WhenRun_ThenSameEventsAsStd` (C++20, C++23), `GivenMonadics_WhenCalled_ThenSameResultsAsStd` (C++23) и новые тесты падали, после правки `optional.*` и `examples.optional.*` 679 из 679 (C++11-C++23); clang-cl, cl.exe Release, WSL GCC 13.3 и clang++ 18.1 проходят.
 
+##### `LUMEX_MEASURE_TIME (expr, "метка")` под традиционным препроцессором cl.exe
+
+**Файлы:** `lumex/core/time/timer/LumexTimer.hpp`, `lumex/tests/cmake/consumer/hygiene_compile_checks/variadic_macros_pedantic.cpp`, `lumex/tests/core/time/timer/LumexTimer.cxx11.tests.cpp`.
+
+**Суть:** традиционный препроцессор cl.exe (его получают потребители) не пересматривал выбранный по числу аргументов вариант, форма с двумя аргументами молча становилась формой с одним (запятая в выражении), и метка терялась; так собирался и `example_time.cpp`. Выбор обернут в `LUMEX_MEASURE_TIME_EXPAND`. Остальные макросы с `__VA_ARGS__` в публичных заголовках просмотрены: они передают аргументы в хвост `...`, в строку или в вызов функции, либо уже обернуты.
+
+**Проверено:** cl.exe: `cmake.hygiene_compile_checks` до правки не собирается (C2280, удаленный `operator,` у выражения), после правки проходит; новый тест метки падает при подмене сообщения (тесты собираются с `/Zc:preprocessor` и сам дефект видит только фикстура).
+
 #### Изменено
 
 ##### Каталог `docs/` убран из истории репозитория, GitHub Pages выключен

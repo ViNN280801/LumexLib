@@ -3,6 +3,7 @@
 // extraction. Every suite of this directory compiles this file.
 
 #include <chrono>
+#include <iostream>
 #include <sstream>
 #include <string>
 #include <thread>
@@ -234,4 +235,30 @@ TEST (MeasureTimeMacroTest, GivenGateOffViaApi_WhenMacroWouldGate_ThenNoOpPath)
 
   LUMEX_MEASURE_TIME (++calls, "custom");
   EXPECT_EQ (calls, 2);
+}
+
+TEST (MeasureTimeMacroTest,
+      GivenTwoArguments_WhenReported_ThenTheLabelIsTheMessage)
+{
+  // The traditional cl.exe preprocessor made the label part of the expression
+  // and reported the text of both.
+  using lumex::core::environment::env::lumex_environment;
+  ASSERT_TRUE (lumex_environment::set (default_measure_time_env_name (), "1"));
+  std::ostringstream captured;
+  std::streambuf *const original = std::clog.rdbuf (captured.rdbuf ());
+  int calls = 0;
+  LUMEX_MEASURE_TIME (++calls, "the label");
+  LUMEX_MEASURE_TIME (++calls);
+  std::clog.rdbuf (original);
+  ASSERT_TRUE (
+      lumex_environment::set (default_measure_time_env_name (), nullptr));
+
+  EXPECT_EQ (calls, 2);
+  std::string const report = captured.str ();
+  EXPECT_NE (report.find ("the label: execution time:"), std::string::npos)
+      << report;
+  EXPECT_NE (report.find ("'++calls' command was processed."),
+             std::string::npos)
+      << report;
+  EXPECT_EQ (report.find ("++calls, "), std::string::npos) << report;
 }
