@@ -305,6 +305,14 @@
 
 **Проверено:** Linux, все 119 примеров собраны и запущены на GCC 13, Clang 23 и GCC 8.3 без предупреждений (`LUMEX_WERROR=ON`), `ctest ^examples\.` 120 из 120 на GCC 13 и Clang 23; ASan и UBSan новых примеров без сообщений; каталоги примеров собраны против установленного пакета. Windows не запускался. 17 мутаций библиотеки ловятся кодом выхода примеров; ASan+UBSan девяти примеров x3, TSan (Clang 23) пяти примеров x5 без сообщений; `^(cmake|lint)\.` 259 из 259.
 
+##### `optional` без исключений: `value ()` вызывает `std::terminate`
+
+**Файлы:** `lumex/core/optional/opt/LumexOptionalDetail.hpp`, `lumex/core/optional/opt/LumexOptional.hpp`, `lumex/core/optional/README.md`, `lumex/tests/cmake/consumer/optional_no_exceptions/` (новый), `lumex/tests/cmake/consumer/optional_mixed_exceptions/` (новый), `lumex/tests/cmake/CMakeLists.txt`, `lumex/tests/core/optional/opt/LumexOptional.cxx11.tests.cpp`.
+
+**Суть:** `optional` не собирался с `-fno-exceptions`: единственный `throw` модуля стоял без условия. Новый макрос `LUMEX_OPTIONAL_HAS_EXCEPTIONS` (по модели `string_view`): по умолчанию следует за компилятором (`__cpp_exceptions`, `__EXCEPTIONS`, `_CPPUNWIND`), программа может задать 0 до первого включения и получить завершающий `value ()` при включенных исключениях; значение 1 при `-fno-exceptions` не собирается. Без исключений каждая форма `value ()` (lvalue, rvalue, константные) вызывает `std::terminate ()`; `constexpr` не менялся. Четыре формы `value ()` и вызываемые ими функции всегда встраиваются (`LUMEX_ATTRIBUTE_ALWAYS_INLINE`), поэтому в одну программу можно собрать единицы с исключениями и без них: линковщику нечего выбирать, каждая единица сохраняет свое поведение при любом порядке объектов. `detect_mismatch` не используется. Фикстуры: `consumer_optional_no_exceptions_*` (без исключений: `-fno-exceptions` у GCC и Clang, `/EHs-c-` с `_HAS_EXCEPTIONS=0` у cl.exe и clang-cl, или макрос; каждая форма в дочернем процессе завершается через `std::terminate`) и `consumer_optional_mixed_exceptions_*` (единица без исключений и единица с исключениями в обоих порядках на `-O0`, `-O2` и `-O2 -fno-inline`).
+
+**Проверено:** старый заголовок: `consumer_optional_no_exceptions_*` не собираются или падают на cl.exe, clang-cl и WSL GCC 13.3; без `ALWAYS_INLINE` фикстура смешанной сборки падает на clang++ 18 во всех шести случаях, на GCC 13.3 на `-O0` и `-O2 -fno-inline` в обоих порядках (GCC на `-O2` встраивает `value ()` сам и дефекта не показывает); с `ALWAYS_INLINE` все случаи проходят на GCC 13.3, g++-9 и clang++ 18; `consumer_optional_no_exceptions_cxx11`, `_cxx20` (без исключений) и `_macro_cxx17` проходят на cl.exe Debug и Release и clang-cl; `optional.*` и `examples.optional.*` проходят на шести деревьях.
+
 #### Исправлено
 
 ##### `core/protocol`: предупреждения GCC `-Wfloat-equal` в заголовках

@@ -112,6 +112,7 @@
 
 #include "lumex/core/optional/opt/LumexOptionalDetail.hpp"
 #include "lumex/core/optional/opt/LumexOptionalTags.hpp"
+#include "lumex/core/utility/attr/LumexAttributes.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
@@ -767,9 +768,12 @@ public:
   /**
    * @brief The contained value as an lvalue.
    * @throws lumex_bad_optional_access If the optional does not contain a
-   * value.
+   * value; without exceptions (`LUMEX_OPTIONAL_HAS_EXCEPTIONS` is 0) it calls
+   * `std::terminate`. The same holds for every overload of `value ()`, and
+   * every overload is always inlined, so units built with and without
+   * exceptions may be linked into one program: each keeps its own behaviour.
    */
-  LUMEX_CONSTEXPR_CXX14 T &
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE LUMEX_CONSTEXPR_CXX14 T &
   value () &
   {
     return m_p.m_engaged ? m_p.m_u.value
@@ -778,7 +782,7 @@ public:
 
   /// @brief The contained value as a const lvalue.
   /// @throws lumex_bad_optional_access If empty.
-  LUMEX_CONSTEXPR T const &
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE LUMEX_CONSTEXPR T const &
   value () const &
   {
     return m_p.m_engaged ? m_p.m_u.value
@@ -791,7 +795,7 @@ public:
   /// `cond ? xvalue : (call (), xvalue)` (the comma form the lvalue forms
   /// had) and a cast of such a conditional both become a temporary with
   /// cl.exe, and the returned reference dangles.
-  LUMEX_CONSTEXPR_CXX14 T &&
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE LUMEX_CONSTEXPR_CXX14 T &&
   value () &&
   {
     return static_cast<T &&> (value ());
@@ -799,7 +803,7 @@ public:
 
   /// @brief The contained value as a const rvalue.
   /// @throws lumex_bad_optional_access If empty.
-  LUMEX_CONSTEXPR T const &&
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE LUMEX_CONSTEXPR T const &&
   value () const &&
   {
     return static_cast<T const &&> (value ());
