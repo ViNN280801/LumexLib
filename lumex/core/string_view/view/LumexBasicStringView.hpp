@@ -288,9 +288,12 @@ LUMEX_CONSTEXPR std::size_t const no_pos = static_cast<std::size_t> (-1);
 /**
  * @brief Throws `std::out_of_range`, or terminates without exceptions.
  * @details The body depends on the exception mode of the translation unit, so
- * the function and every member that calls it are always inlined: no
- * out-of-line copy is emitted, and a program that links units built with and
- * without `-fno-exceptions` keeps the right body in each of them.
+ * the function and every member that calls it are always inlined: where the
+ * compiler honours that, no out-of-line copy is used, and a program that links
+ * units built with and without `-fno-exceptions` keeps the right body in each
+ * of them. cl.exe does not honour `__forceinline` without inlining (`/Od`,
+ * `/Ob0`): there the members stay real COMDAT functions with one copy per
+ * program, and units of one program must agree on the exception mode.
  */
 LUMEX_ATTRIBUTE_NORETURN LUMEX_ATTRIBUTE_ALWAYS_INLINE void
 throw_out_of_range (char const *what)
@@ -301,6 +304,26 @@ throw_out_of_range (char const *what)
   LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (what);
   std::terminate ();
 #endif
+}
+
+/**
+ * @brief `throw_out_of_range` as an expression of type `Result`, for the
+ * branch of a conditional expression.
+ * @details `at` and `substr` are `constexpr` functions of C++11, so their
+ * error branch is an operand of a conditional expression. A `void` call
+ * followed by a comma operand that yields the value leaves that operand
+ * unreachable, which cl.exe reports when nothing is inlined (`/Od`, `/Ob0`:
+ * C4702, an error under `/W4 /WX`). A call of this function is the whole
+ * branch; the conditional takes the type of the other branch, so a reference
+ * stays a reference. Always inlined, like `throw_out_of_range`.
+ * @tparam Result The type of the expression; it never yields a value.
+ * @param[in] what The message of the exception.
+ */
+template <typename Result>
+LUMEX_ATTRIBUTE_NORETURN LUMEX_ATTRIBUTE_ALWAYS_INLINE Result
+throw_out_of_range_as (char const *what)
+{
+  detail::throw_out_of_range (what);
 }
 
 LUMEX_CONSTEXPR inline std::size_t
@@ -1349,10 +1372,9 @@ public:
   LUMEX_ATTRIBUTE_ALWAYS_INLINE LUMEX_CONSTEXPR const_reference
   at (size_type idx) const
   {
-    return idx < m_size
-               ? m_data[idx]
-               : (detail::throw_out_of_range ("lumex_basic_string_view::at"),
-                  m_data[0]);
+    return idx < m_size ? m_data[idx]
+                        : detail::throw_out_of_range_as<const_reference> (
+                              "lumex_basic_string_view::at");
   }
 
   /** @brief The first character; undefined for an empty view. */
@@ -1441,9 +1463,8 @@ public:
   substr (size_type pos = 0, size_type n = npos) const
   {
     return pos > m_size
-               ? (detail::throw_out_of_range (
-                      "lumex_basic_string_view::substr"),
-                  lumex_basic_string_view ())
+               ? detail::throw_out_of_range_as<lumex_basic_string_view> (
+                     "lumex_basic_string_view::substr")
                : lumex_basic_string_view (m_data + pos,
                                           detail::min_size (n, m_size - pos));
   }
