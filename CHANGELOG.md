@@ -619,6 +619,14 @@
 
 **Проверено:** cl.exe: `cmake.hygiene_compile_checks` до правки не собирается (C2280, удаленный `operator,` у выражения), после правки проходит; новый тест метки падает при подмене сообщения (тесты собираются с `/Zc:preprocessor` и сам дефект видит только фикстура).
 
+##### Бенчмарк `expected` пропускается на cl.exe
+
+**Файлы:** `benchmarks/expected/CMakeLists.txt`, `lumex/tests/cmake/consumer/install_share_layout/CMakeLists.txt`.
+
+**Суть:** `bench_expected.cpp` требует GCC или Clang (`asm` как барьер оптимизатора), а цели добавлялись на любом компиляторе, и `-DLUMEX_BUILD_BENCHMARKS=ON` на cl.exe не собирался. На cl.exe каталог сообщает о пропуске и выходит, в дереве и в установленной копии; clang-cl собирает бенчмарк. Фикстура `install_share_layout_all_modules` на cl.exe собирает `span` и `expected`, второй проверяет пропуск.
+
+**Проверено:** cl.exe: `cmake.install_share_layout_all_modules` до правки падает (C1189), после правки проходит; конфигурация cl.exe Release с `-DLUMEX_BUILD_BENCHMARKS=ON` не создает целей `LumexExpectedBench_*`.
+
 #### Изменено
 
 ##### Каталог `docs/` убран из истории репозитория, GitHub Pages выключен

@@ -128,9 +128,11 @@ elseif(LUMEX_INSTALL_CASE_PROFILE STREQUAL "all_modules")
         atomic circular_buffer expected fmt hazard_pointer optional span
         string_view transport)
     # The expected benchmark needs GCC or Clang (asm statements as optimizer
-    # barriers); cl.exe builds the span benchmark, which has an MSVC branch.
+    # barriers) and has no targets on cl.exe: it is built there too, to prove
+    # that the installed copy configures and builds as empty, and the span
+    # benchmark, which has an MSVC branch, is the one that compiles.
     if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
-        set(_benchmark_build_dirs span)
+        set(_benchmark_build_dirs span expected)
     else()
         set(_benchmark_build_dirs expected)
     endif()
