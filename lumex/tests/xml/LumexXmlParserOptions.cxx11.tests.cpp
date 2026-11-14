@@ -11,6 +11,7 @@
 // follow the pugixml option semantics. The semantic tests below the table
 // state the rules in words.
 #include <cstddef>
+#include <sstream>
 #include <string>
 
 #include <gtest/gtest.h>
@@ -19,6 +20,8 @@
 
 #include "lumex/tests/xml/LumexXmlTestFixtures.hpp"
 
+using lumex::xml::constants::Constants::kformat_no_declaration;
+using lumex::xml::constants::Constants::kformat_raw;
 using lumex::xml::constants::Constants::kparse_eol;
 using lumex::xml::constants::Constants::kparse_escapes;
 using lumex::xml::constants::Constants::kparse_minimal;
@@ -543,4 +546,244 @@ TEST_F (XmlParserOptionsTest,
   char const *const xml = "<r a=\"x\">  inner  </r>";
   EXPECT_EQ (text_of (xml, kparse_minimal), "  inner  ");
   EXPECT_EQ (text_of (xml, kparse_trim_pcdata), "inner");
+}
+
+// ------------------------------------------------ character references
+//
+// A numeric character reference expands only to a Char of XML 1.0 (section
+// 2.2: TAB, LF, CR, U+0020..U+D7FF, U+E000..U+FFFD, U+10000..U+10FFFF). Any
+// other value stays in the text as written, `&#xD800;` included, and the
+// document still loads. The expected bytes below are written out by hand.
+
+namespace
+{
+struct reference_t
+{
+  char const *source; // the reference as it stands in the document
+  char const *bytes;  // what it expands to (empty when it stays as written)
+};
+
+// Not a Char: the text keeps the reference.
+reference_t const kIllegalReferences[] = {
+  { "&#xD800;", "" },
+  { "&#xDBFF;", "" },
+  { "&#xDC00;", "" },
+  { "&#xDFFF;", "" },
+  { "&#x110000;", "" },
+  { "&#x1FFFFF;", "" },
+  { "&#x7FFFFFFF;", "" },
+  { "&#xFFFFFFFF;", "" },
+  { "&#xFFFFFFFFFFFFFFFF;", "" },
+  { "&#x0;", "" },
+  { "&#x00;", "" },
+  { "&#x1;", "" },
+  { "&#x8;", "" },
+  { "&#xB;", "" },
+  { "&#xC;", "" },
+  { "&#xE;", "" },
+  { "&#x1F;", "" },
+  { "&#xFFFE;", "" },
+  { "&#xFFFF;", "" },
+  // 2^32 plus a legal value: it must not wrap around to the legal value
+  { "&#x100000041;", "" },
+  { "&#x10000000A;", "" },
+  { "&#x100000000000041;", "" },
+  { "&#55296;", "" },
+  { "&#56319;", "" },
+  { "&#57343;", "" },
+  { "&#1114112;", "" },
+  { "&#2147483647;", "" },
+  { "&#4294967295;", "" },
+  { "&#0;", "" },
+  { "&#1;", "" },
+  { "&#8;", "" },
+  { "&#11;", "" },
+  { "&#12;", "" },
+  { "&#31;", "" },
+  { "&#65534;", "" },
+  { "&#65535;", "" },
+  { "&#4294967361;", "" },
+  { "&#4294967306;", "" },
+  { "&#99999999999999999999;", "" },
+};
+
+// A Char: the reference becomes the UTF-8 bytes of the code point.
+reference_t const kLegalReferences[] = {
+  { "&#x9;", "\x09" },
+  { "&#xA;", "\x0A" },
+  { "&#xD;", "\x0D" },
+  { "&#x20;", " " },
+  { "&#x41;", "A" },
+  { "&#x7F;", "\x7F" },
+  { "&#x80;", "\xC2\x80" },
+  { "&#x7FF;", "\xDF\xBF" },
+  { "&#x800;", "\xE0\xA0\x80" },
+  { "&#xD7FF;", "\xED\x9F\xBF" },
+  { "&#xE000;", "\xEE\x80\x80" },
+  { "&#xFFFD;", "\xEF\xBF\xBD" },
+  { "&#x10000;", "\xF0\x90\x80\x80" },
+  { "&#x10FFFF;", "\xF4\x8F\xBF\xBF" },
+  { "&#x0000000041;", "A" },
+  { "&#9;", "\x09" },
+  { "&#10;", "\x0A" },
+  { "&#13;", "\x0D" },
+  { "&#55295;", "\xED\x9F\xBF" },
+  { "&#57344;", "\xEE\x80\x80" },
+  { "&#65533;", "\xEF\xBF\xBD" },
+  { "&#65536;", "\xF0\x90\x80\x80" },
+  { "&#1114111;", "\xF4\x8F\xBF\xBF" },
+  { "&#0000000065;", "A" },
+};
+
+// The options that change which conversion of the parser reads a reference;
+// every set has the escapes on.
+unsigned int
+reference_options (unsigned int subset)
+{
+  unsigned int options = kparse_escapes;
+  if ((subset & 1U) != 0)
+    options |= kparse_eol;
+  if ((subset & 2U) != 0)
+    options |= kparse_wconv_attribute;
+  if ((subset & 4U) != 0)
+    options |= kparse_wnorm_attribute;
+  if ((subset & 8U) != 0)
+    options |= kparse_trim_pcdata;
+  return options;
+}
+} // namespace
+
+TEST_F (
+    XmlParserOptionsTest,
+    GivenAReferenceThatIsNotAChar_WhenParsedInTextAndAttribute_ThenItStaysAsWritten)
+{
+  for (std::size_t i = 0;
+       i < sizeof (kIllegalReferences) / sizeof (kIllegalReferences[0]); ++i)
+    for (unsigned int subset = 0; subset < 16; ++subset)
+      {
+        std::string const reference = kIllegalReferences[i].source;
+        std::string const xml
+            = "<r a=\"p" + reference + "q\">p" + reference + "q</r>";
+        doc.reset ();
+        lumex::xml::text::xml_parse_result_t const result
+            = doc.load_string (xml.c_str (), reference_options (subset));
+        ASSERT_TRUE (result) << reference << " subset " << subset << ": "
+                             << result.description ();
+        EXPECT_EQ (std::string (doc.child ("r").attribute ("a").value ()),
+                   "p" + reference + "q")
+            << reference << " subset " << subset;
+        EXPECT_EQ (std::string (doc.child ("r").text ().get ()),
+                   "p" + reference + "q")
+            << reference << " subset " << subset;
+      }
+}
+
+TEST_F (XmlParserOptionsTest,
+        GivenAReferenceThatIsAChar_WhenParsedInTextAndAttribute_ThenItExpands)
+{
+  // Without the whitespace options: they decide what happens to a TAB or a
+  // carriage return that the source holds, not to one a reference produces
+  // (the next test runs the default options).
+  for (std::size_t i = 0;
+       i < sizeof (kLegalReferences) / sizeof (kLegalReferences[0]); ++i)
+    {
+      std::string const reference = kLegalReferences[i].source;
+      std::string const xml
+          = "<r a=\"p" + reference + "q\">p" + reference + "q</r>";
+      std::string const expected
+          = std::string ("p") + kLegalReferences[i].bytes + "q";
+      doc.reset ();
+      lumex::xml::text::xml_parse_result_t const result
+          = doc.load_string (xml.c_str (), kparse_escapes);
+      ASSERT_TRUE (result) << reference << ": " << result.description ();
+      EXPECT_EQ (std::string (doc.child ("r").attribute ("a").value ()),
+                 expected)
+          << reference;
+      EXPECT_EQ (std::string (doc.child ("r").text ().get ()), expected)
+          << reference;
+    }
+}
+
+TEST_F (
+    XmlParserOptionsTest,
+    GivenAReferenceThatIsAChar_WhenParsedWithTheDefaultOptions_ThenItExpands)
+{
+  // kparse_default adds eol and the whitespace conversion of attributes: the
+  // result of a reference is not converted again.
+  for (std::size_t i = 0;
+       i < sizeof (kLegalReferences) / sizeof (kLegalReferences[0]); ++i)
+    {
+      std::string const reference = kLegalReferences[i].source;
+      std::string const xml
+          = "<r a=\"p" + reference + "q\">p" + reference + "q</r>";
+      std::string const expected
+          = std::string ("p") + kLegalReferences[i].bytes + "q";
+      doc.reset ();
+      ASSERT_TRUE (doc.load_string (xml.c_str ())) << reference;
+      EXPECT_EQ (std::string (doc.child ("r").attribute ("a").value ()),
+                 expected)
+          << reference;
+      EXPECT_EQ (std::string (doc.child ("r").text ().get ()), expected)
+          << reference;
+    }
+}
+
+TEST_F (XmlParserOptionsTest,
+        GivenReferencesNextToEachOther_WhenParsed_ThenEachIsJudgedOnItsOwn)
+{
+  // The text is moved down behind every expanded reference; a reference that
+  // stays must not disturb that.
+  char const *const xml
+      = "<r a=\"&lt;&#xD800;&amp;&#x41;&#0;&gt;\">&lt;&#xD800;&amp;&#x41;&#0;"
+        "&gt;&#x110000;&#x10FFFF;&#xFFFF;&#xE000;</r>";
+  doc.reset ();
+  ASSERT_TRUE (doc.load_string (xml, kparse_escapes));
+  EXPECT_EQ (std::string (doc.child ("r").attribute ("a").value ()),
+             "<&#xD800;&A&#0;>");
+  EXPECT_EQ (std::string (doc.child ("r").text ().get ()),
+             "<&#xD800;&A&#0;>&#x110000;\xF4\x8F\xBF\xBF&#xFFFF;\xEE\x80\x80");
+}
+
+TEST_F (XmlParserOptionsTest,
+        GivenAMalformedReference_WhenParsed_ThenItStaysAsWritten)
+{
+  // The cases that were left alone before the range check, next to it.
+  char const *const xml = "<r>a&#;b&#x;c&#xZ;d&#12a;e&#x41</r>";
+  doc.reset ();
+  ASSERT_TRUE (doc.load_string (xml, kparse_escapes));
+  EXPECT_EQ (std::string (doc.child ("r").text ().get ()),
+             "a&#;b&#x;c&#xZ;d&#12a;e&#x41");
+}
+
+TEST_F (XmlParserOptionsTest,
+        GivenEscapesOff_WhenAReferenceIsNotAChar_ThenItStaysAsWritten)
+{
+  doc.reset ();
+  ASSERT_TRUE (doc.load_string ("<r a=\"&#xD800;\">&#xD800;&#x41;</r>",
+                                kparse_minimal));
+  EXPECT_EQ (std::string (doc.child ("r").attribute ("a").value ()),
+             "&#xD800;");
+  EXPECT_EQ (std::string (doc.child ("r").text ().get ()), "&#xD800;&#x41;");
+}
+
+TEST_F (XmlParserOptionsTest,
+        GivenAReferenceThatStayed_WhenSavedAndLoadedAgain_ThenTheTextIsTheSame)
+{
+  // The reference is text now, so a save writes its ampersand as &amp; and the
+  // file Lumex writes holds no reference that a strict parser refuses.
+  doc.reset ();
+  ASSERT_TRUE (doc.load_string ("<r a=\"x&#xD800;y\">p&#0;q&#x110000;r</r>",
+                                kparse_escapes));
+  std::ostringstream out;
+  doc.save (out, "", kformat_raw | kformat_no_declaration,
+            lumex::xml::types::Types::xml_encoding::encoding_utf8);
+  EXPECT_EQ (out.str (),
+             "<r a=\"x&amp;#xD800;y\">p&amp;#0;q&amp;#x110000;r</r>");
+
+  lumex::xml::document::XmlDocument again;
+  ASSERT_TRUE (again.load_string (out.str ().c_str (), kparse_escapes));
+  EXPECT_EQ (std::string (again.child ("r").attribute ("a").value ()),
+             "x&#xD800;y");
+  EXPECT_EQ (std::string (again.child ("r").text ().get ()),
+             "p&#0;q&#x110000;r");
 }

@@ -121,8 +121,11 @@ struct LUMEX_API xml_parse_result_t
   Types::xml_parse_status
       status; // NOLINT(misc-non-private-member-variables-in-classes)
 
-  /// @brief Last parsed offset in `char_t` units from the start of the input
-  /// data.
+  /// @brief Last parsed offset in `char_t` units from the start of the text
+  /// that the parser read: the input converted to UTF-8, and for a UTF-8 input
+  /// that is cleaned (see `XmlDocument.hpp`) the input without the bytes that
+  /// were dropped, so it is the position in the input bytes only for input
+  /// that needed no conversion and no cleaning.
   ///        Indicates the position of the error if `status` is not
   ///        `status_ok`.
   ptrdiff_t offset; // NOLINT(misc-non-private-member-variables-in-classes)

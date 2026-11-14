@@ -1976,16 +1976,20 @@ public:
       "The returned offset should be used for debugging; discarding it "
       "negates the purpose of the getter.")
   /**
-   * @brief Retrieves the byte offset of the node's name or value within the
-   * original parsed buffer.
+   * @brief Retrieves the offset of the node's name or value within the text
+   * that the parser read.
    * @return A `ptrdiff_t` representing the offset in `char_t` units, or `-1`
    * if the offset cannot be determined (e.g., if the document was not parsed
    * from a single contiguous buffer, or if the node type does not have a
    * relevant offset).
    * @details This function is primarily for debugging and error reporting,
-   * allowing identification of the exact location of a node within the source
-   * XML text. It works reliably only if the document was loaded from a single,
-   * contiguous buffer (e.g., via `load_file` or `load_buffer`).
+   * allowing identification of the location of a node within the text that
+   * the parser read: the input converted to UTF-8, and for a UTF-8 input that
+   * is cleaned (see `XmlDocument.hpp`) the input without the bytes that were
+   * dropped, so it is the position in the input bytes only for input that
+   * needed no conversion and no cleaning. It works reliably only if the
+   * document was loaded from a single, contiguous buffer (e.g., via
+   * `load_file` or `load_buffer`).
    * @note The offset refers to the start of the node's *name* for
    * elements/PIs/declarations, and the start of the *value* for
    * PCDATA/CDATA/comments/doctypes. For `node_document`, it returns `0`.

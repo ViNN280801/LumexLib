@@ -126,6 +126,30 @@ struct gap
   }
 };
 
+// A character reference expands only to a `Char` of XML 1.0 (section 2.2,
+// the well-formedness constraint "Legal Character"): TAB, LF, CR, U+0020 to
+// U+D7FF, U+E000 to U+FFFD and U+10000 to U+10FFFF. A value outside it (NUL,
+// another control, a surrogate, U+FFFE, U+FFFF, above U+10FFFF) is no
+// character a document may contain, and utf8_writer would write it as bytes
+// that are not UTF-8.
+inline static bool
+is_legal_xml_char (unsigned int value)
+{
+  return value == 0x9 || value == 0xA || value == 0xD
+         || (value >= 0x20 && value <= 0xD7FF)
+         || (value >= 0xE000 && value <= 0xFFFD)
+         || (value >= 0x10000 && value <= 0x10FFFF);
+}
+
+// Keeps a code point that is being read digit by digit from wrapping around:
+// everything above U+10FFFF is the same illegal value, so a reference with
+// many digits cannot come back as a small legal one.
+inline static unsigned int
+clamp_xml_code_point (unsigned int value)
+{
+  return (value > 0x10FFFF) ? 0x110000U : value;
+}
+
 inline char_t *
 strconv_escape (char_t *s, gap &g)
 {
@@ -158,6 +182,7 @@ strconv_escape (char_t *s, gap &g)
                 else // cancel
                   return stre;
 
+                ucsc = clamp_xml_code_point (ucsc);
                 ch = *++stre;
               }
 
@@ -179,11 +204,17 @@ strconv_escape (char_t *s, gap &g)
                 else // cancel
                   return stre;
 
+                ucsc = clamp_xml_code_point (ucsc);
                 ch = *++stre;
               }
 
             ++stre;
           }
+
+        // not a Char of XML 1.0: cancel as well, the reference stays in the
+        // text as written (stre is behind the semicolon)
+        if (!is_legal_xml_char (ucsc))
+          return stre;
 
         s = reinterpret_cast<char_t *> (
             utf::utf8_writer::any (reinterpret_cast<uint8_t *> (s), ucsc));

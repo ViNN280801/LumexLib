@@ -39,6 +39,7 @@
 
 #define LUMEX_IMPLEMENTATION
 
+#include <cstdint>
 #include <cstdlib>
 #include <memory>
 
@@ -182,8 +183,16 @@ lumex::xml::text::load_buffer_impl ( // NOLINT(misc-use-internal-linkage)
   char_t *buffer = nullptr;
   std::size_t length = 0;
 
+  // a UTF-8 document is cleaned of ill-formed UTF-8 when it declares UTF-8 or
+  // no encoding; one that declares another (windows-1251, KOI8-R) is loaded as
+  // it is
+  bool const clean_utf8
+      = buffer_encoding == Types::xml_encoding::encoding_utf8
+        && utility::is_utf8_cleaned_on_load (
+            static_cast<std::uint8_t const *> (contents), size);
+
   if (!utility::convert_buffer (buffer, length, buffer_encoding, contents,
-                                size, is_mutable))
+                                size, is_mutable, clean_utf8))
     return make_parse_result (Types::xml_parse_status::status_out_of_memory);
 
   // after this we either deallocate contents (below) or hold on to it via

@@ -94,12 +94,14 @@
 #include <climits>
 #include <cmath>
 #include <cstddef>
+#include <cstdint>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
 
 #include "lumex/core/math/ops/LumexMath.hpp"
 #include "lumex/core/unicode/utf/LumexUtf.hpp"
+#include "lumex/core/unicode/utf/LumexUtf8Validate.hpp"
 #include "lumex/core/utility/assert/LumexAssert.hpp"
 #include "lumex/core/utility/bit/LumexBit.hpp"
 #include "lumex/core/utility/macros/LumexConstantMacros.hpp"
@@ -907,15 +909,317 @@ convert_buffer_latin1 (char_t *&out_buffer, std::size_t &out_length,
   return true;
 }
 
+// Reads the attributes of an XML declaration (the bytes between its target and
+// the closing `?>`) as the parser reads them, `name = "value"` pairs with
+// either quote, and tells whether the declaration leaves a document to be
+// cleaned: it names UTF-8 (`encoding="UTF-8"`, in any case) or no encoding.
+// A declaration that the pairs cannot be read from, and that holds the word
+// `encoding`, counts as naming another encoding: the bytes are kept. Every
+// read is bounded by `size`.
+inline bool
+declaration_allows_cleaning (uint8_t const *text, std::size_t size)
+{
+  std::size_t i = 0;
+  bool readable = true;
+
+  for (;;)
+    {
+      while (i < size && LUMEX_XML_IS_CHARTYPE (text[i], ct_space))
+        ++i;
+
+      if (i >= size || text[i] == '?')
+        break;
+
+      std::size_t const name = i;
+      while (i < size && LUMEX_XML_IS_CHARTYPE (text[i], ct_symbol))
+        ++i;
+      std::size_t const name_length = i - name;
+
+      while (i < size && LUMEX_XML_IS_CHARTYPE (text[i], ct_space))
+        ++i;
+
+      if (name_length == 0 || i >= size || text[i] != '=')
+        {
+          readable = false;
+          break;
+        }
+
+      ++i;
+      while (i < size && LUMEX_XML_IS_CHARTYPE (text[i], ct_space))
+        ++i;
+
+      if (i >= size || (text[i] != '"' && text[i] != 0x27))
+        {
+          readable = false;
+          break;
+        }
+
+      uint8_t const quote = text[i++];
+      std::size_t const value = i;
+      while (i < size && text[i] != quote)
+        ++i;
+
+      if (i >= size)
+        {
+          readable = false;
+          break;
+        }
+
+      std::size_t const value_length = i - value;
+      ++i;
+
+      if (name_length == 8 && std::memcmp (text + name, "encoding", 8) == 0)
+        return value_length == 5 && (text[value] | ' ') == 'u'
+               && (text[value + 1] | ' ') == 't'
+               && (text[value + 2] | ' ') == 'f' && text[value + 3] == '-'
+               && text[value + 4] == '8';
+    }
+
+  if (readable)
+    return true;
+
+  for (std::size_t k = 0; k + 8 <= size; ++k)
+    if (std::memcmp (text + k, "encoding", 8) == 0)
+      return false;
+
+  return true;
+}
+
+// The index behind the document type declaration that starts at `data[at]`
+// (`<!DOCTYPE`), or `size` when it is not closed. Quoted strings, the
+// brackets of the internal subset and the comments and instructions inside it
+// are stepped over, so a `>` in them does not end it.
+inline std::size_t
+skip_doctype (uint8_t const *data, std::size_t size, std::size_t at)
+{
+  std::size_t i = at + 9;
+  std::size_t depth = 0;
+
+  while (i < size)
+    {
+      uint8_t const c = data[i];
+
+      if (c == '"' || c == 0x27)
+        {
+          ++i;
+          while (i < size && data[i] != c)
+            ++i;
+          i += (i < size);
+        }
+      else if (c == '[')
+        {
+          ++depth;
+          ++i;
+        }
+      else if (c == ']')
+        {
+          depth -= (depth > 0);
+          ++i;
+        }
+      else if (depth > 0 && c == '<' && i + 3 < size && data[i + 1] == '!'
+               && data[i + 2] == '-' && data[i + 3] == '-')
+        {
+          i += 4;
+          while (
+              i + 2 < size
+              && !(data[i] == '-' && data[i + 1] == '-' && data[i + 2] == '>'))
+            ++i;
+          i = (i + 2 < size) ? i + 3 : size;
+        }
+      else if (depth > 0 && c == '<' && i + 1 < size && data[i + 1] == '?')
+        {
+          i += 2;
+          while (i + 1 < size && !(data[i] == '?' && data[i + 1] == '>'))
+            ++i;
+          i = (i + 1 < size) ? i + 2 : size;
+        }
+      else if (c == '>' && depth == 0)
+        return i + 1;
+      else
+        ++i;
+    }
+
+  return size;
+}
+
+// Tells whether a document that is loaded as UTF-8 is cleaned of ill-formed
+// UTF-8. It is cleaned when it declares UTF-8 (`encoding="UTF-8"`, in any
+// case) or declares no encoding, with or without a byte order mark: the text
+// is UTF-8 by the rules of XML, so a byte that is not UTF-8 is an error, and
+// the tree holds well-formed UTF-8 only. A document that declares another
+// encoding (windows-1251, KOI8-R, `utf8`, anything else) is loaded as it is,
+// byte for byte, as before: the library does not convert it, and dropping the
+// bytes of an 8-bit text would lose it. The declaration decides also when the
+// caller names `encoding_utf8`.
+//
+// The declaration is the one the parser takes: its target is `xml` in any
+// case, and it stands in the prolog, after white space, comments, other
+// processing instructions and a document type declaration, not only at the
+// first byte (a fragment given to `append_buffer` can start with a line feed,
+// and the parser accepts the declaration after it). The scan stops at the
+// first element or text, which ends the prolog. An instruction whose target
+// only starts with `xml` (`xml-stylesheet`) is not the declaration, and the
+// word `encoding` in it or in a comment decides nothing. Every read is bounded
+// by `size`.
+inline bool
+is_utf8_cleaned_on_load (uint8_t const *data, std::size_t size)
+{
+  std::size_t i = 0;
+
+  // a byte order mark is the UTF-8 one here (the encodings with their own
+  // marks are not loaded through the UTF-8 path)
+  if (size >= 3 && data[0] == 0xEF && data[1] == 0xBB && data[2] == 0xBF)
+    i = 3;
+
+  while (i < size)
+    {
+      if (LUMEX_XML_IS_CHARTYPE (data[i], ct_space))
+        {
+          ++i;
+          continue;
+        }
+
+      if (data[i] != '<' || i + 1 >= size)
+        break;
+
+      if (data[i + 1] == '?')
+        {
+          std::size_t const target = i + 2;
+          std::size_t after_target = target;
+
+          if (target >= size
+              || !LUMEX_XML_IS_CHARTYPE (data[target], ct_start_symbol))
+            break;
+
+          while (after_target < size
+                 && LUMEX_XML_IS_CHARTYPE (data[after_target], ct_symbol))
+            ++after_target;
+
+          std::size_t end = after_target;
+          while (end + 1 < size && !(data[end] == '?' && data[end + 1] == '>'))
+            ++end;
+          bool const closed = end + 1 < size;
+
+          if (after_target - target == 3 && (data[target] | ' ') == 'x'
+              && (data[target + 1] | ' ') == 'm'
+              && (data[target + 2] | ' ') == 'l')
+            return declaration_allows_cleaning (
+                data + after_target, (closed ? end : size) - after_target);
+
+          if (!closed)
+            break;
+
+          i = end + 2;
+        }
+      else if (data[i + 1] == '!' && i + 3 < size && data[i + 2] == '-'
+               && data[i + 3] == '-')
+        {
+          std::size_t end = i + 4;
+          while (end + 2 < size
+                 && !(data[end] == '-' && data[end + 1] == '-'
+                      && data[end + 2] == '>'))
+            ++end;
+
+          if (end + 2 >= size)
+            break;
+
+          i = end + 3;
+        }
+      else if (data[i + 1] == '!' && i + 9 <= size
+               && std::memcmp (data + i + 2, "DOCTYPE", 7) == 0)
+        i = skip_doctype (data, size, i);
+      else
+        break;
+    }
+
+  return true;
+}
+
+// A UTF-8 document that is cleaned (`clean`, from `is_utf8_cleaned_on_load`)
+// has every byte dropped that starts no well-formed sequence, as
+// `utf::utf8_decoder` drops it for the other encodings, so the tree holds
+// well-formed UTF-8 and the UTF-8, UTF-16 and UTF-32 saves of one tree write
+// the same text (Latin-1 writes `?` for what it cannot hold). Valid input (the
+// usual case) costs one read-only pass over it and goes the way it went
+// before. Ill-formed input only shrinks, so a mutable buffer is cleaned in
+// place, inside the bytes the caller handed over, and a copy is made at the
+// size of the input at most. The cleaned text of a mutable buffer ends with a
+// NUL, as the copy does: the freed byte holds it, unless the text already ends
+// with one (a file or a stream is read with a terminator in the buffer, and a
+// second one would move the parser's roll-back of an error at the end), so the
+// byte that the parser takes for the end of the buffer is never a byte of the
+// text.
+inline bool
+convert_buffer_utf8 (char_t *&out_buffer, std::size_t &out_length,
+                     void const *contents, std::size_t size, bool is_mutable,
+                     bool clean)
+{
+  std::size_t const valid_length
+      = (clean && contents != nullptr)
+            ? utf::utf8_valid_prefix_length (
+                  static_cast<uint8_t const *> (contents), size)
+            : size;
+
+  if (valid_length == size)
+    return get_mutable_buffer (out_buffer, out_length, contents, size,
+                               is_mutable);
+
+  // the decoder resumes at the first byte it would skip, where the valid
+  // prefix ends, and writes at most as many bytes as it reads
+  uint8_t const *rest = static_cast<uint8_t const *> (contents) + valid_length;
+  std::size_t const rest_size = size - valid_length;
+
+  if (is_mutable)
+    {
+      auto *buffer = static_cast<uint8_t *> (const_cast<void *> (
+          contents)); // NOLINT(cppcoreguidelines-pro-type-const-cast)
+      uint8_t *end = utf::utf8_decoder::process (
+          rest, rest_size, buffer + valid_length, utf::utf8_writer ());
+
+      // at least the byte at `valid_length` was dropped, so `end` is inside
+      // the buffer: the terminator takes the freed byte, unless the text
+      // already ends with one (the NUL that a file or a stream gets, which
+      // makes the parser roll back an error at the end of the buffer by one)
+      LUMEX_ASSERT (end < buffer + size);
+      if (end == buffer || end[-1] != 0)
+        *end++ = 0;
+
+      out_buffer = reinterpret_cast<char_t *> (buffer);
+      out_length = static_cast<std::size_t> (end - buffer);
+
+      return true;
+    }
+
+  auto *buffer // NOLINT(cppcoreguidelines-owning-memory)
+      = static_cast<char_t *> (
+          malloc ((size + 1)
+                  * sizeof (char_t))); // NOLINT(cppcoreguidelines-no-malloc)
+  if (buffer == nullptr)
+    return false;
+
+  std::memcpy (buffer, contents, valid_length);
+
+  uint8_t *obegin = reinterpret_cast<uint8_t *> (buffer);
+  uint8_t *oend = utf::utf8_decoder::process (
+      rest, rest_size, obegin + valid_length, utf::utf8_writer ());
+  *oend = 0;
+
+  out_buffer = buffer;
+  out_length = static_cast<std::size_t> (oend - obegin) + 1;
+
+  return true;
+}
+
 inline bool
 convert_buffer (char_t *&out_buffer, std::size_t &out_length,
                 xml_encoding encoding, void const *contents, std::size_t size,
-                bool is_mutable)
+                bool is_mutable, bool clean_utf8)
 {
-  // fast path: no conversion required
+  // no conversion of the encoding; `clean_utf8` says whether the text is
+  // cleaned of what is not UTF-8 (`is_utf8_cleaned_on_load`)
   if (encoding == encoding_utf8)
-    return get_mutable_buffer (out_buffer, out_length, contents, size,
-                               is_mutable);
+    return convert_buffer_utf8 (out_buffer, out_length, contents, size,
+                                is_mutable, clean_utf8);
 
   // source encoding is utf16
   if (encoding == encoding_utf16_be || encoding == encoding_utf16_le)
