@@ -643,6 +643,14 @@
 
 **Проверено:** cl.exe `/W4 /WX` на старом заголовке дает C4702 в строках 775 и 785 (C++14, C++17, C++20), на новом чисто; фикстура со старым заголовком падает, с новым проходит; `optional.*`, `examples.optional.*`, `lint.*` и две фикстуры: cl.exe Debug и Release, clang-cl Debug, WSL GCC 13.3 и clang++ 18.1 по 699 из 699, g++-9 549 из 549; `cmake.*` и `lint.*` на cl.exe Debug 262 из 262; до прагмы фикстура падала на clang++ 18 при всех стандартах.
 
+##### Тесты `optional::value () &&` и `value () const &&`: нельзя переместить, нельзя скопировать, константное выражение
+
+**Файлы:** `lumex/tests/core/optional/opt/LumexOptional.cxx11.tests.cpp`, `lumex/tests/core/optional/opt/LumexOptionalConstexpr.cxx11.tests.cpp`.
+
+**Суть:** ошибку, исправленную в этом выпуске (временный объект cl.exe в условном выражении `value () &&`), теперь ловит сборка тестов, а не только сравнение адресов во время работы: тип без перемещения (`no_move_t`) и тип без перемещения и копирования (`pinned_t`) привязываются к `T &&` и `T const &&` результата `std::move (o).value ()`; `static_assert` на `value () &&` в `constexpr`-функции (C++14) и `value () const &&` (C++11). Ловит только cl.exe: на GCC 13.3, g++-9 и Clang 18 заголовок до исправления собирает все эти конструкции без ошибок.
+
+**Проверено:** cl.exe с заголовком до исправления: оба `static_assert` дают C2131; `no_move_t` отдельно дает C2280 в строке 795, `pinned_t` отдельно C2280 в строке 805 (в одном файле cl.exe показывает только вторую ошибку); цели `LumexOptionalOptCxx14Tests` и `LumexOptionalOptCxx20Tests` не собираются; с текущим заголовком `optional.*` проходит на cl.exe Debug и Release, clang-cl, WSL GCC 13.3, g++-9 и clang++ 18; на GCC 13.3, g++-9 и Clang 18 заголовок до исправления тесты собирает.
+
 #### Изменено
 
 ##### Каталог `docs/` убран из истории репозитория, GitHub Pages выключен

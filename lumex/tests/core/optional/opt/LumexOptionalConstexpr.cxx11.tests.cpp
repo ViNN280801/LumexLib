@@ -68,6 +68,11 @@ read_both (optional<int> const &first, optional<int> const &second)
   return first.value_or (0) + second.value_or (0);
 }
 static_assert (read_both (three, empty_int) == 3, "");
+
+// value () const && in C++11 (std::move is constexpr from C++14 only, a cast
+// names the form), with the same base defect as value () &&.
+static_assert (static_cast<optional<int> const &&> (three).value () == 3,
+               "M14: constexpr value () const && (C++11)");
 } // namespace
 
 // A type with a non-trivial destructor is not a literal type before C++20;
@@ -128,6 +133,16 @@ move_out ()
   return std::move (value).value_or (0) + *std::move (value);
 }
 static_assert (move_out () == 12, "M14: constexpr rvalue observers");
+
+// value () && is a constant expression too: its base form returned a reference
+// to a temporary with cl.exe, which no constant expression may do.
+constexpr int
+rvalue_value ()
+{
+  optional<int> value (11);
+  return std::move (value).value ();
+}
+static_assert (rvalue_value () == 11, "M14: constexpr value () &&");
 
 constexpr int
 trivial_copy_and_move ()

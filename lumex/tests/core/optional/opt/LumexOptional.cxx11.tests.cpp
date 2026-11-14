@@ -713,3 +713,54 @@ TEST (LumexOptionalRvalueValueTest,
   EXPECT_THROW ((void)std::move (const_empty).value (),
                 ::lumex_bad_optional_access);
 }
+
+// Types that cannot be moved: value () && must hand out a reference to the
+// stored object, never a moved copy. cl.exe made the dangling conditional a
+// temporary, so the base form of value () && did not compile for a type with a
+// deleted move (no_move_t) and that of value () const && did not compile for a
+// type with a deleted copy as well (pinned_t): a compile-time pin.
+namespace
+{
+struct no_move_t
+{
+  int value;
+
+  explicit no_move_t (int number) : value (number) {}
+  no_move_t (no_move_t const &other) : value (other.value) {}
+  no_move_t (no_move_t &&) = delete;
+  no_move_t &operator= (no_move_t const &) = delete;
+  no_move_t &operator= (no_move_t &&) = delete;
+  ~no_move_t () = default;
+};
+
+struct pinned_t
+{
+  int value;
+
+  explicit pinned_t (int number) : value (number) {}
+  pinned_t (pinned_t const &) = delete;
+  pinned_t (pinned_t &&) = delete;
+  pinned_t &operator= (pinned_t const &) = delete;
+  pinned_t &operator= (pinned_t &&) = delete;
+  ~pinned_t () = default;
+};
+} // namespace
+
+TEST (LumexOptionalRvalueValueTest,
+      GivenATypeWithoutMove_WhenValueIsTakenOfAnRvalue_ThenItIsTheStoredObject)
+{
+  ::optional<no_move_t> engaged (in_place, 7);
+  no_move_t &&reference = std::move (engaged).value ();
+  EXPECT_EQ (std::addressof (reference), &*engaged);
+  EXPECT_EQ (reference.value, 7);
+}
+
+TEST (
+    LumexOptionalRvalueValueTest,
+    GivenATypeThatIsNeitherMovedNorCopied_WhenValueIsTakenOfAConstRvalue_ThenItIsTheStoredObject)
+{
+  ::optional<pinned_t> const engaged (in_place, 8);
+  pinned_t const &&reference = std::move (engaged).value ();
+  EXPECT_EQ (std::addressof (reference), &*engaged);
+  EXPECT_EQ (reference.value, 8);
+}
