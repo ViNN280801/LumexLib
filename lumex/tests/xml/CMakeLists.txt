@@ -22,6 +22,10 @@
 #                       string_view_t overloads: lumex_string_view in
 #                       every standard, so std::string and sized-view
 #                       arguments work in every suite)
+#                       and LumexXmlSetterUtf8.cxx11.tests.cpp (the setters
+#                       that copy a name or a value of the caller drop what is
+#                       not valid UTF-8; a setter that is given a part of its
+#                       own string)
 #   LumexXmlCxx17Tests  + LumexXml.cxx17.tests.cpp: std::string_view
 #                       arguments
 #   LumexXmlCxx20Tests  the same files at C++20. LumexXml is a C++11 library,

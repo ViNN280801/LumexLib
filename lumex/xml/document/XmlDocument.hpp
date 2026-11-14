@@ -86,6 +86,22 @@
  * CR, no surrogate, not U+FFFE or U+FFFF, nothing above U+10FFFF); any other,
  * `&#xD800;` or `&#0;` for one, stays in the text as written.
  *
+ * The setters that copy a string of the caller into the tree (`set_name` and
+ * `set_value` of `XmlNode` and `XmlAttribute`, `XmlText::set`, the assignments
+ * of an attribute and of text that take a string, and every function that
+ * makes a child or an attribute from a name: `append_child`, `prepend_child`,
+ * `insert_child_before`, `insert_child_after`, `append_attribute`,
+ * `prepend_attribute`, `insert_attribute_before`, `insert_attribute_after`,
+ * with a size and with a `string_view_t` as well) drop the bytes that are not
+ * part of a well-formed UTF-8 sequence in the same way, and return `true`. The
+ * text of the numeric setters is always valid and is not looked at. So,
+ * through the API, the tree holds ill-formed bytes only after a load with
+ * `kparse_keep_invalid_utf8` and after the load of a UTF-8 document that
+ * declares another encoding (and in copies of their nodes); the UTF-8 save
+ * writes such bytes as they are, the other saves skip them. A caller can still
+ * write into a buffer of its own that `load_buffer_inplace` parses, or through
+ * the raw pointers of `XmlNode::get ()`; those writes are not looked at.
+ *
  * Saving writes to an `IXmlWriter`, a narrow or wide output stream, or a file,
  * with an indentation string, `kformat_*` flags and a target encoding.
  * Consumers include the file through `lumex/xml/LumexXml`.

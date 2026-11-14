@@ -621,14 +621,13 @@ TEST_F (XmlEncodingTest,
     }
 }
 
-// The setters of the tree take the bytes they are given, so a tree can hold
-// an overlong form, a surrogate or a value above U+10FFFF that a load would
-// have dropped. Writing it in another encoding goes through the UTF-8
-// decoder, which skips them; it used to turn C0 BC into a raw '<' of the
-// output.
+// A load with kparse_keep_invalid_utf8 leaves an overlong form, a surrogate or
+// a value above U+10FFFF in the tree (the setters and a plain load drop them).
+// Writing it in another encoding goes through the UTF-8 decoder, which skips
+// them; it used to turn C0 BC into a raw '<' of the output.
 TEST_F (
     XmlEncodingTest,
-    GivenIllFormedUtf8SetThroughTheApi_WhenSavedInAnotherEncoding_ThenTheBytesAreSkipped)
+    GivenIllFormedUtf8KeptByTheLoad_WhenSavedInAnotherEncoding_ThenTheBytesAreSkipped)
 {
   struct bad_t
   {
@@ -653,11 +652,13 @@ TEST_F (
         if (encodings[k].encoding == xml_encoding::encoding_utf8)
           continue;
         doc.reset ();
-        lumex::xml::node::XmlNode root = doc.append_child ("r");
-        ASSERT_TRUE (root.append_attribute ("a").set_value (
-            ("x" + bad[i].bytes + "y").c_str ()))
-            << bad[i].name;
-        ASSERT_TRUE (root.text ().set (("p" + bad[i].bytes + "q").c_str ()))
+        std::string const text
+            = "<r a=\"x" + bad[i].bytes + "y\">p" + bad[i].bytes + "q</r>";
+        ASSERT_TRUE (doc.load_buffer (
+            text.data (), text.size (),
+            kparse_default
+                | lumex::xml::constants::Constants::kparse_keep_invalid_utf8,
+            xml_encoding::encoding_utf8))
             << bad[i].name;
         EXPECT_EQ (saved (encodings[k].encoding,
                           kformat_raw | kformat_no_declaration),

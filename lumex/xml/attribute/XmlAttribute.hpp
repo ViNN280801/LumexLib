@@ -416,6 +416,11 @@ public:
    * @return `true` if the name was successfully set, `false` otherwise.
    * @note The underlying memory for the name might be reallocated if the new
    * name is larger than the current buffer.
+   * @note A byte of `rhs` that is not part of a well-formed UTF-8 sequence
+   * (Unicode Table 3-7: an overlong form, a surrogate, a value above U+10FFFF,
+   * a stray continuation byte, a truncated sequence) is dropped, as a load
+   * drops it, so the tree holds valid UTF-8 and the call still returns `true`;
+   * valid text is stored as it is.
    */
   LUMEX_API bool set_name (char_t const *rhs);
 
@@ -431,6 +436,11 @@ public:
    * @return `true` if the name was successfully set, `false` otherwise.
    * @note The underlying memory for the name might be reallocated if the new
    * name is larger than the current buffer.
+   * @note A byte of `rhs` that is not part of a well-formed UTF-8 sequence
+   * (Unicode Table 3-7: an overlong form, a surrogate, a value above U+10FFFF,
+   * a stray continuation byte, a truncated sequence) is dropped, as a load
+   * drops it, so the tree holds valid UTF-8 and the call still returns `true`;
+   * valid text is stored as it is.
    */
   LUMEX_API bool set_name (char_t const *rhs, std::size_t size);
 
@@ -443,6 +453,11 @@ public:
    * @return `true` if the name was successfully set, `false` otherwise.
    * @note The underlying memory for the name might be reallocated if the new
    * name is larger than the current buffer.
+   * @note A byte of `rhs` that is not part of a well-formed UTF-8 sequence
+   * (Unicode Table 3-7: an overlong form, a surrogate, a value above U+10FFFF,
+   * a stray continuation byte, a truncated sequence) is dropped, as a load
+   * drops it, so the tree holds valid UTF-8 and the call still returns `true`;
+   * valid text is stored as it is.
    */
   bool
   set_name (string_view_t rhs)
@@ -460,6 +475,11 @@ public:
    * @return `true` if the value was successfully set, `false` otherwise.
    * @note The underlying memory for the value might be reallocated if the new
    * value is larger than the current buffer.
+   * @note A byte of `rhs` that is not part of a well-formed UTF-8 sequence
+   * (Unicode Table 3-7: an overlong form, a surrogate, a value above U+10FFFF,
+   * a stray continuation byte, a truncated sequence) is dropped, as a load
+   * drops it, so the tree holds valid UTF-8 and the call still returns `true`;
+   * valid text is stored as it is.
    */
   LUMEX_API bool set_value (char_t const *rhs);
 
@@ -475,6 +495,11 @@ public:
    * @return `true` if the value was successfully set, `false` otherwise.
    * @note The underlying memory for the value might be reallocated if the new
    * value is larger than the current buffer.
+   * @note A byte of `rhs` that is not part of a well-formed UTF-8 sequence
+   * (Unicode Table 3-7: an overlong form, a surrogate, a value above U+10FFFF,
+   * a stray continuation byte, a truncated sequence) is dropped, as a load
+   * drops it, so the tree holds valid UTF-8 and the call still returns `true`;
+   * valid text is stored as it is.
    */
   LUMEX_API bool set_value (char_t const *rhs, std::size_t size);
 
@@ -487,6 +512,11 @@ public:
    * @return `true` if the value was successfully set, `false` otherwise.
    * @note The underlying memory for the value might be reallocated if the new
    * value is larger than the current buffer.
+   * @note A byte of `rhs` that is not part of a well-formed UTF-8 sequence
+   * (Unicode Table 3-7: an overlong form, a surrogate, a value above U+10FFFF,
+   * a stray continuation byte, a truncated sequence) is dropped, as a load
+   * drops it, so the tree holds valid UTF-8 and the call still returns `true`;
+   * valid text is stored as it is.
    */
   bool
   set_value (string_view_t rhs)
@@ -647,6 +677,11 @@ public:
    * @param[in] rhs The new value for the attribute.
    * @return A reference to the current `XmlAttribute` object.
    * @note Prefer `set_value` for robust error handling.
+   * @note A byte of `rhs` that is not part of a well-formed UTF-8 sequence
+   * (Unicode Table 3-7: an overlong form, a surrogate, a value above U+10FFFF,
+   * a stray continuation byte, a truncated sequence) is dropped, as a load
+   * drops it, so the tree holds valid UTF-8 and the call still returns `true`;
+   * valid text is stored as it is.
    */
   LUMEX_API XmlAttribute &operator= (char_t const *rhs);
 
@@ -742,6 +777,11 @@ public:
    * @param[in] rhs The new `string_view_t` value for the attribute.
    * @return A reference to the current `XmlAttribute` object.
    * @note Prefer `set_value` for robust error handling.
+   * @note A byte of `rhs` that is not part of a well-formed UTF-8 sequence
+   * (Unicode Table 3-7: an overlong form, a surrogate, a value above U+10FFFF,
+   * a stray continuation byte, a truncated sequence) is dropped, as a load
+   * drops it, so the tree holds valid UTF-8 and the call still returns `true`;
+   * valid text is stored as it is.
    */
   XmlAttribute &
   operator= (string_view_t rhs)

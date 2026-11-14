@@ -590,7 +590,7 @@ XmlNode::set_name (char_t const *rhs)
   if (type_ != node_element && type_ != node_pi && type_ != node_declaration)
     return false;
 
-  return utility::strcpy_insitu (
+  return utility::strcpy_insitu_utf8 (
       m_root->name, m_root->header,
       Constants::kxml_memory_page_name_allocated_mask, rhs,
       utility::strlength (rhs));
@@ -606,7 +606,7 @@ XmlNode::set_name (char_t const *rhs, std::size_t size)
   if (type_ != node_element && type_ != node_pi && type_ != node_declaration)
     return false;
 
-  return utility::strcpy_insitu (
+  return utility::strcpy_insitu_utf8 (
       m_root->name, m_root->header,
       Constants::kxml_memory_page_name_allocated_mask, rhs, size);
 }
@@ -622,7 +622,7 @@ XmlNode::set_value (char_t const *rhs)
       && type_ != node_pi && type_ != node_doctype)
     return false;
 
-  return utility::strcpy_insitu (
+  return utility::strcpy_insitu_utf8 (
       m_root->value, m_root->header,
       Constants::kxml_memory_page_value_allocated_mask, rhs,
       utility::strlength (rhs));
@@ -639,7 +639,7 @@ XmlNode::set_value (char_t const *rhs, std::size_t size)
       && type_ != node_pi && type_ != node_doctype)
     return false;
 
-  return utility::strcpy_insitu (
+  return utility::strcpy_insitu_utf8 (
       m_root->value, m_root->header,
       Constants::kxml_memory_page_value_allocated_mask, rhs, size);
 }

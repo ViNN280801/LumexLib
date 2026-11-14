@@ -800,6 +800,11 @@ public:
    * `node_pi`, and `node_declaration`. It internally handles memory
    * allocation/reallocation for the name string.
    * @note The `rhs` string is copied into the node's internal memory.
+   * @note A byte of `rhs` that is not part of a well-formed UTF-8 sequence
+   * (Unicode Table 3-7: an overlong form, a surrogate, a value above U+10FFFF,
+   * a stray continuation byte, a truncated sequence) is dropped, as a load
+   * drops it, so the tree holds valid UTF-8 and the call still returns `true`;
+   * valid text is stored as it is.
    */
   LUMEX_API bool set_name (char_t const *rhs);
 
@@ -812,6 +817,11 @@ public:
    * @details Similar to `set_name(char_t const*)` but allows specifying the
    * length, which can be useful for non-null-terminated strings or when only a
    * prefix is desired.
+   * @note A byte of `rhs` that is not part of a well-formed UTF-8 sequence
+   * (Unicode Table 3-7: an overlong form, a surrogate, a value above U+10FFFF,
+   * a stray continuation byte, a truncated sequence) is dropped, as a load
+   * drops it, so the tree holds valid UTF-8 and the call still returns `true`;
+   * valid text is stored as it is.
    */
   LUMEX_API bool set_name (char_t const *rhs, std::size_t size);
 
@@ -821,6 +831,11 @@ public:
    * @return `true` if the name was successfully set, `false` otherwise.
    * @details Provides a modern C++ interface for setting node names,
    * leveraging `string_view_t` for efficiency.
+   * @note A byte of `rhs` that is not part of a well-formed UTF-8 sequence
+   * (Unicode Table 3-7: an overlong form, a surrogate, a value above U+10FFFF,
+   * a stray continuation byte, a truncated sequence) is dropped, as a load
+   * drops it, so the tree holds valid UTF-8 and the call still returns `true`;
+   * valid text is stored as it is.
    */
   bool
   set_name (string_view_t rhs)
@@ -839,6 +854,11 @@ public:
    * `node_cdata`, `node_comment`, `node_pi`, and `node_doctype`. It internally
    * handles memory allocation/reallocation for the value string.
    * @note The `rhs` string is copied into the node's internal memory.
+   * @note A byte of `rhs` that is not part of a well-formed UTF-8 sequence
+   * (Unicode Table 3-7: an overlong form, a surrogate, a value above U+10FFFF,
+   * a stray continuation byte, a truncated sequence) is dropped, as a load
+   * drops it, so the tree holds valid UTF-8 and the call still returns `true`;
+   * valid text is stored as it is.
    */
   LUMEX_API bool set_value (char_t const *rhs);
 
@@ -850,6 +870,11 @@ public:
    * @return `true` if the value was successfully set, `false` otherwise.
    * @details Similar to `set_value(char_t const*)` but allows specifying the
    * length.
+   * @note A byte of `rhs` that is not part of a well-formed UTF-8 sequence
+   * (Unicode Table 3-7: an overlong form, a surrogate, a value above U+10FFFF,
+   * a stray continuation byte, a truncated sequence) is dropped, as a load
+   * drops it, so the tree holds valid UTF-8 and the call still returns `true`;
+   * valid text is stored as it is.
    */
   LUMEX_API bool set_value (char_t const *rhs, std::size_t size);
 
@@ -859,6 +884,11 @@ public:
    * @return `true` if the value was successfully set, `false` otherwise.
    * @details Provides a modern C++ interface for setting node values,
    * leveraging `string_view_t`.
+   * @note A byte of `rhs` that is not part of a well-formed UTF-8 sequence
+   * (Unicode Table 3-7: an overlong form, a surrogate, a value above U+10FFFF,
+   * a stray continuation byte, a truncated sequence) is dropped, as a load
+   * drops it, so the tree holds valid UTF-8 and the call still returns `true`;
+   * valid text is stored as it is.
    */
   bool
   set_value (string_view_t rhs)

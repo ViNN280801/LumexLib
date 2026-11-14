@@ -222,11 +222,11 @@ XmlText::set (char_t const *rhs)
 {
   XmlNodeBase *newdata = _data_new ();
 
-  return (newdata != nullptr)
-             ? utility::strcpy_insitu (newdata->value, newdata->header,
-                                       kxml_memory_page_value_allocated_mask,
-                                       rhs, utility::strlength (rhs))
-             : false;
+  return (newdata != nullptr) ? utility::strcpy_insitu_utf8 (
+                                    newdata->value, newdata->header,
+                                    kxml_memory_page_value_allocated_mask, rhs,
+                                    utility::strlength (rhs))
+                              : false;
 }
 
 LUMEX_PUBLIC_API
@@ -236,9 +236,9 @@ XmlText::set (char_t const *rhs, std::size_t size)
   XmlNodeBase *newdata = _data_new ();
 
   return (newdata != nullptr)
-             ? utility::strcpy_insitu (newdata->value, newdata->header,
-                                       kxml_memory_page_value_allocated_mask,
-                                       rhs, size)
+             ? utility::strcpy_insitu_utf8 (
+                   newdata->value, newdata->header,
+                   kxml_memory_page_value_allocated_mask, rhs, size)
              : false;
 }
 

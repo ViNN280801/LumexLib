@@ -51,8 +51,10 @@
  * `lumex/core/utility/bit/LumexBit.hpp`. The `get_value_*` and `set_value_*`
  * functions convert attribute and text values to and from numbers, and
  * `strcpy_insitu` stores a new name or value, reusing the old storage when it
- * is large enough. The rest serves the XPath engine: number formatting and
- * parsing, `normalize-space`, `translate` and a pointer hash set.
+ * is large enough, and `strcpy_insitu_utf8` does it for the text that a setter
+ * takes from the caller, dropping what is not valid UTF-8. The rest serves the
+ * XPath engine: number formatting and parsing, `normalize-space`, `translate`
+ * and a pointer hash set.
  *
  * The functions are undocumented implementation details shared by the parser,
  * the writers, the handles and the XPath engine. The umbrella header
@@ -306,13 +308,20 @@ strcpy_insitu_allow (std::size_t length, Header const &header,
              || target_length - length < target_length / 2);
 }
 
-template <typename String, typename Header>
+// Stores `length` characters that `fill` writes into the string `dest`: in the
+// storage it has, when that is not shared and large enough, and otherwise in
+// storage that the allocator gives, which replaces the old one. `fill
+// (target)` writes the `length` characters (no terminator) at `target`; the
+// terminator is written here. It is not called when `length` is 0, which
+// clears the string.
+template <typename String, typename Header, typename Fill>
 inline bool
-strcpy_insitu (String &dest, Header &header, uintptr_t header_mask,
-               char_t const *source, std::size_t source_length)
+strcpy_insitu_fill (String &dest, Header &header, uintptr_t header_mask,
+                    std::size_t length, Fill const &fill,
+                    bool allow_reuse = true)
 {
   LUMEX_ASSERT ((header & header_mask) == 0 || dest);
-  if (source_length == 0)
+  if (length == 0)
     {
       XmlAllocator *alloc
           = LUMEX_XML_GETPAGE_IMPL ( // NOLINT(cppcoreguidelines-pro-type-const-cast)
@@ -328,10 +337,11 @@ strcpy_insitu (String &dest, Header &header, uintptr_t header_mask,
       return true;
     }
 
-  if (dest && strcpy_insitu_allow (source_length, header, header_mask, dest))
+  if (allow_reuse && dest
+      && strcpy_insitu_allow (length, header, header_mask, dest))
     {
-      memcpy (dest, source, source_length * sizeof (char_t));
-      dest[source_length] = 0;
+      fill (dest);
+      dest[length] = 0;
 
       return true;
     }
@@ -340,12 +350,12 @@ strcpy_insitu (String &dest, Header &header, uintptr_t header_mask,
       = LUMEX_XML_GETPAGE_IMPL ( // NOLINT(cppcoreguidelines-pro-type-const-cast)
             header)
             ->allocator;
-  char_t *buf = alloc->allocate_string (source_length + 1);
+  char_t *buf = alloc->allocate_string (length + 1);
   if (!buf)
     return false;
 
-  memcpy (buf, source, source_length * sizeof (char_t));
-  buf[source_length] = 0;
+  fill (buf);
+  buf[length] = 0;
 
   if (header & header_mask)
     alloc->deallocate_string (dest);
@@ -354,6 +364,78 @@ strcpy_insitu (String &dest, Header &header, uintptr_t header_mask,
   header |= header_mask;
 
   return true;
+}
+
+template <typename String, typename Header>
+inline bool
+strcpy_insitu (String &dest, Header &header, uintptr_t header_mask,
+               char_t const *source, std::size_t source_length)
+{
+  return strcpy_insitu_fill (dest, header, header_mask, source_length,
+                             [source, source_length] (char_t *target)
+                               {
+                                 // the source can be a part of the string that
+                                 // is replaced (a setter given `value () +
+                                 // 1`): the ranges may overlap
+                                 memmove (target, source,
+                                          source_length * sizeof (char_t));
+                               });
+}
+
+// Stores text that the caller gives as a name or a value. Valid UTF-8 (the
+// usual case) costs one read-only pass over it and is stored as
+// `strcpy_insitu` stores it. Ill-formed UTF-8 is cleaned on the way, as on a
+// load: every byte that is not part of a well-formed sequence is dropped
+// (`utf::utf8_decoder` skips it for the other encodings), and the cleaned text
+// is written straight into the storage of the string, so that the tree holds
+// well-formed UTF-8 whatever the caller passed. It returns `true` also when
+// bytes were dropped, and clears the string when nothing is left. The numeric
+// setters do not come here: the text they make is always valid.
+//
+// The source may be a part of the string that is replaced, `value () + 1` for
+// one: it starts at or after the destination, the valid prefix is moved with
+// `memmove`, and the decoder writes behind what it has read. A source that
+// starts before the destination and runs into it (an explicit size that spans
+// two strings of the tree, which the handles never give) is cleaned into
+// storage that is allocated, never into the old one.
+template <typename String, typename Header>
+inline bool
+strcpy_insitu_utf8 (String &dest, Header &header, uintptr_t header_mask,
+                    char_t const *source, std::size_t source_length)
+{
+  std::size_t const valid_length = utf::utf8_valid_prefix_length (
+      reinterpret_cast<uint8_t const *> (source), source_length);
+
+  if (valid_length == source_length)
+    return strcpy_insitu (dest, header, header_mask, source, source_length);
+
+  // the decoder resumes at the first byte it skips, where the valid prefix
+  // ends
+  auto const *rest = reinterpret_cast<uint8_t const *> (source) + valid_length;
+  std::size_t const rest_size = source_length - valid_length;
+  std::size_t const length = valid_length
+                             + utf::utf8_decoder::process (
+                                 rest, rest_size, 0, utf::utf8_counter ());
+
+  // writing behind the reading is safe; writing ahead of it is not
+  bool const source_before_dest
+      = dest != nullptr
+        && reinterpret_cast<uintptr_t> (source)
+               < reinterpret_cast<uintptr_t> (dest)
+        && reinterpret_cast<uintptr_t> (source + source_length)
+               > reinterpret_cast<uintptr_t> (dest);
+
+  return strcpy_insitu_fill (
+      dest, header, header_mask, length,
+      [source, valid_length, rest, rest_size] (char_t *target)
+        {
+          memmove (target, source, valid_length * sizeof (char_t));
+          utf::utf8_decoder::process (rest, rest_size,
+                                      reinterpret_cast<uint8_t *> (target)
+                                          + valid_length,
+                                      utf::utf8_writer ());
+        },
+      !source_before_dest);
 }
 
 // Compare two strings
@@ -1136,7 +1218,7 @@ is_utf8_cleaned_on_load (uint8_t const *data, std::size_t size)
 }
 
 // A UTF-8 document that is cleaned (`clean`, from `is_utf8_cleaned_on_load`)
-// has every byte dropped that starts no well-formed sequence, as
+// has every byte dropped that is not part of a well-formed sequence, as
 // `utf::utf8_decoder` drops it for the other encodings, so the tree holds
 // well-formed UTF-8 and the UTF-8, UTF-16 and UTF-32 saves of one tree write
 // the same text (Latin-1 writes `?` for what it cannot hold). Valid input (the

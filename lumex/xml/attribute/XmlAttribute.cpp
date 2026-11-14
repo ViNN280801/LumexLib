@@ -353,9 +353,9 @@ XmlAttribute::set_name (char_t const *rhs)
   if (m_attr == nullptr)
     return false;
 
-  return strcpy_insitu (m_attr->name, m_attr->header,
-                        kxml_memory_page_name_allocated_mask, rhs,
-                        strlength (rhs));
+  return strcpy_insitu_utf8 (m_attr->name, m_attr->header,
+                             kxml_memory_page_name_allocated_mask, rhs,
+                             strlength (rhs));
 }
 
 LUMEX_PUBLIC_API
@@ -365,8 +365,8 @@ XmlAttribute::set_name (char_t const *rhs, std::size_t size)
   if (m_attr == nullptr)
     return false;
 
-  return strcpy_insitu (m_attr->name, m_attr->header,
-                        kxml_memory_page_name_allocated_mask, rhs, size);
+  return strcpy_insitu_utf8 (m_attr->name, m_attr->header,
+                             kxml_memory_page_name_allocated_mask, rhs, size);
 }
 
 LUMEX_PUBLIC_API
@@ -376,9 +376,9 @@ XmlAttribute::set_value (char_t const *rhs)
   if (m_attr == nullptr)
     return false;
 
-  return strcpy_insitu (m_attr->value, m_attr->header,
-                        kxml_memory_page_value_allocated_mask, rhs,
-                        strlength (rhs));
+  return strcpy_insitu_utf8 (m_attr->value, m_attr->header,
+                             kxml_memory_page_value_allocated_mask, rhs,
+                             strlength (rhs));
 }
 
 LUMEX_PUBLIC_API
@@ -388,8 +388,8 @@ XmlAttribute::set_value (char_t const *rhs, std::size_t size)
   if (m_attr == nullptr)
     return false;
 
-  return strcpy_insitu (m_attr->value, m_attr->header,
-                        kxml_memory_page_value_allocated_mask, rhs, size);
+  return strcpy_insitu_utf8 (m_attr->value, m_attr->header,
+                             kxml_memory_page_value_allocated_mask, rhs, size);
 }
 
 LUMEX_PUBLIC_API
