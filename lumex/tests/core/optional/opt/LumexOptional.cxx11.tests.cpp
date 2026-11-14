@@ -764,3 +764,11 @@ TEST (
   EXPECT_EQ (std::addressof (reference), &*engaged);
   EXPECT_EQ (reference.value, 8);
 }
+
+// The unit tests are built with exceptions, so the switch is on (value ()
+// throws, as the tests above check). The build without exceptions is the
+// fixture cmake.consumer_optional_no_exceptions_*.
+TEST (LumexOptionalExceptionsSwitchTest, GivenTheTestBuild_WhenRead_ThenOn)
+{
+  EXPECT_EQ (LUMEX_OPTIONAL_HAS_EXCEPTIONS, 1);
+}

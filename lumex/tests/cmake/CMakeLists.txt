@@ -493,6 +493,33 @@ lumex_add_consumer_test(consumer_expected_no_exceptions_macro_cxx17
     expected_no_exceptions
     -DEXPECTED_NO_EXCEPTIONS_MODE=macro -DEXPECTED_NO_EXCEPTIONS_STD=17
     -DBUILD_TARGET=expected_no_exceptions_consumer)
+# optional without exceptions: every form of value () terminates and the header
+# has no throw left. The compiler without exceptions (-fno-exceptions, or
+# /EHs-c- on cl.exe) at C++11 and C++20, and the macro
+# LUMEX_OPTIONAL_HAS_EXCEPTIONS=0 with exceptions on at C++17 (every compiler).
+lumex_add_consumer_test(consumer_optional_no_exceptions_cxx11
+    optional_no_exceptions
+    -DOPTIONAL_NO_EXCEPTIONS_MODE=compiler -DOPTIONAL_NO_EXCEPTIONS_STD=11
+    -DBUILD_TARGET=optional_no_exceptions_consumer)
+lumex_add_consumer_test(consumer_optional_no_exceptions_cxx20
+    optional_no_exceptions
+    -DOPTIONAL_NO_EXCEPTIONS_MODE=compiler -DOPTIONAL_NO_EXCEPTIONS_STD=20
+    -DBUILD_TARGET=optional_no_exceptions_consumer)
+lumex_add_consumer_test(consumer_optional_no_exceptions_macro_cxx17
+    optional_no_exceptions
+    -DOPTIONAL_NO_EXCEPTIONS_MODE=macro -DOPTIONAL_NO_EXCEPTIONS_STD=17
+    -DBUILD_TARGET=optional_no_exceptions_consumer)
+# One program with a -fno-exceptions unit and an exception enabled one: value ()
+# is always inlined, so in both link orders, at -O0, -O2 and -O2 -fno-inline,
+# the second unit keeps throwing and the first terminates (GCC, Clang; skipped
+# on MSVC).
+foreach(_order IN ITEMS LIB_FIRST MAIN_FIRST)
+    foreach(_opt IN ITEMS O0 O2 O2NI)
+        string(TOLOWER "${_order}_${_opt}" _suffix)
+        lumex_add_consumer_test(consumer_optional_mixed_exceptions_${_suffix}
+            optional_mixed_exceptions -DMIX_ORDER=${_order} -DMIX_OPT=${_opt})
+    endforeach()
+endforeach()
 # Exported functions do not depend on the C++ standard: the library at one
 # standard and the consumer at another link, both ways (base64, XML and
 # exceptions, through their inline wrappers).

@@ -91,6 +91,7 @@
 #pragma clang diagnostic ignored "-Wfloat-equal"
 #endif
 
+#include <exception>        // For std::terminate (no exceptions)
 #include <functional>       // For std::reference_wrapper
 #include <initializer_list> // For std::initializer_list
 #include <new>              // For placement new
@@ -108,6 +109,30 @@
 #include "lumex/core/optional/opt/LumexOptionalTags.hpp"
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
+
+/**
+ * @def LUMEX_OPTIONAL_HAS_EXCEPTIONS
+ * @brief 1 when `value ()` of an empty `optional` throws
+ * `lumex_bad_optional_access`, 0 when it calls `std::terminate`.
+ * @details The default follows the compiler: 0 with `-fno-exceptions` (GCC and
+ * Clang: neither `__cpp_exceptions` nor `__EXCEPTIONS`) or MSVC without
+ * `/EHsc` (no `_CPPUNWIND`), 1 otherwise. A program may define the macro as 0
+ * before the first include of the library to get the terminating `value ()`
+ * with exceptions on; defined as 1 under `-fno-exceptions` it does not
+ * compile. `value ()` is the only function of the module that throws.
+ * @details Units of one program may differ in this value: the body of
+ * `value ()` depends on it, so `value ()` and the functions it calls are
+ * always inlined (`LUMEX_ATTRIBUTE_ALWAYS_INLINE`) and the linker never has a
+ * weak copy of them to choose between. A function whose address is taken
+ * still gets a symbol and then follows the unit the linker meets first.
+ */
+#ifndef LUMEX_OPTIONAL_HAS_EXCEPTIONS
+#if defined(__cpp_exceptions) || defined(__EXCEPTIONS) || defined(_CPPUNWIND)
+#define LUMEX_OPTIONAL_HAS_EXCEPTIONS 1
+#else
+#define LUMEX_OPTIONAL_HAS_EXCEPTIONS 0
+#endif
+#endif
 
 /**
  * @def LUMEX_OPTIONAL_CONSTEXPR_CXX20
@@ -215,12 +240,18 @@ construct_at (T *where, Args &&...args)
 #endif
 }
 
-/// @brief Throws `lumex_bad_optional_access`; a function, so that the
-/// `constexpr` observers of C++11 can name it in a conditional expression.
-LUMEX_ATTRIBUTE_NORETURN inline void
+/// @brief Throws `lumex_bad_optional_access`, or calls `std::terminate` when
+/// `LUMEX_OPTIONAL_HAS_EXCEPTIONS` is 0; a function, so that the `constexpr`
+/// observers of C++11 can name it in a conditional expression. Always inlined:
+/// the body depends on the exception mode of the translation unit.
+LUMEX_ATTRIBUTE_NORETURN LUMEX_ATTRIBUTE_ALWAYS_INLINE void
 throw_bad_optional_access ()
 {
+#if LUMEX_OPTIONAL_HAS_EXCEPTIONS
   throw lumex_bad_optional_access ();
+#else
+  std::terminate ();
+#endif
 }
 
 /// @brief `throw_bad_optional_access` as an expression of type `Result`, for
@@ -233,9 +264,10 @@ throw_bad_optional_access ()
 /// of the other branch, so a reference stays a reference.
 /// @tparam Result The type of the expression, `T &` or `T const &`; it never
 /// yields a value.
-/// @throws lumex_bad_optional_access always.
+/// @throws lumex_bad_optional_access always (`std::terminate` is called
+/// without exceptions).
 template <typename Result>
-LUMEX_ATTRIBUTE_NORETURN inline Result
+LUMEX_ATTRIBUTE_NORETURN LUMEX_ATTRIBUTE_ALWAYS_INLINE Result
 throw_bad_optional_access_as ()
 {
   detail::throw_bad_optional_access ();
