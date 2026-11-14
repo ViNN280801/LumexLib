@@ -11,10 +11,11 @@
 # in bounds. The matrix tests behaviour, not language features: C++11 only,
 # label matrix. ../CMakeLists.txt adds this directory only when the transport
 # compiles the engine and the simulator (protocol and framing modules).
+# winmm: the driver of the threaded cells asks Windows for a 1 ms timer.
 lumex_add_standard_suites(TransportMatrix
     MODULE transport
     STANDARDS 11
-    LINK lumex::transport lumex::protocol lumex::framing
+    LINK lumex::transport lumex::protocol lumex::framing $<$<BOOL:${WIN32}>:winmm>
     SOURCES
         LumexTransportMatrixSupport.hpp
         LumexTransportMatrixSupport.cpp

@@ -650,6 +650,14 @@
 
 **Проверено:** cl.exe Debug: до правки `Discover_OverARealTcpPeerAndARefusingOne` падал всегда, после правки проходит; `transport.*` и `examples.transport.*` на cl.exe Debug, clang-cl Debug, cl.exe Release, WSL GCC 13.3 и clang++ 18.1 проходят.
 
+##### Потоковые ячейки матрицы транспорта на Windows: тишина шины без деления до нуля
+
+**Файлы:** `lumex/tests/applied/transport/matrix/LumexTransportMatrixSupport.cpp`, `lumex/tests/applied/transport/matrix/CMakeLists.txt`.
+
+**Суть:** порог тишины `CLOCKS_PER_SEC / 2000` на Windows равен 0 (там `std::clock` дает время стены), поэтому ожидание никогда не завершалось досрочно, а каждая пауза `sleep_for (1 ms)` длилась 15.4 мс: 34 ячейки `transport.matrix.threads.device_j.*` не укладывались в 60 с. Сравнение идет в `double`, без процессорного времени шина считается тихой по счетчикам прогресса, потоковые драйверы просят у Windows таймер 1 мс (`timeBeginPeriod`, библиотека `winmm`). Поведение на Linux не изменилось.
+
+**Проверено:** cl.exe Debug и Release, clang-cl Debug: 34 ячейки за 63.6 с в одном процессе, под `ctest -j 8` каждая не дольше 2.81 с при защитном пределе 5 с; до правки ячейка `perfect` не завершалась за 100 с; WSL GCC 13.3 Debug: 34 ячейки за 36.7 с.
+
 #### Изменено
 
 ##### XML: сеттеры имен и значений убирают неправильные последовательности UTF-8

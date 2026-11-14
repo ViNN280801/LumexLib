@@ -19,6 +19,12 @@
 
 #include <gtest/gtest.h>
 
+#if defined(_WIN32)
+#include <windows.h>
+
+#include <mmsystem.h>
+#endif
+
 #include "lumex/tests/applied/transport/matrix/LumexTransportMatrixSupport.hpp"
 
 namespace lumex_matrix_test
@@ -38,14 +44,48 @@ int const kstill_pauses = 5;
 int const kidle_pauses = 50;
 int const kmost_pauses = 2000;
 
+#if defined(_WIN32)
+// `std::clock` is wall time there: no processor time to look at.
+bool const kprocessor_time = false;
+#else
+bool const kprocessor_time = true;
+#endif
+
 std::clock_t
 processor_time ()
 {
+  return kprocessor_time ? std::clock () : 0;
+}
+
+// Whether the processor time `spent` (in ticks of `std::clock`) since the
+// last pause is below half of a millisecond. Computed in floating point: the
+// threshold in whole ticks is 0 where a tick is a millisecond, and a bench
+// would never be idle. Without processor time nothing contradicts it: the
+// progress of the bench alone says that it is still.
+bool
+runners_idle (std::clock_t spent)
+{
+  return !kprocessor_time
+         || static_cast<double> (spent)
+                < static_cast<double> (CLOCKS_PER_SEC) / 2000.0;
+}
+
+// A pause of ksettle takes one tick of the system timer, 15.6 ms on Windows,
+// unless the program asks for a finer one: 2000 pauses of a pass then took
+// half a minute. Paired calls, held by a threaded driver for its lifetime.
+void
+raise_pause_resolution ()
+{
 #if defined(_WIN32)
-  // `std::clock` is wall time there.
-  return 0;
-#else
-  return std::clock ();
+  ::timeBeginPeriod (1);
+#endif
+}
+
+void
+restore_pause_resolution ()
+{
+#if defined(_WIN32)
+  ::timeEndPeriod (1);
 #endif
 }
 
@@ -86,12 +126,20 @@ reconnected (snapshot_t const &before, snapshot_t const &after)
 driver_t::driver_t (bool threaded)
 {
   if (threaded)
-    runner_.reset (new tr::stream::io_runner (4));
+    {
+      raise_pause_resolution ();
+      runner_.reset (new tr::stream::io_runner (4));
+    }
   else
     context_.reset (new asio::io_context ());
 }
 
-driver_t::~driver_t () { stop (); }
+driver_t::~driver_t ()
+{
+  stop ();
+  if (runner_)
+    restore_pause_resolution ();
+}
 
 tr::executor_type
 driver_t::executor ()
@@ -132,8 +180,7 @@ driver_t::run_until (tr::testing::virtual_clock &clock,
                 + static_cast<std::uint64_t> (
                     clock.next_expiry ().time_since_epoch ().count ());
           std::clock_t const now_time = processor_time ();
-          bool const idle = now_time - last_time < static_cast<std::clock_t> (
-                                CLOCKS_PER_SEC / 2000);
+          bool const idle = runners_idle (now_time - last_time);
           still = now_progress == last && idle ? still + 1 : 0;
           last = now_progress;
           last_time = now_time;
