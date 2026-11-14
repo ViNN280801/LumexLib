@@ -627,6 +627,14 @@
 
 **Проверено:** cl.exe: `cmake.install_share_layout_all_modules` до правки падает (C1189), после правки проходит; конфигурация cl.exe Release с `-DLUMEX_BUILD_BENCHMARKS=ON` не создает целей `LumexExpectedBench_*`.
 
+##### Тест `LumexStringViewRangesTest`: границы диапазона из одного представления
+
+**Файлы:** `lumex/tests/core/string_view/view/LumexStringViewRanges.cxx20.tests.cpp`.
+
+**Суть:** концы `std::ranges::subrange` брались из двух разных литералов `"hello"`; cl.exe в Debug не объединяет равные литералы, и отладочная STL проверяет порядок указателей (`transposed pointer range`, код 0xC0000409). Оба конца берутся из одного представления.
+
+**Проверено:** cl.exe Debug: до правки `GivenBorrowedRange_WhenAlgorithmReturnsIterator_ThenNotDangling` падал, после правки `string_view.view.*` 243 из 243.
+
 #### Изменено
 
 ##### Каталог `docs/` убран из истории репозитория, GitHub Pages выключен
