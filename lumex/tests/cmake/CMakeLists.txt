@@ -577,6 +577,9 @@ lumex_add_consumer_test(consumer_framing_warnings framing_warnings)
 # Every observer of expected, value () of a const object included, compiles
 # without a warning in a strict consumer (cl /W4 /WX: C4702 once).
 lumex_add_consumer_test(consumer_expected_warnings expected_warnings)
+# Every form of optional::value (), the constexpr ones included, compiles without
+# a warning in a strict consumer (cl /W4 /WX: C4702 once).
+lumex_add_consumer_test(consumer_optional_warnings optional_warnings)
 # The protocol category is one per process, like the framing one.
 lumex_add_consumer_test(consumer_protocol_two_modules protocol_two_modules)
 # Every macro and template of the protocol DSL in a strict consumer.

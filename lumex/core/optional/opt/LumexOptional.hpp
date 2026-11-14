@@ -772,9 +772,8 @@ public:
   LUMEX_CONSTEXPR_CXX14 T &
   value () &
   {
-    return m_p.m_engaged
-               ? m_p.m_u.value
-               : (detail::throw_bad_optional_access (), m_p.m_u.value);
+    return m_p.m_engaged ? m_p.m_u.value
+                         : detail::throw_bad_optional_access_as<T &> ();
   }
 
   /// @brief The contained value as a const lvalue.
@@ -782,16 +781,16 @@ public:
   LUMEX_CONSTEXPR T const &
   value () const &
   {
-    return m_p.m_engaged
-               ? m_p.m_u.value
-               : (detail::throw_bad_optional_access (), m_p.m_u.value);
+    return m_p.m_engaged ? m_p.m_u.value
+                         : detail::throw_bad_optional_access_as<T const &> ();
   }
 
   /// @brief The contained value as an rvalue.
   /// @throws lumex_bad_optional_access If empty.
-  /// @details Cast from the lvalue form: `cond ? xvalue : (call (), xvalue)`
-  /// and a cast of such a conditional both become a temporary with cl.exe, and
-  /// the returned reference dangles.
+  /// @details Cast from the lvalue form, not a conditional of its own:
+  /// `cond ? xvalue : (call (), xvalue)` (the comma form the lvalue forms
+  /// had) and a cast of such a conditional both become a temporary with
+  /// cl.exe, and the returned reference dangles.
   LUMEX_CONSTEXPR_CXX14 T &&
   value () &&
   {
