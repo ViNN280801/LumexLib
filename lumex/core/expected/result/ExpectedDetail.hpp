@@ -113,40 +113,37 @@
 
 /**
  * @def LUMEX_EXPECTED_COMPILER_HAS_EXCEPTIONS
- * @brief 1 when the compiler compiles `try`, `catch` and `throw` (GCC and
- * Clang: `__cpp_exceptions` or `__EXCEPTIONS`; MSVC: `_CPPUNWIND`), otherwise
- * 0. Internal: the paths that restore the old contents of an `expected` when a
- * constructor throws are compiled by this macro, which a program cannot
- * override (a program that sets `LUMEX_EXPECTED_HAS_EXCEPTIONS` to 0 with
- * exceptions on must still get the strong guarantee, or a throwing
- * constructor would leave a destroyed object behind). These bodies are not
- * always inlined: they are inline templates (and the assignment operators of
- * `expected` are implicitly defined), so a program that links a unit built
- * without exceptions and one built with them keeps one copy of such an
- * instantiation for both. If the unit with exceptions gets the copy built
- * without them, a constructor that throws leaves a destroyed object behind (no
- * `try`, and the flag still names the old alternative): the destructor then
- * destroys it twice, which is undefined behavior and not only a lost strong
- * guarantee. The operations are `emplace_error`, the assignments and `swap`
+ * @brief `LUMEX_COMPILER_HAS_EXCEPTIONS`: 1 when the compiler compiles `try`,
+ * `catch` and `throw`, otherwise 0. Internal: the paths that restore the old
+ * contents of an `expected` when a constructor throws are compiled by this
+ * macro, which a program cannot override (a program that sets
+ * `LUMEX_EXPECTED_HAS_EXCEPTIONS` to 0 with exceptions on must still get the
+ * strong guarantee, or a throwing constructor would leave a destroyed object
+ * behind). These bodies are not always inlined: they are inline templates (and
+ * the assignment operators of `expected` are implicitly defined), so a program
+ * that links a unit built without exceptions and one built with them keeps one
+ * copy of such an instantiation for both. If the unit with exceptions gets the
+ * copy built without them, a constructor that throws leaves a destroyed object
+ * behind (no `try`, and the flag still names the old alternative): the
+ * destructor then destroys it twice, which is undefined behavior and not only
+ * a lost strong guarantee. The operations are `emplace_error`, the assignments
+ * and `swap`
  * (`emplace` needs a nothrow construction and is not affected). Units of a
  * program that has such types with throwing constructors must therefore have
  * the same compiler mode.
  */
-#if defined(__cpp_exceptions) || defined(__EXCEPTIONS) || defined(_CPPUNWIND)
-#define LUMEX_EXPECTED_COMPILER_HAS_EXCEPTIONS 1
-#else
-#define LUMEX_EXPECTED_COMPILER_HAS_EXCEPTIONS 0
-#endif
+#define LUMEX_EXPECTED_COMPILER_HAS_EXCEPTIONS LUMEX_COMPILER_HAS_EXCEPTIONS
 
 /**
  * @def LUMEX_EXPECTED_HAS_EXCEPTIONS
  * @brief 1 when `value ()` of an `expected` that holds an error throws
  * `bad_expected_access`, 0 when it calls `std::terminate`.
- * @details The default follows the compiler (see
- * `LUMEX_EXPECTED_COMPILER_HAS_EXCEPTIONS`): 0 with `-fno-exceptions` (or MSVC
- * without `/EHsc`), 1 otherwise. A program may define the macro as 0 before
- * the first include of the library to get the terminating `value ()` with
- * exceptions on; nothing else changes (`emplace_error`, assignment and `swap`
+ * @details The default is `LUMEX_HAS_EXCEPTIONS` (the shared switch of the
+ * library, itself 0 with `-fno-exceptions` or MSVC without `/EHsc` and 1
+ * otherwise). A program may define this macro as 0 before the first include of
+ * the library to get the terminating `value ()` with exceptions on, whatever
+ * `LUMEX_HAS_EXCEPTIONS` says; defined as 1 under `-fno-exceptions` it does
+ * not compile; nothing else changes (`emplace_error`, assignment and `swap`
  * keep their strong guarantee). Units of one program may differ in this value
  * for `value ()`: its body depends on the macro, so `value ()` and the
  * functions it calls are always inlined (`LUMEX_ATTRIBUTE_ALWAYS_INLINE`) and,
@@ -162,7 +159,11 @@
  * `LUMEX_EXPECTED_COMPILER_HAS_EXCEPTIONS`.
  */
 #ifndef LUMEX_EXPECTED_HAS_EXCEPTIONS
-#define LUMEX_EXPECTED_HAS_EXCEPTIONS LUMEX_EXPECTED_COMPILER_HAS_EXCEPTIONS
+#define LUMEX_EXPECTED_HAS_EXCEPTIONS LUMEX_HAS_EXCEPTIONS
+#endif
+#if LUMEX_EXPECTED_HAS_EXCEPTIONS && !LUMEX_COMPILER_HAS_EXCEPTIONS
+#error                                                                        \
+    "LUMEX_EXPECTED_HAS_EXCEPTIONS is 1 but the compiler has exceptions off: a program built without exceptions cannot throw"
 #endif
 
 /**

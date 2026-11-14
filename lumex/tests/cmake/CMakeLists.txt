@@ -562,6 +562,15 @@ foreach(_order IN ITEMS LIB_FIRST MAIN_FIRST)
             span_mixed_exceptions -DMIX_ORDER=${_order} -DMIX_OPT=${_opt})
     endforeach()
 endforeach()
+# The one switch of the library, LUMEX_HAS_EXCEPTIONS, and the macro of each
+# module that defaults to it (exceptions stay on): the default, the shared
+# switch as 0 (every module terminates, smart_ptr keeps its try blocks), a
+# module macro that overrides the switch both ways.
+foreach(_mode IN ITEMS default shared_zero override_optional override_span)
+    lumex_add_consumer_test(consumer_exceptions_switch_${_mode}
+        exceptions_switch -DSWITCH_MODE=${_mode}
+        -DBUILD_TARGET=exceptions_switch_consumer)
+endforeach()
 # Exported functions do not depend on the C++ standard: the library at one
 # standard and the consumer at another link, both ways (base64, XML and
 # exceptions, through their inline wrappers).

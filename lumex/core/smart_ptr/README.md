@@ -40,7 +40,7 @@ The interface follows [util.smartptr] of the C++17 draft; the observable behavio
 | `ctl/LumexSmartPtrCtlKinds.hpp` | `ctl_ptr` (pointer and deleter), `ctl_inplace` (object in the block), `ctl_holder` (out-of-window alias of a strong owner), `ctl_weak_holder` (out-of-window alias of a weak pointer) |
 | `detail/LumexSmartPtrAccess.hpp` | `detail::access`: the friend for the engine; the `enable_shared_from_this` probes |
 | `detail/LumexSmartPtrTraits.hpp` | Type identity without RTTI, empty-base storage, `block_allocator`, "compatible with" traits |
-| `detail/LumexSmartPtrConfig.hpp` | Macros: exceptions, ThreadSanitizer, debug asserts, the `std::enable_shared_from_this` policy |
+| `detail/LumexSmartPtrConfig.hpp` | Macros: exceptions (`LUMEX_SMART_PTR_HAS_EXCEPTIONS` is `LUMEX_COMPILER_HAS_EXCEPTIONS`, the compiler's fact; the shared switch `LUMEX_HAS_EXCEPTIONS` does not change it, because the `try` blocks of the reference counters must stay while exceptions are on), ThreadSanitizer, debug asserts, the `std::enable_shared_from_this` policy |
 
 ## Interface
 
