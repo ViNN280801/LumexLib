@@ -142,6 +142,14 @@ struct in_place_t
  */
 LUMEX_CONSTEXPR in_place_t in_place{ in_place_t::init_tag{} };
 
+// A header-only exception has no key function: Clang's -Wweak-vtables (a
+// strict consumer's -Weverything) reports the vtable emitted in every
+// translation unit, which is by design here.
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wweak-vtables"
+#endif
+
 /**
  * @brief Exception thrown when attempting to access the value of an empty
  * `optional`.
@@ -187,6 +195,10 @@ public:
   {
   }
 };
+
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif
 } // namespace opt
 } // namespace optional
 } // namespace core

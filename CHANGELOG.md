@@ -635,6 +635,14 @@
 
 **Проверено:** cl.exe Debug: до правки `GivenBorrowedRange_WhenAlgorithmReturnsIterator_ThenNotDangling` падал, после правки `string_view.view.*` 243 из 243.
 
+##### C4702 в `optional::value () &` и `value () const &` под `/W4 /WX`
+
+**Файлы:** `lumex/core/optional/opt/LumexOptionalDetail.hpp`, `lumex/core/optional/opt/LumexOptional.hpp`, `lumex/core/optional/opt/LumexOptionalTags.hpp`, `lumex/tests/cmake/consumer/optional_warnings/` (новый), `lumex/tests/cmake/CMakeLists.txt`.
+
+**Суть:** ветка ошибки форм для lvalue заканчивалась запятой с недостижимым операндом, cl.exe сообщал C4702 (ошибка при `/W4 /WX`), потребитель со строгими флагами не собирался. Ветка стала вызовом `detail::throw_bad_optional_access_as<T &> ()` (и `<T const &>`), как у `expected`; `constexpr` сохранен. Фикстура `cmake.consumer_optional_warnings` собирает все формы `value ()` со строгими флагами cl.exe, clang-cl, Clang и GCC на C++11 (на cl.exe и clang-cl C++14: у них нет флага `/std` ниже), C++14 и C++20. Она же нашла `-Wweak-vtables` у `lumex_bad_optional_access` на Clang под Linux: добавлена прагма в `LumexOptionalTags.hpp`.
+
+**Проверено:** cl.exe `/W4 /WX` на старом заголовке дает C4702 в строках 775 и 785 (C++14, C++17, C++20), на новом чисто; фикстура со старым заголовком падает, с новым проходит; `optional.*`, `examples.optional.*`, `lint.*` и две фикстуры: cl.exe Debug и Release, clang-cl Debug, WSL GCC 13.3 и clang++ 18.1 по 699 из 699, g++-9 549 из 549; `cmake.*` и `lint.*` на cl.exe Debug 262 из 262; до прагмы фикстура падала на clang++ 18 при всех стандартах.
+
 #### Изменено
 
 ##### Каталог `docs/` убран из истории репозитория, GitHub Pages выключен

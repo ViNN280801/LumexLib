@@ -223,6 +223,24 @@ throw_bad_optional_access ()
   throw lumex_bad_optional_access ();
 }
 
+/// @brief `throw_bad_optional_access` as an expression of type `Result`, for
+/// the branch of a conditional expression.
+/// @details `value () &` and `value () const &` are `constexpr` functions, so
+/// their error branch is an operand of a conditional expression. A `void`
+/// call followed by a comma operand that yields the value leaves that operand
+/// unreachable, which cl.exe reports (C4702, an error under `/W4 /WX`). A
+/// call of this function is the whole branch; the conditional takes the type
+/// of the other branch, so a reference stays a reference.
+/// @tparam Result The type of the expression, `T &` or `T const &`; it never
+/// yields a value.
+/// @throws lumex_bad_optional_access always.
+template <typename Result>
+LUMEX_ATTRIBUTE_NORETURN inline Result
+throw_bad_optional_access_as ()
+{
+  detail::throw_bad_optional_access ();
+}
+
 // ====================== Traits ====================== //
 
 /// @brief Whether `T` is a specialization of `optional` (no cv, no reference).
