@@ -2339,8 +2339,8 @@ LUMEX_PUBLIC_API
 std::wstring
 lumex_filesystem::to_wide_string (std::string const &str)
 {
-  // The same conversion on every platform and in every C locale; a byte that
-  // does not start a complete UTF-8 sequence is skipped.
+  // The same conversion on every platform and in every C locale; ill-formed
+  // UTF-8 (see utf8_decoder) is skipped.
   return unicode::convert::to_wide (str);
 }
 

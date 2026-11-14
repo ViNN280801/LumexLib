@@ -611,3 +611,48 @@ TEST_F (XmlEncodingTest,
         }
     }
 }
+
+// A UTF-8 document is parsed as it is, so an overlong form, a surrogate or a
+// value above U+10FFFF stays in the tree as bytes. Writing it in another
+// encoding goes through the UTF-8 decoder, which skips them; it used to turn
+// C0 BC into a raw '<' of the output.
+TEST_F (
+    XmlEncodingTest,
+    GivenIllFormedUtf8InTheTree_WhenSavedInAnotherEncoding_ThenTheBytesAreSkipped)
+{
+  struct bad_t
+  {
+    char const *name;
+    std::string bytes;
+  };
+  std::vector<bad_t> bad;
+  bad.push_back ({ "overlong <", std::string ("\xC0\xBC") });
+  bad.push_back ({ "overlong /", std::string ("\xC0\xAF") });
+  bad.push_back ({ "overlong 3 bytes", std::string ("\xE0\x80\xBC") });
+  bad.push_back ({ "overlong 4 bytes", std::string ("\xF0\x80\x80\xBC") });
+  bad.push_back ({ "surrogate D800", std::string ("\xED\xA0\x80") });
+  bad.push_back ({ "surrogate DFFF", std::string ("\xED\xBF\xBF") });
+  bad.push_back ({ "above 10FFFF", std::string ("\xF4\x90\x80\x80") });
+  bad.push_back ({ "lead F7", std::string ("\xF7\xBF\xBF\xBF") });
+
+  std::vector<unicode_encoding_t> encodings = unicode_encodings ();
+  encodings.push_back ({ xml_encoding::encoding_latin1, "latin1" });
+  for (std::size_t i = 0; i < bad.size (); ++i)
+    for (std::size_t k = 0; k < encodings.size (); ++k)
+      {
+        if (encodings[k].encoding == xml_encoding::encoding_utf8)
+          continue;
+        doc.reset ();
+        std::string const text
+            = "<r a=\"x" + bad[i].bytes + "y\">p" + bad[i].bytes + "q</r>";
+        ASSERT_TRUE (doc.load_buffer (text.data (), text.size (),
+                                      kparse_default,
+                                      xml_encoding::encoding_utf8))
+            << bad[i].name;
+        EXPECT_EQ (saved (encodings[k].encoding,
+                          kformat_raw | kformat_no_declaration),
+                   as_string (encode (U"<r a=\"xy\">pq</r>",
+                                      encodings[k].encoding, false)))
+            << bad[i].name << " as " << encodings[k].name;
+      }
+}

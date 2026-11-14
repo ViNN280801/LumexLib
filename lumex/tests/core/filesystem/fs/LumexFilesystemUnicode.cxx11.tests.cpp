@@ -166,6 +166,34 @@ TEST (LumexFilesystemUnicodeTest,
 }
 
 TEST (LumexFilesystemUnicodeTest,
+      GivenOverlongSurrogateOrOutOfRangeUtf8_WhenToWide_ThenItIsSkipped)
+{
+  // The ill-formed forms of Table 3-7 are skipped like any other byte that
+  // does not start a complete sequence: an overlong "/" must not become a
+  // slash of the wide path, and nothing may reach the wide string as a lone
+  // surrogate (UTF-16) or a value above U+10FFFF (UTF-32).
+  EXPECT_EQ (lumex_filesystem::to_wide_string ("a\xC0\xAF"
+                                               "b"),
+             std::wstring (L"ab"));
+  EXPECT_EQ (lumex_filesystem::to_wide_string ("a\xE0\x80\xAF"
+                                               "b"),
+             std::wstring (L"ab"));
+  EXPECT_EQ (lumex_filesystem::to_wide_string ("a\xF0\x80\x80\xAF"
+                                               "b"),
+             std::wstring (L"ab"));
+  EXPECT_EQ (lumex_filesystem::to_wide_string ("a\xED\xA0\x80"
+                                               "b"),
+             std::wstring (L"ab"));
+  EXPECT_EQ (lumex_filesystem::to_wide_string ("a\xF4\x90\x80\x80"
+                                               "b"),
+             std::wstring (L"ab"));
+  EXPECT_EQ (path ("dir\xC0\xAF"
+                   "file")
+                 .wstring (),
+             std::wstring (L"dirfile"));
+}
+
+TEST (LumexFilesystemUnicodeTest,
       GivenUnpairedSurrogate_WhenFromWide_ThenItIsSkippedAtEveryWidth)
 {
   // UTF-16 skips the unpaired surrogate; the UTF-32 decoder skips the

@@ -4,12 +4,18 @@
 // and units come from reference encoders in LumexUnicodeTestSupport.hpp, not
 // from the policies under test. Behavior of the decoders on invalid input is
 // pinned as the header documents it: they skip what they cannot decode. The
-// UTF-8 decoder does not reject overlong forms or surrogates; the UTF-16
-// decoder skips an unpaired surrogate, the UTF-32 decoder a surrogate code
-// point and a value above U+10FFFF.
+// UTF-8 decoder accepts exactly the well-formed sequences of Table 3-7 of the
+// Unicode standard (no overlong form, no surrogate, nothing above U+10FFFF)
+// and resumes at the first byte that cannot continue an ill-formed one; the
+// UTF-16 decoder skips an unpaired surrogate, the UTF-32 decoder a surrogate
+// code point and a value above U+10FFFF. The UTF-8 decoder is also compared
+// with a reference written from the table and with the corpus of
+// LumexUtf8OracleData.hpp, which CPython generated.
 #include <cstddef>
 #include <cstdint>
 #include <initializer_list>
+#include <sstream>
+#include <string>
 #include <type_traits>
 #include <vector>
 
@@ -19,6 +25,7 @@
 #include "lumex/core/utility/bit/LumexBit.hpp"
 
 #include "lumex/tests/core/unicode/LumexUnicodeTestSupport.hpp"
+#include "lumex/tests/core/unicode/utf/LumexUtf8OracleData.hpp"
 
 using namespace lumex::core::unicode::utf;
 using lumex::core::utility::bit::byte_swap;
@@ -82,6 +89,151 @@ std::vector<std::uint32_t>
 points (std::initializer_list<std::uint32_t> values)
 {
   return std::vector<std::uint32_t> (values);
+}
+
+// Table 3-7 of the Unicode standard (well-formed UTF-8 byte sequences) as a
+// table of ranges, and a decoder written from it, one position at a time. It
+// is the reference for the decoder under test and shares no code with it. A
+// lead byte that is not in the table (C0, C1, F5..FF, a continuation byte)
+// starts nothing; a lead byte whose sequence is not well formed is dropped
+// alone and reading resumes at the next byte.
+struct table_row_t
+{
+  std::uint8_t lead_low;
+  std::uint8_t lead_high;
+  std::uint8_t second_low;
+  std::uint8_t second_high;
+  std::size_t length;
+};
+
+table_row_t const table_3_7[] = {
+  { 0xC2, 0xDF, 0x80, 0xBF, 2 }, { 0xE0, 0xE0, 0xA0, 0xBF, 3 },
+  { 0xE1, 0xEC, 0x80, 0xBF, 3 }, { 0xED, 0xED, 0x80, 0x9F, 3 },
+  { 0xEE, 0xEF, 0x80, 0xBF, 3 }, { 0xF0, 0xF0, 0x90, 0xBF, 4 },
+  { 0xF1, 0xF3, 0x80, 0xBF, 4 }, { 0xF4, 0xF4, 0x80, 0x8F, 4 },
+};
+
+std::vector<std::uint32_t>
+reference_decode (std::uint8_t const *data, std::size_t size)
+{
+  std::vector<std::uint32_t> out;
+  std::size_t at = 0;
+  while (at < size)
+    {
+      std::uint8_t const lead = data[at];
+      if (lead < 0x80)
+        {
+          out.push_back (lead);
+          at += 1;
+          continue;
+        }
+      std::size_t length = 0;
+      std::size_t row = 0;
+      for (std::size_t i = 0; i < sizeof (table_3_7) / sizeof (table_3_7[0]);
+           ++i)
+        if (lead >= table_3_7[i].lead_low && lead <= table_3_7[i].lead_high)
+          {
+            length = table_3_7[i].length;
+            row = i;
+          }
+      bool well_formed = length != 0 && at + length <= size
+                         && data[at + 1] >= table_3_7[row].second_low
+                         && data[at + 1] <= table_3_7[row].second_high;
+      for (std::size_t k = 2; well_formed && k < length; ++k)
+        well_formed = data[at + k] >= 0x80 && data[at + k] <= 0xBF;
+      if (!well_formed)
+        {
+          at += 1;
+          continue;
+        }
+      std::uint32_t chr = lead & (0xFFU >> (length + 1));
+      for (std::size_t k = 1; k < length; ++k)
+        chr = (chr << 6) | (data[at + k] & 0x3FU);
+      out.push_back (chr);
+      at += length;
+    }
+  return out;
+}
+
+std::vector<std::uint32_t>
+reference_decode (std::vector<std::uint8_t> const &input)
+{
+  return reference_decode (input.empty () ? nullptr : &input[0],
+                           input.size ());
+}
+
+std::vector<std::uint32_t>
+decoded (std::vector<std::uint8_t> const &input)
+{
+  return decode_recording<utf8_decoder> (input).all;
+}
+
+std::vector<std::uint8_t>
+concat (std::vector<std::uint8_t> first,
+        std::vector<std::uint8_t> const &second)
+{
+  first.insert (first.end (), second.begin (), second.end ());
+  return first;
+}
+
+// "C0 80 41" -> the three bytes; "" -> none.
+std::vector<std::uint8_t>
+hex_bytes (char const *text)
+{
+  std::vector<std::uint8_t> out;
+  std::string const s (text);
+  std::size_t at = 0;
+  while (at < s.size ())
+    {
+      if (s[at] == ' ')
+        {
+          ++at;
+          continue;
+        }
+      std::size_t used = 0;
+      out.push_back (static_cast<std::uint8_t> (
+          std::stoul (s.substr (at, 2), &used, 16)));
+      at += used;
+    }
+  return out;
+}
+
+// "41 20AC" -> the two code points; "" -> none.
+std::vector<std::uint32_t>
+hex_points (char const *text)
+{
+  std::vector<std::uint32_t> out;
+  std::istringstream stream (text);
+  std::string word;
+  while (stream >> word)
+    out.push_back (
+        static_cast<std::uint32_t> (std::stoul (word, nullptr, 16)));
+  return out;
+}
+
+// Every ill-formed form the tests put between ASCII bytes.
+std::vector<std::vector<std::uint8_t>>
+ill_formed_samples ()
+{
+  std::vector<std::vector<std::uint8_t>> out;
+  out.push_back (bytes ({ 0x80 }));
+  out.push_back (bytes ({ 0xC0, 0x80 }));
+  out.push_back (bytes ({ 0xC1, 0xBF }));
+  out.push_back (bytes ({ 0xC2 }));
+  out.push_back (bytes ({ 0xE0, 0x80, 0x80 }));
+  out.push_back (bytes ({ 0xE0, 0x9F, 0xBF }));
+  out.push_back (bytes ({ 0xE2, 0x82 }));
+  out.push_back (bytes ({ 0xED, 0xA0, 0x80 }));
+  out.push_back (bytes ({ 0xED, 0xBF, 0xBF }));
+  out.push_back (bytes ({ 0xF0, 0x80, 0x80, 0x80 }));
+  out.push_back (bytes ({ 0xF0, 0x8F, 0xBF, 0xBF }));
+  out.push_back (bytes ({ 0xF0, 0x9F, 0x98 }));
+  out.push_back (bytes ({ 0xF4, 0x90, 0x80, 0x80 }));
+  out.push_back (bytes ({ 0xF5, 0x80, 0x80, 0x80 }));
+  out.push_back (bytes ({ 0xF7, 0xBF, 0xBF, 0xBF }));
+  out.push_back (bytes ({ 0xF8, 0x88, 0x80, 0x80, 0x80 }));
+  out.push_back (bytes ({ 0xFF }));
+  return out;
 }
 } // namespace
 
@@ -361,20 +513,565 @@ TEST (UtfDecoderTest,
              points ({ 'y' }));
 }
 
+TEST (UtfDecoderTest,
+      GivenTheFirstAndLastOfEveryRangeOfTable37_WhenUtf8Decode_ThenTheyAreKept)
+{
+  struct case_t
+  {
+    std::vector<std::uint8_t> input;
+    std::uint32_t expected;
+  };
+  std::vector<case_t> cases;
+  cases.push_back ({ bytes ({ 0x00 }), 0x0000 });
+  cases.push_back ({ bytes ({ 0x7F }), 0x007F });
+  cases.push_back ({ bytes ({ 0xC2, 0x80 }), 0x0080 });
+  cases.push_back ({ bytes ({ 0xC2, 0xBF }), 0x00BF });
+  cases.push_back ({ bytes ({ 0xDF, 0x80 }), 0x07C0 });
+  cases.push_back ({ bytes ({ 0xDF, 0xBF }), 0x07FF });
+  cases.push_back ({ bytes ({ 0xE0, 0xA0, 0x80 }), 0x0800 });
+  cases.push_back ({ bytes ({ 0xE0, 0xBF, 0xBF }), 0x0FFF });
+  cases.push_back ({ bytes ({ 0xE1, 0x80, 0x80 }), 0x1000 });
+  cases.push_back ({ bytes ({ 0xEC, 0xBF, 0xBF }), 0xCFFF });
+  cases.push_back ({ bytes ({ 0xED, 0x80, 0x80 }), 0xD000 });
+  cases.push_back ({ bytes ({ 0xED, 0x9F, 0xBF }), 0xD7FF });
+  cases.push_back ({ bytes ({ 0xEE, 0x80, 0x80 }), 0xE000 });
+  cases.push_back ({ bytes ({ 0xEF, 0xBF, 0xBF }), 0xFFFF });
+  cases.push_back ({ bytes ({ 0xF0, 0x90, 0x80, 0x80 }), 0x10000 });
+  cases.push_back ({ bytes ({ 0xF0, 0xBF, 0xBF, 0xBF }), 0x3FFFF });
+  cases.push_back ({ bytes ({ 0xF1, 0x80, 0x80, 0x80 }), 0x40000 });
+  cases.push_back ({ bytes ({ 0xF3, 0xBF, 0xBF, 0xBF }), 0xFFFFF });
+  cases.push_back ({ bytes ({ 0xF4, 0x80, 0x80, 0x80 }), 0x100000 });
+  cases.push_back ({ bytes ({ 0xF4, 0x8F, 0xBF, 0xBF }), 0x10FFFF });
+  for (std::size_t i = 0; i < cases.size (); ++i)
+    EXPECT_EQ (decoded (cases[i].input), points ({ cases[i].expected }))
+        << "case " << i;
+}
+
+TEST (UtfDecoderTest,
+      GivenTheByteBesideARangeOfTable37_WhenUtf8Decode_ThenTheLeadIsSkipped)
+{
+  // The second byte one below the range and one above it. The neighbor is a
+  // byte that is not a continuation byte of the range, so the lead is skipped
+  // alone and the neighbor is read on its own: an ASCII neighbor is kept.
+  EXPECT_EQ (decoded (bytes ({ 0xE0, 0x9F, 0xBF })).size (), 0U);
+  EXPECT_EQ (decoded (bytes ({ 0xE0, 0x7F, 0x80 })), points ({ 0x7F }));
+  EXPECT_EQ (decoded (bytes ({ 0xE0, 0xC0, 0x80 })).size (), 0U);
+  EXPECT_EQ (decoded (bytes ({ 0xE1, 0x7F, 0x80 })), points ({ 0x7F }));
+  EXPECT_EQ (decoded (bytes ({ 0xE1, 0xC0, 0x80 })).size (), 0U);
+  EXPECT_EQ (decoded (bytes ({ 0xED, 0xA0, 0x80 })).size (), 0U);
+  EXPECT_EQ (decoded (bytes ({ 0xED, 0x7F, 0x80 })), points ({ 0x7F }));
+  EXPECT_EQ (decoded (bytes ({ 0xEE, 0x7F, 0x80 })), points ({ 0x7F }));
+  EXPECT_EQ (decoded (bytes ({ 0xF0, 0x8F, 0xBF, 0xBF })).size (), 0U);
+  EXPECT_EQ (decoded (bytes ({ 0xF0, 0x7F, 0xBF, 0xBF })), points ({ 0x7F }));
+  EXPECT_EQ (decoded (bytes ({ 0xF1, 0x7F, 0xBF, 0xBF })), points ({ 0x7F }));
+  EXPECT_EQ (decoded (bytes ({ 0xF1, 0xC0, 0xBF, 0xBF })).size (), 0U);
+  EXPECT_EQ (decoded (bytes ({ 0xF4, 0x90, 0x80, 0x80 })).size (), 0U);
+  EXPECT_EQ (decoded (bytes ({ 0xF4, 0x7F, 0x80, 0x80 })), points ({ 0x7F }));
+  EXPECT_EQ (decoded (bytes ({ 0xC2, 0x7F })), points ({ 0x7F }));
+  EXPECT_EQ (decoded (bytes ({ 0xC2, 0xC0 })).size (), 0U);
+  // The third and the fourth byte are continuation bytes in every row.
+  EXPECT_EQ (decoded (bytes ({ 0xE1, 0x80, 0x7F })), points ({ 0x7F }));
+  EXPECT_EQ (decoded (bytes ({ 0xE1, 0x80, 0xC0 })).size (), 0U);
+  EXPECT_EQ (decoded (bytes ({ 0xF1, 0x80, 0x80, 0x7F })), points ({ 0x7F }));
+  EXPECT_EQ (decoded (bytes ({ 0xF1, 0x80, 0x80, 0xC0 })).size (), 0U);
+  EXPECT_EQ (decoded (bytes ({ 0xF1, 0x80, 0x7F, 0x80 })), points ({ 0x7F }));
+}
+
+TEST (UtfDecoderTest,
+      GivenEveryOverlongTwoByteForm_WhenUtf8Decode_ThenNothingIsDecoded)
+{
+  // C0 and C1 with every continuation byte: U+0000..U+007F in two bytes.
+  for (int lead = 0xC0; lead <= 0xC1; ++lead)
+    for (int second = 0x80; second <= 0xBF; ++second)
+      EXPECT_EQ (decoded (bytes ({ lead, second })).size (), 0U)
+          << std::hex << lead << " " << second;
+  // The usual attack strings: an overlong '<', '/', '.' and NUL.
+  EXPECT_EQ (decoded (bytes ({ 0xC0, 0xBC })).size (), 0U);
+  EXPECT_EQ (decoded (bytes ({ 0xC0, 0xAF })).size (), 0U);
+  EXPECT_EQ (decoded (bytes ({ 0xC0, 0xAE })).size (), 0U);
+  EXPECT_EQ (decoded (bytes ({ 0xC0, 0x80 })).size (), 0U);
+  EXPECT_EQ (decoded (bytes ({ 'a', 0xC0, 0xBC, 'b' })),
+             points ({ 'a', 'b' }));
+}
+
+TEST (UtfDecoderTest,
+      GivenEveryOverlongThreeByteForm_WhenUtf8Decode_ThenNothingIsDecoded)
+{
+  // E0 with a second byte 80..9F: U+0000..U+07FF in three bytes.
+  for (int second = 0x80; second <= 0x9F; ++second)
+    for (int third = 0x80; third <= 0xBF; ++third)
+      ASSERT_EQ (decoded (bytes ({ 0xE0, second, third })).size (), 0U)
+          << std::hex << second << " " << third;
+  EXPECT_EQ (decoded (bytes ({ 0xE0, 0x80, 0xAF })).size (), 0U);
+  EXPECT_EQ (decoded (bytes ({ 'a', 0xE0, 0x80, 0xBC, 'b' })),
+             points ({ 'a', 'b' }));
+}
+
+TEST (UtfDecoderTest,
+      GivenEveryOverlongFourByteForm_WhenUtf8Decode_ThenNothingIsDecoded)
+{
+  // F0 with a second byte 80..8F: U+0000..U+FFFF in four bytes.
+  for (int second = 0x80; second <= 0x8F; ++second)
+    for (int third = 0x80; third <= 0xBF; ++third)
+      for (int fourth = 0x80; fourth <= 0xBF; ++fourth)
+        ASSERT_EQ (decoded (bytes ({ 0xF0, second, third, fourth })).size (),
+                   0U)
+            << std::hex << second << " " << third << " " << fourth;
+  EXPECT_EQ (decoded (bytes ({ 0xF0, 0x80, 0x80, 0xAF })).size (), 0U);
+  EXPECT_EQ (decoded (bytes ({ 'a', 0xF0, 0x80, 0x80, 0xBC, 'b' })),
+             points ({ 'a', 'b' }));
+}
+
+TEST (UtfDecoderTest,
+      GivenEverySurrogateCodePoint_WhenUtf8Decode_ThenNothingIsDecoded)
+{
+  // ED with a second byte A0..BF is U+D800..U+DFFF, the surrogates.
+  for (int second = 0xA0; second <= 0xBF; ++second)
+    for (int third = 0x80; third <= 0xBF; ++third)
+      ASSERT_EQ (decoded (bytes ({ 0xED, second, third })).size (), 0U)
+          << std::hex << second << " " << third;
+  // The code points beside them are kept.
+  EXPECT_EQ (decoded (bytes ({ 0xED, 0x9F, 0xBF })), points ({ 0xD7FF }));
+  EXPECT_EQ (decoded (bytes ({ 0xEE, 0x80, 0x80 })), points ({ 0xE000 }));
+  // A pair of surrogates in CESU-8 form is two ill-formed sequences.
+  EXPECT_EQ (decoded (bytes ({ 0xED, 0xA0, 0xBD, 0xED, 0xB8, 0x80 })).size (),
+             0U);
+  EXPECT_EQ (decoded (bytes ({ 'a', 0xED, 0xA0, 0x80, 'b' })),
+             points ({ 'a', 'b' }));
+}
+
+TEST (UtfDecoderTest,
+      GivenCesu8OrModifiedUtf8_WhenUtf8Decode_ThenTheSurrogateHalvesAreSkipped)
+{
+  // Strict, as the Unicode standard: a supplementary character written as two
+  // three-byte surrogate halves (CESU-8, Oracle and Java "modified UTF-8") and
+  // the two-byte NUL of modified UTF-8 are not UTF-8. The text is lost, not
+  // repaired into U+1F600 or U+0000.
+  std::vector<std::uint8_t> const cesu_emoji
+      = bytes ({ 0xED, 0xA0, 0xBD, 0xED, 0xB8, 0x80 });
+  EXPECT_EQ (decoded (cesu_emoji).size (), 0U);
+  EXPECT_EQ (
+      decoded (concat (concat (bytes ({ 'a' }), cesu_emoji), bytes ({ 'b' }))),
+      points ({ 'a', 'b' }));
+  EXPECT_EQ (decoded (bytes ({ 'a', 0xC0, 0x80, 'b' })),
+             points ({ 'a', 'b' }));
+  // The same character in UTF-8 is kept.
+  EXPECT_EQ (decoded (bytes ({ 0xF0, 0x9F, 0x98, 0x80 })),
+             points ({ 0x1F600 }));
+}
+
+TEST (UtfDecoderTest,
+      GivenValuesAboveU10FFFF_WhenUtf8Decode_ThenNothingIsDecoded)
+{
+  // F4 with a second byte 90..BF: U+110000..U+13FFFF.
+  for (int second = 0x90; second <= 0xBF; ++second)
+    for (int third = 0x80; third <= 0xBF; ++third)
+      for (int fourth = 0x80; fourth <= 0xBF; ++fourth)
+        ASSERT_EQ (decoded (bytes ({ 0xF4, second, third, fourth })).size (),
+                   0U)
+            << std::hex << second << " " << third << " " << fourth;
+  // F5..F7 are four-byte leads of U+140000..U+1FFFFF.
+  int const edge[] = { 0x80, 0x8F, 0x90, 0xA0, 0xBF };
+  for (int lead = 0xF5; lead <= 0xF7; ++lead)
+    for (int second : edge)
+      for (int third : edge)
+        for (int fourth : edge)
+          ASSERT_EQ (decoded (bytes ({ lead, second, third, fourth })).size (),
+                     0U)
+              << std::hex << lead << " " << second << " " << third << " "
+              << fourth;
+  // The old five and six byte forms and the two bytes that never occur.
+  EXPECT_EQ (decoded (bytes ({ 0xF8, 0x88, 0x80, 0x80, 0x80 })).size (), 0U);
+  EXPECT_EQ (decoded (bytes ({ 0xFC, 0x84, 0x80, 0x80, 0x80, 0x80 })).size (),
+             0U);
+  EXPECT_EQ (decoded (bytes ({ 0xFE, 0xFF })).size (), 0U);
+  // The highest code point is the last that is kept.
+  EXPECT_EQ (decoded (bytes ({ 0xF4, 0x8F, 0xBF, 0xBF })),
+             points ({ 0x10FFFF }));
+  EXPECT_EQ (decoded (bytes ({ 'a', 0xF4, 0x90, 0x80, 0x80, 'b' })),
+             points ({ 'a', 'b' }));
+}
+
+TEST (UtfDecoderTest,
+      GivenALeadByteThatIsNeverValid_WhenUtf8Decode_ThenItAndNothingElseIsLost)
+{
+  // C0, C1 and F5..FF never start a sequence, whatever follows.
+  std::vector<int> leads;
+  leads.push_back (0xC0);
+  leads.push_back (0xC1);
+  for (int lead = 0xF5; lead <= 0xFF; ++lead)
+    leads.push_back (lead);
+  for (std::size_t i = 0; i < leads.size (); ++i)
+    {
+      int const lead = leads[i];
+      EXPECT_EQ (decoded (bytes ({ lead })).size (), 0U) << std::hex << lead;
+      EXPECT_EQ (decoded (bytes ({ lead, 0x80 })).size (), 0U);
+      EXPECT_EQ (decoded (bytes ({ lead, 0x80, 0x80 })).size (), 0U);
+      EXPECT_EQ (decoded (bytes ({ lead, 0x80, 0x80, 0x80 })).size (), 0U);
+      EXPECT_EQ (decoded (bytes ({ lead, 'A' })), points ({ 'A' }))
+          << std::hex << lead;
+      EXPECT_EQ (decoded (bytes ({ lead, 0xC3, 0xA9 })), points ({ 0xE9 }))
+          << std::hex << lead;
+      EXPECT_EQ (decoded (bytes ({ lead, 0xF0, 0x9F, 0x98, 0x80 })),
+                 points ({ 0x1F600 }))
+          << std::hex << lead;
+    }
+}
+
+TEST (UtfDecoderTest,
+      GivenEveryStrayContinuationByte_WhenUtf8Decode_ThenItIsSkipped)
+{
+  for (int value = 0x80; value <= 0xBF; ++value)
+    {
+      EXPECT_EQ (decoded (bytes ({ value })).size (), 0U) << std::hex << value;
+      EXPECT_EQ (decoded (bytes ({ 'a', value, 'b' })), points ({ 'a', 'b' }));
+      // behind a complete character it is stray as well
+      EXPECT_EQ (decoded (bytes ({ 0xC3, 0xA9, value })), points ({ 0xE9 }));
+      EXPECT_EQ (decoded (bytes ({ 0xE2, 0x82, 0xAC, value, 'x' })),
+                 points ({ 0x20AC, 'x' }));
+      EXPECT_EQ (decoded (bytes ({ 0xF0, 0x9F, 0x98, 0x80, value })),
+                 points ({ 0x1F600 }));
+    }
+}
+
+TEST (UtfDecoderTest,
+      GivenATruncatedSequence_WhenUtf8DecodeAtTheEnd_ThenItIsSkipped)
+{
+  // Every proper prefix of a valid sequence at the end of the data.
+  std::vector<std::vector<std::uint8_t>> valid;
+  valid.push_back (bytes ({ 0xC3, 0xA9 }));
+  valid.push_back (bytes ({ 0xE0, 0xA0, 0x80 }));
+  valid.push_back (bytes ({ 0xE2, 0x82, 0xAC }));
+  valid.push_back (bytes ({ 0xED, 0x9F, 0xBF }));
+  valid.push_back (bytes ({ 0xF0, 0x90, 0x80, 0x80 }));
+  valid.push_back (bytes ({ 0xF0, 0x9F, 0x98, 0x80 }));
+  valid.push_back (bytes ({ 0xF4, 0x8F, 0xBF, 0xBF }));
+  for (std::size_t i = 0; i < valid.size (); ++i)
+    for (std::size_t cut = 1; cut < valid[i].size (); ++cut)
+      {
+        std::vector<std::uint8_t> const prefix (
+            valid[i].begin (),
+            valid[i].begin () + static_cast<std::ptrdiff_t> (cut));
+        EXPECT_EQ (decoded (prefix).size (), 0U)
+            << "sequence " << i << " cut " << cut;
+        EXPECT_EQ (decoded (concat (bytes ({ 'a' }), prefix)),
+                   points ({ 'a' }));
+      }
+}
+
 TEST (
     UtfDecoderTest,
-    GivenOverlongAndSurrogateForms_WhenUtf8Decode_ThenTheyAreAcceptedAsTheHeaderSays)
+    GivenATruncatedSequence_WhenUtf8DecodeInTheMiddle_ThenTheNextCharacterIsKept)
 {
-  // Documented leniency: no overlong or surrogate check.
-  EXPECT_EQ (decode_recording<utf8_decoder> (bytes ({ 0xC0, 0x80 })).all,
-             points ({ 0x00 }));
-  EXPECT_EQ (decode_recording<utf8_decoder> (bytes ({ 0xE0, 0x80, 0x80 })).all,
-             points ({ 0x00 }));
-  EXPECT_EQ (decode_recording<utf8_decoder> (bytes ({ 0xED, 0xA0, 0x80 })).all,
-             points ({ 0xD800 }));
-  recorder_t const past_range
-      = decode_recording<utf8_decoder> (bytes ({ 0xF7, 0xBF, 0xBF, 0xBF }));
-  EXPECT_EQ (past_range.high_calls, points ({ 0x1FFFFF }));
+  // The resynchronization rule: decoding resumes at the first byte that
+  // cannot continue the sequence, so what follows is never swallowed.
+  std::vector<std::vector<std::uint8_t>> valid;
+  valid.push_back (bytes ({ 0xC3, 0xA9 }));
+  valid.push_back (bytes ({ 0xE2, 0x82, 0xAC }));
+  valid.push_back (bytes ({ 0xF0, 0x9F, 0x98, 0x80 }));
+  for (std::size_t i = 0; i < valid.size (); ++i)
+    for (std::size_t cut = 1; cut < valid[i].size (); ++cut)
+      {
+        std::vector<std::uint8_t> const prefix (
+            valid[i].begin (),
+            valid[i].begin () + static_cast<std::ptrdiff_t> (cut));
+        // an ASCII byte, a two-byte, a three-byte and a four-byte character
+        EXPECT_EQ (decoded (concat (prefix, bytes ({ 'A' }))),
+                   points ({ 'A' }));
+        EXPECT_EQ (decoded (concat (prefix, bytes ({ 0xC3, 0xA9 }))),
+                   points ({ 0xE9 }));
+        EXPECT_EQ (decoded (concat (prefix, bytes ({ 0xE2, 0x82, 0xAC }))),
+                   points ({ 0x20AC }));
+        EXPECT_EQ (
+            decoded (concat (prefix, bytes ({ 0xF0, 0x9F, 0x98, 0x80 }))),
+            points ({ 0x1F600 }));
+        // and the same prefix twice: both are dropped, the last is kept
+        EXPECT_EQ (decoded (concat (concat (prefix, prefix), valid[i])),
+                   decoded (valid[i]));
+      }
+}
+
+TEST (
+    UtfDecoderTest,
+    GivenAnIllFormedSequenceBeforeACharacter_WhenUtf8Decode_ThenTheCharacterIsKept)
+{
+  std::vector<std::vector<std::uint8_t>> const ill = ill_formed_samples ();
+  for (std::size_t i = 0; i < ill.size (); ++i)
+    {
+      EXPECT_EQ (decoded (concat (ill[i], bytes ({ 'A' }))), points ({ 'A' }))
+          << "sample " << i;
+      EXPECT_EQ (decoded (concat (ill[i], bytes ({ 0xC3, 0xA9 }))),
+                 points ({ 0xE9 }))
+          << "sample " << i;
+      EXPECT_EQ (decoded (concat (ill[i], bytes ({ 0xE2, 0x82, 0xAC }))),
+                 points ({ 0x20AC }))
+          << "sample " << i;
+      EXPECT_EQ (decoded (concat (ill[i], bytes ({ 0xF0, 0x9F, 0x98, 0x80 }))),
+                 points ({ 0x1F600 }))
+          << "sample " << i;
+      EXPECT_EQ (
+          decoded (concat (concat (bytes ({ 'x' }), ill[i]), bytes ({ 'y' }))),
+          points ({ 'x', 'y' }))
+          << "sample " << i;
+    }
+}
+
+TEST (
+    UtfDecoderTest,
+    GivenALeadByteInsideATruncatedSequence_WhenUtf8Decode_ThenItStartsTheNext)
+{
+  // The inner lead byte is not a continuation byte, so it ends the first
+  // sequence and starts its own.
+  EXPECT_EQ (decoded (bytes ({ 0xE2, 0x82, 0xE2, 0x82, 0xAC })),
+             points ({ 0x20AC }));
+  EXPECT_EQ (decoded (bytes ({ 0xF0, 0x9F, 0x98, 0xF0, 0x9F, 0x98, 0x80 })),
+             points ({ 0x1F600 }));
+  EXPECT_EQ (decoded (bytes ({ 0xC3, 0xC3, 0xA9 })), points ({ 0xE9 }));
+  EXPECT_EQ (decoded (bytes ({ 0xE0, 0xE2, 0x82, 0xAC })),
+             points ({ 0x20AC }));
+  EXPECT_EQ (decoded (bytes ({ 0xED, 0xA0, 0xE2, 0x82, 0xAC })),
+             points ({ 0x20AC }));
+  EXPECT_EQ (decoded (bytes ({ 0xF4, 0x90, 0xF4, 0x8F, 0xBF, 0xBF })),
+             points ({ 0x10FFFF }));
+  EXPECT_EQ (decoded (bytes ({ 0xC0, 0xC3, 0xA9 })), points ({ 0xE9 }));
+}
+
+TEST (
+    UtfDecoderTest,
+    GivenInvalidBytesBetweenAsciiAtEveryAlignment_WhenUtf8Decode_ThenOnlyTheAsciiRemains)
+{
+  // The ill-formed forms of Table 3-7 inside runs of ASCII that the aligned
+  // four-byte loop reads, at every start offset and every position.
+  std::vector<std::vector<std::uint8_t>> const ill = ill_formed_samples ();
+  for (std::size_t sample = 0; sample < ill.size (); ++sample)
+    for (std::size_t offset = 0; offset < 4; ++offset)
+      for (std::size_t position = 0; position <= 20; ++position)
+        {
+          std::vector<std::uint8_t> text;
+          std::vector<std::uint32_t> expected;
+          for (std::size_t i = 0; i < 20; ++i)
+            {
+              if (i == position)
+                text.insert (text.end (), ill[sample].begin (),
+                             ill[sample].end ());
+              text.push_back (static_cast<std::uint8_t> ('a' + i % 26));
+              expected.push_back ('a' + i % 26);
+            }
+          if (position == 20)
+            text.insert (text.end (), ill[sample].begin (),
+                         ill[sample].end ());
+
+          alignas (8) std::uint8_t raw[128];
+          for (std::size_t i = 0; i < sizeof (raw); ++i)
+            raw[i] = 0xEE;
+          ASSERT_LE (offset + text.size (), sizeof (raw));
+          for (std::size_t i = 0; i < text.size (); ++i)
+            raw[offset + i] = text[i];
+          recorder_t const result = decode_recording<utf8_decoder> (
+              static_cast<std::uint8_t const *> (raw + offset), text.size ());
+          ASSERT_EQ (result.all, expected)
+              << "sample " << sample << " offset " << offset << " position "
+              << position;
+        }
+}
+
+TEST (UtfDecoderTest,
+      GivenEveryShortStringOfEdgeBytes_WhenUtf8Decode_ThenItAgreesWithTable37)
+{
+  // All strings of one to four bytes over the bytes at the edges of the ranges
+  // of Table 3-7 and next to them (27 values, 551880 strings), against the
+  // reference decoder written from the table.
+  int const edge[] = { 0x00, 0x41, 0x7F, 0x80, 0x8F, 0x90, 0x9F, 0xA0, 0xBF,
+                       0xC0, 0xC1, 0xC2, 0xDF, 0xE0, 0xE1, 0xEC, 0xED, 0xEE,
+                       0xEF, 0xF0, 0xF1, 0xF3, 0xF4, 0xF5, 0xF7, 0xF8, 0xFF };
+  std::size_t const count = sizeof (edge) / sizeof (edge[0]);
+  std::size_t checked = 0;
+  for (std::size_t length = 1; length <= 4; ++length)
+    {
+      std::size_t total = 1;
+      for (std::size_t i = 0; i < length; ++i)
+        total *= count;
+      for (std::size_t index = 0; index < total; ++index)
+        {
+          std::uint8_t text[4];
+          std::size_t rest = index;
+          for (std::size_t i = 0; i < length; ++i)
+            {
+              text[i] = static_cast<std::uint8_t> (edge[rest % count]);
+              rest /= count;
+            }
+          std::vector<std::uint32_t> const expected
+              = reference_decode (text, length);
+          recorder_t const result = decode_recording<utf8_decoder> (
+              static_cast<std::uint8_t const *> (text), length);
+          if (result.all != expected)
+            {
+              FAIL () << "string " << index << " of length " << length
+                      << " starting with " << std::hex
+                      << static_cast<unsigned int> (text[0]) << ": got "
+                      << result.all.size () << " code points, want "
+                      << expected.size ();
+            }
+          ++checked;
+        }
+    }
+  EXPECT_EQ (checked, 27U + 729U + 19683U + 531441U);
+}
+
+TEST (
+    UtfDecoderTest,
+    GivenRandomBytes_WhenUtf8Decode_ThenItAgreesWithTable37AndYieldsScalarValues)
+{
+  sequence generator (0x20261114);
+  for (std::size_t round = 0; round < 4000; ++round)
+    {
+      std::vector<std::uint8_t> text;
+      std::size_t const length = 1 + generator.next () % 40;
+      for (std::size_t i = 0; i < length; ++i)
+        {
+          std::uint64_t const roll = generator.next ();
+          if (roll % 3 == 0)
+            text.push_back (static_cast<std::uint8_t> (roll >> 8));
+          else if (roll % 3 == 1)
+            append_utf8 (text, generator.code_point ());
+          else
+            text.push_back (
+                static_cast<std::uint8_t> (0x80 + (roll >> 8) % 0x80));
+        }
+      recorder_t const result = decode_recording<utf8_decoder> (text);
+      ASSERT_EQ (result.all, reference_decode (text)) << "round " << round;
+      for (std::size_t i = 0; i < result.all.size (); ++i)
+        {
+          ASSERT_LE (result.all[i], 0x10FFFFU) << "round " << round;
+          ASSERT_FALSE (result.all[i] >= 0xD800U && result.all[i] <= 0xDFFFU)
+              << "round " << round;
+        }
+      for (std::size_t i = 0; i < result.high_calls.size (); ++i)
+        ASSERT_GE (result.high_calls[i], 0x10000U) << "round " << round;
+      for (std::size_t i = 0; i < result.low_calls.size (); ++i)
+        ASSERT_LT (result.low_calls[i], 0x10000U) << "round " << round;
+    }
+}
+
+TEST (
+    UtfDecoderTest,
+    GivenTheOracleCorpus_WhenUtf8Decode_ThenItMatchesPythonWithTheReplacementsRemoved)
+{
+  // The rows of LumexUtf8OracleData.hpp: what CPython's
+  // bytes.decode ('utf-8', 'replace') gives with the U+FFFD that it writes for
+  // each ill-formed subsequence left out (a U+FFFD encoded in the input is
+  // kept).
+  for (std::size_t row = 0; row < unicode_test::oracle_row_count; ++row)
+    {
+      std::vector<std::uint8_t> const input
+          = hex_bytes (unicode_test::oracle_rows[row].bytes);
+      std::vector<std::uint32_t> const expected
+          = hex_points (unicode_test::oracle_rows[row].points);
+      ASSERT_EQ (decoded (input), expected)
+          << "row " << row << ": " << unicode_test::oracle_rows[row].bytes;
+    }
+}
+
+TEST (
+    UtfDecoderTest,
+    GivenTheOracleCorpusBetweenAscii_WhenUtf8Decode_ThenTheAsciiAroundItIsKept)
+{
+  // The same rows with ASCII before and after, so that the aligned block loop
+  // meets every row at every start offset and every phase.
+  for (std::size_t row = 0; row < unicode_test::oracle_row_count; ++row)
+    {
+      std::vector<std::uint8_t> const input
+          = hex_bytes (unicode_test::oracle_rows[row].bytes);
+      std::vector<std::uint32_t> const middle
+          = hex_points (unicode_test::oracle_rows[row].points);
+      for (std::size_t offset = 0; offset < 4; ++offset)
+        for (std::size_t before = 0; before < 8; before += 3)
+          for (std::size_t after = 0; after < 8; after += 3)
+            {
+              std::vector<std::uint8_t> text (before, 'p');
+              text.insert (text.end (), input.begin (), input.end ());
+              text.insert (text.end (), after, 's');
+              std::vector<std::uint32_t> expected (before, 'p');
+              expected.insert (expected.end (), middle.begin (),
+                               middle.end ());
+              expected.insert (expected.end (), after, 's');
+
+              alignas (8) std::uint8_t raw[64];
+              ASSERT_LE (offset + text.size (), sizeof (raw));
+              for (std::size_t i = 0; i < text.size (); ++i)
+                raw[offset + i] = text[i];
+              recorder_t const result = decode_recording<utf8_decoder> (
+                  static_cast<std::uint8_t const *> (raw + offset),
+                  text.size ());
+              ASSERT_EQ (result.all, expected)
+                  << "row " << row << " offset " << offset << " before "
+                  << before << " after " << after;
+            }
+    }
+}
+
+TEST (UtfDecoderTest,
+      GivenIllFormedInput_WhenUtf8CountedAndWritten_ThenTheTwoPassesAgree)
+{
+  // The counter sizes what the writer fills, for every writer, on the rows of
+  // the oracle (ill-formed forms included). A value that the decoder let
+  // through but a writer cannot encode would break this: utf16_writer::high
+  // of U+110000 writes two units that are not a surrogate pair.
+  for (std::size_t row = 0; row < unicode_test::oracle_row_count; ++row)
+    {
+      std::vector<std::uint8_t> const input
+          = hex_bytes (unicode_test::oracle_rows[row].bytes);
+      std::vector<std::uint32_t> const expected
+          = hex_points (unicode_test::oracle_rows[row].points);
+
+      EXPECT_EQ (
+          (convert<utf8_decoder, utf8_counter, utf8_writer, std::uint8_t> (
+              input)),
+          encode_utf8 (expected))
+          << "row " << row;
+      EXPECT_EQ (
+          (convert<utf8_decoder, utf16_counter, utf16_writer, std::uint16_t> (
+              input)),
+          encode_utf16 (expected))
+          << "row " << row;
+      EXPECT_EQ (
+          (convert<utf8_decoder, utf32_counter, utf32_writer, std::uint32_t> (
+              input)),
+          expected)
+          << "row " << row;
+    }
+}
+
+TEST (UtfDecoderTest,
+      GivenAValueAboveU10FFFF_WhenUtf8DecodedToUtf16_ThenNoUnitIsWritten)
+{
+  // Before the decoder checked the value, F4 90 80 80 (U+110000) reached
+  // utf16_writer::high, which wrote DC00 DC00: a second unit that is a low
+  // surrogate with no high one before it.
+  EXPECT_EQ (
+      (convert<utf8_decoder, utf16_counter, utf16_writer, std::uint16_t> (
+           bytes ({ 0xF4, 0x90, 0x80, 0x80 })))
+          .size (),
+      0U);
+  EXPECT_EQ (
+      (convert<utf8_decoder, utf16_counter, utf16_writer, std::uint16_t> (
+           bytes ({ 0xF7, 0xBF, 0xBF, 0xBF })))
+          .size (),
+      0U);
+  EXPECT_EQ (
+      (convert<utf8_decoder, utf16_counter, utf16_writer, std::uint16_t> (
+          bytes ({ 'a', 0xF4, 0x90, 0x80, 0x80, 'b' }))),
+      encode_utf16 (points ({ 'a', 'b' })));
+  // a surrogate must not come out of UTF-8 either
+  EXPECT_EQ (
+      (convert<utf8_decoder, utf16_counter, utf16_writer, std::uint16_t> (
+           bytes ({ 0xED, 0xA0, 0x80 })))
+          .size (),
+      0U);
+  EXPECT_EQ ((convert<utf8_decoder, utf8_counter, utf8_writer, std::uint8_t> (
+                  bytes ({ 0xED, 0xA0, 0x80 })))
+                 .size (),
+             0U);
 }
 
 TEST (

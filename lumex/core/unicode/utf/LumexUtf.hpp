@@ -45,7 +45,11 @@
  * the buffer, once with the writer to fill it. `wchar_selector<Size>` picks
  * the UTF-16 or UTF-32 set for the `wchar_t` of the platform.
  *
- * Invalid input is not an error: a decoder skips what it cannot decode.
+ * Invalid input is not an error: a decoder skips what it cannot decode. The
+ * UTF-8 decoder accepts only well-formed UTF-8 (no overlong form, no
+ * surrogate, nothing above U+10FFFF), so the code points a decoder yields are
+ * always Unicode scalar values and every writer gets a valid one.
+ *
  * Header-only, works from C++11, no allocation. `to_utf8` and `to_wide` in
  * `convert/LumexUnicodeConvert.hpp` are the ready-made string conversions.
  */
@@ -307,11 +311,25 @@ struct latin1_writer
 /**
  * @brief Decoder of a UTF-8 buffer.
  * @details Calls `Traits::low` for a code point below U+10000 and
- * `Traits::high` from U+10000 on. A byte that does not start a complete
- * sequence (a stray continuation byte, a truncated sequence, a lead byte from
- * 0xF8) is skipped, and the decoder goes on with the next byte; it does not
- * report the error, and it does not reject overlong forms or surrogates. Runs
- * of ASCII are read four bytes at a time when the data is aligned.
+ * `Traits::high` from U+10000 on. It yields exactly the code points of the
+ * well-formed byte sequences of the Unicode standard (Table 3-7), in order,
+ * and skips every other byte without reporting it. Well-formed means the
+ * shortest form of a scalar value: no overlong form (the lead bytes C0 and C1,
+ * E0 followed by 80..9F, F0 followed by 80..8F), no surrogate (ED followed by
+ * A0..BF, U+D800..U+DFFF) and nothing above U+10FFFF (F4 followed by 90..BF,
+ * the lead bytes F5..FF). So CESU-8 and Java's modified UTF-8 are not
+ * accepted: a surrogate half written as three bytes is skipped.
+ *
+ * Resynchronization: a byte that does not start a well-formed sequence (a
+ * stray continuation byte, a lead byte followed by a byte outside its range, a
+ * sequence cut short by the end of the data or by a byte that is not a
+ * continuation byte) is skipped, and decoding resumes at the next byte, so a
+ * valid character right after an ill-formed sequence is kept. The output
+ * equals the "maximal subpart" output of CPython (`bytes.decode ('utf-8',
+ * 'replace')`) and of the WHATWG decoder with the U+FFFD that each of them
+ * writes for an ill-formed subsequence left out; a U+FFFD encoded in the input
+ * (EF BF BD) is kept. Runs of ASCII are read four bytes at a time when the
+ * data is aligned.
  */
 struct utf8_decoder
 {
@@ -323,6 +341,24 @@ struct utf8_decoder
            typename Traits::value_type result, Traits /* unused */)
   {
     std::uint8_t const utf8_byte_mask = 0x3f;
+
+    // The first allowed value and the number of allowed values of the second
+    // byte of a 3-byte sequence, by `lead - 0xE0`, and of a 4-byte sequence,
+    // by `lead - 0xF0` (Table 3-7): E0 A0..BF, ED 80..9F, F0 90..BF,
+    // F4 80..8F, else 80..BF. A table is the cheapest form: the check costs
+    // two table loads, a subtract and a compare on the path of valid text,
+    // where a test of the decoded value cost about a quarter more on text of
+    // 3-byte characters.
+    static std::uint8_t const second_low_3[16]
+        = { 0xA0, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
+            0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80 };
+    static std::uint8_t const second_span_3[16]
+        = { 0x20, 0x40, 0x40, 0x40, 0x40, 0x40, 0x40, 0x40,
+            0x40, 0x40, 0x40, 0x40, 0x40, 0x20, 0x40, 0x40 };
+    static std::uint8_t const second_low_4[5]
+        = { 0x90, 0x80, 0x80, 0x80, 0x80 };
+    static std::uint8_t const second_span_4[5]
+        = { 0x30, 0x40, 0x40, 0x40, 0x10 };
 
     while (size)
       {
@@ -357,8 +393,8 @@ struct utf8_decoder
                   }
               }
           }
-        // 110xxxxx -> U+0080..U+07FF
-        else if (static_cast<unsigned int> (lead - 0xC0) < 0x20 && size >= 2
+        // 110xxxxx -> U+0080..U+07FF; C0 and C1 would be overlong forms
+        else if (static_cast<unsigned int> (lead - 0xC2) < 0x1E && size >= 2
                  && (data[1] & 0xc0) == 0x80)
           {
             result = Traits::low (result, static_cast<std::uint32_t> (
@@ -367,9 +403,13 @@ struct utf8_decoder
             data += 2;
             size -= 2;
           }
-        // 1110xxxx -> U+0800-U+FFFF
+        // 1110xxxx -> U+0800-U+FFFF, without the overlong forms (E0 80..9F)
+        // and the surrogates (ED A0..BF): the range of the second byte
         else if (static_cast<unsigned int> (lead - 0xE0) < 0x10 && size >= 3
-                 && (data[1] & 0xc0) == 0x80 && (data[2] & 0xc0) == 0x80)
+                 && static_cast<std::uint8_t> (data[1]
+                                               - second_low_3[lead - 0xE0])
+                        < second_span_3[lead - 0xE0]
+                 && (data[2] & 0xc0) == 0x80)
           {
             result = Traits::low (
                 result,
@@ -379,10 +419,14 @@ struct utf8_decoder
             data += 3;
             size -= 3;
           }
-        // 11110xxx -> U+10000..U+10FFFF
-        else if (static_cast<unsigned int> (lead - 0xF0) < 0x08 && size >= 4
-                 && (data[1] & 0xc0) == 0x80 && (data[2] & 0xc0) == 0x80
-                 && (data[3] & 0xc0) == 0x80)
+        // 11110xxx -> U+10000..U+10FFFF, without the overlong forms (F0
+        // 80..8F) and the values above U+10FFFF (F4 90..BF): the range of the
+        // second byte; F5..FF start no sequence
+        else if (static_cast<unsigned int> (lead - 0xF0) < 0x05 && size >= 4
+                 && static_cast<std::uint8_t> (data[1]
+                                               - second_low_4[lead - 0xF0])
+                        < second_span_4[lead - 0xF0]
+                 && ((data[2] ^ 0x80) | (data[3] ^ 0x80)) < 0x40)
           {
             result = Traits::high (result,
                                    static_cast<std::uint32_t> (
@@ -393,7 +437,7 @@ struct utf8_decoder
             data += 4;
             size -= 4;
           }
-        // 10xxxxxx or 11111xxx -> invalid
+        // 10xxxxxx, C0, C1, F5..FF, or a sequence that is not well formed
         else
           {
             data += 1;

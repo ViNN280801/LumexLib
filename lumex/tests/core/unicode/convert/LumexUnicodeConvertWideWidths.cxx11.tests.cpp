@@ -194,6 +194,71 @@ TEST (UnicodeConvertWideWidthsTest,
 }
 
 TEST (UnicodeConvertWideWidthsTest,
+      GivenUtf8OutsideTable37_WhenToEitherWidth_ThenNoUnitIsWritten)
+{
+  // An overlong form, a surrogate and a value above U+10FFFF are skipped for
+  // both widths. For two-byte units the value above U+10FFFF matters most:
+  // it used to reach the surrogate-pair encoder, which wrote DC00 DC00.
+  std::vector<std::string> ill;
+  ill.push_back ("\xC0\x80");
+  ill.push_back ("\xC1\xBF");
+  ill.push_back ("\xE0\x80\x80");
+  ill.push_back ("\xE0\x9F\xBF");
+  ill.push_back ("\xF0\x80\x80\x80");
+  ill.push_back ("\xF0\x8F\xBF\xBF");
+  ill.push_back ("\xED\xA0\x80");
+  ill.push_back ("\xED\xBF\xBF");
+  ill.push_back ("\xF4\x90\x80\x80");
+  ill.push_back ("\xF4\xBF\xBF\xBF");
+  ill.push_back ("\xF5\x80\x80\x80");
+  ill.push_back ("\xF7\xBF\xBF\xBF");
+  for (std::size_t i = 0; i < ill.size (); ++i)
+    {
+      EXPECT_TRUE (utf8_to_wide<2> (ill[i]).empty ()) << "sample " << i;
+      EXPECT_TRUE (utf8_to_wide<4> (ill[i]).empty ()) << "sample " << i;
+
+      std::string const between = "a" + ill[i] + "b";
+      std::vector<std::uint32_t> ab;
+      ab.push_back ('a');
+      ab.push_back ('b');
+      EXPECT_EQ (utf8_to_wide<2> (between), encode_utf16 (ab))
+          << "sample " << i;
+      EXPECT_EQ (utf8_to_wide<4> (between), ab) << "sample " << i;
+    }
+}
+
+TEST (UnicodeConvertWideWidthsTest,
+      GivenCesu8_WhenToEitherWidth_ThenTheSurrogateHalvesAreLost)
+{
+  // CESU-8 spells U+1F600 as ED A0 BD ED B8 80. Windows MultiByteToWideChar
+  // turns that into D83D DE00; this conversion is strict and skips it.
+  std::string const cesu ("a\xED\xA0\xBD\xED\xB8\x80"
+                          "b");
+  std::vector<std::uint32_t> ab;
+  ab.push_back ('a');
+  ab.push_back ('b');
+  EXPECT_EQ (utf8_to_wide<2> (cesu), encode_utf16 (ab));
+  EXPECT_EQ (utf8_to_wide<4> (cesu), ab);
+}
+
+TEST (UnicodeConvertWideWidthsTest,
+      GivenTheBoundariesOfTable37_WhenToEitherWidth_ThenTheyAreKept)
+{
+  std::vector<std::uint32_t> points;
+  points.push_back (0x7F);
+  points.push_back (0x80);
+  points.push_back (0x7FF);
+  points.push_back (0x800);
+  points.push_back (0xD7FF);
+  points.push_back (0xE000);
+  points.push_back (0xFFFF);
+  points.push_back (0x10000);
+  points.push_back (0x10FFFF);
+  EXPECT_EQ (utf8_to_wide<2> (utf8_of (points)), encode_utf16 (points));
+  EXPECT_EQ (utf8_to_wide<4> (utf8_of (points)), points);
+}
+
+TEST (UnicodeConvertWideWidthsTest,
       GivenRandomText_WhenRoundTrippedThroughEitherWidth_ThenTheTextSurvives)
 {
   sequence generator (0xC0DE);

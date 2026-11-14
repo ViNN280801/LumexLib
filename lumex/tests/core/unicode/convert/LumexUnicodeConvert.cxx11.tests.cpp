@@ -165,6 +165,62 @@ TEST (UnicodeConvertTest,
 }
 
 TEST (UnicodeConvertTest,
+      GivenOverlongSurrogateAndOutOfRangeUtf8_WhenToWide_ThenTheyAreLeftOut)
+{
+  // An overlong form of NUL, '<', '/', a surrogate and a value above
+  // U+10FFFF are ill-formed (Table 3-7 of the Unicode standard): each leaves
+  // no trace, and the text around it survives.
+  EXPECT_EQ (to_wide ("a\xC0\x80z", 4), std::wstring (L"az"));
+  EXPECT_EQ (to_wide ("a\xC0\xBC"
+                      "b"),
+             std::wstring (L"ab"));
+  EXPECT_EQ (to_wide ("a\xC1\xBF"
+                      "b"),
+             std::wstring (L"ab"));
+  EXPECT_EQ (to_wide ("a\xE0\x80\xAF"
+                      "b"),
+             std::wstring (L"ab"));
+  EXPECT_EQ (to_wide ("a\xF0\x80\x80\xAF"
+                      "b"),
+             std::wstring (L"ab"));
+  EXPECT_EQ (to_wide ("a\xED\xA0\x80"
+                      "b"),
+             std::wstring (L"ab"));
+  EXPECT_EQ (to_wide ("a\xED\xBF\xBF"
+                      "b"),
+             std::wstring (L"ab"));
+  EXPECT_EQ (to_wide ("a\xF4\x90\x80\x80"
+                      "b"),
+             std::wstring (L"ab"));
+  EXPECT_EQ (to_wide ("a\xF7\xBF\xBF\xBF"
+                      "b"),
+             std::wstring (L"ab"));
+  EXPECT_EQ (to_wide ("\xF4\x90\x80\x80"), std::wstring ());
+  // The values beside the ill-formed ones are kept.
+  EXPECT_EQ (to_wide ("\xED\x9F\xBF"),
+             std::wstring (1, static_cast<wchar_t> (0xD7FF)));
+  EXPECT_EQ (to_wide ("\xEE\x80\x80"),
+             std::wstring (1, static_cast<wchar_t> (0xE000)));
+  EXPECT_EQ (to_wide ("\xF4\x8F\xBF\xBF"),
+             wide_string (std::vector<std::uint32_t> (1, 0x10FFFF)));
+}
+
+TEST (UnicodeConvertTest,
+      GivenIllFormedUtf8_WhenToWideAndBack_ThenTheResultIsWellFormed)
+{
+  // What to_wide let through before the decoder checked its values came back
+  // from to_utf8 as bytes that are not UTF-8, or (UTF-16) as a lone surrogate.
+  std::string const ill ("a\xC0\x80"
+                         "b\xED\xA0\x80"
+                         "c\xF4\x90\x80\x80"
+                         "d\xF7\xBF\xBF\xBF"
+                         "e\xE0\x9F\xBF"
+                         "f");
+  EXPECT_EQ (to_wide (ill), std::wstring (L"abcdef"));
+  EXPECT_EQ (to_utf8 (to_wide (ill)), std::string ("abcdef"));
+}
+
+TEST (UnicodeConvertTest,
       GivenAnUnpairedHighSurrogate_WhenToUtf8_ThenItIsSkippedAtEveryWidth)
 {
   // UTF-16 skips the unpaired surrogate; the UTF-32 decoder skips the

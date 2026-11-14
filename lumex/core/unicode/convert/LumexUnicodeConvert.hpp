@@ -141,7 +141,9 @@ to_utf8 (std::wstring const &str)
  * @param[in] str The bytes; may be null only when `length` is 0.
  * @param[in] length The number of bytes to convert, zero bytes included.
  * @return The text as UTF-16 where `wchar_t` has 2 bytes and as UTF-32 where
- * it has 4. A byte that does not start a complete sequence is left out.
+ * it has 4. Ill-formed UTF-8 is left out (see `utf::utf8_decoder`): a stray
+ * continuation byte, a truncated sequence, an overlong form, a surrogate and a
+ * value above U+10FFFF; the valid text around it is kept.
  */
 inline std::wstring
 to_wide (char const *str, std::size_t length)

@@ -930,7 +930,8 @@ public:
    * @details The narrow path is read as UTF-8 and written as UTF-16 where
    * `wchar_t` has 2 bytes (Windows) and as UTF-32 where it has 4. The
    * conversion is `lumex::core::unicode::convert::to_wide`: it does not depend
-   * on the C locale, and a byte that does not start a complete UTF-8 sequence
+   * on the C locale, and ill-formed UTF-8 (a byte that does not start a
+   * complete sequence, an overlong form, a surrogate, a value above U+10FFFF)
    * is skipped.
    * @return A `std::wstring` representation of the path.
    */
@@ -1844,8 +1845,9 @@ public:
    * @brief Converts a `std::string` (UTF-8 encoded) to a `std::wstring`.
    * @details The same on every platform and in every C locale
    * (`lumex::core::unicode::convert::to_wide`; UTF-16 where `wchar_t` has 2
-   * bytes, UTF-32 where it has 4). Invalid input is not an error: a byte that
-   * does not start a complete UTF-8 sequence is skipped, whereas
+   * bytes, UTF-32 where it has 4). Invalid input is not an error: ill-formed
+   * UTF-8 (a byte that does not start a complete sequence, an overlong form, a
+   * surrogate, a value above U+10FFFF) is skipped, whereas
    * `MultiByteToWideChar` writes U+FFFD for it. The operations on a path do
    * not use this skipping on Windows: they use `to_wide_path`, which refuses
    * such a path.
