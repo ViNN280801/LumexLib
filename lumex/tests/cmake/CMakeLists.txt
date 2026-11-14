@@ -526,6 +526,29 @@ foreach(_order IN ITEMS LIB_FIRST MAIN_FIRST)
             optional_mixed_exceptions -DMIX_ORDER=${_order} -DMIX_OPT=${_opt})
     endforeach()
 endforeach()
+# span without exceptions: at () with an index out of range terminates, as the
+# optional above (the compiler without exceptions at C++11 and C++20, the macro
+# LUMEX_SPAN_HAS_EXCEPTIONS=0 at C++17), and a program that mixes units with and
+# without exceptions keeps each unit's behavior in both link orders.
+lumex_add_consumer_test(consumer_span_no_exceptions_cxx11
+    span_no_exceptions
+    -DSPAN_NO_EXCEPTIONS_MODE=compiler -DSPAN_NO_EXCEPTIONS_STD=11
+    -DBUILD_TARGET=span_no_exceptions_consumer)
+lumex_add_consumer_test(consumer_span_no_exceptions_cxx20
+    span_no_exceptions
+    -DSPAN_NO_EXCEPTIONS_MODE=compiler -DSPAN_NO_EXCEPTIONS_STD=20
+    -DBUILD_TARGET=span_no_exceptions_consumer)
+lumex_add_consumer_test(consumer_span_no_exceptions_macro_cxx17
+    span_no_exceptions
+    -DSPAN_NO_EXCEPTIONS_MODE=macro -DSPAN_NO_EXCEPTIONS_STD=17
+    -DBUILD_TARGET=span_no_exceptions_consumer)
+foreach(_order IN ITEMS LIB_FIRST MAIN_FIRST)
+    foreach(_opt IN ITEMS O0 O2 O2NI)
+        string(TOLOWER "${_order}_${_opt}" _suffix)
+        lumex_add_consumer_test(consumer_span_mixed_exceptions_${_suffix}
+            span_mixed_exceptions -DMIX_ORDER=${_order} -DMIX_OPT=${_opt})
+    endforeach()
+endforeach()
 # Exported functions do not depend on the C++ standard: the library at one
 # standard and the consumer at another link, both ways (base64, XML and
 # exceptions, through their inline wrappers).
