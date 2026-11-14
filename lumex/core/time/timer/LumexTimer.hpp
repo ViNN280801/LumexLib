@@ -288,10 +288,18 @@ using lumex_timer = lumex::core::time::timer::lumex_timer;
 // a macro whose `...` gets no argument is an extension before C++20
 // (-Wpedantic on GCC, -Wvariadic-macro-arguments-omitted on Clang), and the
 // one-argument form would leave it empty.
+//
+// The traditional cl.exe preprocessor passes a forwarded `__VA_ARGS__` on as
+// one argument and does not rescan the selected name with its arguments: the
+// two-argument form became the one-argument form of a comma expression, and
+// the label was lost without a diagnostic. The expansion macro makes it
+// rescan the whole selection.
+#define LUMEX_MEASURE_TIME_EXPAND(x) x
+
 #define LUMEX_MEASURE_TIME_DISPATCH(...)                                      \
-  LUMEX_MEASURE_TIME_GET_OVERLOAD (__VA_ARGS__, LUMEX_MEASURE_TIME_2,         \
-                                   LUMEX_MEASURE_TIME_1, 0)                   \
-  (__VA_ARGS__)
+  LUMEX_MEASURE_TIME_EXPAND (LUMEX_MEASURE_TIME_GET_OVERLOAD (                \
+      __VA_ARGS__, LUMEX_MEASURE_TIME_2, LUMEX_MEASURE_TIME_1,                \
+      0) (__VA_ARGS__))
 
 #define LUMEX_MEASURE_TIME_GET_OVERLOAD(_1, _2, NAME, ...) NAME
 

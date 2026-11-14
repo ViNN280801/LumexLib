@@ -5,6 +5,8 @@
 // pickers of LUMEX_DEFINE_REFLECTED_ENUM (an enumerator without a value, a
 // list of one enumerator) and of LUMEX_MEASURE_TIME (the form with one
 // argument) used to leave it empty.
+// LUMEX_MEASURE_TIME also keeps its two forms apart under the traditional
+// cl.exe preprocessor (no_comma_t below).
 //
 // The enums cover one to sixteen enumerators, with and without values, at
 // namespace scope and inside a class.
@@ -64,11 +66,21 @@ reflected_enum_names ()
   return to_string (single_t::only);
 }
 
+// A value that cannot be an operand of the comma operator. The traditional
+// cl.exe preprocessor folded `LUMEX_MEASURE_TIME (expr, "label")` into the
+// one-argument form over the comma expression `expr, "label"`: this unit then
+// does not compile (a silent loss of the label before).
+struct no_comma_t
+{
+  template <typename T> void operator, (T const &) = delete;
+};
+
 int
 measured_work ()
 {
   int counter = 0;
   LUMEX_MEASURE_TIME (++counter);
   LUMEX_MEASURE_TIME (++counter, "second increment");
+  LUMEX_MEASURE_TIME (no_comma_t (), "the expression has no comma operator");
   return counter;
 }
