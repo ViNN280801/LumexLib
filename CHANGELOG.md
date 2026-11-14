@@ -595,6 +595,14 @@
 
 **Проверено:** WSL GCC 13.3, дерево без HID, объект с `-std=c++20 -Wswitch-enum -Wswitch-default -Werror`: до правки ошибка на строке 532, после правки без замечаний.
 
+##### `framing::codec::detail::sink_takes_error` производен от `std::integral_constant`
+
+**Файлы:** `lumex/core/framing/codec/LumexFramingCodec.hpp`.
+
+**Суть:** `static bool const value` шаблона класса не имело определения и использовалось по ссылке в `EXPECT_TRUE (...::value)`; тест на C++11 не линковался (`undefined reference`). Признак теперь выводится из `integral_constant`, который возвращает пробник.
+
+**Проверено:** WSL GCC 13.3 Debug с `-DLUMEX_USE_ASAN=ON`: до правки `LumexFramingCodecCxx11Tests` и `LumexFramingCodecCxx17Tests` не линкуются, после правки оба проходят (19 тестов); cl.exe, clang-cl и clang++ 18.1: наборы framing проходят.
+
 #### Изменено
 
 ##### Каталог `docs/` убран из истории репозитория, GitHub Pages выключен
