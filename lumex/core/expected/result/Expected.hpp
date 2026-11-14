@@ -928,7 +928,7 @@ public:
    */
   LUMEX_ATTRIBUTE_NODISCARD (
       "Return value is the contained value; should always be used.")
-  LUMEX_CONSTEXPR_CXX14 SuccessType &
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE LUMEX_CONSTEXPR_CXX14 SuccessType &
   value () &
   {
     LUMEX_STATIC_ASSERT_MSG (std::is_copy_constructible<ErrorType>::value,
@@ -951,7 +951,7 @@ public:
    */
   LUMEX_ATTRIBUTE_NODISCARD (
       "Return value is the contained value; should always be used.")
-  LUMEX_CONSTEXPR_CXX14 SuccessType &&
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE LUMEX_CONSTEXPR_CXX14 SuccessType &&
   value () &&
   {
     LUMEX_STATIC_ASSERT_MSG (
@@ -975,7 +975,7 @@ public:
    */
   LUMEX_ATTRIBUTE_NODISCARD (
       "Return value is the contained value; should always be used.")
-  LUMEX_CONSTEXPR_FUNCTION SuccessType const &
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE LUMEX_CONSTEXPR_FUNCTION SuccessType const &
   value () const &
   {
     LUMEX_STATIC_ASSERT_MSG (std::is_copy_constructible<ErrorType>::value,
@@ -999,7 +999,7 @@ public:
    */
   LUMEX_ATTRIBUTE_NODISCARD (
       "Return value is the contained value; should always be used.")
-  LUMEX_CONSTEXPR_CXX14 SuccessType const &&
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE LUMEX_CONSTEXPR_CXX14 SuccessType const &&
   value () const &&
   {
     LUMEX_STATIC_ASSERT_MSG (

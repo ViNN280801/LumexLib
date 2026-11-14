@@ -119,7 +119,18 @@
  * constructor throws are compiled by this macro, which a program cannot
  * override (a program that sets `LUMEX_EXPECTED_HAS_EXCEPTIONS` to 0 with
  * exceptions on must still get the strong guarantee, or a throwing
- * constructor would leave a destroyed object behind).
+ * constructor would leave a destroyed object behind). These bodies are not
+ * always inlined: they are inline templates (and the assignment operators of
+ * `expected` are implicitly defined), so a program that links a unit built
+ * without exceptions and one built with them keeps one copy of such an
+ * instantiation for both. If the unit with exceptions gets the copy built
+ * without them, a constructor that throws leaves a destroyed object behind (no
+ * `try`, and the flag still names the old alternative): the destructor then
+ * destroys it twice, which is undefined behavior and not only a lost strong
+ * guarantee. The operations are `emplace_error`, the assignments and `swap`
+ * (`emplace` needs a nothrow construction and is not affected). Units of a
+ * program that has such types with throwing constructors must therefore have
+ * the same compiler mode.
  */
 #if defined(__cpp_exceptions) || defined(__EXCEPTIONS) || defined(_CPPUNWIND)
 #define LUMEX_EXPECTED_COMPILER_HAS_EXCEPTIONS 1
@@ -135,21 +146,23 @@
  * `LUMEX_EXPECTED_COMPILER_HAS_EXCEPTIONS`): 0 with `-fno-exceptions` (or MSVC
  * without `/EHsc`), 1 otherwise. A program may define the macro as 0 before
  * the first include of the library to get the terminating `value ()` with
- * exceptions on; nothing else changes (`emplace`, assignment and `swap` keep
- * their strong guarantee). Every translation unit of one program must see the
- * same value (the functions are `inline`; MSVC reports a mismatch at link
- * time through `detect_mismatch`, GCC and Clang do not detect it).
+ * exceptions on; nothing else changes (`emplace_error`, assignment and `swap`
+ * keep their strong guarantee). Units of one program may differ in this value
+ * for `value ()`: its body depends on the macro, so `value ()` and the
+ * functions it calls are always inlined (`LUMEX_ATTRIBUTE_ALWAYS_INLINE`) and,
+ * where the compiler honours it, the linker has no weak copy of them to choose
+ * between. A function whose address is taken still gets a symbol and then
+ * follows the unit the linker meets first. cl.exe does not honour
+ * `__forceinline` without inlining (`/Od`, `/Ob0`): there the six overloads
+ * stay real COMDAT functions with one copy per program, so units of one
+ * program must agree on the exception mode; with inlining (`/O2`) each unit
+ * keeps its own behavior in either link order, although unreferenced COMDATs
+ * are still emitted. The operations that put the old contents back
+ * (`emplace_error`, assignment, `swap`) are not covered: see
+ * `LUMEX_EXPECTED_COMPILER_HAS_EXCEPTIONS`.
  */
 #ifndef LUMEX_EXPECTED_HAS_EXCEPTIONS
 #define LUMEX_EXPECTED_HAS_EXCEPTIONS LUMEX_EXPECTED_COMPILER_HAS_EXCEPTIONS
-#endif
-
-#if defined(_MSC_VER)
-#if LUMEX_EXPECTED_HAS_EXCEPTIONS
-#pragma detect_mismatch("LUMEX_EXPECTED_HAS_EXCEPTIONS", "1")
-#else
-#pragma detect_mismatch("LUMEX_EXPECTED_HAS_EXCEPTIONS", "0")
-#endif
 #endif
 
 /**
@@ -316,6 +329,8 @@ destroy_at (T *where) LUMEX_NOEXCEPT
  * off (`LUMEX_EXPECTED_HAS_EXCEPTIONS` is 0) calls `std::terminate`.
  * @details A function, not a `throw` expression written in `value ()`, so that
  * the `constexpr` observers of C++11 can name it in a conditional expression.
+ * @details Always inlined: the body depends on the exception mode of the
+ * translation unit.
  * @tparam ErrorType Error type of the `expected`.
  * @tparam Arg Type of the error, possibly a reference.
  * @param[in] error The error: an lvalue (copied) or an rvalue (moved); not
@@ -323,7 +338,7 @@ destroy_at (T *where) LUMEX_NOEXCEPT
  * @throws error::bad_expected_access<ErrorType> always (exceptions on).
  */
 template <typename ErrorType, typename Arg>
-LUMEX_ATTRIBUTE_NORETURN inline void
+LUMEX_ATTRIBUTE_NORETURN LUMEX_ATTRIBUTE_ALWAYS_INLINE void
 throw_bad_expected_access (Arg &&error)
 {
 #if LUMEX_EXPECTED_HAS_EXCEPTIONS
@@ -350,7 +365,7 @@ throw_bad_expected_access (Arg &&error)
  * @param[in] error The error, as for `throw_bad_expected_access`.
  */
 template <typename ErrorType, typename Result, typename Arg>
-LUMEX_ATTRIBUTE_NORETURN inline Result
+LUMEX_ATTRIBUTE_NORETURN LUMEX_ATTRIBUTE_ALWAYS_INLINE Result
 throw_bad_expected_access_as (Arg &&error)
 {
   throw_bad_expected_access<ErrorType> (detail::fwd<Arg> (error));

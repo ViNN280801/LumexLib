@@ -499,6 +499,19 @@ lumex_add_consumer_test(consumer_expected_no_exceptions_macro_cxx17
     expected_no_exceptions
     -DEXPECTED_NO_EXCEPTIONS_MODE=macro -DEXPECTED_NO_EXCEPTIONS_STD=17
     -DBUILD_TARGET=expected_no_exceptions_consumer)
+# One program with a -fno-exceptions unit and an exception enabled one: value ()
+# is always inlined, so in both link orders, at -O0, -O2 and -O2 -fno-inline,
+# the exception enabled unit throws and the other terminates (GCC, Clang; cl.exe
+# and clang-cl at /O2 only). Only value () is covered: reinit_nothrow and
+# swap_value_with_error have a try block only with exceptions and keep one weak
+# copy for both modes.
+foreach(_order IN ITEMS LIB_FIRST MAIN_FIRST)
+    foreach(_opt IN ITEMS O0 O2 O2NI)
+        string(TOLOWER "${_order}_${_opt}" _suffix)
+        lumex_add_consumer_test(consumer_expected_mixed_exceptions_${_suffix}
+            expected_mixed_exceptions -DMIX_ORDER=${_order} -DMIX_OPT=${_opt})
+    endforeach()
+endforeach()
 # optional without exceptions: every form of value () terminates and the header
 # has no throw left. The compiler without exceptions (-fno-exceptions, or
 # /EHs-c- on cl.exe) at C++11 and C++20, and the macro
