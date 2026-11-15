@@ -112,6 +112,81 @@ namespace detail
 // ====================== reinit-expected ====================== //
 
 /**
+ * @brief Puts a destroyed object back when the code after it does not reach
+ * `dismiss ()`: that is an exception that left the scope.
+ * @details The old contents are saved in `saved`, the object at `target` is
+ * destroyed, and the guard stands over the construction of the new one: if
+ * that throws, the destructor of the guard moves `saved` back to `target`
+ * (the strong guarantee of [expected.object.assign] and of the swap). It is a
+ * destructor and not `try` and `catch` so that the same text compiles with and
+ * without exceptions and no `try` stands in a function that is always inlined.
+ *
+ * A function that has a cleanup to run when an exception passes through it is
+ * compiled differently with `-fno-exceptions` (no landing pad), whatever its
+ * text says. So everything that holds a guard or calls such a function is
+ * always inlined (`LUMEX_ATTRIBUTE_ALWAYS_INLINE`): `reinit_nothrow`,
+ * `reinit_dispatch`, `reinit`, `assign_from`, `swap_storage`,
+ * `swap_value_with_error`, the assignment operators of the layers and of
+ * `expected` and `emplace_error`, `assign_error` and `swap` of `expected`, and
+ * every special member of the layers and of `expected` that calls an
+ * assignment, which are declared defaulted for that (an implicit one would be
+ * a weak function with the assignment inlined in it). No weak copy of any of
+ * them exists, and a program that links units built with and without
+ * `-fno-exceptions` keeps in each unit the code of that unit. The limit is the
+ * caller: an always-inlined body becomes part of its caller, so when the
+ * caller is itself an inline function or a template (a helper in a header of
+ * the program, `std::swap`, a member of a standard container or algorithm that
+ * assigns or swaps its elements) it is a weak function again, and the linker
+ * keeps one copy of it for all units. The guarantee holds when the outermost
+ * caller of an operation is a function that is not inline, or when the units
+ * of one program agree on the exception mode. cl.exe does not honour
+ * `__forceinline` without inlining (`/Od`, `/Ob0`): there the functions above
+ * stay real COMDAT functions with one copy per program, and units of one
+ * program must agree on the exception mode.
+ *
+ * The move that puts the object back does not throw for the assignments and
+ * the swap: their constraints demand a nothrow move of the type that is put
+ * back. `emplace_error` has no such constraint (it asks only for
+ * `is_constructible`). When the construction of the new object throws and the
+ * move that puts the old one back throws too, this destructor, which is
+ * `noexcept`, calls `std::terminate`; the earlier code caught the second
+ * exception and destroyed one object twice (undefined behavior). The behavior
+ * is pinned by `ExpectedReinitDeathTest`.
+ * @tparam O Type of the object that is put back.
+ */
+template <typename O> class restore_guard
+{
+public:
+  LUMEX_EXPECTED_CONSTEXPR_CXX20
+  restore_guard (O &target, O &saved) LUMEX_NOEXCEPT
+      : m_target (detail::address_of (target)),
+        m_saved (detail::address_of (saved))
+  {
+  }
+
+  restore_guard (restore_guard const &) = delete;
+  restore_guard &operator= (restore_guard const &) = delete;
+
+  /// @brief Puts `saved` back unless `dismiss ()` was called.
+  LUMEX_EXPECTED_CONSTEXPR_CXX20 ~restore_guard ()
+  {
+    if (m_target != nullptr)
+      detail::construct_at (m_target, detail::mv (*m_saved));
+  }
+
+  /// @brief The new object is built: nothing to put back.
+  LUMEX_EXPECTED_CONSTEXPR_CXX20 void
+  dismiss () LUMEX_NOEXCEPT
+  {
+    m_target = nullptr;
+  }
+
+private:
+  O *m_target;
+  O *m_saved;
+};
+
+/**
  * @brief The `reinit-expected` of [expected.object.assign]/1 for the case that
  * the construction of the new object cannot throw: destroy the old object,
  * construct the new one.
@@ -124,7 +199,7 @@ namespace detail
  * @param args Arguments of the new object.
  */
 template <typename Movable, typename N, typename O, typename... Args>
-LUMEX_EXPECTED_CONSTEXPR_CXX20 void
+LUMEX_ATTRIBUTE_ALWAYS_INLINE LUMEX_EXPECTED_CONSTEXPR_CXX20 void
 reinit_nothrow (std::true_type /* nothrow constructible */, Movable, N &newval,
                 O &oldval, Args &&...args)
 {
@@ -136,7 +211,7 @@ reinit_nothrow (std::true_type /* nothrow constructible */, Movable, N &newval,
 /// @brief `reinit-expected`: the construction may throw, but `N` can be moved
 /// without throwing: build a temporary first.
 template <typename N, typename O, typename... Args>
-LUMEX_EXPECTED_CONSTEXPR_CXX20 void
+LUMEX_ATTRIBUTE_ALWAYS_INLINE LUMEX_EXPECTED_CONSTEXPR_CXX20 void
 reinit_nothrow (std::false_type, std::true_type /* nothrow movable */,
                 N &newval, O &oldval, Args &&...args)
 {
@@ -146,31 +221,20 @@ reinit_nothrow (std::false_type, std::true_type /* nothrow movable */,
 }
 
 /// @brief `reinit-expected`: neither can be done without throwing: save the
-/// old object and put it back if the construction throws.
+/// old object and put it back if the construction throws (the guard does it,
+/// see `restore_guard`). Always inlined, like everything that calls it: see
+/// `restore_guard`.
 template <typename N, typename O, typename... Args>
-LUMEX_EXPECTED_CONSTEXPR_CXX20 void
+LUMEX_ATTRIBUTE_ALWAYS_INLINE LUMEX_EXPECTED_CONSTEXPR_CXX20 void
 reinit_nothrow (std::false_type, std::false_type, N &newval, O &oldval,
                 Args &&...args)
 {
-#if LUMEX_EXPECTED_COMPILER_HAS_EXCEPTIONS
   O tmp (detail::mv (oldval));
   detail::destroy_at (detail::address_of (oldval));
-  try
-    {
-      detail::construct_at (detail::address_of (newval),
-                            detail::fwd<Args> (args)...);
-    }
-  catch (...)
-    {
-      detail::construct_at (detail::address_of (oldval), detail::mv (tmp));
-      throw;
-    }
-#else
-  // Nothing can throw: there is no old object to put back.
-  detail::destroy_at (detail::address_of (oldval));
+  restore_guard<O> guard (oldval, tmp);
   detail::construct_at (detail::address_of (newval),
                         detail::fwd<Args> (args)...);
-#endif
+  guard.dismiss ();
 }
 
 /// @brief `reinit-expected` when the old object is the `Unit` that stands for
@@ -178,7 +242,7 @@ reinit_nothrow (std::false_type, std::false_type, N &newval, O &oldval,
 /// built directly ([expected.void.assign]/1.2, /12.1 and [expected.void.swap]
 /// build `unex` with `construct_at` and nothing else).
 template <typename N, typename O, typename... Args>
-LUMEX_EXPECTED_CONSTEXPR_CXX20 void
+LUMEX_ATTRIBUTE_ALWAYS_INLINE LUMEX_EXPECTED_CONSTEXPR_CXX20 void
 reinit_dispatch (std::true_type /* old object is Unit */, N &newval, O &,
                  Args &&...args)
 {
@@ -188,7 +252,7 @@ reinit_dispatch (std::true_type /* old object is Unit */, N &newval, O &,
 
 /// @brief `reinit-expected` for an old object that holds something.
 template <typename N, typename O, typename... Args>
-LUMEX_EXPECTED_CONSTEXPR_CXX20 void
+LUMEX_ATTRIBUTE_ALWAYS_INLINE LUMEX_EXPECTED_CONSTEXPR_CXX20 void
 reinit_dispatch (std::false_type, N &newval, O &oldval, Args &&...args)
 {
   detail::reinit_nothrow (
@@ -202,7 +266,7 @@ reinit_dispatch (std::false_type, N &newval, O &oldval, Args &&...args)
 /// @brief `reinit-expected` (T = N, U = O): ends the life of `oldval` and
 /// starts `newval` with `args...`, keeping the old object if that throws.
 template <typename N, typename O, typename... Args>
-LUMEX_EXPECTED_CONSTEXPR_CXX20 void
+LUMEX_ATTRIBUTE_ALWAYS_INLINE LUMEX_EXPECTED_CONSTEXPR_CXX20 void
 reinit (N &newval, O &oldval, Args &&...args)
 {
   detail::reinit_dispatch (std::is_same<O, Unit> (), newval, oldval,
@@ -732,7 +796,7 @@ template <typename T, typename E> struct expected_storage : checks_of<T, E>
    * @param rhs The source.
    */
   template <typename Rhs>
-  LUMEX_EXPECTED_CONSTEXPR_CXX20 void
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE LUMEX_EXPECTED_CONSTEXPR_CXX20 void
   assign_from (Rhs &&rhs)
   {
     if (m_has_value && rhs.m_has_value)
@@ -770,7 +834,7 @@ template <typename T, typename E> struct expected_storage : checks_of<T, E>
    * [expected.object.swap] and Table 73 of [expected.void.swap].
    * @param rhs The other storage.
    */
-  LUMEX_EXPECTED_CONSTEXPR_CXX20 void
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE LUMEX_EXPECTED_CONSTEXPR_CXX20 void
   swap_storage (expected_storage &rhs)
   {
     if (m_has_value)
@@ -797,7 +861,7 @@ template <typename T, typename E> struct expected_storage : checks_of<T, E>
 
   /// @brief `this` is a success and `rhs` holds an error, for `expected<void,
   /// E>`: [expected.void.swap]: the error is moved across.
-  LUMEX_EXPECTED_CONSTEXPR_CXX20 void
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE LUMEX_EXPECTED_CONSTEXPR_CXX20 void
   swap_value_with_error (std::integral_constant<int, 0>, expected_storage &rhs)
   {
     detail::construct_at (detail::address_of (m_storage.m_error),
@@ -811,65 +875,39 @@ template <typename T, typename E> struct expected_storage : checks_of<T, E>
   /// @brief `this` holds a value, `rhs` an error, and `E` is nothrow move
   /// constructible: park the error, move the value across, put the error
   /// back ([expected.object.swap], Table 72).
-  LUMEX_EXPECTED_CONSTEXPR_CXX20 void
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE LUMEX_EXPECTED_CONSTEXPR_CXX20 void
   swap_value_with_error (std::integral_constant<int, 1>, expected_storage &rhs)
   {
     E tmp (detail::mv (rhs.m_storage.m_error));
     detail::destroy_at (detail::address_of (rhs.m_storage.m_error));
-#if LUMEX_EXPECTED_COMPILER_HAS_EXCEPTIONS
-    try
-      {
-        detail::construct_at (detail::address_of (rhs.m_storage.m_value),
-                              detail::mv (m_storage.m_value));
-        detail::destroy_at (detail::address_of (m_storage.m_value));
-        detail::construct_at (detail::address_of (m_storage.m_error),
-                              detail::mv (tmp));
-      }
-    catch (...)
-      {
-        detail::construct_at (detail::address_of (rhs.m_storage.m_error),
-                              detail::mv (tmp));
-        throw;
-      }
-#else
-    detail::construct_at (detail::address_of (rhs.m_storage.m_value),
-                          detail::mv (m_storage.m_value));
-    detail::destroy_at (detail::address_of (m_storage.m_value));
-    detail::construct_at (detail::address_of (m_storage.m_error),
-                          detail::mv (tmp));
-#endif
+    {
+      restore_guard<E> guard (rhs.m_storage.m_error, tmp);
+      detail::construct_at (detail::address_of (rhs.m_storage.m_value),
+                            detail::mv (m_storage.m_value));
+      detail::destroy_at (detail::address_of (m_storage.m_value));
+      detail::construct_at (detail::address_of (m_storage.m_error),
+                            detail::mv (tmp));
+      guard.dismiss ();
+    }
     m_has_value = false;
     rhs.m_has_value = true;
   }
 
   /// @brief As above, but `E` may throw when moved: park the value instead.
-  LUMEX_EXPECTED_CONSTEXPR_CXX20 void
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE LUMEX_EXPECTED_CONSTEXPR_CXX20 void
   swap_value_with_error (std::integral_constant<int, 2>, expected_storage &rhs)
   {
     val_type tmp (detail::mv (m_storage.m_value));
     detail::destroy_at (detail::address_of (m_storage.m_value));
-#if LUMEX_EXPECTED_COMPILER_HAS_EXCEPTIONS
-    try
-      {
-        detail::construct_at (detail::address_of (m_storage.m_error),
-                              detail::mv (rhs.m_storage.m_error));
-        detail::destroy_at (detail::address_of (rhs.m_storage.m_error));
-        detail::construct_at (detail::address_of (rhs.m_storage.m_value),
-                              detail::mv (tmp));
-      }
-    catch (...)
-      {
-        detail::construct_at (detail::address_of (m_storage.m_value),
-                              detail::mv (tmp));
-        throw;
-      }
-#else
-    detail::construct_at (detail::address_of (m_storage.m_error),
-                          detail::mv (rhs.m_storage.m_error));
-    detail::destroy_at (detail::address_of (rhs.m_storage.m_error));
-    detail::construct_at (detail::address_of (rhs.m_storage.m_value),
-                          detail::mv (tmp));
-#endif
+    {
+      restore_guard<val_type> guard (m_storage.m_value, tmp);
+      detail::construct_at (detail::address_of (m_storage.m_error),
+                            detail::mv (rhs.m_storage.m_error));
+      detail::destroy_at (detail::address_of (rhs.m_storage.m_error));
+      detail::construct_at (detail::address_of (rhs.m_storage.m_value),
+                            detail::mv (tmp));
+      guard.dismiss ();
+    }
     m_has_value = false;
     rhs.m_has_value = true;
   }
@@ -1017,6 +1055,22 @@ struct expected_copy_assign_base : expected_move_base<T, E>
 {
   using base_type = expected_move_base<T, E>;
   using base_type::base_type;
+
+  // The members are declared (defaulted, so trivial when the layer below is)
+  // to be always inlined: the implicit ones would be weak functions that
+  // contain the assignment of the layer below, whose code depends on the
+  // exception mode (see `restore_guard`).
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE
+  expected_copy_assign_base (expected_copy_assign_base const &) = default;
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE
+  expected_copy_assign_base (expected_copy_assign_base &&) = default;
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE expected_copy_assign_base &
+  operator= (expected_copy_assign_base const &)
+      = default;
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE expected_copy_assign_base &
+  operator= (expected_copy_assign_base &&)
+      = default;
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE ~expected_copy_assign_base () = default;
 };
 
 /// @brief The copy assignment is written out: [expected.object.assign]/2.
@@ -1026,12 +1080,16 @@ struct expected_copy_assign_base<T, E, 1> : expected_move_base<T, E>
   using base_type = expected_move_base<T, E>;
   using base_type::base_type;
 
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE
   expected_copy_assign_base (expected_copy_assign_base const &) = default;
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE
   expected_copy_assign_base (expected_copy_assign_base &&) = default;
-  expected_copy_assign_base &operator= (expected_copy_assign_base &&)
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE expected_copy_assign_base &
+  operator= (expected_copy_assign_base &&)
       = default;
 
   /// @brief Assigns the contents of `rhs`.
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE
   LUMEX_EXPECTED_CONSTEXPR_CXX20 expected_copy_assign_base &
   operator= (expected_copy_assign_base const &rhs)
       LUMEX_NOEXCEPT_IF (expected_traits<T, E>::nothrow_copy_assignable::value)
@@ -1048,11 +1106,14 @@ struct expected_copy_assign_base<T, E, 2> : expected_move_base<T, E>
   using base_type = expected_move_base<T, E>;
   using base_type::base_type;
 
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE
   expected_copy_assign_base (expected_copy_assign_base const &) = default;
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE
   expected_copy_assign_base (expected_copy_assign_base &&) = default;
   expected_copy_assign_base &operator= (expected_copy_assign_base const &)
       = delete;
-  expected_copy_assign_base &operator= (expected_copy_assign_base &&)
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE expected_copy_assign_base &
+  operator= (expected_copy_assign_base &&)
       = default;
 };
 
@@ -1068,6 +1129,22 @@ struct expected_move_assign_base : expected_copy_assign_base<T, E>
 {
   using base_type = expected_copy_assign_base<T, E>;
   using base_type::base_type;
+
+  // The members are declared (defaulted, so trivial when the layer below is)
+  // to be always inlined: the implicit ones would be weak functions that
+  // contain the assignment of the layer below, whose code depends on the
+  // exception mode (see `restore_guard`).
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE
+  expected_move_assign_base (expected_move_assign_base const &) = default;
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE
+  expected_move_assign_base (expected_move_assign_base &&) = default;
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE expected_move_assign_base &
+  operator= (expected_move_assign_base const &)
+      = default;
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE expected_move_assign_base &
+  operator= (expected_move_assign_base &&)
+      = default;
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE ~expected_move_assign_base () = default;
 };
 
 /// @brief The move assignment is written out: [expected.object.assign]/7 and
@@ -1078,12 +1155,16 @@ struct expected_move_assign_base<T, E, 1> : expected_copy_assign_base<T, E>
   using base_type = expected_copy_assign_base<T, E>;
   using base_type::base_type;
 
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE
   expected_move_assign_base (expected_move_assign_base const &) = default;
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE
   expected_move_assign_base (expected_move_assign_base &&) = default;
-  expected_move_assign_base &operator= (expected_move_assign_base const &)
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE expected_move_assign_base &
+  operator= (expected_move_assign_base const &)
       = default;
 
   /// @brief Assigns the contents of `rhs` by move.
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE
   LUMEX_EXPECTED_CONSTEXPR_CXX20 expected_move_assign_base &
   operator= (expected_move_assign_base &&rhs)
       LUMEX_NOEXCEPT_IF (expected_traits<T, E>::nothrow_move_assignable::value)
@@ -1100,9 +1181,12 @@ struct expected_move_assign_base<T, E, 2> : expected_copy_assign_base<T, E>
   using base_type = expected_copy_assign_base<T, E>;
   using base_type::base_type;
 
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE
   expected_move_assign_base (expected_move_assign_base const &) = default;
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE
   expected_move_assign_base (expected_move_assign_base &&) = default;
-  expected_move_assign_base &operator= (expected_move_assign_base const &)
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE expected_move_assign_base &
+  operator= (expected_move_assign_base const &)
       = default;
   expected_move_assign_base &operator= (expected_move_assign_base &&) = delete;
 };

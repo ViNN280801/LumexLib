@@ -10,8 +10,8 @@
 # link order, -DMIX_OPT=O0|O2|O2NI the optimization level (O2NI is -O2
 # -fno-inline: GCC at -O2 inlines value () by itself and then shows no defect,
 # the compiler that does not inline is the one that needs always_inline).
-# Only value () is covered: the operations that put the old contents back keep
-# one weak copy for both modes (see LUMEX_EXPECTED_COMPILER_HAS_EXCEPTIONS).
+# Only value () is covered here; the operations that put the old contents back
+# are covered by the expected_mixed_strong_guarantee fixture.
 
 cmake_minimum_required(VERSION 3.16)
 project(LumexExpectedMixedExceptions LANGUAGES CXX)

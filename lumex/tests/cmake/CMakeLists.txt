@@ -501,14 +501,29 @@ lumex_add_consumer_test(consumer_expected_no_exceptions_macro_cxx17
 # One program with a -fno-exceptions unit and an exception enabled one: value ()
 # is always inlined, so in both link orders, at -O0, -O2 and -O2 -fno-inline,
 # the exception enabled unit throws and the other terminates (GCC, Clang; cl.exe
-# and clang-cl at /O2 only). Only value () is covered: reinit_nothrow and
-# swap_value_with_error have a try block only with exceptions and keep one weak
-# copy for both modes.
+# and clang-cl at /O2 only). Only value () is covered here; the operations that
+# put the old contents back are covered by the _strong_guarantee fixture below.
 foreach(_order IN ITEMS LIB_FIRST MAIN_FIRST)
     foreach(_opt IN ITEMS O0 O2 O2NI)
         string(TOLOWER "${_order}_${_opt}" _suffix)
         lumex_add_consumer_test(consumer_expected_mixed_exceptions_${_suffix}
             expected_mixed_exceptions -DMIX_ORDER=${_order} -DMIX_OPT=${_opt})
+    endforeach()
+endforeach()
+# The same program for the operations that put the old contents back
+# (emplace_error, the assignments, swap): a type whose constructor throws, the
+# old contents intact and every object destroyed once in the unit with
+# exceptions, whichever unit the linker meets first, reached through the member
+# functions and the free swap from functions that are not inline (an inline
+# helper in between is weak again and outside the guarantee). GCC, Clang and
+# clang-cl at -O0 (/Od), -O2 and -O2 without inlining (/O2 /Ob0); cl.exe at /O2
+# only.
+foreach(_order IN ITEMS LIB_FIRST MAIN_FIRST)
+    foreach(_opt IN ITEMS O0 O2 O2NI)
+        string(TOLOWER "${_order}_${_opt}" _suffix)
+        lumex_add_consumer_test(consumer_expected_mixed_strong_guarantee_${_suffix}
+            expected_mixed_strong_guarantee -DMIX_ORDER=${_order}
+            -DMIX_OPT=${_opt})
     endforeach()
 endforeach()
 # optional without exceptions: every form of value () terminates and the header
