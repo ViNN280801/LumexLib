@@ -771,7 +771,10 @@ public:
    * value; without exceptions (`LUMEX_OPTIONAL_HAS_EXCEPTIONS` is 0) it calls
    * `std::terminate`. The same holds for every overload of `value ()`, and
    * every overload is always inlined, so units built with and without
-   * exceptions may be linked into one program: each keeps its own behaviour.
+   * exceptions may be linked into one program: a call from a function that is
+   * not inline keeps the behaviour of its own unit. An inline or template
+   * caller is a weak function again and keeps the behaviour of one unit for
+   * all (see `LUMEX_OPTIONAL_HAS_EXCEPTIONS`).
    */
   LUMEX_ATTRIBUTE_ALWAYS_INLINE LUMEX_CONSTEXPR_CXX14 T &
   value () &

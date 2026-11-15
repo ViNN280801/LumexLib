@@ -10,6 +10,9 @@
 # link order, -DMIX_OPT=O0|O2|O2NI the optimization level (O2NI is -O2
 # -fno-inline: GCC at -O2 inlines at () by itself and then shows no defect,
 # the compiler that does not inline is the one that needs always_inline).
+# The calls are made from functions of each unit that are not inline; an
+# inline function or a template shared by the units that calls it would be
+# weak again, which is outside what this fixture claims (see the README).
 
 cmake_minimum_required(VERSION 3.16)
 project(LumexSpanMixedExceptions LANGUAGES CXX)

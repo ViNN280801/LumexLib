@@ -123,13 +123,19 @@
  * @details Units of one program may differ in this value: the body of
  * `value ()` depends on it, so `value ()` and the functions it calls are
  * always inlined (`LUMEX_ATTRIBUTE_ALWAYS_INLINE`) and, where the compiler
- * honours it, the linker has no weak copy of them to choose between. A
- * function whose address is taken still gets a symbol and then follows the
- * unit the linker meets first. cl.exe does not honour `__forceinline` without
- * inlining (`/Od`, `/Ob0`): there the four overloads stay real COMDAT
- * functions with one copy per program, so units of one program must agree on
- * the exception mode; with inlining (`/O2`) each unit keeps its own behavior
- * in either link order, although unreferenced COMDATs are still emitted.
+ * honours it, the linker has no weak copy of them to choose between, provided
+ * that the outermost caller is not itself inline. That is the limit: an
+ * always-inlined body is part of its caller, so a caller that is an inline
+ * function or a template of the program (a helper in a header, a functor of a
+ * standard algorithm) is a weak function again, one copy for all units, and
+ * the units of one program must then agree on the exception mode. A function
+ * whose address is taken still gets a symbol and then follows the unit the
+ * linker meets first. cl.exe does not honour `__forceinline` without inlining
+ * (`/Od`, `/Ob0`): there the four overloads stay real COMDAT functions with
+ * one copy per program, so units of one program must agree on the exception
+ * mode; with inlining (`/O2`) a call from a function that is not inline keeps
+ * the behavior of its own unit in either link order, although unreferenced
+ * COMDATs are still emitted.
  */
 #ifndef LUMEX_OPTIONAL_HAS_EXCEPTIONS
 #define LUMEX_OPTIONAL_HAS_EXCEPTIONS LUMEX_HAS_EXCEPTIONS

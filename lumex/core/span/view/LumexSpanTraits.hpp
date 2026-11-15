@@ -81,14 +81,19 @@
  * not compile. `at ()` is the only function of the module that throws. Units
  * of one program may differ in this value: `at ()` and the functions it calls
  * are always inlined (`LUMEX_ATTRIBUTE_ALWAYS_INLINE`), so, where the compiler
- * honours it, the linker has no weak copy of them to choose between; a
- * function whose address is taken still gets a symbol and then follows the
+ * honours it, the linker has no weak copy of them to choose between,
+ * provided that the outermost caller is not itself inline. That is the
+ * limit: an always-inlined body is part of its caller, so a caller that is an
+ * inline function or a template of the program (a helper in a header, a
+ * functor of a standard algorithm) is a weak function again, one copy for all
+ * units, and the units of one program must then agree on the exception mode.
+ * A function whose address is taken still gets a symbol and then follows the
  * unit the linker meets first. cl.exe does not honour `__forceinline` without
- * inlining (`/Od`,
- * `/Ob0`): there `at ()` stays a real COMDAT function with one copy per
- * program, so units of one program must agree on the exception mode; with
- * inlining (`/O2`) each unit keeps its own behavior in either link order,
- * although unreferenced COMDATs are still emitted. The macro is independent of
+ * inlining (`/Od`, `/Ob0`): there `at ()` stays a real COMDAT function with
+ * one copy per program, so units of one program must agree on the exception
+ * mode; with inlining (`/O2`) a call from a function that is not inline keeps
+ * the behavior of its own unit in either link order, although unreferenced
+ * COMDATs are still emitted. The macro is independent of
  * `LUMEX_SPAN_CHECKS`: a violated precondition aborts in every exception mode.
  */
 #ifndef LUMEX_SPAN_HAS_EXCEPTIONS

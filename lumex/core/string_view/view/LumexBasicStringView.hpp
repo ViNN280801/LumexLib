@@ -146,7 +146,15 @@
  * terminating members with exceptions on, whatever `LUMEX_HAS_EXCEPTIONS`
  * says; defined as 1 under `-fno-exceptions` it does not compile. The inserter
  * `operator<<` is not governed by it: its `try` block follows
- * `LUMEX_COMPILER_HAS_EXCEPTIONS`.
+ * `LUMEX_COMPILER_HAS_EXCEPTIONS`. Units of one program may differ in this
+ * value: the throwing members and the functions they call are always inlined
+ * (`LUMEX_ATTRIBUTE_ALWAYS_INLINE`), so a call from a function that is not
+ * inline keeps the behavior of its own unit, whichever object the linker sees
+ * first. The limit is the caller: an inline function or a template of the
+ * program (a helper in a header, a functor of a standard algorithm) that calls
+ * them is a weak function again, one copy for all units, and the units of one
+ * program must then agree on the exception mode. cl.exe does not honour
+ * `__forceinline` without inlining (`/Od`, `/Ob0`).
  */
 #ifndef LUMEX_STRING_VIEW_HAS_EXCEPTIONS
 #define LUMEX_STRING_VIEW_HAS_EXCEPTIONS LUMEX_HAS_EXCEPTIONS
@@ -301,9 +309,12 @@ LUMEX_CONSTEXPR std::size_t const no_pos = static_cast<std::size_t> (-1);
  * the function and every member that calls it are always inlined: where the
  * compiler honours that, no out-of-line copy is used, and a program that links
  * units built with and without `-fno-exceptions` keeps the right body in each
- * of them. cl.exe does not honour `__forceinline` without inlining (`/Od`,
- * `/Ob0`): there the members stay real COMDAT functions with one copy per
- * program, and units of one program must agree on the exception mode.
+ * of them for a call from a function that is not inline. The limit is the
+ * caller: an inline function or a template of the program that calls them is a
+ * weak function again, one copy for all units. cl.exe does not honour
+ * `__forceinline` without inlining (`/Od`, `/Ob0`): there the members stay
+ * real COMDAT functions with one copy per program, and units of one program
+ * must agree on the exception mode.
  */
 LUMEX_ATTRIBUTE_NORETURN LUMEX_ATTRIBUTE_ALWAYS_INLINE void
 throw_out_of_range (char const *what)

@@ -7,6 +7,9 @@
 # enabled unit throws std::out_of_range and its operator<< sets the badbit
 # whichever object the linker sees first. -DMIX_ORDER=LIB_FIRST|MAIN_FIRST
 # sets the link order, -O0 keeps the compiler from inlining by itself.
+# The calls are made from functions of each unit that are not inline; an
+# inline function or a template shared by the units that calls it would be
+# weak again, which is outside what this fixture claims (see the README).
 
 cmake_minimum_required(VERSION 3.16)
 project(LumexStringViewMixedExceptions LANGUAGES CXX)
