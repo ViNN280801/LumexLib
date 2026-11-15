@@ -1,10 +1,14 @@
 // Checks of cmake.consumer_exceptions_switch_*: the shared switch
 // LUMEX_HAS_EXCEPTIONS and the macro of each module (see CMakeLists.txt). The
 // build has exceptions in every mode. Exit code 0 when every check held.
+#include <cstddef>
 #include <cstdio>
 #include <cstdlib>
 #include <exception>
+#include <new>
+#include <ostream>
 #include <stdexcept>
+#include <streambuf>
 #include <string>
 #include <utility>
 
@@ -18,6 +22,7 @@
 
 #include "lumex/core/expected/Expected"
 #include "lumex/core/optional/opt/LumexOptional.hpp"
+#include "lumex/core/smart_ptr/LumexSmartPtr"
 #include "lumex/core/smart_ptr/detail/LumexSmartPtrConfig.hpp"
 #include "lumex/core/span/LumexSpan"
 #include "lumex/core/string_view/LumexStringView"
@@ -39,6 +44,12 @@ namespace sp = lumex::core::span::view;
 #define WANT_OPTIONAL 0
 #define WANT_SPAN 0
 #define WANT_STRING_VIEW 0
+#elif defined(SWITCH_OVERRIDE_EXPECTED)
+#define WANT_SHARED 0
+#define WANT_EXPECTED 1
+#define WANT_OPTIONAL 0
+#define WANT_SPAN 0
+#define WANT_STRING_VIEW 0
 #elif defined(SWITCH_OVERRIDE_OPTIONAL)
 #define WANT_SHARED 0
 #define WANT_EXPECTED 0
@@ -49,6 +60,12 @@ namespace sp = lumex::core::span::view;
 #define WANT_SHARED 1
 #define WANT_EXPECTED 1
 #define WANT_OPTIONAL 1
+#define WANT_SPAN 0
+#define WANT_STRING_VIEW 1
+#elif defined(SWITCH_OVERRIDE_STRING_VIEW)
+#define WANT_SHARED 0
+#define WANT_EXPECTED 0
+#define WANT_OPTIONAL 0
 #define WANT_SPAN 0
 #define WANT_STRING_VIEW 1
 #else
@@ -160,6 +177,113 @@ exit_code_of_child (char const *self, int which)
 #endif
 }
 
+// A stream buffer that throws on every write.
+class throwing_buffer : public std::streambuf
+{
+protected:
+  int_type
+  overflow (int_type) override
+  {
+    throw 5;
+  }
+
+  std::streamsize
+  xsputn (char const *, std::streamsize) override
+  {
+    throw 5;
+  }
+};
+
+// The try block of the inserter of the string view follows the compiler, not
+// the switch: with exceptions on (every mode here) an exception of the buffer
+// does not leave the inserter, the stream goes bad.
+void
+check_inserter_try ()
+{
+  throwing_buffer buffer;
+  std::ostream out (&buffer);
+  lumex_string_view const text ("abc", 3);
+  bool escaped = false;
+  try
+    {
+      out << text;
+    }
+  catch (...)
+    {
+      escaped = true;
+    }
+  CHECK (!escaped);
+  CHECK (out.bad ());
+}
+
+// An allocator that cannot allocate.
+template <typename T> struct failing_allocator
+{
+  using value_type = T;
+
+  failing_allocator () {}
+  template <typename U> failing_allocator (failing_allocator<U> const &) {}
+
+  T *
+  allocate (std::size_t)
+  {
+    throw std::bad_alloc ();
+  }
+
+  void
+  deallocate (T *, std::size_t)
+  {
+  }
+};
+
+template <typename T, typename U>
+bool
+operator== (failing_allocator<T> const &, failing_allocator<U> const &)
+{
+  return true;
+}
+
+template <typename T, typename U>
+bool
+operator!= (failing_allocator<T> const &, failing_allocator<U> const &)
+{
+  return false;
+}
+
+struct counting_deleter
+{
+  int *count;
+
+  void
+  operator() (int *) const
+  {
+    ++*count;
+  }
+};
+
+// The try blocks of smart_ptr follow the compiler, not the switch: when the
+// control block cannot be allocated the deleter is called with the pointer
+// and the exception reaches the caller, whatever LUMEX_HAS_EXCEPTIONS says.
+void
+check_smart_ptr_try ()
+{
+  int deleted = 0;
+  int object = 0;
+  bool threw = false;
+  try
+    {
+      counting_deleter const deleter = { &deleted };
+      lumex::core::smart_ptr::shared_ptr<int> const owner (
+          &object, deleter, failing_allocator<int> ());
+    }
+  catch (std::bad_alloc const &)
+    {
+      threw = true;
+    }
+  CHECK (threw);
+  CHECK (deleted == 1);
+}
+
 void
 check_module (char const *self, int which, int want_throw, int macro)
 {
@@ -189,6 +313,8 @@ main (int argc, char **argv)
   CHECK (LUMEX_HAS_EXCEPTIONS == WANT_SHARED);
   // smart_ptr follows the compiler, not the switch.
   CHECK (LUMEX_SMART_PTR_HAS_EXCEPTIONS == 1);
+  check_inserter_try ();
+  check_smart_ptr_try ();
 
   check_module (argv[0], module_expected, WANT_EXPECTED,
                 LUMEX_EXPECTED_HAS_EXCEPTIONS);
