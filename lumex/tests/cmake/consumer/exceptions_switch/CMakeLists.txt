@@ -7,13 +7,24 @@
 #   -DSWITCH_MODE=default            nothing defined: everything throws
 #   -DSWITCH_MODE=shared_zero        LUMEX_HAS_EXCEPTIONS=0: every module
 #                                    terminates, smart_ptr keeps its try blocks
+#   -DSWITCH_MODE=override_expected  LUMEX_HAS_EXCEPTIONS=0 and
+#                                    LUMEX_EXPECTED_HAS_EXCEPTIONS=1: only
+#                                    expected still throws
 #   -DSWITCH_MODE=override_optional  LUMEX_HAS_EXCEPTIONS=0 and
 #                                    LUMEX_OPTIONAL_HAS_EXCEPTIONS=1: only
 #                                    optional still throws
 #   -DSWITCH_MODE=override_span      LUMEX_SPAN_HAS_EXCEPTIONS=0 alone: only span
 #                                    terminates
+#   -DSWITCH_MODE=override_string_view  LUMEX_HAS_EXCEPTIONS=0 and
+#                                    LUMEX_STRING_VIEW_HAS_EXCEPTIONS=1: only the
+#                                    string view still throws
 # main.cpp checks the values of the macros and the behavior of one throwing
-# function of each module (a child process for those that terminate).
+# function of each module (a child process for those that terminate), and, in
+# every mode, that the try blocks that follow the compiler and not the switch
+# are kept: the stream inserter of the string view sets the badbit of a stream
+# whose buffer throws, and a shared_ptr whose control block cannot be allocated
+# calls its deleter. The refusal of the value 1 without exceptions is the
+# exceptions_switch_compile_checks fixture.
 
 cmake_minimum_required(VERSION 3.16)
 project(LumexExceptionsSwitch LANGUAGES CXX)
@@ -52,6 +63,10 @@ if(SWITCH_MODE STREQUAL "default")
 elseif(SWITCH_MODE STREQUAL "shared_zero")
     target_compile_definitions(exceptions_switch_consumer PRIVATE
         SWITCH_SHARED_ZERO=1 LUMEX_HAS_EXCEPTIONS=0)
+elseif(SWITCH_MODE STREQUAL "override_expected")
+    target_compile_definitions(exceptions_switch_consumer PRIVATE
+        SWITCH_OVERRIDE_EXPECTED=1 LUMEX_HAS_EXCEPTIONS=0
+        LUMEX_EXPECTED_HAS_EXCEPTIONS=1)
 elseif(SWITCH_MODE STREQUAL "override_optional")
     target_compile_definitions(exceptions_switch_consumer PRIVATE
         SWITCH_OVERRIDE_OPTIONAL=1 LUMEX_HAS_EXCEPTIONS=0
@@ -59,6 +74,10 @@ elseif(SWITCH_MODE STREQUAL "override_optional")
 elseif(SWITCH_MODE STREQUAL "override_span")
     target_compile_definitions(exceptions_switch_consumer PRIVATE
         SWITCH_OVERRIDE_SPAN=1 LUMEX_SPAN_HAS_EXCEPTIONS=0)
+elseif(SWITCH_MODE STREQUAL "override_string_view")
+    target_compile_definitions(exceptions_switch_consumer PRIVATE
+        SWITCH_OVERRIDE_STRING_VIEW=1 LUMEX_HAS_EXCEPTIONS=0
+        LUMEX_STRING_VIEW_HAS_EXCEPTIONS=1)
 else()
-    message(FATAL_ERROR "SWITCH_MODE: default, shared_zero, override_optional or override_span")
+    message(FATAL_ERROR "SWITCH_MODE: default, shared_zero, override_expected, override_optional, override_span or override_string_view")
 endif()

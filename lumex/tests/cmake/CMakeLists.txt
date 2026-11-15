@@ -564,13 +564,36 @@ foreach(_order IN ITEMS LIB_FIRST MAIN_FIRST)
 endforeach()
 # The one switch of the library, LUMEX_HAS_EXCEPTIONS, and the macro of each
 # module that defaults to it (exceptions stay on): the default, the shared
-# switch as 0 (every module terminates, smart_ptr keeps its try blocks), a
-# module macro that overrides the switch both ways.
-foreach(_mode IN ITEMS default shared_zero override_optional override_span)
+# switch as 0 (every module terminates, smart_ptr and the string view inserter
+# keep their try blocks), a module macro that overrides the switch both ways.
+foreach(_mode IN ITEMS default shared_zero override_expected override_optional
+                       override_span override_string_view)
     lumex_add_consumer_test(consumer_exceptions_switch_${_mode}
         exceptions_switch -DSWITCH_MODE=${_mode}
         -DBUILD_TARGET=exceptions_switch_consumer)
 endforeach()
+# The same macros without exceptions: the switch and each module macro defined as
+# 1 under -fno-exceptions (MSVC /EHs-c-) stop the compilation with the #error of
+# that macro, 0 compiles, and 1 compiles with exceptions on.
+lumex_test_name(_ctest_name consumer_exceptions_switch_compile_checks)
+add_test(NAME ${_ctest_name}
+    COMMAND ${CMAKE_COMMAND}
+        -DCASE=exceptions_switch_compile_checks
+        -DLUMEX_SOURCE_DIR=${LumexLib_SOURCE_DIR}
+        -DWORK_DIR=${CMAKE_CURRENT_BINARY_DIR}/consumer/exceptions_switch_compile_checks
+        -DGENERATOR=${CMAKE_GENERATOR}
+        -DCXX_COMPILER=${CMAKE_CXX_COMPILER}
+        "-DCXX_FLAGS=${CMAKE_CXX_FLAGS}"
+        -DCLANG_STDLIB=${LUMEX_CLANG_STDLIB}
+        -DBUILD_TYPE=Release
+        -DCONFIGURE_ONLY=ON
+        -P ${_LUMEX_CONSUMER_RUN}
+)
+set_tests_properties(${_ctest_name} PROPERTIES
+    LABELS "cmake;consumer"
+    TIMEOUT 900
+    SKIP_REGULAR_EXPRESSION "LUMEX_CONSUMER_SKIP"
+)
 # Exported functions do not depend on the C++ standard: the library at one
 # standard and the consumer at another link, both ways (base64, XML and
 # exceptions, through their inline wrappers).
