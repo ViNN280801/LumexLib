@@ -133,9 +133,22 @@ public:
    */
   template <typename U> using rebind = expected<U, ErrorType>;
 
+  // ====================== Special members ====================== //
+  // Declared, defaulted on the first declaration, so that they can be always
+  // inlined: the implicit assignments call the assignments of the bases, whose
+  // code depends on the exception mode, and a weak copy of them would serve
+  // units of both modes (see `restore_guard` in ExpectedStorage.hpp). They
+  // come from the bases and are deleted, left out or trivial as the standard
+  // says, with the `noexcept` and the `constexpr` of the bases
+  // (ExpectedSpecialMembers.cxx11.tests.cpp pins them).
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE expected (expected const &) = default;
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE expected (expected &&) = default;
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE expected &operator= (expected const &)
+      = default;
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE expected &operator= (expected &&) = default;
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE ~expected () = default;
+
   // ====================== Constructors ====================== //
-  // The copy and the move constructor are the implicit ones: they come from
-  // the bases and are deleted, left out or trivial as the standard says.
 
   /**
    * @brief Default constructor (successful void state)
@@ -545,7 +558,7 @@ public:
                     && std::is_assignable<ErrorType &, G const &>::value,
                 int>::type
             = 0>
-  LUMEX_EXPECTED_CONSTEXPR_CXX20 expected &
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE LUMEX_EXPECTED_CONSTEXPR_CXX20 expected &
   operator= (unexpected<G> const &unex)
   {
     assign_error (unex.error ());
@@ -566,7 +579,7 @@ public:
                                 && std::is_assignable<ErrorType &, G>::value,
                             int>::type
                         = 0>
-  LUMEX_EXPECTED_CONSTEXPR_CXX20 expected &
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE LUMEX_EXPECTED_CONSTEXPR_CXX20 expected &
   operator= (unexpected<G> &&unex)
   {
     assign_error (detail::move_error (unex));
@@ -838,7 +851,7 @@ public:
   template <typename... Args,
             typename = typename std::enable_if<
                 std::is_constructible<ErrorType, Args...>::value>::type>
-  LUMEX_EXPECTED_CONSTEXPR_CXX20 ErrorType &
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE LUMEX_EXPECTED_CONSTEXPR_CXX20 ErrorType &
   emplace_error (Args &&...args)
   {
     if (m_has_value)
@@ -866,7 +879,7 @@ public:
   template <typename Self = expected,
             typename = typename std::enable_if<
                 detail::can_swap_errors<Self, ErrorType>::value>::type>
-  LUMEX_EXPECTED_CONSTEXPR_CXX20 void
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE LUMEX_EXPECTED_CONSTEXPR_CXX20 void
   swap (expected &other)
       LUMEX_NOEXCEPT_IF (std::is_nothrow_move_constructible<ErrorType>::value
                              &&detail::is_nothrow_swappable<ErrorType>::value)
@@ -992,7 +1005,7 @@ public:
    * `std::swap (std::expected &, std::expected &)`.
    */
   template <typename Self = expected>
-  friend LUMEX_EXPECTED_CONSTEXPR_CXX20 auto
+  friend LUMEX_ATTRIBUTE_ALWAYS_INLINE LUMEX_EXPECTED_CONSTEXPR_CXX20 auto
   swap (expected &lhs, expected &rhs) LUMEX_NOEXCEPT_IF (
       noexcept (std::declval<Self &> ().swap (std::declval<Self &> ())))
       -> decltype (std::declval<Self &> ().swap (std::declval<Self &> ()))
@@ -1715,7 +1728,7 @@ private:
    * @param[in] err The new error.
    */
   template <typename GF>
-  LUMEX_EXPECTED_CONSTEXPR_CXX20 void
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE LUMEX_EXPECTED_CONSTEXPR_CXX20 void
   assign_error (GF &&err)
   {
     if (m_has_value)

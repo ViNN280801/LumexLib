@@ -114,23 +114,13 @@
 /**
  * @def LUMEX_EXPECTED_COMPILER_HAS_EXCEPTIONS
  * @brief `LUMEX_COMPILER_HAS_EXCEPTIONS`: 1 when the compiler compiles `try`,
- * `catch` and `throw`, otherwise 0. Internal: the paths that restore the old
- * contents of an `expected` when a constructor throws are compiled by this
- * macro, which a program cannot override (a program that sets
- * `LUMEX_EXPECTED_HAS_EXCEPTIONS` to 0 with exceptions on must still get the
- * strong guarantee, or a throwing constructor would leave a destroyed object
- * behind). These bodies are not always inlined: they are inline templates (and
- * the assignment operators of `expected` are implicitly defined), so a program
- * that links a unit built without exceptions and one built with them keeps one
- * copy of such an instantiation for both. If the unit with exceptions gets the
- * copy built without them, a constructor that throws leaves a destroyed object
- * behind (no `try`, and the flag still names the old alternative): the
- * destructor then destroys it twice, which is undefined behavior and not only
- * a lost strong guarantee. The operations are `emplace_error`, the assignments
- * and `swap`
- * (`emplace` needs a nothrow construction and is not affected). Units of a
- * program that has such types with throwing constructors must therefore have
- * the same compiler mode.
+ * `catch` and `throw`, otherwise 0. Kept as a name of the module; no body of
+ * it depends on the macro any more. The operations that put the old contents
+ * back when a constructor throws (`emplace_error`, the assignments, `swap`) do
+ * it in the destructor of a guard object (`restore_guard`,
+ * ExpectedStorage.hpp), the same text with and without exceptions, so a
+ * program that sets `LUMEX_EXPECTED_HAS_EXCEPTIONS` to 0 with exceptions on
+ * still gets the strong guarantee.
  */
 #define LUMEX_EXPECTED_COMPILER_HAS_EXCEPTIONS LUMEX_COMPILER_HAS_EXCEPTIONS
 
@@ -145,18 +135,32 @@
  * `LUMEX_HAS_EXCEPTIONS` says; defined as 1 under `-fno-exceptions` it does
  * not compile; nothing else changes (`emplace_error`, assignment and `swap`
  * keep their strong guarantee). Units of one program may differ in this value
- * for `value ()`: its body depends on the macro, so `value ()` and the
- * functions it calls are always inlined (`LUMEX_ATTRIBUTE_ALWAYS_INLINE`) and,
- * where the compiler honours it, the linker has no weak copy of them to choose
- * between. A function whose address is taken still gets a symbol and then
+ * and in the exception mode of the compiler: `value ()` and the functions it
+ * calls, and the operations that put the old contents back (`emplace_error`,
+ * the assignments, `swap`, the special members of `expected` that call them,
+ * and what they call down to `reinit_nothrow`) are always inlined
+ * (`LUMEX_ATTRIBUTE_ALWAYS_INLINE`), so, where the compiler honours it, the
+ * linker has no weak copy of them to choose between and every unit keeps its
+ * own behavior and its own cleanup, whichever object comes first, provided
+ * that the outermost caller is not itself inline. That is the limit: an
+ * always-inlined body is part of its caller, so a caller that is an inline
+ * function or a template (a helper in a header of the program, `std::swap`, a
+ * member of a standard container or algorithm that assigns or swaps its
+ * elements) is a weak function again, one copy for all units, and the units of
+ * one program must then agree on the exception mode. The same holds for
+ * `value ()`. A function whose address is taken still gets a symbol and then
  * follows the unit the linker meets first. cl.exe does not honour
- * `__forceinline` without inlining (`/Od`, `/Ob0`): there the six overloads
- * stay real COMDAT functions with one copy per program, so units of one
- * program must agree on the exception mode; with inlining (`/O2`) each unit
- * keeps its own behavior in either link order, although unreferenced COMDATs
- * are still emitted. The operations that put the old contents back
- * (`emplace_error`, assignment, `swap`) are not covered: see
- * `LUMEX_EXPECTED_COMPILER_HAS_EXCEPTIONS`.
+ * `__forceinline` without inlining (`/Od`, `/Ob0`): there those functions stay
+ * real COMDAT functions with one copy per program, so units of one program
+ * must agree on the exception mode; with inlining (`/O2`) each unit keeps its
+ * own behavior in either link order, although unreferenced COMDATs are still
+ * emitted.
+ *
+ * The strong guarantee of the operations that put the old contents back holds
+ * as far as the type that is put back moves without throwing. The assignments
+ * and `swap` demand that. `emplace_error` does not: when the construction of
+ * the new error throws and the move that puts the old contents back throws
+ * too, the destructor of the guard (`noexcept`) calls `std::terminate`.
  */
 #ifndef LUMEX_EXPECTED_HAS_EXCEPTIONS
 #define LUMEX_EXPECTED_HAS_EXCEPTIONS LUMEX_HAS_EXCEPTIONS

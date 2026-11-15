@@ -6,6 +6,8 @@
 // contents when a construction threw. The tests compile from C++11, so every
 // expected suite runs them.
 
+#include <cstdlib>
+#include <exception>
 #include <string>
 #include <utility>
 
@@ -531,6 +533,152 @@ TEST_F (ExpectedReinitTest, Destructor_DestroysOnlyTheActiveAlternative)
   }
 
   EXPECT_EQ (taken (), "E:dtor(2) V:dtor(1)");
+}
+
+// === a restore that throws too =============================================
+// The assignments and swap put the old contents back with a move that cannot
+// throw (their constraints see to it). emplace_error is constrained by
+// is_constructible alone: when the construction of the new error throws and
+// the move that puts the old contents back throws as well, the destructor of
+// the guard (restore_guard, noexcept) calls std::terminate. Before the guard
+// the second exception was caught and one object was destroyed twice
+// (undefined behavior). The tests pin the terminate: the child process
+// installs a handler that ends it with exit code 42, so a program that is
+// killed some other way, or one that lets the exception out, does not pass.
+
+/// What the next constructions do: the first `succeed` of them work, the next
+/// `fail` throw, the rest work again.
+struct plan_t
+{
+  int succeed;
+  int fail;
+};
+
+plan_t &
+plan ()
+{
+  static plan_t current = { 0, 0 };
+  return current;
+}
+
+void
+spend ()
+{
+  if (plan ().succeed > 0)
+    {
+      --plan ().succeed;
+      return;
+    }
+  if (plan ().fail > 0)
+    {
+      --plan ().fail;
+      throw injected_failure ();
+    }
+}
+
+/// Every constructor may throw, as `plan ()` says.
+template <char Name> struct fragile_t
+{
+  int id;
+
+  explicit fragile_t (int v) noexcept (false) : id (v) { spend (); }
+  fragile_t (fragile_t const &other) noexcept (false) : id (other.id)
+  {
+    spend ();
+  }
+  fragile_t (fragile_t &&other) noexcept (false) : id (other.id) { spend (); }
+};
+
+using fragile_value_t = fragile_t<'V'>;
+using fragile_error_t = fragile_t<'E'>;
+
+constexpr int kExitOnTerminate = 42;
+
+[[noreturn]] void
+exit_on_terminate ()
+{
+  std::_Exit (kExitOnTerminate);
+}
+
+// The old contents are moved aside (the first construction), the new error
+// throws (the second), the old contents are moved back (the third) and throw
+// as well: the plan is one success and two failures.
+void
+emplace_error_over_an_error ()
+{
+  std::set_terminate (exit_on_terminate);
+  expected<int, fragile_error_t> uut (unexpect, kOld);
+  plan () = plan_t{ 1, 2 };
+  uut.emplace_error (kNew);
+}
+
+void
+emplace_error_over_a_value ()
+{
+  std::set_terminate (exit_on_terminate);
+  expected<fragile_value_t, fragile_error_t> uut (in_place, kOld);
+  plan () = plan_t{ 1, 2 };
+  uut.emplace_error (kNew);
+}
+
+void
+void_emplace_error_over_an_error ()
+{
+  std::set_terminate (exit_on_terminate);
+  expected<void, fragile_error_t> uut (unexpect, kOld);
+  plan () = plan_t{ 1, 2 };
+  uut.emplace_error (kNew);
+}
+
+TEST (ExpectedReinitDeathTest,
+      EmplaceError_OverAnError_WhenTheRestoreThrowsToo_Terminates)
+{
+#if GTEST_HAS_DEATH_TEST
+  GTEST_FLAG_SET (death_test_style, "threadsafe");
+  EXPECT_EXIT (emplace_error_over_an_error (),
+               ::testing::ExitedWithCode (kExitOnTerminate), "");
+#else
+  GTEST_SKIP () << "death tests are not supported on this platform";
+#endif
+}
+
+TEST (ExpectedReinitDeathTest,
+      EmplaceError_OverAValue_WhenTheRestoreThrowsToo_Terminates)
+{
+#if GTEST_HAS_DEATH_TEST
+  GTEST_FLAG_SET (death_test_style, "threadsafe");
+  EXPECT_EXIT (emplace_error_over_a_value (),
+               ::testing::ExitedWithCode (kExitOnTerminate), "");
+#else
+  GTEST_SKIP () << "death tests are not supported on this platform";
+#endif
+}
+
+TEST (ExpectedReinitDeathTest,
+      VoidEmplaceError_OverAnError_WhenTheRestoreThrowsToo_Terminates)
+{
+#if GTEST_HAS_DEATH_TEST
+  GTEST_FLAG_SET (death_test_style, "threadsafe");
+  EXPECT_EXIT (void_emplace_error_over_an_error (),
+               ::testing::ExitedWithCode (kExitOnTerminate), "");
+#else
+  GTEST_SKIP () << "death tests are not supported on this platform";
+#endif
+}
+
+// With only the new error throwing, the restore works and the exception
+// reaches the caller with the old contents back.
+TEST_F (ExpectedReinitTest,
+        EmplaceError_OverAnError_WhenOnlyTheNewErrorThrows_KeepsTheOldError)
+{
+  expected<int, fragile_error_t> uut (unexpect, kOld);
+  plan () = plan_t{ 1, 1 };
+
+  EXPECT_THROW (uut.emplace_error (kNew), injected_failure);
+  plan () = plan_t{ 0, 0 };
+
+  ASSERT_FALSE (uut.has_value ());
+  EXPECT_EQ (uut.error ().id, kOld);
 }
 
 } // namespace

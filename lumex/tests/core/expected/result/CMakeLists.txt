@@ -5,7 +5,11 @@
 #                                  expected<void, E>, the monadic operations,
 #                                  the special member functions against the
 #                                  standard (ExpectedMembers), the order of
-#                                  construction and destruction (ExpectedReinit),
+#                                  construction and destruction (ExpectedReinit,
+#                                  with the death tests of a restore that throws
+#                                  too), the triviality, noexcept, size and
+#                                  constexpr of the special member functions over
+#                                  a matrix of types (ExpectedSpecialMembers),
 #                                  constant expressions of C++11
 #                                  (ExpectedConstexpr), success () / failure ()
 #                                  and the type matrix over the C++11 types,
@@ -37,7 +41,8 @@
 # types and the detection traits of the std::expected parity tests of both
 # directories; ExpectedMembersSupport.hpp the type zoo of the tests of the
 # special member functions and of the differential test; ExpectedProbe.hpp the
-# probe type that logs its operations.
+# probe type that logs its operations; ExpectedSpecialMembersTypes.hpp the type
+# zoo and the trait mask of the ExpectedSpecialMembers pins.
 # ExpectedWithOptional.cxx11.tests.cpp includes both value-holding modules, so
 # it is built only where the optional module is.
 set(_expected_link lumex::expected)
@@ -54,6 +59,7 @@ lumex_add_standard_suites(ExpectedResult
     LINK ${_expected_link}
     SOURCES ../ExpectedTestTypes.hpp ../ExpectedParitySupport.hpp
     ../ExpectedMembersSupport.hpp ../ExpectedProbe.hpp
+    ExpectedSpecialMembersTypes.hpp
     SuccessFailureTestSupport.hpp
     EXCLUDE ${_expected_exclude}
 )
