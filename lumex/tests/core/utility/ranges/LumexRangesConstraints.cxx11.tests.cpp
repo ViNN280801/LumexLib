@@ -164,8 +164,10 @@ TEST (LumexRangesConstraintsTest,
   EXPECT_TRUE ((can_call<ints_t &, double>::value));
   EXPECT_TRUE ((can_call<reals_t &, int>::value));
   EXPECT_TRUE ((can_call<ints_t &, long>::value));
-  EXPECT_TRUE ((can_call<ints_t &, unsigned char>::value));
-  EXPECT_TRUE ((can_call<ints_t &, char>::value));
+  EXPECT_TRUE ((can_call<ints_t &, unsigned short>::value));
+  // A character type is not a number.
+  EXPECT_FALSE ((can_call<ints_t &, unsigned char>::value));
+  EXPECT_FALSE ((can_call<ints_t &, char>::value));
   EXPECT_TRUE ((can_call<std::vector<float> &, float>::value));
   EXPECT_TRUE ((can_call<std::vector<long double> &, long double>::value));
   EXPECT_TRUE ((can_call<ints_t &, int const &>::value));

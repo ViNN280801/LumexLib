@@ -17,6 +17,7 @@
 #include <gtest/gtest.h>
 
 #include "lumex/core/math/LumexMath"
+#include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 #if defined(__clang__)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wglobal-constructors"
@@ -247,15 +248,110 @@ TEST (LumexMathTest, GivenEmptyRanges_WhenRMSETwoRanges_ThenReturnsZero)
 // --- C++11 floor: traits, constexpr, overload set -------------------------
 
 static_assert (lumex::core::math::ops::traits::is_numeric<int>::value, "");
-static_assert (lumex::core::math::ops::traits::is_numeric<char>::value, "");
-static_assert (lumex::core::math::ops::traits::is_numeric<double>::value, "");
-static_assert (lumex::core::math::ops::traits::is_numeric<long double>::value,
-               "");
+#define LUMEX_TEST_NUMERIC(type)                                              \
+  static_assert (lumex::core::math::ops::traits::is_numeric<type>::value,     \
+                 #type);                                                      \
+  static_assert (                                                             \
+      lumex::core::math::ops::traits::is_numeric<type const>::value,          \
+      #type " const");                                                        \
+  static_assert (                                                             \
+      lumex::core::math::ops::traits::is_numeric<type volatile>::value,       \
+      #type " volatile")
+LUMEX_TEST_NUMERIC (short);
+LUMEX_TEST_NUMERIC (unsigned short);
+LUMEX_TEST_NUMERIC (int);
+LUMEX_TEST_NUMERIC (unsigned);
+LUMEX_TEST_NUMERIC (long);
+LUMEX_TEST_NUMERIC (unsigned long);
+LUMEX_TEST_NUMERIC (long long);
+LUMEX_TEST_NUMERIC (unsigned long long);
+LUMEX_TEST_NUMERIC (std::int16_t);
+LUMEX_TEST_NUMERIC (std::uint16_t);
+LUMEX_TEST_NUMERIC (std::int32_t);
+LUMEX_TEST_NUMERIC (std::uint32_t);
+LUMEX_TEST_NUMERIC (std::int64_t);
+LUMEX_TEST_NUMERIC (std::uint64_t);
+LUMEX_TEST_NUMERIC (float);
+LUMEX_TEST_NUMERIC (double);
+LUMEX_TEST_NUMERIC (long double);
+#undef LUMEX_TEST_NUMERIC
 static_assert (!lumex::core::math::ops::traits::is_numeric<bool>::value, "");
 static_assert (!lumex::core::math::ops::traits::is_numeric<bool const>::value,
                "");
 static_assert (!lumex::core::math::ops::traits::is_numeric<std::string>::value,
                "");
+
+// Character types are not numbers, with every cv-qualification;
+// std::int8_t and std::uint8_t are signed char and unsigned char.
+#define LUMEX_TEST_NOT_NUMERIC(type)                                          \
+  static_assert (!lumex::core::math::ops::traits::is_numeric<type>::value,    \
+                 #type);                                                      \
+  static_assert (                                                             \
+      !lumex::core::math::ops::traits::is_numeric<type const>::value,         \
+      #type " const");                                                        \
+  static_assert (                                                             \
+      !lumex::core::math::ops::traits::is_numeric<type volatile>::value,      \
+      #type " volatile");                                                     \
+  static_assert (!lumex::core::math::ops::traits::is_numeric<                 \
+                     type const volatile>::value,                             \
+                 #type " const volatile")
+LUMEX_TEST_NOT_NUMERIC (bool);
+LUMEX_TEST_NOT_NUMERIC (char);
+LUMEX_TEST_NOT_NUMERIC (signed char);
+LUMEX_TEST_NOT_NUMERIC (unsigned char);
+LUMEX_TEST_NOT_NUMERIC (wchar_t);
+LUMEX_TEST_NOT_NUMERIC (char16_t);
+LUMEX_TEST_NOT_NUMERIC (char32_t);
+LUMEX_TEST_NOT_NUMERIC (std::int8_t);
+LUMEX_TEST_NOT_NUMERIC (std::uint8_t);
+#undef LUMEX_TEST_NOT_NUMERIC
+
+// The overloads leave the overload set for a character type (SFINAE).
+namespace char_sfinae
+{
+template <typename T, typename = void> struct can_distance : std::false_type
+{
+};
+template <typename T>
+struct can_distance<T, decltype (static_cast<void> (
+                           distance (std::declval<T> (), std::declval<T> ())))>
+    : std::true_type
+{
+};
+template <typename S, typename T, typename = void>
+struct can_narrow : std::false_type
+{
+};
+template <typename S, typename T>
+struct can_narrow<S, T,
+                  decltype (static_cast<void> (
+                      lumex::core::math::ops::checked_narrow_cast<S, T> (
+                          std::declval<S> (), "f")))> : std::true_type
+{
+};
+static_assert (can_distance<int>::value, "");
+static_assert (!can_distance<char>::value, "");
+static_assert (!can_distance<unsigned char>::value, "");
+static_assert (!can_distance<bool>::value, "");
+static_assert (!can_distance<wchar_t>::value, "");
+static_assert (!can_distance<char16_t>::value, "");
+static_assert (!can_distance<char32_t>::value, "");
+static_assert (can_narrow<int, short>::value, "");
+static_assert (!can_narrow<int, char>::value, "");
+static_assert (!can_narrow<int, unsigned char>::value, "");
+static_assert (!can_narrow<int, std::int8_t>::value, "");
+static_assert (!can_narrow<char, int>::value, "");
+static_assert (!can_narrow<wchar_t, int>::value, "");
+static_assert (!can_narrow<int, char16_t>::value, "");
+static_assert (!can_narrow<int, char32_t>::value, "");
+static_assert (!can_narrow<char16_t, int>::value, "");
+static_assert (!can_narrow<char32_t, int>::value, "");
+#if LUMEX_HAS_CHAR8_T
+static_assert (!can_distance<char8_t>::value, "");
+static_assert (!can_narrow<int, char8_t>::value, "");
+static_assert (!can_narrow<char8_t, int>::value, "");
+#endif
+} // namespace char_sfinae
 
 // distance and squared_difference of integers are constant expressions.
 static_assert (distance (5, 3) == 2, "");
@@ -447,16 +543,16 @@ TEST (LumexMathTest,
 TEST (LumexMathTest,
       GivenBoundaryValues_Whenchecked_narrow_cast_ThenAcceptsExactlyTheRange)
 {
-  unsigned char const kByte
-      = checked_narrow_cast<int, unsigned char> (255, "b");
-  EXPECT_EQ (kByte, 255);
+  unsigned short const kWord
+      = checked_narrow_cast<int, unsigned short> (65535, "b");
+  EXPECT_EQ (kWord, 65535);
   short const kShort = checked_narrow_cast<double, short> (-32768.0, "s");
   EXPECT_EQ (kShort, -32768);
   int const kInt = checked_narrow_cast<double, int> (2147483647.0, "i");
   EXPECT_EQ (kInt, 2147483647);
 
   auto const kByteOver
-      = [] { return checked_narrow_cast<int, unsigned char> (256, "b"); };
+      = [] { return checked_narrow_cast<int, unsigned short> (65536, "b"); };
   auto const kIntOver
       = [] { return checked_narrow_cast<double, int> (2147483647.5, "i"); };
   auto const kFloatOver
@@ -473,12 +569,13 @@ TEST (
   try
     {
       LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (
-          checked_narrow_cast<int, signed char> (300, std::string ("gain")));
+          checked_narrow_cast<int, short> (40000, std::string ("gain")));
       FAIL () << "expected std::out_of_range";
     }
   catch (std::out_of_range const &ex)
     {
-      EXPECT_STREQ (ex.what (),
-                    "Field 'gain' value 300 is out of range [-128; 127]");
+      EXPECT_STREQ (
+          ex.what (),
+          "Field 'gain' value 40000 is out of range [-32768; 32767]");
     }
 }

@@ -64,6 +64,7 @@
 #include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 #include "lumex/core/utility/macros/LumexConstantMacros.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
+#include "lumex/core/utility/traits/LumexOneOf.hpp"
 
 /**
  * @file LumexTypeTraits.hpp
@@ -111,7 +112,8 @@ namespace utility
 namespace traits
 {
 // ---------------------------------------------------------------------
-// meta: void_t, has_type, type_identity, CleanType, default_return
+// meta: void_t, has_type, type_identity, is_one_of / OneOf (LumexOneOf.hpp),
+// CleanType, default_return
 // ---------------------------------------------------------------------
 
 namespace meta

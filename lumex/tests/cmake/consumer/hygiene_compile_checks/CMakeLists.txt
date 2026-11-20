@@ -68,6 +68,15 @@
 #                               support '__int128'" at every plain spelling);
 #                               on GCC the plain spelling must be rejected, so
 #                               that the check proves something.
+#   numeric_char_types.cpp      the numeric traits of LumexMath: every standard
+#                               integer type is numeric, bool and the
+#                               character types are not. Built at every
+#                               standard, and at C++20 without char8_t
+#                               (-fno-char8_t, /Zc:char8_t-), at C++17 with it
+#                               (-fchar8_t, /Zc:char8_t), and under MSVC
+#                               /Zc:wchar_t- (wchar_t is unsigned short, which
+#                               stays numeric): the set follows the compiler's
+#                               own feature macros, not the language standard.
 #
 # A check that fails reports the compiler output.
 
@@ -94,6 +103,8 @@ if(MSVC)
     set(_strictest "")
     set(_deprecated "")
     set(_float_equal "")
+    set(_char8_off /Zc:char8_t-)
+    set(_char8_on /Zc:char8_t)
 else()
     set(_flags -Werror)
     set(_standards 11 14 17 20)
@@ -103,6 +114,8 @@ else()
         -Wshadow -Wold-style-cast)
     set(_deprecated -Wdeprecated-declarations)
     set(_float_equal -Wall -Wextra -Wfloat-equal)
+    set(_char8_off -fno-char8_t)
+    set(_char8_on -fchar8_t)
 endif()
 
 # One translation unit of this directory at one standard; the result and the
@@ -198,6 +211,10 @@ foreach(_std IN LISTS _standards)
         math(EXPR _rejected "${_rejected} + 1")
     endif()
 
+    _lumex_hygiene_expect_ok("the numeric traits"
+        numeric_char_types.cpp ${_std} ${_strictest})
+    math(EXPR _compiled "${_compiled} + 1")
+
     _lumex_hygiene_expect_ok("the safe comparator under -Wfloat-equal"
         float_equal_comparator.cpp ${_std} ${_float_equal})
     math(EXPR _compiled "${_compiled} + 1")
@@ -208,6 +225,26 @@ foreach(_std IN LISTS _standards)
         math(EXPR _rejected "${_rejected} + 1")
     endif()
 endforeach()
+
+# char8_t follows the compiler's feature macro, not the standard: C++20 without
+# it and C++17 with it (the traits listed char8_t only from C++20 and failed
+# one of the two).
+_lumex_hygiene_expect_ok("the numeric traits at C++20 without char8_t"
+    numeric_char_types.cpp 20 ${_strictest} ${_char8_off}
+    -DLUMEX_HYGIENE_EXPECT_NO_CHAR8)
+_lumex_hygiene_expect_ok("the numeric traits at C++17 with char8_t"
+    numeric_char_types.cpp 17 ${_strictest} ${_char8_on}
+    -DLUMEX_HYGIENE_EXPECT_CHAR8)
+math(EXPR _compiled "${_compiled} + 2")
+if(MSVC)  # cl.exe and clang-cl
+    # wchar_t is unsigned short here; unsigned short stays numeric.
+    foreach(_std IN LISTS _standards)
+        _lumex_hygiene_expect_ok("the numeric traits under /Zc:wchar_t-"
+            numeric_char_types.cpp ${_std} /Zc:wchar_t-
+            -DLUMEX_HYGIENE_NO_NATIVE_WCHAR)
+        math(EXPR _compiled "${_compiled} + 1")
+    endforeach()
+endif()
 
 # C++23 deprecates std::aligned_storage. The deprecated class itself is the
 # baseline: where the toolchain rejects it as deprecated the optional header

@@ -14,6 +14,7 @@
 #include <gtest/gtest.h>
 
 #include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
+#include "lumex/core/utility/traits/LumexOneOf.hpp"
 #include "lumex/core/utility/traits/LumexTypeTraits.hpp"
 
 namespace traits = lumex::core::utility::traits;
@@ -31,6 +32,23 @@ struct base_t
 // ---------------------------------------------------------------------------
 // meta
 // ---------------------------------------------------------------------------
+
+TEST (LumexTypeTraitsTopicsTest,
+      GivenTypeList_WhenOneOf_ThenConceptMatchesTrait)
+{
+#if LUMEX_HAS_CONCEPTS
+  EXPECT_TRUE ((traits::meta::OneOf<int, char, int>));
+  EXPECT_TRUE ((traits::meta::OneOf<int const, int>));
+  EXPECT_TRUE ((traits::meta::OneOf<int volatile, long, int>));
+  EXPECT_FALSE ((traits::meta::OneOf<int, char, long>));
+  EXPECT_FALSE ((traits::meta::OneOf<int>));
+  EXPECT_FALSE ((traits::meta::OneOf<int &, int>));
+  EXPECT_EQ ((traits::meta::OneOf<long, int, long>),
+             (traits::meta::is_one_of<long, int, long>::value));
+#else
+  GTEST_SKIP () << "the compiler has no concepts";
+#endif
+}
 
 TEST (LumexTypeTraitsTopicsTest,
       GivenClassForms_WhenPointerOrRefToClass_ThenMatch)

@@ -97,3 +97,32 @@ TEST (LumexMathTest,
   GTEST_SKIP () << "the standard library has no std::ranges";
 #endif
 }
+
+// --- char8_t (only where the compiler has it: LUMEX_HAS_CHAR8_T)
+// -------------
+
+#if LUMEX_HAS_CHAR8_T
+static_assert (!lumex::core::math::ops::traits::is_numeric<char8_t>::value,
+               "");
+static_assert (
+    !lumex::core::math::ops::traits::is_numeric<char8_t const>::value, "");
+static_assert (
+    !lumex::core::math::ops::traits::is_numeric<char8_t volatile>::value, "");
+static_assert (lumex::core::math::ops::traits::is_numeric<short>::value, "");
+#else
+// -fno-char8_t or /Zc:char8_t-: char8_t does not exist, unsigned char is the
+// type of u8 characters and is rejected already.
+static_assert (
+    !lumex::core::math::ops::traits::is_numeric<unsigned char>::value, "");
+#endif
+
+#if LUMEX_HAS_CONCEPTS
+static_assert (lumex::core::math::ops::traits::NumericConcept<int>, "");
+static_assert (lumex::core::math::ops::traits::NumericConcept<double>, "");
+static_assert (!lumex::core::math::ops::traits::NumericConcept<char>, "");
+static_assert (!lumex::core::math::ops::traits::NumericConcept<bool>, "");
+static_assert (!lumex::core::math::ops::traits::NumericConcept<wchar_t>, "");
+#if LUMEX_HAS_CHAR8_T
+static_assert (!lumex::core::math::ops::traits::NumericConcept<char8_t>, "");
+#endif
+#endif

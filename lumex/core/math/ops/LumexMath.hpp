@@ -34,8 +34,11 @@
  *          (`std::views::filter`) and ranges whose end is a sentinel of
  *          another type. Every range is traversed once, so the range only
  *          needs input iterators. Numeric types are the integral types except
- *          `bool`, and the floating-point types; overloads outside that set
- *          do not take part in overload resolution (SFINAE).
+ *          `bool` and the character types (`char`, `signed char`,
+ *          `unsigned char`, `wchar_t`, `char16_t`, `char32_t`, `char8_t`;
+ *          see `traits::is_numeric`), and the floating-point types;
+ *          overloads outside that set do not take part in overload
+ *          resolution (SFINAE).
  */
 #ifndef LUMEX_CORE_MATH_OPS_HPP
 #define LUMEX_CORE_MATH_OPS_HPP
@@ -55,6 +58,7 @@
 #include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 #include "lumex/core/utility/macros/LumexExceptionMacros.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
+#include "lumex/core/utility/traits/LumexOneOf.hpp"
 
 namespace lumex
 {
@@ -72,15 +76,29 @@ LUMEX_DEFINE_EXCEPTION (lumex_math_size_mismatch_exception,
 
 namespace traits
 {
-/// @brief A "real" numeric type: any integral type except `bool`, or any
-/// floating-point type (cv-qualifiers ignored).
+/// @brief A "real" numeric type: an integral type that is not a character
+/// type or `bool`, or any floating-point type (cv-qualifiers ignored).
+/// @details Rejected: `bool`, `char`, `signed char`, `unsigned char`,
+/// `wchar_t`, `char16_t`, `char32_t`, and `char8_t` where the compiler has it
+/// (`LUMEX_HAS_CHAR8_T`, that is `__cpp_char8_t`; `-fno-char8_t` and
+/// `/Zc:char8_t-` remove it). So `std::int8_t` and `std::uint8_t` are rejected
+/// too: they are `signed char` and `unsigned char` on every supported
+/// platform. Use `short` or wider, or cast the byte to `int` first. Under MSVC
+/// `/Zc:wchar_t-` `wchar_t` is `unsigned short`, which then stays numeric.
 template <typename T>
 struct is_numeric
     : std::integral_constant<
-          bool,
-          (std::is_integral<T>::value
-           && !std::is_same<typename std::remove_cv<T>::type, bool>::value)
-              || std::is_floating_point<T>::value>
+          bool, (std::is_integral<T>::value
+                 && !::lumex::core::utility::traits::meta::is_one_of<
+                     T, bool, char, signed char, unsigned char,
+#if !defined(_MSC_VER) || defined(_NATIVE_WCHAR_T_DEFINED)
+                     wchar_t,
+#endif
+#if LUMEX_HAS_CHAR8_T
+                     char8_t,
+#endif
+                     char16_t, char32_t>::value)
+                    || std::is_floating_point<T>::value>
 {
 };
 
@@ -263,8 +281,8 @@ struct range_scalar_result<Range, Scalar, true>
 
 // --- checked_narrow_cast helpers ------------------------------------------
 
-/// @brief Prints a value as a number: the unary plus promotes character
-/// types, so they print their code, not a glyph.
+/// @brief Prints a value as a number. Only numeric types get here (character
+/// types are not numeric); the unary plus is harmless for them.
 template <typename T>
 void
 print_number (std::ostream &os, T value)

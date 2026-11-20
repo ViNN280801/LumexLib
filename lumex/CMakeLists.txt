@@ -17,6 +17,7 @@ set(LUMEX_UTILITY_HEADERS_FOR_HEADER_ONLY_MODULES
     core/utility/macros/LumexConstantMacros.hpp
     core/utility/macros/LumexExceptionMacros.hpp
     core/utility/macros/LumexKeywords.hpp
+    core/utility/traits/LumexOneOf.hpp
     core/utility/traits/LumexTypeTraits.hpp
 )
 

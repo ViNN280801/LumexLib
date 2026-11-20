@@ -18,6 +18,7 @@
 #include "lumex/core/optional/LumexOptional"
 #include "lumex/core/utility/assert/LumexAssert.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
+#include "lumex/core/utility/traits/LumexOneOf.hpp"
 #include "lumex/core/utility/traits/LumexTypeTraits.hpp"
 
 #if defined(__clang__)
@@ -124,6 +125,47 @@ struct NoTypeMember
 {
 };
 } // namespace
+
+// --- is_one_of
+// -------------------------------------------------------------------------
+
+TEST (LumexTypeTraitsTest, GivenTypeList_WhenIsOneOf_ThenTrueOnlyForAMember)
+{
+  LUMEX_STATIC_ASSERT_MSG ((is_one_of<int, int>::value), "single member");
+  LUMEX_STATIC_ASSERT_MSG ((is_one_of<int, char, long, int>::value),
+                           "last member");
+  LUMEX_STATIC_ASSERT_MSG ((is_one_of<int, int, char, long>::value),
+                           "first member");
+  LUMEX_STATIC_ASSERT_MSG ((!is_one_of<int, char, long, unsigned>::value),
+                           "not a member");
+  LUMEX_STATIC_ASSERT_MSG ((!is_one_of<int>::value), "empty list is false");
+  LUMEX_STATIC_ASSERT_MSG ((!is_one_of<int, int &, int const>::value),
+                           "members are compared as written");
+}
+
+TEST (LumexTypeTraitsTest, GivenCvQualifiedT_WhenIsOneOf_ThenCvIsIgnored)
+{
+  LUMEX_STATIC_ASSERT_MSG ((is_one_of<int const, int>::value), "const");
+  LUMEX_STATIC_ASSERT_MSG ((is_one_of<int volatile, int, char>::value),
+                           "volatile");
+  LUMEX_STATIC_ASSERT_MSG ((is_one_of<int const volatile, char, int>::value),
+                           "const volatile");
+  LUMEX_STATIC_ASSERT_MSG ((!is_one_of<int const, int const>::value),
+                           "cv only on T is dropped, not on the list");
+  LUMEX_STATIC_ASSERT_MSG ((!is_one_of<int &, int>::value), "reference stays");
+}
+
+TEST (LumexTypeTraitsTest, GivenOneOf_WhenBaseIsInspected_ThenIntegralConstant)
+{
+  LUMEX_STATIC_ASSERT_MSG (
+      (std::is_base_of<std::true_type, is_one_of<int, int>>::value),
+      "true_type");
+  LUMEX_STATIC_ASSERT_MSG (
+      (std::is_base_of<std::false_type, is_one_of<int, char>>::value),
+      "false_type");
+  EXPECT_TRUE ((is_one_of<int, int>::value));
+  EXPECT_FALSE ((is_one_of<int, char>::value));
+}
 
 // --- void_t / make_void / has_type
 // -------------------------------------------------------------
