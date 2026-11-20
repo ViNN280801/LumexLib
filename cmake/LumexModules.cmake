@@ -38,6 +38,7 @@ set(LUMEX_CORE_MODULE_OPTIONS
     LUMEX_BUILD_TEMPORARY
     LUMEX_BUILD_TIME
     LUMEX_BUILD_UNICODE
+    LUMEX_BUILD_UNITS
     LUMEX_BUILD_UTILITY
 )
 
@@ -215,6 +216,14 @@ function(lumex_check_module_dependencies)
 
     lumex_require_module(LUMEX_BUILD_SMART_PTR LUMEX_BUILD_UTILITY)
 
+    # units links expected, math (the constant pi), string_view and utility
+    # (the keyword and attribute macros): its edges are checked last, so a
+    # case that switches one of them off stops on the edge it tests first.
+    lumex_require_module(LUMEX_BUILD_UNITS LUMEX_BUILD_EXPECTED)
+    lumex_require_module(LUMEX_BUILD_UNITS LUMEX_BUILD_MATH)
+    lumex_require_module(LUMEX_BUILD_UNITS LUMEX_BUILD_STRING_VIEW)
+    lumex_require_module(LUMEX_BUILD_UNITS LUMEX_BUILD_UTILITY)
+
     string(TOUPPER "${LUMEX_LOGGER_CONFIG_FORMAT}" _logger_config_format)
     set(_logger_config_formats PLAIN_TEXT INI JSON YAML XML)
     if(NOT _logger_config_format IN_LIST _logger_config_formats)
@@ -291,6 +300,7 @@ set(LUMEX_SHARED_LIBRARY_CANDIDATES
     LumexCore_temporary
     LumexCore_time
     LumexCore_unicode
+    LumexCore_units
     LumexCore_utility
     LumexApplied_hardware
     LumexApplied_json

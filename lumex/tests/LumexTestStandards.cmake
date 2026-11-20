@@ -478,6 +478,16 @@ lumex_test_standards_declare(time 11)
 lumex_test_standards_declare(unicode 11)
 lumex_test_standards_declare(unicode.utf 11 20)
 lumex_test_standards_declare_variant(unicode.utf no_simd 11 20)
+# units: the catalog is header-only C++11; the suites run at every standard.
+lumex_test_standards_declare(units 11 14 17 20)
+# units two_product and exact: the same suites with the route of the converter
+# forced (LUMEX_UNITS_ROUTE 2 and 3): Dekker's two-product and the product in
+# integers, in place of the fused multiply-add of the default build.
+lumex_test_standards_declare_variant(units two_product 11 20)
+lumex_test_standards_declare_variant(units exact 11)
+# units unsafe_math: the same suites compiled with -funsafe-math-optimizations
+# (cl.exe and clang-cl: /fp:fast), where the compiler may reassociate.
+lumex_test_standards_declare_variant(units unsafe_math 11)
 lumex_test_standards_declare(hardware 11)
 lumex_test_standards_declare(logging 11)
 lumex_test_standards_declare(serial 11)

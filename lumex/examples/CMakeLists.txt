@@ -150,6 +150,12 @@ else()
     message(STATUS "Skipping unicode examples (LUMEX_BUILD_CORE or LUMEX_BUILD_UNICODE is OFF)")
 endif()
 
+if(LUMEX_BUILD_CORE AND LUMEX_BUILD_UNITS)
+    add_subdirectory(units)
+else()
+    message(STATUS "Skipping units examples (LUMEX_BUILD_CORE or LUMEX_BUILD_UNITS is OFF)")
+endif()
+
 if(LUMEX_BUILD_CORE AND LUMEX_BUILD_UTILITY)
     add_subdirectory(utility)
 else()

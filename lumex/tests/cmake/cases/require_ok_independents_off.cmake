@@ -4,6 +4,8 @@ include("${LUMEX_SOURCE_DIR}/lumex/tests/cmake/setup_all_on.cmake")
 set(LUMEX_BUILD_ATOMIC OFF)
 set(LUMEX_BUILD_CIRCULAR_BUFFER OFF)
 set(LUMEX_BUILD_EXPECTED OFF)
+# units links expected.
+set(LUMEX_BUILD_UNITS OFF)
 # framing and interprocess link expected.
 set(LUMEX_BUILD_FRAMING OFF)
 set(LUMEX_BUILD_INTERPROCESS OFF)

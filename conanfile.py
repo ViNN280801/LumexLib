@@ -199,6 +199,11 @@ class LumexLibConan(ConanFile):
         contracts.defines = ["LUMEX_CONTRACTS_BUILD_SEMANTIC=enforce"]
         self._component("core_expected", "expected", requires=["core_utility"])
         self._component("core_unicode", "unicode", requires=["core_utility"])
+        self._component(
+            "core_units", "units",
+            requires=["core_expected", "core_math", "core_string_view",
+                      "core_utility"],
+        )
         self._component("core_fmt", "fmt", requires=["core_utility"])
         self._component("core_reflection", "reflection",
                         requires=["core_utility"])

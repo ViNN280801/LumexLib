@@ -19,6 +19,8 @@ lumex_add_subdirectory_if(LUMEX_BUILD_SMART_PTR smart_ptr)
 lumex_add_subdirectory_if(LUMEX_BUILD_ATOMIC atomic)
 lumex_add_subdirectory_if(LUMEX_BUILD_CIRCULAR_BUFFER circular_buffer)
 lumex_add_subdirectory_if(LUMEX_BUILD_EXPECTED expected)
+# units links expected, math, string_view and utility: add it after them.
+lumex_add_subdirectory_if(LUMEX_BUILD_UNITS units)
 lumex_add_subdirectory_if(LUMEX_BUILD_GENERATORS generators)
 lumex_add_subdirectory_if(LUMEX_BUILD_STRING string)
 lumex_add_subdirectory_if(LUMEX_BUILD_FMT fmt)

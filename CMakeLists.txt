@@ -308,6 +308,7 @@ if(LUMEX_INSTALL)
         LumexCore_temporary
         LumexCore_time
         LumexCore_unicode
+        LumexCore_units
         LumexCore_utility
     )
 

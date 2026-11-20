@@ -46,7 +46,7 @@ foreach(_tgt
         LumexCore_fmt LumexCore_framing LumexCore_protocol LumexCore_hazard_pointer LumexCore_interprocess
         LumexCore_contracts LumexCore_smart_ptr
         LumexCore_string_view LumexCore_temporary LumexCore_time
-        LumexCore_unicode LumexCore_utility
+        LumexCore_unicode LumexCore_units LumexCore_utility
         LumexApplied_hardware LumexApplied_json LumexApplied_logger
         LumexApplied_logging
         LumexApplied_resource_monitor LumexApplied_serial LumexApplied_settings

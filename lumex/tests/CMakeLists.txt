@@ -177,6 +177,38 @@ lumex_add_subdirectory_if(LUMEX_BUILD_CORE core)
 lumex_add_subdirectory_if(LUMEX_BUILD_XML xml)
 lumex_add_subdirectory_if(LUMEX_BUILD_FUZZERS fuzz)
 
+# The C++ data of the units tests (lumex/tests/core/units/oracle) is what the
+# oracle script writes: a catalog test compares every row with it, so a file
+# that was edited by hand, or an oracle that changed without regenerating it,
+# must fail here. Needs Python 3.8 or later (the script uses the standard
+# library only); without an interpreter the test is not registered.
+if(Python3_Interpreter_FOUND AND LUMEX_BUILD_CORE AND LUMEX_BUILD_UNITS)
+    set(_ctest_name units.oracle_up_to_date)
+    add_test(NAME ${_ctest_name}
+        COMMAND ${Python3_EXECUTABLE} -I
+            ${LumexLib_SOURCE_DIR}/lumex/tests/core/units/oracle/oracle_units.py
+            --check
+            ${LumexLib_SOURCE_DIR}/lumex/tests/core/units/oracle/LumexUnitsOracleData.hpp
+    )
+    set_tests_properties(${_ctest_name} PROPERTIES LABELS "lint")
+endif()
+
+# The headers and the umbrella of core/units are ASCII: the symbols are UTF-8
+# escapes and the comments name a character as U+XXXX, so that a unit compiles
+# the same with and without /utf-8 (cl.exe reports C4819, an error under /WX,
+# for a byte that the code page of the source cannot represent).
+if(Python3_Interpreter_FOUND AND LUMEX_BUILD_CORE AND LUMEX_BUILD_UNITS)
+    add_test(NAME lint.units_ascii
+        COMMAND ${Python3_EXECUTABLE} -I
+            ${LumexLib_SOURCE_DIR}/Scripts/CodeTools/check_ascii_files.py
+            --check
+            ${LumexLib_SOURCE_DIR}/lumex/core/units/LumexUnits
+            ${LumexLib_SOURCE_DIR}/lumex/core/units/api
+            ${LumexLib_SOURCE_DIR}/lumex/core/units/data
+    )
+    set_tests_properties(lint.units_ascii PROPERTIES LABELS "lint")
+endif()
+
 # The dispatch of the UTF-8 validation (core/unicode) on CPUs that this machine
 # does not have: the C++11 suite of lumex/tests/core/unicode/utf under
 # qemu-x86_64 or qemu-i386 (qemu-user) with the model of an older CPU, and the variant that

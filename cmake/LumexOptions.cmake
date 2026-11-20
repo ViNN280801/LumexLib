@@ -57,6 +57,7 @@ option(LUMEX_BUILD_STRING_VIEW "Build core/string_view" ON)
 option(LUMEX_BUILD_TEMPORARY "Build core/temporary" ON)
 option(LUMEX_BUILD_TIME "Build core/time" ON)
 option(LUMEX_BUILD_UNICODE "Build core/unicode (header-only UTF-8/16/32 and Latin-1 transcoding)" ON)
+option(LUMEX_BUILD_UNITS "Build core/units (header-only catalog of units of measurement: SI, GOST 8.417-2024, CGS; exact factors, prefixes, symbols)" ON)
 option(LUMEX_BUILD_UTILITY "Build core/utility" ON)
 
 # Applied

@@ -74,7 +74,11 @@ foreach(_edge
         "lumex_require_module(LUMEX_BUILD_TRANSPORT LUMEX_BUILD_SERIAL)"
         "lumex_require_module(LUMEX_BUILD_TRANSPORT LUMEX_BUILD_SPAN)"
         "lumex_require_module(LUMEX_BUILD_TRANSPORT LUMEX_BUILD_UTILITY)"
-        "lumex_require_module(LUMEX_BUILD_SMART_PTR LUMEX_BUILD_UTILITY)")
+        "lumex_require_module(LUMEX_BUILD_SMART_PTR LUMEX_BUILD_UTILITY)"
+        "lumex_require_module(LUMEX_BUILD_UNITS LUMEX_BUILD_EXPECTED)"
+        "lumex_require_module(LUMEX_BUILD_UNITS LUMEX_BUILD_MATH)"
+        "lumex_require_module(LUMEX_BUILD_UNITS LUMEX_BUILD_STRING_VIEW)"
+        "lumex_require_module(LUMEX_BUILD_UNITS LUMEX_BUILD_UTILITY)")
     string(FIND "${_mod}" "${_edge}" _pos)
     if(_pos EQUAL -1)
         message(FATAL_ERROR "missing dependency edge: ${_edge}")

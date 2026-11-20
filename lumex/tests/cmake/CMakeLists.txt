@@ -156,6 +156,7 @@ lumex_add_cmake_test(wiring_span)
 lumex_add_cmake_test(wiring_string_view)
 lumex_add_cmake_test(wiring_string_view_export)
 lumex_add_cmake_test(wiring_unicode_users)
+lumex_add_cmake_test(wiring_units)
 lumex_add_cmake_test(wiring_hazard_pointer)
 lumex_add_cmake_test(wiring_hazard_pointer_export)
 lumex_add_cmake_test(wiring_contracts)
@@ -251,6 +252,13 @@ lumex_add_cmake_fail_test(require_fail_xml_without_unicode
     "LUMEX_BUILD_XML is enabled but requires LUMEX_BUILD_UNICODE")
 lumex_add_cmake_fail_test(require_fail_unicode_without_utility
     "LUMEX_BUILD_UNICODE is enabled but requires LUMEX_BUILD_UTILITY")
+# units links expected, math, string_view and utility; its edges are checked
+# last, so each case switches off the module it tests and every module that
+# is checked before units and requires that module.
+lumex_add_cmake_fail_test(require_fail_units_without_expected
+    "LUMEX_BUILD_UNITS is enabled but requires LUMEX_BUILD_EXPECTED")
+lumex_add_cmake_fail_test(require_fail_units_without_string_view
+    "LUMEX_BUILD_UNITS is enabled but requires LUMEX_BUILD_STRING_VIEW")
 # filesystem, serial, hardware and resource_monitor link unicode (their sources
 # convert wchar_t text with to_utf8 / to_wide). Each case switches off the
 # modules checked before it (xml, then the other three in the order of

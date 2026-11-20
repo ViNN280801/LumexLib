@@ -1,0 +1,61 @@
+/*
+ * Copyright (c) 2026 Vladislav Semykin <vladislav.semykin@gmail.com>
+ *
+ *
+ * SPDX-License-Identifier: MIT
+ *
+ * Permission is hereby granted, free of
+ * charge, to any person obtaining a copy
+ * of this software and associated
+ * documentation files (the "Software"), to deal
+ * in the Software without
+ * restriction, including without limitation the rights
+ * to use, copy,
+ * modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the
+ * Software, and to permit persons to whom the Software is
+ * furnished to do
+ * so, subject to the following conditions:
+ *
+ * The above copyright notice
+ * and this permission notice shall be included in
+ * all copies or substantial
+ * portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT
+ * WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO
+ * THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH
+ * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+/**
+ * @file LumexUnits
+ * @brief Units module: a header-only catalog of the units of measurement (the
+ * SI, the units of GOST 8.417-2024, the CGS units and the standard atmosphere)
+ * with their symbols in two scripts, the 24 SI prefixes, exact conversion
+ * factors, a lookup of a symbol and the conversion of a value.
+ * @details Link <tt>%lumex::units</tt> (header-only). Works from C++11. The
+ * umbrella includes `data/LumexUnitsData.hpp` (the enumerations, the
+ * aggregates and the catalog as X-macros; it uses nothing but `<cstddef>` and
+ * `<cstdint>`) and `api/LumexUnitsApi.hpp` (the lookup, the formatting of a
+ * symbol, the exact `ratio` and the conversions `convert`, `convert_point`
+ * and `convert_difference`). The names are in `lumex::core::units` and are
+ * not injected into the global namespace; the helpers of the API are in
+ * `lumex::core::units::detail`.
+ *
+ * The international symbols follow the SI Brochure, 9th edition, version 4.01,
+ * the Russian ones GOST 8.417-2024; the measured values (the dalton) are those
+ * of CODATA 2022. The rows that the two amendments of 2025 to the GOST may
+ * touch were not checked against them.
+ */
+#include "api/LumexUnitsApi.hpp"
+#include "data/LumexUnitsData.hpp"

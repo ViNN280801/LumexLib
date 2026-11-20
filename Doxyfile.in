@@ -988,6 +988,7 @@ INPUT                  = lumex/ \
                          lumex/applied/logger/README.md \
                          lumex/applied/transport/README.md \
                          lumex/core/protocol/README.md \
+                         lumex/core/units/README.md \
                          @LUMEX_DOXYGEN_UMBRELLAS@
 
 # This tag can be used to specify the character encoding of the source files
