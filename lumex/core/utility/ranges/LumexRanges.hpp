@@ -445,6 +445,7 @@ template <typename Predicate, typename Projection> struct element_before_value
   // aggregate it copies into `std::lower_bound`, an error under /sdl; without
   // /sdl, /RTC1 (the Debug default of CMake) stops the program at run time
   // with Run-Time Check Failure #3.
+  LUMEX_CONSTEXPR_CTOR
   element_before_value (Predicate const &given_predicate,
                         Projection const &given_projection)
       : predicate (given_predicate), projection (given_projection)

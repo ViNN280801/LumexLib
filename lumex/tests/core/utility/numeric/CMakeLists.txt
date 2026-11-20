@@ -13,17 +13,20 @@
 # <ranges> or <compare>) reports GTEST_SKIP.
 # LumexNumericSamples.hpp holds the value tables and the exact reference that
 # the three-way tests of several standards share.
-# STANDARDS narrows the module's row to 11 17 20 for this directory. Nothing in
-# its tests or in the sources they test differs at C++14, C++23 and C++26 from
-# the next lower standard (the text of the directory's own files after
+# STANDARDS narrows the module's row to 11 14 17 20 for this directory. Nothing
+# in its tests or in the sources they test differs at C++23 and C++26 from the
+# next lower standard (the text of the directory's own files after
 # preprocessing is the same, no __cplusplus threshold or LUMEX_HAS_* feature of
 # those standards is used there; "Narrowing the row of one directory" in
 # lumex/tests/LumexTestStandards.cmake), so the dropped suites would run the
-# same code again; the suite names above for them do not exist.
+# same code again; the suite names above for them do not exist. C++14 stays:
+# the move constructor and the assignments of safe_comparator are constexpr
+# from C++14 (LUMEX_CONSTEXPR_CXX14), tested in
+# LumexSafeNumericComparatorLiteral.cxx11.tests.cpp.
 lumex_add_standard_suites(UtilityNumeric
     MODULE utility
     LINK lumex::utility "$<$<PLATFORM_ID:Windows>:dbghelp>"
     SOURCES LumexNumericSamples.hpp
     DISCOVER_ARGS DISCOVERY_TIMEOUT 60
-    STANDARDS 11 17 20
+    STANDARDS 11 14 17 20
 )

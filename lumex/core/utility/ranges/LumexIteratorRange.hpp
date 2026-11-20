@@ -60,6 +60,7 @@
 
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
 #include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
+#include "lumex/core/utility/macros/LumexKeywords.hpp"
 
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 {
@@ -96,6 +97,7 @@ public:
    * @param[in] begin Iterator pointing to the first element of the range.
    * @param[in] end Iterator pointing to the position after the last element.
    */
+  LUMEX_CONSTEXPR_CTOR
   iterator_range (Iterator begin, Iterator end) : m_begin (begin), m_end (end)
   {
   }

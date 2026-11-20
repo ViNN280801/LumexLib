@@ -461,8 +461,9 @@ public:
                     && std::is_trivially_move_constructible<T>::value,
                 int>::type
             = 0>
-  constexpr optional (StdOptional const &other) noexcept (
-      std::is_nothrow_copy_constructible<T>::value)
+  LUMEX_CONSTEXPR_CTOR
+  optional (StdOptional const &other)
+      LUMEX_NOEXCEPT_IF (std::is_nothrow_copy_constructible<T>::value)
       : optional (other.has_value () ? optional (in_place, *other)
                                      : optional ())
   {
@@ -478,8 +479,8 @@ public:
                 int>::type
             = 0>
   LUMEX_OPTIONAL_CONSTEXPR_CXX20
-  optional (StdOptional const &other) noexcept (
-      std::is_nothrow_copy_constructible<T>::value)
+  optional (StdOptional const &other)
+      LUMEX_NOEXCEPT_IF (std::is_nothrow_copy_constructible<T>::value)
       : m_p ()
   {
     if (other.has_value ())
@@ -501,8 +502,9 @@ public:
                     && std::is_trivially_move_constructible<T>::value,
                 int>::type
             = 0>
-  constexpr optional (StdOptional &&other) noexcept (
-      std::is_nothrow_move_constructible<T>::value)
+  LUMEX_CONSTEXPR_CTOR
+  optional (StdOptional &&other)
+      LUMEX_NOEXCEPT_IF (std::is_nothrow_move_constructible<T>::value)
       : optional (other.has_value () ? optional (in_place, std::move (*other))
                                      : optional ())
   {
@@ -517,8 +519,8 @@ public:
                 int>::type
             = 0>
   LUMEX_OPTIONAL_CONSTEXPR_CXX20
-  optional (StdOptional &&other) noexcept (
-      std::is_nothrow_move_constructible<T>::value)
+  optional (StdOptional &&other)
+      LUMEX_NOEXCEPT_IF (std::is_nothrow_move_constructible<T>::value)
       : m_p ()
   {
     if (other.has_value ())
@@ -540,7 +542,7 @@ public:
                 int>::type
             = 0>
   constexpr
-  operator StdOptional () const & noexcept (
+  operator StdOptional () const &LUMEX_NOEXCEPT_IF (
       std::is_nothrow_copy_constructible<T>::value)
   {
     return m_p.m_engaged ? std::optional<T> (m_p.m_u.value)
@@ -560,9 +562,9 @@ public:
                     && std::is_move_constructible<T>::value,
                 int>::type
             = 0>
-  constexpr
-  operator StdOptional () && noexcept (
-      std::is_nothrow_move_constructible<T>::value)
+      constexpr
+      operator StdOptional ()
+      && LUMEX_NOEXCEPT_IF (std::is_nothrow_move_constructible<T>::value)
   {
     return m_p.m_engaged ? std::optional<T> (static_cast<T &&> (m_p.m_u.value))
                          : std::optional<T> ();

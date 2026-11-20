@@ -78,6 +78,7 @@ template <typename ValueType> struct success_t
    * @note Not declared `noexcept`; throws whatever the copy constructor of
    * `ValueType` throws.
    */
+  LUMEX_CONSTEXPR_CTOR
   explicit success_t (ValueType const &value) : m_value (value) {}
 
   /**
@@ -86,7 +87,11 @@ template <typename ValueType> struct success_t
    * @note Not declared `noexcept`; throws whatever the move constructor of
    * `ValueType` throws.
    */
-  explicit success_t (ValueType &&value) : m_value (std::move (value)) {}
+  LUMEX_CONSTEXPR_CTOR
+  explicit success_t (ValueType &&value)
+      : m_value (static_cast<ValueType &&> (value))
+  {
+  }
 
   /**
    * @brief Returns the stored value (mutable lvalue).
@@ -215,6 +220,7 @@ template <typename ErrorType> struct failure_t
    * @note Not declared `noexcept`; throws whatever the copy constructor of
    * `ErrorType` throws.
    */
+  LUMEX_CONSTEXPR_CTOR
   explicit failure_t (ErrorType const &error) : m_error (error) {}
 
   /**
@@ -223,7 +229,11 @@ template <typename ErrorType> struct failure_t
    * @note Not declared `noexcept`; throws whatever the move constructor of
    * `ErrorType` throws.
    */
-  explicit failure_t (ErrorType &&error) : m_error (std::move (error)) {}
+  LUMEX_CONSTEXPR_CTOR
+  explicit failure_t (ErrorType &&error)
+      : m_error (static_cast<ErrorType &&> (error))
+  {
+  }
 
   /**
    * @brief Returns the stored error (const lvalue).

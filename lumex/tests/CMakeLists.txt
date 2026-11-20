@@ -65,6 +65,38 @@ else()
     message(STATUS "Skipping lint.no_typedef: no Python 3 interpreter")
 endif()
 
+# No constructor or destructor under lumex/ spells `constexpr` by hand (or with
+# LUMEX_CONSTEXPR, the macro of a function): LUMEX_CONSTEXPR_CTOR,
+# LUMEX_CONSTEXPR_DTOR and the DEFAULTED and VIRTUAL forms of
+# lumex/core/utility/macros/LumexKeywords.hpp say per standard where the
+# specifier may stand (todo 108). The modules that are not done yet are listed
+# below, one per line: the modules with known hits. A line goes when the group
+# that fixes its module lands, and the list is empty when the whole tree
+# passes. A module that is not in the list is checked now. Groups: string_view
+# in group 2, atomic in group 3, fmt in group 6 (together with contracts,
+# framing, interprocess, protocol, reflection and smart_ptr).
+if(Python3_Interpreter_FOUND)
+    set(LUMEX_CONSTEXPR_SPECIAL_MEMBERS_PENDING
+        lumex/core/string_view
+        lumex/core/atomic
+        lumex/core/fmt)
+    set(_constexpr_skip_args "")
+    foreach(_pending IN LISTS LUMEX_CONSTEXPR_SPECIAL_MEMBERS_PENDING)
+        list(APPEND _constexpr_skip_args --skip ${_pending})
+    endforeach()
+    add_test(NAME lint.constexpr_special_members
+        COMMAND ${Python3_EXECUTABLE}
+            ${LumexLib_SOURCE_DIR}/Scripts/CodeTools/check_constexpr_special_members.py
+            --check --dir ${LumexLib_SOURCE_DIR}/lumex
+            ${_constexpr_skip_args}
+    )
+    set_tests_properties(lint.constexpr_special_members PROPERTIES
+        LABELS "lint")
+else()
+    message(STATUS
+        "Skipping lint.constexpr_special_members: no Python 3 interpreter")
+endif()
+
 # No `#pragma warning` or `#pragma comment` outside _MSC_VER: GCC and MinGW
 # report them as unknown pragmas, which stops a -Werror build. Same Python
 # 3.7+ interpreter as above.

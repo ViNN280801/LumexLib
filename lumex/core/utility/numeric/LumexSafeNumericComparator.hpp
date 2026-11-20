@@ -1946,6 +1946,14 @@ using three_way_comparison_result_t =
  * which is 16 bytes on x86-64 GCC and needs `libatomic` (`__atomic_load_16`
  * and the like): a program that uses it links with `-latomic`. The other
  * atomic comparators need nothing of the kind on x86-64.
+ * @note The default (Atomic=false), value and copy constructors are constexpr
+ * from C++11, the move constructor and both assignments from C++14. The class
+ * is a literal type for both values of `Atomic`: `safe_comparator<int, true>`
+ * can be built by its value constructor in a constant expression and
+ * constant-initialized (`constinit` at C++20), so a global atomic comparator
+ * has no dynamic initialization. For `Atomic=true` the copy, the move and the
+ * assignments read and write a `std::atomic` and are not constant
+ * expressions.
  */
 template <typename T, bool Atomic = false> class safe_comparator
 {
@@ -1985,7 +1993,7 @@ private:
    * performance
    */
   template <bool A = Atomic>
-  typename std::enable_if<!A, void>::type
+  LUMEX_CONSTEXPR_CXX14 typename std::enable_if<!A, void>::type
   atomic_store (clean_T value,
                 std::memory_order /* unused */ = std::memory_order_seq_cst)
       LUMEX_NOEXCEPT
@@ -2017,7 +2025,7 @@ private:
    * @note Specialization for Atomic=false: direct read for maximum performance
    */
   template <bool A = Atomic>
-  typename std::enable_if<!A, clean_T>::type
+  LUMEX_CONSTEXPR typename std::enable_if<!A, clean_T>::type
   atomic_load (std::memory_order /* unused */ = std::memory_order_seq_cst)
       const LUMEX_NOEXCEPT
   {
@@ -2033,6 +2041,7 @@ public:
    *          For atomic types this is a thread-safe operation.
    * @note No-throw; thread-safe when Atomic=true
    */
+  LUMEX_CONSTEXPR_CTOR
   safe_comparator () LUMEX_NOEXCEPT : m_value{} {}
 
   /**
@@ -2042,7 +2051,7 @@ public:
    *          For atomic types, initialization is atomic.
    * @note No-throw; thread-safe when Atomic=true
    */
-  explicit safe_comparator (T value) LUMEX_NOEXCEPT
+  LUMEX_CONSTEXPR_CTOR explicit safe_comparator (T value) LUMEX_NOEXCEPT
       : m_value (static_cast<clean_T> (value))
   {
   }
@@ -2054,6 +2063,7 @@ public:
    *          For atomic types, copy uses an atomic load.
    * @note No-throw; thread-safe when Atomic=true
    */
+  LUMEX_CONSTEXPR_CTOR
   safe_comparator (safe_comparator const &other) LUMEX_NOEXCEPT
       : m_value (other.atomic_load ())
   {
@@ -2068,6 +2078,7 @@ public:
    * (std::atomic cannot be moved, and std::exchange is C++14).
    * @note No-throw, maximum performance
    */
+  LUMEX_CONSTEXPR_CXX14
   safe_comparator (safe_comparator &&other) LUMEX_NOEXCEPT
       : m_value (other.atomic_load ())
   {
@@ -2082,7 +2093,7 @@ public:
    *          Guards against self-assignment.
    * @note No-throw; thread-safe when Atomic=true
    */
-  safe_comparator &
+  LUMEX_CONSTEXPR_CXX14 safe_comparator &
   operator= (safe_comparator const &other) LUMEX_NOEXCEPT
   {
     if (this != &other)
@@ -2098,7 +2109,7 @@ public:
    * object. Guards against self-assignment.
    * @note No-throw, maximum performance
    */
-  safe_comparator &
+  LUMEX_CONSTEXPR_CXX14 safe_comparator &
   operator= (safe_comparator &&other) LUMEX_NOEXCEPT
   {
     if (this != &other)

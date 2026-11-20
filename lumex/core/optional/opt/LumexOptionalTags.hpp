@@ -81,7 +81,7 @@ struct nullopt_t
   /**
    * @brief Explicit constructor for `nullopt_t`.
    */
-  explicit LUMEX_CONSTEXPR
+  explicit LUMEX_CONSTEXPR_CTOR
   nullopt_t (init_tag /*unused*/)
   {
   }
@@ -122,7 +122,7 @@ struct in_place_t
   /**
    * @brief Explicit constructor for `in_place_t`.
    */
-  explicit LUMEX_CONSTEXPR
+  explicit LUMEX_CONSTEXPR_CTOR
   in_place_t (init_tag /*unused*/)
   {
   }

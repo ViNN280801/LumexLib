@@ -73,6 +73,23 @@ static_assert (read_both (three, empty_int) == 3, "");
 // names the form), with the same base defect as value () &&.
 static_assert (static_cast<optional<int> const &&> (three).value () == 3,
                "M14: constexpr value () const && (C++11)");
+
+// The tags are literal: their constructors are LUMEX_CONSTEXPR_CTOR, and every
+// class of the module that can be literal has a trivial destructor for a
+// trivially destructible T (todo 108).
+constexpr lumex::core::optional::opt::nullopt_t
+    tag_null (lumex::core::optional::opt::nullopt_t::init_tag{});
+constexpr lumex::core::optional::opt::in_place_t
+    tag_place (lumex::core::optional::opt::in_place_t::init_tag{});
+static_assert (std::is_trivially_destructible<optional<int>>::value
+                   && std::is_trivially_destructible<
+                       lumex::core::optional::opt::nullopt_t>::value
+                   && std::is_trivially_destructible<
+                       lumex::core::optional::opt::in_place_t>::value,
+               "literal-ness: trivial destructors");
+static_assert (optional<int> (tag_place, 6).has_value ()
+                   && !optional<int> (tag_null).has_value (),
+               "the tags built in a constant expression work as the globals");
 } // namespace
 
 // A type with a non-trivial destructor is not a literal type before C++20;

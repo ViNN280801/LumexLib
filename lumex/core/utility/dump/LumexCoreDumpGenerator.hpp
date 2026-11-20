@@ -478,12 +478,13 @@ class dump_configuration
 {
 public:
   // Constructors and assignment operators
-  dump_configuration () noexcept = default;
-  ~dump_configuration () noexcept = default;
+  dump_configuration () LUMEX_NOEXCEPT = default;
+  ~dump_configuration () LUMEX_NOEXCEPT = default;
 
   // Move constructor and assignment for performance
-  dump_configuration (dump_configuration &&) noexcept = default;
-  dump_configuration &operator= (dump_configuration &&) noexcept = default;
+  dump_configuration (dump_configuration &&) LUMEX_NOEXCEPT = default;
+  dump_configuration &operator= (dump_configuration &&) LUMEX_NOEXCEPT
+      = default;
 
   // Copy constructor and assignment
   dump_configuration (dump_configuration const &) = default;
@@ -1096,7 +1097,7 @@ public:
   core_dump_generator &operator= (core_dump_generator const &) = delete;
   core_dump_generator (core_dump_generator &&) = delete;
   core_dump_generator &operator= (core_dump_generator &&) = delete;
-  ~core_dump_generator () noexcept
+  ~core_dump_generator () LUMEX_NOEXCEPT
   {
 #if (LUMEX_OS_IS_UNIX() || LUMEX_OS_IS_ANDROID())
     // Stop instant systemd monitor thread
@@ -1833,8 +1834,8 @@ private:
   class operation_guard
   {
   public:
-    operation_guard () noexcept;
-    ~operation_guard () noexcept;
+    operation_guard () LUMEX_NOEXCEPT;
+    ~operation_guard () LUMEX_NOEXCEPT;
     operation_guard (operation_guard const &) = delete;
     operation_guard &operator= (operation_guard const &) = delete;
     operation_guard (operation_guard &&) = delete;
@@ -2670,7 +2671,7 @@ core_dump_generator::_update_cache () const noexcept
 }
 
 // operation_guard implementation
-inline core_dump_generator::operation_guard::operation_guard () noexcept
+inline core_dump_generator::operation_guard::operation_guard () LUMEX_NOEXCEPT
 {
   m_acquired = _acquire_operation_slot ();
   if (!m_acquired)
@@ -2680,7 +2681,7 @@ inline core_dump_generator::operation_guard::operation_guard () noexcept
     }
 }
 
-inline core_dump_generator::operation_guard::~operation_guard () noexcept
+inline core_dump_generator::operation_guard::~operation_guard () LUMEX_NOEXCEPT
 {
   if (m_acquired)
     _release_operation_slot ();
