@@ -29,6 +29,9 @@
 #                              each called directly (skipped when this build
 #                              or this machine has none) against the scalar
 #                              routine, and the choice of the routine.
+#   (same suite)               LumexUtfLiteral.cxx11.tests.cpp: the counters,
+#                              writers and decoders are empty trivial literal
+#                              types.
 #   LumexUnicodeUtfCxx20Tests  the same files at C++20, and
 #                              LumexUtf8Validate.cxx20.tests.cpp: the char8_t
 #                              overloads of the validation (u8 literals and

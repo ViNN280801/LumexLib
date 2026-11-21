@@ -366,6 +366,7 @@ public:
    * @brief Default constructor. Creates a successful result with a
    * default-constructed value and no error.
    */
+  LUMEX_CONSTEXPR_CTOR
   filesystem_result () : m_value (), m_success (true), m_error_code (0) {}
 
   /**
@@ -490,6 +491,7 @@ public:
   /**
    * @brief Default constructor. Creates a successful result with no error.
    */
+  LUMEX_CONSTEXPR_CTOR
   filesystem_result () : m_success (true), m_error_code (0) {}
 
   /**
@@ -1119,6 +1121,7 @@ public:
    * @brief Default constructor. Initializes with `file_type::none` and
    * `perms::unknown`.
    */
+  LUMEX_CONSTEXPR_CTOR
   file_status () : m_type (file_type::none), m_perms (perms::unknown) {}
   /**
    * @brief Constructs a `file_status` object with a specified file type and
@@ -1126,6 +1129,7 @@ public:
    * @param type The `file_type` of the entry.
    * @param p The `perms` of the entry. Defaults to `perms::unknown`.
    */
+  LUMEX_CONSTEXPR_CTOR
   explicit file_status (file_type type, perms p = perms::unknown)
       : m_type (type), m_perms (p)
   {

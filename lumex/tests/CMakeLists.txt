@@ -72,12 +72,11 @@ endif()
 # specifier may stand (todo 108). The modules that are not done yet are listed
 # below, one per line: the modules with known hits. A line goes when the group
 # that fixes its module lands, and the list is empty when the whole tree
-# passes. A module that is not in the list is checked now. Groups: string_view
-# in group 2, atomic in group 3, fmt in group 6 (together with contracts,
-# framing, interprocess, protocol, reflection and smart_ptr).
+# passes. A module that is not in the list is checked now. Groups: atomic in
+# group 3, fmt in group 6 (together with contracts, framing, interprocess,
+# protocol, reflection and smart_ptr).
 if(Python3_Interpreter_FOUND)
     set(LUMEX_CONSTEXPR_SPECIAL_MEMBERS_PENDING
-        lumex/core/string_view
         lumex/core/atomic
         lumex/core/fmt)
     set(_constexpr_skip_args "")

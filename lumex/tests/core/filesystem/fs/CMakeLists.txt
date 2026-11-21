@@ -1,8 +1,11 @@
 # lumex/tests/core/filesystem/fs/CMakeLists.txt
 
 # One suite per standard of the module (lumex/tests/LumexTestStandards.cmake):
-#   LumexFilesystemFsCxx11Tests  LumexFilesystem.cxx11.tests.cpp and
+#   LumexFilesystemFsCxx11Tests  LumexFilesystem.cxx11.tests.cpp,
 #                                LumexFilesystemReplaceFileContent.cxx11.tests.cpp
+#                                and LumexFilesystemLiteral.cxx11.tests.cpp (the
+#                                literal types file_status, space_info and
+#                                filesystem_result)
 #   LumexFilesystemFsCxx17Tests  the same files at C++17 and
 #                                LumexFilesystemStdPath.cxx17.tests.cpp: the
 #                                conversions between lumex::path and

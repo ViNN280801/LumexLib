@@ -1149,7 +1149,7 @@ public:
   /**
    * @brief Creates an empty view: `data()` is `nullptr`, `size()` is `0`.
    */
-  LUMEX_CONSTEXPR
+  LUMEX_CONSTEXPR_CTOR
   lumex_basic_string_view () LUMEX_NOEXCEPT : m_data (nullptr), m_size (0) {}
 
   /**
@@ -1159,7 +1159,7 @@ public:
    * @param str The string.
    * @note Complexity: O(N), `strlen`.
    */
-  LUMEX_CONSTEXPR
+  LUMEX_CONSTEXPR_CTOR
   lumex_basic_string_view (
       CharT const *str) // NOLINT(google-explicit-constructor)
       LUMEX_NOEXCEPT : m_data (str),
@@ -1171,7 +1171,7 @@ public:
    * @brief Views `len` characters from `str`.
    * @details `str` may be `nullptr` when `len` is 0.
    */
-  LUMEX_CONSTEXPR
+  LUMEX_CONSTEXPR_CTOR
   lumex_basic_string_view (CharT const *str, size_type len) LUMEX_NOEXCEPT
       : m_data (str),
         m_size (len)
@@ -1183,7 +1183,7 @@ public:
    * @param str The string; it must outlive the view.
    */
   template <class Allocator>
-  LUMEX_CONSTEXPR
+  LUMEX_CONSTEXPR_CTOR
   lumex_basic_string_view ( // NOLINT(google-explicit-constructor)
       std::basic_string<CharT, Traits, Allocator> const &str) LUMEX_NOEXCEPT
       : m_data (str.data ()),
@@ -1203,7 +1203,7 @@ public:
           std::is_same<StdView, std::basic_string_view<CharT, Traits>>::value,
           int>::type
       = 0>
-  LUMEX_CONSTEXPR
+  LUMEX_CONSTEXPR_CTOR
   lumex_basic_string_view (StdView view) // NOLINT(google-explicit-constructor)
       LUMEX_NOEXCEPT : m_data (view.data ()),
                        m_size (view.size ())
@@ -1220,7 +1220,7 @@ public:
   template <std::contiguous_iterator It, std::sized_sentinel_for<It> End>
     requires (std::is_same_v<std::iter_value_t<It>, CharT>
               && !std::is_convertible_v<End, size_type>)
-  LUMEX_CONSTEXPR
+  LUMEX_CONSTEXPR_CTOR
   lumex_basic_string_view (It first, End last) LUMEX_NOEXCEPT_IF (
       noexcept (last - first) && noexcept (std::to_address (first)))
       : m_data (std::to_address (first)),
@@ -1241,7 +1241,7 @@ public:
                     && std::is_convertible<End, CharT const *>::value,
                 int>::type
             = 0>
-  LUMEX_CONSTEXPR
+  LUMEX_CONSTEXPR_CTOR
   lumex_basic_string_view (It first, End last) LUMEX_NOEXCEPT
       : m_data (first),
         m_size (static_cast<size_type> (last - first))
@@ -1267,7 +1267,7 @@ public:
                     CharT, Traits>::value,
                 int>::type
             = 0>
-  explicit LUMEX_CONSTEXPR
+  explicit LUMEX_CONSTEXPR_CTOR
   lumex_basic_string_view (Range &&range)
       LUMEX_NOEXCEPT_IF (noexcept (range.data ()) && noexcept (range.size ()))
       : m_data (range.data ()), m_size (static_cast<size_type> (range.size ()))
