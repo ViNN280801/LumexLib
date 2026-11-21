@@ -303,12 +303,14 @@ public:
                                   T &>::type; ///< Reference type.
 
     /// @brief Default constructor. Creates a singular iterator.
+    LUMEX_CONSTEXPR_CTOR
     basic_iterator () : m_buf (nullptr), m_idx (0) {}
 
     /// @brief Conversion from the non-const iterator to the const iterator.
     /// @param other Source iterator.
     template <bool OtherConst,
               class = typename std::enable_if<IsConst && !OtherConst>::type>
+    LUMEX_CONSTEXPR_CTOR
     basic_iterator (basic_iterator<OtherConst> const &other)
         : m_buf (other.m_buf), m_idx (other.m_idx)
     {
@@ -550,6 +552,7 @@ public:
     /// @brief Private constructor.
     /// @param buf Pointer to the circular_buffer that owns the iterator.
     /// @param idx Logical element index.
+    LUMEX_CONSTEXPR_CTOR
     basic_iterator (buffer_pointer buf, size_type idx)
         : m_buf (buf), m_idx (idx)
     {

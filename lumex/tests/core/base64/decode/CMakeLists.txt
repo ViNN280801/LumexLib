@@ -7,6 +7,8 @@
 #                                LumexBase64DecoderStringView.cxx11.tests.cpp:
 #                                the string overloads (string_type_t:
 #                                lumex_string_view in every standard)
+#                                LumexBase64Literal.cxx11.tests.cpp: encoder,
+#                                decoder and validator are empty literal types
 #   LumexBase64DecodeCxx17Tests  + LumexBase64Decoder.cxx17.tests.cpp:
 #                                std::string_view arguments
 #   LumexBase64DecodeCxx20Tests  the same files at C++20

@@ -156,15 +156,15 @@ public:
   /**
    * @brief Creates a word holding zero in both halves.
    */
-  LUMEX_CONSTEXPR
+  LUMEX_CONSTEXPR_CTOR
   dwcas_word () LUMEX_NOEXCEPT : lo_ (0u), hi_ (0u) {}
 
   /**
    * @brief Creates a word holding @p initial. Not an atomic operation.
    */
-  LUMEX_CONSTEXPR explicit dwcas_word (value_type initial) LUMEX_NOEXCEPT
-      : lo_ (initial.lo),
-        hi_ (initial.hi)
+  explicit LUMEX_CONSTEXPR_CTOR
+  dwcas_word (value_type initial) LUMEX_NOEXCEPT : lo_ (initial.lo),
+                                                   hi_ (initial.hi)
   {
   }
 

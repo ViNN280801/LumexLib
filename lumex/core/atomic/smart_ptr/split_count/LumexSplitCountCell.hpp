@@ -256,7 +256,7 @@ public:
   static LUMEX_CONSTEXPR bool is_always_lock_free = true;
 
   /// The empty value; usable for constant initialization.
-  LUMEX_CONSTEXPR
+  LUMEX_CONSTEXPR_CTOR
   split_count_cell () LUMEX_NOEXCEPT : epoch_wait_base (), word_ () {}
 
   /// Holds @p desired; terminates on a CPU without CMPXCHG16B.

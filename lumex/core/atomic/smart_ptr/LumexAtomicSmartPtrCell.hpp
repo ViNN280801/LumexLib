@@ -216,7 +216,7 @@ public:
   epoch_wait_base &operator= (epoch_wait_base const &) = delete;
 
 protected:
-  LUMEX_CONSTEXPR
+  LUMEX_CONSTEXPR_CTOR
   epoch_wait_base () LUMEX_NOEXCEPT : epoch_ (0u) {}
 
   ~epoch_wait_base () = default;
@@ -272,7 +272,7 @@ public:
 
   static LUMEX_CONSTEXPR bool is_always_lock_free = false;
 
-  LUMEX_CONSTEXPR
+  LUMEX_CONSTEXPR_CTOR
   lock_based_cell () LUMEX_NOEXCEPT : epoch_wait_base (), lock_ (), value_ ()
   {
   }
@@ -419,7 +419,7 @@ public:
   static LUMEX_CONSTEXPR bool is_always_lock_free
       = std::atomic<Pointer>::is_always_lock_free;
 
-  LUMEX_CONSTEXPR
+  LUMEX_CONSTEXPR_CTOR
   std_backed_cell () LUMEX_NOEXCEPT : epoch_wait_base (), value_ () {}
 
   explicit std_backed_cell (Pointer desired) LUMEX_NOEXCEPT

@@ -193,7 +193,7 @@ public:
   /**
    * @brief Creates a released lock.
    */
-  LUMEX_CONSTEXPR
+  LUMEX_CONSTEXPR_CTOR
   bit_lock () LUMEX_NOEXCEPT : word_ (0u) {}
 
   /**

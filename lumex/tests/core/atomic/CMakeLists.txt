@@ -11,8 +11,10 @@
 #               (x86-64; module key atomic.smart_ptr.split_count)
 #   sync/       the wait and the two-bit lock (LumexAtomicWait)
 #   this one    LumexAtomicGlobalNames.cxx11.tests.cpp, the test of the module
-#               umbrella, and LumexAtomicTestSupport.hpp, which both
-#               directories use
+#               umbrella, LumexAtomicConstantInit.cxx11.tests.cpp, the
+#               constant initialization of every engine and of the bit lock
+#               (their constructors take constexpr from LUMEX_CONSTEXPR_CTOR),
+#               and LumexAtomicTestSupport.hpp, which both directories use
 # Every directory has one suite per standard of the module and per variant
 # (lumex/tests/LumexTestStandards.cmake), each one built from the files of its
 # standard and the lower ones; the suites of this directory are

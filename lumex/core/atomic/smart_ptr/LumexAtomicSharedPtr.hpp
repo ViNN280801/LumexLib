@@ -149,14 +149,14 @@ public:
   /**
    * @brief Creates an object that holds an empty shared pointer.
    */
-  LUMEX_CONSTEXPR
+  LUMEX_CONSTEXPR_CTOR
   basic_atomic_shared_ptr () LUMEX_NOEXCEPT : cell_ () {}
 
   /**
    * @brief Creates an object that holds an empty shared pointer; usable for
    * constant initialization (LWG 3661).
    */
-  LUMEX_CONSTEXPR
+  LUMEX_CONSTEXPR_CTOR
   basic_atomic_shared_ptr (std::nullptr_t) LUMEX_NOEXCEPT : cell_ () {}
 
   /**
@@ -379,11 +379,11 @@ public:
   using value_type = typename base_type::value_type;
 
   /// Creates an object that holds an empty shared pointer.
-  LUMEX_CONSTEXPR
+  LUMEX_CONSTEXPR_CTOR
   atomic_shared_ptr_lock_based () LUMEX_NOEXCEPT : base_type () {}
 
   /// Creates an object that holds an empty shared pointer (LWG 3661).
-  LUMEX_CONSTEXPR
+  LUMEX_CONSTEXPR_CTOR
   atomic_shared_ptr_lock_based (std::nullptr_t) LUMEX_NOEXCEPT : base_type ()
   {
   }
@@ -423,11 +423,11 @@ public:
   using value_type = typename base_type::value_type;
 
   /// Creates an object that holds an empty shared pointer.
-  LUMEX_CONSTEXPR
+  LUMEX_CONSTEXPR_CTOR
   atomic_shared_ptr_std_backed () LUMEX_NOEXCEPT : base_type () {}
 
   /// Creates an object that holds an empty shared pointer (LWG 3661).
-  LUMEX_CONSTEXPR
+  LUMEX_CONSTEXPR_CTOR
   atomic_shared_ptr_std_backed (std::nullptr_t) LUMEX_NOEXCEPT : base_type ()
   {
   }
@@ -475,11 +475,11 @@ public:
   using value_type = typename base_type::value_type;
 
   /// Creates an object that holds an empty shared pointer.
-  LUMEX_CONSTEXPR
+  LUMEX_CONSTEXPR_CTOR
   atomic_shared_ptr_lock_free () LUMEX_NOEXCEPT : base_type () {}
 
   /// Creates an object that holds an empty shared pointer (LWG 3661).
-  LUMEX_CONSTEXPR
+  LUMEX_CONSTEXPR_CTOR
   atomic_shared_ptr_lock_free (std::nullptr_t) LUMEX_NOEXCEPT : base_type () {}
 
   /// Creates an object that holds @p desired.
@@ -517,11 +517,11 @@ public:
   using value_type = typename base_type::value_type;
 
   /// Creates an object that holds an empty shared pointer.
-  LUMEX_CONSTEXPR
+  LUMEX_CONSTEXPR_CTOR
   atomic_shared_ptr_lock_based_lumex () LUMEX_NOEXCEPT : base_type () {}
 
   /// Creates an object that holds an empty shared pointer (LWG 3661).
-  LUMEX_CONSTEXPR
+  LUMEX_CONSTEXPR_CTOR
   atomic_shared_ptr_lock_based_lumex (std::nullptr_t) LUMEX_NOEXCEPT
       : base_type ()
   {
@@ -574,11 +574,11 @@ public:
   using value_type = typename base_type::value_type;
 
   /// Creates an object that holds an empty shared pointer.
-  LUMEX_CONSTEXPR
+  LUMEX_CONSTEXPR_CTOR
   atomic_shared_ptr_lock_free_split_count () LUMEX_NOEXCEPT : base_type () {}
 
   /// Creates an object that holds an empty shared pointer (LWG 3661).
-  LUMEX_CONSTEXPR
+  LUMEX_CONSTEXPR_CTOR
   atomic_shared_ptr_lock_free_split_count (std::nullptr_t) LUMEX_NOEXCEPT
       : base_type ()
   {

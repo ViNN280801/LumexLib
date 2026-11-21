@@ -2,6 +2,8 @@
 
 # One suite per standard of the module (lumex/tests/LumexTestStandards.cmake):
 #   LumexCircularBufferCxx11Tests  every CircularBuffer*.cxx11.tests.cpp
+#                                  (CircularBufferLiteral: the iterators are
+#                                  literal types)
 #   LumexCircularBufferCxx20Tests  the same files at C++20, where
 #                                  CircularBuffer.hpp takes its C++20 branches
 #                                  (<=> and concepts), plus the

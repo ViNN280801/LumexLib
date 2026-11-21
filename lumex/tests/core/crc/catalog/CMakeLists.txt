@@ -9,7 +9,9 @@
 #                              standard; and
 #                              append_crc_least_significant_byte_first): the
 #                              library is compiled as C++11 and every suite
-#                              links it
+#                              links it; LumexCrcCatalogLiteral.cxx11.tests.cpp:
+#                              crc_params_t is a literal type and
+#                              crc_parametric cannot be created
 #   LumexCrcCatalogCxx14Tests  the same files at C++14
 #   LumexCrcCatalogCxx17Tests  + LumexCrcCatalog.cxx17.tests.cpp:
 #                              std::string_view arguments of the catalogue
